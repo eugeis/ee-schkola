@@ -1,0 +1,4 @@
+dependencies {
+    compile project(':ee-schkola_des')
+    compile project(':ee-dsl_base_fx')
+}

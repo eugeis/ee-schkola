@@ -1,0 +1,10 @@
+apply plugin: "groovy"
+
+dependencies {
+    compile project(':ee-common')
+    compile project(':ee-schkola')
+    compile project(':ee-msaccess')
+    compile 'org.codehaus.groovy:groovy-all:2.4.7'
+
+    testCompile project(':ee-dsl_data')
+}
