@@ -1,12 +1,12 @@
 package ee.schkola
 
-import ee.dsl.*
-import ee.dsl.data.*
+import ee.lang.*
+import ee.design.*
 
 
 object schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
     object Shared : Module() {
-        object SchkolaBase : Values({ virtual(true) }) {
+        object SchkolaBase : Entity({ virtual(true) }) {
             val id = id()
             val trace = prop { type(Trace).meta(true) }
         }
@@ -19,12 +19,13 @@ object schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
     }
 
     object Auth : Module() {
-        object Login : Values({ superUnit(Shared.SchkolaBase) }) {
+        object Login : Values() {
             val principal = prop()
             val password = prop()
             val person = prop { type(Person.User) }
             val disabled = prop { type(n.Boolean) }
             val lastLoginAt = prop { type(n.Date) }
+            val trace = prop { type(Shared.Trace).meta(true) }
 
             object commands : CommandController() {
                 val register = command(principal, password, person)

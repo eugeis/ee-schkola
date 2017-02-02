@@ -1,15 +1,15 @@
 package ee.schkola.fx
 
-import ee.dsl.TypedComposite
-import ee.dsl.fx.ModelApp
-import ee.dsl.fx.view.ExplorerModel
+import ee.lang.TypedComposite
+import ee.lang.fx.ModelApp
+import ee.lang.fx.view.ExplorerModel
 import ee.schkola.model
-import ee.dsl.system.dev.BuildToolFactory
-import ee.dsl.system.dev.Gradle
-import ee.dsl.system.dev.Maven
-import ee.dsl.system.task.SystemTaskRegistry
-import ee.dsl.task.PathResolver
-import ee.dsl.task.TaskRepository
+import ee.system.dev.BuildToolFactory
+import ee.system.dev.Gradle
+import ee.system.dev.Maven
+import ee.system.task.SystemTaskRegistry
+import ee.task.PathResolver
+import ee.task.TaskRepository
 import java.nio.file.Paths
 
 open class SchkolaModelApp() : ModelApp(ExplorerModel("SkolaModel", listOf("Components" to model())) {

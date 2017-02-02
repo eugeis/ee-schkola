@@ -1,7 +1,0 @@
-dependencies {
-    compile project(':ee-common')
-
-    testCompile project(':ee-fiveh')
-    testCompile project(':ee-email_excel')
-    testCompile project(':ee-msaccess')
-}
