@@ -12,14 +12,14 @@ import ee.task.PathResolver
 import ee.task.TaskRepository
 import java.nio.file.Paths
 
-open class SchkolaModelApp() : ModelApp(ExplorerModel("SkolaModel", listOf("Components" to model())) {
+open class SchkolaDesignApp() : ModelApp(ExplorerModel("SchkolaDesign", listOf("Components" to model())) {
     it is TypedComposite<*>
 }, taskRepository())
 /*
 {
     companion object {
         @JvmStatic fun main(args: Array<String>) {
-            Application.launch(SchkolaModelApp::class.java)
+            Application.launch(SchkolaDesignApp::class.java)
         }
     }
 }
