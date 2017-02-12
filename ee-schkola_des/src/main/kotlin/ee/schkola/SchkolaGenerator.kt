@@ -1,9 +1,9 @@
 package ee.schkola
 
-import ee.design.KotlinGenerator
+import ee.design.gen.DesingKotlinGenerator
 import ee.lang.integ.eePath
 
 fun main(args: Array<String>) {
-    val generator = KotlinGenerator(model())
+    val generator = DesingKotlinGenerator(model())
     generator.generate(eePath)
 }
