@@ -28,7 +28,7 @@ open class SchkolaDesignApp() : ModelApp(ExplorerModel("SchkolaDesign", listOf("
 
 private fun taskRepository(): TaskRepository {
     val ret = TaskRepository()
-    val home = Paths.get("schkola")
+    val home = Paths.get("Schkola")
     val pathResolver = PathResolver(home, hashMapOf("SkolaModel" to "src"))
     val maven = Maven(home = home.resolve("maven"), plugins = arrayListOf("eclipse"),
             defaultProfiles = listOf(),
