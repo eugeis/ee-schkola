@@ -3,7 +3,8 @@ package ee.schkola.fx
 import ee.lang.TypedComposite
 import ee.lang.fx.ModelApp
 import ee.lang.fx.view.ExplorerModel
-import ee.schkola.model
+import ee.lang.initObjectTrees
+import ee.schkola.Schkola
 import ee.system.dev.BuildToolFactory
 import ee.system.dev.Gradle
 import ee.system.dev.Maven
@@ -12,7 +13,7 @@ import ee.task.PathResolver
 import ee.task.TaskRepository
 import java.nio.file.Paths
 
-open class SchkolaDesignApp() : ModelApp(ExplorerModel("SchkolaDesign", listOf("Components" to model())) {
+open class SchkolaDesignApp() : ModelApp(ExplorerModel("SchkolaDesign", listOf("Component" to Schkola.initObjectTrees(true))) {
     it is TypedComposite<*>
 }, taskRepository())
 /*
