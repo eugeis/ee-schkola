@@ -267,6 +267,5 @@ object Schkola : Comp({ artifact("ee-Schkola").namespace("ee.Schkola") }) {
                 val changeLocation = updateBy(Location.shelf, Location.fold)
             }
         }
-
     }
 }
