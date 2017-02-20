@@ -1,6 +1,6 @@
 package ee.schkola.fx
 
-import ee.lang.TypedComposite
+import ee.lang.MultiHolder
 import ee.lang.fx.ModelApp
 import ee.lang.fx.view.ExplorerModel
 import ee.lang.initObjectTrees
@@ -14,7 +14,7 @@ import ee.task.TaskRepository
 import java.nio.file.Paths
 
 open class SchkolaDesignApp() : ModelApp(ExplorerModel("SchkolaDesign", listOf("Component" to Schkola.initObjectTrees(true))) {
-    it is TypedComposite<*>
+    it is MultiHolder<*>
 }, taskRepository())
 /*
 {
