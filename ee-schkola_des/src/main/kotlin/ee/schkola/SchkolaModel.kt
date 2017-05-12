@@ -4,7 +4,7 @@ import ee.lang.*
 import ee.design.*
 
 
-object Schkola : Comp({ artifact("ee-Schkola").namespace("ee.Schkola") }) {
+object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
     object Shared : Module() {
         object SchkolaBase : Entity({ virtual(true) }) {
             val id = id()
