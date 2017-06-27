@@ -30,7 +30,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             object commands : CommandController() {
                 val register = command(principal, password, person)
                 val enable = command()
-                val disbale = command()
+                val disable = command()
             }
         }
 
