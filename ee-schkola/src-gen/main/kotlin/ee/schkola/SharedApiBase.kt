@@ -1,29 +1,32 @@
 package ee.schkola
 
-import java.util.*
 
-data class Trace(var createdAt: Date = Date(), var updatedAt: Date = Date(), var modifiedBy: String = "") {
+
+
+open class SchkolaBase {
+    val trace: Trace
+
     companion object {
-        val EMPTY = Trace(Date(), Date(), "")
+        val EMPTY = SchkolaBase()
     }
-
-
-
 }
 
-fun Trace?.orEmpty(): Trace {
-    return if (this != null) this else Trace.EMPTY
-}
 
-abstract class SchkolaBase {
+open class Trace {
+    val createdAt: 
+    val updatedAt: 
+    val modifiedBy: String
 
-    var id: String = ""
-    var trace: Trace = Trace.EMPTY
-    constructor(id: String = "") {
-        this.id = id
+
+    constructor(createdAt:  = (), updatedAt:  = (), modifiedBy: String = "") {
+        this.createdAt = createdAt
+        this.updatedAt = updatedAt
+        this.modifiedBy = modifiedBy
     }
 
-
+    companion object {
+        val EMPTY = Trace()
+    }
 }
 
 

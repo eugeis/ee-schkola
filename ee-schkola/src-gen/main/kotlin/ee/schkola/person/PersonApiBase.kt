@@ -1,60 +1,31 @@
-package ee.schkola.person
+package ee.schkola.Person
 
 import ee.schkola.SchkolaBase
-import java.util.*
 
-enum class Gender() {
-    UNKNOWN(),
-    MALE(),
-    FEMALE();
 
+enum class Gender {
+    UNKNOWN,
+    MALE,
+    FEMALE;
 
     fun isUnknown() : Boolean = this == UNKNOWN
     fun isMale() : Boolean = this == MALE
     fun isFemale() : Boolean = this == FEMALE
 }
 
+
 fun String?.toGender(): Gender {
-    return if (this != null) {
-        Gender.valueOf(this)
-    } else {
-        Gender.UNKNOWN
-    }
+    return if (this != null) Gender.valueOf(this) else Gender.UNKNOWN
 }
 
-enum class MaritalStatus() {
-    UNKNOWN(),
-    SINGLE(),
-    MARRIED(),
-    SEPARATED(),
-    DIVORCED(),
-    WIDOWED();
 
-
-    fun isUnknown() : Boolean = this == UNKNOWN
-    fun isSingle() : Boolean = this == SINGLE
-    fun isMarried() : Boolean = this == MARRIED
-    fun isSeparated() : Boolean = this == SEPARATED
-    fun isDivorced() : Boolean = this == DIVORCED
-    fun isWidowed() : Boolean = this == WIDOWED
-}
-
-fun String?.toMaritalStatus(): MaritalStatus {
-    return if (this != null) {
-        MaritalStatus.valueOf(this)
-    } else {
-        MaritalStatus.UNKNOWN
-    }
-}
-
-enum class GraduationType() {
-    UNKNOWN(),
-    MIDDLE_SCHOOL(),
-    SECONDARY_SCHOOL(),
-    HIGH_SCHOOL(),
-    TECHNICAL_COLLEGE(),
-    COLLEGE();
-
+enum class GraduationType {
+    UNKNOWN,
+    MIDDLE_SCHOOL,
+    SECONDARY_SCHOOL,
+    HIGH_SCHOOL,
+    TECHNICAL_COLLEGE,
+    COLLEGE;
 
     fun isUnknown() : Boolean = this == UNKNOWN
     fun isMiddleSchool() : Boolean = this == MIDDLE_SCHOOL
@@ -64,113 +35,200 @@ enum class GraduationType() {
     fun isCollege() : Boolean = this == COLLEGE
 }
 
+
 fun String?.toGraduationType(): GraduationType {
-    return if (this != null) {
-        GraduationType.valueOf(this)
-    } else {
-        GraduationType.UNKNOWN
-    }
+    return if (this != null) GraduationType.valueOf(this) else GraduationType.UNKNOWN
 }
 
-data class Education(var graduation: Graduation = Graduation.EMPTY, var profession: String = "") {
+
+enum class MaritalStatus {
+    UNKNOWN,
+    SINGLE,
+    MARRIED,
+    SEPARATED,
+    DIVORCED,
+    WIDOWED;
+
+    fun isUnknown() : Boolean = this == UNKNOWN
+    fun isSingle() : Boolean = this == SINGLE
+    fun isMarried() : Boolean = this == MARRIED
+    fun isSeparated() : Boolean = this == SEPARATED
+    fun isDivorced() : Boolean = this == DIVORCED
+    fun isWidowed() : Boolean = this == WIDOWED
+}
+
+
+fun String?.toMaritalStatus(): MaritalStatus {
+    return if (this != null) MaritalStatus.valueOf(this) else MaritalStatus.UNKNOWN
+}
+
+
+
+
+open class Address {
+    val street: String
+    val suite: String
+    val city: String
+    val code: String
+    val country: String
+
+
+    constructor(street: String = "", suite: String = "", city: String = "", code: String = "", country: String = "") {
+        this.street = street
+        this.suite = suite
+        this.city = city
+        this.code = code
+        this.country = country
+    }
+
     companion object {
-        val EMPTY = Education(Graduation.EMPTY, "")
+        val EMPTY = Address()
+    }
+}
+
+
+open class Church : SchkolaBase {
+    val name: String
+    val address: Address
+    val pastor: PersonName
+    val contact: Contact
+
+
+    constructor(name: String = "", address: Address = Address.EMPTY, pastor: PersonName = PersonName.EMPTY, 
+                contact: Contact = Contact.EMPTY) {
+        this.name = name
+        this.address = address
+        this.pastor = pastor
+        this.contact = contact
     }
 
-
-
-}
-
-fun Education?.orEmpty(): Education {
-    return if (this != null) this else Education.EMPTY
-}
-
-data class ChurchInfo(var name: String = "", var member: Boolean = false, var services: MutableList<String>  = arrayListOf(),
-                      var church: String = "") {
     companion object {
-        val EMPTY = ChurchInfo("", false, arrayListOf(), "")
+        val EMPTY = Church()
+    }
+}
+
+
+open class ChurchInfo {
+    val name: String
+    val member: Boolean
+    val services: MutableList<String>
+    val church: String
+
+
+    constructor(name: String = "", member: Boolean = false, services: MutableList<String> = arrayListOf(), church: String = "") {
+        this.name = name
+        this.member = member
+        this.services = services
+        this.church = church
     }
 
-
-
-}
-
-fun ChurchInfo?.orEmpty(): ChurchInfo {
-    return if (this != null) this else ChurchInfo.EMPTY
-}
-
-data class Family(var maritalStatus: MaritalStatus = MaritalStatus.UNKNOWN, var childrenCount: Int = 0, 
-                  var partner: PersonName = PersonName.EMPTY) {
     companion object {
-        val EMPTY = Family(MaritalStatus.UNKNOWN, 0, PersonName.EMPTY)
+        val EMPTY = ChurchInfo()
+    }
+}
+
+
+open class Contact {
+    val phone: String
+    val email: String
+    val cellphone: String
+
+
+    constructor(phone: String = "", email: String = "", cellphone: String = "") {
+        this.phone = phone
+        this.email = email
+        this.cellphone = cellphone
     }
 
-
-
-}
-
-fun Family?.orEmpty(): Family {
-    return if (this != null) this else Family.EMPTY
-}
-
-data class PersonName(var first: String = "", var last: String = "") {
     companion object {
-        val EMPTY = PersonName("", "")
+        val EMPTY = Contact()
+    }
+}
+
+
+open class Education {
+    val graduation: Graduation
+    val profession: String
+
+
+    constructor(graduation: Graduation = Graduation.EMPTY, profession: String = "") {
+        this.graduation = graduation
+        this.profession = profession
     }
 
-
-
-}
-
-fun PersonName?.orEmpty(): PersonName {
-    return if (this != null) this else PersonName.EMPTY
-}
-
-data class Address(var street: String = "", var suite: String = "", var city: String = "", var code: String = "", var country: String = "") {
     companion object {
-        val EMPTY = Address("", "", "", "", "")
+        val EMPTY = Education()
+    }
+}
+
+
+open class Family {
+    val maritalStatus: MaritalStatus
+    val childrenCount: Int
+    val partner: PersonName
+
+
+    constructor(maritalStatus: MaritalStatus = MaritalStatus.EMPTY, childrenCount: Int = 0, partner: PersonName = PersonName.EMPTY) {
+        this.maritalStatus = maritalStatus
+        this.childrenCount = childrenCount
+        this.partner = partner
     }
 
-
-
-}
-
-fun Address?.orEmpty(): Address {
-    return if (this != null) this else Address.EMPTY
-}
-
-data class Contact(var phone: String = "", var email: String = "", var cellphone: String = "") {
     companion object {
-        val EMPTY = Contact("", "", "")
+        val EMPTY = Family()
+    }
+}
+
+
+open class Graduation : SchkolaBase {
+    val name: String
+    val type: GraduationType
+
+
+    constructor(name: String = "", type: GraduationType = GraduationType.EMPTY) {
+        this.name = name
+        this.type = type
     }
 
-
-
+    companion object {
+        val EMPTY = Graduation()
+    }
 }
 
-fun Contact?.orEmpty(): Contact {
-    return if (this != null) this else Contact.EMPTY
+
+open class PersonName {
+    val first: String
+    val last: String
+
+
+    constructor(first: String = "", last: String = "") {
+        this.first = first
+        this.last = last
+    }
+
+    companion object {
+        val EMPTY = PersonName()
+    }
 }
+
 
 open class User : SchkolaBase {
-    companion object {
-        val EMPTY = User("", Gender.UNKNOWN, PersonName.EMPTY, "", Date(), Address.EMPTY, Contact.EMPTY, "", Family.EMPTY, ChurchInfo.EMPTY, 
-            Education.EMPTY)
-    }
-    var gender: Gender = Gender.UNKNOWN
-    var name: PersonName = PersonName.EMPTY
-    var birthName: String = ""
-    var birthday: Date = Date()
-    var address: Address = Address.EMPTY
-    var contact: Contact = Contact.EMPTY
-    var photo: String = ""
-    var family: Family = Family.EMPTY
-    var church: ChurchInfo = ChurchInfo.EMPTY
-    var education: Education = Education.EMPTY
+    val gender: Gender
+    val name: PersonName
+    val birthName: String
+    val birthday: 
+    val address: Address
+    val contact: Contact
+    val photo: String
+    val family: Family
+    val church: ChurchInfo
+    val education: Education
 
-    constructor(id: String = "", gender: Gender = Gender.UNKNOWN, name: PersonName = PersonName.EMPTY, birthName: String = "", 
-        birthday: Date = Date(), address: Address = Address.EMPTY, contact: Contact = Contact.EMPTY, photo: String = "", 
-        family: Family = Family.EMPTY, church: ChurchInfo = ChurchInfo.EMPTY, education: Education = Education.EMPTY): super(id) {
+
+    constructor(gender: Gender = Gender.EMPTY, name: PersonName = PersonName.EMPTY, birthName: String = "", birthday:  = (), 
+                address: Address = Address.EMPTY, contact: Contact = Contact.EMPTY, photo: String = "", 
+                family: Family = Family.EMPTY, church: ChurchInfo = ChurchInfo.EMPTY, 
+                education: Education = Education.EMPTY) {
         this.gender = gender
         this.name = name
         this.birthName = birthName
@@ -183,54 +241,10 @@ open class User : SchkolaBase {
         this.education = education
     }
 
-
-}
-
-fun User?.orEmpty(): User {
-    return if (this != null) this else User.EMPTY
-}
-
-open class Church : SchkolaBase {
     companion object {
-        val EMPTY = Church("", "", Address.EMPTY, PersonName.EMPTY, Contact.EMPTY)
+        val EMPTY = User()
     }
-    var name: String = ""
-    var address: Address = Address.EMPTY
-    var pastor: PersonName = PersonName.EMPTY
-    var contact: Contact = Contact.EMPTY
-
-    constructor(id: String = "", name: String = "", address: Address = Address.EMPTY, pastor: PersonName = PersonName.EMPTY, 
-        contact: Contact = Contact.EMPTY): super(id) {
-        this.name = name
-        this.address = address
-        this.pastor = pastor
-        this.contact = contact
-    }
-
-
 }
 
-fun Church?.orEmpty(): Church {
-    return if (this != null) this else Church.EMPTY
-}
-
-open class Graduation : SchkolaBase {
-    companion object {
-        val EMPTY = Graduation("", "", GraduationType.UNKNOWN)
-    }
-    var name: String = ""
-    var type: GraduationType = GraduationType.UNKNOWN
-
-    constructor(id: String = "", name: String = "", type: GraduationType = GraduationType.UNKNOWN): super(id) {
-        this.name = name
-        this.type = type
-    }
-
-
-}
-
-fun Graduation?.orEmpty(): Graduation {
-    return if (this != null) this else Graduation.EMPTY
-}
 
 

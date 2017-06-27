@@ -118,7 +118,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val Widowed = lit()
         }
 
-        object GraduationType : EnumType() {
+        object GraduationLevel : EnumType() {
             val Unknown = lit()
             val MiddleSchool = lit({ doc("Hauptschule") })
             val SecondarySchool = lit({ doc("Realschule") })
@@ -129,19 +129,19 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
         object Graduation : Entity({ superUnit(Shared.SchkolaBase) }) {
             val name = prop()
-            val type = prop(GraduationType)
+            val level = prop(GraduationLevel)
         }
     }
 
     object Finance : Module() {
         object Expense : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val purpose = prop(ExpenseType)
+            val purpose = prop(ExpensePurpose)
             val amount = prop(n.Float)
             val person = prop(Person.User)
             val date = prop(n.Date)
         }
 
-        object ExpenseType : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object ExpensePurpose : Entity({ superUnit(Shared.SchkolaBase) }) {
             val name = prop()
             val description = prop()
         }
@@ -149,11 +149,11 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         object Fee : Entity({ superUnit(Shared.SchkolaBase) }) {
             val student = prop(Person.User)
             val amount = prop { type(n.Float).doc("Negative values are charge a fee and positive values are paying of it.") }
-            val type = prop(FeeType)
+            val kind = prop(FeeKind)
             val date = prop { type(n.Date).doc("Deadline of a fee or paying date of it.") }
         }
 
-        object FeeType : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object FeeKind : Entity({ superUnit(Shared.SchkolaBase) }) {
             val name = prop()
             val amount = prop(n.Float)
             val description = prop()
@@ -189,7 +189,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val description = prop(n.Text)
         }
 
-        object GroupType : EnumType() {
+        object GroupCategory : EnumType() {
             val CourseGroup = lit()
             val YearGroup = lit()
         }
@@ -203,7 +203,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
         object Group : Entity({ superUnit(Shared.SchkolaBase) }) {
             val name = prop { nullable(false) }
-            val type = prop(GroupType)
+            val category = prop(GroupCategory)
             val schoolYear = prop(SchoolYear)
             val representative = prop(Person.User)
             val students = prop(n.List.GT(Person.User))
