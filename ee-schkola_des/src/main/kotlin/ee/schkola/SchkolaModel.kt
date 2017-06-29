@@ -20,15 +20,16 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
     object Auth : Module() {
         object Login : Values() {
-            val principal = prop()
+            val username = prop()
             val password = prop()
-            val person = prop { type(Person.User) }
+            val email = prop()
             val disabled = prop { type(n.Boolean) }
             val lastLoginAt = prop { type(n.Date) }
+            val person = prop { type(Person.Profile) }
             val trace = prop { type(Shared.Trace).meta(true) }
 
             object commands : CommandController() {
-                val register = command(principal, password, person)
+                val register = command(username, email, password)
                 val enable = command()
                 val disable = command()
             }
@@ -38,20 +39,26 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
     object Person : Module() {
 
-        object User : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object Profile : Entity({ superUnit(Shared.SchkolaBase) }) {
             val gender = prop(Gender)
             val name = prop(PersonName)
             val birthName = prop()
             val birthday = prop(n.Date)
             val address = prop(Address)
             val contact = prop(Contact)
-            val photo = prop()
+            val photo = prop(n.Blob)
             val family = prop(Family)
             val church = prop(ChurchInfo)
             val education = prop(Education)
 
+            object commands : CommandController() {
+                val createProfile = createBy(gender, name, birthName, birthday)
+                val changeDetails = updateBy(gender, name, birthday, birthName, address, contact, photo, family, church, education)
+            }
+
             object queries : QueryController() {
                 val findByName = findBy(name)
+                val findByEmail = findBy(contact, Contact.email)
             }
         }
 
@@ -60,10 +67,6 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val address = prop(Address)
             val pastor = prop(PersonName)
             val contact = prop(Contact)
-
-            object queries : QueryController() {
-                val findByName = findBy(name)
-            }
         }
 
         object Education : Basic() {
@@ -76,6 +79,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val member = prop(n.Boolean)
             val services = prop(n.List)
             val church = prop()
+            val contact = prop(Contact)
         }
 
         object Family : Basic() {
@@ -101,6 +105,11 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val phone = prop()
             val email = prop()
             val cellphone = prop()
+
+            object queries : QueryController() {
+                val findByPhone = findBy(phone)
+                val findByEmail = findBy(email)
+            }
         }
 
         object Gender : EnumType() {
@@ -137,7 +146,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         object Expense : Entity({ superUnit(Shared.SchkolaBase) }) {
             val purpose = prop(ExpensePurpose)
             val amount = prop(n.Float)
-            val person = prop(Person.User)
+            val person = prop(Person.Profile)
             val date = prop(n.Date)
         }
 
@@ -147,7 +156,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         }
 
         object Fee : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val student = prop(Person.User)
+            val student = prop(Person.Profile)
             val amount = prop { type(n.Float).doc("Negative values are charge a fee and positive values are paying of it.") }
             val kind = prop(FeeKind)
             val date = prop { type(n.Date).doc("Deadline of a fee or paying date of it.") }
@@ -163,7 +172,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
     object Student : Module() {
         object SchoolApplication : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val person = prop(Person.User)
+            val person = prop(Person.Profile)
             val hasRecommendation = prop(n.Boolean)
             val recommendationOf = prop(Person.PersonName)
             val mentor = prop(Person.PersonName)
@@ -205,13 +214,13 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val name = prop { nullable(false) }
             val category = prop(GroupCategory)
             val schoolYear = prop(SchoolYear)
-            val representative = prop(Person.User)
-            val students = prop(n.List.GT(Person.User))
+            val representative = prop(Person.Profile)
+            val students = prop(n.List.GT(Person.Profile))
             val courses = prop(n.List.GT(Course))
         }
 
         object Grade : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val student = prop { type(Person.User).nullable(false) }
+            val student = prop { type(Person.Profile).nullable(false) }
             val course = prop { type(Course).nullable(false) }
             val grade = prop(n.Float)
             val gradeTrace = prop(Shared.Trace)
@@ -219,7 +228,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         }
 
         object Attendance : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val student = prop { type(Person.User).nullable(false) }
+            val student = prop { type(Person.Profile).nullable(false) }
             val date = prop { type(n.Date).nullable(false) }
             val course = prop { type(Course).nullable(false) }
             val hours = prop(n.Int)

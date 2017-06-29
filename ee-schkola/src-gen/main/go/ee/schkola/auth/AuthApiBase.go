@@ -16,9 +16,9 @@ type Login struct {
     Trace  *schkola.Trace
 }
 
-func NewLogin(principal string, password string, person *person.User, disabled bool, lastLoginAt *time.Time) (ret Login, err error) {
+func NewLogin(username string, password string, person *person.User, disabled bool, lastLoginAt *time.Time) (ret Login, err error) {
     ret = Login{
-        Principal : principal,
+        Principal : username,
         Password : password,
         Person : person,
         Disabled : disabled,
