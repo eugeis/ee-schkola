@@ -172,48 +172,48 @@ func (o *graduationLevels) ParseGraduationLevel(name string) (ret *GraduationLev
 }
 
 
-type MaritalStatus struct {
+type MaritalState struct {
 	name  string
 	ordinal int
 }
 
-func (o *MaritalStatus) Name() string {
+func (o *MaritalState) Name() string {
     return o.name
 }
 
-func (o *MaritalStatus) Ordinal() int {
+func (o *MaritalState) Ordinal() int {
     return o.ordinal
 }
 
-func (o *MaritalStatus) IsUnknown() bool {
-    return o == _maritalStatuss.Unknown()
+func (o *MaritalState) IsUnknown() bool {
+    return o == _maritalStates.Unknown()
 }
 
-func (o *MaritalStatus) IsSingle() bool {
-    return o == _maritalStatuss.Single()
+func (o *MaritalState) IsSingle() bool {
+    return o == _maritalStates.Single()
 }
 
-func (o *MaritalStatus) IsMarried() bool {
-    return o == _maritalStatuss.Married()
+func (o *MaritalState) IsMarried() bool {
+    return o == _maritalStates.Married()
 }
 
-func (o *MaritalStatus) IsSeparated() bool {
-    return o == _maritalStatuss.Separated()
+func (o *MaritalState) IsSeparated() bool {
+    return o == _maritalStates.Separated()
 }
 
-func (o *MaritalStatus) IsDivorced() bool {
-    return o == _maritalStatuss.Divorced()
+func (o *MaritalState) IsDivorced() bool {
+    return o == _maritalStates.Divorced()
 }
 
-func (o *MaritalStatus) IsWidowed() bool {
-    return o == _maritalStatuss.Widowed()
+func (o *MaritalState) IsWidowed() bool {
+    return o == _maritalStates.Widowed()
 }
 
-type maritalStatuss struct {
-	values []*MaritalStatus
+type maritalStates struct {
+	values []*MaritalState
 }
 
-var _maritalStatuss = &maritalStatuss{values: []*MaritalStatus{
+var _maritalStates = &maritalStates{values: []*MaritalState{
     {name: "Unknown", ordinal: 0},
     {name: "Single", ordinal: 1},
     {name: "Married", ordinal: 2},
@@ -222,39 +222,39 @@ var _maritalStatuss = &maritalStatuss{values: []*MaritalStatus{
     {name: "Widowed", ordinal: 5}},
 }
 
-func MaritalStatuss() *maritalStatuss {
-	return _maritalStatuss
+func MaritalStates() *maritalStates {
+	return _maritalStates
 }
 
-func (o *maritalStatuss) Values() []*MaritalStatus {
+func (o *maritalStates) Values() []*MaritalState {
 	return o.values
 }
 
-func (o *maritalStatuss) Unknown() *MaritalStatus {
-    return _maritalStatuss.values[0]
+func (o *maritalStates) Unknown() *MaritalState {
+    return _maritalStates.values[0]
 }
 
-func (o *maritalStatuss) Single() *MaritalStatus {
-    return _maritalStatuss.values[1]
+func (o *maritalStates) Single() *MaritalState {
+    return _maritalStates.values[1]
 }
 
-func (o *maritalStatuss) Married() *MaritalStatus {
-    return _maritalStatuss.values[2]
+func (o *maritalStates) Married() *MaritalState {
+    return _maritalStates.values[2]
 }
 
-func (o *maritalStatuss) Separated() *MaritalStatus {
-    return _maritalStatuss.values[3]
+func (o *maritalStates) Separated() *MaritalState {
+    return _maritalStates.values[3]
 }
 
-func (o *maritalStatuss) Divorced() *MaritalStatus {
-    return _maritalStatuss.values[4]
+func (o *maritalStates) Divorced() *MaritalState {
+    return _maritalStates.values[4]
 }
 
-func (o *maritalStatuss) Widowed() *MaritalStatus {
-    return _maritalStatuss.values[5]
+func (o *maritalStates) Widowed() *MaritalState {
+    return _maritalStates.values[5]
 }
 
-func (o *maritalStatuss) ParseMaritalStatus(name string) (ret *MaritalStatus, ok bool) {
+func (o *maritalStates) ParseMaritalState(name string) (ret *MaritalState, ok bool) {
     switch name {
       case "Unknown":
         ret = o.Unknown()
@@ -318,19 +318,21 @@ type ChurchInfo struct {
     Member  bool
     Services  []string
     Church  string
+    Contact  *Contact
 }
 
-func NewChurchInfo(name string, member bool, services []string, church string) (ret ChurchInfo, err error) {
+func NewChurchInfo(name string, member bool, services []string, church string, contact *Contact) (ret ChurchInfo, err error) {
     ret = ChurchInfo{
         Name : name,
         Member : member,
         Services : services,
         Church : church,
+        Contact : contact,
     }
     return
 }
 
-func (o *ChurchInfo) AddServices(item string) string {
+func (o *ChurchInfo) AddToServices(item string) string {
     o.Services  = append(o.Services , item)
     return item
 }
@@ -367,14 +369,14 @@ func NewEducation(graduation *Graduation, profession string) (ret Education, err
 
 
 type Family struct {
-    MaritalStatus  *MaritalStatus
+    MaritalState  *MaritalState
     ChildrenCount  int
     Partner  *PersonName
 }
 
-func NewFamily(maritalStatus *MaritalStatus, childrenCount int, partner *PersonName) (ret Family, err error) {
+func NewFamily(maritalState *MaritalState, childrenCount int, partner *PersonName) (ret Family, err error) {
     ret = Family{
-        MaritalStatus : maritalStatus,
+        MaritalState : maritalState,
         ChildrenCount : childrenCount,
         Partner : partner,
     }
@@ -410,22 +412,22 @@ func NewPersonName(first string, last string) (ret PersonName, err error) {
 }
 
 
-type User struct {
+type Profile struct {
     Gender  *Gender
     Name  *PersonName
     BirthName  string
     Birthday  *time.Time
     Address  *Address
     Contact  *Contact
-    Photo  string
+    Photo  []byte
     Family  *Family
     Church  *ChurchInfo
     Education  *Education
 }
 
-func NewUser(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
-                photo string, family *Family, church *ChurchInfo, education *Education) (ret User, err error) {
-    ret = User{
+func NewProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
+                photo []byte, family *Family, church *ChurchInfo, education *Education) (ret Profile, err error) {
+    ret = Profile{
         Gender : gender,
         Name : name,
         BirthName : birthName,

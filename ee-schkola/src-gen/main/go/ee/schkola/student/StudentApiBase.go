@@ -5,71 +5,71 @@ import (
     "ee/schkola/person"
     "time"
 )
-type AttendanceStatus struct {
+type AttendanceState struct {
 	name  string
 	ordinal int
 }
 
-func (o *AttendanceStatus) Name() string {
+func (o *AttendanceState) Name() string {
     return o.name
 }
 
-func (o *AttendanceStatus) Ordinal() int {
+func (o *AttendanceState) Ordinal() int {
     return o.ordinal
 }
 
-func (o *AttendanceStatus) IsRegistered() bool {
-    return o == _attendanceStatuss.Registered()
+func (o *AttendanceState) IsRegistered() bool {
+    return o == _attendanceStates.Registered()
 }
 
-func (o *AttendanceStatus) IsConfirmed() bool {
-    return o == _attendanceStatuss.Confirmed()
+func (o *AttendanceState) IsConfirmed() bool {
+    return o == _attendanceStates.Confirmed()
 }
 
-func (o *AttendanceStatus) IsCanceled() bool {
-    return o == _attendanceStatuss.Canceled()
+func (o *AttendanceState) IsCanceled() bool {
+    return o == _attendanceStates.Canceled()
 }
 
-func (o *AttendanceStatus) IsPresent() bool {
-    return o == _attendanceStatuss.Present()
+func (o *AttendanceState) IsPresent() bool {
+    return o == _attendanceStates.Present()
 }
 
-type attendanceStatuss struct {
-	values []*AttendanceStatus
+type attendanceStates struct {
+	values []*AttendanceState
 }
 
-var _attendanceStatuss = &attendanceStatuss{values: []*AttendanceStatus{
+var _attendanceStates = &attendanceStates{values: []*AttendanceState{
     {name: "Registered", ordinal: 0},
     {name: "Confirmed", ordinal: 1},
     {name: "Canceled", ordinal: 2},
     {name: "Present", ordinal: 3}},
 }
 
-func AttendanceStatuss() *attendanceStatuss {
-	return _attendanceStatuss
+func AttendanceStates() *attendanceStates {
+	return _attendanceStates
 }
 
-func (o *attendanceStatuss) Values() []*AttendanceStatus {
+func (o *attendanceStates) Values() []*AttendanceState {
 	return o.values
 }
 
-func (o *attendanceStatuss) Registered() *AttendanceStatus {
-    return _attendanceStatuss.values[0]
+func (o *attendanceStates) Registered() *AttendanceState {
+    return _attendanceStates.values[0]
 }
 
-func (o *attendanceStatuss) Confirmed() *AttendanceStatus {
-    return _attendanceStatuss.values[1]
+func (o *attendanceStates) Confirmed() *AttendanceState {
+    return _attendanceStates.values[1]
 }
 
-func (o *attendanceStatuss) Canceled() *AttendanceStatus {
-    return _attendanceStatuss.values[2]
+func (o *attendanceStates) Canceled() *AttendanceState {
+    return _attendanceStates.values[2]
 }
 
-func (o *attendanceStatuss) Present() *AttendanceStatus {
-    return _attendanceStatuss.values[3]
+func (o *attendanceStates) Present() *AttendanceState {
+    return _attendanceStates.values[3]
 }
 
-func (o *attendanceStatuss) ParseAttendanceStatus(name string) (ret *AttendanceStatus, ok bool) {
+func (o *attendanceStates) ParseAttendanceState(name string) (ret *AttendanceState, ok bool) {
     switch name {
       case "Registered":
         ret = o.Registered()
@@ -144,25 +144,25 @@ func (o *groupCategorys) ParseGroupCategory(name string) (ret *GroupCategory, ok
 
 
 type Attendance struct {
-    Student  *person.User
+    Student  *person.Profile
     Date  *time.Time
     Course  *Course
     Hours  int
-    Status  *AttendanceStatus
-    StatusTrace  *schkola.Trace
+    State  *AttendanceState
+    StateTrace  *schkola.Trace
     Token  string
     TokenTrace  *schkola.Trace
 }
 
-func NewAttendance(student *person.User, date *time.Time, course *Course, hours int, status *AttendanceStatus, statusTrace *schkola.Trace, 
+func NewAttendance(student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, stateTrace *schkola.Trace, 
                 token string, tokenTrace *schkola.Trace) (ret Attendance, err error) {
     ret = Attendance{
         Student : student,
         Date : date,
         Course : course,
         Hours : hours,
-        Status : status,
-        StatusTrace : statusTrace,
+        State : state,
+        StateTrace : stateTrace,
         Token : token,
         TokenTrace : tokenTrace,
     }
@@ -196,14 +196,14 @@ func NewCourse(name string, begin *time.Time, end *time.Time, teacher *person.Pe
 
 
 type Grade struct {
-    Student  *person.User
+    Student  *person.Profile
     Course  *Course
     Grade  float64
     GradeTrace  *schkola.Trace
     Comment  string
 }
 
-func NewGrade(student *person.User, course *Course, grade float64, gradeTrace *schkola.Trace, comment string) (ret Grade, err error) {
+func NewGrade(student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string) (ret Grade, err error) {
     ret = Grade{
         Student : student,
         Course : course,
@@ -219,12 +219,12 @@ type Group struct {
     Name  string
     Category  *GroupCategory
     SchoolYear  *SchoolYear
-    Representative  *person.User
-    Students  []*person.User
+    Representative  *person.Profile
+    Students  []*person.Profile
     Courses  []*Course
 }
 
-func NewGroup(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.User, students []*person.User, 
+func NewGroup(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, students []*person.Profile, 
                 courses []*Course) (ret Group, err error) {
     ret = Group{
         Name : name,
@@ -237,19 +237,19 @@ func NewGroup(name string, category *GroupCategory, schoolYear *SchoolYear, repr
     return
 }
 
-func (o *Group) AddStudents(item *person.User) *person.User {
+func (o *Group) AddToStudents(item *person.Profile) *person.Profile {
     o.Students  = append(o.Students , item)
     return item
 }
 
-func (o *Group) AddCourses(item *Course) *Course {
+func (o *Group) AddToCourses(item *Course) *Course {
     o.Courses  = append(o.Courses , item)
     return item
 }
 
 
 type SchoolApplication struct {
-    Person  *person.User
+    Profile  *person.Profile
     HasRecommendation  bool
     RecommendationOf  *person.PersonName
     Mentor  *person.PersonName
@@ -258,10 +258,10 @@ type SchoolApplication struct {
     Group  string
 }
 
-func NewSchoolApplication(person *person.User, hasRecommendation bool, recommendationOf *person.PersonName, mentor *person.PersonName, 
+func NewSchoolApplication(profile *person.Profile, hasRecommendation bool, recommendationOf *person.PersonName, mentor *person.PersonName, 
                 mentorContact *person.Contact, schoolYear *SchoolYear, group string) (ret SchoolApplication, err error) {
     ret = SchoolApplication{
-        Person : person,
+        Profile : profile,
         HasRecommendation : hasRecommendation,
         RecommendationOf : recommendationOf,
         Mentor : mentor,
@@ -290,7 +290,7 @@ func NewSchoolYear(name string, start *time.Time, end *time.Time, dates []*time.
     return
 }
 
-func (o *SchoolYear) AddDates(item *time.Time) *time.Time {
+func (o *SchoolYear) AddToDates(item *time.Time) *time.Time {
     o.Dates  = append(o.Dates , item)
     return item
 }

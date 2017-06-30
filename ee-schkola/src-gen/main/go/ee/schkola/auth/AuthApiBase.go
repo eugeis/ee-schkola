@@ -7,22 +7,24 @@ import (
 )
 
 
-type Login struct {
-    Principal  string
+type Account struct {
+    Username  string
     Password  string
-    Person  *person.User
+    Email  string
     Disabled  bool
     LastLoginAt  *time.Time
+    Profile  *person.Profile
     Trace  *schkola.Trace
 }
 
-func NewLogin(username string, password string, person *person.User, disabled bool, lastLoginAt *time.Time) (ret Login, err error) {
-    ret = Login{
-        Principal : username,
+func NewAccount(username string, password string, email string, disabled bool, lastLoginAt *time.Time, profile *person.Profile) (ret Account, err error) {
+    ret = Account{
+        Username : username,
         Password : password,
-        Person : person,
+        Email : email,
         Disabled : disabled,
         LastLoginAt : lastLoginAt,
+        Profile : profile,
     }
     return
 }

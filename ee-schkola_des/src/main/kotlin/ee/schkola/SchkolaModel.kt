@@ -19,13 +19,13 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
     }
 
     object Auth : Module() {
-        object Login : Values() {
+        object Account : Entity({ superUnit(Shared.SchkolaBase) }) {
             val username = prop()
             val password = prop()
             val email = prop()
             val disabled = prop { type(n.Boolean) }
             val lastLoginAt = prop { type(n.Date) }
-            val person = prop { type(Person.Profile) }
+            val profile = prop { type(Person.Profile) }
             val trace = prop { type(Shared.Trace).meta(true) }
 
             object commands : CommandController() {
@@ -51,14 +51,9 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val church = prop(ChurchInfo)
             val education = prop(Education)
 
-            object commands : CommandController() {
-                val createProfile = createBy(gender, name, birthName, birthday)
-                val changeDetails = updateBy(gender, name, birthday, birthName, address, contact, photo, family, church, education)
-            }
-
             object queries : QueryController() {
                 val findByName = findBy(name)
-                val findByEmail = findBy(contact, Contact.email)
+                val findByEmail = findBy(contact.sub { email })
             }
         }
 
@@ -75,15 +70,14 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         }
 
         object ChurchInfo : Basic() {
-            val name = prop()
+            val church = prop()
+            val association = prop()
             val member = prop(n.Boolean)
             val services = prop(n.List)
-            val church = prop()
-            val contact = prop(Contact)
         }
 
         object Family : Basic() {
-            val maritalStatus = prop(MaritalStatus)
+            val maritalState = prop(MaritalState)
             val childrenCount = prop(n.Int)
             val partner = prop(PersonName)
         }
@@ -118,7 +112,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val Female = lit()
         }
 
-        object MaritalStatus : EnumType() {
+        object MaritalState : EnumType() {
             val Unknown = lit()
             val Single = lit()
             val Married = lit()
@@ -146,7 +140,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         object Expense : Entity({ superUnit(Shared.SchkolaBase) }) {
             val purpose = prop(ExpensePurpose)
             val amount = prop(n.Float)
-            val person = prop(Person.Profile)
+            val profile = prop(Person.Profile)
             val date = prop(n.Date)
         }
 
@@ -172,11 +166,10 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
     object Student : Module() {
         object SchoolApplication : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val person = prop(Person.Profile)
-            val hasRecommendation = prop(n.Boolean)
+            val profile = prop(Person.Profile)
             val recommendationOf = prop(Person.PersonName)
-            val mentor = prop(Person.PersonName)
-            val mentorContact = prop(Person.Contact)
+            val churchContactPerson = prop(Person.PersonName)
+            val churchContact = prop(Person.Contact)
             val schoolYear = prop(SchoolYear)
             val group = prop()
         }
@@ -203,7 +196,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val YearGroup = lit()
         }
 
-        object AttendanceStatus : EnumType() {
+        object AttendanceState : EnumType() {
             val Registered = lit()
             val Confirmed = lit()
             val Canceled = lit()
@@ -232,8 +225,8 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val date = prop { type(n.Date).nullable(false) }
             val course = prop { type(Course).nullable(false) }
             val hours = prop(n.Int)
-            val status = prop(AttendanceStatus)
-            val statusTrace = prop(Shared.Trace)
+            val state = prop(AttendanceState)
+            val stateTrace = prop(Shared.Trace)
             val token = prop()
             val tokenTrace = prop(Shared.Trace)
 

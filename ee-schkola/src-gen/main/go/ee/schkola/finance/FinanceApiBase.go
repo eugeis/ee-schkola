@@ -9,15 +9,15 @@ import (
 type Expense struct {
     Purpose  *ExpensePurpose
     Amount  float64
-    Person  *person.User
+    Profile  *person.Profile
     Date  *time.Time
 }
 
-func NewExpense(purpose *ExpensePurpose, amount float64, person *person.User, date *time.Time) (ret Expense, err error) {
+func NewExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time) (ret Expense, err error) {
     ret = Expense{
         Purpose : purpose,
         Amount : amount,
-        Person : person,
+        Profile : profile,
         Date : date,
     }
     return
@@ -39,13 +39,13 @@ func NewExpensePurpose(name string, description string) (ret ExpensePurpose, err
 
 
 type Fee struct {
-    Student  *person.User
+    Student  *person.Profile
     Amount  float64
     Kind  *FeeKind
     Date  *time.Time
 }
 
-func NewFee(student *person.User, amount float64, kind *FeeKind, date *time.Time) (ret Fee, err error) {
+func NewFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time) (ret Fee, err error) {
     ret = Fee{
         Student : student,
         Amount : amount,
