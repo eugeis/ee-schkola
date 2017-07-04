@@ -53,6 +53,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             object queries : QueryController() {
                 val findByName = findBy(name)
                 val findByEmail = findBy(contact.sub { email })
+                val findByPhone = findBy(contact.sub { phone })
             }
         }
 
@@ -98,11 +99,6 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val phone = prop()
             val email = prop()
             val cellphone = prop()
-
-            object queries : QueryController() {
-                val findByPhone = findBy(phone)
-                val findByEmail = findBy(email)
-            }
         }
 
         object Gender : EnumType() {
