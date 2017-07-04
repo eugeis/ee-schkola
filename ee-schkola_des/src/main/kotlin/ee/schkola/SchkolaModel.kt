@@ -230,7 +230,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val tokenTrace = prop(Shared.Trace)
 
             object commands : CommandController() {
-                val register = command(student, course)
+                val register = createBy(student, course)
                 val confirm = command()
                 val cancel = command()
             }
@@ -263,7 +263,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
                 val unregister = deleteBy(id())
                 val register = createBy(title, description,
                         language, releaseDate, edition, category, author)
-                val changeDetails = updateBy(title, description,
+                val change = updateBy(title, description,
                         language, releaseDate, edition, category, author)
                 val changeLocation = updateBy(Location.shelf, Location.fold)
             }
