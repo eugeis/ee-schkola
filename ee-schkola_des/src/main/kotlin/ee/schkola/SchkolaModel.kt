@@ -34,7 +34,6 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
                 val disable = command()
             }
         }
-
     }
 
     object Person : Module() {
@@ -261,7 +260,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             }
 
             object commands : CommandController() {
-                val unregister = deleteBy(Shared.SchkolaBase.id)
+                val unregister = deleteBy(id())
                 val register = createBy(title, description,
                         language, releaseDate, edition, category, author)
                 val changeDetails = updateBy(title, description,
