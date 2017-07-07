@@ -7,7 +7,7 @@ import ee.design.*
 object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
     object Shared : Module() {
         object SchkolaBase : Entity({ virtual(true) }) {
-            val id = id()
+            val id = stringId()
             val trace = prop { type(Trace).meta(true) }
         }
 
@@ -26,10 +26,9 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val disabled = prop { type(n.Boolean) }
             val lastLoginAt = prop { type(n.Date) }
             val profile = prop { type(Person.Profile) }
-            val trace = prop { type(Shared.Trace).meta(true) }
 
             object commands : CommandController() {
-                val register = command(username, email, password)
+                val register = createBy(username, email, password)
                 val enable = command()
                 val disable = command()
             }
@@ -257,10 +256,8 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
             object commands : CommandController() {
                 val unregister = deleteBy(id())
-                val register = createBy(title, description,
-                        language, releaseDate, edition, category, author)
-                val change = updateBy(title, description,
-                        language, releaseDate, edition, category, author)
+                val register = createBy(title, description, language, releaseDate, edition, category, author)
+                val change = updateBy(title, description, language, releaseDate, edition, category, author)
                 val changeLocation = updateBy(Location.shelf, Location.fold)
             }
         }
