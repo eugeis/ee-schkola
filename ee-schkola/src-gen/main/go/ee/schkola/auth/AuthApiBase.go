@@ -14,19 +14,19 @@ type Account struct {
     Disabled  bool
     LastLoginAt  *time.Time
     Profile  *person.Profile
-    Trace  *schkola.Trace
+    *schkola.SchkolaBase
 }
 
-func NewAccount(@@EMPTY@@ string, username string, password string, email string, disabled bool, lastLoginAt *time.Time, 
-                profile *person.Profile) (ret Account, err error) {
-    ret = Account{
-        @@EMPTY@@ : @@EMPTY@@,
+func NewAccount(username string, password string, email string, disabled bool, lastLoginAt *time.Time, profile *person.Profile, 
+                SchkolaBase *schkola.SchkolaBase) (ret *Account, err error) {
+    ret = &Account{
         Username : username,
         Password : password,
         Email : email,
         Disabled : disabled,
         LastLoginAt : lastLoginAt,
         Profile : profile,
+        SchkolaBase : SchkolaBase,
     }
     return
 }

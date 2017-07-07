@@ -7,7 +7,7 @@ import ee.design.*
 object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
     object Shared : Module() {
         object SchkolaBase : Entity({ virtual(true) }) {
-            val id = stringId()
+            val id = buildId()
             val trace = prop { type(Trace).meta(true) }
         }
 

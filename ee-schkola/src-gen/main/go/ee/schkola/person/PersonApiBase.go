@@ -1,6 +1,7 @@
 package person
 
 import (
+    "ee/schkola"
     "time"
 )
 type Gender struct {
@@ -283,8 +284,8 @@ type Address struct {
     Country  string
 }
 
-func NewAddress(street string, suite string, city string, code string, country string) (ret Address, err error) {
-    ret = Address{
+func NewAddress(street string, suite string, city string, code string, country string) (ret *Address, err error) {
+    ret = &Address{
         Street : street,
         Suite : suite,
         City : city,
@@ -300,15 +301,16 @@ type Church struct {
     Address  *Address
     Pastor  *PersonName
     Contact  *Contact
+    *schkola.SchkolaBase
 }
 
-func NewChurch(@@EMPTY@@ string, name string, address *Address, pastor *PersonName, contact *Contact) (ret Church, err error) {
-    ret = Church{
-        @@EMPTY@@ : @@EMPTY@@,
+func NewChurch(name string, address *Address, pastor *PersonName, contact *Contact, SchkolaBase *schkola.SchkolaBase) (ret *Church, err error) {
+    ret = &Church{
         Name : name,
         Address : address,
         Pastor : pastor,
         Contact : contact,
+        SchkolaBase : SchkolaBase,
     }
     return
 }
@@ -321,8 +323,8 @@ type ChurchInfo struct {
     Services  []string
 }
 
-func NewChurchInfo(church string, association string, member bool, services []string) (ret ChurchInfo, err error) {
-    ret = ChurchInfo{
+func NewChurchInfo(church string, association string, member bool, services []string) (ret *ChurchInfo, err error) {
+    ret = &ChurchInfo{
         Church : church,
         Association : association,
         Member : member,
@@ -343,8 +345,8 @@ type Contact struct {
     Cellphone  string
 }
 
-func NewContact(phone string, email string, cellphone string) (ret Contact, err error) {
-    ret = Contact{
+func NewContact(phone string, email string, cellphone string) (ret *Contact, err error) {
+    ret = &Contact{
         Phone : phone,
         Email : email,
         Cellphone : cellphone,
@@ -358,8 +360,8 @@ type Education struct {
     Profession  string
 }
 
-func NewEducation(graduation *Graduation, profession string) (ret Education, err error) {
-    ret = Education{
+func NewEducation(graduation *Graduation, profession string) (ret *Education, err error) {
+    ret = &Education{
         Graduation : graduation,
         Profession : profession,
     }
@@ -373,8 +375,8 @@ type Family struct {
     Partner  *PersonName
 }
 
-func NewFamily(maritalState *MaritalState, childrenCount int, partner *PersonName) (ret Family, err error) {
-    ret = Family{
+func NewFamily(maritalState *MaritalState, childrenCount int, partner *PersonName) (ret *Family, err error) {
+    ret = &Family{
         MaritalState : maritalState,
         ChildrenCount : childrenCount,
         Partner : partner,
@@ -386,13 +388,14 @@ func NewFamily(maritalState *MaritalState, childrenCount int, partner *PersonNam
 type Graduation struct {
     Name  string
     Level  *GraduationLevel
+    *schkola.SchkolaBase
 }
 
-func NewGraduation(@@EMPTY@@ string, name string, level *GraduationLevel) (ret Graduation, err error) {
-    ret = Graduation{
-        @@EMPTY@@ : @@EMPTY@@,
+func NewGraduation(name string, level *GraduationLevel, SchkolaBase *schkola.SchkolaBase) (ret *Graduation, err error) {
+    ret = &Graduation{
         Name : name,
         Level : level,
+        SchkolaBase : SchkolaBase,
     }
     return
 }
@@ -403,8 +406,8 @@ type PersonName struct {
     Last  string
 }
 
-func NewPersonName(first string, last string) (ret PersonName, err error) {
-    ret = PersonName{
+func NewPersonName(first string, last string) (ret *PersonName, err error) {
+    ret = &PersonName{
         First : first,
         Last : last,
     }
@@ -423,12 +426,12 @@ type Profile struct {
     Family  *Family
     Church  *ChurchInfo
     Education  *Education
+    *schkola.SchkolaBase
 }
 
-func NewProfile(@@EMPTY@@ string, gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, 
-                contact *Contact, photo []byte, family *Family, church *ChurchInfo, education *Education) (ret Profile, err error) {
-    ret = Profile{
-        @@EMPTY@@ : @@EMPTY@@,
+func NewProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
+                photo []byte, family *Family, church *ChurchInfo, education *Education, SchkolaBase *schkola.SchkolaBase) (ret *Profile, err error) {
+    ret = &Profile{
         Gender : gender,
         Name : name,
         BirthName : birthName,
@@ -439,6 +442,7 @@ func NewProfile(@@EMPTY@@ string, gender *Gender, name *PersonName, birthName st
         Family : family,
         Church : church,
         Education : education,
+        SchkolaBase : SchkolaBase,
     }
     return
 }

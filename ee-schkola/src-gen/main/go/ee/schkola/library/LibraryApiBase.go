@@ -1,6 +1,7 @@
 package library
 
 import (
+    "ee/schkola"
     "ee/schkola/person"
     "time"
 )
@@ -15,12 +16,12 @@ type Book struct {
     Category  string
     Author  *person.PersonName
     Location  *Location
+    *schkola.SchkolaBase
 }
 
-func NewBook(@@EMPTY@@ string, title string, description string, language string, releaseDate *time.Time, edition string, 
-                category string, author *person.PersonName, location *Location) (ret Book, err error) {
-    ret = Book{
-        @@EMPTY@@ : @@EMPTY@@,
+func NewBook(title string, description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName, location *Location, SchkolaBase *schkola.SchkolaBase) (ret *Book, err error) {
+    ret = &Book{
         Title : title,
         Description : description,
         Language : language,
@@ -29,6 +30,7 @@ func NewBook(@@EMPTY@@ string, title string, description string, language string
         Category : category,
         Author : author,
         Location : location,
+        SchkolaBase : SchkolaBase,
     }
     return
 }
@@ -39,8 +41,8 @@ type Location struct {
     Fold  string
 }
 
-func NewLocation(shelf string, fold string) (ret Location, err error) {
-    ret = Location{
+func NewLocation(shelf string, fold string) (ret *Location, err error) {
+    ret = &Location{
         Shelf : shelf,
         Fold : fold,
     }

@@ -7,12 +7,12 @@ import (
 
 type SchkolaBase struct {
     Trace  *Trace
-    @@EMPTY@@  string
+    Id  string
 }
 
-func NewSchkolaBase(@@EMPTY@@ string) (ret SchkolaBase, err error) {
-    ret = SchkolaBase{
-        @@EMPTY@@ : @@EMPTY@@,
+func NewSchkolaBase(id string) (ret *SchkolaBase, err error) {
+    ret = &SchkolaBase{
+        Id : id,
     }
     return
 }
@@ -24,8 +24,8 @@ type Trace struct {
     ModifiedBy  string
 }
 
-func NewTrace(createdAt *time.Time, updatedAt *time.Time, modifiedBy string) (ret Trace, err error) {
-    ret = Trace{
+func NewTrace(createdAt *time.Time, updatedAt *time.Time, modifiedBy string) (ret *Trace, err error) {
+    ret = &Trace{
         CreatedAt : createdAt,
         UpdatedAt : updatedAt,
         ModifiedBy : modifiedBy,
