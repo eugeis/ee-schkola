@@ -154,9 +154,10 @@ type Attendance struct {
     TokenTrace  *schkola.Trace
 }
 
-func NewAttendance(student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, stateTrace *schkola.Trace, 
-                token string, tokenTrace *schkola.Trace) (ret Attendance, err error) {
+func NewAttendance(@@EMPTY@@ string, student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, 
+                stateTrace *schkola.Trace, token string, tokenTrace *schkola.Trace) (ret Attendance, err error) {
     ret = Attendance{
+        @@EMPTY@@ : @@EMPTY@@,
         Student : student,
         Date : date,
         Course : course,
@@ -180,9 +181,10 @@ type Course struct {
     Description  string
 }
 
-func NewCourse(name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, fee float64, 
-                description string) (ret Course, err error) {
+func NewCourse(@@EMPTY@@ string, name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, 
+                fee float64, description string) (ret Course, err error) {
     ret = Course{
+        @@EMPTY@@ : @@EMPTY@@,
         Name : name,
         Begin : begin,
         End : end,
@@ -203,8 +205,9 @@ type Grade struct {
     Comment  string
 }
 
-func NewGrade(student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string) (ret Grade, err error) {
+func NewGrade(@@EMPTY@@ string, student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string) (ret Grade, err error) {
     ret = Grade{
+        @@EMPTY@@ : @@EMPTY@@,
         Student : student,
         Course : course,
         Grade : grade,
@@ -224,9 +227,10 @@ type Group struct {
     Courses  []*Course
 }
 
-func NewGroup(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, students []*person.Profile, 
-                courses []*Course) (ret Group, err error) {
+func NewGroup(@@EMPTY@@ string, name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, 
+                students []*person.Profile, courses []*Course) (ret Group, err error) {
     ret = Group{
+        @@EMPTY@@ : @@EMPTY@@,
         Name : name,
         Category : category,
         SchoolYear : schoolYear,
@@ -250,22 +254,21 @@ func (o *Group) AddToCourses(item *Course) *Course {
 
 type SchoolApplication struct {
     Profile  *person.Profile
-    HasRecommendation  bool
     RecommendationOf  *person.PersonName
-    Mentor  *person.PersonName
-    MentorContact  *person.Contact
+    ChurchContactPerson  *person.PersonName
+    ChurchContact  *person.Contact
     SchoolYear  *SchoolYear
     Group  string
 }
 
-func NewSchoolApplication(profile *person.Profile, hasRecommendation bool, recommendationOf *person.PersonName, mentor *person.PersonName, 
-                mentorContact *person.Contact, schoolYear *SchoolYear, group string) (ret SchoolApplication, err error) {
+func NewSchoolApplication(@@EMPTY@@ string, profile *person.Profile, recommendationOf *person.PersonName, churchContactPerson *person.PersonName, 
+                churchContact *person.Contact, schoolYear *SchoolYear, group string) (ret SchoolApplication, err error) {
     ret = SchoolApplication{
+        @@EMPTY@@ : @@EMPTY@@,
         Profile : profile,
-        HasRecommendation : hasRecommendation,
         RecommendationOf : recommendationOf,
-        Mentor : mentor,
-        MentorContact : mentorContact,
+        ChurchContactPerson : churchContactPerson,
+        ChurchContact : churchContact,
         SchoolYear : schoolYear,
         Group : group,
     }
@@ -280,8 +283,168 @@ type SchoolYear struct {
     Dates  []*time.Time
 }
 
-func NewSchoolYear(name string, start *time.Time, end *time.Time, dates []*time.Time) (ret SchoolYear, err error) {
+func NewSchoolYear(@@EMPTY@@ string, name string, start *time.Time, end *time.Time, dates []*time.Time) (ret SchoolYear, err error) {
     ret = SchoolYear{
+        @@EMPTY@@ : @@EMPTY@@,
+        Name : name,
+        Start : start,
+        End : end,
+        Dates : dates,
+    }
+    return
+}
+
+func (o *SchoolYear) AddToDates(item *time.Time) *time.Time {
+    o.Dates  = append(o.Dates , item)
+    return item
+}
+
+
+
+
+type Attendance struct {
+    Student  *person.Profile
+    Date  *time.Time
+    Course  *Course
+    Hours  int
+    State  *AttendanceState
+    StateTrace  *schkola.Trace
+    Token  string
+    TokenTrace  *schkola.Trace
+}
+
+func NewAttendance(@@EMPTY@@ string, student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, 
+                stateTrace *schkola.Trace, token string, tokenTrace *schkola.Trace) (ret Attendance, err error) {
+    ret = Attendance{
+        @@EMPTY@@ : @@EMPTY@@,
+        Student : student,
+        Date : date,
+        Course : course,
+        Hours : hours,
+        State : state,
+        StateTrace : stateTrace,
+        Token : token,
+        TokenTrace : tokenTrace,
+    }
+    return
+}
+
+
+type Course struct {
+    Name  string
+    Begin  *time.Time
+    End  *time.Time
+    Teacher  *person.PersonName
+    SchoolYear  *SchoolYear
+    Fee  float64
+    Description  string
+}
+
+func NewCourse(@@EMPTY@@ string, name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, 
+                fee float64, description string) (ret Course, err error) {
+    ret = Course{
+        @@EMPTY@@ : @@EMPTY@@,
+        Name : name,
+        Begin : begin,
+        End : end,
+        Teacher : teacher,
+        SchoolYear : schoolYear,
+        Fee : fee,
+        Description : description,
+    }
+    return
+}
+
+
+type Grade struct {
+    Student  *person.Profile
+    Course  *Course
+    Grade  float64
+    GradeTrace  *schkola.Trace
+    Comment  string
+}
+
+func NewGrade(@@EMPTY@@ string, student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string) (ret Grade, err error) {
+    ret = Grade{
+        @@EMPTY@@ : @@EMPTY@@,
+        Student : student,
+        Course : course,
+        Grade : grade,
+        GradeTrace : gradeTrace,
+        Comment : comment,
+    }
+    return
+}
+
+
+type Group struct {
+    Name  string
+    Category  *GroupCategory
+    SchoolYear  *SchoolYear
+    Representative  *person.Profile
+    Students  []*person.Profile
+    Courses  []*Course
+}
+
+func NewGroup(@@EMPTY@@ string, name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, 
+                students []*person.Profile, courses []*Course) (ret Group, err error) {
+    ret = Group{
+        @@EMPTY@@ : @@EMPTY@@,
+        Name : name,
+        Category : category,
+        SchoolYear : schoolYear,
+        Representative : representative,
+        Students : students,
+        Courses : courses,
+    }
+    return
+}
+
+func (o *Group) AddToStudents(item *person.Profile) *person.Profile {
+    o.Students  = append(o.Students , item)
+    return item
+}
+
+func (o *Group) AddToCourses(item *Course) *Course {
+    o.Courses  = append(o.Courses , item)
+    return item
+}
+
+
+type SchoolApplication struct {
+    Profile  *person.Profile
+    RecommendationOf  *person.PersonName
+    ChurchContactPerson  *person.PersonName
+    ChurchContact  *person.Contact
+    SchoolYear  *SchoolYear
+    Group  string
+}
+
+func NewSchoolApplication(@@EMPTY@@ string, profile *person.Profile, recommendationOf *person.PersonName, churchContactPerson *person.PersonName, 
+                churchContact *person.Contact, schoolYear *SchoolYear, group string) (ret SchoolApplication, err error) {
+    ret = SchoolApplication{
+        @@EMPTY@@ : @@EMPTY@@,
+        Profile : profile,
+        RecommendationOf : recommendationOf,
+        ChurchContactPerson : churchContactPerson,
+        ChurchContact : churchContact,
+        SchoolYear : schoolYear,
+        Group : group,
+    }
+    return
+}
+
+
+type SchoolYear struct {
+    Name  string
+    Start  *time.Time
+    End  *time.Time
+    Dates  []*time.Time
+}
+
+func NewSchoolYear(@@EMPTY@@ string, name string, start *time.Time, end *time.Time, dates []*time.Time) (ret SchoolYear, err error) {
+    ret = SchoolYear{
+        @@EMPTY@@ : @@EMPTY@@,
         Name : name,
         Start : start,
         End : end,
