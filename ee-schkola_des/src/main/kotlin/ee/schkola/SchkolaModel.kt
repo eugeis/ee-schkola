@@ -27,7 +27,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val lastLoginAt = prop { type(n.Date) }
             val profile = prop { type(Person.Profile) }
 
-            object commands : CommandController() {
+            object commands : Commands() {
                 val register = createBy(username, email, password)
                 val enable = command()
                 val disable = command()
@@ -49,7 +49,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val church = prop(ChurchInfo)
             val education = prop(Education)
 
-            object queries : QueryController() {
+            object queries : Queries() {
                 val findByName = findBy(name)
                 val findByEmail = findBy(contact.sub { email })
                 val findByPhone = findBy(contact.sub { phone })
@@ -224,7 +224,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val token = prop()
             val tokenTrace = prop(Shared.Trace)
 
-            object commands : CommandController() {
+            object commands : Commands() {
                 val register = createBy(student, course)
                 val confirm = command()
                 val cancel = command()
@@ -248,13 +248,13 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val author = prop(Person.PersonName)
             val location = prop(Location)
 
-            object queries : QueryController() {
+            object queries : Queries() {
                 val findByTitle = findBy(title)
                 val findByAuthor = findBy(author)
                 val findByPattern = findBy(p("pattern"))
             }
 
-            object commands : CommandController() {
+            object commands : Commands() {
                 val unregister = deleteBy(id())
                 val register = createBy(title, description, language, releaseDate, edition, category, author)
                 val change = updateBy(title, description, language, releaseDate, edition, category, author)

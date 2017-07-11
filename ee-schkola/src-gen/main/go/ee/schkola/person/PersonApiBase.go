@@ -2,6 +2,7 @@ package person
 
 import (
     "ee/schkola"
+    "ee/schkola/student"
     "time"
 )
 type Gender struct {
@@ -274,210 +275,6 @@ func (o *maritalStates) ParseMaritalState(name string) (ret *MaritalState, ok bo
 }
 
 
-type ChurchCommands struct {
-	name  string
-	ordinal int
-}
-
-func (o *ChurchCommands) Name() string {
-    return o.name
-}
-
-func (o *ChurchCommands) Ordinal() int {
-    return o.ordinal
-}
-
-func (o *ChurchCommands) IsRegisterChurch() bool {
-    return o == _churchCommandss.RegisterChurch()
-}
-
-func (o *ChurchCommands) IsDeleteChurch() bool {
-    return o == _churchCommandss.DeleteChurch()
-}
-
-func (o *ChurchCommands) IsChangeChurch() bool {
-    return o == _churchCommandss.ChangeChurch()
-}
-
-type churchCommandss struct {
-	values []*ChurchCommands
-}
-
-var _churchCommandss = &churchCommandss{values: []*ChurchCommands{
-    {name: "registerChurch", ordinal: 0},
-    {name: "deleteChurch", ordinal: 1},
-    {name: "changeChurch", ordinal: 2}},
-}
-
-func ChurchCommandss() *churchCommandss {
-	return _churchCommandss
-}
-
-func (o *churchCommandss) Values() []*ChurchCommands {
-	return o.values
-}
-
-func (o *churchCommandss) RegisterChurch() *ChurchCommands {
-    return _churchCommandss.values[0]
-}
-
-func (o *churchCommandss) DeleteChurch() *ChurchCommands {
-    return _churchCommandss.values[1]
-}
-
-func (o *churchCommandss) ChangeChurch() *ChurchCommands {
-    return _churchCommandss.values[2]
-}
-
-func (o *churchCommandss) ParseChurchCommands(name string) (ret *ChurchCommands, ok bool) {
-    switch name {
-      case "RegisterChurch":
-        ret = o.RegisterChurch()
-      case "DeleteChurch":
-        ret = o.DeleteChurch()
-      case "ChangeChurch":
-        ret = o.ChangeChurch()
-    }
-    return
-}
-
-
-type GraduationCommands struct {
-	name  string
-	ordinal int
-}
-
-func (o *GraduationCommands) Name() string {
-    return o.name
-}
-
-func (o *GraduationCommands) Ordinal() int {
-    return o.ordinal
-}
-
-func (o *GraduationCommands) IsRegisterGraduation() bool {
-    return o == _graduationCommandss.RegisterGraduation()
-}
-
-func (o *GraduationCommands) IsDeleteGraduation() bool {
-    return o == _graduationCommandss.DeleteGraduation()
-}
-
-func (o *GraduationCommands) IsChangeGraduation() bool {
-    return o == _graduationCommandss.ChangeGraduation()
-}
-
-type graduationCommandss struct {
-	values []*GraduationCommands
-}
-
-var _graduationCommandss = &graduationCommandss{values: []*GraduationCommands{
-    {name: "registerGraduation", ordinal: 0},
-    {name: "deleteGraduation", ordinal: 1},
-    {name: "changeGraduation", ordinal: 2}},
-}
-
-func GraduationCommandss() *graduationCommandss {
-	return _graduationCommandss
-}
-
-func (o *graduationCommandss) Values() []*GraduationCommands {
-	return o.values
-}
-
-func (o *graduationCommandss) RegisterGraduation() *GraduationCommands {
-    return _graduationCommandss.values[0]
-}
-
-func (o *graduationCommandss) DeleteGraduation() *GraduationCommands {
-    return _graduationCommandss.values[1]
-}
-
-func (o *graduationCommandss) ChangeGraduation() *GraduationCommands {
-    return _graduationCommandss.values[2]
-}
-
-func (o *graduationCommandss) ParseGraduationCommands(name string) (ret *GraduationCommands, ok bool) {
-    switch name {
-      case "RegisterGraduation":
-        ret = o.RegisterGraduation()
-      case "DeleteGraduation":
-        ret = o.DeleteGraduation()
-      case "ChangeGraduation":
-        ret = o.ChangeGraduation()
-    }
-    return
-}
-
-
-type ProfileCommands struct {
-	name  string
-	ordinal int
-}
-
-func (o *ProfileCommands) Name() string {
-    return o.name
-}
-
-func (o *ProfileCommands) Ordinal() int {
-    return o.ordinal
-}
-
-func (o *ProfileCommands) IsRegisterProfile() bool {
-    return o == _profileCommandss.RegisterProfile()
-}
-
-func (o *ProfileCommands) IsDeleteProfile() bool {
-    return o == _profileCommandss.DeleteProfile()
-}
-
-func (o *ProfileCommands) IsChangeProfile() bool {
-    return o == _profileCommandss.ChangeProfile()
-}
-
-type profileCommandss struct {
-	values []*ProfileCommands
-}
-
-var _profileCommandss = &profileCommandss{values: []*ProfileCommands{
-    {name: "registerProfile", ordinal: 0},
-    {name: "deleteProfile", ordinal: 1},
-    {name: "changeProfile", ordinal: 2}},
-}
-
-func ProfileCommandss() *profileCommandss {
-	return _profileCommandss
-}
-
-func (o *profileCommandss) Values() []*ProfileCommands {
-	return o.values
-}
-
-func (o *profileCommandss) RegisterProfile() *ProfileCommands {
-    return _profileCommandss.values[0]
-}
-
-func (o *profileCommandss) DeleteProfile() *ProfileCommands {
-    return _profileCommandss.values[1]
-}
-
-func (o *profileCommandss) ChangeProfile() *ProfileCommands {
-    return _profileCommandss.values[2]
-}
-
-func (o *profileCommandss) ParseProfileCommands(name string) (ret *ProfileCommands, ok bool) {
-    switch name {
-      case "RegisterProfile":
-        ret = o.RegisterProfile()
-      case "DeleteProfile":
-        ret = o.DeleteProfile()
-      case "ChangeProfile":
-        ret = o.ChangeProfile()
-    }
-    return
-}
-
-
 
 
 type Address struct {
@@ -524,10 +321,10 @@ type ChurchInfo struct {
     Church  string
     Association  string
     Member  bool
-    Services  []string
+    Services  []*student.Course
 }
 
-func NewChurchInfo(church string, association string, member bool, services []string) (ret *ChurchInfo, err error) {
+func NewChurchInfo(church string, association string, member bool, services []*student.Course) (ret *ChurchInfo, err error) {
     ret = &ChurchInfo{
         Church : church,
         Association : association,
@@ -537,7 +334,7 @@ func NewChurchInfo(church string, association string, member bool, services []st
     return
 }
 
-func (o *ChurchInfo) AddToServices(item string) string {
+func (o *ChurchInfo) AddToServices(item *student.Course) *student.Course {
     o.Services  = append(o.Services , item)
     return item
 }
