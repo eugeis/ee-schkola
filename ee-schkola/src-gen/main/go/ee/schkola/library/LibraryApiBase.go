@@ -5,8 +5,6 @@ import (
     "ee/schkola/person"
     "time"
 )
-
-
 type Book struct {
     Title  string
     Description  string
@@ -48,6 +46,8 @@ func NewLocation(shelf string, fold string) (ret *Location, err error) {
     }
     return
 }
+
+
 
 
 

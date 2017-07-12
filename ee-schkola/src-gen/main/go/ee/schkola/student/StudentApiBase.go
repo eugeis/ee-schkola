@@ -5,144 +5,6 @@ import (
     "ee/schkola/person"
     "time"
 )
-type AttendanceState struct {
-	name  string
-	ordinal int
-}
-
-func (o *AttendanceState) Name() string {
-    return o.name
-}
-
-func (o *AttendanceState) Ordinal() int {
-    return o.ordinal
-}
-
-func (o *AttendanceState) IsRegistered() bool {
-    return o == _attendanceStates.Registered()
-}
-
-func (o *AttendanceState) IsConfirmed() bool {
-    return o == _attendanceStates.Confirmed()
-}
-
-func (o *AttendanceState) IsCanceled() bool {
-    return o == _attendanceStates.Canceled()
-}
-
-func (o *AttendanceState) IsPresent() bool {
-    return o == _attendanceStates.Present()
-}
-
-type attendanceStates struct {
-	values []*AttendanceState
-}
-
-var _attendanceStates = &attendanceStates{values: []*AttendanceState{
-    {name: "Registered", ordinal: 0},
-    {name: "Confirmed", ordinal: 1},
-    {name: "Canceled", ordinal: 2},
-    {name: "Present", ordinal: 3}},
-}
-
-func AttendanceStates() *attendanceStates {
-	return _attendanceStates
-}
-
-func (o *attendanceStates) Values() []*AttendanceState {
-	return o.values
-}
-
-func (o *attendanceStates) Registered() *AttendanceState {
-    return _attendanceStates.values[0]
-}
-
-func (o *attendanceStates) Confirmed() *AttendanceState {
-    return _attendanceStates.values[1]
-}
-
-func (o *attendanceStates) Canceled() *AttendanceState {
-    return _attendanceStates.values[2]
-}
-
-func (o *attendanceStates) Present() *AttendanceState {
-    return _attendanceStates.values[3]
-}
-
-func (o *attendanceStates) ParseAttendanceState(name string) (ret *AttendanceState, ok bool) {
-    switch name {
-      case "Registered":
-        ret = o.Registered()
-      case "Confirmed":
-        ret = o.Confirmed()
-      case "Canceled":
-        ret = o.Canceled()
-      case "Present":
-        ret = o.Present()
-    }
-    return
-}
-
-
-type GroupCategory struct {
-	name  string
-	ordinal int
-}
-
-func (o *GroupCategory) Name() string {
-    return o.name
-}
-
-func (o *GroupCategory) Ordinal() int {
-    return o.ordinal
-}
-
-func (o *GroupCategory) IsCourseGroup() bool {
-    return o == _groupCategorys.CourseGroup()
-}
-
-func (o *GroupCategory) IsYearGroup() bool {
-    return o == _groupCategorys.YearGroup()
-}
-
-type groupCategorys struct {
-	values []*GroupCategory
-}
-
-var _groupCategorys = &groupCategorys{values: []*GroupCategory{
-    {name: "CourseGroup", ordinal: 0},
-    {name: "YearGroup", ordinal: 1}},
-}
-
-func GroupCategorys() *groupCategorys {
-	return _groupCategorys
-}
-
-func (o *groupCategorys) Values() []*GroupCategory {
-	return o.values
-}
-
-func (o *groupCategorys) CourseGroup() *GroupCategory {
-    return _groupCategorys.values[0]
-}
-
-func (o *groupCategorys) YearGroup() *GroupCategory {
-    return _groupCategorys.values[1]
-}
-
-func (o *groupCategorys) ParseGroupCategory(name string) (ret *GroupCategory, ok bool) {
-    switch name {
-      case "CourseGroup":
-        ret = o.CourseGroup()
-      case "YearGroup":
-        ret = o.YearGroup()
-    }
-    return
-}
-
-
-
-
 type Attendance struct {
     Student  *person.Profile
     Date  *time.Time
@@ -304,6 +166,144 @@ func NewSchoolYear(name string, start *time.Time, end *time.Time, dates []*Cours
 func (o *SchoolYear) AddToDates(item *Course) *Course {
     o.Dates  = append(o.Dates , item)
     return item
+}
+
+
+
+
+type AttendanceState struct {
+	name  string
+	ordinal int
+}
+
+func (o *AttendanceState) Name() string {
+    return o.name
+}
+
+func (o *AttendanceState) Ordinal() int {
+    return o.ordinal
+}
+
+func (o *AttendanceState) IsRegistered() bool {
+    return o == _attendanceStates.Registered()
+}
+
+func (o *AttendanceState) IsConfirmed() bool {
+    return o == _attendanceStates.Confirmed()
+}
+
+func (o *AttendanceState) IsCanceled() bool {
+    return o == _attendanceStates.Canceled()
+}
+
+func (o *AttendanceState) IsPresent() bool {
+    return o == _attendanceStates.Present()
+}
+
+type attendanceStates struct {
+	values []*AttendanceState
+}
+
+var _attendanceStates = &attendanceStates{values: []*AttendanceState{
+    {name: "Registered", ordinal: 0},
+    {name: "Confirmed", ordinal: 1},
+    {name: "Canceled", ordinal: 2},
+    {name: "Present", ordinal: 3}},
+}
+
+func AttendanceStates() *attendanceStates {
+	return _attendanceStates
+}
+
+func (o *attendanceStates) Values() []*AttendanceState {
+	return o.values
+}
+
+func (o *attendanceStates) Registered() *AttendanceState {
+    return _attendanceStates.values[0]
+}
+
+func (o *attendanceStates) Confirmed() *AttendanceState {
+    return _attendanceStates.values[1]
+}
+
+func (o *attendanceStates) Canceled() *AttendanceState {
+    return _attendanceStates.values[2]
+}
+
+func (o *attendanceStates) Present() *AttendanceState {
+    return _attendanceStates.values[3]
+}
+
+func (o *attendanceStates) ParseAttendanceState(name string) (ret *AttendanceState, ok bool) {
+    switch name {
+      case "Registered":
+        ret = o.Registered()
+      case "Confirmed":
+        ret = o.Confirmed()
+      case "Canceled":
+        ret = o.Canceled()
+      case "Present":
+        ret = o.Present()
+    }
+    return
+}
+
+
+type GroupCategory struct {
+	name  string
+	ordinal int
+}
+
+func (o *GroupCategory) Name() string {
+    return o.name
+}
+
+func (o *GroupCategory) Ordinal() int {
+    return o.ordinal
+}
+
+func (o *GroupCategory) IsCourseGroup() bool {
+    return o == _groupCategorys.CourseGroup()
+}
+
+func (o *GroupCategory) IsYearGroup() bool {
+    return o == _groupCategorys.YearGroup()
+}
+
+type groupCategorys struct {
+	values []*GroupCategory
+}
+
+var _groupCategorys = &groupCategorys{values: []*GroupCategory{
+    {name: "CourseGroup", ordinal: 0},
+    {name: "YearGroup", ordinal: 1}},
+}
+
+func GroupCategorys() *groupCategorys {
+	return _groupCategorys
+}
+
+func (o *groupCategorys) Values() []*GroupCategory {
+	return o.values
+}
+
+func (o *groupCategorys) CourseGroup() *GroupCategory {
+    return _groupCategorys.values[0]
+}
+
+func (o *groupCategorys) YearGroup() *GroupCategory {
+    return _groupCategorys.values[1]
+}
+
+func (o *groupCategorys) ParseGroupCategory(name string) (ret *GroupCategory, ok bool) {
+    switch name {
+      case "CourseGroup":
+        ret = o.CourseGroup()
+      case "YearGroup":
+        ret = o.YearGroup()
+    }
+    return
 }
 
 

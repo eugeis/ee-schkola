@@ -5,6 +5,180 @@ import (
     "ee/schkola/student"
     "time"
 )
+type Address struct {
+    Street  string
+    Suite  string
+    City  string
+    Code  string
+    Country  string
+}
+
+func NewAddress(street string, suite string, city string, code string, country string) (ret *Address, err error) {
+    ret = &Address{
+        Street : street,
+        Suite : suite,
+        City : city,
+        Code : code,
+        Country : country,
+    }
+    return
+}
+
+
+type Church struct {
+    Name  string
+    Address  *Address
+    Pastor  *PersonName
+    Contact  *Contact
+    *schkola.SchkolaBase
+}
+
+func NewChurch(name string, address *Address, pastor *PersonName, contact *Contact, SchkolaBase *schkola.SchkolaBase) (ret *Church, err error) {
+    ret = &Church{
+        Name : name,
+        Address : address,
+        Pastor : pastor,
+        Contact : contact,
+        SchkolaBase : SchkolaBase,
+    }
+    return
+}
+
+
+type ChurchInfo struct {
+    Church  string
+    Association  string
+    Member  bool
+    Services  []*student.Course
+}
+
+func NewChurchInfo(church string, association string, member bool, services []*student.Course) (ret *ChurchInfo, err error) {
+    ret = &ChurchInfo{
+        Church : church,
+        Association : association,
+        Member : member,
+        Services : services,
+    }
+    return
+}
+
+func (o *ChurchInfo) AddToServices(item *student.Course) *student.Course {
+    o.Services  = append(o.Services , item)
+    return item
+}
+
+
+type Contact struct {
+    Phone  string
+    Email  string
+    Cellphone  string
+}
+
+func NewContact(phone string, email string, cellphone string) (ret *Contact, err error) {
+    ret = &Contact{
+        Phone : phone,
+        Email : email,
+        Cellphone : cellphone,
+    }
+    return
+}
+
+
+type Education struct {
+    Graduation  *Graduation
+    Profession  string
+}
+
+func NewEducation(graduation *Graduation, profession string) (ret *Education, err error) {
+    ret = &Education{
+        Graduation : graduation,
+        Profession : profession,
+    }
+    return
+}
+
+
+type Family struct {
+    MaritalState  *MaritalState
+    ChildrenCount  int
+    Partner  *PersonName
+}
+
+func NewFamily(maritalState *MaritalState, childrenCount int, partner *PersonName) (ret *Family, err error) {
+    ret = &Family{
+        MaritalState : maritalState,
+        ChildrenCount : childrenCount,
+        Partner : partner,
+    }
+    return
+}
+
+
+type Graduation struct {
+    Name  string
+    Level  *GraduationLevel
+    *schkola.SchkolaBase
+}
+
+func NewGraduation(name string, level *GraduationLevel, SchkolaBase *schkola.SchkolaBase) (ret *Graduation, err error) {
+    ret = &Graduation{
+        Name : name,
+        Level : level,
+        SchkolaBase : SchkolaBase,
+    }
+    return
+}
+
+
+type PersonName struct {
+    First  string
+    Last  string
+}
+
+func NewPersonName(first string, last string) (ret *PersonName, err error) {
+    ret = &PersonName{
+        First : first,
+        Last : last,
+    }
+    return
+}
+
+
+type Profile struct {
+    Gender  *Gender
+    Name  *PersonName
+    BirthName  string
+    Birthday  *time.Time
+    Address  *Address
+    Contact  *Contact
+    Photo  []byte
+    Family  *Family
+    Church  *ChurchInfo
+    Education  *Education
+    *schkola.SchkolaBase
+}
+
+func NewProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
+                photo []byte, family *Family, church *ChurchInfo, education *Education, SchkolaBase *schkola.SchkolaBase) (ret *Profile, err error) {
+    ret = &Profile{
+        Gender : gender,
+        Name : name,
+        BirthName : birthName,
+        Birthday : birthday,
+        Address : address,
+        Contact : contact,
+        Photo : photo,
+        Family : family,
+        Church : church,
+        Education : education,
+        SchkolaBase : SchkolaBase,
+    }
+    return
+}
+
+
+
+
 type Gender struct {
 	name  string
 	ordinal int
@@ -270,180 +444,6 @@ func (o *maritalStates) ParseMaritalState(name string) (ret *MaritalState, ok bo
         ret = o.Divorced()
       case "Widowed":
         ret = o.Widowed()
-    }
-    return
-}
-
-
-
-
-type Address struct {
-    Street  string
-    Suite  string
-    City  string
-    Code  string
-    Country  string
-}
-
-func NewAddress(street string, suite string, city string, code string, country string) (ret *Address, err error) {
-    ret = &Address{
-        Street : street,
-        Suite : suite,
-        City : city,
-        Code : code,
-        Country : country,
-    }
-    return
-}
-
-
-type Church struct {
-    Name  string
-    Address  *Address
-    Pastor  *PersonName
-    Contact  *Contact
-    *schkola.SchkolaBase
-}
-
-func NewChurch(name string, address *Address, pastor *PersonName, contact *Contact, SchkolaBase *schkola.SchkolaBase) (ret *Church, err error) {
-    ret = &Church{
-        Name : name,
-        Address : address,
-        Pastor : pastor,
-        Contact : contact,
-        SchkolaBase : SchkolaBase,
-    }
-    return
-}
-
-
-type ChurchInfo struct {
-    Church  string
-    Association  string
-    Member  bool
-    Services  []*student.Course
-}
-
-func NewChurchInfo(church string, association string, member bool, services []*student.Course) (ret *ChurchInfo, err error) {
-    ret = &ChurchInfo{
-        Church : church,
-        Association : association,
-        Member : member,
-        Services : services,
-    }
-    return
-}
-
-func (o *ChurchInfo) AddToServices(item *student.Course) *student.Course {
-    o.Services  = append(o.Services , item)
-    return item
-}
-
-
-type Contact struct {
-    Phone  string
-    Email  string
-    Cellphone  string
-}
-
-func NewContact(phone string, email string, cellphone string) (ret *Contact, err error) {
-    ret = &Contact{
-        Phone : phone,
-        Email : email,
-        Cellphone : cellphone,
-    }
-    return
-}
-
-
-type Education struct {
-    Graduation  *Graduation
-    Profession  string
-}
-
-func NewEducation(graduation *Graduation, profession string) (ret *Education, err error) {
-    ret = &Education{
-        Graduation : graduation,
-        Profession : profession,
-    }
-    return
-}
-
-
-type Family struct {
-    MaritalState  *MaritalState
-    ChildrenCount  int
-    Partner  *PersonName
-}
-
-func NewFamily(maritalState *MaritalState, childrenCount int, partner *PersonName) (ret *Family, err error) {
-    ret = &Family{
-        MaritalState : maritalState,
-        ChildrenCount : childrenCount,
-        Partner : partner,
-    }
-    return
-}
-
-
-type Graduation struct {
-    Name  string
-    Level  *GraduationLevel
-    *schkola.SchkolaBase
-}
-
-func NewGraduation(name string, level *GraduationLevel, SchkolaBase *schkola.SchkolaBase) (ret *Graduation, err error) {
-    ret = &Graduation{
-        Name : name,
-        Level : level,
-        SchkolaBase : SchkolaBase,
-    }
-    return
-}
-
-
-type PersonName struct {
-    First  string
-    Last  string
-}
-
-func NewPersonName(first string, last string) (ret *PersonName, err error) {
-    ret = &PersonName{
-        First : first,
-        Last : last,
-    }
-    return
-}
-
-
-type Profile struct {
-    Gender  *Gender
-    Name  *PersonName
-    BirthName  string
-    Birthday  *time.Time
-    Address  *Address
-    Contact  *Contact
-    Photo  []byte
-    Family  *Family
-    Church  *ChurchInfo
-    Education  *Education
-    *schkola.SchkolaBase
-}
-
-func NewProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
-                photo []byte, family *Family, church *ChurchInfo, education *Education, SchkolaBase *schkola.SchkolaBase) (ret *Profile, err error) {
-    ret = &Profile{
-        Gender : gender,
-        Name : name,
-        BirthName : birthName,
-        Birthday : birthday,
-        Address : address,
-        Contact : contact,
-        Photo : photo,
-        Family : family,
-        Church : church,
-        Education : education,
-        SchkolaBase : SchkolaBase,
     }
     return
 }

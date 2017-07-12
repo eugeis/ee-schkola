@@ -5,8 +5,6 @@ import (
     "ee/schkola/person"
     "time"
 )
-
-
 type Account struct {
     Username  string
     Password  string
@@ -30,6 +28,8 @@ func NewAccount(username string, password string, email string, disabled bool, l
     }
     return
 }
+
+
 
 
 

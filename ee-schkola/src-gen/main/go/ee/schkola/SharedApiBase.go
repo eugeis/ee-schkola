@@ -3,8 +3,6 @@ package schkola
 import (
     "time"
 )
-
-
 type SchkolaBase struct {
     Trace  *Trace
     Id  string
@@ -32,6 +30,8 @@ func NewTrace(createdAt *time.Time, updatedAt *time.Time, modifiedBy string) (re
     }
     return
 }
+
+
 
 
 

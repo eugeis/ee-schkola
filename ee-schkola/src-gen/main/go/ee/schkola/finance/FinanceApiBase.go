@@ -5,8 +5,6 @@ import (
     "ee/schkola/person"
     "time"
 )
-
-
 type Expense struct {
     Purpose  *ExpensePurpose
     Amount  float64
@@ -79,6 +77,8 @@ func NewFeeKind(name string, amount float64, description string, SchkolaBase *sc
     }
     return
 }
+
+
 
 
 
