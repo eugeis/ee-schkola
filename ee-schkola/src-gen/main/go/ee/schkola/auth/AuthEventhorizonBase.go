@@ -3,19 +3,28 @@ package auth
 import (
     "github.com/looplab/eventhorizon"
 )
-type AccountAggregateInitializer struct {
+type AccountAggregate struct {
+    *eventhorizon.AggregateBase
+    *Account
+}
+
+
+
+
+type AccountAccountAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func (o *AccountAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
 
-func (o *AccountAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
+func (o *AccountAccountAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(AuthAggregateTypes().Account)
+    for _, command := range AccountCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
 }
 
 
@@ -26,19 +35,11 @@ type AuthEventhorizonInitializer struct {
     CommandBus  *eventhorizon.CommandBus
 }
 
-func (o *AuthEventhorizonInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *AuthEventhorizonInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
 
 
-type AccountAggregate struct {
-    *eventhorizon.AggregateBase
-    *Account
-}
+
+
+
 
 
 

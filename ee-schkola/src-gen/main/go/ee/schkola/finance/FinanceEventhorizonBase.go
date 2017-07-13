@@ -3,86 +3,6 @@ package finance
 import (
     "github.com/looplab/eventhorizon"
 )
-type ExpenseAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func (o *ExpenseAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *ExpenseAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
-type ExpensePurposeAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func (o *ExpensePurposeAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *ExpensePurposeAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
-type FeeAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func (o *FeeAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *FeeAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
-type FeeKindAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func (o *FeeKindAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *FeeKindAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
-type FinanceEventhorizonInitializer struct {
-    Store  *eventhorizon.EventStore
-    EventBus  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    CommandBus  *eventhorizon.CommandBus
-}
-
-func (o *FinanceEventhorizonInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *FinanceEventhorizonInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
 type ExpenseAggregate struct {
     *eventhorizon.AggregateBase
     *Expense
@@ -105,6 +25,90 @@ type FeeKindAggregate struct {
     *eventhorizon.AggregateBase
     *FeeKind
 }
+
+
+
+
+type ExpenseExpenseAggregateInitializer struct {
+    Store  *eventhorizon.EventStore
+    Notifier  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    Executor  *eventhorizon.CommandBus
+}
+
+
+func (o *ExpenseExpenseAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(FinanceAggregateTypes().Expense)
+    for _, command := range ExpenseCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
+}
+
+
+type ExpensePurposeExpensePurposeAggregateInitializer struct {
+    Store  *eventhorizon.EventStore
+    Notifier  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    Executor  *eventhorizon.CommandBus
+}
+
+
+func (o *ExpensePurposeExpensePurposeAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(FinanceAggregateTypes().ExpensePurpose)
+    for _, command := range ExpensePurposeCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
+}
+
+
+type FeeFeeAggregateInitializer struct {
+    Store  *eventhorizon.EventStore
+    Notifier  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    Executor  *eventhorizon.CommandBus
+}
+
+
+func (o *FeeFeeAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(FinanceAggregateTypes().Fee)
+    for _, command := range FeeCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
+}
+
+
+type FeeKindFeeKindAggregateInitializer struct {
+    Store  *eventhorizon.EventStore
+    Notifier  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    Executor  *eventhorizon.CommandBus
+}
+
+
+func (o *FeeKindFeeKindAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(FinanceAggregateTypes().FeeKind)
+    for _, command := range FeeKindCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
+}
+
+
+type FinanceEventhorizonInitializer struct {
+    Store  *eventhorizon.EventStore
+    EventBus  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    CommandBus  *eventhorizon.CommandBus
+}
+
+
+
+
+
+
 
 
 

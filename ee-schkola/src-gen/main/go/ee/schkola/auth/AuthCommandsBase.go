@@ -10,12 +10,12 @@ type DisableAccount struct {
 
 
 type RegisterAccount struct {
-    Username  string
-    Email  string
-    Password  string
+    Username  
+    Email  
+    Password  
 }
 
-func NewRegisterAccount(username string, email string, password string) (ret *RegisterAccount, err error) {
+func NewRegisterAccount(username , email , password ) (ret *RegisterAccount, err error) {
     ret = &RegisterAccount{
         Username : username,
         Email : email,

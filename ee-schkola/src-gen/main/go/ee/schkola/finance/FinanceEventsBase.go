@@ -15,7 +15,7 @@ type ExpenseCreated struct {
 
 
 type ExpenseDeleted struct {
-    Id  string
+    Id  
 }
 
 
@@ -29,20 +29,20 @@ type ExpenseUpdated struct {
 
 
 type ExpensePurposeCreated struct {
-    Name  string
-    Description  string
+    Name  
+    Description  
     *schkola.SchkolaBase
 }
 
 
 type ExpensePurposeDeleted struct {
-    Id  string
+    Id  
 }
 
 
 type ExpensePurposeUpdated struct {
-    Name  string
-    Description  string
+    Name  
+    Description  
     *schkola.SchkolaBase
 }
 
@@ -57,7 +57,7 @@ type FeeCreated struct {
 
 
 type FeeDeleted struct {
-    Id  string
+    Id  
 }
 
 
@@ -71,22 +71,22 @@ type FeeUpdated struct {
 
 
 type FeeKindCreated struct {
-    Name  string
+    Name  
     Amount  float64
-    Description  string
+    Description  
     *schkola.SchkolaBase
 }
 
 
 type FeeKindDeleted struct {
-    Id  string
+    Id  
 }
 
 
 type FeeKindUpdated struct {
-    Name  string
+    Name  
     Amount  float64
-    Description  string
+    Description  
     *schkola.SchkolaBase
 }
 

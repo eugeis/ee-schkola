@@ -3,19 +3,28 @@ package library
 import (
     "github.com/looplab/eventhorizon"
 )
-type BookAggregateInitializer struct {
+type BookAggregate struct {
+    *eventhorizon.AggregateBase
+    *Book
+}
+
+
+
+
+type BookBookAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func (o *BookAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
 
-func (o *BookAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
+func (o *BookBookAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(LibraryAggregateTypes().Book)
+    for _, command := range BookCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
 }
 
 
@@ -26,19 +35,11 @@ type LibraryEventhorizonInitializer struct {
     CommandBus  *eventhorizon.CommandBus
 }
 
-func (o *LibraryEventhorizonInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *LibraryEventhorizonInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
 
 
-type BookAggregate struct {
-    *eventhorizon.AggregateBase
-    *Book
-}
+
+
+
 
 
 

@@ -5,35 +5,15 @@ import (
     "ee/schkola/student"
     "time"
 )
-type Address struct {
-    Street  string
-    Suite  string
-    City  string
-    Code  string
-    Country  string
-}
-
-func NewAddress(street string, suite string, city string, code string, country string) (ret *Address, err error) {
-    ret = &Address{
-        Street : street,
-        Suite : suite,
-        City : city,
-        Code : code,
-        Country : country,
-    }
-    return
-}
-
-
 type Church struct {
-    Name  string
+    Name  
     Address  *Address
     Pastor  *PersonName
     Contact  *Contact
     *schkola.SchkolaBase
 }
 
-func NewChurch(name string, address *Address, pastor *PersonName, contact *Contact, SchkolaBase *schkola.SchkolaBase) (ret *Church, err error) {
+func NewChurch(name , address *Address, pastor *PersonName, contact *Contact, SchkolaBase *schkola.SchkolaBase) (ret *Church, err error) {
     ret = (id)
         
     ret.Name = name
@@ -45,14 +25,89 @@ func NewChurch(name string, address *Address, pastor *PersonName, contact *Conta
 }
 
 
+type Graduation struct {
+    Name  
+    Level  *GraduationLevel
+    *schkola.SchkolaBase
+}
+
+func NewGraduation(name , level *GraduationLevel, SchkolaBase *schkola.SchkolaBase) (ret *Graduation, err error) {
+    ret = (id)
+        
+    ret.Name = name
+    ret.Level = level
+    ret.SchkolaBase = SchkolaBase
+    return
+}
+
+
+type Profile struct {
+    Gender  *Gender
+    Name  *PersonName
+    BirthName  
+    Birthday  *time.Time
+    Address  *Address
+    Contact  *Contact
+    PhotoData  []byte
+    Photo  
+    Family  *Family
+    Church  *ChurchInfo
+    Education  *Education
+    *schkola.SchkolaBase
+}
+
+func NewProfile(gender *Gender, name *PersonName, birthName , birthday *time.Time, address *Address, contact *Contact, photoData []byte, 
+                photo , family *Family, church *ChurchInfo, education *Education, SchkolaBase *schkola.SchkolaBase) (ret *Profile, err error) {
+    ret = (id)
+        
+    ret.Gender = gender
+    ret.Name = name
+    ret.BirthName = birthName
+    ret.Birthday = birthday
+    ret.Address = address
+    ret.Contact = contact
+    ret.PhotoData = photoData
+    ret.Photo = photo
+    ret.Family = family
+    ret.Church = church
+    ret.Education = education
+    ret.SchkolaBase = SchkolaBase
+    return
+}
+
+
+
+
+
+
+type Address struct {
+    Street  
+    Suite  
+    City  
+    Code  
+    Country  
+}
+
+func NewAddress(street , suite , city , code , country ) (ret *Address, err error) {
+    ret = &Address{
+        Street : street,
+        Suite : suite,
+        City : city,
+        Code : code,
+        Country : country,
+    }
+    return
+}
+
+
 type ChurchInfo struct {
-    Church  string
-    Association  string
+    Church  
+    Association  
     Member  bool
     Services  []*student.Course
 }
 
-func NewChurchInfo(church string, association string, member bool, services []*student.Course) (ret *ChurchInfo, err error) {
+func NewChurchInfo(church , association , member bool, services []*student.Course) (ret *ChurchInfo, err error) {
     ret = &ChurchInfo{
         Church : church,
         Association : association,
@@ -69,12 +124,12 @@ func (o *ChurchInfo) AddToServices(item *student.Course) *student.Course {
 
 
 type Contact struct {
-    Phone  string
-    Email  string
-    Cellphone  string
+    Phone  
+    Email  
+    Cellphone  
 }
 
-func NewContact(phone string, email string, cellphone string) (ret *Contact, err error) {
+func NewContact(phone , email , cellphone ) (ret *Contact, err error) {
     ret = &Contact{
         Phone : phone,
         Email : email,
@@ -86,10 +141,10 @@ func NewContact(phone string, email string, cellphone string) (ret *Contact, err
 
 type Education struct {
     Graduation  *Graduation
-    Profession  string
+    Profession  
 }
 
-func NewEducation(graduation *Graduation, profession string) (ret *Education, err error) {
+func NewEducation(graduation *Graduation, profession ) (ret *Education, err error) {
     ret = &Education{
         Graduation : graduation,
         Profession : profession,
@@ -114,68 +169,16 @@ func NewFamily(maritalState *MaritalState, childrenCount int, partner *PersonNam
 }
 
 
-type Graduation struct {
-    Name  string
-    Level  *GraduationLevel
-    *schkola.SchkolaBase
-}
-
-func NewGraduation(name string, level *GraduationLevel, SchkolaBase *schkola.SchkolaBase) (ret *Graduation, err error) {
-    ret = (id)
-        
-    ret.Name = name
-    ret.Level = level
-    ret.SchkolaBase = SchkolaBase
-    return
-}
-
-
 type PersonName struct {
-    First  string
-    Last  string
+    First  
+    Last  
 }
 
-func NewPersonName(first string, last string) (ret *PersonName, err error) {
+func NewPersonName(first , last ) (ret *PersonName, err error) {
     ret = &PersonName{
         First : first,
         Last : last,
     }
-    return
-}
-
-
-type Profile struct {
-    Gender  *Gender
-    Name  *PersonName
-    BirthName  string
-    Birthday  *time.Time
-    Address  *Address
-    Contact  *Contact
-    PhotoData  []byte
-    Photo  string
-    Family  *Family
-    Church  *ChurchInfo
-    Education  *Education
-    *schkola.SchkolaBase
-}
-
-func NewProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
-                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education, 
-                SchkolaBase *schkola.SchkolaBase) (ret *Profile, err error) {
-    ret = (id)
-        
-    ret.Gender = gender
-    ret.Name = name
-    ret.BirthName = birthName
-    ret.Birthday = birthday
-    ret.Address = address
-    ret.Contact = contact
-    ret.PhotoData = photoData
-    ret.Photo = photo
-    ret.Family = family
-    ret.Church = church
-    ret.Education = education
-    ret.SchkolaBase = SchkolaBase
     return
 }
 

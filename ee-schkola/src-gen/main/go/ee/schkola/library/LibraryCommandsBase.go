@@ -5,17 +5,16 @@ import (
     "time"
 )
 type RegisterBook struct {
-    Title  string
+    Title  
     Description  string
-    Language  string
+    Language  
     ReleaseDate  *time.Time
-    Edition  string
-    Category  string
+    Edition  
+    Category  
     Author  *person.PersonName
 }
 
-func NewRegisterBook(title string, description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName) (ret *RegisterBook, err error) {
+func NewRegisterBook(title , description string, language , releaseDate *time.Time, edition , category , author *person.PersonName) (ret *RegisterBook, err error) {
     ret = &RegisterBook{
         Title : title,
         Description : description,
@@ -30,10 +29,10 @@ func NewRegisterBook(title string, description string, language string, releaseD
 
 
 type UnregisterBook struct {
-    Id  string
+    Id  
 }
 
-func NewUnregisterBook(id string) (ret *UnregisterBook, err error) {
+func NewUnregisterBook(id ) (ret *UnregisterBook, err error) {
     ret = &UnregisterBook{
         Id : id,
     }
@@ -42,17 +41,16 @@ func NewUnregisterBook(id string) (ret *UnregisterBook, err error) {
 
 
 type ChangeBook struct {
-    Title  string
+    Title  
     Description  string
-    Language  string
+    Language  
     ReleaseDate  *time.Time
-    Edition  string
-    Category  string
+    Edition  
+    Category  
     Author  *person.PersonName
 }
 
-func NewChangeBook(title string, description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName) (ret *ChangeBook, err error) {
+func NewChangeBook(title , description string, language , releaseDate *time.Time, edition , category , author *person.PersonName) (ret *ChangeBook, err error) {
     ret = &ChangeBook{
         Title : title,
         Description : description,
@@ -67,11 +65,11 @@ func NewChangeBook(title string, description string, language string, releaseDat
 
 
 type ChangeBookLocation struct {
-    Shelf  string
-    Fold  string
+    Shelf  
+    Fold  
 }
 
-func NewChangeBookLocation(shelf string, fold string) (ret *ChangeBookLocation, err error) {
+func NewChangeBookLocation(shelf , fold ) (ret *ChangeBookLocation, err error) {
     ret = &ChangeBookLocation{
         Shelf : shelf,
         Fold : fold,

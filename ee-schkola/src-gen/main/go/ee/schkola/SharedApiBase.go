@@ -5,10 +5,10 @@ import (
 )
 type SchkolaBase struct {
     Trace  *Trace
-    Id  string
+    Id  
 }
 
-func NewSchkolaBase(id string) (ret *SchkolaBase, err error) {
+func NewSchkolaBase(id ) (ret *SchkolaBase, err error) {
     ret = &SchkolaBase{
         Id : id,
     }
@@ -16,13 +16,17 @@ func NewSchkolaBase(id string) (ret *SchkolaBase, err error) {
 }
 
 
+
+
+
+
 type Trace struct {
     CreatedAt  *time.Time
     UpdatedAt  *time.Time
-    ModifiedBy  string
+    ModifiedBy  
 }
 
-func NewTrace(createdAt *time.Time, updatedAt *time.Time, modifiedBy string) (ret *Trace, err error) {
+func NewTrace(createdAt *time.Time, updatedAt *time.Time, modifiedBy ) (ret *Trace, err error) {
     ret = &Trace{
         CreatedAt : createdAt,
         UpdatedAt : updatedAt,

@@ -5,7 +5,7 @@ import (
     "time"
 )
 type ChurchCreated struct {
-    Name  string
+    Name  
     Address  *Address
     Pastor  *PersonName
     Contact  *Contact
@@ -14,12 +14,12 @@ type ChurchCreated struct {
 
 
 type ChurchDeleted struct {
-    Id  string
+    Id  
 }
 
 
 type ChurchUpdated struct {
-    Name  string
+    Name  
     Address  *Address
     Pastor  *PersonName
     Contact  *Contact
@@ -28,19 +28,19 @@ type ChurchUpdated struct {
 
 
 type GraduationCreated struct {
-    Name  string
+    Name  
     Level  *GraduationLevel
     *schkola.SchkolaBase
 }
 
 
 type GraduationDeleted struct {
-    Id  string
+    Id  
 }
 
 
 type GraduationUpdated struct {
-    Name  string
+    Name  
     Level  *GraduationLevel
     *schkola.SchkolaBase
 }
@@ -49,12 +49,12 @@ type GraduationUpdated struct {
 type ProfileCreated struct {
     Gender  *Gender
     Name  *PersonName
-    BirthName  string
+    BirthName  
     Birthday  *time.Time
     Address  *Address
     Contact  *Contact
     PhotoData  []byte
-    Photo  string
+    Photo  
     Family  *Family
     Church  *ChurchInfo
     Education  *Education
@@ -63,19 +63,19 @@ type ProfileCreated struct {
 
 
 type ProfileDeleted struct {
-    Id  string
+    Id  
 }
 
 
 type ProfileUpdated struct {
     Gender  *Gender
     Name  *PersonName
-    BirthName  string
+    BirthName  
     Birthday  *time.Time
     Address  *Address
     Contact  *Contact
     PhotoData  []byte
-    Photo  string
+    Photo  
     Family  *Family
     Church  *ChurchInfo
     Education  *Education

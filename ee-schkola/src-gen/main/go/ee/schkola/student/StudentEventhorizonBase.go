@@ -3,118 +3,6 @@ package student
 import (
     "github.com/looplab/eventhorizon"
 )
-type AttendanceAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func (o *AttendanceAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *AttendanceAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
-type CourseAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func (o *CourseAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *CourseAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
-type GradeAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func (o *GradeAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *GradeAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
-type GroupAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func (o *GroupAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *GroupAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
-type SchoolApplicationAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func (o *SchoolApplicationAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *SchoolApplicationAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
-type SchoolYearAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func (o *SchoolYearAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *SchoolYearAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
-type StudentEventhorizonInitializer struct {
-    Store  *eventhorizon.EventStore
-    EventBus  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    CommandBus  *eventhorizon.CommandBus
-}
-
-func (o *StudentEventhorizonInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *StudentEventhorizonInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
 type AttendanceAggregate struct {
     *eventhorizon.AggregateBase
     *Attendance
@@ -149,6 +37,124 @@ type SchoolYearAggregate struct {
     *eventhorizon.AggregateBase
     *SchoolYear
 }
+
+
+
+
+type AttendanceAttendanceAggregateInitializer struct {
+    Store  *eventhorizon.EventStore
+    Notifier  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    Executor  *eventhorizon.CommandBus
+}
+
+
+func (o *AttendanceAttendanceAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(StudentAggregateTypes().Attendance)
+    for _, command := range AttendanceCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
+}
+
+
+type CourseCourseAggregateInitializer struct {
+    Store  *eventhorizon.EventStore
+    Notifier  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    Executor  *eventhorizon.CommandBus
+}
+
+
+func (o *CourseCourseAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(StudentAggregateTypes().Course)
+    for _, command := range CourseCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
+}
+
+
+type GradeGradeAggregateInitializer struct {
+    Store  *eventhorizon.EventStore
+    Notifier  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    Executor  *eventhorizon.CommandBus
+}
+
+
+func (o *GradeGradeAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(StudentAggregateTypes().Grade)
+    for _, command := range GradeCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
+}
+
+
+type GroupGroupAggregateInitializer struct {
+    Store  *eventhorizon.EventStore
+    Notifier  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    Executor  *eventhorizon.CommandBus
+}
+
+
+func (o *GroupGroupAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(StudentAggregateTypes().Group)
+    for _, command := range GroupCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
+}
+
+
+type SchoolApplicationSchoolApplicationAggregateInitializer struct {
+    Store  *eventhorizon.EventStore
+    Notifier  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    Executor  *eventhorizon.CommandBus
+}
+
+
+func (o *SchoolApplicationSchoolApplicationAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(StudentAggregateTypes().SchoolApplication)
+    for _, command := range SchoolApplicationCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
+}
+
+
+type SchoolYearSchoolYearAggregateInitializer struct {
+    Store  *eventhorizon.EventStore
+    Notifier  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    Executor  *eventhorizon.CommandBus
+}
+
+
+func (o *SchoolYearSchoolYearAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(StudentAggregateTypes().SchoolYear)
+    for _, command := range SchoolYearCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
+}
+
+
+type StudentEventhorizonInitializer struct {
+    Store  *eventhorizon.EventStore
+    EventBus  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    CommandBus  *eventhorizon.CommandBus
+}
+
+
+
+
+
+
 
 
 

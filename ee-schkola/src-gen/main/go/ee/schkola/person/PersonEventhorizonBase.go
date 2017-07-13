@@ -3,70 +3,6 @@ package person
 import (
     "github.com/looplab/eventhorizon"
 )
-type ChurchAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func (o *ChurchAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *ChurchAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
-type GraduationAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func (o *GraduationAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *GraduationAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
-type ProfileAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func (o *ProfileAggregateInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *ProfileAggregateInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
-type PersonEventhorizonInitializer struct {
-    Store  *eventhorizon.EventStore
-    EventBus  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    CommandBus  *eventhorizon.CommandBus
-}
-
-func (o *PersonEventhorizonInitializer) setup() string {
-    panic("Not implemented yet.")
-}
-
-func (o *PersonEventhorizonInitializer) registerCommands() string {
-    panic("Not implemented yet.")
-}
-
-
 type ChurchAggregate struct {
     *eventhorizon.AggregateBase
     *Church
@@ -83,6 +19,73 @@ type ProfileAggregate struct {
     *eventhorizon.AggregateBase
     *Profile
 }
+
+
+
+
+type ChurchChurchAggregateInitializer struct {
+    Store  *eventhorizon.EventStore
+    Notifier  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    Executor  *eventhorizon.CommandBus
+}
+
+
+func (o *ChurchChurchAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(PersonAggregateTypes().Church)
+    for _, command := range ChurchCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
+}
+
+
+type GraduationGraduationAggregateInitializer struct {
+    Store  *eventhorizon.EventStore
+    Notifier  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    Executor  *eventhorizon.CommandBus
+}
+
+
+func (o *GraduationGraduationAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(PersonAggregateTypes().Graduation)
+    for _, command := range GraduationCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
+}
+
+
+type ProfileProfileAggregateInitializer struct {
+    Store  *eventhorizon.EventStore
+    Notifier  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    Executor  *eventhorizon.CommandBus
+}
+
+
+func (o *ProfileProfileAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+    
+    aggregateType := eventhorizon.AggregateType(PersonAggregateTypes().Profile)
+    for _, command := range ProfileCommandTypes().Values() {
+        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    }
+}
+
+
+type PersonEventhorizonInitializer struct {
+    Store  *eventhorizon.EventStore
+    EventBus  *eventhorizon.EventBus
+    Publisher  *eventhorizon.EventPublisher
+    CommandBus  *eventhorizon.CommandBus
+}
+
+
+
+
+
+
 
 
 
