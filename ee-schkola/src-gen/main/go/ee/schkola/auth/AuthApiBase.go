@@ -17,15 +17,15 @@ type Account struct {
 
 func NewAccount(username string, password string, email string, disabled bool, lastLoginAt *time.Time, profile *person.Profile, 
                 SchkolaBase *schkola.SchkolaBase) (ret *Account, err error) {
-    ret = &Account{
-        Username : username,
-        Password : password,
-        Email : email,
-        Disabled : disabled,
-        LastLoginAt : lastLoginAt,
-        Profile : profile,
-        SchkolaBase : SchkolaBase,
-    }
+    ret = (id)
+        
+    ret.Username = username
+    ret.Password = password
+    ret.Email = email
+    ret.Disabled = disabled
+    ret.LastLoginAt = lastLoginAt
+    ret.Profile = profile
+    ret.SchkolaBase = SchkolaBase
     return
 }
 

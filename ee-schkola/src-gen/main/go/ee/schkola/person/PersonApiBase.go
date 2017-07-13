@@ -34,13 +34,13 @@ type Church struct {
 }
 
 func NewChurch(name string, address *Address, pastor *PersonName, contact *Contact, SchkolaBase *schkola.SchkolaBase) (ret *Church, err error) {
-    ret = &Church{
-        Name : name,
-        Address : address,
-        Pastor : pastor,
-        Contact : contact,
-        SchkolaBase : SchkolaBase,
-    }
+    ret = (id)
+        
+    ret.Name = name
+    ret.Address = address
+    ret.Pastor = pastor
+    ret.Contact = contact
+    ret.SchkolaBase = SchkolaBase
     return
 }
 
@@ -121,11 +121,11 @@ type Graduation struct {
 }
 
 func NewGraduation(name string, level *GraduationLevel, SchkolaBase *schkola.SchkolaBase) (ret *Graduation, err error) {
-    ret = &Graduation{
-        Name : name,
-        Level : level,
-        SchkolaBase : SchkolaBase,
-    }
+    ret = (id)
+        
+    ret.Name = name
+    ret.Level = level
+    ret.SchkolaBase = SchkolaBase
     return
 }
 
@@ -151,7 +151,8 @@ type Profile struct {
     Birthday  *time.Time
     Address  *Address
     Contact  *Contact
-    Photo  []byte
+    PhotoData  []byte
+    Photo  string
     Family  *Family
     Church  *ChurchInfo
     Education  *Education
@@ -159,20 +160,22 @@ type Profile struct {
 }
 
 func NewProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
-                photo []byte, family *Family, church *ChurchInfo, education *Education, SchkolaBase *schkola.SchkolaBase) (ret *Profile, err error) {
-    ret = &Profile{
-        Gender : gender,
-        Name : name,
-        BirthName : birthName,
-        Birthday : birthday,
-        Address : address,
-        Contact : contact,
-        Photo : photo,
-        Family : family,
-        Church : church,
-        Education : education,
-        SchkolaBase : SchkolaBase,
-    }
+                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education, 
+                SchkolaBase *schkola.SchkolaBase) (ret *Profile, err error) {
+    ret = (id)
+        
+    ret.Gender = gender
+    ret.Name = name
+    ret.BirthName = birthName
+    ret.Birthday = birthday
+    ret.Address = address
+    ret.Contact = contact
+    ret.PhotoData = photoData
+    ret.Photo = photo
+    ret.Family = family
+    ret.Church = church
+    ret.Education = education
+    ret.SchkolaBase = SchkolaBase
     return
 }
 

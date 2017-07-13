@@ -14,13 +14,13 @@ type Expense struct {
 }
 
 func NewExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time, SchkolaBase *schkola.SchkolaBase) (ret *Expense, err error) {
-    ret = &Expense{
-        Purpose : purpose,
-        Amount : amount,
-        Profile : profile,
-        Date : date,
-        SchkolaBase : SchkolaBase,
-    }
+    ret = (id)
+        
+    ret.Purpose = purpose
+    ret.Amount = amount
+    ret.Profile = profile
+    ret.Date = date
+    ret.SchkolaBase = SchkolaBase
     return
 }
 
@@ -32,11 +32,11 @@ type ExpensePurpose struct {
 }
 
 func NewExpensePurpose(name string, description string, SchkolaBase *schkola.SchkolaBase) (ret *ExpensePurpose, err error) {
-    ret = &ExpensePurpose{
-        Name : name,
-        Description : description,
-        SchkolaBase : SchkolaBase,
-    }
+    ret = (id)
+        
+    ret.Name = name
+    ret.Description = description
+    ret.SchkolaBase = SchkolaBase
     return
 }
 
@@ -50,13 +50,13 @@ type Fee struct {
 }
 
 func NewFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time, SchkolaBase *schkola.SchkolaBase) (ret *Fee, err error) {
-    ret = &Fee{
-        Student : student,
-        Amount : amount,
-        Kind : kind,
-        Date : date,
-        SchkolaBase : SchkolaBase,
-    }
+    ret = (id)
+        
+    ret.Student = student
+    ret.Amount = amount
+    ret.Kind = kind
+    ret.Date = date
+    ret.SchkolaBase = SchkolaBase
     return
 }
 
@@ -69,12 +69,12 @@ type FeeKind struct {
 }
 
 func NewFeeKind(name string, amount float64, description string, SchkolaBase *schkola.SchkolaBase) (ret *FeeKind, err error) {
-    ret = &FeeKind{
-        Name : name,
-        Amount : amount,
-        Description : description,
-        SchkolaBase : SchkolaBase,
-    }
+    ret = (id)
+        
+    ret.Name = name
+    ret.Amount = amount
+    ret.Description = description
+    ret.SchkolaBase = SchkolaBase
     return
 }
 

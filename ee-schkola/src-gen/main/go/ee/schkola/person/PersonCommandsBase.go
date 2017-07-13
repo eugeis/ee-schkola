@@ -53,7 +53,8 @@ type CreateProfile struct {
     Birthday  *time.Time
     Address  *Address
     Contact  *Contact
-    Photo  []byte
+    PhotoData  []byte
+    Photo  string
     Family  *Family
     Church  *ChurchInfo
     Education  *Education
@@ -73,7 +74,8 @@ type UpdateProfile struct {
     Birthday  *time.Time
     Address  *Address
     Contact  *Contact
-    Photo  []byte
+    PhotoData  []byte
+    Photo  string
     Family  *Family
     Church  *ChurchInfo
     Education  *Education

@@ -6,7 +6,7 @@ import ee.lang.integ.dPath
 import ee.lang.integ.eePath
 
 fun main(args: Array<String>) {
-    val generator = DesignKotlinGenerator(Schkola)
-    //val generator = DesignGoGenerator(Schkola)
+    //val generator = DesignKotlinGenerator(Schkola)
+    val generator = DesignGoGenerator(Schkola)
     generator.generate(dPath)
 }
