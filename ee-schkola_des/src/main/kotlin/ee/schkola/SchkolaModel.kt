@@ -9,12 +9,13 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         object SchkolaBase : Entity({ virtual(true) }) {
             val id = buildId()
             val trace = prop { type(Trace).meta(true) }
+            val constr = constr { params(p(id)) }
         }
 
         object Trace : Basic() {
-            val createdAt = prop(n.Date)
-            val updatedAt = prop(n.Date)
-            val modifiedBy = prop()
+            val createdAt = prop(n.Date).replaceable(true)
+            val updatedAt = prop(n.Date).replaceable(true)
+            val modifiedBy = prop().replaceable(true)
         }
     }
 
@@ -44,7 +45,8 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val birthday = prop(n.Date)
             val address = prop(Address)
             val contact = prop(Contact)
-            val photo = prop(n.Blob)
+            val photoData = prop(n.Blob)
+            val photo = prop()
             val family = prop(Family)
             val church = prop(ChurchInfo)
             val education = prop(Education)

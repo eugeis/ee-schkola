@@ -78,11 +78,11 @@ class SchkolaCsvParser {
         }
     }
 
-    fun String.toMaritalStatus(): MaritalStatus {
+    fun String.toMaritalState(): MaritalState {
         return when (this) {
-            "Verheiratet" -> MaritalStatus.MARRIED
-            "ledig" -> MaritalStatus.SINGLE
-            else -> MaritalStatus.SINGLE
+            "Verheiratet" -> MaritalState.MARRIED
+            "ledig" -> MaritalState.SINGLE
+            else -> MaritalState.SINGLE
         }
     }
 
@@ -97,7 +97,7 @@ class SchkolaCsvParser {
     val graduation = hashMapOf<String, Graduation>()
 
     fun String.toGraduation(): Graduation {
-        return graduation.getOrPut(this, { Graduation(id = this, type = GraduationType.UNKNOWN) })
+        return graduation.getOrPut(this, { Graduation(id = this, level = GraduationLevel.UNKNOWN) })
     }
 
     fun load(schoolYearName: String, source: Path): List<SchoolApplication> {
@@ -116,22 +116,22 @@ class SchkolaCsvParser {
                 } else {
                     val l = s.split()
                     if (l.isNotEmpty()) {
-                        val person = User(gender = l.f(Geschlecht).toGender(), name = l.f(Name).toPersonName(),
+                        val person = Profile(gender = l.f(Geschlecht).toGender(), name = l.f(Name).toPersonName(),
                                 birthday = l.f(Geburtsdatum).toDate(), address = Address(street = l.f(Adresse),
                                 code = l.f(PLZ), city = l.f(Ort)), contact = Contact(phone = l.f(TelefonHandy), email = l.f(Email)),
                                 photo = l.f(Passbild),
-                                family = Family(l.f(Familienstand).toMaritalStatus(), childrenCount = l.f(ChildrenCount).toIntOr0(),
+                                family = Family(l.f(Familienstand).toMaritalState(), childrenCount = l.f(ChildrenCount).toIntOr0(),
                                         partner = l.f(Partner).toPersonName()),
-                                church = ChurchInfo(name = l.f(Church), member = l.f(MemberOfChurch).toBoolean(),
+                                church = ChurchInfo(church = l.f(Church), member = l.f(MemberOfChurch).toBoolean(),
                                         services = l.f(ChurchServices).split(",").toMutableList()),
                                 education = Education(graduation = l.f(Schulabschluss).toGraduation(), profession = l.f(Beruf)),
                                 id = "2016_" + i
                         )
-                        person.trace = Trace(createdAt = l.f(SubmitDate).toDateTime())
+                        person.trace.createdAt = l.f(SubmitDate).toDateTime()
 
                         val application = SchoolApplication(recommendationOf = l.f(RecommendationOf).toPersonName(),
-                                mentor = l.f(Mentor).toPersonName(), mentorContact = Contact(phone = l.f(MentorTelefon)),
-                                group = l.f(ApplicationFor), schoolYear = schoolYear, person = person)
+                                churchContactPerson = l.f(Mentor).toPersonName(), churchContact = Contact(phone = l.f(MentorTelefon)),
+                                group = l.f(ApplicationFor), schoolYear = schoolYear, profile = person)
 
                         applications.add(application)
                     }

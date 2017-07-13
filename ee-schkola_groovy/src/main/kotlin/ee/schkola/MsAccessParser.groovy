@@ -3,9 +3,9 @@ package ee.schkola
 import com.healthmarketscience.jackcess.Database
 import ee.msaccess.MsAccess
 import ee.schkola.finance.Expense
-import ee.schkola.finance.ExpenseType
+import ee.schkola.finance.ExpensePurpose
 import ee.schkola.finance.Fee
-import ee.schkola.finance.FeeType
+import ee.schkola.finance.FeeKind
 import ee.schkola.person.*
 import ee.schkola.student.*
 
@@ -122,7 +122,7 @@ class MsAccessParser {
     private readExpensenzweck() {
         def ret = [:]
         for (Map<String, Object> row : database.getTable("_ausgabenzweck")) {
-            ret.put rp(row, 'ausgabenzweck_ssid'), new ExpenseType(zweck: rp(row, 'Expensenzweck'))
+            ret.put rp(row, 'ausgabenzweck_ssid'), new ExpensePurpose(zweck: rp(row, 'Expensenzweck'))
         }
         ret
     }
@@ -130,7 +130,7 @@ class MsAccessParser {
     private readFeeart() {
         def ret = [:]
         for (Map<String, Object> row : database.getTable("_beitragart")) {
-            FeeType entity = new FeeType(type: rp(row, 'Feeart'), betrag: rp(row, 'Betrag'), einmalig: rp(row, 'Einmalig'))
+            FeeKind entity = new FeeKind(type: rp(row, 'Feeart'), betrag: rp(row, 'Betrag'), einmalig: rp(row, 'Einmalig'))
             Calendar cal = Calendar.instance
             if (entity.type.startsWith('Anmeldegeb')) {
                 cal.set 2008, 8, 1
@@ -275,7 +275,7 @@ class MsAccessParser {
     private readPerson(gemeinden) {
         def ret = [:]
         for (Map<String, Object> row : database.getTable("person")) {
-            ret.put rp(row, 'person_ssid'), new User(anrede: parseGender(rp(row, 'anrede_ssid')), vorname: rp(row, 'Vorname'), nachname: rp(row, 'Name'),
+            ret.put rp(row, 'person_ssid'), new Profile(anrede: parseGender(rp(row, 'anrede_ssid')), vorname: rp(row, 'Vorname'), nachname: rp(row, 'Name'),
                     strasse: rp(row, 'Strasse'), plz: rp(row, 'PLZ'), stadt: rp(row, 'Ort'), land: rp(row, 'land_ssid'), telefon: rp(row, 'Tel_Priv'), mobil: rp(row, 'Handy'), email: rp(row, 'E-Mail'),
                     familienstand: parseMartialStatus(rp(row, 'familienstand_ssid')), schulabschluss: parseGraduationType(rp(row, 'schulabschluss_ssid')),
                     gemeinde: gemeinden.get(rp(row, 'gemeinde_ssid')), student: false, lehrer: false, mitarbeiter: false, gast: true, geburtsname: rp(row, 'Geburtsname'),
@@ -363,7 +363,7 @@ class MsAccessParser {
         }
     }
 
-    private MaritalStatus parseMartialStatus(familienstand_ssid) {
+    private MaritalState parseMartialStatus(familienstand_ssid) {
         def ret
         if (familienstand_ssid == 'ledig') {
             ret = MartialStatus.SINGLE
@@ -375,7 +375,7 @@ class MsAccessParser {
         ret
     }
 
-    private GraduationType parseGraduationType(schulabschluss_ssid) {
+    private GraduationLevel parseGraduationType(schulabschluss_ssid) {
         def ret
         if (schulabschluss_ssid == 'Wirtschaftsschule') {
             ret = GraduationType.TECHNICAL_COLLEGE
@@ -407,7 +407,7 @@ class MsAccessParser {
         ret
     }
 
-    private GroupType parseGroupType(gruppentype_ssid) {
+    private Group parseGroupType(gruppentype_ssid) {
         def ret
         if (gruppentype_ssid == 'frei') {
             ret = GroupType.Coursegruppe

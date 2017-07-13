@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
 
     val applications = parseApplicationForms(basePath, importer)
     applications.forEach {
-        println("${it.size}: ${it.joinToString(", ") { it.person.name.toString() }}")
+        println("${it.size}: ${it.joinToString(", ") { it.profile.name.toString() }}")
     }
 
 }
