@@ -7,14 +7,15 @@ import (
 type RegisterBook struct {
     Title  
     Description  string
-    Language  
+    Language  string
     ReleaseDate  *time.Time
-    Edition  
-    Category  
+    Edition  string
+    Category  string
     Author  *person.PersonName
 }
 
-func NewRegisterBook(title , description string, language , releaseDate *time.Time, edition , category , author *person.PersonName) (ret *RegisterBook, err error) {
+func NewRegisterBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName) (ret *RegisterBook, err error) {
     ret = &RegisterBook{
         Title : title,
         Description : description,
@@ -29,10 +30,10 @@ func NewRegisterBook(title , description string, language , releaseDate *time.Ti
 
 
 type UnregisterBook struct {
-    Id  
+    Id  string
 }
 
-func NewUnregisterBook(id ) (ret *UnregisterBook, err error) {
+func NewUnregisterBook(id string) (ret *UnregisterBook, err error) {
     ret = &UnregisterBook{
         Id : id,
     }
@@ -43,14 +44,15 @@ func NewUnregisterBook(id ) (ret *UnregisterBook, err error) {
 type ChangeBook struct {
     Title  
     Description  string
-    Language  
+    Language  string
     ReleaseDate  *time.Time
-    Edition  
-    Category  
+    Edition  string
+    Category  string
     Author  *person.PersonName
 }
 
-func NewChangeBook(title , description string, language , releaseDate *time.Time, edition , category , author *person.PersonName) (ret *ChangeBook, err error) {
+func NewChangeBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName) (ret *ChangeBook, err error) {
     ret = &ChangeBook{
         Title : title,
         Description : description,
@@ -65,11 +67,11 @@ func NewChangeBook(title , description string, language , releaseDate *time.Time
 
 
 type ChangeBookLocation struct {
-    Shelf  
-    Fold  
+    Shelf  string
+    Fold  string
 }
 
-func NewChangeBookLocation(shelf , fold ) (ret *ChangeBookLocation, err error) {
+func NewChangeBookLocation(shelf string, fold string) (ret *ChangeBookLocation, err error) {
     ret = &ChangeBookLocation{
         Shelf : shelf,
         Fold : fold,

@@ -6,16 +6,16 @@ import (
     "time"
 )
 type Account struct {
-    Username  
-    Password  
-    Email  
+    Username  string
+    Password  string
+    Email  string
     Disabled  bool
     LastLoginAt  *time.Time
     Profile  *person.Profile
     *schkola.SchkolaBase
 }
 
-func NewAccount(username , password , email , disabled bool, lastLoginAt *time.Time, profile *person.Profile, 
+func NewAccount(username string, password string, email string, disabled bool, lastLoginAt *time.Time, profile *person.Profile, 
                 SchkolaBase *schkola.SchkolaBase) (ret *Account, err error) {
     ret = (id)
         

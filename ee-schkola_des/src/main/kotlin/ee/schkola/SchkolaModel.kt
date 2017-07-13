@@ -13,19 +13,19 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         }
 
         object Trace : Basic() {
-            val createdAt = prop(n.Date).replaceable(true)
-            val updatedAt = prop(n.Date).replaceable(true)
-            val modifiedBy = prop().replaceable(true)
+            val createdAt = propDT().replaceable(true)
+            val updatedAt = propDT().replaceable(true)
+            val modifiedBy = propS().replaceable(true)
         }
     }
 
     object Auth : Module() {
         object Account : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val username = prop()
-            val password = prop()
-            val email = prop()
-            val disabled = prop { type(n.Boolean) }
-            val lastLoginAt = prop { type(n.Date) }
+            val username = propS()
+            val password = propS()
+            val email = propS()
+            val disabled = propB()
+            val lastLoginAt = propDT()
             val profile = prop { type(Person.Profile) }
 
             object commands : Commands() {
@@ -41,12 +41,12 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         object Profile : Entity({ superUnit(Shared.SchkolaBase) }) {
             val gender = prop(Gender)
             val name = prop(PersonName)
-            val birthName = prop()
-            val birthday = prop(n.Date)
+            val birthName = propS()
+            val birthday = propDT()
             val address = prop(Address)
             val contact = prop(Contact)
             val photoData = prop(n.Blob)
-            val photo = prop()
+            val photo = propS()
             val family = prop(Family)
             val church = prop(ChurchInfo)
             val education = prop(Education)
@@ -59,7 +59,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         }
 
         object Church : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val name = prop()
+            val name = propS()
             val address = prop(Address)
             val pastor = prop(PersonName)
             val contact = prop(Contact)
@@ -67,39 +67,39 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
         object Education : Basic() {
             val graduation = prop(Graduation)
-            val profession = prop()
+            val profession = propS()
         }
 
         object ChurchInfo : Basic() {
-            val church = prop()
-            val association = prop()
-            val member = prop(n.Boolean)
+            val church = propS()
+            val association = propS()
+            val member = propB()
             val services = prop(n.List)
         }
 
         object Family : Basic() {
             val maritalState = prop(MaritalState)
-            val childrenCount = prop(n.Int)
+            val childrenCount = propI()
             val partner = prop(PersonName)
         }
 
         object PersonName : Basic() {
-            val first = prop()
-            val last = prop()
+            val first = propS()
+            val last = propS()
         }
 
         object Address : Basic() {
-            val street = prop()
-            val suite = prop()
-            val city = prop()
-            val code = prop()
-            val country = prop()
+            val street = propS()
+            val suite = propS()
+            val city = propS()
+            val code = propS()
+            val country = propS()
         }
 
         object Contact : Basic() {
-            val phone = prop()
-            val email = prop()
-            val cellphone = prop()
+            val phone = propS()
+            val email = propS()
+            val cellphone = propS()
         }
 
         object Gender : EnumType() {
@@ -127,7 +127,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         }
 
         object Graduation : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val name = prop()
+            val name = propS()
             val level = prop(GraduationLevel)
         }
     }
@@ -135,27 +135,27 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
     object Finance : Module() {
         object Expense : Entity({ superUnit(Shared.SchkolaBase) }) {
             val purpose = prop(ExpensePurpose)
-            val amount = prop(n.Float)
+            val amount = propF()
             val profile = prop(Person.Profile)
-            val date = prop(n.Date)
+            val date = propDT()
         }
 
         object ExpensePurpose : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val name = prop()
-            val description = prop()
+            val name = propS()
+            val description = propS()
         }
 
         object Fee : Entity({ superUnit(Shared.SchkolaBase) }) {
             val student = prop(Person.Profile)
-            val amount = prop { type(n.Float).doc("Negative values are charge a fee and positive values are paying of it.") }
+            val amount = propF { doc("Negative values are charge a fee and positive values are paying of it.") }
             val kind = prop(FeeKind)
-            val date = prop { type(n.Date).doc("Deadline of a fee or paying date of it.") }
+            val date = propDT { doc("Deadline of a fee or paying date of it.") }
         }
 
         object FeeKind : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val name = prop()
-            val amount = prop(n.Float)
-            val description = prop()
+            val name = propS()
+            val amount = propF()
+            val description = propS()
         }
 
     }
@@ -167,23 +167,23 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val churchContactPerson = prop(Person.PersonName)
             val churchContact = prop(Person.Contact)
             val schoolYear = prop(SchoolYear)
-            val group = prop()
+            val group = propS()
         }
 
         object SchoolYear : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val name = prop()
-            val start = prop(n.Date)
-            val end = prop(n.Date)
+            val name = propS()
+            val start = propDT()
+            val end = propDT()
             val dates = prop(n.List.GT(n.Date))
         }
 
         object Course : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val name = prop()
-            val begin = prop(n.Date)
-            val end = prop(n.Date)
+            val name = propS()
+            val begin = propDT()
+            val end = propDT()
             val teacher = prop(Person.PersonName)
             val schoolYear = prop(SchoolYear)
-            val fee = prop(n.Float)
+            val fee = propF()
             val description = prop(n.Text)
         }
 
@@ -200,7 +200,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         }
 
         object Group : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val name = prop { nullable(false) }
+            val name = propS { nullable(false) }
             val category = prop(GroupCategory)
             val schoolYear = prop(SchoolYear)
             val representative = prop(Person.Profile)
@@ -211,19 +211,19 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         object Grade : Entity({ superUnit(Shared.SchkolaBase) }) {
             val student = prop { type(Person.Profile).nullable(false) }
             val course = prop { type(Course).nullable(false) }
-            val grade = prop(n.Float)
+            val grade = propF()
             val gradeTrace = prop(Shared.Trace)
-            val comment = prop()
+            val comment = propS()
         }
 
         object Attendance : Entity({ superUnit(Shared.SchkolaBase) }) {
             val student = prop { type(Person.Profile).nullable(false) }
-            val date = prop { type(n.Date).nullable(false) }
+            val date = propDT { nullable(false) }
             val course = prop { type(Course).nullable(false) }
-            val hours = prop(n.Int)
+            val hours = propI()
             val state = prop(AttendanceState)
             val stateTrace = prop(Shared.Trace)
-            val token = prop()
+            val token = propS()
             val tokenTrace = prop(Shared.Trace)
 
             object commands : Commands() {
@@ -236,17 +236,17 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
     object Library : Module() {
         object Location : Basic() {
-            val shelf = prop()
-            val fold = prop()
+            val shelf = propS()
+            val fold = propS()
         }
 
         object Book : Entity({ superUnit(Shared.SchkolaBase) }) {
             val title = prop { nullable(false) }
             val description = prop(n.Text)
-            val language = prop()
-            val releaseDate = prop(n.Date)
-            val edition = prop()
-            val category = prop()
+            val language = propS()
+            val releaseDate = propDT()
+            val edition = propS()
+            val category = propS()
             val author = prop(Person.PersonName)
             val location = prop(Location)
 

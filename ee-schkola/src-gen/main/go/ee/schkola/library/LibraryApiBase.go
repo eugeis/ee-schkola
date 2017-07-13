@@ -8,17 +8,17 @@ import (
 type Book struct {
     Title  
     Description  string
-    Language  
+    Language  string
     ReleaseDate  *time.Time
-    Edition  
-    Category  
+    Edition  string
+    Category  string
     Author  *person.PersonName
     Location  *Location
     *schkola.SchkolaBase
 }
 
-func NewBook(title , description string, language , releaseDate *time.Time, edition , category , author *person.PersonName, 
-                location *Location, SchkolaBase *schkola.SchkolaBase) (ret *Book, err error) {
+func NewBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName, location *Location, SchkolaBase *schkola.SchkolaBase) (ret *Book, err error) {
     ret = (id)
         
     ret.Title = title
@@ -39,11 +39,11 @@ func NewBook(title , description string, language , releaseDate *time.Time, edit
 
 
 type Location struct {
-    Shelf  
-    Fold  
+    Shelf  string
+    Fold  string
 }
 
-func NewLocation(shelf , fold ) (ret *Location, err error) {
+func NewLocation(shelf string, fold string) (ret *Location, err error) {
     ret = &Location{
         Shelf : shelf,
         Fold : fold,

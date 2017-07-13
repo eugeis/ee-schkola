@@ -26,12 +26,12 @@ func NewExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile
 
 
 type ExpensePurpose struct {
-    Name  
-    Description  
+    Name  string
+    Description  string
     *schkola.SchkolaBase
 }
 
-func NewExpensePurpose(name , description , SchkolaBase *schkola.SchkolaBase) (ret *ExpensePurpose, err error) {
+func NewExpensePurpose(name string, description string, SchkolaBase *schkola.SchkolaBase) (ret *ExpensePurpose, err error) {
     ret = (id)
         
     ret.Name = name
@@ -62,13 +62,13 @@ func NewFee(student *person.Profile, amount float64, kind *FeeKind, date *time.T
 
 
 type FeeKind struct {
-    Name  
+    Name  string
     Amount  float64
-    Description  
+    Description  string
     *schkola.SchkolaBase
 }
 
-func NewFeeKind(name , amount float64, description , SchkolaBase *schkola.SchkolaBase) (ret *FeeKind, err error) {
+func NewFeeKind(name string, amount float64, description string, SchkolaBase *schkola.SchkolaBase) (ret *FeeKind, err error) {
     ret = (id)
         
     ret.Name = name

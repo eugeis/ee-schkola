@@ -15,7 +15,7 @@ type CreateExpense struct {
 
 
 type DeleteExpense struct {
-    Id  
+    Id  string
 }
 
 
@@ -29,20 +29,20 @@ type UpdateExpense struct {
 
 
 type CreateExpensePurpose struct {
-    Name  
-    Description  
+    Name  string
+    Description  string
     *schkola.SchkolaBase
 }
 
 
 type DeleteExpensePurpose struct {
-    Id  
+    Id  string
 }
 
 
 type UpdateExpensePurpose struct {
-    Name  
-    Description  
+    Name  string
+    Description  string
     *schkola.SchkolaBase
 }
 
@@ -57,7 +57,7 @@ type CreateFee struct {
 
 
 type DeleteFee struct {
-    Id  
+    Id  string
 }
 
 
@@ -71,22 +71,22 @@ type UpdateFee struct {
 
 
 type CreateFeeKind struct {
-    Name  
+    Name  string
     Amount  float64
-    Description  
+    Description  string
     *schkola.SchkolaBase
 }
 
 
 type DeleteFeeKind struct {
-    Id  
+    Id  string
 }
 
 
 type UpdateFeeKind struct {
-    Name  
+    Name  string
     Amount  float64
-    Description  
+    Description  string
     *schkola.SchkolaBase
 }
 

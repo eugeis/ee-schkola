@@ -6,7 +6,7 @@ import (
     "time"
 )
 type CourseCreated struct {
-    Name  
+    Name  string
     Begin  *time.Time
     End  *time.Time
     Teacher  *person.PersonName
@@ -18,12 +18,12 @@ type CourseCreated struct {
 
 
 type CourseDeleted struct {
-    Id  
+    Id  string
 }
 
 
 type CourseUpdated struct {
-    Name  
+    Name  string
     Begin  *time.Time
     End  *time.Time
     Teacher  *person.PersonName
@@ -39,13 +39,13 @@ type GradeCreated struct {
     Course  *Course
     Grade  float64
     GradeTrace  *schkola.Trace
-    Comment  
+    Comment  string
     *schkola.SchkolaBase
 }
 
 
 type GradeDeleted struct {
-    Id  
+    Id  string
 }
 
 
@@ -54,13 +54,13 @@ type GradeUpdated struct {
     Course  *Course
     Grade  float64
     GradeTrace  *schkola.Trace
-    Comment  
+    Comment  string
     *schkola.SchkolaBase
 }
 
 
 type GroupCreated struct {
-    Name  
+    Name  string
     Category  *GroupCategory
     SchoolYear  *SchoolYear
     Representative  *person.Profile
@@ -81,12 +81,12 @@ func (o *GroupCreated) AddToCourses(item *Course) *Course {
 
 
 type GroupDeleted struct {
-    Id  
+    Id  string
 }
 
 
 type GroupUpdated struct {
-    Name  
+    Name  string
     Category  *GroupCategory
     SchoolYear  *SchoolYear
     Representative  *person.Profile
@@ -112,13 +112,13 @@ type SchoolApplicationCreated struct {
     ChurchContactPerson  *person.PersonName
     ChurchContact  *person.Contact
     SchoolYear  *SchoolYear
-    Group  
+    Group  string
     *schkola.SchkolaBase
 }
 
 
 type SchoolApplicationDeleted struct {
-    Id  
+    Id  string
 }
 
 
@@ -128,13 +128,13 @@ type SchoolApplicationUpdated struct {
     ChurchContactPerson  *person.PersonName
     ChurchContact  *person.Contact
     SchoolYear  *SchoolYear
-    Group  
+    Group  string
     *schkola.SchkolaBase
 }
 
 
 type SchoolYearCreated struct {
-    Name  
+    Name  string
     Start  *time.Time
     End  *time.Time
     Dates  []*Course
@@ -148,12 +148,12 @@ func (o *SchoolYearCreated) AddToDates(item *Course) *Course {
 
 
 type SchoolYearDeleted struct {
-    Id  
+    Id  string
 }
 
 
 type SchoolYearUpdated struct {
-    Name  
+    Name  string
     Start  *time.Time
     End  *time.Time
     Dates  []*Course

@@ -28,7 +28,7 @@ func NewRegisterAttendance(student *person.Profile, course *Course) (ret *Regist
 
 
 type CreateCourse struct {
-    Name  
+    Name  string
     Begin  *time.Time
     End  *time.Time
     Teacher  *person.PersonName
@@ -40,12 +40,12 @@ type CreateCourse struct {
 
 
 type DeleteCourse struct {
-    Id  
+    Id  string
 }
 
 
 type UpdateCourse struct {
-    Name  
+    Name  string
     Begin  *time.Time
     End  *time.Time
     Teacher  *person.PersonName
@@ -61,13 +61,13 @@ type CreateGrade struct {
     Course  *Course
     Grade  float64
     GradeTrace  *schkola.Trace
-    Comment  
+    Comment  string
     *schkola.SchkolaBase
 }
 
 
 type DeleteGrade struct {
-    Id  
+    Id  string
 }
 
 
@@ -76,13 +76,13 @@ type UpdateGrade struct {
     Course  *Course
     Grade  float64
     GradeTrace  *schkola.Trace
-    Comment  
+    Comment  string
     *schkola.SchkolaBase
 }
 
 
 type CreateGroup struct {
-    Name  
+    Name  string
     Category  *GroupCategory
     SchoolYear  *SchoolYear
     Representative  *person.Profile
@@ -103,12 +103,12 @@ func (o *CreateGroup) AddToCourses(item *Course) *Course {
 
 
 type DeleteGroup struct {
-    Id  
+    Id  string
 }
 
 
 type UpdateGroup struct {
-    Name  
+    Name  string
     Category  *GroupCategory
     SchoolYear  *SchoolYear
     Representative  *person.Profile
@@ -134,13 +134,13 @@ type CreateSchoolApplication struct {
     ChurchContactPerson  *person.PersonName
     ChurchContact  *person.Contact
     SchoolYear  *SchoolYear
-    Group  
+    Group  string
     *schkola.SchkolaBase
 }
 
 
 type DeleteSchoolApplication struct {
-    Id  
+    Id  string
 }
 
 
@@ -150,13 +150,13 @@ type UpdateSchoolApplication struct {
     ChurchContactPerson  *person.PersonName
     ChurchContact  *person.Contact
     SchoolYear  *SchoolYear
-    Group  
+    Group  string
     *schkola.SchkolaBase
 }
 
 
 type CreateSchoolYear struct {
-    Name  
+    Name  string
     Start  *time.Time
     End  *time.Time
     Dates  []*Course
@@ -170,12 +170,12 @@ func (o *CreateSchoolYear) AddToDates(item *Course) *Course {
 
 
 type DeleteSchoolYear struct {
-    Id  
+    Id  string
 }
 
 
 type UpdateSchoolYear struct {
-    Name  
+    Name  string
     Start  *time.Time
     End  *time.Time
     Dates  []*Course
