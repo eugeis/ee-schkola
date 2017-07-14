@@ -1,7 +1,6 @@
 package person
 
 import (
-    "ee/schkola"
     "time"
 )
 type CreateChurch struct {
@@ -9,12 +8,28 @@ type CreateChurch struct {
     Address  *Address
     Pastor  *PersonName
     Contact  *Contact
-    *schkola.SchkolaBase
+}
+
+func NewCreateChurch(name string, address *Address, pastor *PersonName, contact *Contact) (ret *CreateChurch, err error) {
+    ret = &CreateChurch{
+        Name : name,
+        Address : address,
+        Pastor : pastor,
+        Contact : contact,
+    }
+    return
 }
 
 
 type DeleteChurch struct {
     Id  string
+}
+
+func NewDeleteChurch(id string) (ret *DeleteChurch, err error) {
+    ret = &DeleteChurch{
+        Id : id,
+    }
+    return
 }
 
 
@@ -23,14 +38,30 @@ type UpdateChurch struct {
     Address  *Address
     Pastor  *PersonName
     Contact  *Contact
-    *schkola.SchkolaBase
+}
+
+func NewUpdateChurch(name string, address *Address, pastor *PersonName, contact *Contact) (ret *UpdateChurch, err error) {
+    ret = &UpdateChurch{
+        Name : name,
+        Address : address,
+        Pastor : pastor,
+        Contact : contact,
+    }
+    return
 }
 
 
 type CreateGraduation struct {
     Name  string
     Level  *GraduationLevel
-    *schkola.SchkolaBase
+}
+
+func NewCreateGraduation(name string, level *GraduationLevel) (ret *CreateGraduation, err error) {
+    ret = &CreateGraduation{
+        Name : name,
+        Level : level,
+    }
+    return
 }
 
 
@@ -38,11 +69,25 @@ type DeleteGraduation struct {
     Id  string
 }
 
+func NewDeleteGraduation(id string) (ret *DeleteGraduation, err error) {
+    ret = &DeleteGraduation{
+        Id : id,
+    }
+    return
+}
+
 
 type UpdateGraduation struct {
     Name  string
     Level  *GraduationLevel
-    *schkola.SchkolaBase
+}
+
+func NewUpdateGraduation(name string, level *GraduationLevel) (ret *UpdateGraduation, err error) {
+    ret = &UpdateGraduation{
+        Name : name,
+        Level : level,
+    }
+    return
 }
 
 
@@ -58,12 +103,36 @@ type CreateProfile struct {
     Family  *Family
     Church  *ChurchInfo
     Education  *Education
-    *schkola.SchkolaBase
+}
+
+func NewCreateProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
+                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *CreateProfile, err error) {
+    ret = &CreateProfile{
+        Gender : gender,
+        Name : name,
+        BirthName : birthName,
+        Birthday : birthday,
+        Address : address,
+        Contact : contact,
+        PhotoData : photoData,
+        Photo : photo,
+        Family : family,
+        Church : church,
+        Education : education,
+    }
+    return
 }
 
 
 type DeleteProfile struct {
     Id  string
+}
+
+func NewDeleteProfile(id string) (ret *DeleteProfile, err error) {
+    ret = &DeleteProfile{
+        Id : id,
+    }
+    return
 }
 
 
@@ -79,7 +148,24 @@ type UpdateProfile struct {
     Family  *Family
     Church  *ChurchInfo
     Education  *Education
-    *schkola.SchkolaBase
+}
+
+func NewUpdateProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
+                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *UpdateProfile, err error) {
+    ret = &UpdateProfile{
+        Gender : gender,
+        Name : name,
+        BirthName : birthName,
+        Birthday : birthday,
+        Address : address,
+        Contact : contact,
+        PhotoData : photoData,
+        Photo : photo,
+        Family : family,
+        Church : church,
+        Education : education,
+    }
+    return
 }
 
 
@@ -142,11 +228,11 @@ func (o *churchCommandTypes) ChurchUpdate() *ChurchCommandType {
 
 func (o *churchCommandTypes) ParseChurchCommandType(name string) (ret *ChurchCommandType, ok bool) {
     switch name {
-      case "ChurchCreate":
+      case o.ChurchCreate().Name():
         ret = o.ChurchCreate()
-      case "ChurchDelete":
+      case o.ChurchDelete().Name():
         ret = o.ChurchDelete()
-      case "ChurchUpdate":
+      case o.ChurchUpdate().Name():
         ret = o.ChurchUpdate()
     }
     return
@@ -210,11 +296,11 @@ func (o *graduationCommandTypes) GraduationUpdate() *GraduationCommandType {
 
 func (o *graduationCommandTypes) ParseGraduationCommandType(name string) (ret *GraduationCommandType, ok bool) {
     switch name {
-      case "GraduationCreate":
+      case o.GraduationCreate().Name():
         ret = o.GraduationCreate()
-      case "GraduationDelete":
+      case o.GraduationDelete().Name():
         ret = o.GraduationDelete()
-      case "GraduationUpdate":
+      case o.GraduationUpdate().Name():
         ret = o.GraduationUpdate()
     }
     return
@@ -278,11 +364,11 @@ func (o *profileCommandTypes) ProfileUpdate() *ProfileCommandType {
 
 func (o *profileCommandTypes) ParseProfileCommandType(name string) (ret *ProfileCommandType, ok bool) {
     switch name {
-      case "ProfileCreate":
+      case o.ProfileCreate().Name():
         ret = o.ProfileCreate()
-      case "ProfileDelete":
+      case o.ProfileDelete().Name():
         ret = o.ProfileDelete()
-      case "ProfileUpdate":
+      case o.ProfileUpdate().Name():
         ret = o.ProfileUpdate()
     }
     return

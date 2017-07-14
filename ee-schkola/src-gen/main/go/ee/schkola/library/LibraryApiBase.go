@@ -28,7 +28,7 @@ func NewBook(title , description string, language string, releaseDate *time.Time
         Category : category,
         Author : author,
         Location : location,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }

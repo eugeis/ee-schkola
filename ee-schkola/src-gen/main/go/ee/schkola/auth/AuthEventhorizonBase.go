@@ -8,6 +8,14 @@ type AccountAggregate struct {
     *Account
 }
 
+func NewAccountAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Account) (ret *AccountAggregate, err error) {
+    ret = &AccountAggregate{
+        AggregateBase: AggregateBase,
+        Account: Entity,
+    }
+    return
+}
+
 
 
 
@@ -16,6 +24,17 @@ type AccountAccountAggregateInitializer struct {
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
+}
+
+func NewAccountAccountAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *AccountAccountAggregateInitializer, err error) {
+    ret = &AccountAccountAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
 }
 
 
@@ -33,6 +52,17 @@ type AuthEventhorizonInitializer struct {
     EventBus  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     CommandBus  *eventhorizon.CommandBus
+}
+
+func NewAuthEventhorizonInitializer(store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                commandBus *eventhorizon.CommandBus) (ret *AuthEventhorizonInitializer, err error) {
+    ret = &AuthEventhorizonInitializer{
+        Store : store,
+        EventBus : eventBus,
+        Publisher : publisher,
+        CommandBus : commandBus,
+    }
+    return
 }
 
 
@@ -83,7 +113,7 @@ func (o *authAggregateTypes) Account() *AuthAggregateType {
 
 func (o *authAggregateTypes) ParseAuthAggregateType(name string) (ret *AuthAggregateType, ok bool) {
     switch name {
-      case "Account":
+      case o.Account().Name():
         ret = o.Account()
     }
     return

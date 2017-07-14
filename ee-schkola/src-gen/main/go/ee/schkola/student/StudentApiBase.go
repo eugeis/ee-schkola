@@ -28,7 +28,7 @@ func NewAttendance(student *person.Profile, date *time.Time, course *Course, hou
         StateTrace : stateTrace,
         Token : token,
         TokenTrace : tokenTrace,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -55,7 +55,7 @@ func NewCourse(name string, begin *time.Time, end *time.Time, teacher *person.Pe
         SchoolYear : schoolYear,
         Fee : fee,
         Description : description,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -78,7 +78,7 @@ func NewGrade(student *person.Profile, course *Course, grade float64, gradeTrace
         Grade : grade,
         GradeTrace : gradeTrace,
         Comment : comment,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -103,7 +103,7 @@ func NewGroup(name string, category *GroupCategory, schoolYear *SchoolYear, repr
         Representative : representative,
         Students : students,
         Courses : courses,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -138,7 +138,7 @@ func NewSchoolApplication(profile *person.Profile, recommendationOf *person.Pers
         ChurchContact : churchContact,
         SchoolYear : schoolYear,
         Group : group,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -158,7 +158,7 @@ func NewSchoolYear(name string, start *time.Time, end *time.Time, dates []*Cours
         Start : start,
         End : end,
         Dates : dates,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -241,13 +241,13 @@ func (o *attendanceStates) Present() *AttendanceState {
 
 func (o *attendanceStates) ParseAttendanceState(name string) (ret *AttendanceState, ok bool) {
     switch name {
-      case "Registered":
+      case o.Registered().Name():
         ret = o.Registered()
-      case "Confirmed":
+      case o.Confirmed().Name():
         ret = o.Confirmed()
-      case "Canceled":
+      case o.Canceled().Name():
         ret = o.Canceled()
-      case "Present":
+      case o.Present().Name():
         ret = o.Present()
     }
     return
@@ -302,9 +302,9 @@ func (o *groupCategorys) YearGroup() *GroupCategory {
 
 func (o *groupCategorys) ParseGroupCategory(name string) (ret *GroupCategory, ok bool) {
     switch name {
-      case "CourseGroup":
+      case o.CourseGroup().Name():
         ret = o.CourseGroup()
-      case "YearGroup":
+      case o.YearGroup().Name():
         ret = o.YearGroup()
     }
     return

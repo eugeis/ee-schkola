@@ -1,7 +1,6 @@
 package person
 
 import (
-    "ee/schkola"
     "time"
 )
 type ChurchCreated struct {
@@ -9,12 +8,28 @@ type ChurchCreated struct {
     Address  *Address
     Pastor  *PersonName
     Contact  *Contact
-    *schkola.SchkolaBase
+}
+
+func NewChurchCreated(name string, address *Address, pastor *PersonName, contact *Contact) (ret *ChurchCreated, err error) {
+    ret = &ChurchCreated{
+        Name : name,
+        Address : address,
+        Pastor : pastor,
+        Contact : contact,
+    }
+    return
 }
 
 
 type ChurchDeleted struct {
     Id  string
+}
+
+func NewChurchDeleted(id string) (ret *ChurchDeleted, err error) {
+    ret = &ChurchDeleted{
+        Id : id,
+    }
+    return
 }
 
 
@@ -23,14 +38,30 @@ type ChurchUpdated struct {
     Address  *Address
     Pastor  *PersonName
     Contact  *Contact
-    *schkola.SchkolaBase
+}
+
+func NewChurchUpdated(name string, address *Address, pastor *PersonName, contact *Contact) (ret *ChurchUpdated, err error) {
+    ret = &ChurchUpdated{
+        Name : name,
+        Address : address,
+        Pastor : pastor,
+        Contact : contact,
+    }
+    return
 }
 
 
 type GraduationCreated struct {
     Name  string
     Level  *GraduationLevel
-    *schkola.SchkolaBase
+}
+
+func NewGraduationCreated(name string, level *GraduationLevel) (ret *GraduationCreated, err error) {
+    ret = &GraduationCreated{
+        Name : name,
+        Level : level,
+    }
+    return
 }
 
 
@@ -38,11 +69,25 @@ type GraduationDeleted struct {
     Id  string
 }
 
+func NewGraduationDeleted(id string) (ret *GraduationDeleted, err error) {
+    ret = &GraduationDeleted{
+        Id : id,
+    }
+    return
+}
+
 
 type GraduationUpdated struct {
     Name  string
     Level  *GraduationLevel
-    *schkola.SchkolaBase
+}
+
+func NewGraduationUpdated(name string, level *GraduationLevel) (ret *GraduationUpdated, err error) {
+    ret = &GraduationUpdated{
+        Name : name,
+        Level : level,
+    }
+    return
 }
 
 
@@ -58,12 +103,36 @@ type ProfileCreated struct {
     Family  *Family
     Church  *ChurchInfo
     Education  *Education
-    *schkola.SchkolaBase
+}
+
+func NewProfileCreated(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
+                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *ProfileCreated, err error) {
+    ret = &ProfileCreated{
+        Gender : gender,
+        Name : name,
+        BirthName : birthName,
+        Birthday : birthday,
+        Address : address,
+        Contact : contact,
+        PhotoData : photoData,
+        Photo : photo,
+        Family : family,
+        Church : church,
+        Education : education,
+    }
+    return
 }
 
 
 type ProfileDeleted struct {
     Id  string
+}
+
+func NewProfileDeleted(id string) (ret *ProfileDeleted, err error) {
+    ret = &ProfileDeleted{
+        Id : id,
+    }
+    return
 }
 
 
@@ -79,7 +148,24 @@ type ProfileUpdated struct {
     Family  *Family
     Church  *ChurchInfo
     Education  *Education
-    *schkola.SchkolaBase
+}
+
+func NewProfileUpdated(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
+                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *ProfileUpdated, err error) {
+    ret = &ProfileUpdated{
+        Gender : gender,
+        Name : name,
+        BirthName : birthName,
+        Birthday : birthday,
+        Address : address,
+        Contact : contact,
+        PhotoData : photoData,
+        Photo : photo,
+        Family : family,
+        Church : church,
+        Education : education,
+    }
+    return
 }
 
 
@@ -142,11 +228,11 @@ func (o *churchEventTypes) UpdatedChurch() *ChurchEventType {
 
 func (o *churchEventTypes) ParseChurchEventType(name string) (ret *ChurchEventType, ok bool) {
     switch name {
-      case "CreatedChurch":
+      case o.CreatedChurch().Name():
         ret = o.CreatedChurch()
-      case "DeletedChurch":
+      case o.DeletedChurch().Name():
         ret = o.DeletedChurch()
-      case "UpdatedChurch":
+      case o.UpdatedChurch().Name():
         ret = o.UpdatedChurch()
     }
     return
@@ -210,11 +296,11 @@ func (o *graduationEventTypes) UpdatedGraduation() *GraduationEventType {
 
 func (o *graduationEventTypes) ParseGraduationEventType(name string) (ret *GraduationEventType, ok bool) {
     switch name {
-      case "CreatedGraduation":
+      case o.CreatedGraduation().Name():
         ret = o.CreatedGraduation()
-      case "DeletedGraduation":
+      case o.DeletedGraduation().Name():
         ret = o.DeletedGraduation()
-      case "UpdatedGraduation":
+      case o.UpdatedGraduation().Name():
         ret = o.UpdatedGraduation()
     }
     return
@@ -278,11 +364,11 @@ func (o *profileEventTypes) UpdatedProfile() *ProfileEventType {
 
 func (o *profileEventTypes) ParseProfileEventType(name string) (ret *ProfileEventType, ok bool) {
     switch name {
-      case "CreatedProfile":
+      case o.CreatedProfile().Name():
         ret = o.CreatedProfile()
-      case "DeletedProfile":
+      case o.DeletedProfile().Name():
         ret = o.DeletedProfile()
-      case "UpdatedProfile":
+      case o.UpdatedProfile().Name():
         ret = o.UpdatedProfile()
     }
     return

@@ -1,7 +1,6 @@
 package finance
 
 import (
-    "ee/schkola"
     "ee/schkola/person"
     "time"
 )
@@ -10,12 +9,28 @@ type CreateExpense struct {
     Amount  float64
     Profile  *person.Profile
     Date  *time.Time
-    *schkola.SchkolaBase
+}
+
+func NewCreateExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time) (ret *CreateExpense, err error) {
+    ret = &CreateExpense{
+        Purpose : purpose,
+        Amount : amount,
+        Profile : profile,
+        Date : date,
+    }
+    return
 }
 
 
 type DeleteExpense struct {
     Id  string
+}
+
+func NewDeleteExpense(id string) (ret *DeleteExpense, err error) {
+    ret = &DeleteExpense{
+        Id : id,
+    }
+    return
 }
 
 
@@ -24,14 +39,30 @@ type UpdateExpense struct {
     Amount  float64
     Profile  *person.Profile
     Date  *time.Time
-    *schkola.SchkolaBase
+}
+
+func NewUpdateExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time) (ret *UpdateExpense, err error) {
+    ret = &UpdateExpense{
+        Purpose : purpose,
+        Amount : amount,
+        Profile : profile,
+        Date : date,
+    }
+    return
 }
 
 
 type CreateExpensePurpose struct {
     Name  string
     Description  string
-    *schkola.SchkolaBase
+}
+
+func NewCreateExpensePurpose(name string, description string) (ret *CreateExpensePurpose, err error) {
+    ret = &CreateExpensePurpose{
+        Name : name,
+        Description : description,
+    }
+    return
 }
 
 
@@ -39,11 +70,25 @@ type DeleteExpensePurpose struct {
     Id  string
 }
 
+func NewDeleteExpensePurpose(id string) (ret *DeleteExpensePurpose, err error) {
+    ret = &DeleteExpensePurpose{
+        Id : id,
+    }
+    return
+}
+
 
 type UpdateExpensePurpose struct {
     Name  string
     Description  string
-    *schkola.SchkolaBase
+}
+
+func NewUpdateExpensePurpose(name string, description string) (ret *UpdateExpensePurpose, err error) {
+    ret = &UpdateExpensePurpose{
+        Name : name,
+        Description : description,
+    }
+    return
 }
 
 
@@ -52,12 +97,28 @@ type CreateFee struct {
     Amount  float64
     Kind  *FeeKind
     Date  *time.Time
-    *schkola.SchkolaBase
+}
+
+func NewCreateFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time) (ret *CreateFee, err error) {
+    ret = &CreateFee{
+        Student : student,
+        Amount : amount,
+        Kind : kind,
+        Date : date,
+    }
+    return
 }
 
 
 type DeleteFee struct {
     Id  string
+}
+
+func NewDeleteFee(id string) (ret *DeleteFee, err error) {
+    ret = &DeleteFee{
+        Id : id,
+    }
+    return
 }
 
 
@@ -66,7 +127,16 @@ type UpdateFee struct {
     Amount  float64
     Kind  *FeeKind
     Date  *time.Time
-    *schkola.SchkolaBase
+}
+
+func NewUpdateFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time) (ret *UpdateFee, err error) {
+    ret = &UpdateFee{
+        Student : student,
+        Amount : amount,
+        Kind : kind,
+        Date : date,
+    }
+    return
 }
 
 
@@ -74,7 +144,15 @@ type CreateFeeKind struct {
     Name  string
     Amount  float64
     Description  string
-    *schkola.SchkolaBase
+}
+
+func NewCreateFeeKind(name string, amount float64, description string) (ret *CreateFeeKind, err error) {
+    ret = &CreateFeeKind{
+        Name : name,
+        Amount : amount,
+        Description : description,
+    }
+    return
 }
 
 
@@ -82,12 +160,27 @@ type DeleteFeeKind struct {
     Id  string
 }
 
+func NewDeleteFeeKind(id string) (ret *DeleteFeeKind, err error) {
+    ret = &DeleteFeeKind{
+        Id : id,
+    }
+    return
+}
+
 
 type UpdateFeeKind struct {
     Name  string
     Amount  float64
     Description  string
-    *schkola.SchkolaBase
+}
+
+func NewUpdateFeeKind(name string, amount float64, description string) (ret *UpdateFeeKind, err error) {
+    ret = &UpdateFeeKind{
+        Name : name,
+        Amount : amount,
+        Description : description,
+    }
+    return
 }
 
 
@@ -150,11 +243,11 @@ func (o *expenseCommandTypes) ExpenseUpdate() *ExpenseCommandType {
 
 func (o *expenseCommandTypes) ParseExpenseCommandType(name string) (ret *ExpenseCommandType, ok bool) {
     switch name {
-      case "ExpenseCreate":
+      case o.ExpenseCreate().Name():
         ret = o.ExpenseCreate()
-      case "ExpenseDelete":
+      case o.ExpenseDelete().Name():
         ret = o.ExpenseDelete()
-      case "ExpenseUpdate":
+      case o.ExpenseUpdate().Name():
         ret = o.ExpenseUpdate()
     }
     return
@@ -218,11 +311,11 @@ func (o *expensePurposeCommandTypes) ExpensePurposeUpdate() *ExpensePurposeComma
 
 func (o *expensePurposeCommandTypes) ParseExpensePurposeCommandType(name string) (ret *ExpensePurposeCommandType, ok bool) {
     switch name {
-      case "ExpensePurposeCreate":
+      case o.ExpensePurposeCreate().Name():
         ret = o.ExpensePurposeCreate()
-      case "ExpensePurposeDelete":
+      case o.ExpensePurposeDelete().Name():
         ret = o.ExpensePurposeDelete()
-      case "ExpensePurposeUpdate":
+      case o.ExpensePurposeUpdate().Name():
         ret = o.ExpensePurposeUpdate()
     }
     return
@@ -286,11 +379,11 @@ func (o *feeCommandTypes) FeeUpdate() *FeeCommandType {
 
 func (o *feeCommandTypes) ParseFeeCommandType(name string) (ret *FeeCommandType, ok bool) {
     switch name {
-      case "FeeCreate":
+      case o.FeeCreate().Name():
         ret = o.FeeCreate()
-      case "FeeDelete":
+      case o.FeeDelete().Name():
         ret = o.FeeDelete()
-      case "FeeUpdate":
+      case o.FeeUpdate().Name():
         ret = o.FeeUpdate()
     }
     return
@@ -354,11 +447,11 @@ func (o *feeKindCommandTypes) FeeKindUpdate() *FeeKindCommandType {
 
 func (o *feeKindCommandTypes) ParseFeeKindCommandType(name string) (ret *FeeKindCommandType, ok bool) {
     switch name {
-      case "FeeKindCreate":
+      case o.FeeKindCreate().Name():
         ret = o.FeeKindCreate()
-      case "FeeKindDelete":
+      case o.FeeKindDelete().Name():
         ret = o.FeeKindDelete()
-      case "FeeKindUpdate":
+      case o.FeeKindUpdate().Name():
         ret = o.FeeKindUpdate()
     }
     return

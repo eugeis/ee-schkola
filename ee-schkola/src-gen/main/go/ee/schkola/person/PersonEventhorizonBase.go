@@ -8,16 +8,40 @@ type ChurchAggregate struct {
     *Church
 }
 
+func NewChurchAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Church) (ret *ChurchAggregate, err error) {
+    ret = &ChurchAggregate{
+        AggregateBase: AggregateBase,
+        Church: Entity,
+    }
+    return
+}
+
 
 type GraduationAggregate struct {
     *eventhorizon.AggregateBase
     *Graduation
 }
 
+func NewGraduationAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Graduation) (ret *GraduationAggregate, err error) {
+    ret = &GraduationAggregate{
+        AggregateBase: AggregateBase,
+        Graduation: Entity,
+    }
+    return
+}
+
 
 type ProfileAggregate struct {
     *eventhorizon.AggregateBase
     *Profile
+}
+
+func NewProfileAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Profile) (ret *ProfileAggregate, err error) {
+    ret = &ProfileAggregate{
+        AggregateBase: AggregateBase,
+        Profile: Entity,
+    }
+    return
 }
 
 
@@ -28,6 +52,17 @@ type ChurchChurchAggregateInitializer struct {
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
+}
+
+func NewChurchChurchAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *ChurchChurchAggregateInitializer, err error) {
+    ret = &ChurchChurchAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
 }
 
 
@@ -47,6 +82,17 @@ type GraduationGraduationAggregateInitializer struct {
     Executor  *eventhorizon.CommandBus
 }
 
+func NewGraduationGraduationAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *GraduationGraduationAggregateInitializer, err error) {
+    ret = &GraduationGraduationAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
+}
+
 
 func (o *GraduationGraduationAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     
@@ -64,6 +110,17 @@ type ProfileProfileAggregateInitializer struct {
     Executor  *eventhorizon.CommandBus
 }
 
+func NewProfileProfileAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *ProfileProfileAggregateInitializer, err error) {
+    ret = &ProfileProfileAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
+}
+
 
 func (o *ProfileProfileAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     
@@ -79,6 +136,17 @@ type PersonEventhorizonInitializer struct {
     EventBus  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     CommandBus  *eventhorizon.CommandBus
+}
+
+func NewPersonEventhorizonInitializer(store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                commandBus *eventhorizon.CommandBus) (ret *PersonEventhorizonInitializer, err error) {
+    ret = &PersonEventhorizonInitializer{
+        Store : store,
+        EventBus : eventBus,
+        Publisher : publisher,
+        CommandBus : commandBus,
+    }
+    return
 }
 
 
@@ -147,11 +215,11 @@ func (o *personAggregateTypes) Profile() *PersonAggregateType {
 
 func (o *personAggregateTypes) ParsePersonAggregateType(name string) (ret *PersonAggregateType, ok bool) {
     switch name {
-      case "Church":
+      case o.Church().Name():
         ret = o.Church()
-      case "Graduation":
+      case o.Graduation().Name():
         ret = o.Graduation()
-      case "Profile":
+      case o.Profile().Name():
         ret = o.Profile()
     }
     return

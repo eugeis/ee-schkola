@@ -5,6 +5,72 @@ import (
     "ee/schkola/person"
     "time"
 )
+type CreateAttendance struct {
+    Student  *person.Profile
+    Date  *time.Time
+    Course  *Course
+    Hours  int
+    State  *AttendanceState
+    StateTrace  *schkola.Trace
+    Token  string
+    TokenTrace  *schkola.Trace
+}
+
+func NewCreateAttendance(student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, stateTrace *schkola.Trace, 
+                token string, tokenTrace *schkola.Trace) (ret *CreateAttendance, err error) {
+    ret = &CreateAttendance{
+        Student : student,
+        Date : date,
+        Course : course,
+        Hours : hours,
+        State : state,
+        StateTrace : stateTrace,
+        Token : token,
+        TokenTrace : tokenTrace,
+    }
+    return
+}
+
+
+type DeleteAttendance struct {
+    Id  string
+}
+
+func NewDeleteAttendance(id string) (ret *DeleteAttendance, err error) {
+    ret = &DeleteAttendance{
+        Id : id,
+    }
+    return
+}
+
+
+type UpdateAttendance struct {
+    Student  *person.Profile
+    Date  *time.Time
+    Course  *Course
+    Hours  int
+    State  *AttendanceState
+    StateTrace  *schkola.Trace
+    Token  string
+    TokenTrace  *schkola.Trace
+}
+
+func NewUpdateAttendance(student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, stateTrace *schkola.Trace, 
+                token string, tokenTrace *schkola.Trace) (ret *UpdateAttendance, err error) {
+    ret = &UpdateAttendance{
+        Student : student,
+        Date : date,
+        Course : course,
+        Hours : hours,
+        State : state,
+        StateTrace : stateTrace,
+        Token : token,
+        TokenTrace : tokenTrace,
+    }
+    return
+}
+
+
 type ConfirmAttendance struct {
 }
 
@@ -35,12 +101,32 @@ type CreateCourse struct {
     SchoolYear  *SchoolYear
     Fee  float64
     Description  string
-    *schkola.SchkolaBase
+}
+
+func NewCreateCourse(name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, fee float64, 
+                description string) (ret *CreateCourse, err error) {
+    ret = &CreateCourse{
+        Name : name,
+        Begin : begin,
+        End : end,
+        Teacher : teacher,
+        SchoolYear : schoolYear,
+        Fee : fee,
+        Description : description,
+    }
+    return
 }
 
 
 type DeleteCourse struct {
     Id  string
+}
+
+func NewDeleteCourse(id string) (ret *DeleteCourse, err error) {
+    ret = &DeleteCourse{
+        Id : id,
+    }
+    return
 }
 
 
@@ -52,7 +138,20 @@ type UpdateCourse struct {
     SchoolYear  *SchoolYear
     Fee  float64
     Description  string
-    *schkola.SchkolaBase
+}
+
+func NewUpdateCourse(name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, fee float64, 
+                description string) (ret *UpdateCourse, err error) {
+    ret = &UpdateCourse{
+        Name : name,
+        Begin : begin,
+        End : end,
+        Teacher : teacher,
+        SchoolYear : schoolYear,
+        Fee : fee,
+        Description : description,
+    }
+    return
 }
 
 
@@ -62,12 +161,29 @@ type CreateGrade struct {
     Grade  float64
     GradeTrace  *schkola.Trace
     Comment  string
-    *schkola.SchkolaBase
+}
+
+func NewCreateGrade(student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string) (ret *CreateGrade, err error) {
+    ret = &CreateGrade{
+        Student : student,
+        Course : course,
+        Grade : grade,
+        GradeTrace : gradeTrace,
+        Comment : comment,
+    }
+    return
 }
 
 
 type DeleteGrade struct {
     Id  string
+}
+
+func NewDeleteGrade(id string) (ret *DeleteGrade, err error) {
+    ret = &DeleteGrade{
+        Id : id,
+    }
+    return
 }
 
 
@@ -77,7 +193,17 @@ type UpdateGrade struct {
     Grade  float64
     GradeTrace  *schkola.Trace
     Comment  string
-    *schkola.SchkolaBase
+}
+
+func NewUpdateGrade(student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string) (ret *UpdateGrade, err error) {
+    ret = &UpdateGrade{
+        Student : student,
+        Course : course,
+        Grade : grade,
+        GradeTrace : gradeTrace,
+        Comment : comment,
+    }
+    return
 }
 
 
@@ -88,7 +214,19 @@ type CreateGroup struct {
     Representative  *person.Profile
     Students  []*Course
     Courses  []*Course
-    *schkola.SchkolaBase
+}
+
+func NewCreateGroup(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, students []*Course, 
+                courses []*Course) (ret *CreateGroup, err error) {
+    ret = &CreateGroup{
+        Name : name,
+        Category : category,
+        SchoolYear : schoolYear,
+        Representative : representative,
+        Students : students,
+        Courses : courses,
+    }
+    return
 }
 
 func (o *CreateGroup) AddToStudents(item *Course) *Course {
@@ -106,6 +244,13 @@ type DeleteGroup struct {
     Id  string
 }
 
+func NewDeleteGroup(id string) (ret *DeleteGroup, err error) {
+    ret = &DeleteGroup{
+        Id : id,
+    }
+    return
+}
+
 
 type UpdateGroup struct {
     Name  string
@@ -114,7 +259,19 @@ type UpdateGroup struct {
     Representative  *person.Profile
     Students  []*Course
     Courses  []*Course
-    *schkola.SchkolaBase
+}
+
+func NewUpdateGroup(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, students []*Course, 
+                courses []*Course) (ret *UpdateGroup, err error) {
+    ret = &UpdateGroup{
+        Name : name,
+        Category : category,
+        SchoolYear : schoolYear,
+        Representative : representative,
+        Students : students,
+        Courses : courses,
+    }
+    return
 }
 
 func (o *UpdateGroup) AddToStudents(item *Course) *Course {
@@ -135,12 +292,31 @@ type CreateSchoolApplication struct {
     ChurchContact  *person.Contact
     SchoolYear  *SchoolYear
     Group  string
-    *schkola.SchkolaBase
+}
+
+func NewCreateSchoolApplication(profile *person.Profile, recommendationOf *person.PersonName, churchContactPerson *person.PersonName, 
+                churchContact *person.Contact, schoolYear *SchoolYear, group string) (ret *CreateSchoolApplication, err error) {
+    ret = &CreateSchoolApplication{
+        Profile : profile,
+        RecommendationOf : recommendationOf,
+        ChurchContactPerson : churchContactPerson,
+        ChurchContact : churchContact,
+        SchoolYear : schoolYear,
+        Group : group,
+    }
+    return
 }
 
 
 type DeleteSchoolApplication struct {
     Id  string
+}
+
+func NewDeleteSchoolApplication(id string) (ret *DeleteSchoolApplication, err error) {
+    ret = &DeleteSchoolApplication{
+        Id : id,
+    }
+    return
 }
 
 
@@ -151,7 +327,19 @@ type UpdateSchoolApplication struct {
     ChurchContact  *person.Contact
     SchoolYear  *SchoolYear
     Group  string
-    *schkola.SchkolaBase
+}
+
+func NewUpdateSchoolApplication(profile *person.Profile, recommendationOf *person.PersonName, churchContactPerson *person.PersonName, 
+                churchContact *person.Contact, schoolYear *SchoolYear, group string) (ret *UpdateSchoolApplication, err error) {
+    ret = &UpdateSchoolApplication{
+        Profile : profile,
+        RecommendationOf : recommendationOf,
+        ChurchContactPerson : churchContactPerson,
+        ChurchContact : churchContact,
+        SchoolYear : schoolYear,
+        Group : group,
+    }
+    return
 }
 
 
@@ -160,7 +348,16 @@ type CreateSchoolYear struct {
     Start  *time.Time
     End  *time.Time
     Dates  []*Course
-    *schkola.SchkolaBase
+}
+
+func NewCreateSchoolYear(name string, start *time.Time, end *time.Time, dates []*Course) (ret *CreateSchoolYear, err error) {
+    ret = &CreateSchoolYear{
+        Name : name,
+        Start : start,
+        End : end,
+        Dates : dates,
+    }
+    return
 }
 
 func (o *CreateSchoolYear) AddToDates(item *Course) *Course {
@@ -173,13 +370,29 @@ type DeleteSchoolYear struct {
     Id  string
 }
 
+func NewDeleteSchoolYear(id string) (ret *DeleteSchoolYear, err error) {
+    ret = &DeleteSchoolYear{
+        Id : id,
+    }
+    return
+}
+
 
 type UpdateSchoolYear struct {
     Name  string
     Start  *time.Time
     End  *time.Time
     Dates  []*Course
-    *schkola.SchkolaBase
+}
+
+func NewUpdateSchoolYear(name string, start *time.Time, end *time.Time, dates []*Course) (ret *UpdateSchoolYear, err error) {
+    ret = &UpdateSchoolYear{
+        Name : name,
+        Start : start,
+        End : end,
+        Dates : dates,
+    }
+    return
 }
 
 func (o *UpdateSchoolYear) AddToDates(item *Course) *Course {
@@ -203,6 +416,18 @@ func (o *AttendanceCommandType) Ordinal() int {
     return o.ordinal
 }
 
+func (o *AttendanceCommandType) IsAttendanceCreate() bool {
+    return o == _attendanceCommandTypes.AttendanceCreate()
+}
+
+func (o *AttendanceCommandType) IsAttendanceDelete() bool {
+    return o == _attendanceCommandTypes.AttendanceDelete()
+}
+
+func (o *AttendanceCommandType) IsAttendanceUpdate() bool {
+    return o == _attendanceCommandTypes.AttendanceUpdate()
+}
+
 func (o *AttendanceCommandType) IsAttendanceConfirm() bool {
     return o == _attendanceCommandTypes.AttendanceConfirm()
 }
@@ -220,9 +445,12 @@ type attendanceCommandTypes struct {
 }
 
 var _attendanceCommandTypes = &attendanceCommandTypes{values: []*AttendanceCommandType{
-    {name: "AttendanceConfirm", ordinal: 0},
-    {name: "AttendanceCancel", ordinal: 1},
-    {name: "AttendanceRegister", ordinal: 2}},
+    {name: "AttendanceCreate", ordinal: 0},
+    {name: "AttendanceDelete", ordinal: 1},
+    {name: "AttendanceUpdate", ordinal: 2},
+    {name: "AttendanceConfirm", ordinal: 3},
+    {name: "AttendanceCancel", ordinal: 4},
+    {name: "AttendanceRegister", ordinal: 5}},
 }
 
 func AttendanceCommandTypes() *attendanceCommandTypes {
@@ -233,25 +461,43 @@ func (o *attendanceCommandTypes) Values() []*AttendanceCommandType {
 	return o.values
 }
 
-func (o *attendanceCommandTypes) AttendanceConfirm() *AttendanceCommandType {
+func (o *attendanceCommandTypes) AttendanceCreate() *AttendanceCommandType {
     return _attendanceCommandTypes.values[0]
 }
 
-func (o *attendanceCommandTypes) AttendanceCancel() *AttendanceCommandType {
+func (o *attendanceCommandTypes) AttendanceDelete() *AttendanceCommandType {
     return _attendanceCommandTypes.values[1]
 }
 
-func (o *attendanceCommandTypes) AttendanceRegister() *AttendanceCommandType {
+func (o *attendanceCommandTypes) AttendanceUpdate() *AttendanceCommandType {
     return _attendanceCommandTypes.values[2]
+}
+
+func (o *attendanceCommandTypes) AttendanceConfirm() *AttendanceCommandType {
+    return _attendanceCommandTypes.values[3]
+}
+
+func (o *attendanceCommandTypes) AttendanceCancel() *AttendanceCommandType {
+    return _attendanceCommandTypes.values[4]
+}
+
+func (o *attendanceCommandTypes) AttendanceRegister() *AttendanceCommandType {
+    return _attendanceCommandTypes.values[5]
 }
 
 func (o *attendanceCommandTypes) ParseAttendanceCommandType(name string) (ret *AttendanceCommandType, ok bool) {
     switch name {
-      case "AttendanceConfirm":
+      case o.AttendanceCreate().Name():
+        ret = o.AttendanceCreate()
+      case o.AttendanceDelete().Name():
+        ret = o.AttendanceDelete()
+      case o.AttendanceUpdate().Name():
+        ret = o.AttendanceUpdate()
+      case o.AttendanceConfirm().Name():
         ret = o.AttendanceConfirm()
-      case "AttendanceCancel":
+      case o.AttendanceCancel().Name():
         ret = o.AttendanceCancel()
-      case "AttendanceRegister":
+      case o.AttendanceRegister().Name():
         ret = o.AttendanceRegister()
     }
     return
@@ -315,11 +561,11 @@ func (o *courseCommandTypes) CourseUpdate() *CourseCommandType {
 
 func (o *courseCommandTypes) ParseCourseCommandType(name string) (ret *CourseCommandType, ok bool) {
     switch name {
-      case "CourseCreate":
+      case o.CourseCreate().Name():
         ret = o.CourseCreate()
-      case "CourseDelete":
+      case o.CourseDelete().Name():
         ret = o.CourseDelete()
-      case "CourseUpdate":
+      case o.CourseUpdate().Name():
         ret = o.CourseUpdate()
     }
     return
@@ -383,11 +629,11 @@ func (o *gradeCommandTypes) GradeUpdate() *GradeCommandType {
 
 func (o *gradeCommandTypes) ParseGradeCommandType(name string) (ret *GradeCommandType, ok bool) {
     switch name {
-      case "GradeCreate":
+      case o.GradeCreate().Name():
         ret = o.GradeCreate()
-      case "GradeDelete":
+      case o.GradeDelete().Name():
         ret = o.GradeDelete()
-      case "GradeUpdate":
+      case o.GradeUpdate().Name():
         ret = o.GradeUpdate()
     }
     return
@@ -451,11 +697,11 @@ func (o *groupCommandTypes) GroupUpdate() *GroupCommandType {
 
 func (o *groupCommandTypes) ParseGroupCommandType(name string) (ret *GroupCommandType, ok bool) {
     switch name {
-      case "GroupCreate":
+      case o.GroupCreate().Name():
         ret = o.GroupCreate()
-      case "GroupDelete":
+      case o.GroupDelete().Name():
         ret = o.GroupDelete()
-      case "GroupUpdate":
+      case o.GroupUpdate().Name():
         ret = o.GroupUpdate()
     }
     return
@@ -519,11 +765,11 @@ func (o *schoolApplicationCommandTypes) SchoolApplicationUpdate() *SchoolApplica
 
 func (o *schoolApplicationCommandTypes) ParseSchoolApplicationCommandType(name string) (ret *SchoolApplicationCommandType, ok bool) {
     switch name {
-      case "SchoolApplicationCreate":
+      case o.SchoolApplicationCreate().Name():
         ret = o.SchoolApplicationCreate()
-      case "SchoolApplicationDelete":
+      case o.SchoolApplicationDelete().Name():
         ret = o.SchoolApplicationDelete()
-      case "SchoolApplicationUpdate":
+      case o.SchoolApplicationUpdate().Name():
         ret = o.SchoolApplicationUpdate()
     }
     return
@@ -587,11 +833,11 @@ func (o *schoolYearCommandTypes) SchoolYearUpdate() *SchoolYearCommandType {
 
 func (o *schoolYearCommandTypes) ParseSchoolYearCommandType(name string) (ret *SchoolYearCommandType, ok bool) {
     switch name {
-      case "SchoolYearCreate":
+      case o.SchoolYearCreate().Name():
         ret = o.SchoolYearCreate()
-      case "SchoolYearDelete":
+      case o.SchoolYearDelete().Name():
         ret = o.SchoolYearDelete()
-      case "SchoolYearUpdate":
+      case o.SchoolYearUpdate().Name():
         ret = o.SchoolYearUpdate()
     }
     return

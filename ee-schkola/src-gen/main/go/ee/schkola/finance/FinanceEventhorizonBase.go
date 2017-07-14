@@ -8,10 +8,26 @@ type ExpenseAggregate struct {
     *Expense
 }
 
+func NewExpenseAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Expense) (ret *ExpenseAggregate, err error) {
+    ret = &ExpenseAggregate{
+        AggregateBase: AggregateBase,
+        Expense: Entity,
+    }
+    return
+}
+
 
 type ExpensePurposeAggregate struct {
     *eventhorizon.AggregateBase
     *ExpensePurpose
+}
+
+func NewExpensePurposeAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *ExpensePurpose) (ret *ExpensePurposeAggregate, err error) {
+    ret = &ExpensePurposeAggregate{
+        AggregateBase: AggregateBase,
+        ExpensePurpose: Entity,
+    }
+    return
 }
 
 
@@ -20,10 +36,26 @@ type FeeAggregate struct {
     *Fee
 }
 
+func NewFeeAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Fee) (ret *FeeAggregate, err error) {
+    ret = &FeeAggregate{
+        AggregateBase: AggregateBase,
+        Fee: Entity,
+    }
+    return
+}
+
 
 type FeeKindAggregate struct {
     *eventhorizon.AggregateBase
     *FeeKind
+}
+
+func NewFeeKindAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *FeeKind) (ret *FeeKindAggregate, err error) {
+    ret = &FeeKindAggregate{
+        AggregateBase: AggregateBase,
+        FeeKind: Entity,
+    }
+    return
 }
 
 
@@ -34,6 +66,17 @@ type ExpenseExpenseAggregateInitializer struct {
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
+}
+
+func NewExpenseExpenseAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *ExpenseExpenseAggregateInitializer, err error) {
+    ret = &ExpenseExpenseAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
 }
 
 
@@ -53,6 +96,17 @@ type ExpensePurposeExpensePurposeAggregateInitializer struct {
     Executor  *eventhorizon.CommandBus
 }
 
+func NewExpensePurposeExpensePurposeAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *ExpensePurposeExpensePurposeAggregateInitializer, err error) {
+    ret = &ExpensePurposeExpensePurposeAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
+}
+
 
 func (o *ExpensePurposeExpensePurposeAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     
@@ -68,6 +122,17 @@ type FeeFeeAggregateInitializer struct {
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
+}
+
+func NewFeeFeeAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *FeeFeeAggregateInitializer, err error) {
+    ret = &FeeFeeAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
 }
 
 
@@ -87,6 +152,17 @@ type FeeKindFeeKindAggregateInitializer struct {
     Executor  *eventhorizon.CommandBus
 }
 
+func NewFeeKindFeeKindAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *FeeKindFeeKindAggregateInitializer, err error) {
+    ret = &FeeKindFeeKindAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
+}
+
 
 func (o *FeeKindFeeKindAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     
@@ -102,6 +178,17 @@ type FinanceEventhorizonInitializer struct {
     EventBus  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     CommandBus  *eventhorizon.CommandBus
+}
+
+func NewFinanceEventhorizonInitializer(store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                commandBus *eventhorizon.CommandBus) (ret *FinanceEventhorizonInitializer, err error) {
+    ret = &FinanceEventhorizonInitializer{
+        Store : store,
+        EventBus : eventBus,
+        Publisher : publisher,
+        CommandBus : commandBus,
+    }
+    return
 }
 
 
@@ -179,13 +266,13 @@ func (o *financeAggregateTypes) FeeKind() *FinanceAggregateType {
 
 func (o *financeAggregateTypes) ParseFinanceAggregateType(name string) (ret *FinanceAggregateType, ok bool) {
     switch name {
-      case "Expense":
+      case o.Expense().Name():
         ret = o.Expense()
-      case "ExpensePurpose":
+      case o.ExpensePurpose().Name():
         ret = o.ExpensePurpose()
-      case "Fee":
+      case o.Fee().Name():
         ret = o.Fee()
-      case "FeeKind":
+      case o.FeeKind().Name():
         ret = o.FeeKind()
     }
     return

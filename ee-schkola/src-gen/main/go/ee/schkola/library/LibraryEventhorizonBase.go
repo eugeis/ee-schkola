@@ -8,6 +8,14 @@ type BookAggregate struct {
     *Book
 }
 
+func NewBookAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Book) (ret *BookAggregate, err error) {
+    ret = &BookAggregate{
+        AggregateBase: AggregateBase,
+        Book: Entity,
+    }
+    return
+}
+
 
 
 
@@ -16,6 +24,17 @@ type BookBookAggregateInitializer struct {
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
+}
+
+func NewBookBookAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *BookBookAggregateInitializer, err error) {
+    ret = &BookBookAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
 }
 
 
@@ -33,6 +52,17 @@ type LibraryEventhorizonInitializer struct {
     EventBus  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     CommandBus  *eventhorizon.CommandBus
+}
+
+func NewLibraryEventhorizonInitializer(store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                commandBus *eventhorizon.CommandBus) (ret *LibraryEventhorizonInitializer, err error) {
+    ret = &LibraryEventhorizonInitializer{
+        Store : store,
+        EventBus : eventBus,
+        Publisher : publisher,
+        CommandBus : commandBus,
+    }
+    return
 }
 
 
@@ -83,7 +113,7 @@ func (o *libraryAggregateTypes) Book() *LibraryAggregateType {
 
 func (o *libraryAggregateTypes) ParseLibraryAggregateType(name string) (ret *LibraryAggregateType, ok bool) {
     switch name {
-      case "Book":
+      case o.Book().Name():
         ret = o.Book()
     }
     return

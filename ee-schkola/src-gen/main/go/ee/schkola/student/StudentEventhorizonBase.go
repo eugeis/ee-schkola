@@ -8,10 +8,26 @@ type AttendanceAggregate struct {
     *Attendance
 }
 
+func NewAttendanceAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Attendance) (ret *AttendanceAggregate, err error) {
+    ret = &AttendanceAggregate{
+        AggregateBase: AggregateBase,
+        Attendance: Entity,
+    }
+    return
+}
+
 
 type CourseAggregate struct {
     *eventhorizon.AggregateBase
     *Course
+}
+
+func NewCourseAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Course) (ret *CourseAggregate, err error) {
+    ret = &CourseAggregate{
+        AggregateBase: AggregateBase,
+        Course: Entity,
+    }
+    return
 }
 
 
@@ -20,10 +36,26 @@ type GradeAggregate struct {
     *Grade
 }
 
+func NewGradeAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Grade) (ret *GradeAggregate, err error) {
+    ret = &GradeAggregate{
+        AggregateBase: AggregateBase,
+        Grade: Entity,
+    }
+    return
+}
+
 
 type GroupAggregate struct {
     *eventhorizon.AggregateBase
     *Group
+}
+
+func NewGroupAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Group) (ret *GroupAggregate, err error) {
+    ret = &GroupAggregate{
+        AggregateBase: AggregateBase,
+        Group: Entity,
+    }
+    return
 }
 
 
@@ -32,10 +64,26 @@ type SchoolApplicationAggregate struct {
     *SchoolApplication
 }
 
+func NewSchoolApplicationAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *SchoolApplication) (ret *SchoolApplicationAggregate, err error) {
+    ret = &SchoolApplicationAggregate{
+        AggregateBase: AggregateBase,
+        SchoolApplication: Entity,
+    }
+    return
+}
+
 
 type SchoolYearAggregate struct {
     *eventhorizon.AggregateBase
     *SchoolYear
+}
+
+func NewSchoolYearAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *SchoolYear) (ret *SchoolYearAggregate, err error) {
+    ret = &SchoolYearAggregate{
+        AggregateBase: AggregateBase,
+        SchoolYear: Entity,
+    }
+    return
 }
 
 
@@ -46,6 +94,17 @@ type AttendanceAttendanceAggregateInitializer struct {
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
+}
+
+func NewAttendanceAttendanceAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *AttendanceAttendanceAggregateInitializer, err error) {
+    ret = &AttendanceAttendanceAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
 }
 
 
@@ -65,6 +124,17 @@ type CourseCourseAggregateInitializer struct {
     Executor  *eventhorizon.CommandBus
 }
 
+func NewCourseCourseAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *CourseCourseAggregateInitializer, err error) {
+    ret = &CourseCourseAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
+}
+
 
 func (o *CourseCourseAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     
@@ -80,6 +150,17 @@ type GradeGradeAggregateInitializer struct {
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
+}
+
+func NewGradeGradeAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *GradeGradeAggregateInitializer, err error) {
+    ret = &GradeGradeAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
 }
 
 
@@ -99,6 +180,17 @@ type GroupGroupAggregateInitializer struct {
     Executor  *eventhorizon.CommandBus
 }
 
+func NewGroupGroupAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *GroupGroupAggregateInitializer, err error) {
+    ret = &GroupGroupAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
+}
+
 
 func (o *GroupGroupAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     
@@ -114,6 +206,17 @@ type SchoolApplicationSchoolApplicationAggregateInitializer struct {
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
+}
+
+func NewSchoolApplicationSchoolApplicationAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *SchoolApplicationSchoolApplicationAggregateInitializer, err error) {
+    ret = &SchoolApplicationSchoolApplicationAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
 }
 
 
@@ -133,6 +236,17 @@ type SchoolYearSchoolYearAggregateInitializer struct {
     Executor  *eventhorizon.CommandBus
 }
 
+func NewSchoolYearSchoolYearAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *SchoolYearSchoolYearAggregateInitializer, err error) {
+    ret = &SchoolYearSchoolYearAggregateInitializer{
+        Store : store,
+        Notifier : notifier,
+        Publisher : publisher,
+        Executor : executor,
+    }
+    return
+}
+
 
 func (o *SchoolYearSchoolYearAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     
@@ -148,6 +262,17 @@ type StudentEventhorizonInitializer struct {
     EventBus  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     CommandBus  *eventhorizon.CommandBus
+}
+
+func NewStudentEventhorizonInitializer(store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                commandBus *eventhorizon.CommandBus) (ret *StudentEventhorizonInitializer, err error) {
+    ret = &StudentEventhorizonInitializer{
+        Store : store,
+        EventBus : eventBus,
+        Publisher : publisher,
+        CommandBus : commandBus,
+    }
+    return
 }
 
 
@@ -243,17 +368,17 @@ func (o *studentAggregateTypes) SchoolYear() *StudentAggregateType {
 
 func (o *studentAggregateTypes) ParseStudentAggregateType(name string) (ret *StudentAggregateType, ok bool) {
     switch name {
-      case "Attendance":
+      case o.Attendance().Name():
         ret = o.Attendance()
-      case "Course":
+      case o.Course().Name():
         ret = o.Course()
-      case "Grade":
+      case o.Grade().Name():
         ret = o.Grade()
-      case "Group":
+      case o.Group().Name():
         ret = o.Group()
-      case "SchoolApplication":
+      case o.SchoolApplication().Name():
         ret = o.SchoolApplication()
-      case "SchoolYear":
+      case o.SchoolYear().Name():
         ret = o.SchoolYear()
     }
     return

@@ -19,7 +19,7 @@ func NewExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile
         Amount : amount,
         Profile : profile,
         Date : date,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -35,7 +35,7 @@ func NewExpensePurpose(name string, description string, SchkolaBase *schkola.Sch
     ret = &ExpensePurpose{
         Name : name,
         Description : description,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -55,7 +55,7 @@ func NewFee(student *person.Profile, amount float64, kind *FeeKind, date *time.T
         Amount : amount,
         Kind : kind,
         Date : date,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -73,7 +73,7 @@ func NewFeeKind(name string, amount float64, description string, SchkolaBase *sc
         Name : name,
         Amount : amount,
         Description : description,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }

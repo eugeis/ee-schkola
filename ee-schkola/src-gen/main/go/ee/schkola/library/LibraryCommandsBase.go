@@ -4,6 +4,72 @@ import (
     "ee/schkola/person"
     "time"
 )
+type CreateBook struct {
+    Title  
+    Description  string
+    Language  string
+    ReleaseDate  *time.Time
+    Edition  string
+    Category  string
+    Author  *person.PersonName
+    Location  *Location
+}
+
+func NewCreateBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName, location *Location) (ret *CreateBook, err error) {
+    ret = &CreateBook{
+        Title : title,
+        Description : description,
+        Language : language,
+        ReleaseDate : releaseDate,
+        Edition : edition,
+        Category : category,
+        Author : author,
+        Location : location,
+    }
+    return
+}
+
+
+type DeleteBook struct {
+    Id  string
+}
+
+func NewDeleteBook(id string) (ret *DeleteBook, err error) {
+    ret = &DeleteBook{
+        Id : id,
+    }
+    return
+}
+
+
+type UpdateBook struct {
+    Title  
+    Description  string
+    Language  string
+    ReleaseDate  *time.Time
+    Edition  string
+    Category  string
+    Author  *person.PersonName
+    Location  *Location
+}
+
+func NewUpdateBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName, location *Location) (ret *UpdateBook, err error) {
+    ret = &UpdateBook{
+        Title : title,
+        Description : description,
+        Language : language,
+        ReleaseDate : releaseDate,
+        Edition : edition,
+        Category : category,
+        Author : author,
+        Location : location,
+    }
+    return
+}
+
+
 type RegisterBook struct {
     Title  
     Description  string
@@ -95,6 +161,18 @@ func (o *BookCommandType) Ordinal() int {
     return o.ordinal
 }
 
+func (o *BookCommandType) IsBookCreate() bool {
+    return o == _bookCommandTypes.BookCreate()
+}
+
+func (o *BookCommandType) IsBookDelete() bool {
+    return o == _bookCommandTypes.BookDelete()
+}
+
+func (o *BookCommandType) IsBookUpdate() bool {
+    return o == _bookCommandTypes.BookUpdate()
+}
+
 func (o *BookCommandType) IsBookRegister() bool {
     return o == _bookCommandTypes.BookRegister()
 }
@@ -116,10 +194,13 @@ type bookCommandTypes struct {
 }
 
 var _bookCommandTypes = &bookCommandTypes{values: []*BookCommandType{
-    {name: "BookRegister", ordinal: 0},
-    {name: "BookUnregister", ordinal: 1},
-    {name: "BookChange", ordinal: 2},
-    {name: "changeLBookocation", ordinal: 3}},
+    {name: "BookCreate", ordinal: 0},
+    {name: "BookDelete", ordinal: 1},
+    {name: "BookUpdate", ordinal: 2},
+    {name: "BookRegister", ordinal: 3},
+    {name: "BookUnregister", ordinal: 4},
+    {name: "BookChange", ordinal: 5},
+    {name: "changeLBookocation", ordinal: 6}},
 }
 
 func BookCommandTypes() *bookCommandTypes {
@@ -130,31 +211,49 @@ func (o *bookCommandTypes) Values() []*BookCommandType {
 	return o.values
 }
 
-func (o *bookCommandTypes) BookRegister() *BookCommandType {
+func (o *bookCommandTypes) BookCreate() *BookCommandType {
     return _bookCommandTypes.values[0]
 }
 
-func (o *bookCommandTypes) BookUnregister() *BookCommandType {
+func (o *bookCommandTypes) BookDelete() *BookCommandType {
     return _bookCommandTypes.values[1]
 }
 
-func (o *bookCommandTypes) BookChange() *BookCommandType {
+func (o *bookCommandTypes) BookUpdate() *BookCommandType {
     return _bookCommandTypes.values[2]
 }
 
-func (o *bookCommandTypes) ChangeLBookocation() *BookCommandType {
+func (o *bookCommandTypes) BookRegister() *BookCommandType {
     return _bookCommandTypes.values[3]
+}
+
+func (o *bookCommandTypes) BookUnregister() *BookCommandType {
+    return _bookCommandTypes.values[4]
+}
+
+func (o *bookCommandTypes) BookChange() *BookCommandType {
+    return _bookCommandTypes.values[5]
+}
+
+func (o *bookCommandTypes) ChangeLBookocation() *BookCommandType {
+    return _bookCommandTypes.values[6]
 }
 
 func (o *bookCommandTypes) ParseBookCommandType(name string) (ret *BookCommandType, ok bool) {
     switch name {
-      case "BookRegister":
+      case o.BookCreate().Name():
+        ret = o.BookCreate()
+      case o.BookDelete().Name():
+        ret = o.BookDelete()
+      case o.BookUpdate().Name():
+        ret = o.BookUpdate()
+      case o.BookRegister().Name():
         ret = o.BookRegister()
-      case "BookUnregister":
+      case o.BookUnregister().Name():
         ret = o.BookUnregister()
-      case "BookChange":
+      case o.BookChange().Name():
         ret = o.BookChange()
-      case "ChangeLBookocation":
+      case o.ChangeLBookocation().Name():
         ret = o.ChangeLBookocation()
     }
     return

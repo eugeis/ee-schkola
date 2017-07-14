@@ -19,7 +19,7 @@ func NewChurch(name string, address *Address, pastor *PersonName, contact *Conta
         Address : address,
         Pastor : pastor,
         Contact : contact,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -35,7 +35,7 @@ func NewGraduation(name string, level *GraduationLevel, SchkolaBase *schkola.Sch
     ret = &Graduation{
         Name : name,
         Level : level,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -71,7 +71,7 @@ func NewProfile(gender *Gender, name *PersonName, birthName string, birthday *ti
         Family : family,
         Church : church,
         Education : education,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -243,11 +243,11 @@ func (o *genders) Female() *Gender {
 
 func (o *genders) ParseGender(name string) (ret *Gender, ok bool) {
     switch name {
-      case "Unknown":
+      case o.Unknown().Name():
         ret = o.Unknown()
-      case "Male":
+      case o.Male().Name():
         ret = o.Male()
-      case "Female":
+      case o.Female().Name():
         ret = o.Female()
     }
     return
@@ -338,17 +338,17 @@ func (o *graduationLevels) College() *GraduationLevel {
 
 func (o *graduationLevels) ParseGraduationLevel(name string) (ret *GraduationLevel, ok bool) {
     switch name {
-      case "Unknown":
+      case o.Unknown().Name():
         ret = o.Unknown()
-      case "MiddleSchool":
+      case o.MiddleSchool().Name():
         ret = o.MiddleSchool()
-      case "SecondarySchool":
+      case o.SecondarySchool().Name():
         ret = o.SecondarySchool()
-      case "HighSchool":
+      case o.HighSchool().Name():
         ret = o.HighSchool()
-      case "TechnicalCollege":
+      case o.TechnicalCollege().Name():
         ret = o.TechnicalCollege()
-      case "College":
+      case o.College().Name():
         ret = o.College()
     }
     return
@@ -439,17 +439,17 @@ func (o *maritalStates) Widowed() *MaritalState {
 
 func (o *maritalStates) ParseMaritalState(name string) (ret *MaritalState, ok bool) {
     switch name {
-      case "Unknown":
+      case o.Unknown().Name():
         ret = o.Unknown()
-      case "Single":
+      case o.Single().Name():
         ret = o.Single()
-      case "Married":
+      case o.Married().Name():
         ret = o.Married()
-      case "Separated":
+      case o.Separated().Name():
         ret = o.Separated()
-      case "Divorced":
+      case o.Divorced().Name():
         ret = o.Divorced()
-      case "Widowed":
+      case o.Widowed().Name():
         ret = o.Widowed()
     }
     return

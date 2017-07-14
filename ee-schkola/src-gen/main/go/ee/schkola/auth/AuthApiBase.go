@@ -24,7 +24,7 @@ func NewAccount(username string, password string, email string, disabled bool, l
         Disabled : disabled,
         LastLoginAt : lastLoginAt,
         Profile : profile,
-        SchkolaBase : SchkolaBase,
+        SchkolaBase: SchkolaBase,
     }
     return
 }
