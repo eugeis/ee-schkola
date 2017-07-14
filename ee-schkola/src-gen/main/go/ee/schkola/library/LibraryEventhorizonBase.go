@@ -47,6 +47,7 @@ func (o *BookBookAggregateInitializer) RegisterCommands(handler *eventhorizon.Ag
 }
 
 
+
 type LibraryEventhorizonInitializer struct {
     Store  *eventhorizon.EventStore
     EventBus  *eventhorizon.EventBus
@@ -77,6 +78,8 @@ func NewLibraryEventhorizonInitializer(store *eventhorizon.EventStore, eventBus 
 type LibraryAggregateType struct {
 	name  string
 	ordinal int
+    commands string
+    events string
 }
 
 func (o *LibraryAggregateType) Name() string {
@@ -85,6 +88,13 @@ func (o *LibraryAggregateType) Name() string {
 
 func (o *LibraryAggregateType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *LibraryAggregateType) Commands() string {
+    return o.commands
+}
+func (o *LibraryAggregateType) Events() string {
+    return o.events
 }
 
 func (o *LibraryAggregateType) IsBook() bool {

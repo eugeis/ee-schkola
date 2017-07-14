@@ -47,6 +47,7 @@ func (o *AccountAccountAggregateInitializer) RegisterCommands(handler *eventhori
 }
 
 
+
 type AuthEventhorizonInitializer struct {
     Store  *eventhorizon.EventStore
     EventBus  *eventhorizon.EventBus
@@ -77,6 +78,8 @@ func NewAuthEventhorizonInitializer(store *eventhorizon.EventStore, eventBus *ev
 type AuthAggregateType struct {
 	name  string
 	ordinal int
+    commands string
+    events string
 }
 
 func (o *AuthAggregateType) Name() string {
@@ -85,6 +88,13 @@ func (o *AuthAggregateType) Name() string {
 
 func (o *AuthAggregateType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *AuthAggregateType) Commands() string {
+    return o.commands
+}
+func (o *AuthAggregateType) Events() string {
+    return o.events
 }
 
 func (o *AuthAggregateType) IsAccount() bool {

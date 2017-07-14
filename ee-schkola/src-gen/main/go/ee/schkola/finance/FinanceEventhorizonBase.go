@@ -2,6 +2,7 @@ package finance
 
 import (
     "github.com/looplab/eventhorizon"
+	"ee/schkola/finance"
 )
 type ExpenseAggregate struct {
     *eventhorizon.AggregateBase
@@ -68,7 +69,7 @@ type ExpenseExpenseAggregateInitializer struct {
     Executor  *eventhorizon.CommandBus
 }
 
-func NewExpenseExpenseAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+func NewExpenseExpenseAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
                 executor *eventhorizon.CommandBus) (ret *ExpenseExpenseAggregateInitializer, err error) {
     ret = &ExpenseExpenseAggregateInitializer{
         Store : store,
@@ -81,12 +82,13 @@ func NewExpenseExpenseAggregateInitializer(store *eventhorizon.EventStore, notif
 
 
 func (o *ExpenseExpenseAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
+
     aggregateType := eventhorizon.AggregateType(FinanceAggregateTypes().Expense)
     for _, command := range ExpenseCommandTypes().Values() {
         handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
     }
 }
+
 
 
 type ExpensePurposeExpensePurposeAggregateInitializer struct {
@@ -96,7 +98,7 @@ type ExpensePurposeExpensePurposeAggregateInitializer struct {
     Executor  *eventhorizon.CommandBus
 }
 
-func NewExpensePurposeExpensePurposeAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+func NewExpensePurposeExpensePurposeAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
                 executor *eventhorizon.CommandBus) (ret *ExpensePurposeExpensePurposeAggregateInitializer, err error) {
     ret = &ExpensePurposeExpensePurposeAggregateInitializer{
         Store : store,
@@ -109,12 +111,13 @@ func NewExpensePurposeExpensePurposeAggregateInitializer(store *eventhorizon.Eve
 
 
 func (o *ExpensePurposeExpensePurposeAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
+
     aggregateType := eventhorizon.AggregateType(FinanceAggregateTypes().ExpensePurpose)
     for _, command := range ExpensePurposeCommandTypes().Values() {
         handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
     }
 }
+
 
 
 type FeeFeeAggregateInitializer struct {
@@ -124,7 +127,7 @@ type FeeFeeAggregateInitializer struct {
     Executor  *eventhorizon.CommandBus
 }
 
-func NewFeeFeeAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+func NewFeeFeeAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
                 executor *eventhorizon.CommandBus) (ret *FeeFeeAggregateInitializer, err error) {
     ret = &FeeFeeAggregateInitializer{
         Store : store,
@@ -137,12 +140,13 @@ func NewFeeFeeAggregateInitializer(store *eventhorizon.EventStore, notifier *eve
 
 
 func (o *FeeFeeAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
+
     aggregateType := eventhorizon.AggregateType(FinanceAggregateTypes().Fee)
     for _, command := range FeeCommandTypes().Values() {
         handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
     }
 }
+
 
 
 type FeeKindFeeKindAggregateInitializer struct {
@@ -152,7 +156,7 @@ type FeeKindFeeKindAggregateInitializer struct {
     Executor  *eventhorizon.CommandBus
 }
 
-func NewFeeKindFeeKindAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+func NewFeeKindFeeKindAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
                 executor *eventhorizon.CommandBus) (ret *FeeKindFeeKindAggregateInitializer, err error) {
     ret = &FeeKindFeeKindAggregateInitializer{
         Store : store,
@@ -165,12 +169,13 @@ func NewFeeKindFeeKindAggregateInitializer(store *eventhorizon.EventStore, notif
 
 
 func (o *FeeKindFeeKindAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
+
     aggregateType := eventhorizon.AggregateType(FinanceAggregateTypes().FeeKind)
     for _, command := range FeeKindCommandTypes().Values() {
         handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
     }
 }
+
 
 
 type FinanceEventhorizonInitializer struct {
@@ -180,7 +185,7 @@ type FinanceEventhorizonInitializer struct {
     CommandBus  *eventhorizon.CommandBus
 }
 
-func NewFinanceEventhorizonInitializer(store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+func NewFinanceEventhorizonInitializer(store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
                 commandBus *eventhorizon.CommandBus) (ret *FinanceEventhorizonInitializer, err error) {
     ret = &FinanceEventhorizonInitializer{
         Store : store,
@@ -191,7 +196,9 @@ func NewFinanceEventhorizonInitializer(store *eventhorizon.EventStore, eventBus 
     return
 }
 
-
+type Named interface {
+	Name() string
+}
 
 
 
@@ -203,6 +210,8 @@ func NewFinanceEventhorizonInitializer(store *eventhorizon.EventStore, eventBus 
 type FinanceAggregateType struct {
 	name  string
 	ordinal int
+    commands []Named
+    events []Named
 }
 
 func (o *FinanceAggregateType) Name() string {
@@ -211,6 +220,13 @@ func (o *FinanceAggregateType) Name() string {
 
 func (o *FinanceAggregateType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *FinanceAggregateType) Commands() []Named {
+    return o.commands
+}
+func (o *FinanceAggregateType) Events() []Named {
+    return o.events
 }
 
 func (o *FinanceAggregateType) IsExpense() bool {
@@ -234,7 +250,7 @@ type financeAggregateTypes struct {
 }
 
 var _financeAggregateTypes = &financeAggregateTypes{values: []*FinanceAggregateType{
-    {name: "Expense", ordinal: 0},
+    {name: "Expense", ordinal: 0, commands: finance.ExpenseCommandTypes().Names()},
     {name: "ExpensePurpose", ordinal: 1},
     {name: "Fee", ordinal: 2},
     {name: "FeeKind", ordinal: 3}},

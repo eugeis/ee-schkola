@@ -75,6 +75,7 @@ func (o *ChurchChurchAggregateInitializer) RegisterCommands(handler *eventhorizo
 }
 
 
+
 type GraduationGraduationAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
@@ -103,6 +104,7 @@ func (o *GraduationGraduationAggregateInitializer) RegisterCommands(handler *eve
 }
 
 
+
 type ProfileProfileAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
@@ -129,6 +131,7 @@ func (o *ProfileProfileAggregateInitializer) RegisterCommands(handler *eventhori
         handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
     }
 }
+
 
 
 type PersonEventhorizonInitializer struct {
@@ -161,6 +164,8 @@ func NewPersonEventhorizonInitializer(store *eventhorizon.EventStore, eventBus *
 type PersonAggregateType struct {
 	name  string
 	ordinal int
+    commands string
+    events string
 }
 
 func (o *PersonAggregateType) Name() string {
@@ -169,6 +174,13 @@ func (o *PersonAggregateType) Name() string {
 
 func (o *PersonAggregateType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *PersonAggregateType) Commands() string {
+    return o.commands
+}
+func (o *PersonAggregateType) Events() string {
+    return o.events
 }
 
 func (o *PersonAggregateType) IsChurch() bool {

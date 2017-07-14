@@ -117,6 +117,7 @@ func (o *AttendanceAttendanceAggregateInitializer) RegisterCommands(handler *eve
 }
 
 
+
 type CourseCourseAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
@@ -143,6 +144,7 @@ func (o *CourseCourseAggregateInitializer) RegisterCommands(handler *eventhorizo
         handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
     }
 }
+
 
 
 type GradeGradeAggregateInitializer struct {
@@ -173,6 +175,7 @@ func (o *GradeGradeAggregateInitializer) RegisterCommands(handler *eventhorizon.
 }
 
 
+
 type GroupGroupAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
@@ -199,6 +202,7 @@ func (o *GroupGroupAggregateInitializer) RegisterCommands(handler *eventhorizon.
         handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
     }
 }
+
 
 
 type SchoolApplicationSchoolApplicationAggregateInitializer struct {
@@ -229,6 +233,7 @@ func (o *SchoolApplicationSchoolApplicationAggregateInitializer) RegisterCommand
 }
 
 
+
 type SchoolYearSchoolYearAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
@@ -255,6 +260,7 @@ func (o *SchoolYearSchoolYearAggregateInitializer) RegisterCommands(handler *eve
         handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
     }
 }
+
 
 
 type StudentEventhorizonInitializer struct {
@@ -287,6 +293,8 @@ func NewStudentEventhorizonInitializer(store *eventhorizon.EventStore, eventBus 
 type StudentAggregateType struct {
 	name  string
 	ordinal int
+    commands string
+    events string
 }
 
 func (o *StudentAggregateType) Name() string {
@@ -295,6 +303,13 @@ func (o *StudentAggregateType) Name() string {
 
 func (o *StudentAggregateType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *StudentAggregateType) Commands() string {
+    return o.commands
+}
+func (o *StudentAggregateType) Events() string {
+    return o.events
 }
 
 func (o *StudentAggregateType) IsAttendance() bool {

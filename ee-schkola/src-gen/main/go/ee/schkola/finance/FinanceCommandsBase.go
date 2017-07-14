@@ -187,7 +187,6 @@ func NewUpdateFeeKind(name string, amount float64, description string) (ret *Upd
 
 
 type ExpenseCommandType struct {
-	name  string
 	ordinal int
 }
 
@@ -212,7 +211,7 @@ func (o *ExpenseCommandType) IsExpenseUpdate() bool {
 }
 
 type expenseCommandTypes struct {
-	values []*ExpenseCommandType
+	names []string
 }
 
 var _expenseCommandTypes = &expenseCommandTypes{values: []*ExpenseCommandType{
