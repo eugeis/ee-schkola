@@ -19,17 +19,17 @@ type Book struct {
 
 func NewBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
                 author *person.PersonName, location *Location, SchkolaBase *schkola.SchkolaBase) (ret *Book, err error) {
-    ret = (id)
-        
-    ret.Title = title
-    ret.Description = description
-    ret.Language = language
-    ret.ReleaseDate = releaseDate
-    ret.Edition = edition
-    ret.Category = category
-    ret.Author = author
-    ret.Location = location
-    ret.SchkolaBase = SchkolaBase
+    ret = &Book{
+        Title : title,
+        Description : description,
+        Language : language,
+        ReleaseDate : releaseDate,
+        Edition : edition,
+        Category : category,
+        Author : author,
+        Location : location,
+        SchkolaBase : SchkolaBase,
+    }
     return
 }
 

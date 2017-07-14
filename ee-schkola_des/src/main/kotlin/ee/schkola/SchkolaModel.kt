@@ -8,7 +8,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
     object Shared : Module() {
         object SchkolaBase : Entity({ virtual(true) }) {
             val id = buildId()
-            val trace = prop { type(Trace).meta(true) }
+            val trace = prop { type(Trace).meta(true).anonymous(true) }
             val constr = constr { params(p(id)) }
         }
 

@@ -19,17 +19,17 @@ type Attendance struct {
 
 func NewAttendance(student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, stateTrace *schkola.Trace, 
                 token string, tokenTrace *schkola.Trace, SchkolaBase *schkola.SchkolaBase) (ret *Attendance, err error) {
-    ret = (id)
-        
-    ret.Student = student
-    ret.Date = date
-    ret.Course = course
-    ret.Hours = hours
-    ret.State = state
-    ret.StateTrace = stateTrace
-    ret.Token = token
-    ret.TokenTrace = tokenTrace
-    ret.SchkolaBase = SchkolaBase
+    ret = &Attendance{
+        Student : student,
+        Date : date,
+        Course : course,
+        Hours : hours,
+        State : state,
+        StateTrace : stateTrace,
+        Token : token,
+        TokenTrace : tokenTrace,
+        SchkolaBase : SchkolaBase,
+    }
     return
 }
 
@@ -47,16 +47,16 @@ type Course struct {
 
 func NewCourse(name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, fee float64, 
                 description string, SchkolaBase *schkola.SchkolaBase) (ret *Course, err error) {
-    ret = (id)
-        
-    ret.Name = name
-    ret.Begin = begin
-    ret.End = end
-    ret.Teacher = teacher
-    ret.SchoolYear = schoolYear
-    ret.Fee = fee
-    ret.Description = description
-    ret.SchkolaBase = SchkolaBase
+    ret = &Course{
+        Name : name,
+        Begin : begin,
+        End : end,
+        Teacher : teacher,
+        SchoolYear : schoolYear,
+        Fee : fee,
+        Description : description,
+        SchkolaBase : SchkolaBase,
+    }
     return
 }
 
@@ -72,14 +72,14 @@ type Grade struct {
 
 func NewGrade(student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string, 
                 SchkolaBase *schkola.SchkolaBase) (ret *Grade, err error) {
-    ret = (id)
-        
-    ret.Student = student
-    ret.Course = course
-    ret.Grade = grade
-    ret.GradeTrace = gradeTrace
-    ret.Comment = comment
-    ret.SchkolaBase = SchkolaBase
+    ret = &Grade{
+        Student : student,
+        Course : course,
+        Grade : grade,
+        GradeTrace : gradeTrace,
+        Comment : comment,
+        SchkolaBase : SchkolaBase,
+    }
     return
 }
 
@@ -96,15 +96,15 @@ type Group struct {
 
 func NewGroup(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, students []*Course, 
                 courses []*Course, SchkolaBase *schkola.SchkolaBase) (ret *Group, err error) {
-    ret = (id)
-        
-    ret.Name = name
-    ret.Category = category
-    ret.SchoolYear = schoolYear
-    ret.Representative = representative
-    ret.Students = students
-    ret.Courses = courses
-    ret.SchkolaBase = SchkolaBase
+    ret = &Group{
+        Name : name,
+        Category : category,
+        SchoolYear : schoolYear,
+        Representative : representative,
+        Students : students,
+        Courses : courses,
+        SchkolaBase : SchkolaBase,
+    }
     return
 }
 
@@ -131,15 +131,15 @@ type SchoolApplication struct {
 
 func NewSchoolApplication(profile *person.Profile, recommendationOf *person.PersonName, churchContactPerson *person.PersonName, 
                 churchContact *person.Contact, schoolYear *SchoolYear, group string, SchkolaBase *schkola.SchkolaBase) (ret *SchoolApplication, err error) {
-    ret = (id)
-        
-    ret.Profile = profile
-    ret.RecommendationOf = recommendationOf
-    ret.ChurchContactPerson = churchContactPerson
-    ret.ChurchContact = churchContact
-    ret.SchoolYear = schoolYear
-    ret.Group = group
-    ret.SchkolaBase = SchkolaBase
+    ret = &SchoolApplication{
+        Profile : profile,
+        RecommendationOf : recommendationOf,
+        ChurchContactPerson : churchContactPerson,
+        ChurchContact : churchContact,
+        SchoolYear : schoolYear,
+        Group : group,
+        SchkolaBase : SchkolaBase,
+    }
     return
 }
 
@@ -153,13 +153,13 @@ type SchoolYear struct {
 }
 
 func NewSchoolYear(name string, start *time.Time, end *time.Time, dates []*Course, SchkolaBase *schkola.SchkolaBase) (ret *SchoolYear, err error) {
-    ret = (id)
-        
-    ret.Name = name
-    ret.Start = start
-    ret.End = end
-    ret.Dates = dates
-    ret.SchkolaBase = SchkolaBase
+    ret = &SchoolYear{
+        Name : name,
+        Start : start,
+        End : end,
+        Dates : dates,
+        SchkolaBase : SchkolaBase,
+    }
     return
 }
 

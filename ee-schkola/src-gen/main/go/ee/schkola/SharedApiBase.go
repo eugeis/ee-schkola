@@ -4,7 +4,7 @@ import (
     "time"
 )
 type SchkolaBase struct {
-    Trace  *Trace
+    *Trace
     Id  string
 }
 

@@ -1,7 +1,5 @@
 package person
 
-import "schkola/schkola"
-
 import (
     "ee/schkola"
     "ee/schkola/student"
@@ -16,13 +14,13 @@ type Church struct {
 }
 
 func NewChurch(name string, address *Address, pastor *PersonName, contact *Contact, SchkolaBase *schkola.SchkolaBase) (ret *Church, err error) {
-    ret = (id)
-        
-    ret.Name = name
-    ret.Address = address
-    ret.Pastor = pastor
-    ret.Contact = contact
-    ret.SchkolaBase = SchkolaBase
+    ret = &Church{
+        Name : name,
+        Address : address,
+        Pastor : pastor,
+        Contact : contact,
+        SchkolaBase : SchkolaBase,
+    }
     return
 }
 
@@ -34,11 +32,11 @@ type Graduation struct {
 }
 
 func NewGraduation(name string, level *GraduationLevel, SchkolaBase *schkola.SchkolaBase) (ret *Graduation, err error) {
-    ret = (id)
-        
-    ret.Name = name
-    ret.Level = level
-    ret.SchkolaBase = SchkolaBase
+    ret = &Graduation{
+        Name : name,
+        Level : level,
+        SchkolaBase : SchkolaBase,
+    }
     return
 }
 
@@ -61,20 +59,20 @@ type Profile struct {
 func NewProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
                 photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education, 
                 SchkolaBase *schkola.SchkolaBase) (ret *Profile, err error) {
-    ret = (id)
-        
-    ret.Gender = gender
-    ret.Name = name
-    ret.BirthName = birthName
-    ret.Birthday = birthday
-    ret.Address = address
-    ret.Contact = contact
-    ret.PhotoData = photoData
-    ret.Photo = photo
-    ret.Family = family
-    ret.Church = church
-    ret.Education = education
-    ret.SchkolaBase = SchkolaBase
+    ret = &Profile{
+        Gender : gender,
+        Name : name,
+        BirthName : birthName,
+        Birthday : birthday,
+        Address : address,
+        Contact : contact,
+        PhotoData : photoData,
+        Photo : photo,
+        Family : family,
+        Church : church,
+        Education : education,
+        SchkolaBase : SchkolaBase,
+    }
     return
 }
 
