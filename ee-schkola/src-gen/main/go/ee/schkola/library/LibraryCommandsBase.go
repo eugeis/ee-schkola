@@ -2,8 +2,10 @@ package library
 
 import (
     "ee/schkola/person"
+    "github.com/eugeis/gee/enum"
     "time"
 )
+
 type CreateBook struct {
     Title  
     Description  string
@@ -31,6 +33,7 @@ func NewCreateBook(title , description string, language string, releaseDate *tim
 }
 
 
+
 type DeleteBook struct {
     Id  string
 }
@@ -41,6 +44,7 @@ func NewDeleteBook(id string) (ret *DeleteBook, err error) {
     }
     return
 }
+
 
 
 type UpdateBook struct {
@@ -70,6 +74,7 @@ func NewUpdateBook(title , description string, language string, releaseDate *tim
 }
 
 
+
 type RegisterBook struct {
     Title  
     Description  string
@@ -95,6 +100,7 @@ func NewRegisterBook(title , description string, language string, releaseDate *t
 }
 
 
+
 type UnregisterBook struct {
     Id  string
 }
@@ -105,6 +111,7 @@ func NewUnregisterBook(id string) (ret *UnregisterBook, err error) {
     }
     return
 }
+
 
 
 type ChangeBook struct {
@@ -130,6 +137,7 @@ func NewChangeBook(title , description string, language string, releaseDate *tim
     }
     return
 }
+
 
 
 type ChangeBookLocation struct {
@@ -191,6 +199,7 @@ func (o *BookCommandType) IsChangeLBookocation() bool {
 
 type bookCommandTypes struct {
 	values []*BookCommandType
+    literals []enum.Literal
 }
 
 var _bookCommandTypes = &bookCommandTypes{values: []*BookCommandType{
@@ -209,6 +218,16 @@ func BookCommandTypes() *bookCommandTypes {
 
 func (o *bookCommandTypes) Values() []*BookCommandType {
 	return o.values
+}
+
+func (o *bookCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
 }
 
 func (o *bookCommandTypes) BookCreate() *BookCommandType {
@@ -240,23 +259,10 @@ func (o *bookCommandTypes) ChangeLBookocation() *BookCommandType {
 }
 
 func (o *bookCommandTypes) ParseBookCommandType(name string) (ret *BookCommandType, ok bool) {
-    switch name {
-      case o.BookCreate().Name():
-        ret = o.BookCreate()
-      case o.BookDelete().Name():
-        ret = o.BookDelete()
-      case o.BookUpdate().Name():
-        ret = o.BookUpdate()
-      case o.BookRegister().Name():
-        ret = o.BookRegister()
-      case o.BookUnregister().Name():
-        ret = o.BookUnregister()
-      case o.BookChange().Name():
-        ret = o.BookChange()
-      case o.ChangeLBookocation().Name():
-        ret = o.ChangeLBookocation()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*BookCommandType), ok
+	}
+	return
 }
 
 

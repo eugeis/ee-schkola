@@ -3,8 +3,10 @@ package person
 import (
     "ee/schkola"
     "ee/schkola/student"
+    "github.com/eugeis/gee/enum"
     "time"
 )
+
 type Church struct {
     Name  string
     Address  *Address
@@ -25,6 +27,7 @@ func NewChurch(name string, address *Address, pastor *PersonName, contact *Conta
 }
 
 
+
 type Graduation struct {
     Name  string
     Level  *GraduationLevel
@@ -39,6 +42,7 @@ func NewGraduation(name string, level *GraduationLevel, SchkolaBase *schkola.Sch
     }
     return
 }
+
 
 
 type Profile struct {
@@ -81,6 +85,7 @@ func NewProfile(gender *Gender, name *PersonName, birthName string, birthday *ti
 
 
 
+
 type Address struct {
     Street  string
     Suite  string
@@ -99,6 +104,7 @@ func NewAddress(street string, suite string, city string, code string, country s
     }
     return
 }
+
 
 
 type ChurchInfo struct {
@@ -124,6 +130,7 @@ func (o *ChurchInfo) AddToServices(item *student.Course) *student.Course {
 }
 
 
+
 type Contact struct {
     Phone  string
     Email  string
@@ -140,6 +147,7 @@ func NewContact(phone string, email string, cellphone string) (ret *Contact, err
 }
 
 
+
 type Education struct {
     Graduation  *Graduation
     Profession  string
@@ -152,6 +160,7 @@ func NewEducation(graduation *Graduation, profession string) (ret *Education, er
     }
     return
 }
+
 
 
 type Family struct {
@@ -168,6 +177,7 @@ func NewFamily(maritalState *MaritalState, childrenCount int, partner *PersonNam
     }
     return
 }
+
 
 
 type PersonName struct {
@@ -213,6 +223,7 @@ func (o *Gender) IsFemale() bool {
 
 type genders struct {
 	values []*Gender
+    literals []enum.Literal
 }
 
 var _genders = &genders{values: []*Gender{
@@ -229,6 +240,16 @@ func (o *genders) Values() []*Gender {
 	return o.values
 }
 
+func (o *genders) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *genders) Unknown() *Gender {
     return _genders.values[0]
 }
@@ -242,15 +263,10 @@ func (o *genders) Female() *Gender {
 }
 
 func (o *genders) ParseGender(name string) (ret *Gender, ok bool) {
-    switch name {
-      case o.Unknown().Name():
-        ret = o.Unknown()
-      case o.Male().Name():
-        ret = o.Male()
-      case o.Female().Name():
-        ret = o.Female()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*Gender), ok
+	}
+	return
 }
 
 
@@ -293,6 +309,7 @@ func (o *GraduationLevel) IsCollege() bool {
 
 type graduationLevels struct {
 	values []*GraduationLevel
+    literals []enum.Literal
 }
 
 var _graduationLevels = &graduationLevels{values: []*GraduationLevel{
@@ -310,6 +327,16 @@ func GraduationLevels() *graduationLevels {
 
 func (o *graduationLevels) Values() []*GraduationLevel {
 	return o.values
+}
+
+func (o *graduationLevels) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
 }
 
 func (o *graduationLevels) Unknown() *GraduationLevel {
@@ -337,21 +364,10 @@ func (o *graduationLevels) College() *GraduationLevel {
 }
 
 func (o *graduationLevels) ParseGraduationLevel(name string) (ret *GraduationLevel, ok bool) {
-    switch name {
-      case o.Unknown().Name():
-        ret = o.Unknown()
-      case o.MiddleSchool().Name():
-        ret = o.MiddleSchool()
-      case o.SecondarySchool().Name():
-        ret = o.SecondarySchool()
-      case o.HighSchool().Name():
-        ret = o.HighSchool()
-      case o.TechnicalCollege().Name():
-        ret = o.TechnicalCollege()
-      case o.College().Name():
-        ret = o.College()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*GraduationLevel), ok
+	}
+	return
 }
 
 
@@ -394,6 +410,7 @@ func (o *MaritalState) IsWidowed() bool {
 
 type maritalStates struct {
 	values []*MaritalState
+    literals []enum.Literal
 }
 
 var _maritalStates = &maritalStates{values: []*MaritalState{
@@ -411,6 +428,16 @@ func MaritalStates() *maritalStates {
 
 func (o *maritalStates) Values() []*MaritalState {
 	return o.values
+}
+
+func (o *maritalStates) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
 }
 
 func (o *maritalStates) Unknown() *MaritalState {
@@ -438,21 +465,10 @@ func (o *maritalStates) Widowed() *MaritalState {
 }
 
 func (o *maritalStates) ParseMaritalState(name string) (ret *MaritalState, ok bool) {
-    switch name {
-      case o.Unknown().Name():
-        ret = o.Unknown()
-      case o.Single().Name():
-        ret = o.Single()
-      case o.Married().Name():
-        ret = o.Married()
-      case o.Separated().Name():
-        ret = o.Separated()
-      case o.Divorced().Name():
-        ret = o.Divorced()
-      case o.Widowed().Name():
-        ret = o.Widowed()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*MaritalState), ok
+	}
+	return
 }
 
 

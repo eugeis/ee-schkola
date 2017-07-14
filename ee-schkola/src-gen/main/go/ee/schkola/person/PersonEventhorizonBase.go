@@ -2,50 +2,8 @@ package person
 
 import (
     "github.com/looplab/eventhorizon"
+    "github.com/eugeis/gee/eh"
 )
-type ChurchAggregate struct {
-    *eventhorizon.AggregateBase
-    *Church
-}
-
-func NewChurchAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Church) (ret *ChurchAggregate, err error) {
-    ret = &ChurchAggregate{
-        AggregateBase: AggregateBase,
-        Church: Entity,
-    }
-    return
-}
-
-
-type GraduationAggregate struct {
-    *eventhorizon.AggregateBase
-    *Graduation
-}
-
-func NewGraduationAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Graduation) (ret *GraduationAggregate, err error) {
-    ret = &GraduationAggregate{
-        AggregateBase: AggregateBase,
-        Graduation: Entity,
-    }
-    return
-}
-
-
-type ProfileAggregate struct {
-    *eventhorizon.AggregateBase
-    *Profile
-}
-
-func NewProfileAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Profile) (ret *ProfileAggregate, err error) {
-    ret = &ProfileAggregate{
-        AggregateBase: AggregateBase,
-        Profile: Entity,
-    }
-    return
-}
-
-
-
 
 type ChurchChurchAggregateInitializer struct {
     Store  *eventhorizon.EventStore
@@ -67,11 +25,24 @@ func NewChurchChurchAggregateInitializer(store *eventhorizon.EventStore, notifie
 
 
 func (o *ChurchChurchAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
-    aggregateType := eventhorizon.AggregateType(PersonAggregateTypes().Church)
-    for _, command := range ChurchCommandTypes().Values() {
-        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    eh.RegisterCommands(handler, ChurchAggregateType, ChurchCommandTypes().Literals())
+}
+
+
+
+
+const ChurchChurchType eventhorizon.AggregateType = "ChurchChurch"
+type ChurchChurch struct {
+    *eventhorizon.AggregateBase
+    *Church
+}
+
+func NewChurchChurch(AggregateBase *eventhorizon.AggregateBase, Entity *Church) (ret *ChurchChurch, err error) {
+    ret = &ChurchChurch{
+        AggregateBase: AggregateBase,
+        Church: Entity,
     }
+    return
 }
 
 
@@ -96,11 +67,24 @@ func NewGraduationGraduationAggregateInitializer(store *eventhorizon.EventStore,
 
 
 func (o *GraduationGraduationAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
-    aggregateType := eventhorizon.AggregateType(PersonAggregateTypes().Graduation)
-    for _, command := range GraduationCommandTypes().Values() {
-        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    eh.RegisterCommands(handler, GraduationAggregateType, GraduationCommandTypes().Literals())
+}
+
+
+
+
+const GraduationGraduationType eventhorizon.AggregateType = "GraduationGraduation"
+type GraduationGraduation struct {
+    *eventhorizon.AggregateBase
+    *Graduation
+}
+
+func NewGraduationGraduation(AggregateBase *eventhorizon.AggregateBase, Entity *Graduation) (ret *GraduationGraduation, err error) {
+    ret = &GraduationGraduation{
+        AggregateBase: AggregateBase,
+        Graduation: Entity,
     }
+    return
 }
 
 
@@ -125,11 +109,24 @@ func NewProfileProfileAggregateInitializer(store *eventhorizon.EventStore, notif
 
 
 func (o *ProfileProfileAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
-    aggregateType := eventhorizon.AggregateType(PersonAggregateTypes().Profile)
-    for _, command := range ProfileCommandTypes().Values() {
-        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    eh.RegisterCommands(handler, ProfileAggregateType, ProfileCommandTypes().Literals())
+}
+
+
+
+
+const ProfileProfileType eventhorizon.AggregateType = "ProfileProfile"
+type ProfileProfile struct {
+    *eventhorizon.AggregateBase
+    *Profile
+}
+
+func NewProfileProfile(AggregateBase *eventhorizon.AggregateBase, Entity *Profile) (ret *ProfileProfile, err error) {
+    ret = &ProfileProfile{
+        AggregateBase: AggregateBase,
+        Profile: Entity,
     }
+    return
 }
 
 
@@ -159,83 +156,6 @@ func NewPersonEventhorizonInitializer(store *eventhorizon.EventStore, eventBus *
 
 
 
-
-
-type PersonAggregateType struct {
-	name  string
-	ordinal int
-    commands string
-    events string
-}
-
-func (o *PersonAggregateType) Name() string {
-    return o.name
-}
-
-func (o *PersonAggregateType) Ordinal() int {
-    return o.ordinal
-}
-
-func (o *PersonAggregateType) Commands() string {
-    return o.commands
-}
-func (o *PersonAggregateType) Events() string {
-    return o.events
-}
-
-func (o *PersonAggregateType) IsChurch() bool {
-    return o == _personAggregateTypes.Church()
-}
-
-func (o *PersonAggregateType) IsGraduation() bool {
-    return o == _personAggregateTypes.Graduation()
-}
-
-func (o *PersonAggregateType) IsProfile() bool {
-    return o == _personAggregateTypes.Profile()
-}
-
-type personAggregateTypes struct {
-	values []*PersonAggregateType
-}
-
-var _personAggregateTypes = &personAggregateTypes{values: []*PersonAggregateType{
-    {name: "Church", ordinal: 0},
-    {name: "Graduation", ordinal: 1},
-    {name: "Profile", ordinal: 2}},
-}
-
-func PersonAggregateTypes() *personAggregateTypes {
-	return _personAggregateTypes
-}
-
-func (o *personAggregateTypes) Values() []*PersonAggregateType {
-	return o.values
-}
-
-func (o *personAggregateTypes) Church() *PersonAggregateType {
-    return _personAggregateTypes.values[0]
-}
-
-func (o *personAggregateTypes) Graduation() *PersonAggregateType {
-    return _personAggregateTypes.values[1]
-}
-
-func (o *personAggregateTypes) Profile() *PersonAggregateType {
-    return _personAggregateTypes.values[2]
-}
-
-func (o *personAggregateTypes) ParsePersonAggregateType(name string) (ret *PersonAggregateType, ok bool) {
-    switch name {
-      case o.Church().Name():
-        ret = o.Church()
-      case o.Graduation().Name():
-        ret = o.Graduation()
-      case o.Profile().Name():
-        ret = o.Profile()
-    }
-    return
-}
 
 
 

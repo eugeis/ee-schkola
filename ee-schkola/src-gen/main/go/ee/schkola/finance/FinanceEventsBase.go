@@ -2,8 +2,10 @@ package finance
 
 import (
     "ee/schkola/person"
+    "github.com/eugeis/gee/enum"
     "time"
 )
+
 type ExpenseCreated struct {
     Purpose  *ExpensePurpose
     Amount  float64
@@ -22,6 +24,7 @@ func NewExpenseCreated(purpose *ExpensePurpose, amount float64, profile *person.
 }
 
 
+
 type ExpenseDeleted struct {
     Id  string
 }
@@ -32,6 +35,7 @@ func NewExpenseDeleted(id string) (ret *ExpenseDeleted, err error) {
     }
     return
 }
+
 
 
 type ExpenseUpdated struct {
@@ -52,6 +56,7 @@ func NewExpenseUpdated(purpose *ExpensePurpose, amount float64, profile *person.
 }
 
 
+
 type ExpensePurposeCreated struct {
     Name  string
     Description  string
@@ -66,6 +71,7 @@ func NewExpensePurposeCreated(name string, description string) (ret *ExpensePurp
 }
 
 
+
 type ExpensePurposeDeleted struct {
     Id  string
 }
@@ -76,6 +82,7 @@ func NewExpensePurposeDeleted(id string) (ret *ExpensePurposeDeleted, err error)
     }
     return
 }
+
 
 
 type ExpensePurposeUpdated struct {
@@ -90,6 +97,7 @@ func NewExpensePurposeUpdated(name string, description string) (ret *ExpensePurp
     }
     return
 }
+
 
 
 type FeeCreated struct {
@@ -110,6 +118,7 @@ func NewFeeCreated(student *person.Profile, amount float64, kind *FeeKind, date 
 }
 
 
+
 type FeeDeleted struct {
     Id  string
 }
@@ -120,6 +129,7 @@ func NewFeeDeleted(id string) (ret *FeeDeleted, err error) {
     }
     return
 }
+
 
 
 type FeeUpdated struct {
@@ -140,6 +150,7 @@ func NewFeeUpdated(student *person.Profile, amount float64, kind *FeeKind, date 
 }
 
 
+
 type FeeKindCreated struct {
     Name  string
     Amount  float64
@@ -156,6 +167,7 @@ func NewFeeKindCreated(name string, amount float64, description string) (ret *Fe
 }
 
 
+
 type FeeKindDeleted struct {
     Id  string
 }
@@ -166,6 +178,7 @@ func NewFeeKindDeleted(id string) (ret *FeeKindDeleted, err error) {
     }
     return
 }
+
 
 
 type FeeKindUpdated struct {
@@ -213,6 +226,7 @@ func (o *ExpenseEventType) IsUpdatedExpense() bool {
 
 type expenseEventTypes struct {
 	values []*ExpenseEventType
+    literals []enum.Literal
 }
 
 var _expenseEventTypes = &expenseEventTypes{values: []*ExpenseEventType{
@@ -229,6 +243,16 @@ func (o *expenseEventTypes) Values() []*ExpenseEventType {
 	return o.values
 }
 
+func (o *expenseEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *expenseEventTypes) CreatedExpense() *ExpenseEventType {
     return _expenseEventTypes.values[0]
 }
@@ -242,15 +266,10 @@ func (o *expenseEventTypes) UpdatedExpense() *ExpenseEventType {
 }
 
 func (o *expenseEventTypes) ParseExpenseEventType(name string) (ret *ExpenseEventType, ok bool) {
-    switch name {
-      case o.CreatedExpense().Name():
-        ret = o.CreatedExpense()
-      case o.DeletedExpense().Name():
-        ret = o.DeletedExpense()
-      case o.UpdatedExpense().Name():
-        ret = o.UpdatedExpense()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*ExpenseEventType), ok
+	}
+	return
 }
 
 
@@ -281,6 +300,7 @@ func (o *ExpensePurposeEventType) IsUpdatedExpensePurpose() bool {
 
 type expensePurposeEventTypes struct {
 	values []*ExpensePurposeEventType
+    literals []enum.Literal
 }
 
 var _expensePurposeEventTypes = &expensePurposeEventTypes{values: []*ExpensePurposeEventType{
@@ -297,6 +317,16 @@ func (o *expensePurposeEventTypes) Values() []*ExpensePurposeEventType {
 	return o.values
 }
 
+func (o *expensePurposeEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *expensePurposeEventTypes) CreatedExpensePurpose() *ExpensePurposeEventType {
     return _expensePurposeEventTypes.values[0]
 }
@@ -310,15 +340,10 @@ func (o *expensePurposeEventTypes) UpdatedExpensePurpose() *ExpensePurposeEventT
 }
 
 func (o *expensePurposeEventTypes) ParseExpensePurposeEventType(name string) (ret *ExpensePurposeEventType, ok bool) {
-    switch name {
-      case o.CreatedExpensePurpose().Name():
-        ret = o.CreatedExpensePurpose()
-      case o.DeletedExpensePurpose().Name():
-        ret = o.DeletedExpensePurpose()
-      case o.UpdatedExpensePurpose().Name():
-        ret = o.UpdatedExpensePurpose()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*ExpensePurposeEventType), ok
+	}
+	return
 }
 
 
@@ -349,6 +374,7 @@ func (o *FeeEventType) IsUpdatedFee() bool {
 
 type feeEventTypes struct {
 	values []*FeeEventType
+    literals []enum.Literal
 }
 
 var _feeEventTypes = &feeEventTypes{values: []*FeeEventType{
@@ -365,6 +391,16 @@ func (o *feeEventTypes) Values() []*FeeEventType {
 	return o.values
 }
 
+func (o *feeEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *feeEventTypes) CreatedFee() *FeeEventType {
     return _feeEventTypes.values[0]
 }
@@ -378,15 +414,10 @@ func (o *feeEventTypes) UpdatedFee() *FeeEventType {
 }
 
 func (o *feeEventTypes) ParseFeeEventType(name string) (ret *FeeEventType, ok bool) {
-    switch name {
-      case o.CreatedFee().Name():
-        ret = o.CreatedFee()
-      case o.DeletedFee().Name():
-        ret = o.DeletedFee()
-      case o.UpdatedFee().Name():
-        ret = o.UpdatedFee()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*FeeEventType), ok
+	}
+	return
 }
 
 
@@ -417,6 +448,7 @@ func (o *FeeKindEventType) IsUpdatedFeeKind() bool {
 
 type feeKindEventTypes struct {
 	values []*FeeKindEventType
+    literals []enum.Literal
 }
 
 var _feeKindEventTypes = &feeKindEventTypes{values: []*FeeKindEventType{
@@ -433,6 +465,16 @@ func (o *feeKindEventTypes) Values() []*FeeKindEventType {
 	return o.values
 }
 
+func (o *feeKindEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *feeKindEventTypes) CreatedFeeKind() *FeeKindEventType {
     return _feeKindEventTypes.values[0]
 }
@@ -446,15 +488,10 @@ func (o *feeKindEventTypes) UpdatedFeeKind() *FeeKindEventType {
 }
 
 func (o *feeKindEventTypes) ParseFeeKindEventType(name string) (ret *FeeKindEventType, ok bool) {
-    switch name {
-      case o.CreatedFeeKind().Name():
-        ret = o.CreatedFeeKind()
-      case o.DeletedFeeKind().Name():
-        ret = o.DeletedFeeKind()
-      case o.UpdatedFeeKind().Name():
-        ret = o.UpdatedFeeKind()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*FeeKindEventType), ok
+	}
+	return
 }
 
 

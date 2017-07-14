@@ -3,8 +3,10 @@ package student
 import (
     "ee/schkola"
     "ee/schkola/person"
+    "github.com/eugeis/gee/enum"
     "time"
 )
+
 type Attendance struct {
     Student  *person.Profile
     Date  *time.Time
@@ -34,6 +36,7 @@ func NewAttendance(student *person.Profile, date *time.Time, course *Course, hou
 }
 
 
+
 type Course struct {
     Name  string
     Begin  *time.Time
@@ -61,6 +64,7 @@ func NewCourse(name string, begin *time.Time, end *time.Time, teacher *person.Pe
 }
 
 
+
 type Grade struct {
     Student  *person.Profile
     Course  *Course
@@ -82,6 +86,7 @@ func NewGrade(student *person.Profile, course *Course, grade float64, gradeTrace
     }
     return
 }
+
 
 
 type Group struct {
@@ -119,6 +124,7 @@ func (o *Group) AddToCourses(item *Course) *Course {
 }
 
 
+
 type SchoolApplication struct {
     Profile  *person.Profile
     RecommendationOf  *person.PersonName
@@ -142,6 +148,7 @@ func NewSchoolApplication(profile *person.Profile, recommendationOf *person.Pers
     }
     return
 }
+
 
 
 type SchoolYear struct {
@@ -206,6 +213,7 @@ func (o *AttendanceState) IsPresent() bool {
 
 type attendanceStates struct {
 	values []*AttendanceState
+    literals []enum.Literal
 }
 
 var _attendanceStates = &attendanceStates{values: []*AttendanceState{
@@ -221,6 +229,16 @@ func AttendanceStates() *attendanceStates {
 
 func (o *attendanceStates) Values() []*AttendanceState {
 	return o.values
+}
+
+func (o *attendanceStates) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
 }
 
 func (o *attendanceStates) Registered() *AttendanceState {
@@ -240,17 +258,10 @@ func (o *attendanceStates) Present() *AttendanceState {
 }
 
 func (o *attendanceStates) ParseAttendanceState(name string) (ret *AttendanceState, ok bool) {
-    switch name {
-      case o.Registered().Name():
-        ret = o.Registered()
-      case o.Confirmed().Name():
-        ret = o.Confirmed()
-      case o.Canceled().Name():
-        ret = o.Canceled()
-      case o.Present().Name():
-        ret = o.Present()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*AttendanceState), ok
+	}
+	return
 }
 
 
@@ -277,6 +288,7 @@ func (o *GroupCategory) IsYearGroup() bool {
 
 type groupCategorys struct {
 	values []*GroupCategory
+    literals []enum.Literal
 }
 
 var _groupCategorys = &groupCategorys{values: []*GroupCategory{
@@ -292,6 +304,16 @@ func (o *groupCategorys) Values() []*GroupCategory {
 	return o.values
 }
 
+func (o *groupCategorys) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *groupCategorys) CourseGroup() *GroupCategory {
     return _groupCategorys.values[0]
 }
@@ -301,13 +323,10 @@ func (o *groupCategorys) YearGroup() *GroupCategory {
 }
 
 func (o *groupCategorys) ParseGroupCategory(name string) (ret *GroupCategory, ok bool) {
-    switch name {
-      case o.CourseGroup().Name():
-        ret = o.CourseGroup()
-      case o.YearGroup().Name():
-        ret = o.YearGroup()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*GroupCategory), ok
+	}
+	return
 }
 
 

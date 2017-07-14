@@ -3,6 +3,7 @@ package schkola
 import (
     "time"
 )
+
 type SchkolaBase struct {
     *Trace
     Id  string
@@ -14,6 +15,7 @@ func NewSchkolaBase(id string) (ret *SchkolaBase, err error) {
     }
     return
 }
+
 
 
 

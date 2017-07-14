@@ -2,92 +2,8 @@ package student
 
 import (
     "github.com/looplab/eventhorizon"
+    "github.com/eugeis/gee/eh"
 )
-type AttendanceAggregate struct {
-    *eventhorizon.AggregateBase
-    *Attendance
-}
-
-func NewAttendanceAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Attendance) (ret *AttendanceAggregate, err error) {
-    ret = &AttendanceAggregate{
-        AggregateBase: AggregateBase,
-        Attendance: Entity,
-    }
-    return
-}
-
-
-type CourseAggregate struct {
-    *eventhorizon.AggregateBase
-    *Course
-}
-
-func NewCourseAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Course) (ret *CourseAggregate, err error) {
-    ret = &CourseAggregate{
-        AggregateBase: AggregateBase,
-        Course: Entity,
-    }
-    return
-}
-
-
-type GradeAggregate struct {
-    *eventhorizon.AggregateBase
-    *Grade
-}
-
-func NewGradeAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Grade) (ret *GradeAggregate, err error) {
-    ret = &GradeAggregate{
-        AggregateBase: AggregateBase,
-        Grade: Entity,
-    }
-    return
-}
-
-
-type GroupAggregate struct {
-    *eventhorizon.AggregateBase
-    *Group
-}
-
-func NewGroupAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Group) (ret *GroupAggregate, err error) {
-    ret = &GroupAggregate{
-        AggregateBase: AggregateBase,
-        Group: Entity,
-    }
-    return
-}
-
-
-type SchoolApplicationAggregate struct {
-    *eventhorizon.AggregateBase
-    *SchoolApplication
-}
-
-func NewSchoolApplicationAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *SchoolApplication) (ret *SchoolApplicationAggregate, err error) {
-    ret = &SchoolApplicationAggregate{
-        AggregateBase: AggregateBase,
-        SchoolApplication: Entity,
-    }
-    return
-}
-
-
-type SchoolYearAggregate struct {
-    *eventhorizon.AggregateBase
-    *SchoolYear
-}
-
-func NewSchoolYearAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *SchoolYear) (ret *SchoolYearAggregate, err error) {
-    ret = &SchoolYearAggregate{
-        AggregateBase: AggregateBase,
-        SchoolYear: Entity,
-    }
-    return
-}
-
-
-
 
 type AttendanceAttendanceAggregateInitializer struct {
     Store  *eventhorizon.EventStore
@@ -109,11 +25,24 @@ func NewAttendanceAttendanceAggregateInitializer(store *eventhorizon.EventStore,
 
 
 func (o *AttendanceAttendanceAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
-    aggregateType := eventhorizon.AggregateType(StudentAggregateTypes().Attendance)
-    for _, command := range AttendanceCommandTypes().Values() {
-        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    eh.RegisterCommands(handler, AttendanceAggregateType, AttendanceCommandTypes().Literals())
+}
+
+
+
+
+const AttendanceAttendanceType eventhorizon.AggregateType = "AttendanceAttendance"
+type AttendanceAttendance struct {
+    *eventhorizon.AggregateBase
+    *Attendance
+}
+
+func NewAttendanceAttendance(AggregateBase *eventhorizon.AggregateBase, Entity *Attendance) (ret *AttendanceAttendance, err error) {
+    ret = &AttendanceAttendance{
+        AggregateBase: AggregateBase,
+        Attendance: Entity,
     }
+    return
 }
 
 
@@ -138,11 +67,24 @@ func NewCourseCourseAggregateInitializer(store *eventhorizon.EventStore, notifie
 
 
 func (o *CourseCourseAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
-    aggregateType := eventhorizon.AggregateType(StudentAggregateTypes().Course)
-    for _, command := range CourseCommandTypes().Values() {
-        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    eh.RegisterCommands(handler, CourseAggregateType, CourseCommandTypes().Literals())
+}
+
+
+
+
+const CourseCourseType eventhorizon.AggregateType = "CourseCourse"
+type CourseCourse struct {
+    *eventhorizon.AggregateBase
+    *Course
+}
+
+func NewCourseCourse(AggregateBase *eventhorizon.AggregateBase, Entity *Course) (ret *CourseCourse, err error) {
+    ret = &CourseCourse{
+        AggregateBase: AggregateBase,
+        Course: Entity,
     }
+    return
 }
 
 
@@ -167,11 +109,24 @@ func NewGradeGradeAggregateInitializer(store *eventhorizon.EventStore, notifier 
 
 
 func (o *GradeGradeAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
-    aggregateType := eventhorizon.AggregateType(StudentAggregateTypes().Grade)
-    for _, command := range GradeCommandTypes().Values() {
-        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    eh.RegisterCommands(handler, GradeAggregateType, GradeCommandTypes().Literals())
+}
+
+
+
+
+const GradeGradeType eventhorizon.AggregateType = "GradeGrade"
+type GradeGrade struct {
+    *eventhorizon.AggregateBase
+    *Grade
+}
+
+func NewGradeGrade(AggregateBase *eventhorizon.AggregateBase, Entity *Grade) (ret *GradeGrade, err error) {
+    ret = &GradeGrade{
+        AggregateBase: AggregateBase,
+        Grade: Entity,
     }
+    return
 }
 
 
@@ -196,11 +151,24 @@ func NewGroupGroupAggregateInitializer(store *eventhorizon.EventStore, notifier 
 
 
 func (o *GroupGroupAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
-    aggregateType := eventhorizon.AggregateType(StudentAggregateTypes().Group)
-    for _, command := range GroupCommandTypes().Values() {
-        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    eh.RegisterCommands(handler, GroupAggregateType, GroupCommandTypes().Literals())
+}
+
+
+
+
+const GroupGroupType eventhorizon.AggregateType = "GroupGroup"
+type GroupGroup struct {
+    *eventhorizon.AggregateBase
+    *Group
+}
+
+func NewGroupGroup(AggregateBase *eventhorizon.AggregateBase, Entity *Group) (ret *GroupGroup, err error) {
+    ret = &GroupGroup{
+        AggregateBase: AggregateBase,
+        Group: Entity,
     }
+    return
 }
 
 
@@ -225,11 +193,24 @@ func NewSchoolApplicationSchoolApplicationAggregateInitializer(store *eventhoriz
 
 
 func (o *SchoolApplicationSchoolApplicationAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
-    aggregateType := eventhorizon.AggregateType(StudentAggregateTypes().SchoolApplication)
-    for _, command := range SchoolApplicationCommandTypes().Values() {
-        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    eh.RegisterCommands(handler, SchoolApplicationAggregateType, SchoolApplicationCommandTypes().Literals())
+}
+
+
+
+
+const SchoolApplicationSchoolApplicationType eventhorizon.AggregateType = "SchoolApplicationSchoolApplication"
+type SchoolApplicationSchoolApplication struct {
+    *eventhorizon.AggregateBase
+    *SchoolApplication
+}
+
+func NewSchoolApplicationSchoolApplication(AggregateBase *eventhorizon.AggregateBase, Entity *SchoolApplication) (ret *SchoolApplicationSchoolApplication, err error) {
+    ret = &SchoolApplicationSchoolApplication{
+        AggregateBase: AggregateBase,
+        SchoolApplication: Entity,
     }
+    return
 }
 
 
@@ -254,11 +235,24 @@ func NewSchoolYearSchoolYearAggregateInitializer(store *eventhorizon.EventStore,
 
 
 func (o *SchoolYearSchoolYearAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
-    aggregateType := eventhorizon.AggregateType(StudentAggregateTypes().SchoolYear)
-    for _, command := range SchoolYearCommandTypes().Values() {
-        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    eh.RegisterCommands(handler, SchoolYearAggregateType, SchoolYearCommandTypes().Literals())
+}
+
+
+
+
+const SchoolYearSchoolYearType eventhorizon.AggregateType = "SchoolYearSchoolYear"
+type SchoolYearSchoolYear struct {
+    *eventhorizon.AggregateBase
+    *SchoolYear
+}
+
+func NewSchoolYearSchoolYear(AggregateBase *eventhorizon.AggregateBase, Entity *SchoolYear) (ret *SchoolYearSchoolYear, err error) {
+    ret = &SchoolYearSchoolYear{
+        AggregateBase: AggregateBase,
+        SchoolYear: Entity,
     }
+    return
 }
 
 
@@ -288,116 +282,6 @@ func NewStudentEventhorizonInitializer(store *eventhorizon.EventStore, eventBus 
 
 
 
-
-
-type StudentAggregateType struct {
-	name  string
-	ordinal int
-    commands string
-    events string
-}
-
-func (o *StudentAggregateType) Name() string {
-    return o.name
-}
-
-func (o *StudentAggregateType) Ordinal() int {
-    return o.ordinal
-}
-
-func (o *StudentAggregateType) Commands() string {
-    return o.commands
-}
-func (o *StudentAggregateType) Events() string {
-    return o.events
-}
-
-func (o *StudentAggregateType) IsAttendance() bool {
-    return o == _studentAggregateTypes.Attendance()
-}
-
-func (o *StudentAggregateType) IsCourse() bool {
-    return o == _studentAggregateTypes.Course()
-}
-
-func (o *StudentAggregateType) IsGrade() bool {
-    return o == _studentAggregateTypes.Grade()
-}
-
-func (o *StudentAggregateType) IsGroup() bool {
-    return o == _studentAggregateTypes.Group()
-}
-
-func (o *StudentAggregateType) IsSchoolApplication() bool {
-    return o == _studentAggregateTypes.SchoolApplication()
-}
-
-func (o *StudentAggregateType) IsSchoolYear() bool {
-    return o == _studentAggregateTypes.SchoolYear()
-}
-
-type studentAggregateTypes struct {
-	values []*StudentAggregateType
-}
-
-var _studentAggregateTypes = &studentAggregateTypes{values: []*StudentAggregateType{
-    {name: "Attendance", ordinal: 0},
-    {name: "Course", ordinal: 1},
-    {name: "Grade", ordinal: 2},
-    {name: "Group", ordinal: 3},
-    {name: "SchoolApplication", ordinal: 4},
-    {name: "SchoolYear", ordinal: 5}},
-}
-
-func StudentAggregateTypes() *studentAggregateTypes {
-	return _studentAggregateTypes
-}
-
-func (o *studentAggregateTypes) Values() []*StudentAggregateType {
-	return o.values
-}
-
-func (o *studentAggregateTypes) Attendance() *StudentAggregateType {
-    return _studentAggregateTypes.values[0]
-}
-
-func (o *studentAggregateTypes) Course() *StudentAggregateType {
-    return _studentAggregateTypes.values[1]
-}
-
-func (o *studentAggregateTypes) Grade() *StudentAggregateType {
-    return _studentAggregateTypes.values[2]
-}
-
-func (o *studentAggregateTypes) Group() *StudentAggregateType {
-    return _studentAggregateTypes.values[3]
-}
-
-func (o *studentAggregateTypes) SchoolApplication() *StudentAggregateType {
-    return _studentAggregateTypes.values[4]
-}
-
-func (o *studentAggregateTypes) SchoolYear() *StudentAggregateType {
-    return _studentAggregateTypes.values[5]
-}
-
-func (o *studentAggregateTypes) ParseStudentAggregateType(name string) (ret *StudentAggregateType, ok bool) {
-    switch name {
-      case o.Attendance().Name():
-        ret = o.Attendance()
-      case o.Course().Name():
-        ret = o.Course()
-      case o.Grade().Name():
-        ret = o.Grade()
-      case o.Group().Name():
-        ret = o.Group()
-      case o.SchoolApplication().Name():
-        ret = o.SchoolApplication()
-      case o.SchoolYear().Name():
-        ret = o.SchoolYear()
-    }
-    return
-}
 
 
 

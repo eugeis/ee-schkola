@@ -3,8 +3,10 @@ package student
 import (
     "ee/schkola"
     "ee/schkola/person"
+    "github.com/eugeis/gee/enum"
     "time"
 )
+
 type CreateAttendance struct {
     Student  *person.Profile
     Date  *time.Time
@@ -32,6 +34,7 @@ func NewCreateAttendance(student *person.Profile, date *time.Time, course *Cours
 }
 
 
+
 type DeleteAttendance struct {
     Id  string
 }
@@ -42,6 +45,7 @@ func NewDeleteAttendance(id string) (ret *DeleteAttendance, err error) {
     }
     return
 }
+
 
 
 type UpdateAttendance struct {
@@ -71,12 +75,15 @@ func NewUpdateAttendance(student *person.Profile, date *time.Time, course *Cours
 }
 
 
+
 type ConfirmAttendance struct {
 }
 
 
+
 type CancelAttendance struct {
 }
+
 
 
 type RegisterAttendance struct {
@@ -91,6 +98,7 @@ func NewRegisterAttendance(student *person.Profile, course *Course) (ret *Regist
     }
     return
 }
+
 
 
 type CreateCourse struct {
@@ -118,6 +126,7 @@ func NewCreateCourse(name string, begin *time.Time, end *time.Time, teacher *per
 }
 
 
+
 type DeleteCourse struct {
     Id  string
 }
@@ -128,6 +137,7 @@ func NewDeleteCourse(id string) (ret *DeleteCourse, err error) {
     }
     return
 }
+
 
 
 type UpdateCourse struct {
@@ -155,6 +165,7 @@ func NewUpdateCourse(name string, begin *time.Time, end *time.Time, teacher *per
 }
 
 
+
 type CreateGrade struct {
     Student  *person.Profile
     Course  *Course
@@ -175,6 +186,7 @@ func NewCreateGrade(student *person.Profile, course *Course, grade float64, grad
 }
 
 
+
 type DeleteGrade struct {
     Id  string
 }
@@ -185,6 +197,7 @@ func NewDeleteGrade(id string) (ret *DeleteGrade, err error) {
     }
     return
 }
+
 
 
 type UpdateGrade struct {
@@ -205,6 +218,7 @@ func NewUpdateGrade(student *person.Profile, course *Course, grade float64, grad
     }
     return
 }
+
 
 
 type CreateGroup struct {
@@ -240,6 +254,7 @@ func (o *CreateGroup) AddToCourses(item *Course) *Course {
 }
 
 
+
 type DeleteGroup struct {
     Id  string
 }
@@ -250,6 +265,7 @@ func NewDeleteGroup(id string) (ret *DeleteGroup, err error) {
     }
     return
 }
+
 
 
 type UpdateGroup struct {
@@ -285,6 +301,7 @@ func (o *UpdateGroup) AddToCourses(item *Course) *Course {
 }
 
 
+
 type CreateSchoolApplication struct {
     Profile  *person.Profile
     RecommendationOf  *person.PersonName
@@ -308,6 +325,7 @@ func NewCreateSchoolApplication(profile *person.Profile, recommendationOf *perso
 }
 
 
+
 type DeleteSchoolApplication struct {
     Id  string
 }
@@ -318,6 +336,7 @@ func NewDeleteSchoolApplication(id string) (ret *DeleteSchoolApplication, err er
     }
     return
 }
+
 
 
 type UpdateSchoolApplication struct {
@@ -343,6 +362,7 @@ func NewUpdateSchoolApplication(profile *person.Profile, recommendationOf *perso
 }
 
 
+
 type CreateSchoolYear struct {
     Name  string
     Start  *time.Time
@@ -366,6 +386,7 @@ func (o *CreateSchoolYear) AddToDates(item *Course) *Course {
 }
 
 
+
 type DeleteSchoolYear struct {
     Id  string
 }
@@ -376,6 +397,7 @@ func NewDeleteSchoolYear(id string) (ret *DeleteSchoolYear, err error) {
     }
     return
 }
+
 
 
 type UpdateSchoolYear struct {
@@ -442,6 +464,7 @@ func (o *AttendanceCommandType) IsAttendanceRegister() bool {
 
 type attendanceCommandTypes struct {
 	values []*AttendanceCommandType
+    literals []enum.Literal
 }
 
 var _attendanceCommandTypes = &attendanceCommandTypes{values: []*AttendanceCommandType{
@@ -459,6 +482,16 @@ func AttendanceCommandTypes() *attendanceCommandTypes {
 
 func (o *attendanceCommandTypes) Values() []*AttendanceCommandType {
 	return o.values
+}
+
+func (o *attendanceCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
 }
 
 func (o *attendanceCommandTypes) AttendanceCreate() *AttendanceCommandType {
@@ -486,21 +519,10 @@ func (o *attendanceCommandTypes) AttendanceRegister() *AttendanceCommandType {
 }
 
 func (o *attendanceCommandTypes) ParseAttendanceCommandType(name string) (ret *AttendanceCommandType, ok bool) {
-    switch name {
-      case o.AttendanceCreate().Name():
-        ret = o.AttendanceCreate()
-      case o.AttendanceDelete().Name():
-        ret = o.AttendanceDelete()
-      case o.AttendanceUpdate().Name():
-        ret = o.AttendanceUpdate()
-      case o.AttendanceConfirm().Name():
-        ret = o.AttendanceConfirm()
-      case o.AttendanceCancel().Name():
-        ret = o.AttendanceCancel()
-      case o.AttendanceRegister().Name():
-        ret = o.AttendanceRegister()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*AttendanceCommandType), ok
+	}
+	return
 }
 
 
@@ -531,6 +553,7 @@ func (o *CourseCommandType) IsCourseUpdate() bool {
 
 type courseCommandTypes struct {
 	values []*CourseCommandType
+    literals []enum.Literal
 }
 
 var _courseCommandTypes = &courseCommandTypes{values: []*CourseCommandType{
@@ -547,6 +570,16 @@ func (o *courseCommandTypes) Values() []*CourseCommandType {
 	return o.values
 }
 
+func (o *courseCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *courseCommandTypes) CourseCreate() *CourseCommandType {
     return _courseCommandTypes.values[0]
 }
@@ -560,15 +593,10 @@ func (o *courseCommandTypes) CourseUpdate() *CourseCommandType {
 }
 
 func (o *courseCommandTypes) ParseCourseCommandType(name string) (ret *CourseCommandType, ok bool) {
-    switch name {
-      case o.CourseCreate().Name():
-        ret = o.CourseCreate()
-      case o.CourseDelete().Name():
-        ret = o.CourseDelete()
-      case o.CourseUpdate().Name():
-        ret = o.CourseUpdate()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*CourseCommandType), ok
+	}
+	return
 }
 
 
@@ -599,6 +627,7 @@ func (o *GradeCommandType) IsGradeUpdate() bool {
 
 type gradeCommandTypes struct {
 	values []*GradeCommandType
+    literals []enum.Literal
 }
 
 var _gradeCommandTypes = &gradeCommandTypes{values: []*GradeCommandType{
@@ -615,6 +644,16 @@ func (o *gradeCommandTypes) Values() []*GradeCommandType {
 	return o.values
 }
 
+func (o *gradeCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *gradeCommandTypes) GradeCreate() *GradeCommandType {
     return _gradeCommandTypes.values[0]
 }
@@ -628,15 +667,10 @@ func (o *gradeCommandTypes) GradeUpdate() *GradeCommandType {
 }
 
 func (o *gradeCommandTypes) ParseGradeCommandType(name string) (ret *GradeCommandType, ok bool) {
-    switch name {
-      case o.GradeCreate().Name():
-        ret = o.GradeCreate()
-      case o.GradeDelete().Name():
-        ret = o.GradeDelete()
-      case o.GradeUpdate().Name():
-        ret = o.GradeUpdate()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*GradeCommandType), ok
+	}
+	return
 }
 
 
@@ -667,6 +701,7 @@ func (o *GroupCommandType) IsGroupUpdate() bool {
 
 type groupCommandTypes struct {
 	values []*GroupCommandType
+    literals []enum.Literal
 }
 
 var _groupCommandTypes = &groupCommandTypes{values: []*GroupCommandType{
@@ -683,6 +718,16 @@ func (o *groupCommandTypes) Values() []*GroupCommandType {
 	return o.values
 }
 
+func (o *groupCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *groupCommandTypes) GroupCreate() *GroupCommandType {
     return _groupCommandTypes.values[0]
 }
@@ -696,15 +741,10 @@ func (o *groupCommandTypes) GroupUpdate() *GroupCommandType {
 }
 
 func (o *groupCommandTypes) ParseGroupCommandType(name string) (ret *GroupCommandType, ok bool) {
-    switch name {
-      case o.GroupCreate().Name():
-        ret = o.GroupCreate()
-      case o.GroupDelete().Name():
-        ret = o.GroupDelete()
-      case o.GroupUpdate().Name():
-        ret = o.GroupUpdate()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*GroupCommandType), ok
+	}
+	return
 }
 
 
@@ -735,6 +775,7 @@ func (o *SchoolApplicationCommandType) IsSchoolApplicationUpdate() bool {
 
 type schoolApplicationCommandTypes struct {
 	values []*SchoolApplicationCommandType
+    literals []enum.Literal
 }
 
 var _schoolApplicationCommandTypes = &schoolApplicationCommandTypes{values: []*SchoolApplicationCommandType{
@@ -751,6 +792,16 @@ func (o *schoolApplicationCommandTypes) Values() []*SchoolApplicationCommandType
 	return o.values
 }
 
+func (o *schoolApplicationCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *schoolApplicationCommandTypes) SchoolApplicationCreate() *SchoolApplicationCommandType {
     return _schoolApplicationCommandTypes.values[0]
 }
@@ -764,15 +815,10 @@ func (o *schoolApplicationCommandTypes) SchoolApplicationUpdate() *SchoolApplica
 }
 
 func (o *schoolApplicationCommandTypes) ParseSchoolApplicationCommandType(name string) (ret *SchoolApplicationCommandType, ok bool) {
-    switch name {
-      case o.SchoolApplicationCreate().Name():
-        ret = o.SchoolApplicationCreate()
-      case o.SchoolApplicationDelete().Name():
-        ret = o.SchoolApplicationDelete()
-      case o.SchoolApplicationUpdate().Name():
-        ret = o.SchoolApplicationUpdate()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*SchoolApplicationCommandType), ok
+	}
+	return
 }
 
 
@@ -803,6 +849,7 @@ func (o *SchoolYearCommandType) IsSchoolYearUpdate() bool {
 
 type schoolYearCommandTypes struct {
 	values []*SchoolYearCommandType
+    literals []enum.Literal
 }
 
 var _schoolYearCommandTypes = &schoolYearCommandTypes{values: []*SchoolYearCommandType{
@@ -819,6 +866,16 @@ func (o *schoolYearCommandTypes) Values() []*SchoolYearCommandType {
 	return o.values
 }
 
+func (o *schoolYearCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *schoolYearCommandTypes) SchoolYearCreate() *SchoolYearCommandType {
     return _schoolYearCommandTypes.values[0]
 }
@@ -832,15 +889,10 @@ func (o *schoolYearCommandTypes) SchoolYearUpdate() *SchoolYearCommandType {
 }
 
 func (o *schoolYearCommandTypes) ParseSchoolYearCommandType(name string) (ret *SchoolYearCommandType, ok bool) {
-    switch name {
-      case o.SchoolYearCreate().Name():
-        ret = o.SchoolYearCreate()
-      case o.SchoolYearDelete().Name():
-        ret = o.SchoolYearDelete()
-      case o.SchoolYearUpdate().Name():
-        ret = o.SchoolYearUpdate()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*SchoolYearCommandType), ok
+	}
+	return
 }
 
 

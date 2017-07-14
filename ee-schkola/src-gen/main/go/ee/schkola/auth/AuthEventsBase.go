@@ -2,8 +2,10 @@ package auth
 
 import (
     "ee/schkola/person"
+    "github.com/eugeis/gee/enum"
     "time"
 )
+
 type AccountCreated struct {
     Username  string
     Password  string
@@ -26,6 +28,7 @@ func NewAccountCreated(username string, password string, email string, disabled 
 }
 
 
+
 type AccountDeleted struct {
     Id  string
 }
@@ -36,6 +39,7 @@ func NewAccountDeleted(id string) (ret *AccountDeleted, err error) {
     }
     return
 }
+
 
 
 type AccountUpdated struct {
@@ -89,6 +93,7 @@ func (o *AccountEventType) IsUpdatedAccount() bool {
 
 type accountEventTypes struct {
 	values []*AccountEventType
+    literals []enum.Literal
 }
 
 var _accountEventTypes = &accountEventTypes{values: []*AccountEventType{
@@ -105,6 +110,16 @@ func (o *accountEventTypes) Values() []*AccountEventType {
 	return o.values
 }
 
+func (o *accountEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *accountEventTypes) CreatedAccount() *AccountEventType {
     return _accountEventTypes.values[0]
 }
@@ -118,15 +133,10 @@ func (o *accountEventTypes) UpdatedAccount() *AccountEventType {
 }
 
 func (o *accountEventTypes) ParseAccountEventType(name string) (ret *AccountEventType, ok bool) {
-    switch name {
-      case o.CreatedAccount().Name():
-        ret = o.CreatedAccount()
-      case o.DeletedAccount().Name():
-        ret = o.DeletedAccount()
-      case o.UpdatedAccount().Name():
-        ret = o.UpdatedAccount()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*AccountEventType), ok
+	}
+	return
 }
 
 

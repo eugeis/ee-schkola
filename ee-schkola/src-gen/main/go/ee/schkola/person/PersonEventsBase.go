@@ -1,8 +1,10 @@
 package person
 
 import (
+    "github.com/eugeis/gee/enum"
     "time"
 )
+
 type ChurchCreated struct {
     Name  string
     Address  *Address
@@ -21,6 +23,7 @@ func NewChurchCreated(name string, address *Address, pastor *PersonName, contact
 }
 
 
+
 type ChurchDeleted struct {
     Id  string
 }
@@ -31,6 +34,7 @@ func NewChurchDeleted(id string) (ret *ChurchDeleted, err error) {
     }
     return
 }
+
 
 
 type ChurchUpdated struct {
@@ -51,6 +55,7 @@ func NewChurchUpdated(name string, address *Address, pastor *PersonName, contact
 }
 
 
+
 type GraduationCreated struct {
     Name  string
     Level  *GraduationLevel
@@ -65,6 +70,7 @@ func NewGraduationCreated(name string, level *GraduationLevel) (ret *GraduationC
 }
 
 
+
 type GraduationDeleted struct {
     Id  string
 }
@@ -75,6 +81,7 @@ func NewGraduationDeleted(id string) (ret *GraduationDeleted, err error) {
     }
     return
 }
+
 
 
 type GraduationUpdated struct {
@@ -89,6 +96,7 @@ func NewGraduationUpdated(name string, level *GraduationLevel) (ret *GraduationU
     }
     return
 }
+
 
 
 type ProfileCreated struct {
@@ -124,6 +132,7 @@ func NewProfileCreated(gender *Gender, name *PersonName, birthName string, birth
 }
 
 
+
 type ProfileDeleted struct {
     Id  string
 }
@@ -134,6 +143,7 @@ func NewProfileDeleted(id string) (ret *ProfileDeleted, err error) {
     }
     return
 }
+
 
 
 type ProfileUpdated struct {
@@ -198,6 +208,7 @@ func (o *ChurchEventType) IsUpdatedChurch() bool {
 
 type churchEventTypes struct {
 	values []*ChurchEventType
+    literals []enum.Literal
 }
 
 var _churchEventTypes = &churchEventTypes{values: []*ChurchEventType{
@@ -214,6 +225,16 @@ func (o *churchEventTypes) Values() []*ChurchEventType {
 	return o.values
 }
 
+func (o *churchEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *churchEventTypes) CreatedChurch() *ChurchEventType {
     return _churchEventTypes.values[0]
 }
@@ -227,15 +248,10 @@ func (o *churchEventTypes) UpdatedChurch() *ChurchEventType {
 }
 
 func (o *churchEventTypes) ParseChurchEventType(name string) (ret *ChurchEventType, ok bool) {
-    switch name {
-      case o.CreatedChurch().Name():
-        ret = o.CreatedChurch()
-      case o.DeletedChurch().Name():
-        ret = o.DeletedChurch()
-      case o.UpdatedChurch().Name():
-        ret = o.UpdatedChurch()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*ChurchEventType), ok
+	}
+	return
 }
 
 
@@ -266,6 +282,7 @@ func (o *GraduationEventType) IsUpdatedGraduation() bool {
 
 type graduationEventTypes struct {
 	values []*GraduationEventType
+    literals []enum.Literal
 }
 
 var _graduationEventTypes = &graduationEventTypes{values: []*GraduationEventType{
@@ -282,6 +299,16 @@ func (o *graduationEventTypes) Values() []*GraduationEventType {
 	return o.values
 }
 
+func (o *graduationEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *graduationEventTypes) CreatedGraduation() *GraduationEventType {
     return _graduationEventTypes.values[0]
 }
@@ -295,15 +322,10 @@ func (o *graduationEventTypes) UpdatedGraduation() *GraduationEventType {
 }
 
 func (o *graduationEventTypes) ParseGraduationEventType(name string) (ret *GraduationEventType, ok bool) {
-    switch name {
-      case o.CreatedGraduation().Name():
-        ret = o.CreatedGraduation()
-      case o.DeletedGraduation().Name():
-        ret = o.DeletedGraduation()
-      case o.UpdatedGraduation().Name():
-        ret = o.UpdatedGraduation()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*GraduationEventType), ok
+	}
+	return
 }
 
 
@@ -334,6 +356,7 @@ func (o *ProfileEventType) IsUpdatedProfile() bool {
 
 type profileEventTypes struct {
 	values []*ProfileEventType
+    literals []enum.Literal
 }
 
 var _profileEventTypes = &profileEventTypes{values: []*ProfileEventType{
@@ -350,6 +373,16 @@ func (o *profileEventTypes) Values() []*ProfileEventType {
 	return o.values
 }
 
+func (o *profileEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *profileEventTypes) CreatedProfile() *ProfileEventType {
     return _profileEventTypes.values[0]
 }
@@ -363,15 +396,10 @@ func (o *profileEventTypes) UpdatedProfile() *ProfileEventType {
 }
 
 func (o *profileEventTypes) ParseProfileEventType(name string) (ret *ProfileEventType, ok bool) {
-    switch name {
-      case o.CreatedProfile().Name():
-        ret = o.CreatedProfile()
-      case o.DeletedProfile().Name():
-        ret = o.DeletedProfile()
-      case o.UpdatedProfile().Name():
-        ret = o.UpdatedProfile()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*ProfileEventType), ok
+	}
+	return
 }
 
 

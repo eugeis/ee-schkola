@@ -3,8 +3,10 @@ package student
 import (
     "ee/schkola"
     "ee/schkola/person"
+    "github.com/eugeis/gee/enum"
     "time"
 )
+
 type AttendanceCreated struct {
     Student  *person.Profile
     Date  *time.Time
@@ -32,6 +34,7 @@ func NewAttendanceCreated(student *person.Profile, date *time.Time, course *Cour
 }
 
 
+
 type AttendanceDeleted struct {
     Id  string
 }
@@ -42,6 +45,7 @@ func NewAttendanceDeleted(id string) (ret *AttendanceDeleted, err error) {
     }
     return
 }
+
 
 
 type AttendanceUpdated struct {
@@ -71,6 +75,7 @@ func NewAttendanceUpdated(student *person.Profile, date *time.Time, course *Cour
 }
 
 
+
 type CourseCreated struct {
     Name  string
     Begin  *time.Time
@@ -96,6 +101,7 @@ func NewCourseCreated(name string, begin *time.Time, end *time.Time, teacher *pe
 }
 
 
+
 type CourseDeleted struct {
     Id  string
 }
@@ -106,6 +112,7 @@ func NewCourseDeleted(id string) (ret *CourseDeleted, err error) {
     }
     return
 }
+
 
 
 type CourseUpdated struct {
@@ -133,6 +140,7 @@ func NewCourseUpdated(name string, begin *time.Time, end *time.Time, teacher *pe
 }
 
 
+
 type GradeCreated struct {
     Student  *person.Profile
     Course  *Course
@@ -153,6 +161,7 @@ func NewGradeCreated(student *person.Profile, course *Course, grade float64, gra
 }
 
 
+
 type GradeDeleted struct {
     Id  string
 }
@@ -163,6 +172,7 @@ func NewGradeDeleted(id string) (ret *GradeDeleted, err error) {
     }
     return
 }
+
 
 
 type GradeUpdated struct {
@@ -183,6 +193,7 @@ func NewGradeUpdated(student *person.Profile, course *Course, grade float64, gra
     }
     return
 }
+
 
 
 type GroupCreated struct {
@@ -218,6 +229,7 @@ func (o *GroupCreated) AddToCourses(item *Course) *Course {
 }
 
 
+
 type GroupDeleted struct {
     Id  string
 }
@@ -228,6 +240,7 @@ func NewGroupDeleted(id string) (ret *GroupDeleted, err error) {
     }
     return
 }
+
 
 
 type GroupUpdated struct {
@@ -263,6 +276,7 @@ func (o *GroupUpdated) AddToCourses(item *Course) *Course {
 }
 
 
+
 type SchoolApplicationCreated struct {
     Profile  *person.Profile
     RecommendationOf  *person.PersonName
@@ -286,6 +300,7 @@ func NewSchoolApplicationCreated(profile *person.Profile, recommendationOf *pers
 }
 
 
+
 type SchoolApplicationDeleted struct {
     Id  string
 }
@@ -296,6 +311,7 @@ func NewSchoolApplicationDeleted(id string) (ret *SchoolApplicationDeleted, err 
     }
     return
 }
+
 
 
 type SchoolApplicationUpdated struct {
@@ -321,6 +337,7 @@ func NewSchoolApplicationUpdated(profile *person.Profile, recommendationOf *pers
 }
 
 
+
 type SchoolYearCreated struct {
     Name  string
     Start  *time.Time
@@ -344,6 +361,7 @@ func (o *SchoolYearCreated) AddToDates(item *Course) *Course {
 }
 
 
+
 type SchoolYearDeleted struct {
     Id  string
 }
@@ -354,6 +372,7 @@ func NewSchoolYearDeleted(id string) (ret *SchoolYearDeleted, err error) {
     }
     return
 }
+
 
 
 type SchoolYearUpdated struct {
@@ -408,6 +427,7 @@ func (o *AttendanceEventType) IsUpdatedAttendance() bool {
 
 type attendanceEventTypes struct {
 	values []*AttendanceEventType
+    literals []enum.Literal
 }
 
 var _attendanceEventTypes = &attendanceEventTypes{values: []*AttendanceEventType{
@@ -424,6 +444,16 @@ func (o *attendanceEventTypes) Values() []*AttendanceEventType {
 	return o.values
 }
 
+func (o *attendanceEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *attendanceEventTypes) CreatedAttendance() *AttendanceEventType {
     return _attendanceEventTypes.values[0]
 }
@@ -437,15 +467,10 @@ func (o *attendanceEventTypes) UpdatedAttendance() *AttendanceEventType {
 }
 
 func (o *attendanceEventTypes) ParseAttendanceEventType(name string) (ret *AttendanceEventType, ok bool) {
-    switch name {
-      case o.CreatedAttendance().Name():
-        ret = o.CreatedAttendance()
-      case o.DeletedAttendance().Name():
-        ret = o.DeletedAttendance()
-      case o.UpdatedAttendance().Name():
-        ret = o.UpdatedAttendance()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*AttendanceEventType), ok
+	}
+	return
 }
 
 
@@ -476,6 +501,7 @@ func (o *CourseEventType) IsUpdatedCourse() bool {
 
 type courseEventTypes struct {
 	values []*CourseEventType
+    literals []enum.Literal
 }
 
 var _courseEventTypes = &courseEventTypes{values: []*CourseEventType{
@@ -492,6 +518,16 @@ func (o *courseEventTypes) Values() []*CourseEventType {
 	return o.values
 }
 
+func (o *courseEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *courseEventTypes) CreatedCourse() *CourseEventType {
     return _courseEventTypes.values[0]
 }
@@ -505,15 +541,10 @@ func (o *courseEventTypes) UpdatedCourse() *CourseEventType {
 }
 
 func (o *courseEventTypes) ParseCourseEventType(name string) (ret *CourseEventType, ok bool) {
-    switch name {
-      case o.CreatedCourse().Name():
-        ret = o.CreatedCourse()
-      case o.DeletedCourse().Name():
-        ret = o.DeletedCourse()
-      case o.UpdatedCourse().Name():
-        ret = o.UpdatedCourse()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*CourseEventType), ok
+	}
+	return
 }
 
 
@@ -544,6 +575,7 @@ func (o *GradeEventType) IsUpdatedGrade() bool {
 
 type gradeEventTypes struct {
 	values []*GradeEventType
+    literals []enum.Literal
 }
 
 var _gradeEventTypes = &gradeEventTypes{values: []*GradeEventType{
@@ -560,6 +592,16 @@ func (o *gradeEventTypes) Values() []*GradeEventType {
 	return o.values
 }
 
+func (o *gradeEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *gradeEventTypes) CreatedGrade() *GradeEventType {
     return _gradeEventTypes.values[0]
 }
@@ -573,15 +615,10 @@ func (o *gradeEventTypes) UpdatedGrade() *GradeEventType {
 }
 
 func (o *gradeEventTypes) ParseGradeEventType(name string) (ret *GradeEventType, ok bool) {
-    switch name {
-      case o.CreatedGrade().Name():
-        ret = o.CreatedGrade()
-      case o.DeletedGrade().Name():
-        ret = o.DeletedGrade()
-      case o.UpdatedGrade().Name():
-        ret = o.UpdatedGrade()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*GradeEventType), ok
+	}
+	return
 }
 
 
@@ -612,6 +649,7 @@ func (o *GroupEventType) IsUpdatedGroup() bool {
 
 type groupEventTypes struct {
 	values []*GroupEventType
+    literals []enum.Literal
 }
 
 var _groupEventTypes = &groupEventTypes{values: []*GroupEventType{
@@ -628,6 +666,16 @@ func (o *groupEventTypes) Values() []*GroupEventType {
 	return o.values
 }
 
+func (o *groupEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *groupEventTypes) CreatedGroup() *GroupEventType {
     return _groupEventTypes.values[0]
 }
@@ -641,15 +689,10 @@ func (o *groupEventTypes) UpdatedGroup() *GroupEventType {
 }
 
 func (o *groupEventTypes) ParseGroupEventType(name string) (ret *GroupEventType, ok bool) {
-    switch name {
-      case o.CreatedGroup().Name():
-        ret = o.CreatedGroup()
-      case o.DeletedGroup().Name():
-        ret = o.DeletedGroup()
-      case o.UpdatedGroup().Name():
-        ret = o.UpdatedGroup()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*GroupEventType), ok
+	}
+	return
 }
 
 
@@ -680,6 +723,7 @@ func (o *SchoolApplicationEventType) IsUpdatedSchoolApplication() bool {
 
 type schoolApplicationEventTypes struct {
 	values []*SchoolApplicationEventType
+    literals []enum.Literal
 }
 
 var _schoolApplicationEventTypes = &schoolApplicationEventTypes{values: []*SchoolApplicationEventType{
@@ -696,6 +740,16 @@ func (o *schoolApplicationEventTypes) Values() []*SchoolApplicationEventType {
 	return o.values
 }
 
+func (o *schoolApplicationEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *schoolApplicationEventTypes) CreatedSchoolApplication() *SchoolApplicationEventType {
     return _schoolApplicationEventTypes.values[0]
 }
@@ -709,15 +763,10 @@ func (o *schoolApplicationEventTypes) UpdatedSchoolApplication() *SchoolApplicat
 }
 
 func (o *schoolApplicationEventTypes) ParseSchoolApplicationEventType(name string) (ret *SchoolApplicationEventType, ok bool) {
-    switch name {
-      case o.CreatedSchoolApplication().Name():
-        ret = o.CreatedSchoolApplication()
-      case o.DeletedSchoolApplication().Name():
-        ret = o.DeletedSchoolApplication()
-      case o.UpdatedSchoolApplication().Name():
-        ret = o.UpdatedSchoolApplication()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*SchoolApplicationEventType), ok
+	}
+	return
 }
 
 
@@ -748,6 +797,7 @@ func (o *SchoolYearEventType) IsUpdatedSchoolYear() bool {
 
 type schoolYearEventTypes struct {
 	values []*SchoolYearEventType
+    literals []enum.Literal
 }
 
 var _schoolYearEventTypes = &schoolYearEventTypes{values: []*SchoolYearEventType{
@@ -764,6 +814,16 @@ func (o *schoolYearEventTypes) Values() []*SchoolYearEventType {
 	return o.values
 }
 
+func (o *schoolYearEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *schoolYearEventTypes) CreatedSchoolYear() *SchoolYearEventType {
     return _schoolYearEventTypes.values[0]
 }
@@ -777,15 +837,10 @@ func (o *schoolYearEventTypes) UpdatedSchoolYear() *SchoolYearEventType {
 }
 
 func (o *schoolYearEventTypes) ParseSchoolYearEventType(name string) (ret *SchoolYearEventType, ok bool) {
-    switch name {
-      case o.CreatedSchoolYear().Name():
-        ret = o.CreatedSchoolYear()
-      case o.DeletedSchoolYear().Name():
-        ret = o.DeletedSchoolYear()
-      case o.UpdatedSchoolYear().Name():
-        ret = o.UpdatedSchoolYear()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*SchoolYearEventType), ok
+	}
+	return
 }
 
 

@@ -5,6 +5,7 @@ import (
     "ee/schkola/person"
     "time"
 )
+
 type Account struct {
     Username  string
     Password  string

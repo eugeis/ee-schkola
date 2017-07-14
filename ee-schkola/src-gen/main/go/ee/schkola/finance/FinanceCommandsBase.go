@@ -2,8 +2,10 @@ package finance
 
 import (
     "ee/schkola/person"
+    "github.com/eugeis/gee/enum"
     "time"
 )
+
 type CreateExpense struct {
     Purpose  *ExpensePurpose
     Amount  float64
@@ -22,6 +24,7 @@ func NewCreateExpense(purpose *ExpensePurpose, amount float64, profile *person.P
 }
 
 
+
 type DeleteExpense struct {
     Id  string
 }
@@ -32,6 +35,7 @@ func NewDeleteExpense(id string) (ret *DeleteExpense, err error) {
     }
     return
 }
+
 
 
 type UpdateExpense struct {
@@ -52,6 +56,7 @@ func NewUpdateExpense(purpose *ExpensePurpose, amount float64, profile *person.P
 }
 
 
+
 type CreateExpensePurpose struct {
     Name  string
     Description  string
@@ -66,6 +71,7 @@ func NewCreateExpensePurpose(name string, description string) (ret *CreateExpens
 }
 
 
+
 type DeleteExpensePurpose struct {
     Id  string
 }
@@ -76,6 +82,7 @@ func NewDeleteExpensePurpose(id string) (ret *DeleteExpensePurpose, err error) {
     }
     return
 }
+
 
 
 type UpdateExpensePurpose struct {
@@ -90,6 +97,7 @@ func NewUpdateExpensePurpose(name string, description string) (ret *UpdateExpens
     }
     return
 }
+
 
 
 type CreateFee struct {
@@ -110,6 +118,7 @@ func NewCreateFee(student *person.Profile, amount float64, kind *FeeKind, date *
 }
 
 
+
 type DeleteFee struct {
     Id  string
 }
@@ -120,6 +129,7 @@ func NewDeleteFee(id string) (ret *DeleteFee, err error) {
     }
     return
 }
+
 
 
 type UpdateFee struct {
@@ -140,6 +150,7 @@ func NewUpdateFee(student *person.Profile, amount float64, kind *FeeKind, date *
 }
 
 
+
 type CreateFeeKind struct {
     Name  string
     Amount  float64
@@ -156,6 +167,7 @@ func NewCreateFeeKind(name string, amount float64, description string) (ret *Cre
 }
 
 
+
 type DeleteFeeKind struct {
     Id  string
 }
@@ -166,6 +178,7 @@ func NewDeleteFeeKind(id string) (ret *DeleteFeeKind, err error) {
     }
     return
 }
+
 
 
 type UpdateFeeKind struct {
@@ -187,6 +200,7 @@ func NewUpdateFeeKind(name string, amount float64, description string) (ret *Upd
 
 
 type ExpenseCommandType struct {
+	name  string
 	ordinal int
 }
 
@@ -211,7 +225,8 @@ func (o *ExpenseCommandType) IsExpenseUpdate() bool {
 }
 
 type expenseCommandTypes struct {
-	names []string
+	values []*ExpenseCommandType
+    literals []enum.Literal
 }
 
 var _expenseCommandTypes = &expenseCommandTypes{values: []*ExpenseCommandType{
@@ -228,6 +243,16 @@ func (o *expenseCommandTypes) Values() []*ExpenseCommandType {
 	return o.values
 }
 
+func (o *expenseCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *expenseCommandTypes) ExpenseCreate() *ExpenseCommandType {
     return _expenseCommandTypes.values[0]
 }
@@ -241,15 +266,10 @@ func (o *expenseCommandTypes) ExpenseUpdate() *ExpenseCommandType {
 }
 
 func (o *expenseCommandTypes) ParseExpenseCommandType(name string) (ret *ExpenseCommandType, ok bool) {
-    switch name {
-      case o.ExpenseCreate().Name():
-        ret = o.ExpenseCreate()
-      case o.ExpenseDelete().Name():
-        ret = o.ExpenseDelete()
-      case o.ExpenseUpdate().Name():
-        ret = o.ExpenseUpdate()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*ExpenseCommandType), ok
+	}
+	return
 }
 
 
@@ -280,6 +300,7 @@ func (o *ExpensePurposeCommandType) IsExpensePurposeUpdate() bool {
 
 type expensePurposeCommandTypes struct {
 	values []*ExpensePurposeCommandType
+    literals []enum.Literal
 }
 
 var _expensePurposeCommandTypes = &expensePurposeCommandTypes{values: []*ExpensePurposeCommandType{
@@ -296,6 +317,16 @@ func (o *expensePurposeCommandTypes) Values() []*ExpensePurposeCommandType {
 	return o.values
 }
 
+func (o *expensePurposeCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *expensePurposeCommandTypes) ExpensePurposeCreate() *ExpensePurposeCommandType {
     return _expensePurposeCommandTypes.values[0]
 }
@@ -309,15 +340,10 @@ func (o *expensePurposeCommandTypes) ExpensePurposeUpdate() *ExpensePurposeComma
 }
 
 func (o *expensePurposeCommandTypes) ParseExpensePurposeCommandType(name string) (ret *ExpensePurposeCommandType, ok bool) {
-    switch name {
-      case o.ExpensePurposeCreate().Name():
-        ret = o.ExpensePurposeCreate()
-      case o.ExpensePurposeDelete().Name():
-        ret = o.ExpensePurposeDelete()
-      case o.ExpensePurposeUpdate().Name():
-        ret = o.ExpensePurposeUpdate()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*ExpensePurposeCommandType), ok
+	}
+	return
 }
 
 
@@ -348,6 +374,7 @@ func (o *FeeCommandType) IsFeeUpdate() bool {
 
 type feeCommandTypes struct {
 	values []*FeeCommandType
+    literals []enum.Literal
 }
 
 var _feeCommandTypes = &feeCommandTypes{values: []*FeeCommandType{
@@ -364,6 +391,16 @@ func (o *feeCommandTypes) Values() []*FeeCommandType {
 	return o.values
 }
 
+func (o *feeCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *feeCommandTypes) FeeCreate() *FeeCommandType {
     return _feeCommandTypes.values[0]
 }
@@ -377,15 +414,10 @@ func (o *feeCommandTypes) FeeUpdate() *FeeCommandType {
 }
 
 func (o *feeCommandTypes) ParseFeeCommandType(name string) (ret *FeeCommandType, ok bool) {
-    switch name {
-      case o.FeeCreate().Name():
-        ret = o.FeeCreate()
-      case o.FeeDelete().Name():
-        ret = o.FeeDelete()
-      case o.FeeUpdate().Name():
-        ret = o.FeeUpdate()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*FeeCommandType), ok
+	}
+	return
 }
 
 
@@ -416,6 +448,7 @@ func (o *FeeKindCommandType) IsFeeKindUpdate() bool {
 
 type feeKindCommandTypes struct {
 	values []*FeeKindCommandType
+    literals []enum.Literal
 }
 
 var _feeKindCommandTypes = &feeKindCommandTypes{values: []*FeeKindCommandType{
@@ -432,6 +465,16 @@ func (o *feeKindCommandTypes) Values() []*FeeKindCommandType {
 	return o.values
 }
 
+func (o *feeKindCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *feeKindCommandTypes) FeeKindCreate() *FeeKindCommandType {
     return _feeKindCommandTypes.values[0]
 }
@@ -445,15 +488,10 @@ func (o *feeKindCommandTypes) FeeKindUpdate() *FeeKindCommandType {
 }
 
 func (o *feeKindCommandTypes) ParseFeeKindCommandType(name string) (ret *FeeKindCommandType, ok bool) {
-    switch name {
-      case o.FeeKindCreate().Name():
-        ret = o.FeeKindCreate()
-      case o.FeeKindDelete().Name():
-        ret = o.FeeKindDelete()
-      case o.FeeKindUpdate().Name():
-        ret = o.FeeKindUpdate()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*FeeKindCommandType), ok
+	}
+	return
 }
 
 

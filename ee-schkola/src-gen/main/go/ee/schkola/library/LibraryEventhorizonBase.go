@@ -2,22 +2,8 @@ package library
 
 import (
     "github.com/looplab/eventhorizon"
+    "github.com/eugeis/gee/eh"
 )
-type BookAggregate struct {
-    *eventhorizon.AggregateBase
-    *Book
-}
-
-func NewBookAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Book) (ret *BookAggregate, err error) {
-    ret = &BookAggregate{
-        AggregateBase: AggregateBase,
-        Book: Entity,
-    }
-    return
-}
-
-
-
 
 type BookBookAggregateInitializer struct {
     Store  *eventhorizon.EventStore
@@ -39,11 +25,24 @@ func NewBookBookAggregateInitializer(store *eventhorizon.EventStore, notifier *e
 
 
 func (o *BookBookAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    
-    aggregateType := eventhorizon.AggregateType(LibraryAggregateTypes().Book)
-    for _, command := range BookCommandTypes().Values() {
-        handler.SetAggregate(aggregateType, eventhorizon.CommandType(command.Name()))
+    eh.RegisterCommands(handler, BookAggregateType, BookCommandTypes().Literals())
+}
+
+
+
+
+const BookBookType eventhorizon.AggregateType = "BookBook"
+type BookBook struct {
+    *eventhorizon.AggregateBase
+    *Book
+}
+
+func NewBookBook(AggregateBase *eventhorizon.AggregateBase, Entity *Book) (ret *BookBook, err error) {
+    ret = &BookBook{
+        AggregateBase: AggregateBase,
+        Book: Entity,
     }
+    return
 }
 
 
@@ -73,61 +72,6 @@ func NewLibraryEventhorizonInitializer(store *eventhorizon.EventStore, eventBus 
 
 
 
-
-
-type LibraryAggregateType struct {
-	name  string
-	ordinal int
-    commands string
-    events string
-}
-
-func (o *LibraryAggregateType) Name() string {
-    return o.name
-}
-
-func (o *LibraryAggregateType) Ordinal() int {
-    return o.ordinal
-}
-
-func (o *LibraryAggregateType) Commands() string {
-    return o.commands
-}
-func (o *LibraryAggregateType) Events() string {
-    return o.events
-}
-
-func (o *LibraryAggregateType) IsBook() bool {
-    return o == _libraryAggregateTypes.Book()
-}
-
-type libraryAggregateTypes struct {
-	values []*LibraryAggregateType
-}
-
-var _libraryAggregateTypes = &libraryAggregateTypes{values: []*LibraryAggregateType{
-    {name: "Book", ordinal: 0}},
-}
-
-func LibraryAggregateTypes() *libraryAggregateTypes {
-	return _libraryAggregateTypes
-}
-
-func (o *libraryAggregateTypes) Values() []*LibraryAggregateType {
-	return o.values
-}
-
-func (o *libraryAggregateTypes) Book() *LibraryAggregateType {
-    return _libraryAggregateTypes.values[0]
-}
-
-func (o *libraryAggregateTypes) ParseLibraryAggregateType(name string) (ret *LibraryAggregateType, ok bool) {
-    switch name {
-      case o.Book().Name():
-        ret = o.Book()
-    }
-    return
-}
 
 
 

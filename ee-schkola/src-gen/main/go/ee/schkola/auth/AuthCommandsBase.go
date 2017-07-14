@@ -2,8 +2,10 @@ package auth
 
 import (
     "ee/schkola/person"
+    "github.com/eugeis/gee/enum"
     "time"
 )
+
 type CreateAccount struct {
     Username  string
     Password  string
@@ -26,6 +28,7 @@ func NewCreateAccount(username string, password string, email string, disabled b
 }
 
 
+
 type DeleteAccount struct {
     Id  string
 }
@@ -36,6 +39,7 @@ func NewDeleteAccount(id string) (ret *DeleteAccount, err error) {
     }
     return
 }
+
 
 
 type UpdateAccount struct {
@@ -60,12 +64,15 @@ func NewUpdateAccount(username string, password string, email string, disabled b
 }
 
 
+
 type EnableAccount struct {
 }
 
 
+
 type DisableAccount struct {
 }
+
 
 
 type RegisterAccount struct {
@@ -125,6 +132,7 @@ func (o *AccountCommandType) IsAccountRegister() bool {
 
 type accountCommandTypes struct {
 	values []*AccountCommandType
+    literals []enum.Literal
 }
 
 var _accountCommandTypes = &accountCommandTypes{values: []*AccountCommandType{
@@ -142,6 +150,16 @@ func AccountCommandTypes() *accountCommandTypes {
 
 func (o *accountCommandTypes) Values() []*AccountCommandType {
 	return o.values
+}
+
+func (o *accountCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
 }
 
 func (o *accountCommandTypes) AccountCreate() *AccountCommandType {
@@ -169,21 +187,10 @@ func (o *accountCommandTypes) AccountRegister() *AccountCommandType {
 }
 
 func (o *accountCommandTypes) ParseAccountCommandType(name string) (ret *AccountCommandType, ok bool) {
-    switch name {
-      case o.AccountCreate().Name():
-        ret = o.AccountCreate()
-      case o.AccountDelete().Name():
-        ret = o.AccountDelete()
-      case o.AccountUpdate().Name():
-        ret = o.AccountUpdate()
-      case o.AccountEnable().Name():
-        ret = o.AccountEnable()
-      case o.AccountDisable().Name():
-        ret = o.AccountDisable()
-      case o.AccountRegister().Name():
-        ret = o.AccountRegister()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*AccountCommandType), ok
+	}
+	return
 }
 
 

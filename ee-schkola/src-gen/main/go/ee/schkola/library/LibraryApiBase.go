@@ -5,6 +5,7 @@ import (
     "ee/schkola/person"
     "time"
 )
+
 type Book struct {
     Title  
     Description  string
@@ -32,6 +33,7 @@ func NewBook(title , description string, language string, releaseDate *time.Time
     }
     return
 }
+
 
 
 

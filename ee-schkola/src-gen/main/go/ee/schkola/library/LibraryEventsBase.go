@@ -2,8 +2,10 @@ package library
 
 import (
     "ee/schkola/person"
+    "github.com/eugeis/gee/enum"
     "time"
 )
+
 type BookCreated struct {
     Title  
     Description  string
@@ -31,6 +33,7 @@ func NewBookCreated(title , description string, language string, releaseDate *ti
 }
 
 
+
 type BookDeleted struct {
     Id  string
 }
@@ -41,6 +44,7 @@ func NewBookDeleted(id string) (ret *BookDeleted, err error) {
     }
     return
 }
+
 
 
 type BookUpdated struct {
@@ -99,6 +103,7 @@ func (o *BookEventType) IsUpdatedBook() bool {
 
 type bookEventTypes struct {
 	values []*BookEventType
+    literals []enum.Literal
 }
 
 var _bookEventTypes = &bookEventTypes{values: []*BookEventType{
@@ -115,6 +120,16 @@ func (o *bookEventTypes) Values() []*BookEventType {
 	return o.values
 }
 
+func (o *bookEventTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *bookEventTypes) CreatedBook() *BookEventType {
     return _bookEventTypes.values[0]
 }
@@ -128,15 +143,10 @@ func (o *bookEventTypes) UpdatedBook() *BookEventType {
 }
 
 func (o *bookEventTypes) ParseBookEventType(name string) (ret *BookEventType, ok bool) {
-    switch name {
-      case o.CreatedBook().Name():
-        ret = o.CreatedBook()
-      case o.DeletedBook().Name():
-        ret = o.DeletedBook()
-      case o.UpdatedBook().Name():
-        ret = o.UpdatedBook()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*BookEventType), ok
+	}
+	return
 }
 
 

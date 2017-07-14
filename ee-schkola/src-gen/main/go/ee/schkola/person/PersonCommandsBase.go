@@ -1,8 +1,10 @@
 package person
 
 import (
+    "github.com/eugeis/gee/enum"
     "time"
 )
+
 type CreateChurch struct {
     Name  string
     Address  *Address
@@ -21,6 +23,7 @@ func NewCreateChurch(name string, address *Address, pastor *PersonName, contact 
 }
 
 
+
 type DeleteChurch struct {
     Id  string
 }
@@ -31,6 +34,7 @@ func NewDeleteChurch(id string) (ret *DeleteChurch, err error) {
     }
     return
 }
+
 
 
 type UpdateChurch struct {
@@ -51,6 +55,7 @@ func NewUpdateChurch(name string, address *Address, pastor *PersonName, contact 
 }
 
 
+
 type CreateGraduation struct {
     Name  string
     Level  *GraduationLevel
@@ -65,6 +70,7 @@ func NewCreateGraduation(name string, level *GraduationLevel) (ret *CreateGradua
 }
 
 
+
 type DeleteGraduation struct {
     Id  string
 }
@@ -75,6 +81,7 @@ func NewDeleteGraduation(id string) (ret *DeleteGraduation, err error) {
     }
     return
 }
+
 
 
 type UpdateGraduation struct {
@@ -89,6 +96,7 @@ func NewUpdateGraduation(name string, level *GraduationLevel) (ret *UpdateGradua
     }
     return
 }
+
 
 
 type CreateProfile struct {
@@ -124,6 +132,7 @@ func NewCreateProfile(gender *Gender, name *PersonName, birthName string, birthd
 }
 
 
+
 type DeleteProfile struct {
     Id  string
 }
@@ -134,6 +143,7 @@ func NewDeleteProfile(id string) (ret *DeleteProfile, err error) {
     }
     return
 }
+
 
 
 type UpdateProfile struct {
@@ -198,6 +208,7 @@ func (o *ChurchCommandType) IsChurchUpdate() bool {
 
 type churchCommandTypes struct {
 	values []*ChurchCommandType
+    literals []enum.Literal
 }
 
 var _churchCommandTypes = &churchCommandTypes{values: []*ChurchCommandType{
@@ -214,6 +225,16 @@ func (o *churchCommandTypes) Values() []*ChurchCommandType {
 	return o.values
 }
 
+func (o *churchCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *churchCommandTypes) ChurchCreate() *ChurchCommandType {
     return _churchCommandTypes.values[0]
 }
@@ -227,15 +248,10 @@ func (o *churchCommandTypes) ChurchUpdate() *ChurchCommandType {
 }
 
 func (o *churchCommandTypes) ParseChurchCommandType(name string) (ret *ChurchCommandType, ok bool) {
-    switch name {
-      case o.ChurchCreate().Name():
-        ret = o.ChurchCreate()
-      case o.ChurchDelete().Name():
-        ret = o.ChurchDelete()
-      case o.ChurchUpdate().Name():
-        ret = o.ChurchUpdate()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*ChurchCommandType), ok
+	}
+	return
 }
 
 
@@ -266,6 +282,7 @@ func (o *GraduationCommandType) IsGraduationUpdate() bool {
 
 type graduationCommandTypes struct {
 	values []*GraduationCommandType
+    literals []enum.Literal
 }
 
 var _graduationCommandTypes = &graduationCommandTypes{values: []*GraduationCommandType{
@@ -282,6 +299,16 @@ func (o *graduationCommandTypes) Values() []*GraduationCommandType {
 	return o.values
 }
 
+func (o *graduationCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *graduationCommandTypes) GraduationCreate() *GraduationCommandType {
     return _graduationCommandTypes.values[0]
 }
@@ -295,15 +322,10 @@ func (o *graduationCommandTypes) GraduationUpdate() *GraduationCommandType {
 }
 
 func (o *graduationCommandTypes) ParseGraduationCommandType(name string) (ret *GraduationCommandType, ok bool) {
-    switch name {
-      case o.GraduationCreate().Name():
-        ret = o.GraduationCreate()
-      case o.GraduationDelete().Name():
-        ret = o.GraduationDelete()
-      case o.GraduationUpdate().Name():
-        ret = o.GraduationUpdate()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*GraduationCommandType), ok
+	}
+	return
 }
 
 
@@ -334,6 +356,7 @@ func (o *ProfileCommandType) IsProfileUpdate() bool {
 
 type profileCommandTypes struct {
 	values []*ProfileCommandType
+    literals []enum.Literal
 }
 
 var _profileCommandTypes = &profileCommandTypes{values: []*ProfileCommandType{
@@ -350,6 +373,16 @@ func (o *profileCommandTypes) Values() []*ProfileCommandType {
 	return o.values
 }
 
+func (o *profileCommandTypes) Literals() []enum.Literal {
+	if o.literals == nil {
+		o.literals = make([]enum.Literal, len(o.values))
+		for i, item := range o.values {
+			o.literals[i] = item
+		}
+	}
+	return o.literals
+}
+
 func (o *profileCommandTypes) ProfileCreate() *ProfileCommandType {
     return _profileCommandTypes.values[0]
 }
@@ -363,15 +396,10 @@ func (o *profileCommandTypes) ProfileUpdate() *ProfileCommandType {
 }
 
 func (o *profileCommandTypes) ParseProfileCommandType(name string) (ret *ProfileCommandType, ok bool) {
-    switch name {
-      case o.ProfileCreate().Name():
-        ret = o.ProfileCreate()
-      case o.ProfileDelete().Name():
-        ret = o.ProfileDelete()
-      case o.ProfileUpdate().Name():
-        ret = o.ProfileUpdate()
-    }
-    return
+	if item, ok := enum.Parse(name, o.literals); ok {
+		return item.(*ProfileCommandType), ok
+	}
+	return
 }
 
 
