@@ -5,16 +5,16 @@ import (
     "github.com/eugeis/gee/eh"
 )
 
-type ChurchChurchAggregateInitializer struct {
+type ChurchAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewChurchChurchAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *ChurchChurchAggregateInitializer, err error) {
-    ret = &ChurchChurchAggregateInitializer{
+func NewChurchAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *ChurchAggregateInitializer, err error) {
+    ret = &ChurchAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -24,21 +24,21 @@ func NewChurchChurchAggregateInitializer(store *eventhorizon.EventStore, notifie
 }
 
 
-func (o *ChurchChurchAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *ChurchAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, ChurchAggregateType, ChurchCommandTypes().Literals())
 }
 
 
 
 
-const ChurchChurchType eventhorizon.AggregateType = "ChurchChurch"
-type ChurchChurch struct {
+const ChurchAggregateType eventhorizon.AggregateType = "ChurchAggregate"
+type ChurchAggregate struct {
     *eventhorizon.AggregateBase
     *Church
 }
 
-func NewChurchChurch(AggregateBase *eventhorizon.AggregateBase, Entity *Church) (ret *ChurchChurch, err error) {
-    ret = &ChurchChurch{
+func NewChurchAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Church) (ret *ChurchAggregate, err error) {
+    ret = &ChurchAggregate{
         AggregateBase: AggregateBase,
         Church: Entity,
     }
@@ -47,16 +47,16 @@ func NewChurchChurch(AggregateBase *eventhorizon.AggregateBase, Entity *Church) 
 
 
 
-type GraduationGraduationAggregateInitializer struct {
+type GraduationAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewGraduationGraduationAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *GraduationGraduationAggregateInitializer, err error) {
-    ret = &GraduationGraduationAggregateInitializer{
+func NewGraduationAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *GraduationAggregateInitializer, err error) {
+    ret = &GraduationAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -66,21 +66,21 @@ func NewGraduationGraduationAggregateInitializer(store *eventhorizon.EventStore,
 }
 
 
-func (o *GraduationGraduationAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *GraduationAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, GraduationAggregateType, GraduationCommandTypes().Literals())
 }
 
 
 
 
-const GraduationGraduationType eventhorizon.AggregateType = "GraduationGraduation"
-type GraduationGraduation struct {
+const GraduationAggregateType eventhorizon.AggregateType = "GraduationAggregate"
+type GraduationAggregate struct {
     *eventhorizon.AggregateBase
     *Graduation
 }
 
-func NewGraduationGraduation(AggregateBase *eventhorizon.AggregateBase, Entity *Graduation) (ret *GraduationGraduation, err error) {
-    ret = &GraduationGraduation{
+func NewGraduationAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Graduation) (ret *GraduationAggregate, err error) {
+    ret = &GraduationAggregate{
         AggregateBase: AggregateBase,
         Graduation: Entity,
     }
@@ -89,16 +89,16 @@ func NewGraduationGraduation(AggregateBase *eventhorizon.AggregateBase, Entity *
 
 
 
-type ProfileProfileAggregateInitializer struct {
+type ProfileAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewProfileProfileAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *ProfileProfileAggregateInitializer, err error) {
-    ret = &ProfileProfileAggregateInitializer{
+func NewProfileAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *ProfileAggregateInitializer, err error) {
+    ret = &ProfileAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -108,21 +108,21 @@ func NewProfileProfileAggregateInitializer(store *eventhorizon.EventStore, notif
 }
 
 
-func (o *ProfileProfileAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *ProfileAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, ProfileAggregateType, ProfileCommandTypes().Literals())
 }
 
 
 
 
-const ProfileProfileType eventhorizon.AggregateType = "ProfileProfile"
-type ProfileProfile struct {
+const ProfileAggregateType eventhorizon.AggregateType = "ProfileAggregate"
+type ProfileAggregate struct {
     *eventhorizon.AggregateBase
     *Profile
 }
 
-func NewProfileProfile(AggregateBase *eventhorizon.AggregateBase, Entity *Profile) (ret *ProfileProfile, err error) {
-    ret = &ProfileProfile{
+func NewProfileAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Profile) (ret *ProfileAggregate, err error) {
+    ret = &ProfileAggregate{
         AggregateBase: AggregateBase,
         Profile: Entity,
     }

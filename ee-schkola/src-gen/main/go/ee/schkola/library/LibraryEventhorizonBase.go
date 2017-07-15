@@ -5,16 +5,16 @@ import (
     "github.com/eugeis/gee/eh"
 )
 
-type BookBookAggregateInitializer struct {
+type BookAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewBookBookAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *BookBookAggregateInitializer, err error) {
-    ret = &BookBookAggregateInitializer{
+func NewBookAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *BookAggregateInitializer, err error) {
+    ret = &BookAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -24,21 +24,21 @@ func NewBookBookAggregateInitializer(store *eventhorizon.EventStore, notifier *e
 }
 
 
-func (o *BookBookAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *BookAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, BookAggregateType, BookCommandTypes().Literals())
 }
 
 
 
 
-const BookBookType eventhorizon.AggregateType = "BookBook"
-type BookBook struct {
+const BookAggregateType eventhorizon.AggregateType = "BookAggregate"
+type BookAggregate struct {
     *eventhorizon.AggregateBase
     *Book
 }
 
-func NewBookBook(AggregateBase *eventhorizon.AggregateBase, Entity *Book) (ret *BookBook, err error) {
-    ret = &BookBook{
+func NewBookAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Book) (ret *BookAggregate, err error) {
+    ret = &BookAggregate{
         AggregateBase: AggregateBase,
         Book: Entity,
     }

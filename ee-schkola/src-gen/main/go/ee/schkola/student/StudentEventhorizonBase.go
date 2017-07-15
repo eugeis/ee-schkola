@@ -5,16 +5,16 @@ import (
     "github.com/eugeis/gee/eh"
 )
 
-type AttendanceAttendanceAggregateInitializer struct {
+type AttendanceAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewAttendanceAttendanceAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *AttendanceAttendanceAggregateInitializer, err error) {
-    ret = &AttendanceAttendanceAggregateInitializer{
+func NewAttendanceAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *AttendanceAggregateInitializer, err error) {
+    ret = &AttendanceAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -24,21 +24,21 @@ func NewAttendanceAttendanceAggregateInitializer(store *eventhorizon.EventStore,
 }
 
 
-func (o *AttendanceAttendanceAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *AttendanceAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, AttendanceAggregateType, AttendanceCommandTypes().Literals())
 }
 
 
 
 
-const AttendanceAttendanceType eventhorizon.AggregateType = "AttendanceAttendance"
-type AttendanceAttendance struct {
+const AttendanceAggregateType eventhorizon.AggregateType = "AttendanceAggregate"
+type AttendanceAggregate struct {
     *eventhorizon.AggregateBase
     *Attendance
 }
 
-func NewAttendanceAttendance(AggregateBase *eventhorizon.AggregateBase, Entity *Attendance) (ret *AttendanceAttendance, err error) {
-    ret = &AttendanceAttendance{
+func NewAttendanceAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Attendance) (ret *AttendanceAggregate, err error) {
+    ret = &AttendanceAggregate{
         AggregateBase: AggregateBase,
         Attendance: Entity,
     }
@@ -47,16 +47,16 @@ func NewAttendanceAttendance(AggregateBase *eventhorizon.AggregateBase, Entity *
 
 
 
-type CourseCourseAggregateInitializer struct {
+type CourseAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewCourseCourseAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *CourseCourseAggregateInitializer, err error) {
-    ret = &CourseCourseAggregateInitializer{
+func NewCourseAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *CourseAggregateInitializer, err error) {
+    ret = &CourseAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -66,21 +66,21 @@ func NewCourseCourseAggregateInitializer(store *eventhorizon.EventStore, notifie
 }
 
 
-func (o *CourseCourseAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *CourseAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, CourseAggregateType, CourseCommandTypes().Literals())
 }
 
 
 
 
-const CourseCourseType eventhorizon.AggregateType = "CourseCourse"
-type CourseCourse struct {
+const CourseAggregateType eventhorizon.AggregateType = "CourseAggregate"
+type CourseAggregate struct {
     *eventhorizon.AggregateBase
     *Course
 }
 
-func NewCourseCourse(AggregateBase *eventhorizon.AggregateBase, Entity *Course) (ret *CourseCourse, err error) {
-    ret = &CourseCourse{
+func NewCourseAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Course) (ret *CourseAggregate, err error) {
+    ret = &CourseAggregate{
         AggregateBase: AggregateBase,
         Course: Entity,
     }
@@ -89,16 +89,16 @@ func NewCourseCourse(AggregateBase *eventhorizon.AggregateBase, Entity *Course) 
 
 
 
-type GradeGradeAggregateInitializer struct {
+type GradeAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewGradeGradeAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *GradeGradeAggregateInitializer, err error) {
-    ret = &GradeGradeAggregateInitializer{
+func NewGradeAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *GradeAggregateInitializer, err error) {
+    ret = &GradeAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -108,21 +108,21 @@ func NewGradeGradeAggregateInitializer(store *eventhorizon.EventStore, notifier 
 }
 
 
-func (o *GradeGradeAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *GradeAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, GradeAggregateType, GradeCommandTypes().Literals())
 }
 
 
 
 
-const GradeGradeType eventhorizon.AggregateType = "GradeGrade"
-type GradeGrade struct {
+const GradeAggregateType eventhorizon.AggregateType = "GradeAggregate"
+type GradeAggregate struct {
     *eventhorizon.AggregateBase
     *Grade
 }
 
-func NewGradeGrade(AggregateBase *eventhorizon.AggregateBase, Entity *Grade) (ret *GradeGrade, err error) {
-    ret = &GradeGrade{
+func NewGradeAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Grade) (ret *GradeAggregate, err error) {
+    ret = &GradeAggregate{
         AggregateBase: AggregateBase,
         Grade: Entity,
     }
@@ -131,16 +131,16 @@ func NewGradeGrade(AggregateBase *eventhorizon.AggregateBase, Entity *Grade) (re
 
 
 
-type GroupGroupAggregateInitializer struct {
+type GroupAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewGroupGroupAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *GroupGroupAggregateInitializer, err error) {
-    ret = &GroupGroupAggregateInitializer{
+func NewGroupAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *GroupAggregateInitializer, err error) {
+    ret = &GroupAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -150,21 +150,21 @@ func NewGroupGroupAggregateInitializer(store *eventhorizon.EventStore, notifier 
 }
 
 
-func (o *GroupGroupAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *GroupAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, GroupAggregateType, GroupCommandTypes().Literals())
 }
 
 
 
 
-const GroupGroupType eventhorizon.AggregateType = "GroupGroup"
-type GroupGroup struct {
+const GroupAggregateType eventhorizon.AggregateType = "GroupAggregate"
+type GroupAggregate struct {
     *eventhorizon.AggregateBase
     *Group
 }
 
-func NewGroupGroup(AggregateBase *eventhorizon.AggregateBase, Entity *Group) (ret *GroupGroup, err error) {
-    ret = &GroupGroup{
+func NewGroupAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Group) (ret *GroupAggregate, err error) {
+    ret = &GroupAggregate{
         AggregateBase: AggregateBase,
         Group: Entity,
     }
@@ -173,16 +173,16 @@ func NewGroupGroup(AggregateBase *eventhorizon.AggregateBase, Entity *Group) (re
 
 
 
-type SchoolApplicationSchoolApplicationAggregateInitializer struct {
+type SchoolApplicationAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewSchoolApplicationSchoolApplicationAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *SchoolApplicationSchoolApplicationAggregateInitializer, err error) {
-    ret = &SchoolApplicationSchoolApplicationAggregateInitializer{
+func NewSchoolApplicationAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *SchoolApplicationAggregateInitializer, err error) {
+    ret = &SchoolApplicationAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -192,21 +192,21 @@ func NewSchoolApplicationSchoolApplicationAggregateInitializer(store *eventhoriz
 }
 
 
-func (o *SchoolApplicationSchoolApplicationAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *SchoolApplicationAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, SchoolApplicationAggregateType, SchoolApplicationCommandTypes().Literals())
 }
 
 
 
 
-const SchoolApplicationSchoolApplicationType eventhorizon.AggregateType = "SchoolApplicationSchoolApplication"
-type SchoolApplicationSchoolApplication struct {
+const SchoolApplicationAggregateType eventhorizon.AggregateType = "SchoolApplicationAggregate"
+type SchoolApplicationAggregate struct {
     *eventhorizon.AggregateBase
     *SchoolApplication
 }
 
-func NewSchoolApplicationSchoolApplication(AggregateBase *eventhorizon.AggregateBase, Entity *SchoolApplication) (ret *SchoolApplicationSchoolApplication, err error) {
-    ret = &SchoolApplicationSchoolApplication{
+func NewSchoolApplicationAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *SchoolApplication) (ret *SchoolApplicationAggregate, err error) {
+    ret = &SchoolApplicationAggregate{
         AggregateBase: AggregateBase,
         SchoolApplication: Entity,
     }
@@ -215,16 +215,16 @@ func NewSchoolApplicationSchoolApplication(AggregateBase *eventhorizon.Aggregate
 
 
 
-type SchoolYearSchoolYearAggregateInitializer struct {
+type SchoolYearAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewSchoolYearSchoolYearAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *SchoolYearSchoolYearAggregateInitializer, err error) {
-    ret = &SchoolYearSchoolYearAggregateInitializer{
+func NewSchoolYearAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *SchoolYearAggregateInitializer, err error) {
+    ret = &SchoolYearAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -234,21 +234,21 @@ func NewSchoolYearSchoolYearAggregateInitializer(store *eventhorizon.EventStore,
 }
 
 
-func (o *SchoolYearSchoolYearAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *SchoolYearAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, SchoolYearAggregateType, SchoolYearCommandTypes().Literals())
 }
 
 
 
 
-const SchoolYearSchoolYearType eventhorizon.AggregateType = "SchoolYearSchoolYear"
-type SchoolYearSchoolYear struct {
+const SchoolYearAggregateType eventhorizon.AggregateType = "SchoolYearAggregate"
+type SchoolYearAggregate struct {
     *eventhorizon.AggregateBase
     *SchoolYear
 }
 
-func NewSchoolYearSchoolYear(AggregateBase *eventhorizon.AggregateBase, Entity *SchoolYear) (ret *SchoolYearSchoolYear, err error) {
-    ret = &SchoolYearSchoolYear{
+func NewSchoolYearAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *SchoolYear) (ret *SchoolYearAggregate, err error) {
+    ret = &SchoolYearAggregate{
         AggregateBase: AggregateBase,
         SchoolYear: Entity,
     }

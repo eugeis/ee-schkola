@@ -5,16 +5,16 @@ import (
     "github.com/eugeis/gee/eh"
 )
 
-type ExpenseExpenseAggregateInitializer struct {
+type ExpenseAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewExpenseExpenseAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *ExpenseExpenseAggregateInitializer, err error) {
-    ret = &ExpenseExpenseAggregateInitializer{
+func NewExpenseAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *ExpenseAggregateInitializer, err error) {
+    ret = &ExpenseAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -24,21 +24,21 @@ func NewExpenseExpenseAggregateInitializer(store *eventhorizon.EventStore, notif
 }
 
 
-func (o *ExpenseExpenseAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *ExpenseAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, ExpenseAggregateType, ExpenseCommandTypes().Literals())
 }
 
 
 
 
-const ExpenseExpenseType eventhorizon.AggregateType = "ExpenseExpense"
-type ExpenseExpense struct {
+const ExpenseAggregateType eventhorizon.AggregateType = "ExpenseAggregate"
+type ExpenseAggregate struct {
     *eventhorizon.AggregateBase
     *Expense
 }
 
-func NewExpenseExpense(AggregateBase *eventhorizon.AggregateBase, Entity *Expense) (ret *ExpenseExpense, err error) {
-    ret = &ExpenseExpense{
+func NewExpenseAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Expense) (ret *ExpenseAggregate, err error) {
+    ret = &ExpenseAggregate{
         AggregateBase: AggregateBase,
         Expense: Entity,
     }
@@ -47,16 +47,16 @@ func NewExpenseExpense(AggregateBase *eventhorizon.AggregateBase, Entity *Expens
 
 
 
-type ExpensePurposeExpensePurposeAggregateInitializer struct {
+type ExpensePurposeAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewExpensePurposeExpensePurposeAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *ExpensePurposeExpensePurposeAggregateInitializer, err error) {
-    ret = &ExpensePurposeExpensePurposeAggregateInitializer{
+func NewExpensePurposeAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *ExpensePurposeAggregateInitializer, err error) {
+    ret = &ExpensePurposeAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -66,21 +66,21 @@ func NewExpensePurposeExpensePurposeAggregateInitializer(store *eventhorizon.Eve
 }
 
 
-func (o *ExpensePurposeExpensePurposeAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *ExpensePurposeAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, ExpensePurposeAggregateType, ExpensePurposeCommandTypes().Literals())
 }
 
 
 
 
-const ExpensePurposeExpensePurposeType eventhorizon.AggregateType = "ExpensePurposeExpensePurpose"
-type ExpensePurposeExpensePurpose struct {
+const ExpensePurposeAggregateType eventhorizon.AggregateType = "ExpensePurposeAggregate"
+type ExpensePurposeAggregate struct {
     *eventhorizon.AggregateBase
     *ExpensePurpose
 }
 
-func NewExpensePurposeExpensePurpose(AggregateBase *eventhorizon.AggregateBase, Entity *ExpensePurpose) (ret *ExpensePurposeExpensePurpose, err error) {
-    ret = &ExpensePurposeExpensePurpose{
+func NewExpensePurposeAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *ExpensePurpose) (ret *ExpensePurposeAggregate, err error) {
+    ret = &ExpensePurposeAggregate{
         AggregateBase: AggregateBase,
         ExpensePurpose: Entity,
     }
@@ -89,16 +89,16 @@ func NewExpensePurposeExpensePurpose(AggregateBase *eventhorizon.AggregateBase, 
 
 
 
-type FeeFeeAggregateInitializer struct {
+type FeeAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewFeeFeeAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *FeeFeeAggregateInitializer, err error) {
-    ret = &FeeFeeAggregateInitializer{
+func NewFeeAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *FeeAggregateInitializer, err error) {
+    ret = &FeeAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -108,21 +108,21 @@ func NewFeeFeeAggregateInitializer(store *eventhorizon.EventStore, notifier *eve
 }
 
 
-func (o *FeeFeeAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *FeeAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, FeeAggregateType, FeeCommandTypes().Literals())
 }
 
 
 
 
-const FeeFeeType eventhorizon.AggregateType = "FeeFee"
-type FeeFee struct {
+const FeeAggregateType eventhorizon.AggregateType = "FeeAggregate"
+type FeeAggregate struct {
     *eventhorizon.AggregateBase
     *Fee
 }
 
-func NewFeeFee(AggregateBase *eventhorizon.AggregateBase, Entity *Fee) (ret *FeeFee, err error) {
-    ret = &FeeFee{
+func NewFeeAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Fee) (ret *FeeAggregate, err error) {
+    ret = &FeeAggregate{
         AggregateBase: AggregateBase,
         Fee: Entity,
     }
@@ -131,16 +131,16 @@ func NewFeeFee(AggregateBase *eventhorizon.AggregateBase, Entity *Fee) (ret *Fee
 
 
 
-type FeeKindFeeKindAggregateInitializer struct {
+type FeeKindAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewFeeKindFeeKindAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *FeeKindFeeKindAggregateInitializer, err error) {
-    ret = &FeeKindFeeKindAggregateInitializer{
+func NewFeeKindAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *FeeKindAggregateInitializer, err error) {
+    ret = &FeeKindAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -150,21 +150,21 @@ func NewFeeKindFeeKindAggregateInitializer(store *eventhorizon.EventStore, notif
 }
 
 
-func (o *FeeKindFeeKindAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *FeeKindAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, FeeKindAggregateType, FeeKindCommandTypes().Literals())
 }
 
 
 
 
-const FeeKindFeeKindType eventhorizon.AggregateType = "FeeKindFeeKind"
-type FeeKindFeeKind struct {
+const FeeKindAggregateType eventhorizon.AggregateType = "FeeKindAggregate"
+type FeeKindAggregate struct {
     *eventhorizon.AggregateBase
     *FeeKind
 }
 
-func NewFeeKindFeeKind(AggregateBase *eventhorizon.AggregateBase, Entity *FeeKind) (ret *FeeKindFeeKind, err error) {
-    ret = &FeeKindFeeKind{
+func NewFeeKindAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *FeeKind) (ret *FeeKindAggregate, err error) {
+    ret = &FeeKindAggregate{
         AggregateBase: AggregateBase,
         FeeKind: Entity,
     }

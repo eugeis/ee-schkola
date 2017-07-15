@@ -5,16 +5,16 @@ import (
     "github.com/eugeis/gee/eh"
 )
 
-type AccountAccountAggregateInitializer struct {
+type AccountAggregateInitializer struct {
     Store  *eventhorizon.EventStore
     Notifier  *eventhorizon.EventBus
     Publisher  *eventhorizon.EventPublisher
     Executor  *eventhorizon.CommandBus
 }
 
-func NewAccountAccountAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *AccountAccountAggregateInitializer, err error) {
-    ret = &AccountAccountAggregateInitializer{
+func NewAccountAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
+                executor *eventhorizon.CommandBus) (ret *AccountAggregateInitializer, err error) {
+    ret = &AccountAggregateInitializer{
         Store : store,
         Notifier : notifier,
         Publisher : publisher,
@@ -24,21 +24,21 @@ func NewAccountAccountAggregateInitializer(store *eventhorizon.EventStore, notif
 }
 
 
-func (o *AccountAccountAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
+func (o *AccountAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
     eh.RegisterCommands(handler, AccountAggregateType, AccountCommandTypes().Literals())
 }
 
 
 
 
-const AccountAccountType eventhorizon.AggregateType = "AccountAccount"
-type AccountAccount struct {
+const AccountAggregateType eventhorizon.AggregateType = "AccountAggregate"
+type AccountAggregate struct {
     *eventhorizon.AggregateBase
     *Account
 }
 
-func NewAccountAccount(AggregateBase *eventhorizon.AggregateBase, Entity *Account) (ret *AccountAccount, err error) {
-    ret = &AccountAccount{
+func NewAccountAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Account) (ret *AccountAggregate, err error) {
+    ret = &AccountAggregate{
         AggregateBase: AggregateBase,
         Account: Entity,
     }
