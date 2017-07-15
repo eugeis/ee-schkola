@@ -28,7 +28,7 @@ func NewExpenseAggregateInitializer(
 	commandBus *eventhorizon.CommandBus) (ret *ExpenseAggregateInitializer) {
 	ret = &ExpenseAggregateInitializer{
         AggregateInitializer: eh.NewAggregateInitializer(ExpenseAggregateType, ExpenseAggregateCommandTypes().Literals(),
-		ChurchAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+		ExpenseAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
     }
 	return
 }
@@ -71,7 +71,7 @@ func NewExpensePurposeAggregateInitializer(
 	commandBus *eventhorizon.CommandBus) (ret *ExpensePurposeAggregateInitializer) {
 	ret = &ExpensePurposeAggregateInitializer{
         AggregateInitializer: eh.NewAggregateInitializer(ExpensePurposeAggregateType, ExpensePurposeAggregateCommandTypes().Literals(),
-		ChurchAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+		ExpensePurposeAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
     }
 	return
 }
@@ -114,7 +114,7 @@ func NewFeeAggregateInitializer(
 	commandBus *eventhorizon.CommandBus) (ret *FeeAggregateInitializer) {
 	ret = &FeeAggregateInitializer{
         AggregateInitializer: eh.NewAggregateInitializer(FeeAggregateType, FeeAggregateCommandTypes().Literals(),
-		ChurchAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+		FeeAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
     }
 	return
 }
@@ -157,7 +157,7 @@ func NewFeeKindAggregateInitializer(
 	commandBus *eventhorizon.CommandBus) (ret *FeeKindAggregateInitializer) {
 	ret = &FeeKindAggregateInitializer{
         AggregateInitializer: eh.NewAggregateInitializer(FeeKindAggregateType, FeeKindAggregateCommandTypes().Literals(),
-		ChurchAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+		FeeKindAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
     }
 	return
 }

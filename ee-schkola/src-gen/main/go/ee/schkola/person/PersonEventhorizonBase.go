@@ -71,7 +71,7 @@ func NewGraduationAggregateInitializer(
 	commandBus *eventhorizon.CommandBus) (ret *GraduationAggregateInitializer) {
 	ret = &GraduationAggregateInitializer{
         AggregateInitializer: eh.NewAggregateInitializer(GraduationAggregateType, GraduationAggregateCommandTypes().Literals(),
-		ChurchAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+		GraduationAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
     }
 	return
 }
@@ -114,7 +114,7 @@ func NewProfileAggregateInitializer(
 	commandBus *eventhorizon.CommandBus) (ret *ProfileAggregateInitializer) {
 	ret = &ProfileAggregateInitializer{
         AggregateInitializer: eh.NewAggregateInitializer(ProfileAggregateType, ProfileAggregateCommandTypes().Literals(),
-		ChurchAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+		ProfileAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
     }
 	return
 }

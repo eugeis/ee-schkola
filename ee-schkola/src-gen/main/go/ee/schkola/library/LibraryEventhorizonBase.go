@@ -28,7 +28,7 @@ func NewBookAggregateInitializer(
 	commandBus *eventhorizon.CommandBus) (ret *BookAggregateInitializer) {
 	ret = &BookAggregateInitializer{
         AggregateInitializer: eh.NewAggregateInitializer(BookAggregateType, BookAggregateCommandTypes().Literals(),
-		ChurchAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+		BookAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
     }
 	return
 }

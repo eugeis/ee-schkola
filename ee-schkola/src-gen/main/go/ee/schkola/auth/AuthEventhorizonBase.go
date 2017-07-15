@@ -28,7 +28,7 @@ func NewAccountAggregateInitializer(
 	commandBus *eventhorizon.CommandBus) (ret *AccountAggregateInitializer) {
 	ret = &AccountAggregateInitializer{
         AggregateInitializer: eh.NewAggregateInitializer(AccountAggregateType, AccountAggregateCommandTypes().Literals(),
-		ChurchAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+		AccountAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
     }
 	return
 }
