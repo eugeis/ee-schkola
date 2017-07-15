@@ -6,19 +6,19 @@ import (
     "time"
 )
 
-type CreatedExpense struct {
-    purpose *ExpensePurpose
-    amount float64
-    profile *person.Profile
-    date *time.Time
+type ExpenseCreated struct {
+    Purpose  *ExpensePurpose
+    Amount  float64
+    Profile  *person.Profile
+    Date  *time.Time
 }
 
-func NewCreatedExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time) (ret *CreatedExpense, err error) {
-    ret = &CreatedExpense{
-        purpose: purpose,
-        amount: amount,
-        profile: profile,
-        date: date,
+func NewExpenseCreated(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time) (ret *ExpenseCreated, err error) {
+    ret = &ExpenseCreated{
+        Purpose : purpose,
+        Amount : amount,
+        Profile : profile,
+        Date : date,
     }
     
     return
@@ -26,13 +26,13 @@ func NewCreatedExpense(purpose *ExpensePurpose, amount float64, profile *person.
 
 
 
-type DeletedExpense struct {
-    id string
+type ExpenseDeleted struct {
+    Id  string
 }
 
-func NewDeletedExpense(id string) (ret *DeletedExpense, err error) {
-    ret = &DeletedExpense{
-        id: id,
+func NewExpenseDeleted(id string) (ret *ExpenseDeleted, err error) {
+    ret = &ExpenseDeleted{
+        Id : id,
     }
     
     return
@@ -40,19 +40,19 @@ func NewDeletedExpense(id string) (ret *DeletedExpense, err error) {
 
 
 
-type UpdatedExpense struct {
-    purpose *ExpensePurpose
-    amount float64
-    profile *person.Profile
-    date *time.Time
+type ExpenseUpdated struct {
+    Purpose  *ExpensePurpose
+    Amount  float64
+    Profile  *person.Profile
+    Date  *time.Time
 }
 
-func NewUpdatedExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time) (ret *UpdatedExpense, err error) {
-    ret = &UpdatedExpense{
-        purpose: purpose,
-        amount: amount,
-        profile: profile,
-        date: date,
+func NewExpenseUpdated(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time) (ret *ExpenseUpdated, err error) {
+    ret = &ExpenseUpdated{
+        Purpose : purpose,
+        Amount : amount,
+        Profile : profile,
+        Date : date,
     }
     
     return
@@ -60,15 +60,15 @@ func NewUpdatedExpense(purpose *ExpensePurpose, amount float64, profile *person.
 
 
 
-type CreatedExpensePurpose struct {
-    name string
-    description string
+type ExpensePurposeCreated struct {
+    Name  string
+    Description  string
 }
 
-func NewCreatedExpensePurpose(name string, description string) (ret *CreatedExpensePurpose, err error) {
-    ret = &CreatedExpensePurpose{
-        name: name,
-        description: description,
+func NewExpensePurposeCreated(name string, description string) (ret *ExpensePurposeCreated, err error) {
+    ret = &ExpensePurposeCreated{
+        Name : name,
+        Description : description,
     }
     
     return
@@ -76,13 +76,13 @@ func NewCreatedExpensePurpose(name string, description string) (ret *CreatedExpe
 
 
 
-type DeletedExpensePurpose struct {
-    id string
+type ExpensePurposeDeleted struct {
+    Id  string
 }
 
-func NewDeletedExpensePurpose(id string) (ret *DeletedExpensePurpose, err error) {
-    ret = &DeletedExpensePurpose{
-        id: id,
+func NewExpensePurposeDeleted(id string) (ret *ExpensePurposeDeleted, err error) {
+    ret = &ExpensePurposeDeleted{
+        Id : id,
     }
     
     return
@@ -90,15 +90,15 @@ func NewDeletedExpensePurpose(id string) (ret *DeletedExpensePurpose, err error)
 
 
 
-type UpdatedExpensePurpose struct {
-    name string
-    description string
+type ExpensePurposeUpdated struct {
+    Name  string
+    Description  string
 }
 
-func NewUpdatedExpensePurpose(name string, description string) (ret *UpdatedExpensePurpose, err error) {
-    ret = &UpdatedExpensePurpose{
-        name: name,
-        description: description,
+func NewExpensePurposeUpdated(name string, description string) (ret *ExpensePurposeUpdated, err error) {
+    ret = &ExpensePurposeUpdated{
+        Name : name,
+        Description : description,
     }
     
     return
@@ -106,19 +106,19 @@ func NewUpdatedExpensePurpose(name string, description string) (ret *UpdatedExpe
 
 
 
-type CreatedFee struct {
-    student *person.Profile
-    amount float64
-    kind *FeeKind
-    date *time.Time
+type FeeCreated struct {
+    Student  *person.Profile
+    Amount  float64
+    Kind  *FeeKind
+    Date  *time.Time
 }
 
-func NewCreatedFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time) (ret *CreatedFee, err error) {
-    ret = &CreatedFee{
-        student: student,
-        amount: amount,
-        kind: kind,
-        date: date,
+func NewFeeCreated(student *person.Profile, amount float64, kind *FeeKind, date *time.Time) (ret *FeeCreated, err error) {
+    ret = &FeeCreated{
+        Student : student,
+        Amount : amount,
+        Kind : kind,
+        Date : date,
     }
     
     return
@@ -126,13 +126,13 @@ func NewCreatedFee(student *person.Profile, amount float64, kind *FeeKind, date 
 
 
 
-type DeletedFee struct {
-    id string
+type FeeDeleted struct {
+    Id  string
 }
 
-func NewDeletedFee(id string) (ret *DeletedFee, err error) {
-    ret = &DeletedFee{
-        id: id,
+func NewFeeDeleted(id string) (ret *FeeDeleted, err error) {
+    ret = &FeeDeleted{
+        Id : id,
     }
     
     return
@@ -140,19 +140,19 @@ func NewDeletedFee(id string) (ret *DeletedFee, err error) {
 
 
 
-type UpdatedFee struct {
-    student *person.Profile
-    amount float64
-    kind *FeeKind
-    date *time.Time
+type FeeUpdated struct {
+    Student  *person.Profile
+    Amount  float64
+    Kind  *FeeKind
+    Date  *time.Time
 }
 
-func NewUpdatedFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time) (ret *UpdatedFee, err error) {
-    ret = &UpdatedFee{
-        student: student,
-        amount: amount,
-        kind: kind,
-        date: date,
+func NewFeeUpdated(student *person.Profile, amount float64, kind *FeeKind, date *time.Time) (ret *FeeUpdated, err error) {
+    ret = &FeeUpdated{
+        Student : student,
+        Amount : amount,
+        Kind : kind,
+        Date : date,
     }
     
     return
@@ -160,17 +160,17 @@ func NewUpdatedFee(student *person.Profile, amount float64, kind *FeeKind, date 
 
 
 
-type CreatedFeeKind struct {
-    name string
-    amount float64
-    description string
+type FeeKindCreated struct {
+    Name  string
+    Amount  float64
+    Description  string
 }
 
-func NewCreatedFeeKind(name string, amount float64, description string) (ret *CreatedFeeKind, err error) {
-    ret = &CreatedFeeKind{
-        name: name,
-        amount: amount,
-        description: description,
+func NewFeeKindCreated(name string, amount float64, description string) (ret *FeeKindCreated, err error) {
+    ret = &FeeKindCreated{
+        Name : name,
+        Amount : amount,
+        Description : description,
     }
     
     return
@@ -178,13 +178,13 @@ func NewCreatedFeeKind(name string, amount float64, description string) (ret *Cr
 
 
 
-type DeletedFeeKind struct {
-    id string
+type FeeKindDeleted struct {
+    Id  string
 }
 
-func NewDeletedFeeKind(id string) (ret *DeletedFeeKind, err error) {
-    ret = &DeletedFeeKind{
-        id: id,
+func NewFeeKindDeleted(id string) (ret *FeeKindDeleted, err error) {
+    ret = &FeeKindDeleted{
+        Id : id,
     }
     
     return
@@ -192,17 +192,17 @@ func NewDeletedFeeKind(id string) (ret *DeletedFeeKind, err error) {
 
 
 
-type UpdatedFeeKind struct {
-    name string
-    amount float64
-    description string
+type FeeKindUpdated struct {
+    Name  string
+    Amount  float64
+    Description  string
 }
 
-func NewUpdatedFeeKind(name string, amount float64, description string) (ret *UpdatedFeeKind, err error) {
-    ret = &UpdatedFeeKind{
-        name: name,
-        amount: amount,
-        description: description,
+func NewFeeKindUpdated(name string, amount float64, description string) (ret *FeeKindUpdated, err error) {
+    ret = &FeeKindUpdated{
+        Name : name,
+        Amount : amount,
+        Description : description,
     }
     
     return
@@ -224,16 +224,16 @@ func (o *ExpenseEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ExpenseEventType) IsExpenseCreated() bool {
-    return o == _expenseEventTypes.ExpenseCreated()
+func (o *ExpenseEventType) IsCreatedExpense() bool {
+    return o == _expenseEventTypes.CreatedExpense()
 }
 
-func (o *ExpenseEventType) IsExpenseDeleted() bool {
-    return o == _expenseEventTypes.ExpenseDeleted()
+func (o *ExpenseEventType) IsDeletedExpense() bool {
+    return o == _expenseEventTypes.DeletedExpense()
 }
 
-func (o *ExpenseEventType) IsExpenseUpdated() bool {
-    return o == _expenseEventTypes.ExpenseUpdated()
+func (o *ExpenseEventType) IsUpdatedExpense() bool {
+    return o == _expenseEventTypes.UpdatedExpense()
 }
 
 type expenseEventTypes struct {
@@ -242,9 +242,9 @@ type expenseEventTypes struct {
 }
 
 var _expenseEventTypes = &expenseEventTypes{values: []*ExpenseEventType{
-    {name: "ExpenseCreated", ordinal: 0},
-    {name: "ExpenseDeleted", ordinal: 1},
-    {name: "ExpenseUpdated", ordinal: 2}},
+    {name: "createdExpense", ordinal: 0},
+    {name: "deletedExpense", ordinal: 1},
+    {name: "updatedExpense", ordinal: 2}},
 }
 
 func ExpenseEventTypes() *expenseEventTypes {
@@ -265,15 +265,15 @@ func (o *expenseEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *expenseEventTypes) ExpenseCreated() *ExpenseEventType {
+func (o *expenseEventTypes) CreatedExpense() *ExpenseEventType {
     return _expenseEventTypes.values[0]
 }
 
-func (o *expenseEventTypes) ExpenseDeleted() *ExpenseEventType {
+func (o *expenseEventTypes) DeletedExpense() *ExpenseEventType {
     return _expenseEventTypes.values[1]
 }
 
-func (o *expenseEventTypes) ExpenseUpdated() *ExpenseEventType {
+func (o *expenseEventTypes) UpdatedExpense() *ExpenseEventType {
     return _expenseEventTypes.values[2]
 }
 
@@ -298,16 +298,16 @@ func (o *ExpensePurposeEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ExpensePurposeEventType) IsExpensePurposeCreated() bool {
-    return o == _expensePurposeEventTypes.ExpensePurposeCreated()
+func (o *ExpensePurposeEventType) IsCreatedExpensePurpose() bool {
+    return o == _expensePurposeEventTypes.CreatedExpensePurpose()
 }
 
-func (o *ExpensePurposeEventType) IsExpensePurposeDeleted() bool {
-    return o == _expensePurposeEventTypes.ExpensePurposeDeleted()
+func (o *ExpensePurposeEventType) IsDeletedExpensePurpose() bool {
+    return o == _expensePurposeEventTypes.DeletedExpensePurpose()
 }
 
-func (o *ExpensePurposeEventType) IsExpensePurposeUpdated() bool {
-    return o == _expensePurposeEventTypes.ExpensePurposeUpdated()
+func (o *ExpensePurposeEventType) IsUpdatedExpensePurpose() bool {
+    return o == _expensePurposeEventTypes.UpdatedExpensePurpose()
 }
 
 type expensePurposeEventTypes struct {
@@ -316,9 +316,9 @@ type expensePurposeEventTypes struct {
 }
 
 var _expensePurposeEventTypes = &expensePurposeEventTypes{values: []*ExpensePurposeEventType{
-    {name: "ExpensePurposeCreated", ordinal: 0},
-    {name: "ExpensePurposeDeleted", ordinal: 1},
-    {name: "ExpensePurposeUpdated", ordinal: 2}},
+    {name: "createdExpensePurpose", ordinal: 0},
+    {name: "deletedExpensePurpose", ordinal: 1},
+    {name: "updatedExpensePurpose", ordinal: 2}},
 }
 
 func ExpensePurposeEventTypes() *expensePurposeEventTypes {
@@ -339,15 +339,15 @@ func (o *expensePurposeEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *expensePurposeEventTypes) ExpensePurposeCreated() *ExpensePurposeEventType {
+func (o *expensePurposeEventTypes) CreatedExpensePurpose() *ExpensePurposeEventType {
     return _expensePurposeEventTypes.values[0]
 }
 
-func (o *expensePurposeEventTypes) ExpensePurposeDeleted() *ExpensePurposeEventType {
+func (o *expensePurposeEventTypes) DeletedExpensePurpose() *ExpensePurposeEventType {
     return _expensePurposeEventTypes.values[1]
 }
 
-func (o *expensePurposeEventTypes) ExpensePurposeUpdated() *ExpensePurposeEventType {
+func (o *expensePurposeEventTypes) UpdatedExpensePurpose() *ExpensePurposeEventType {
     return _expensePurposeEventTypes.values[2]
 }
 
@@ -372,16 +372,16 @@ func (o *FeeEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *FeeEventType) IsFeeCreated() bool {
-    return o == _feeEventTypes.FeeCreated()
+func (o *FeeEventType) IsCreatedFee() bool {
+    return o == _feeEventTypes.CreatedFee()
 }
 
-func (o *FeeEventType) IsFeeDeleted() bool {
-    return o == _feeEventTypes.FeeDeleted()
+func (o *FeeEventType) IsDeletedFee() bool {
+    return o == _feeEventTypes.DeletedFee()
 }
 
-func (o *FeeEventType) IsFeeUpdated() bool {
-    return o == _feeEventTypes.FeeUpdated()
+func (o *FeeEventType) IsUpdatedFee() bool {
+    return o == _feeEventTypes.UpdatedFee()
 }
 
 type feeEventTypes struct {
@@ -390,9 +390,9 @@ type feeEventTypes struct {
 }
 
 var _feeEventTypes = &feeEventTypes{values: []*FeeEventType{
-    {name: "FeeCreated", ordinal: 0},
-    {name: "FeeDeleted", ordinal: 1},
-    {name: "FeeUpdated", ordinal: 2}},
+    {name: "createdFee", ordinal: 0},
+    {name: "deletedFee", ordinal: 1},
+    {name: "updatedFee", ordinal: 2}},
 }
 
 func FeeEventTypes() *feeEventTypes {
@@ -413,15 +413,15 @@ func (o *feeEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *feeEventTypes) FeeCreated() *FeeEventType {
+func (o *feeEventTypes) CreatedFee() *FeeEventType {
     return _feeEventTypes.values[0]
 }
 
-func (o *feeEventTypes) FeeDeleted() *FeeEventType {
+func (o *feeEventTypes) DeletedFee() *FeeEventType {
     return _feeEventTypes.values[1]
 }
 
-func (o *feeEventTypes) FeeUpdated() *FeeEventType {
+func (o *feeEventTypes) UpdatedFee() *FeeEventType {
     return _feeEventTypes.values[2]
 }
 
@@ -446,16 +446,16 @@ func (o *FeeKindEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *FeeKindEventType) IsFeeKindCreated() bool {
-    return o == _feeKindEventTypes.FeeKindCreated()
+func (o *FeeKindEventType) IsCreatedFeeKind() bool {
+    return o == _feeKindEventTypes.CreatedFeeKind()
 }
 
-func (o *FeeKindEventType) IsFeeKindDeleted() bool {
-    return o == _feeKindEventTypes.FeeKindDeleted()
+func (o *FeeKindEventType) IsDeletedFeeKind() bool {
+    return o == _feeKindEventTypes.DeletedFeeKind()
 }
 
-func (o *FeeKindEventType) IsFeeKindUpdated() bool {
-    return o == _feeKindEventTypes.FeeKindUpdated()
+func (o *FeeKindEventType) IsUpdatedFeeKind() bool {
+    return o == _feeKindEventTypes.UpdatedFeeKind()
 }
 
 type feeKindEventTypes struct {
@@ -464,9 +464,9 @@ type feeKindEventTypes struct {
 }
 
 var _feeKindEventTypes = &feeKindEventTypes{values: []*FeeKindEventType{
-    {name: "FeeKindCreated", ordinal: 0},
-    {name: "FeeKindDeleted", ordinal: 1},
-    {name: "FeeKindUpdated", ordinal: 2}},
+    {name: "createdFeeKind", ordinal: 0},
+    {name: "deletedFeeKind", ordinal: 1},
+    {name: "updatedFeeKind", ordinal: 2}},
 }
 
 func FeeKindEventTypes() *feeKindEventTypes {
@@ -487,15 +487,15 @@ func (o *feeKindEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *feeKindEventTypes) FeeKindCreated() *FeeKindEventType {
+func (o *feeKindEventTypes) CreatedFeeKind() *FeeKindEventType {
     return _feeKindEventTypes.values[0]
 }
 
-func (o *feeKindEventTypes) FeeKindDeleted() *FeeKindEventType {
+func (o *feeKindEventTypes) DeletedFeeKind() *FeeKindEventType {
     return _feeKindEventTypes.values[1]
 }
 
-func (o *feeKindEventTypes) FeeKindUpdated() *FeeKindEventType {
+func (o *feeKindEventTypes) UpdatedFeeKind() *FeeKindEventType {
     return _feeKindEventTypes.values[2]
 }
 

@@ -7,24 +7,24 @@ import (
 )
 
 type Account struct {
-    username string
-    password string
-    email string
-    disabled bool
-    lastLoginAt *time.Time
-    profile *person.Profile
+    Username  string
+    Password  string
+    Email  string
+    Disabled  bool
+    LastLoginAt  *time.Time
+    Profile  *person.Profile
     *schkola.SchkolaBase
 }
 
 func NewAccount(username string, password string, email string, disabled bool, lastLoginAt *time.Time, profile *person.Profile, 
                 SchkolaBase *schkola.SchkolaBase) (ret *Account, err error) {
     ret = &Account{
-        username: username,
-        password: password,
-        email: email,
-        disabled: disabled,
-        lastLoginAt: lastLoginAt,
-        profile: profile,
+        Username : username,
+        Password : password,
+        Email : email,
+        Disabled : disabled,
+        LastLoginAt : lastLoginAt,
+        Profile : profile,
         SchkolaBase: SchkolaBase,
     }
     

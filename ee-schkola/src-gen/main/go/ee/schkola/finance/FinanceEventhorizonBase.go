@@ -34,15 +34,15 @@ func NewExpenseAggregateInitializer(
 
 
 func (o *ExpenseAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpenseEventTypes().ExpenseCreated())
+    o.RegisterForEvent(handler, ExpenseEventTypes().CreatedExpense())
 }
 
 func (o *ExpenseAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpenseEventTypes().ExpenseDeleted())
+    o.RegisterForEvent(handler, ExpenseEventTypes().DeletedExpense())
 }
 
 func (o *ExpenseAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpenseEventTypes().ExpenseUpdated())
+    o.RegisterForEvent(handler, ExpenseEventTypes().UpdatedExpense())
 }
 
 type ExpenseAggregateInitializer struct {
@@ -80,15 +80,15 @@ func NewExpensePurposeAggregateInitializer(
 
 
 func (o *ExpensePurposeAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpensePurposeEventTypes().ExpensePurposeCreated())
+    o.RegisterForEvent(handler, ExpensePurposeEventTypes().CreatedExpensePurpose())
 }
 
 func (o *ExpensePurposeAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpensePurposeEventTypes().ExpensePurposeDeleted())
+    o.RegisterForEvent(handler, ExpensePurposeEventTypes().DeletedExpensePurpose())
 }
 
 func (o *ExpensePurposeAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpensePurposeEventTypes().ExpensePurposeUpdated())
+    o.RegisterForEvent(handler, ExpensePurposeEventTypes().UpdatedExpensePurpose())
 }
 
 type ExpensePurposeAggregateInitializer struct {
@@ -126,15 +126,15 @@ func NewFeeAggregateInitializer(
 
 
 func (o *FeeAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeEventTypes().FeeCreated())
+    o.RegisterForEvent(handler, FeeEventTypes().CreatedFee())
 }
 
 func (o *FeeAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeEventTypes().FeeDeleted())
+    o.RegisterForEvent(handler, FeeEventTypes().DeletedFee())
 }
 
 func (o *FeeAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeEventTypes().FeeUpdated())
+    o.RegisterForEvent(handler, FeeEventTypes().UpdatedFee())
 }
 
 type FeeAggregateInitializer struct {
@@ -172,15 +172,15 @@ func NewFeeKindAggregateInitializer(
 
 
 func (o *FeeKindAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeKindEventTypes().FeeKindCreated())
+    o.RegisterForEvent(handler, FeeKindEventTypes().CreatedFeeKind())
 }
 
 func (o *FeeKindAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeKindEventTypes().FeeKindDeleted())
+    o.RegisterForEvent(handler, FeeKindEventTypes().DeletedFeeKind())
 }
 
 func (o *FeeKindAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeKindEventTypes().FeeKindUpdated())
+    o.RegisterForEvent(handler, FeeKindEventTypes().UpdatedFeeKind())
 }
 
 type FeeKindAggregateInitializer struct {

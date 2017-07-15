@@ -6,12 +6,12 @@ import (
 
 type SchkolaBase struct {
     *Trace
-    id string
+    Id  string
 }
 
 func NewSchkolaBase(id string) (ret *SchkolaBase, err error) {
     ret = &SchkolaBase{
-        id: id,
+        Id : id,
     }
     
     return

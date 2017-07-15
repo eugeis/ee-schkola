@@ -34,15 +34,15 @@ func NewAttendanceAggregateInitializer(
 
 
 func (o *AttendanceAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AttendanceEventTypes().AttendanceCreated())
+    o.RegisterForEvent(handler, AttendanceEventTypes().CreatedAttendance())
 }
 
 func (o *AttendanceAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AttendanceEventTypes().AttendanceDeleted())
+    o.RegisterForEvent(handler, AttendanceEventTypes().DeletedAttendance())
 }
 
 func (o *AttendanceAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AttendanceEventTypes().AttendanceUpdated())
+    o.RegisterForEvent(handler, AttendanceEventTypes().UpdatedAttendance())
 }
 
 type AttendanceAggregateInitializer struct {
@@ -80,15 +80,15 @@ func NewCourseAggregateInitializer(
 
 
 func (o *CourseAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, CourseEventTypes().CourseCreated())
+    o.RegisterForEvent(handler, CourseEventTypes().CreatedCourse())
 }
 
 func (o *CourseAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, CourseEventTypes().CourseDeleted())
+    o.RegisterForEvent(handler, CourseEventTypes().DeletedCourse())
 }
 
 func (o *CourseAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, CourseEventTypes().CourseUpdated())
+    o.RegisterForEvent(handler, CourseEventTypes().UpdatedCourse())
 }
 
 type CourseAggregateInitializer struct {
@@ -126,15 +126,15 @@ func NewGradeAggregateInitializer(
 
 
 func (o *GradeAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GradeEventTypes().GradeCreated())
+    o.RegisterForEvent(handler, GradeEventTypes().CreatedGrade())
 }
 
 func (o *GradeAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GradeEventTypes().GradeDeleted())
+    o.RegisterForEvent(handler, GradeEventTypes().DeletedGrade())
 }
 
 func (o *GradeAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GradeEventTypes().GradeUpdated())
+    o.RegisterForEvent(handler, GradeEventTypes().UpdatedGrade())
 }
 
 type GradeAggregateInitializer struct {
@@ -172,15 +172,15 @@ func NewGroupAggregateInitializer(
 
 
 func (o *GroupAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GroupEventTypes().GroupCreated())
+    o.RegisterForEvent(handler, GroupEventTypes().CreatedGroup())
 }
 
 func (o *GroupAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GroupEventTypes().GroupDeleted())
+    o.RegisterForEvent(handler, GroupEventTypes().DeletedGroup())
 }
 
 func (o *GroupAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GroupEventTypes().GroupUpdated())
+    o.RegisterForEvent(handler, GroupEventTypes().UpdatedGroup())
 }
 
 type GroupAggregateInitializer struct {
@@ -218,15 +218,15 @@ func NewSchoolApplicationAggregateInitializer(
 
 
 func (o *SchoolApplicationAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, SchoolApplicationEventTypes().SchoolApplicationCreated())
+    o.RegisterForEvent(handler, SchoolApplicationEventTypes().CreatedSchoolApplication())
 }
 
 func (o *SchoolApplicationAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, SchoolApplicationEventTypes().SchoolApplicationDeleted())
+    o.RegisterForEvent(handler, SchoolApplicationEventTypes().DeletedSchoolApplication())
 }
 
 func (o *SchoolApplicationAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, SchoolApplicationEventTypes().SchoolApplicationUpdated())
+    o.RegisterForEvent(handler, SchoolApplicationEventTypes().UpdatedSchoolApplication())
 }
 
 type SchoolApplicationAggregateInitializer struct {
@@ -264,15 +264,15 @@ func NewSchoolYearAggregateInitializer(
 
 
 func (o *SchoolYearAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, SchoolYearEventTypes().SchoolYearCreated())
+    o.RegisterForEvent(handler, SchoolYearEventTypes().CreatedSchoolYear())
 }
 
 func (o *SchoolYearAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, SchoolYearEventTypes().SchoolYearDeleted())
+    o.RegisterForEvent(handler, SchoolYearEventTypes().DeletedSchoolYear())
 }
 
 func (o *SchoolYearAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, SchoolYearEventTypes().SchoolYearUpdated())
+    o.RegisterForEvent(handler, SchoolYearEventTypes().UpdatedSchoolYear())
 }
 
 type SchoolYearAggregateInitializer struct {

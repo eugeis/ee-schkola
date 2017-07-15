@@ -34,15 +34,15 @@ func NewBookAggregateInitializer(
 
 
 func (o *BookAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, BookEventTypes().BookCreated())
+    o.RegisterForEvent(handler, BookEventTypes().CreatedBook())
 }
 
 func (o *BookAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, BookEventTypes().BookDeleted())
+    o.RegisterForEvent(handler, BookEventTypes().DeletedBook())
 }
 
 func (o *BookAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, BookEventTypes().BookUpdated())
+    o.RegisterForEvent(handler, BookEventTypes().UpdatedBook())
 }
 
 type BookAggregateInitializer struct {

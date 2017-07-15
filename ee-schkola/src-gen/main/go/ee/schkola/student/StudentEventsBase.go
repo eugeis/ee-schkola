@@ -7,28 +7,28 @@ import (
     "time"
 )
 
-type CreatedAttendance struct {
-    student *person.Profile
-    date *time.Time
-    course *Course
-    hours int
-    state *AttendanceState
-    stateTrace *schkola.Trace
-    token string
-    tokenTrace *schkola.Trace
+type AttendanceCreated struct {
+    Student  *person.Profile
+    Date  *time.Time
+    Course  *Course
+    Hours  int
+    State  *AttendanceState
+    StateTrace  *schkola.Trace
+    Token  string
+    TokenTrace  *schkola.Trace
 }
 
-func NewCreatedAttendance(student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, stateTrace *schkola.Trace, 
-                token string, tokenTrace *schkola.Trace) (ret *CreatedAttendance, err error) {
-    ret = &CreatedAttendance{
-        student: student,
-        date: date,
-        course: course,
-        hours: hours,
-        state: state,
-        stateTrace: stateTrace,
-        token: token,
-        tokenTrace: tokenTrace,
+func NewAttendanceCreated(student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, stateTrace *schkola.Trace, 
+                token string, tokenTrace *schkola.Trace) (ret *AttendanceCreated, err error) {
+    ret = &AttendanceCreated{
+        Student : student,
+        Date : date,
+        Course : course,
+        Hours : hours,
+        State : state,
+        StateTrace : stateTrace,
+        Token : token,
+        TokenTrace : tokenTrace,
     }
     
     return
@@ -36,13 +36,13 @@ func NewCreatedAttendance(student *person.Profile, date *time.Time, course *Cour
 
 
 
-type DeletedAttendance struct {
-    id string
+type AttendanceDeleted struct {
+    Id  string
 }
 
-func NewDeletedAttendance(id string) (ret *DeletedAttendance, err error) {
-    ret = &DeletedAttendance{
-        id: id,
+func NewAttendanceDeleted(id string) (ret *AttendanceDeleted, err error) {
+    ret = &AttendanceDeleted{
+        Id : id,
     }
     
     return
@@ -50,28 +50,28 @@ func NewDeletedAttendance(id string) (ret *DeletedAttendance, err error) {
 
 
 
-type UpdatedAttendance struct {
-    student *person.Profile
-    date *time.Time
-    course *Course
-    hours int
-    state *AttendanceState
-    stateTrace *schkola.Trace
-    token string
-    tokenTrace *schkola.Trace
+type AttendanceUpdated struct {
+    Student  *person.Profile
+    Date  *time.Time
+    Course  *Course
+    Hours  int
+    State  *AttendanceState
+    StateTrace  *schkola.Trace
+    Token  string
+    TokenTrace  *schkola.Trace
 }
 
-func NewUpdatedAttendance(student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, stateTrace *schkola.Trace, 
-                token string, tokenTrace *schkola.Trace) (ret *UpdatedAttendance, err error) {
-    ret = &UpdatedAttendance{
-        student: student,
-        date: date,
-        course: course,
-        hours: hours,
-        state: state,
-        stateTrace: stateTrace,
-        token: token,
-        tokenTrace: tokenTrace,
+func NewAttendanceUpdated(student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, stateTrace *schkola.Trace, 
+                token string, tokenTrace *schkola.Trace) (ret *AttendanceUpdated, err error) {
+    ret = &AttendanceUpdated{
+        Student : student,
+        Date : date,
+        Course : course,
+        Hours : hours,
+        State : state,
+        StateTrace : stateTrace,
+        Token : token,
+        TokenTrace : tokenTrace,
     }
     
     return
@@ -79,26 +79,26 @@ func NewUpdatedAttendance(student *person.Profile, date *time.Time, course *Cour
 
 
 
-type CreatedCourse struct {
-    name string
-    begin *time.Time
-    end *time.Time
-    teacher *person.PersonName
-    schoolYear *SchoolYear
-    fee float64
-    description string
+type CourseCreated struct {
+    Name  string
+    Begin  *time.Time
+    End  *time.Time
+    Teacher  *person.PersonName
+    SchoolYear  *SchoolYear
+    Fee  float64
+    Description  string
 }
 
-func NewCreatedCourse(name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, fee float64, 
-                description string) (ret *CreatedCourse, err error) {
-    ret = &CreatedCourse{
-        name: name,
-        begin: begin,
-        end: end,
-        teacher: teacher,
-        schoolYear: schoolYear,
-        fee: fee,
-        description: description,
+func NewCourseCreated(name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, fee float64, 
+                description string) (ret *CourseCreated, err error) {
+    ret = &CourseCreated{
+        Name : name,
+        Begin : begin,
+        End : end,
+        Teacher : teacher,
+        SchoolYear : schoolYear,
+        Fee : fee,
+        Description : description,
     }
     
     return
@@ -106,13 +106,13 @@ func NewCreatedCourse(name string, begin *time.Time, end *time.Time, teacher *pe
 
 
 
-type DeletedCourse struct {
-    id string
+type CourseDeleted struct {
+    Id  string
 }
 
-func NewDeletedCourse(id string) (ret *DeletedCourse, err error) {
-    ret = &DeletedCourse{
-        id: id,
+func NewCourseDeleted(id string) (ret *CourseDeleted, err error) {
+    ret = &CourseDeleted{
+        Id : id,
     }
     
     return
@@ -120,26 +120,26 @@ func NewDeletedCourse(id string) (ret *DeletedCourse, err error) {
 
 
 
-type UpdatedCourse struct {
-    name string
-    begin *time.Time
-    end *time.Time
-    teacher *person.PersonName
-    schoolYear *SchoolYear
-    fee float64
-    description string
+type CourseUpdated struct {
+    Name  string
+    Begin  *time.Time
+    End  *time.Time
+    Teacher  *person.PersonName
+    SchoolYear  *SchoolYear
+    Fee  float64
+    Description  string
 }
 
-func NewUpdatedCourse(name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, fee float64, 
-                description string) (ret *UpdatedCourse, err error) {
-    ret = &UpdatedCourse{
-        name: name,
-        begin: begin,
-        end: end,
-        teacher: teacher,
-        schoolYear: schoolYear,
-        fee: fee,
-        description: description,
+func NewCourseUpdated(name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, fee float64, 
+                description string) (ret *CourseUpdated, err error) {
+    ret = &CourseUpdated{
+        Name : name,
+        Begin : begin,
+        End : end,
+        Teacher : teacher,
+        SchoolYear : schoolYear,
+        Fee : fee,
+        Description : description,
     }
     
     return
@@ -147,21 +147,21 @@ func NewUpdatedCourse(name string, begin *time.Time, end *time.Time, teacher *pe
 
 
 
-type CreatedGrade struct {
-    student *person.Profile
-    course *Course
-    grade float64
-    gradeTrace *schkola.Trace
-    comment string
+type GradeCreated struct {
+    Student  *person.Profile
+    Course  *Course
+    Grade  float64
+    GradeTrace  *schkola.Trace
+    Comment  string
 }
 
-func NewCreatedGrade(student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string) (ret *CreatedGrade, err error) {
-    ret = &CreatedGrade{
-        student: student,
-        course: course,
-        grade: grade,
-        gradeTrace: gradeTrace,
-        comment: comment,
+func NewGradeCreated(student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string) (ret *GradeCreated, err error) {
+    ret = &GradeCreated{
+        Student : student,
+        Course : course,
+        Grade : grade,
+        GradeTrace : gradeTrace,
+        Comment : comment,
     }
     
     return
@@ -169,13 +169,13 @@ func NewCreatedGrade(student *person.Profile, course *Course, grade float64, gra
 
 
 
-type DeletedGrade struct {
-    id string
+type GradeDeleted struct {
+    Id  string
 }
 
-func NewDeletedGrade(id string) (ret *DeletedGrade, err error) {
-    ret = &DeletedGrade{
-        id: id,
+func NewGradeDeleted(id string) (ret *GradeDeleted, err error) {
+    ret = &GradeDeleted{
+        Id : id,
     }
     
     return
@@ -183,21 +183,21 @@ func NewDeletedGrade(id string) (ret *DeletedGrade, err error) {
 
 
 
-type UpdatedGrade struct {
-    student *person.Profile
-    course *Course
-    grade float64
-    gradeTrace *schkola.Trace
-    comment string
+type GradeUpdated struct {
+    Student  *person.Profile
+    Course  *Course
+    Grade  float64
+    GradeTrace  *schkola.Trace
+    Comment  string
 }
 
-func NewUpdatedGrade(student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string) (ret *UpdatedGrade, err error) {
-    ret = &UpdatedGrade{
-        student: student,
-        course: course,
-        grade: grade,
-        gradeTrace: gradeTrace,
-        comment: comment,
+func NewGradeUpdated(student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string) (ret *GradeUpdated, err error) {
+    ret = &GradeUpdated{
+        Student : student,
+        Course : course,
+        Grade : grade,
+        GradeTrace : gradeTrace,
+        Comment : comment,
     }
     
     return
@@ -205,108 +205,48 @@ func NewUpdatedGrade(student *person.Profile, course *Course, grade float64, gra
 
 
 
-type CreatedGroup struct {
-    name string
-    category *GroupCategory
-    schoolYear *SchoolYear
-    representative *person.Profile
-    students []*Course
-    courses []*Course
+type GroupCreated struct {
+    Name  string
+    Category  *GroupCategory
+    SchoolYear  *SchoolYear
+    Representative  *person.Profile
+    Students  []*Course
+    Courses  []*Course
 }
 
-func NewCreatedGroup(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, students []*Course, 
-                courses []*Course) (ret *CreatedGroup, err error) {
-    ret = &CreatedGroup{
-        name: name,
-        category: category,
-        schoolYear: schoolYear,
-        representative: representative,
-        students: students,
-        courses: courses,
+func NewGroupCreated(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, students []*Course, 
+                courses []*Course) (ret *GroupCreated, err error) {
+    ret = &GroupCreated{
+        Name : name,
+        Category : category,
+        SchoolYear : schoolYear,
+        Representative : representative,
+        Students : students,
+        Courses : courses,
     }
     
     return
 }
 
-func (o *CreatedGroup) AddToStudents(item *Course) *Course {
-    o.students = append(o.students, item)
+func (o *GroupCreated) AddToStudents(item *Course) *Course {
+    o.Students  = append(o.Students , item)
     return item
 }
 
-func (o *CreatedGroup) AddToCourses(item *Course) *Course {
-    o.courses = append(o.courses, item)
-    return item
-}
-
-
-
-type DeletedGroup struct {
-    id string
-}
-
-func NewDeletedGroup(id string) (ret *DeletedGroup, err error) {
-    ret = &DeletedGroup{
-        id: id,
-    }
-    
-    return
-}
-
-
-
-type UpdatedGroup struct {
-    name string
-    category *GroupCategory
-    schoolYear *SchoolYear
-    representative *person.Profile
-    students []*Course
-    courses []*Course
-}
-
-func NewUpdatedGroup(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, students []*Course, 
-                courses []*Course) (ret *UpdatedGroup, err error) {
-    ret = &UpdatedGroup{
-        name: name,
-        category: category,
-        schoolYear: schoolYear,
-        representative: representative,
-        students: students,
-        courses: courses,
-    }
-    
-    return
-}
-
-func (o *UpdatedGroup) AddToStudents(item *Course) *Course {
-    o.students = append(o.students, item)
-    return item
-}
-
-func (o *UpdatedGroup) AddToCourses(item *Course) *Course {
-    o.courses = append(o.courses, item)
+func (o *GroupCreated) AddToCourses(item *Course) *Course {
+    o.Courses  = append(o.Courses , item)
     return item
 }
 
 
 
-type CreatedSchoolApplication struct {
-    profile *person.Profile
-    recommendationOf *person.PersonName
-    churchContactPerson *person.PersonName
-    churchContact *person.Contact
-    schoolYear *SchoolYear
-    group string
+type GroupDeleted struct {
+    Id  string
 }
 
-func NewCreatedSchoolApplication(profile *person.Profile, recommendationOf *person.PersonName, churchContactPerson *person.PersonName, 
-                churchContact *person.Contact, schoolYear *SchoolYear, group string) (ret *CreatedSchoolApplication, err error) {
-    ret = &CreatedSchoolApplication{
-        profile: profile,
-        recommendationOf: recommendationOf,
-        churchContactPerson: churchContactPerson,
-        churchContact: churchContact,
-        schoolYear: schoolYear,
-        group: group,
+func NewGroupDeleted(id string) (ret *GroupDeleted, err error) {
+    ret = &GroupDeleted{
+        Id : id,
     }
     
     return
@@ -314,77 +254,59 @@ func NewCreatedSchoolApplication(profile *person.Profile, recommendationOf *pers
 
 
 
-type DeletedSchoolApplication struct {
-    id string
+type GroupUpdated struct {
+    Name  string
+    Category  *GroupCategory
+    SchoolYear  *SchoolYear
+    Representative  *person.Profile
+    Students  []*Course
+    Courses  []*Course
 }
 
-func NewDeletedSchoolApplication(id string) (ret *DeletedSchoolApplication, err error) {
-    ret = &DeletedSchoolApplication{
-        id: id,
+func NewGroupUpdated(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, students []*Course, 
+                courses []*Course) (ret *GroupUpdated, err error) {
+    ret = &GroupUpdated{
+        Name : name,
+        Category : category,
+        SchoolYear : schoolYear,
+        Representative : representative,
+        Students : students,
+        Courses : courses,
     }
     
     return
 }
 
-
-
-type UpdatedSchoolApplication struct {
-    profile *person.Profile
-    recommendationOf *person.PersonName
-    churchContactPerson *person.PersonName
-    churchContact *person.Contact
-    schoolYear *SchoolYear
-    group string
+func (o *GroupUpdated) AddToStudents(item *Course) *Course {
+    o.Students  = append(o.Students , item)
+    return item
 }
 
-func NewUpdatedSchoolApplication(profile *person.Profile, recommendationOf *person.PersonName, churchContactPerson *person.PersonName, 
-                churchContact *person.Contact, schoolYear *SchoolYear, group string) (ret *UpdatedSchoolApplication, err error) {
-    ret = &UpdatedSchoolApplication{
-        profile: profile,
-        recommendationOf: recommendationOf,
-        churchContactPerson: churchContactPerson,
-        churchContact: churchContact,
-        schoolYear: schoolYear,
-        group: group,
-    }
-    
-    return
-}
-
-
-
-type CreatedSchoolYear struct {
-    name string
-    start *time.Time
-    end *time.Time
-    dates []*Course
-}
-
-func NewCreatedSchoolYear(name string, start *time.Time, end *time.Time, dates []*Course) (ret *CreatedSchoolYear, err error) {
-    ret = &CreatedSchoolYear{
-        name: name,
-        start: start,
-        end: end,
-        dates: dates,
-    }
-    
-    return
-}
-
-func (o *CreatedSchoolYear) AddToDates(item *Course) *Course {
-    o.dates = append(o.dates, item)
+func (o *GroupUpdated) AddToCourses(item *Course) *Course {
+    o.Courses  = append(o.Courses , item)
     return item
 }
 
 
 
-type DeletedSchoolYear struct {
-    id string
+type SchoolApplicationCreated struct {
+    Profile  *person.Profile
+    RecommendationOf  *person.PersonName
+    ChurchContactPerson  *person.PersonName
+    ChurchContact  *person.Contact
+    SchoolYear  *SchoolYear
+    Group  string
 }
 
-func NewDeletedSchoolYear(id string) (ret *DeletedSchoolYear, err error) {
-    ret = &DeletedSchoolYear{
-        id: id,
+func NewSchoolApplicationCreated(profile *person.Profile, recommendationOf *person.PersonName, churchContactPerson *person.PersonName, 
+                churchContact *person.Contact, schoolYear *SchoolYear, group string) (ret *SchoolApplicationCreated, err error) {
+    ret = &SchoolApplicationCreated{
+        Profile : profile,
+        RecommendationOf : recommendationOf,
+        ChurchContactPerson : churchContactPerson,
+        ChurchContact : churchContact,
+        SchoolYear : schoolYear,
+        Group : group,
     }
     
     return
@@ -392,26 +314,104 @@ func NewDeletedSchoolYear(id string) (ret *DeletedSchoolYear, err error) {
 
 
 
-type UpdatedSchoolYear struct {
-    name string
-    start *time.Time
-    end *time.Time
-    dates []*Course
+type SchoolApplicationDeleted struct {
+    Id  string
 }
 
-func NewUpdatedSchoolYear(name string, start *time.Time, end *time.Time, dates []*Course) (ret *UpdatedSchoolYear, err error) {
-    ret = &UpdatedSchoolYear{
-        name: name,
-        start: start,
-        end: end,
-        dates: dates,
+func NewSchoolApplicationDeleted(id string) (ret *SchoolApplicationDeleted, err error) {
+    ret = &SchoolApplicationDeleted{
+        Id : id,
     }
     
     return
 }
 
-func (o *UpdatedSchoolYear) AddToDates(item *Course) *Course {
-    o.dates = append(o.dates, item)
+
+
+type SchoolApplicationUpdated struct {
+    Profile  *person.Profile
+    RecommendationOf  *person.PersonName
+    ChurchContactPerson  *person.PersonName
+    ChurchContact  *person.Contact
+    SchoolYear  *SchoolYear
+    Group  string
+}
+
+func NewSchoolApplicationUpdated(profile *person.Profile, recommendationOf *person.PersonName, churchContactPerson *person.PersonName, 
+                churchContact *person.Contact, schoolYear *SchoolYear, group string) (ret *SchoolApplicationUpdated, err error) {
+    ret = &SchoolApplicationUpdated{
+        Profile : profile,
+        RecommendationOf : recommendationOf,
+        ChurchContactPerson : churchContactPerson,
+        ChurchContact : churchContact,
+        SchoolYear : schoolYear,
+        Group : group,
+    }
+    
+    return
+}
+
+
+
+type SchoolYearCreated struct {
+    Name  string
+    Start  *time.Time
+    End  *time.Time
+    Dates  []*Course
+}
+
+func NewSchoolYearCreated(name string, start *time.Time, end *time.Time, dates []*Course) (ret *SchoolYearCreated, err error) {
+    ret = &SchoolYearCreated{
+        Name : name,
+        Start : start,
+        End : end,
+        Dates : dates,
+    }
+    
+    return
+}
+
+func (o *SchoolYearCreated) AddToDates(item *Course) *Course {
+    o.Dates  = append(o.Dates , item)
+    return item
+}
+
+
+
+type SchoolYearDeleted struct {
+    Id  string
+}
+
+func NewSchoolYearDeleted(id string) (ret *SchoolYearDeleted, err error) {
+    ret = &SchoolYearDeleted{
+        Id : id,
+    }
+    
+    return
+}
+
+
+
+type SchoolYearUpdated struct {
+    Name  string
+    Start  *time.Time
+    End  *time.Time
+    Dates  []*Course
+}
+
+func NewSchoolYearUpdated(name string, start *time.Time, end *time.Time, dates []*Course) (ret *SchoolYearUpdated, err error) {
+    ret = &SchoolYearUpdated{
+        Name : name,
+        Start : start,
+        End : end,
+        Dates : dates,
+    }
+    
+    return
+}
+
+func (o *SchoolYearUpdated) AddToDates(item *Course) *Course {
+    o.Dates  = append(o.Dates , item)
     return item
 }
 
@@ -431,16 +431,16 @@ func (o *AttendanceEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *AttendanceEventType) IsAttendanceCreated() bool {
-    return o == _attendanceEventTypes.AttendanceCreated()
+func (o *AttendanceEventType) IsCreatedAttendance() bool {
+    return o == _attendanceEventTypes.CreatedAttendance()
 }
 
-func (o *AttendanceEventType) IsAttendanceDeleted() bool {
-    return o == _attendanceEventTypes.AttendanceDeleted()
+func (o *AttendanceEventType) IsDeletedAttendance() bool {
+    return o == _attendanceEventTypes.DeletedAttendance()
 }
 
-func (o *AttendanceEventType) IsAttendanceUpdated() bool {
-    return o == _attendanceEventTypes.AttendanceUpdated()
+func (o *AttendanceEventType) IsUpdatedAttendance() bool {
+    return o == _attendanceEventTypes.UpdatedAttendance()
 }
 
 type attendanceEventTypes struct {
@@ -449,9 +449,9 @@ type attendanceEventTypes struct {
 }
 
 var _attendanceEventTypes = &attendanceEventTypes{values: []*AttendanceEventType{
-    {name: "AttendanceCreated", ordinal: 0},
-    {name: "AttendanceDeleted", ordinal: 1},
-    {name: "AttendanceUpdated", ordinal: 2}},
+    {name: "createdAttendance", ordinal: 0},
+    {name: "deletedAttendance", ordinal: 1},
+    {name: "updatedAttendance", ordinal: 2}},
 }
 
 func AttendanceEventTypes() *attendanceEventTypes {
@@ -472,15 +472,15 @@ func (o *attendanceEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *attendanceEventTypes) AttendanceCreated() *AttendanceEventType {
+func (o *attendanceEventTypes) CreatedAttendance() *AttendanceEventType {
     return _attendanceEventTypes.values[0]
 }
 
-func (o *attendanceEventTypes) AttendanceDeleted() *AttendanceEventType {
+func (o *attendanceEventTypes) DeletedAttendance() *AttendanceEventType {
     return _attendanceEventTypes.values[1]
 }
 
-func (o *attendanceEventTypes) AttendanceUpdated() *AttendanceEventType {
+func (o *attendanceEventTypes) UpdatedAttendance() *AttendanceEventType {
     return _attendanceEventTypes.values[2]
 }
 
@@ -505,16 +505,16 @@ func (o *CourseEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *CourseEventType) IsCourseCreated() bool {
-    return o == _courseEventTypes.CourseCreated()
+func (o *CourseEventType) IsCreatedCourse() bool {
+    return o == _courseEventTypes.CreatedCourse()
 }
 
-func (o *CourseEventType) IsCourseDeleted() bool {
-    return o == _courseEventTypes.CourseDeleted()
+func (o *CourseEventType) IsDeletedCourse() bool {
+    return o == _courseEventTypes.DeletedCourse()
 }
 
-func (o *CourseEventType) IsCourseUpdated() bool {
-    return o == _courseEventTypes.CourseUpdated()
+func (o *CourseEventType) IsUpdatedCourse() bool {
+    return o == _courseEventTypes.UpdatedCourse()
 }
 
 type courseEventTypes struct {
@@ -523,9 +523,9 @@ type courseEventTypes struct {
 }
 
 var _courseEventTypes = &courseEventTypes{values: []*CourseEventType{
-    {name: "CourseCreated", ordinal: 0},
-    {name: "CourseDeleted", ordinal: 1},
-    {name: "CourseUpdated", ordinal: 2}},
+    {name: "createdCourse", ordinal: 0},
+    {name: "deletedCourse", ordinal: 1},
+    {name: "updatedCourse", ordinal: 2}},
 }
 
 func CourseEventTypes() *courseEventTypes {
@@ -546,15 +546,15 @@ func (o *courseEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *courseEventTypes) CourseCreated() *CourseEventType {
+func (o *courseEventTypes) CreatedCourse() *CourseEventType {
     return _courseEventTypes.values[0]
 }
 
-func (o *courseEventTypes) CourseDeleted() *CourseEventType {
+func (o *courseEventTypes) DeletedCourse() *CourseEventType {
     return _courseEventTypes.values[1]
 }
 
-func (o *courseEventTypes) CourseUpdated() *CourseEventType {
+func (o *courseEventTypes) UpdatedCourse() *CourseEventType {
     return _courseEventTypes.values[2]
 }
 
@@ -579,16 +579,16 @@ func (o *GradeEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GradeEventType) IsGradeCreated() bool {
-    return o == _gradeEventTypes.GradeCreated()
+func (o *GradeEventType) IsCreatedGrade() bool {
+    return o == _gradeEventTypes.CreatedGrade()
 }
 
-func (o *GradeEventType) IsGradeDeleted() bool {
-    return o == _gradeEventTypes.GradeDeleted()
+func (o *GradeEventType) IsDeletedGrade() bool {
+    return o == _gradeEventTypes.DeletedGrade()
 }
 
-func (o *GradeEventType) IsGradeUpdated() bool {
-    return o == _gradeEventTypes.GradeUpdated()
+func (o *GradeEventType) IsUpdatedGrade() bool {
+    return o == _gradeEventTypes.UpdatedGrade()
 }
 
 type gradeEventTypes struct {
@@ -597,9 +597,9 @@ type gradeEventTypes struct {
 }
 
 var _gradeEventTypes = &gradeEventTypes{values: []*GradeEventType{
-    {name: "GradeCreated", ordinal: 0},
-    {name: "GradeDeleted", ordinal: 1},
-    {name: "GradeUpdated", ordinal: 2}},
+    {name: "createdGrade", ordinal: 0},
+    {name: "deletedGrade", ordinal: 1},
+    {name: "updatedGrade", ordinal: 2}},
 }
 
 func GradeEventTypes() *gradeEventTypes {
@@ -620,15 +620,15 @@ func (o *gradeEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *gradeEventTypes) GradeCreated() *GradeEventType {
+func (o *gradeEventTypes) CreatedGrade() *GradeEventType {
     return _gradeEventTypes.values[0]
 }
 
-func (o *gradeEventTypes) GradeDeleted() *GradeEventType {
+func (o *gradeEventTypes) DeletedGrade() *GradeEventType {
     return _gradeEventTypes.values[1]
 }
 
-func (o *gradeEventTypes) GradeUpdated() *GradeEventType {
+func (o *gradeEventTypes) UpdatedGrade() *GradeEventType {
     return _gradeEventTypes.values[2]
 }
 
@@ -653,16 +653,16 @@ func (o *GroupEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GroupEventType) IsGroupCreated() bool {
-    return o == _groupEventTypes.GroupCreated()
+func (o *GroupEventType) IsCreatedGroup() bool {
+    return o == _groupEventTypes.CreatedGroup()
 }
 
-func (o *GroupEventType) IsGroupDeleted() bool {
-    return o == _groupEventTypes.GroupDeleted()
+func (o *GroupEventType) IsDeletedGroup() bool {
+    return o == _groupEventTypes.DeletedGroup()
 }
 
-func (o *GroupEventType) IsGroupUpdated() bool {
-    return o == _groupEventTypes.GroupUpdated()
+func (o *GroupEventType) IsUpdatedGroup() bool {
+    return o == _groupEventTypes.UpdatedGroup()
 }
 
 type groupEventTypes struct {
@@ -671,9 +671,9 @@ type groupEventTypes struct {
 }
 
 var _groupEventTypes = &groupEventTypes{values: []*GroupEventType{
-    {name: "GroupCreated", ordinal: 0},
-    {name: "GroupDeleted", ordinal: 1},
-    {name: "GroupUpdated", ordinal: 2}},
+    {name: "createdGroup", ordinal: 0},
+    {name: "deletedGroup", ordinal: 1},
+    {name: "updatedGroup", ordinal: 2}},
 }
 
 func GroupEventTypes() *groupEventTypes {
@@ -694,15 +694,15 @@ func (o *groupEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *groupEventTypes) GroupCreated() *GroupEventType {
+func (o *groupEventTypes) CreatedGroup() *GroupEventType {
     return _groupEventTypes.values[0]
 }
 
-func (o *groupEventTypes) GroupDeleted() *GroupEventType {
+func (o *groupEventTypes) DeletedGroup() *GroupEventType {
     return _groupEventTypes.values[1]
 }
 
-func (o *groupEventTypes) GroupUpdated() *GroupEventType {
+func (o *groupEventTypes) UpdatedGroup() *GroupEventType {
     return _groupEventTypes.values[2]
 }
 
@@ -727,16 +727,16 @@ func (o *SchoolApplicationEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *SchoolApplicationEventType) IsSchoolApplicationCreated() bool {
-    return o == _schoolApplicationEventTypes.SchoolApplicationCreated()
+func (o *SchoolApplicationEventType) IsCreatedSchoolApplication() bool {
+    return o == _schoolApplicationEventTypes.CreatedSchoolApplication()
 }
 
-func (o *SchoolApplicationEventType) IsSchoolApplicationDeleted() bool {
-    return o == _schoolApplicationEventTypes.SchoolApplicationDeleted()
+func (o *SchoolApplicationEventType) IsDeletedSchoolApplication() bool {
+    return o == _schoolApplicationEventTypes.DeletedSchoolApplication()
 }
 
-func (o *SchoolApplicationEventType) IsSchoolApplicationUpdated() bool {
-    return o == _schoolApplicationEventTypes.SchoolApplicationUpdated()
+func (o *SchoolApplicationEventType) IsUpdatedSchoolApplication() bool {
+    return o == _schoolApplicationEventTypes.UpdatedSchoolApplication()
 }
 
 type schoolApplicationEventTypes struct {
@@ -745,9 +745,9 @@ type schoolApplicationEventTypes struct {
 }
 
 var _schoolApplicationEventTypes = &schoolApplicationEventTypes{values: []*SchoolApplicationEventType{
-    {name: "SchoolApplicationCreated", ordinal: 0},
-    {name: "SchoolApplicationDeleted", ordinal: 1},
-    {name: "SchoolApplicationUpdated", ordinal: 2}},
+    {name: "createdSchoolApplication", ordinal: 0},
+    {name: "deletedSchoolApplication", ordinal: 1},
+    {name: "updatedSchoolApplication", ordinal: 2}},
 }
 
 func SchoolApplicationEventTypes() *schoolApplicationEventTypes {
@@ -768,15 +768,15 @@ func (o *schoolApplicationEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *schoolApplicationEventTypes) SchoolApplicationCreated() *SchoolApplicationEventType {
+func (o *schoolApplicationEventTypes) CreatedSchoolApplication() *SchoolApplicationEventType {
     return _schoolApplicationEventTypes.values[0]
 }
 
-func (o *schoolApplicationEventTypes) SchoolApplicationDeleted() *SchoolApplicationEventType {
+func (o *schoolApplicationEventTypes) DeletedSchoolApplication() *SchoolApplicationEventType {
     return _schoolApplicationEventTypes.values[1]
 }
 
-func (o *schoolApplicationEventTypes) SchoolApplicationUpdated() *SchoolApplicationEventType {
+func (o *schoolApplicationEventTypes) UpdatedSchoolApplication() *SchoolApplicationEventType {
     return _schoolApplicationEventTypes.values[2]
 }
 
@@ -801,16 +801,16 @@ func (o *SchoolYearEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *SchoolYearEventType) IsSchoolYearCreated() bool {
-    return o == _schoolYearEventTypes.SchoolYearCreated()
+func (o *SchoolYearEventType) IsCreatedSchoolYear() bool {
+    return o == _schoolYearEventTypes.CreatedSchoolYear()
 }
 
-func (o *SchoolYearEventType) IsSchoolYearDeleted() bool {
-    return o == _schoolYearEventTypes.SchoolYearDeleted()
+func (o *SchoolYearEventType) IsDeletedSchoolYear() bool {
+    return o == _schoolYearEventTypes.DeletedSchoolYear()
 }
 
-func (o *SchoolYearEventType) IsSchoolYearUpdated() bool {
-    return o == _schoolYearEventTypes.SchoolYearUpdated()
+func (o *SchoolYearEventType) IsUpdatedSchoolYear() bool {
+    return o == _schoolYearEventTypes.UpdatedSchoolYear()
 }
 
 type schoolYearEventTypes struct {
@@ -819,9 +819,9 @@ type schoolYearEventTypes struct {
 }
 
 var _schoolYearEventTypes = &schoolYearEventTypes{values: []*SchoolYearEventType{
-    {name: "SchoolYearCreated", ordinal: 0},
-    {name: "SchoolYearDeleted", ordinal: 1},
-    {name: "SchoolYearUpdated", ordinal: 2}},
+    {name: "createdSchoolYear", ordinal: 0},
+    {name: "deletedSchoolYear", ordinal: 1},
+    {name: "updatedSchoolYear", ordinal: 2}},
 }
 
 func SchoolYearEventTypes() *schoolYearEventTypes {
@@ -842,15 +842,15 @@ func (o *schoolYearEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *schoolYearEventTypes) SchoolYearCreated() *SchoolYearEventType {
+func (o *schoolYearEventTypes) CreatedSchoolYear() *SchoolYearEventType {
     return _schoolYearEventTypes.values[0]
 }
 
-func (o *schoolYearEventTypes) SchoolYearDeleted() *SchoolYearEventType {
+func (o *schoolYearEventTypes) DeletedSchoolYear() *SchoolYearEventType {
     return _schoolYearEventTypes.values[1]
 }
 
-func (o *schoolYearEventTypes) SchoolYearUpdated() *SchoolYearEventType {
+func (o *schoolYearEventTypes) UpdatedSchoolYear() *SchoolYearEventType {
     return _schoolYearEventTypes.values[2]
 }
 

@@ -7,19 +7,19 @@ import (
 )
 
 type Expense struct {
-    purpose *ExpensePurpose
-    amount float64
-    profile *person.Profile
-    date *time.Time
+    Purpose  *ExpensePurpose
+    Amount  float64
+    Profile  *person.Profile
+    Date  *time.Time
     *schkola.SchkolaBase
 }
 
 func NewExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time, SchkolaBase *schkola.SchkolaBase) (ret *Expense, err error) {
     ret = &Expense{
-        purpose: purpose,
-        amount: amount,
-        profile: profile,
-        date: date,
+        Purpose : purpose,
+        Amount : amount,
+        Profile : profile,
+        Date : date,
         SchkolaBase: SchkolaBase,
     }
     
@@ -29,15 +29,15 @@ func NewExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile
 
 
 type ExpensePurpose struct {
-    name string
-    description string
+    Name  string
+    Description  string
     *schkola.SchkolaBase
 }
 
 func NewExpensePurpose(name string, description string, SchkolaBase *schkola.SchkolaBase) (ret *ExpensePurpose, err error) {
     ret = &ExpensePurpose{
-        name: name,
-        description: description,
+        Name : name,
+        Description : description,
         SchkolaBase: SchkolaBase,
     }
     
@@ -47,19 +47,19 @@ func NewExpensePurpose(name string, description string, SchkolaBase *schkola.Sch
 
 
 type Fee struct {
-    student *person.Profile
-    amount float64
-    kind *FeeKind
-    date *time.Time
+    Student  *person.Profile
+    Amount  float64
+    Kind  *FeeKind
+    Date  *time.Time
     *schkola.SchkolaBase
 }
 
 func NewFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time, SchkolaBase *schkola.SchkolaBase) (ret *Fee, err error) {
     ret = &Fee{
-        student: student,
-        amount: amount,
-        kind: kind,
-        date: date,
+        Student : student,
+        Amount : amount,
+        Kind : kind,
+        Date : date,
         SchkolaBase: SchkolaBase,
     }
     
@@ -69,17 +69,17 @@ func NewFee(student *person.Profile, amount float64, kind *FeeKind, date *time.T
 
 
 type FeeKind struct {
-    name string
-    amount float64
-    description string
+    Name  string
+    Amount  float64
+    Description  string
     *schkola.SchkolaBase
 }
 
 func NewFeeKind(name string, amount float64, description string, SchkolaBase *schkola.SchkolaBase) (ret *FeeKind, err error) {
     ret = &FeeKind{
-        name: name,
-        amount: amount,
-        description: description,
+        Name : name,
+        Amount : amount,
+        Description : description,
         SchkolaBase: SchkolaBase,
     }
     

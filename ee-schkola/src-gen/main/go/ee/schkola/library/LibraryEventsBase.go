@@ -6,28 +6,28 @@ import (
     "time"
 )
 
-type CreatedBook struct {
-    title 
-    description string
-    language string
-    releaseDate *time.Time
-    edition string
-    category string
-    author *person.PersonName
-    location *Location
+type BookCreated struct {
+    Title  
+    Description  string
+    Language  string
+    ReleaseDate  *time.Time
+    Edition  string
+    Category  string
+    Author  *person.PersonName
+    Location  *Location
 }
 
-func NewCreatedBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName, location *Location) (ret *CreatedBook, err error) {
-    ret = &CreatedBook{
-        title: title,
-        description: description,
-        language: language,
-        releaseDate: releaseDate,
-        edition: edition,
-        category: category,
-        author: author,
-        location: location,
+func NewBookCreated(title , description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName, location *Location) (ret *BookCreated, err error) {
+    ret = &BookCreated{
+        Title : title,
+        Description : description,
+        Language : language,
+        ReleaseDate : releaseDate,
+        Edition : edition,
+        Category : category,
+        Author : author,
+        Location : location,
     }
     
     return
@@ -35,13 +35,13 @@ func NewCreatedBook(title , description string, language string, releaseDate *ti
 
 
 
-type DeletedBook struct {
-    id string
+type BookDeleted struct {
+    Id  string
 }
 
-func NewDeletedBook(id string) (ret *DeletedBook, err error) {
-    ret = &DeletedBook{
-        id: id,
+func NewBookDeleted(id string) (ret *BookDeleted, err error) {
+    ret = &BookDeleted{
+        Id : id,
     }
     
     return
@@ -49,28 +49,28 @@ func NewDeletedBook(id string) (ret *DeletedBook, err error) {
 
 
 
-type UpdatedBook struct {
-    title 
-    description string
-    language string
-    releaseDate *time.Time
-    edition string
-    category string
-    author *person.PersonName
-    location *Location
+type BookUpdated struct {
+    Title  
+    Description  string
+    Language  string
+    ReleaseDate  *time.Time
+    Edition  string
+    Category  string
+    Author  *person.PersonName
+    Location  *Location
 }
 
-func NewUpdatedBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName, location *Location) (ret *UpdatedBook, err error) {
-    ret = &UpdatedBook{
-        title: title,
-        description: description,
-        language: language,
-        releaseDate: releaseDate,
-        edition: edition,
-        category: category,
-        author: author,
-        location: location,
+func NewBookUpdated(title , description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName, location *Location) (ret *BookUpdated, err error) {
+    ret = &BookUpdated{
+        Title : title,
+        Description : description,
+        Language : language,
+        ReleaseDate : releaseDate,
+        Edition : edition,
+        Category : category,
+        Author : author,
+        Location : location,
     }
     
     return
@@ -92,16 +92,16 @@ func (o *BookEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *BookEventType) IsBookCreated() bool {
-    return o == _bookEventTypes.BookCreated()
+func (o *BookEventType) IsCreatedBook() bool {
+    return o == _bookEventTypes.CreatedBook()
 }
 
-func (o *BookEventType) IsBookDeleted() bool {
-    return o == _bookEventTypes.BookDeleted()
+func (o *BookEventType) IsDeletedBook() bool {
+    return o == _bookEventTypes.DeletedBook()
 }
 
-func (o *BookEventType) IsBookUpdated() bool {
-    return o == _bookEventTypes.BookUpdated()
+func (o *BookEventType) IsUpdatedBook() bool {
+    return o == _bookEventTypes.UpdatedBook()
 }
 
 type bookEventTypes struct {
@@ -110,9 +110,9 @@ type bookEventTypes struct {
 }
 
 var _bookEventTypes = &bookEventTypes{values: []*BookEventType{
-    {name: "BookCreated", ordinal: 0},
-    {name: "BookDeleted", ordinal: 1},
-    {name: "BookUpdated", ordinal: 2}},
+    {name: "createdBook", ordinal: 0},
+    {name: "deletedBook", ordinal: 1},
+    {name: "updatedBook", ordinal: 2}},
 }
 
 func BookEventTypes() *bookEventTypes {
@@ -133,15 +133,15 @@ func (o *bookEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *bookEventTypes) BookCreated() *BookEventType {
+func (o *bookEventTypes) CreatedBook() *BookEventType {
     return _bookEventTypes.values[0]
 }
 
-func (o *bookEventTypes) BookDeleted() *BookEventType {
+func (o *bookEventTypes) DeletedBook() *BookEventType {
     return _bookEventTypes.values[1]
 }
 
-func (o *bookEventTypes) BookUpdated() *BookEventType {
+func (o *bookEventTypes) UpdatedBook() *BookEventType {
     return _bookEventTypes.values[2]
 }
 

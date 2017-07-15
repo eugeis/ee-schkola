@@ -34,15 +34,15 @@ func NewAccountAggregateInitializer(
 
 
 func (o *AccountAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().AccountCreated())
+    o.RegisterForEvent(handler, AccountEventTypes().CreatedAccount())
 }
 
 func (o *AccountAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().AccountDeleted())
+    o.RegisterForEvent(handler, AccountEventTypes().DeletedAccount())
 }
 
 func (o *AccountAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().AccountUpdated())
+    o.RegisterForEvent(handler, AccountEventTypes().UpdatedAccount())
 }
 
 type AccountAggregateInitializer struct {

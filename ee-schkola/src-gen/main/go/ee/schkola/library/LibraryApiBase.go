@@ -7,28 +7,28 @@ import (
 )
 
 type Book struct {
-    title 
-    description string
-    language string
-    releaseDate *time.Time
-    edition string
-    category string
-    author *person.PersonName
-    location *Location
+    Title  
+    Description  string
+    Language  string
+    ReleaseDate  *time.Time
+    Edition  string
+    Category  string
+    Author  *person.PersonName
+    Location  *Location
     *schkola.SchkolaBase
 }
 
 func NewBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
                 author *person.PersonName, location *Location, SchkolaBase *schkola.SchkolaBase) (ret *Book, err error) {
     ret = &Book{
-        title: title,
-        description: description,
-        language: language,
-        releaseDate: releaseDate,
-        edition: edition,
-        category: category,
-        author: author,
-        location: location,
+        Title : title,
+        Description : description,
+        Language : language,
+        ReleaseDate : releaseDate,
+        Edition : edition,
+        Category : category,
+        Author : author,
+        Location : location,
         SchkolaBase: SchkolaBase,
     }
     
@@ -42,14 +42,14 @@ func NewBook(title , description string, language string, releaseDate *time.Time
 
 
 type Location struct {
-    shelf string
-    fold string
+    Shelf  string
+    Fold  string
 }
 
 func NewLocation(shelf string, fold string) (ret *Location, err error) {
     ret = &Location{
-        shelf: shelf,
-        fold: fold,
+        Shelf : shelf,
+        Fold : fold,
     }
     
     return

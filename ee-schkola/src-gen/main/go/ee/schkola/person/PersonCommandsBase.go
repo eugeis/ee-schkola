@@ -1,191 +1,260 @@
 package person
 
 import (
+    "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/enum"
     "time"
 )
+const (
+     CreateChurchCommand eventhorizon.CommandType = "CreateChurch"
+     DeleteChurchCommand eventhorizon.CommandType = "DeleteChurch"
+     UpdateChurchCommand eventhorizon.CommandType = "UpdateChurch"
+)
 
-type ChurchCreate struct {
-    name string
-    address *Address
-    pastor *PersonName
-    contact *Contact
+
+const (
+     CreateGraduationCommand eventhorizon.CommandType = "CreateGraduation"
+     DeleteGraduationCommand eventhorizon.CommandType = "DeleteGraduation"
+     UpdateGraduationCommand eventhorizon.CommandType = "UpdateGraduation"
+)
+
+
+const (
+     CreateProfileCommand eventhorizon.CommandType = "CreateProfile"
+     DeleteProfileCommand eventhorizon.CommandType = "DeleteProfile"
+     UpdateProfileCommand eventhorizon.CommandType = "UpdateProfile"
+)
+
+
+
+
+        
+
+type CreateChurch struct {
+    Name  string
+    Address  *Address
+    Pastor  *PersonName
+    Contact  *Contact
 }
 
-func NewChurchCreate(name string, address *Address, pastor *PersonName, contact *Contact) (ret *ChurchCreate, err error) {
-    ret = &ChurchCreate{
-        name: name,
-        address: address,
-        pastor: pastor,
-        contact: contact,
+func NewCreateChurch(name string, address *Address, pastor *PersonName, contact *Contact) (ret *CreateChurch, err error) {
+    ret = &CreateChurch{
+        Name : name,
+        Address : address,
+        Pastor : pastor,
+        Contact : contact,
     }
     
     return
 }
+func (o *CreateChurch) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *CreateChurch) AggregateType() eventhorizon.AggregateType  { return ChurchAggregateType }
+func (o *CreateChurch) CommandType() eventhorizon.CommandType      { return CreateChurchCommand }
 
 
 
-type ChurchDelete struct {
-    id string
+        
+
+type DeleteChurch struct {
+    Id  string
 }
 
-func NewChurchDelete(id string) (ret *ChurchDelete, err error) {
-    ret = &ChurchDelete{
-        id: id,
+func NewDeleteChurch(id string) (ret *DeleteChurch, err error) {
+    ret = &DeleteChurch{
+        Id : id,
     }
     
     return
 }
+func (o *DeleteChurch) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *DeleteChurch) AggregateType() eventhorizon.AggregateType  { return ChurchAggregateType }
+func (o *DeleteChurch) CommandType() eventhorizon.CommandType      { return DeleteChurchCommand }
 
 
 
-type ChurchUpdate struct {
-    name string
-    address *Address
-    pastor *PersonName
-    contact *Contact
+        
+
+type UpdateChurch struct {
+    Name  string
+    Address  *Address
+    Pastor  *PersonName
+    Contact  *Contact
 }
 
-func NewChurchUpdate(name string, address *Address, pastor *PersonName, contact *Contact) (ret *ChurchUpdate, err error) {
-    ret = &ChurchUpdate{
-        name: name,
-        address: address,
-        pastor: pastor,
-        contact: contact,
+func NewUpdateChurch(name string, address *Address, pastor *PersonName, contact *Contact) (ret *UpdateChurch, err error) {
+    ret = &UpdateChurch{
+        Name : name,
+        Address : address,
+        Pastor : pastor,
+        Contact : contact,
     }
     
     return
 }
+func (o *UpdateChurch) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *UpdateChurch) AggregateType() eventhorizon.AggregateType  { return ChurchAggregateType }
+func (o *UpdateChurch) CommandType() eventhorizon.CommandType      { return UpdateChurchCommand }
 
 
 
-type GraduationCreate struct {
-    name string
-    level *GraduationLevel
+        
+
+type CreateGraduation struct {
+    Name  string
+    Level  *GraduationLevel
 }
 
-func NewGraduationCreate(name string, level *GraduationLevel) (ret *GraduationCreate, err error) {
-    ret = &GraduationCreate{
-        name: name,
-        level: level,
+func NewCreateGraduation(name string, level *GraduationLevel) (ret *CreateGraduation, err error) {
+    ret = &CreateGraduation{
+        Name : name,
+        Level : level,
     }
     
     return
 }
+func (o *CreateGraduation) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *CreateGraduation) AggregateType() eventhorizon.AggregateType  { return GraduationAggregateType }
+func (o *CreateGraduation) CommandType() eventhorizon.CommandType      { return CreateGraduationCommand }
 
 
 
-type GraduationDelete struct {
-    id string
+        
+
+type DeleteGraduation struct {
+    Id  string
 }
 
-func NewGraduationDelete(id string) (ret *GraduationDelete, err error) {
-    ret = &GraduationDelete{
-        id: id,
+func NewDeleteGraduation(id string) (ret *DeleteGraduation, err error) {
+    ret = &DeleteGraduation{
+        Id : id,
     }
     
     return
 }
+func (o *DeleteGraduation) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *DeleteGraduation) AggregateType() eventhorizon.AggregateType  { return GraduationAggregateType }
+func (o *DeleteGraduation) CommandType() eventhorizon.CommandType      { return DeleteGraduationCommand }
 
 
 
-type GraduationUpdate struct {
-    name string
-    level *GraduationLevel
+        
+
+type UpdateGraduation struct {
+    Name  string
+    Level  *GraduationLevel
 }
 
-func NewGraduationUpdate(name string, level *GraduationLevel) (ret *GraduationUpdate, err error) {
-    ret = &GraduationUpdate{
-        name: name,
-        level: level,
+func NewUpdateGraduation(name string, level *GraduationLevel) (ret *UpdateGraduation, err error) {
+    ret = &UpdateGraduation{
+        Name : name,
+        Level : level,
     }
     
     return
 }
+func (o *UpdateGraduation) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *UpdateGraduation) AggregateType() eventhorizon.AggregateType  { return GraduationAggregateType }
+func (o *UpdateGraduation) CommandType() eventhorizon.CommandType      { return UpdateGraduationCommand }
 
 
 
-type ProfileCreate struct {
-    gender *Gender
-    name *PersonName
-    birthName string
-    birthday *time.Time
-    address *Address
-    contact *Contact
-    photoData []byte
-    photo string
-    family *Family
-    church *ChurchInfo
-    education *Education
+        
+
+type CreateProfile struct {
+    Gender  *Gender
+    Name  *PersonName
+    BirthName  string
+    Birthday  *time.Time
+    Address  *Address
+    Contact  *Contact
+    PhotoData  []byte
+    Photo  string
+    Family  *Family
+    Church  *ChurchInfo
+    Education  *Education
 }
 
-func NewProfileCreate(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
-                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *ProfileCreate, err error) {
-    ret = &ProfileCreate{
-        gender: gender,
-        name: name,
-        birthName: birthName,
-        birthday: birthday,
-        address: address,
-        contact: contact,
-        photoData: photoData,
-        photo: photo,
-        family: family,
-        church: church,
-        education: education,
+func NewCreateProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
+                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *CreateProfile, err error) {
+    ret = &CreateProfile{
+        Gender : gender,
+        Name : name,
+        BirthName : birthName,
+        Birthday : birthday,
+        Address : address,
+        Contact : contact,
+        PhotoData : photoData,
+        Photo : photo,
+        Family : family,
+        Church : church,
+        Education : education,
     }
     
     return
 }
+func (o *CreateProfile) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *CreateProfile) AggregateType() eventhorizon.AggregateType  { return ProfileAggregateType }
+func (o *CreateProfile) CommandType() eventhorizon.CommandType      { return CreateProfileCommand }
 
 
 
-type ProfileDelete struct {
-    id string
+        
+
+type DeleteProfile struct {
+    Id  string
 }
 
-func NewProfileDelete(id string) (ret *ProfileDelete, err error) {
-    ret = &ProfileDelete{
-        id: id,
+func NewDeleteProfile(id string) (ret *DeleteProfile, err error) {
+    ret = &DeleteProfile{
+        Id : id,
     }
     
     return
 }
+func (o *DeleteProfile) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *DeleteProfile) AggregateType() eventhorizon.AggregateType  { return ProfileAggregateType }
+func (o *DeleteProfile) CommandType() eventhorizon.CommandType      { return DeleteProfileCommand }
 
 
 
-type ProfileUpdate struct {
-    gender *Gender
-    name *PersonName
-    birthName string
-    birthday *time.Time
-    address *Address
-    contact *Contact
-    photoData []byte
-    photo string
-    family *Family
-    church *ChurchInfo
-    education *Education
+        
+
+type UpdateProfile struct {
+    Gender  *Gender
+    Name  *PersonName
+    BirthName  string
+    Birthday  *time.Time
+    Address  *Address
+    Contact  *Contact
+    PhotoData  []byte
+    Photo  string
+    Family  *Family
+    Church  *ChurchInfo
+    Education  *Education
 }
 
-func NewProfileUpdate(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
-                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *ProfileUpdate, err error) {
-    ret = &ProfileUpdate{
-        gender: gender,
-        name: name,
-        birthName: birthName,
-        birthday: birthday,
-        address: address,
-        contact: contact,
-        photoData: photoData,
-        photo: photo,
-        family: family,
-        church: church,
-        education: education,
+func NewUpdateProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
+                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *UpdateProfile, err error) {
+    ret = &UpdateProfile{
+        Gender : gender,
+        Name : name,
+        BirthName : birthName,
+        Birthday : birthday,
+        Address : address,
+        Contact : contact,
+        PhotoData : photoData,
+        Photo : photo,
+        Family : family,
+        Church : church,
+        Education : education,
     }
     
     return
 }
+func (o *UpdateProfile) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *UpdateProfile) AggregateType() eventhorizon.AggregateType  { return ProfileAggregateType }
+func (o *UpdateProfile) CommandType() eventhorizon.CommandType      { return UpdateProfileCommand }
+
 
 
 
@@ -203,16 +272,16 @@ func (o *ChurchCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ChurchCommandType) IsCreateChurch() bool {
-    return o == _churchCommandTypes.CreateChurch()
+func (o *ChurchCommandType) IsChurchCreate() bool {
+    return o == _churchCommandTypes.ChurchCreate()
 }
 
-func (o *ChurchCommandType) IsDeleteChurch() bool {
-    return o == _churchCommandTypes.DeleteChurch()
+func (o *ChurchCommandType) IsChurchDelete() bool {
+    return o == _churchCommandTypes.ChurchDelete()
 }
 
-func (o *ChurchCommandType) IsUpdateChurch() bool {
-    return o == _churchCommandTypes.UpdateChurch()
+func (o *ChurchCommandType) IsChurchUpdate() bool {
+    return o == _churchCommandTypes.ChurchUpdate()
 }
 
 type churchCommandTypes struct {
@@ -221,9 +290,9 @@ type churchCommandTypes struct {
 }
 
 var _churchCommandTypes = &churchCommandTypes{values: []*ChurchCommandType{
-    {name: "createChurch", ordinal: 0},
-    {name: "deleteChurch", ordinal: 1},
-    {name: "updateChurch", ordinal: 2}},
+    {name: "ChurchCreate", ordinal: 0},
+    {name: "ChurchDelete", ordinal: 1},
+    {name: "ChurchUpdate", ordinal: 2}},
 }
 
 func ChurchCommandTypes() *churchCommandTypes {
@@ -244,15 +313,15 @@ func (o *churchCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *churchCommandTypes) CreateChurch() *ChurchCommandType {
+func (o *churchCommandTypes) ChurchCreate() *ChurchCommandType {
     return _churchCommandTypes.values[0]
 }
 
-func (o *churchCommandTypes) DeleteChurch() *ChurchCommandType {
+func (o *churchCommandTypes) ChurchDelete() *ChurchCommandType {
     return _churchCommandTypes.values[1]
 }
 
-func (o *churchCommandTypes) UpdateChurch() *ChurchCommandType {
+func (o *churchCommandTypes) ChurchUpdate() *ChurchCommandType {
     return _churchCommandTypes.values[2]
 }
 
@@ -277,16 +346,16 @@ func (o *GraduationCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GraduationCommandType) IsCreateGraduation() bool {
-    return o == _graduationCommandTypes.CreateGraduation()
+func (o *GraduationCommandType) IsGraduationCreate() bool {
+    return o == _graduationCommandTypes.GraduationCreate()
 }
 
-func (o *GraduationCommandType) IsDeleteGraduation() bool {
-    return o == _graduationCommandTypes.DeleteGraduation()
+func (o *GraduationCommandType) IsGraduationDelete() bool {
+    return o == _graduationCommandTypes.GraduationDelete()
 }
 
-func (o *GraduationCommandType) IsUpdateGraduation() bool {
-    return o == _graduationCommandTypes.UpdateGraduation()
+func (o *GraduationCommandType) IsGraduationUpdate() bool {
+    return o == _graduationCommandTypes.GraduationUpdate()
 }
 
 type graduationCommandTypes struct {
@@ -295,9 +364,9 @@ type graduationCommandTypes struct {
 }
 
 var _graduationCommandTypes = &graduationCommandTypes{values: []*GraduationCommandType{
-    {name: "createGraduation", ordinal: 0},
-    {name: "deleteGraduation", ordinal: 1},
-    {name: "updateGraduation", ordinal: 2}},
+    {name: "GraduationCreate", ordinal: 0},
+    {name: "GraduationDelete", ordinal: 1},
+    {name: "GraduationUpdate", ordinal: 2}},
 }
 
 func GraduationCommandTypes() *graduationCommandTypes {
@@ -318,15 +387,15 @@ func (o *graduationCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *graduationCommandTypes) CreateGraduation() *GraduationCommandType {
+func (o *graduationCommandTypes) GraduationCreate() *GraduationCommandType {
     return _graduationCommandTypes.values[0]
 }
 
-func (o *graduationCommandTypes) DeleteGraduation() *GraduationCommandType {
+func (o *graduationCommandTypes) GraduationDelete() *GraduationCommandType {
     return _graduationCommandTypes.values[1]
 }
 
-func (o *graduationCommandTypes) UpdateGraduation() *GraduationCommandType {
+func (o *graduationCommandTypes) GraduationUpdate() *GraduationCommandType {
     return _graduationCommandTypes.values[2]
 }
 
@@ -351,16 +420,16 @@ func (o *ProfileCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ProfileCommandType) IsCreateProfile() bool {
-    return o == _profileCommandTypes.CreateProfile()
+func (o *ProfileCommandType) IsProfileCreate() bool {
+    return o == _profileCommandTypes.ProfileCreate()
 }
 
-func (o *ProfileCommandType) IsDeleteProfile() bool {
-    return o == _profileCommandTypes.DeleteProfile()
+func (o *ProfileCommandType) IsProfileDelete() bool {
+    return o == _profileCommandTypes.ProfileDelete()
 }
 
-func (o *ProfileCommandType) IsUpdateProfile() bool {
-    return o == _profileCommandTypes.UpdateProfile()
+func (o *ProfileCommandType) IsProfileUpdate() bool {
+    return o == _profileCommandTypes.ProfileUpdate()
 }
 
 type profileCommandTypes struct {
@@ -369,9 +438,9 @@ type profileCommandTypes struct {
 }
 
 var _profileCommandTypes = &profileCommandTypes{values: []*ProfileCommandType{
-    {name: "createProfile", ordinal: 0},
-    {name: "deleteProfile", ordinal: 1},
-    {name: "updateProfile", ordinal: 2}},
+    {name: "ProfileCreate", ordinal: 0},
+    {name: "ProfileDelete", ordinal: 1},
+    {name: "ProfileUpdate", ordinal: 2}},
 }
 
 func ProfileCommandTypes() *profileCommandTypes {
@@ -392,15 +461,15 @@ func (o *profileCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *profileCommandTypes) CreateProfile() *ProfileCommandType {
+func (o *profileCommandTypes) ProfileCreate() *ProfileCommandType {
     return _profileCommandTypes.values[0]
 }
 
-func (o *profileCommandTypes) DeleteProfile() *ProfileCommandType {
+func (o *profileCommandTypes) ProfileDelete() *ProfileCommandType {
     return _profileCommandTypes.values[1]
 }
 
-func (o *profileCommandTypes) UpdateProfile() *ProfileCommandType {
+func (o *profileCommandTypes) ProfileUpdate() *ProfileCommandType {
     return _profileCommandTypes.values[2]
 }
 
