@@ -14,7 +14,7 @@ type Church struct {
     *schkola.SchkolaBase
 }
 
-func NewChurch(name string, address *Address, pastor *PersonName, contact *Contact, SchkolaBase *schkola.SchkolaBase) (ret *Church, err error) {
+func NewChurch(name string, address *Address, pastor *PersonName, contact *Contact, SchkolaBase *schkola.SchkolaBase) (ret *Church) {
     ret = &Church{
         Name : name,
         Address : address,
@@ -34,7 +34,7 @@ type Graduation struct {
     *schkola.SchkolaBase
 }
 
-func NewGraduation(name string, level *GraduationLevel, SchkolaBase *schkola.SchkolaBase) (ret *Graduation, err error) {
+func NewGraduation(name string, level *GraduationLevel, SchkolaBase *schkola.SchkolaBase) (ret *Graduation) {
     ret = &Graduation{
         Name : name,
         Level : level,
@@ -63,7 +63,7 @@ type Profile struct {
 
 func NewProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
                 photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education, 
-                SchkolaBase *schkola.SchkolaBase) (ret *Profile, err error) {
+                SchkolaBase *schkola.SchkolaBase) (ret *Profile) {
     ret = &Profile{
         Gender : gender,
         Name : name,
@@ -96,7 +96,7 @@ type Address struct {
     country string
 }
 
-func NewAddress(street string, suite string, city string, code string, country string) (ret *Address, err error) {
+func NewAddress(street string, suite string, city string, code string, country string) (ret *Address) {
     ret = &Address{
         street: street,
         suite: suite,
@@ -117,7 +117,7 @@ type ChurchInfo struct {
     services string
 }
 
-func NewChurchInfo(church string, association string, member bool, services string) (ret *ChurchInfo, err error) {
+func NewChurchInfo(church string, association string, member bool, services string) (ret *ChurchInfo) {
     ret = &ChurchInfo{
         church: church,
         association: association,
@@ -136,7 +136,7 @@ type Contact struct {
     cellphone string
 }
 
-func NewContact(phone string, email string, cellphone string) (ret *Contact, err error) {
+func NewContact(phone string, email string, cellphone string) (ret *Contact) {
     ret = &Contact{
         phone: phone,
         email: email,
@@ -153,7 +153,7 @@ type Education struct {
     profession string
 }
 
-func NewEducation(graduation *Graduation, profession string) (ret *Education, err error) {
+func NewEducation(graduation *Graduation, profession string) (ret *Education) {
     ret = &Education{
         graduation: graduation,
         profession: profession,
@@ -170,7 +170,7 @@ type Family struct {
     partner *PersonName
 }
 
-func NewFamily(maritalState *MaritalState, childrenCount int, partner *PersonName) (ret *Family, err error) {
+func NewFamily(maritalState *MaritalState, childrenCount int, partner *PersonName) (ret *Family) {
     ret = &Family{
         maritalState: maritalState,
         childrenCount: childrenCount,
@@ -187,7 +187,7 @@ type PersonName struct {
     last string
 }
 
-func NewPersonName(first string, last string) (ret *PersonName, err error) {
+func NewPersonName(first string, last string) (ret *PersonName) {
     ret = &PersonName{
         first: first,
         last: last,

@@ -17,7 +17,7 @@ type Account struct {
 }
 
 func NewAccount(username string, password string, email string, disabled bool, lastLoginAt *time.Time, profile *person.Profile, 
-                SchkolaBase *schkola.SchkolaBase) (ret *Account, err error) {
+                SchkolaBase *schkola.SchkolaBase) (ret *Account) {
     ret = &Account{
         Username : username,
         Password : password,

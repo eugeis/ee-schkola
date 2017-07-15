@@ -14,7 +14,7 @@ type Expense struct {
     *schkola.SchkolaBase
 }
 
-func NewExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time, SchkolaBase *schkola.SchkolaBase) (ret *Expense, err error) {
+func NewExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time, SchkolaBase *schkola.SchkolaBase) (ret *Expense) {
     ret = &Expense{
         Purpose : purpose,
         Amount : amount,
@@ -34,7 +34,7 @@ type ExpensePurpose struct {
     *schkola.SchkolaBase
 }
 
-func NewExpensePurpose(name string, description string, SchkolaBase *schkola.SchkolaBase) (ret *ExpensePurpose, err error) {
+func NewExpensePurpose(name string, description string, SchkolaBase *schkola.SchkolaBase) (ret *ExpensePurpose) {
     ret = &ExpensePurpose{
         Name : name,
         Description : description,
@@ -54,7 +54,7 @@ type Fee struct {
     *schkola.SchkolaBase
 }
 
-func NewFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time, SchkolaBase *schkola.SchkolaBase) (ret *Fee, err error) {
+func NewFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time, SchkolaBase *schkola.SchkolaBase) (ret *Fee) {
     ret = &Fee{
         Student : student,
         Amount : amount,
@@ -75,7 +75,7 @@ type FeeKind struct {
     *schkola.SchkolaBase
 }
 
-func NewFeeKind(name string, amount float64, description string, SchkolaBase *schkola.SchkolaBase) (ret *FeeKind, err error) {
+func NewFeeKind(name string, amount float64, description string, SchkolaBase *schkola.SchkolaBase) (ret *FeeKind) {
     ret = &FeeKind{
         Name : name,
         Amount : amount,

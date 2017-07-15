@@ -1,15 +1,16 @@
 package schkola
 
 import (
+    "github.com/looplab/eventhorizon"
     "time"
 )
 
 type SchkolaBase struct {
     *Trace
-    Id  string
+    Id  eventhorizon.UUID
 }
 
-func NewSchkolaBase(id string) (ret *SchkolaBase, err error) {
+func NewSchkolaBase(id eventhorizon.UUID) (ret *SchkolaBase) {
     ret = &SchkolaBase{
         Id : id,
     }
@@ -29,7 +30,7 @@ type Trace struct {
     ModifiedBy  string
 }
 
-func NewTrace(createdAt *time.Time, updatedAt *time.Time, modifiedBy string) (ret *Trace, err error) {
+func NewTrace(createdAt *time.Time, updatedAt *time.Time, modifiedBy string) (ret *Trace) {
     ret = &Trace{
         CreatedAt : createdAt,
         UpdatedAt : updatedAt,

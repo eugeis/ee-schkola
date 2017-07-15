@@ -57,6 +57,7 @@ const (
         
 
 type CreateAttendance struct {
+    Id  eventhorizon.UUID
     Student  *person.Profile
     Date  *time.Time
     Course  *Course
@@ -65,22 +66,6 @@ type CreateAttendance struct {
     StateTrace  *schkola.Trace
     Token  string
     TokenTrace  *schkola.Trace
-}
-
-func NewCreateAttendance(student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, stateTrace *schkola.Trace, 
-                token string, tokenTrace *schkola.Trace) (ret *CreateAttendance, err error) {
-    ret = &CreateAttendance{
-        Student : student,
-        Date : date,
-        Course : course,
-        Hours : hours,
-        State : state,
-        StateTrace : stateTrace,
-        Token : token,
-        TokenTrace : tokenTrace,
-    }
-    
-    return
 }
 func (o *CreateAttendance) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
@@ -91,15 +76,7 @@ func (o *CreateAttendance) CommandType() eventhorizon.CommandType      { return 
         
 
 type DeleteAttendance struct {
-    Id  string
-}
-
-func NewDeleteAttendance(id string) (ret *DeleteAttendance, err error) {
-    ret = &DeleteAttendance{
-        Id : id,
-    }
-    
-    return
+    Id  eventhorizon.UUID
 }
 func (o *DeleteAttendance) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
@@ -110,6 +87,7 @@ func (o *DeleteAttendance) CommandType() eventhorizon.CommandType      { return 
         
 
 type UpdateAttendance struct {
+    Id  eventhorizon.UUID
     Student  *person.Profile
     Date  *time.Time
     Course  *Course
@@ -118,22 +96,6 @@ type UpdateAttendance struct {
     StateTrace  *schkola.Trace
     Token  string
     TokenTrace  *schkola.Trace
-}
-
-func NewUpdateAttendance(student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, stateTrace *schkola.Trace, 
-                token string, tokenTrace *schkola.Trace) (ret *UpdateAttendance, err error) {
-    ret = &UpdateAttendance{
-        Student : student,
-        Date : date,
-        Course : course,
-        Hours : hours,
-        State : state,
-        StateTrace : stateTrace,
-        Token : token,
-        TokenTrace : tokenTrace,
-    }
-    
-    return
 }
 func (o *UpdateAttendance) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
@@ -168,7 +130,7 @@ type RegisterAttendance struct {
     Course  *Course
 }
 
-func NewRegisterAttendance(student *person.Profile, course *Course) (ret *RegisterAttendance, err error) {
+func NewRegisterAttendance(student *person.Profile, course *Course) (ret *RegisterAttendance) {
     ret = &RegisterAttendance{
         Student : student,
         Course : course,
@@ -185,6 +147,7 @@ func (o *RegisterAttendance) CommandType() eventhorizon.CommandType      { retur
         
 
 type CreateCourse struct {
+    Id  eventhorizon.UUID
     Name  string
     Begin  *time.Time
     End  *time.Time
@@ -192,21 +155,6 @@ type CreateCourse struct {
     SchoolYear  *SchoolYear
     Fee  float64
     Description  string
-}
-
-func NewCreateCourse(name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, fee float64, 
-                description string) (ret *CreateCourse, err error) {
-    ret = &CreateCourse{
-        Name : name,
-        Begin : begin,
-        End : end,
-        Teacher : teacher,
-        SchoolYear : schoolYear,
-        Fee : fee,
-        Description : description,
-    }
-    
-    return
 }
 func (o *CreateCourse) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateCourse) AggregateType() eventhorizon.AggregateType  { return CourseAggregateType }
@@ -217,15 +165,7 @@ func (o *CreateCourse) CommandType() eventhorizon.CommandType      { return Crea
         
 
 type DeleteCourse struct {
-    Id  string
-}
-
-func NewDeleteCourse(id string) (ret *DeleteCourse, err error) {
-    ret = &DeleteCourse{
-        Id : id,
-    }
-    
-    return
+    Id  eventhorizon.UUID
 }
 func (o *DeleteCourse) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteCourse) AggregateType() eventhorizon.AggregateType  { return CourseAggregateType }
@@ -236,6 +176,7 @@ func (o *DeleteCourse) CommandType() eventhorizon.CommandType      { return Dele
         
 
 type UpdateCourse struct {
+    Id  eventhorizon.UUID
     Name  string
     Begin  *time.Time
     End  *time.Time
@@ -243,21 +184,6 @@ type UpdateCourse struct {
     SchoolYear  *SchoolYear
     Fee  float64
     Description  string
-}
-
-func NewUpdateCourse(name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, fee float64, 
-                description string) (ret *UpdateCourse, err error) {
-    ret = &UpdateCourse{
-        Name : name,
-        Begin : begin,
-        End : end,
-        Teacher : teacher,
-        SchoolYear : schoolYear,
-        Fee : fee,
-        Description : description,
-    }
-    
-    return
 }
 func (o *UpdateCourse) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateCourse) AggregateType() eventhorizon.AggregateType  { return CourseAggregateType }
@@ -268,23 +194,12 @@ func (o *UpdateCourse) CommandType() eventhorizon.CommandType      { return Upda
         
 
 type CreateGrade struct {
+    Id  eventhorizon.UUID
     Student  *person.Profile
     Course  *Course
     Grade  float64
     GradeTrace  *schkola.Trace
     Comment  string
-}
-
-func NewCreateGrade(student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string) (ret *CreateGrade, err error) {
-    ret = &CreateGrade{
-        Student : student,
-        Course : course,
-        Grade : grade,
-        GradeTrace : gradeTrace,
-        Comment : comment,
-    }
-    
-    return
 }
 func (o *CreateGrade) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateGrade) AggregateType() eventhorizon.AggregateType  { return GradeAggregateType }
@@ -295,15 +210,7 @@ func (o *CreateGrade) CommandType() eventhorizon.CommandType      { return Creat
         
 
 type DeleteGrade struct {
-    Id  string
-}
-
-func NewDeleteGrade(id string) (ret *DeleteGrade, err error) {
-    ret = &DeleteGrade{
-        Id : id,
-    }
-    
-    return
+    Id  eventhorizon.UUID
 }
 func (o *DeleteGrade) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteGrade) AggregateType() eventhorizon.AggregateType  { return GradeAggregateType }
@@ -314,23 +221,12 @@ func (o *DeleteGrade) CommandType() eventhorizon.CommandType      { return Delet
         
 
 type UpdateGrade struct {
+    Id  eventhorizon.UUID
     Student  *person.Profile
     Course  *Course
     Grade  float64
     GradeTrace  *schkola.Trace
     Comment  string
-}
-
-func NewUpdateGrade(student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string) (ret *UpdateGrade, err error) {
-    ret = &UpdateGrade{
-        Student : student,
-        Course : course,
-        Grade : grade,
-        GradeTrace : gradeTrace,
-        Comment : comment,
-    }
-    
-    return
 }
 func (o *UpdateGrade) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateGrade) AggregateType() eventhorizon.AggregateType  { return GradeAggregateType }
@@ -341,26 +237,13 @@ func (o *UpdateGrade) CommandType() eventhorizon.CommandType      { return Updat
         
 
 type CreateGroup struct {
+    Id  eventhorizon.UUID
     Name  string
     Category  *GroupCategory
     SchoolYear  *SchoolYear
     Representative  *person.Profile
     Students  []*Course
     Courses  []*Course
-}
-
-func NewCreateGroup(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, students []*Course, 
-                courses []*Course) (ret *CreateGroup, err error) {
-    ret = &CreateGroup{
-        Name : name,
-        Category : category,
-        SchoolYear : schoolYear,
-        Representative : representative,
-        Students : students,
-        Courses : courses,
-    }
-    
-    return
 }
 
 func (o *CreateGroup) AddToStudents(item *Course) *Course {
@@ -381,15 +264,7 @@ func (o *CreateGroup) CommandType() eventhorizon.CommandType      { return Creat
         
 
 type DeleteGroup struct {
-    Id  string
-}
-
-func NewDeleteGroup(id string) (ret *DeleteGroup, err error) {
-    ret = &DeleteGroup{
-        Id : id,
-    }
-    
-    return
+    Id  eventhorizon.UUID
 }
 func (o *DeleteGroup) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteGroup) AggregateType() eventhorizon.AggregateType  { return GroupAggregateType }
@@ -400,26 +275,13 @@ func (o *DeleteGroup) CommandType() eventhorizon.CommandType      { return Delet
         
 
 type UpdateGroup struct {
+    Id  eventhorizon.UUID
     Name  string
     Category  *GroupCategory
     SchoolYear  *SchoolYear
     Representative  *person.Profile
     Students  []*Course
     Courses  []*Course
-}
-
-func NewUpdateGroup(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, students []*Course, 
-                courses []*Course) (ret *UpdateGroup, err error) {
-    ret = &UpdateGroup{
-        Name : name,
-        Category : category,
-        SchoolYear : schoolYear,
-        Representative : representative,
-        Students : students,
-        Courses : courses,
-    }
-    
-    return
 }
 
 func (o *UpdateGroup) AddToStudents(item *Course) *Course {
@@ -440,26 +302,13 @@ func (o *UpdateGroup) CommandType() eventhorizon.CommandType      { return Updat
         
 
 type CreateSchoolApplication struct {
+    Id  eventhorizon.UUID
     Profile  *person.Profile
     RecommendationOf  *person.PersonName
     ChurchContactPerson  *person.PersonName
     ChurchContact  *person.Contact
     SchoolYear  *SchoolYear
     Group  string
-}
-
-func NewCreateSchoolApplication(profile *person.Profile, recommendationOf *person.PersonName, churchContactPerson *person.PersonName, 
-                churchContact *person.Contact, schoolYear *SchoolYear, group string) (ret *CreateSchoolApplication, err error) {
-    ret = &CreateSchoolApplication{
-        Profile : profile,
-        RecommendationOf : recommendationOf,
-        ChurchContactPerson : churchContactPerson,
-        ChurchContact : churchContact,
-        SchoolYear : schoolYear,
-        Group : group,
-    }
-    
-    return
 }
 func (o *CreateSchoolApplication) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateSchoolApplication) AggregateType() eventhorizon.AggregateType  { return SchoolApplicationAggregateType }
@@ -470,15 +319,7 @@ func (o *CreateSchoolApplication) CommandType() eventhorizon.CommandType      { 
         
 
 type DeleteSchoolApplication struct {
-    Id  string
-}
-
-func NewDeleteSchoolApplication(id string) (ret *DeleteSchoolApplication, err error) {
-    ret = &DeleteSchoolApplication{
-        Id : id,
-    }
-    
-    return
+    Id  eventhorizon.UUID
 }
 func (o *DeleteSchoolApplication) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteSchoolApplication) AggregateType() eventhorizon.AggregateType  { return SchoolApplicationAggregateType }
@@ -489,26 +330,13 @@ func (o *DeleteSchoolApplication) CommandType() eventhorizon.CommandType      { 
         
 
 type UpdateSchoolApplication struct {
+    Id  eventhorizon.UUID
     Profile  *person.Profile
     RecommendationOf  *person.PersonName
     ChurchContactPerson  *person.PersonName
     ChurchContact  *person.Contact
     SchoolYear  *SchoolYear
     Group  string
-}
-
-func NewUpdateSchoolApplication(profile *person.Profile, recommendationOf *person.PersonName, churchContactPerson *person.PersonName, 
-                churchContact *person.Contact, schoolYear *SchoolYear, group string) (ret *UpdateSchoolApplication, err error) {
-    ret = &UpdateSchoolApplication{
-        Profile : profile,
-        RecommendationOf : recommendationOf,
-        ChurchContactPerson : churchContactPerson,
-        ChurchContact : churchContact,
-        SchoolYear : schoolYear,
-        Group : group,
-    }
-    
-    return
 }
 func (o *UpdateSchoolApplication) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateSchoolApplication) AggregateType() eventhorizon.AggregateType  { return SchoolApplicationAggregateType }
@@ -519,21 +347,11 @@ func (o *UpdateSchoolApplication) CommandType() eventhorizon.CommandType      { 
         
 
 type CreateSchoolYear struct {
+    Id  eventhorizon.UUID
     Name  string
     Start  *time.Time
     End  *time.Time
     Dates  []*Course
-}
-
-func NewCreateSchoolYear(name string, start *time.Time, end *time.Time, dates []*Course) (ret *CreateSchoolYear, err error) {
-    ret = &CreateSchoolYear{
-        Name : name,
-        Start : start,
-        End : end,
-        Dates : dates,
-    }
-    
-    return
 }
 
 func (o *CreateSchoolYear) AddToDates(item *Course) *Course {
@@ -549,15 +367,7 @@ func (o *CreateSchoolYear) CommandType() eventhorizon.CommandType      { return 
         
 
 type DeleteSchoolYear struct {
-    Id  string
-}
-
-func NewDeleteSchoolYear(id string) (ret *DeleteSchoolYear, err error) {
-    ret = &DeleteSchoolYear{
-        Id : id,
-    }
-    
-    return
+    Id  eventhorizon.UUID
 }
 func (o *DeleteSchoolYear) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteSchoolYear) AggregateType() eventhorizon.AggregateType  { return SchoolYearAggregateType }
@@ -568,21 +378,11 @@ func (o *DeleteSchoolYear) CommandType() eventhorizon.CommandType      { return 
         
 
 type UpdateSchoolYear struct {
+    Id  eventhorizon.UUID
     Name  string
     Start  *time.Time
     End  *time.Time
     Dates  []*Course
-}
-
-func NewUpdateSchoolYear(name string, start *time.Time, end *time.Time, dates []*Course) (ret *UpdateSchoolYear, err error) {
-    ret = &UpdateSchoolYear{
-        Name : name,
-        Start : start,
-        End : end,
-        Dates : dates,
-    }
-    
-    return
 }
 
 func (o *UpdateSchoolYear) AddToDates(item *Course) *Course {
@@ -610,28 +410,28 @@ func (o *AttendanceCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *AttendanceCommandType) IsAttendanceCreate() bool {
-    return o == _attendanceCommandTypes.AttendanceCreate()
+func (o *AttendanceCommandType) IsCreateAttendance() bool {
+    return o == _attendanceCommandTypes.CreateAttendance()
 }
 
-func (o *AttendanceCommandType) IsAttendanceDelete() bool {
-    return o == _attendanceCommandTypes.AttendanceDelete()
+func (o *AttendanceCommandType) IsDeleteAttendance() bool {
+    return o == _attendanceCommandTypes.DeleteAttendance()
 }
 
-func (o *AttendanceCommandType) IsAttendanceUpdate() bool {
-    return o == _attendanceCommandTypes.AttendanceUpdate()
+func (o *AttendanceCommandType) IsUpdateAttendance() bool {
+    return o == _attendanceCommandTypes.UpdateAttendance()
 }
 
-func (o *AttendanceCommandType) IsAttendanceConfirm() bool {
-    return o == _attendanceCommandTypes.AttendanceConfirm()
+func (o *AttendanceCommandType) IsConfirmAttendance() bool {
+    return o == _attendanceCommandTypes.ConfirmAttendance()
 }
 
-func (o *AttendanceCommandType) IsAttendanceCancel() bool {
-    return o == _attendanceCommandTypes.AttendanceCancel()
+func (o *AttendanceCommandType) IsCancelAttendance() bool {
+    return o == _attendanceCommandTypes.CancelAttendance()
 }
 
-func (o *AttendanceCommandType) IsAttendanceRegister() bool {
-    return o == _attendanceCommandTypes.AttendanceRegister()
+func (o *AttendanceCommandType) IsRegisterAttendance() bool {
+    return o == _attendanceCommandTypes.RegisterAttendance()
 }
 
 type attendanceCommandTypes struct {
@@ -640,12 +440,12 @@ type attendanceCommandTypes struct {
 }
 
 var _attendanceCommandTypes = &attendanceCommandTypes{values: []*AttendanceCommandType{
-    {name: "AttendanceCreate", ordinal: 0},
-    {name: "AttendanceDelete", ordinal: 1},
-    {name: "AttendanceUpdate", ordinal: 2},
-    {name: "AttendanceConfirm", ordinal: 3},
-    {name: "AttendanceCancel", ordinal: 4},
-    {name: "AttendanceRegister", ordinal: 5}},
+    {name: "createAttendance", ordinal: 0},
+    {name: "deleteAttendance", ordinal: 1},
+    {name: "updateAttendance", ordinal: 2},
+    {name: "confirmAttendance", ordinal: 3},
+    {name: "cancelAttendance", ordinal: 4},
+    {name: "registerAttendance", ordinal: 5}},
 }
 
 func AttendanceCommandTypes() *attendanceCommandTypes {
@@ -666,27 +466,27 @@ func (o *attendanceCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *attendanceCommandTypes) AttendanceCreate() *AttendanceCommandType {
+func (o *attendanceCommandTypes) CreateAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[0]
 }
 
-func (o *attendanceCommandTypes) AttendanceDelete() *AttendanceCommandType {
+func (o *attendanceCommandTypes) DeleteAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[1]
 }
 
-func (o *attendanceCommandTypes) AttendanceUpdate() *AttendanceCommandType {
+func (o *attendanceCommandTypes) UpdateAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[2]
 }
 
-func (o *attendanceCommandTypes) AttendanceConfirm() *AttendanceCommandType {
+func (o *attendanceCommandTypes) ConfirmAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[3]
 }
 
-func (o *attendanceCommandTypes) AttendanceCancel() *AttendanceCommandType {
+func (o *attendanceCommandTypes) CancelAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[4]
 }
 
-func (o *attendanceCommandTypes) AttendanceRegister() *AttendanceCommandType {
+func (o *attendanceCommandTypes) RegisterAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[5]
 }
 
@@ -711,16 +511,16 @@ func (o *CourseCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *CourseCommandType) IsCourseCreate() bool {
-    return o == _courseCommandTypes.CourseCreate()
+func (o *CourseCommandType) IsCreateCourse() bool {
+    return o == _courseCommandTypes.CreateCourse()
 }
 
-func (o *CourseCommandType) IsCourseDelete() bool {
-    return o == _courseCommandTypes.CourseDelete()
+func (o *CourseCommandType) IsDeleteCourse() bool {
+    return o == _courseCommandTypes.DeleteCourse()
 }
 
-func (o *CourseCommandType) IsCourseUpdate() bool {
-    return o == _courseCommandTypes.CourseUpdate()
+func (o *CourseCommandType) IsUpdateCourse() bool {
+    return o == _courseCommandTypes.UpdateCourse()
 }
 
 type courseCommandTypes struct {
@@ -729,9 +529,9 @@ type courseCommandTypes struct {
 }
 
 var _courseCommandTypes = &courseCommandTypes{values: []*CourseCommandType{
-    {name: "CourseCreate", ordinal: 0},
-    {name: "CourseDelete", ordinal: 1},
-    {name: "CourseUpdate", ordinal: 2}},
+    {name: "createCourse", ordinal: 0},
+    {name: "deleteCourse", ordinal: 1},
+    {name: "updateCourse", ordinal: 2}},
 }
 
 func CourseCommandTypes() *courseCommandTypes {
@@ -752,15 +552,15 @@ func (o *courseCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *courseCommandTypes) CourseCreate() *CourseCommandType {
+func (o *courseCommandTypes) CreateCourse() *CourseCommandType {
     return _courseCommandTypes.values[0]
 }
 
-func (o *courseCommandTypes) CourseDelete() *CourseCommandType {
+func (o *courseCommandTypes) DeleteCourse() *CourseCommandType {
     return _courseCommandTypes.values[1]
 }
 
-func (o *courseCommandTypes) CourseUpdate() *CourseCommandType {
+func (o *courseCommandTypes) UpdateCourse() *CourseCommandType {
     return _courseCommandTypes.values[2]
 }
 
@@ -785,16 +585,16 @@ func (o *GradeCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GradeCommandType) IsGradeCreate() bool {
-    return o == _gradeCommandTypes.GradeCreate()
+func (o *GradeCommandType) IsCreateGrade() bool {
+    return o == _gradeCommandTypes.CreateGrade()
 }
 
-func (o *GradeCommandType) IsGradeDelete() bool {
-    return o == _gradeCommandTypes.GradeDelete()
+func (o *GradeCommandType) IsDeleteGrade() bool {
+    return o == _gradeCommandTypes.DeleteGrade()
 }
 
-func (o *GradeCommandType) IsGradeUpdate() bool {
-    return o == _gradeCommandTypes.GradeUpdate()
+func (o *GradeCommandType) IsUpdateGrade() bool {
+    return o == _gradeCommandTypes.UpdateGrade()
 }
 
 type gradeCommandTypes struct {
@@ -803,9 +603,9 @@ type gradeCommandTypes struct {
 }
 
 var _gradeCommandTypes = &gradeCommandTypes{values: []*GradeCommandType{
-    {name: "GradeCreate", ordinal: 0},
-    {name: "GradeDelete", ordinal: 1},
-    {name: "GradeUpdate", ordinal: 2}},
+    {name: "createGrade", ordinal: 0},
+    {name: "deleteGrade", ordinal: 1},
+    {name: "updateGrade", ordinal: 2}},
 }
 
 func GradeCommandTypes() *gradeCommandTypes {
@@ -826,15 +626,15 @@ func (o *gradeCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *gradeCommandTypes) GradeCreate() *GradeCommandType {
+func (o *gradeCommandTypes) CreateGrade() *GradeCommandType {
     return _gradeCommandTypes.values[0]
 }
 
-func (o *gradeCommandTypes) GradeDelete() *GradeCommandType {
+func (o *gradeCommandTypes) DeleteGrade() *GradeCommandType {
     return _gradeCommandTypes.values[1]
 }
 
-func (o *gradeCommandTypes) GradeUpdate() *GradeCommandType {
+func (o *gradeCommandTypes) UpdateGrade() *GradeCommandType {
     return _gradeCommandTypes.values[2]
 }
 
@@ -859,16 +659,16 @@ func (o *GroupCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GroupCommandType) IsGroupCreate() bool {
-    return o == _groupCommandTypes.GroupCreate()
+func (o *GroupCommandType) IsCreateGroup() bool {
+    return o == _groupCommandTypes.CreateGroup()
 }
 
-func (o *GroupCommandType) IsGroupDelete() bool {
-    return o == _groupCommandTypes.GroupDelete()
+func (o *GroupCommandType) IsDeleteGroup() bool {
+    return o == _groupCommandTypes.DeleteGroup()
 }
 
-func (o *GroupCommandType) IsGroupUpdate() bool {
-    return o == _groupCommandTypes.GroupUpdate()
+func (o *GroupCommandType) IsUpdateGroup() bool {
+    return o == _groupCommandTypes.UpdateGroup()
 }
 
 type groupCommandTypes struct {
@@ -877,9 +677,9 @@ type groupCommandTypes struct {
 }
 
 var _groupCommandTypes = &groupCommandTypes{values: []*GroupCommandType{
-    {name: "GroupCreate", ordinal: 0},
-    {name: "GroupDelete", ordinal: 1},
-    {name: "GroupUpdate", ordinal: 2}},
+    {name: "createGroup", ordinal: 0},
+    {name: "deleteGroup", ordinal: 1},
+    {name: "updateGroup", ordinal: 2}},
 }
 
 func GroupCommandTypes() *groupCommandTypes {
@@ -900,15 +700,15 @@ func (o *groupCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *groupCommandTypes) GroupCreate() *GroupCommandType {
+func (o *groupCommandTypes) CreateGroup() *GroupCommandType {
     return _groupCommandTypes.values[0]
 }
 
-func (o *groupCommandTypes) GroupDelete() *GroupCommandType {
+func (o *groupCommandTypes) DeleteGroup() *GroupCommandType {
     return _groupCommandTypes.values[1]
 }
 
-func (o *groupCommandTypes) GroupUpdate() *GroupCommandType {
+func (o *groupCommandTypes) UpdateGroup() *GroupCommandType {
     return _groupCommandTypes.values[2]
 }
 
@@ -933,16 +733,16 @@ func (o *SchoolApplicationCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *SchoolApplicationCommandType) IsSchoolApplicationCreate() bool {
-    return o == _schoolApplicationCommandTypes.SchoolApplicationCreate()
+func (o *SchoolApplicationCommandType) IsCreateSchoolApplication() bool {
+    return o == _schoolApplicationCommandTypes.CreateSchoolApplication()
 }
 
-func (o *SchoolApplicationCommandType) IsSchoolApplicationDelete() bool {
-    return o == _schoolApplicationCommandTypes.SchoolApplicationDelete()
+func (o *SchoolApplicationCommandType) IsDeleteSchoolApplication() bool {
+    return o == _schoolApplicationCommandTypes.DeleteSchoolApplication()
 }
 
-func (o *SchoolApplicationCommandType) IsSchoolApplicationUpdate() bool {
-    return o == _schoolApplicationCommandTypes.SchoolApplicationUpdate()
+func (o *SchoolApplicationCommandType) IsUpdateSchoolApplication() bool {
+    return o == _schoolApplicationCommandTypes.UpdateSchoolApplication()
 }
 
 type schoolApplicationCommandTypes struct {
@@ -951,9 +751,9 @@ type schoolApplicationCommandTypes struct {
 }
 
 var _schoolApplicationCommandTypes = &schoolApplicationCommandTypes{values: []*SchoolApplicationCommandType{
-    {name: "SchoolApplicationCreate", ordinal: 0},
-    {name: "SchoolApplicationDelete", ordinal: 1},
-    {name: "SchoolApplicationUpdate", ordinal: 2}},
+    {name: "createSchoolApplication", ordinal: 0},
+    {name: "deleteSchoolApplication", ordinal: 1},
+    {name: "updateSchoolApplication", ordinal: 2}},
 }
 
 func SchoolApplicationCommandTypes() *schoolApplicationCommandTypes {
@@ -974,15 +774,15 @@ func (o *schoolApplicationCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *schoolApplicationCommandTypes) SchoolApplicationCreate() *SchoolApplicationCommandType {
+func (o *schoolApplicationCommandTypes) CreateSchoolApplication() *SchoolApplicationCommandType {
     return _schoolApplicationCommandTypes.values[0]
 }
 
-func (o *schoolApplicationCommandTypes) SchoolApplicationDelete() *SchoolApplicationCommandType {
+func (o *schoolApplicationCommandTypes) DeleteSchoolApplication() *SchoolApplicationCommandType {
     return _schoolApplicationCommandTypes.values[1]
 }
 
-func (o *schoolApplicationCommandTypes) SchoolApplicationUpdate() *SchoolApplicationCommandType {
+func (o *schoolApplicationCommandTypes) UpdateSchoolApplication() *SchoolApplicationCommandType {
     return _schoolApplicationCommandTypes.values[2]
 }
 
@@ -1007,16 +807,16 @@ func (o *SchoolYearCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *SchoolYearCommandType) IsSchoolYearCreate() bool {
-    return o == _schoolYearCommandTypes.SchoolYearCreate()
+func (o *SchoolYearCommandType) IsCreateSchoolYear() bool {
+    return o == _schoolYearCommandTypes.CreateSchoolYear()
 }
 
-func (o *SchoolYearCommandType) IsSchoolYearDelete() bool {
-    return o == _schoolYearCommandTypes.SchoolYearDelete()
+func (o *SchoolYearCommandType) IsDeleteSchoolYear() bool {
+    return o == _schoolYearCommandTypes.DeleteSchoolYear()
 }
 
-func (o *SchoolYearCommandType) IsSchoolYearUpdate() bool {
-    return o == _schoolYearCommandTypes.SchoolYearUpdate()
+func (o *SchoolYearCommandType) IsUpdateSchoolYear() bool {
+    return o == _schoolYearCommandTypes.UpdateSchoolYear()
 }
 
 type schoolYearCommandTypes struct {
@@ -1025,9 +825,9 @@ type schoolYearCommandTypes struct {
 }
 
 var _schoolYearCommandTypes = &schoolYearCommandTypes{values: []*SchoolYearCommandType{
-    {name: "SchoolYearCreate", ordinal: 0},
-    {name: "SchoolYearDelete", ordinal: 1},
-    {name: "SchoolYearUpdate", ordinal: 2}},
+    {name: "createSchoolYear", ordinal: 0},
+    {name: "deleteSchoolYear", ordinal: 1},
+    {name: "updateSchoolYear", ordinal: 2}},
 }
 
 func SchoolYearCommandTypes() *schoolYearCommandTypes {
@@ -1048,15 +848,15 @@ func (o *schoolYearCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *schoolYearCommandTypes) SchoolYearCreate() *SchoolYearCommandType {
+func (o *schoolYearCommandTypes) CreateSchoolYear() *SchoolYearCommandType {
     return _schoolYearCommandTypes.values[0]
 }
 
-func (o *schoolYearCommandTypes) SchoolYearDelete() *SchoolYearCommandType {
+func (o *schoolYearCommandTypes) DeleteSchoolYear() *SchoolYearCommandType {
     return _schoolYearCommandTypes.values[1]
 }
 
-func (o *schoolYearCommandTypes) SchoolYearUpdate() *SchoolYearCommandType {
+func (o *schoolYearCommandTypes) UpdateSchoolYear() *SchoolYearCommandType {
     return _schoolYearCommandTypes.values[2]
 }
 

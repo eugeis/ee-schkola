@@ -2,68 +2,37 @@ package auth
 
 import (
     "ee/schkola/person"
+    "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/enum"
     "time"
 )
 
 type AccountCreated struct {
+    Id  eventhorizon.UUID
     Username  string
     Password  string
     Email  string
     Disabled  bool
     LastLoginAt  *time.Time
     Profile  *person.Profile
-}
-
-func NewAccountCreated(username string, password string, email string, disabled bool, lastLoginAt *time.Time, profile *person.Profile) (ret *AccountCreated, err error) {
-    ret = &AccountCreated{
-        Username : username,
-        Password : password,
-        Email : email,
-        Disabled : disabled,
-        LastLoginAt : lastLoginAt,
-        Profile : profile,
-    }
-    
-    return
 }
 
 
 
 type AccountDeleted struct {
-    Id  string
-}
-
-func NewAccountDeleted(id string) (ret *AccountDeleted, err error) {
-    ret = &AccountDeleted{
-        Id : id,
-    }
-    
-    return
+    Id  eventhorizon.UUID
 }
 
 
 
 type AccountUpdated struct {
+    Id  eventhorizon.UUID
     Username  string
     Password  string
     Email  string
     Disabled  bool
     LastLoginAt  *time.Time
     Profile  *person.Profile
-}
-
-func NewAccountUpdated(username string, password string, email string, disabled bool, lastLoginAt *time.Time, profile *person.Profile) (ret *AccountUpdated, err error) {
-    ret = &AccountUpdated{
-        Username : username,
-        Password : password,
-        Email : email,
-        Disabled : disabled,
-        LastLoginAt : lastLoginAt,
-        Profile : profile,
-    }
-    
-    return
 }
 
 
@@ -82,16 +51,16 @@ func (o *AccountEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *AccountEventType) IsCreatedAccount() bool {
-    return o == _accountEventTypes.CreatedAccount()
+func (o *AccountEventType) IsAccountCreated() bool {
+    return o == _accountEventTypes.AccountCreated()
 }
 
-func (o *AccountEventType) IsDeletedAccount() bool {
-    return o == _accountEventTypes.DeletedAccount()
+func (o *AccountEventType) IsAccountDeleted() bool {
+    return o == _accountEventTypes.AccountDeleted()
 }
 
-func (o *AccountEventType) IsUpdatedAccount() bool {
-    return o == _accountEventTypes.UpdatedAccount()
+func (o *AccountEventType) IsAccountUpdated() bool {
+    return o == _accountEventTypes.AccountUpdated()
 }
 
 type accountEventTypes struct {
@@ -100,9 +69,9 @@ type accountEventTypes struct {
 }
 
 var _accountEventTypes = &accountEventTypes{values: []*AccountEventType{
-    {name: "createdAccount", ordinal: 0},
-    {name: "deletedAccount", ordinal: 1},
-    {name: "updatedAccount", ordinal: 2}},
+    {name: "AccountCreated", ordinal: 0},
+    {name: "AccountDeleted", ordinal: 1},
+    {name: "AccountUpdated", ordinal: 2}},
 }
 
 func AccountEventTypes() *accountEventTypes {
@@ -123,15 +92,15 @@ func (o *accountEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *accountEventTypes) CreatedAccount() *AccountEventType {
+func (o *accountEventTypes) AccountCreated() *AccountEventType {
     return _accountEventTypes.values[0]
 }
 
-func (o *accountEventTypes) DeletedAccount() *AccountEventType {
+func (o *accountEventTypes) AccountDeleted() *AccountEventType {
     return _accountEventTypes.values[1]
 }
 
-func (o *accountEventTypes) UpdatedAccount() *AccountEventType {
+func (o *accountEventTypes) AccountUpdated() *AccountEventType {
     return _accountEventTypes.values[2]
 }
 

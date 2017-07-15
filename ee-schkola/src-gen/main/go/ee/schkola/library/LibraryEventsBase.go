@@ -2,11 +2,13 @@ package library
 
 import (
     "ee/schkola/person"
+    "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/enum"
     "time"
 )
 
 type BookCreated struct {
+    Id  eventhorizon.UUID
     Title  
     Description  string
     Language  string
@@ -15,41 +17,18 @@ type BookCreated struct {
     Category  string
     Author  *person.PersonName
     Location  *Location
-}
-
-func NewBookCreated(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName, location *Location) (ret *BookCreated, err error) {
-    ret = &BookCreated{
-        Title : title,
-        Description : description,
-        Language : language,
-        ReleaseDate : releaseDate,
-        Edition : edition,
-        Category : category,
-        Author : author,
-        Location : location,
-    }
-    
-    return
 }
 
 
 
 type BookDeleted struct {
-    Id  string
-}
-
-func NewBookDeleted(id string) (ret *BookDeleted, err error) {
-    ret = &BookDeleted{
-        Id : id,
-    }
-    
-    return
+    Id  eventhorizon.UUID
 }
 
 
 
 type BookUpdated struct {
+    Id  eventhorizon.UUID
     Title  
     Description  string
     Language  string
@@ -58,22 +37,6 @@ type BookUpdated struct {
     Category  string
     Author  *person.PersonName
     Location  *Location
-}
-
-func NewBookUpdated(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName, location *Location) (ret *BookUpdated, err error) {
-    ret = &BookUpdated{
-        Title : title,
-        Description : description,
-        Language : language,
-        ReleaseDate : releaseDate,
-        Edition : edition,
-        Category : category,
-        Author : author,
-        Location : location,
-    }
-    
-    return
 }
 
 
@@ -92,16 +55,16 @@ func (o *BookEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *BookEventType) IsCreatedBook() bool {
-    return o == _bookEventTypes.CreatedBook()
+func (o *BookEventType) IsBookCreated() bool {
+    return o == _bookEventTypes.BookCreated()
 }
 
-func (o *BookEventType) IsDeletedBook() bool {
-    return o == _bookEventTypes.DeletedBook()
+func (o *BookEventType) IsBookDeleted() bool {
+    return o == _bookEventTypes.BookDeleted()
 }
 
-func (o *BookEventType) IsUpdatedBook() bool {
-    return o == _bookEventTypes.UpdatedBook()
+func (o *BookEventType) IsBookUpdated() bool {
+    return o == _bookEventTypes.BookUpdated()
 }
 
 type bookEventTypes struct {
@@ -110,9 +73,9 @@ type bookEventTypes struct {
 }
 
 var _bookEventTypes = &bookEventTypes{values: []*BookEventType{
-    {name: "createdBook", ordinal: 0},
-    {name: "deletedBook", ordinal: 1},
-    {name: "updatedBook", ordinal: 2}},
+    {name: "BookCreated", ordinal: 0},
+    {name: "BookDeleted", ordinal: 1},
+    {name: "BookUpdated", ordinal: 2}},
 }
 
 func BookEventTypes() *bookEventTypes {
@@ -133,15 +96,15 @@ func (o *bookEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *bookEventTypes) CreatedBook() *BookEventType {
+func (o *bookEventTypes) BookCreated() *BookEventType {
     return _bookEventTypes.values[0]
 }
 
-func (o *bookEventTypes) DeletedBook() *BookEventType {
+func (o *bookEventTypes) BookDeleted() *BookEventType {
     return _bookEventTypes.values[1]
 }
 
-func (o *bookEventTypes) UpdatedBook() *BookEventType {
+func (o *bookEventTypes) BookUpdated() *BookEventType {
     return _bookEventTypes.values[2]
 }
 

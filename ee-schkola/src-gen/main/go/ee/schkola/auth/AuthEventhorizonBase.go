@@ -1,24 +1,32 @@
 package auth
 
 import (
+    "context"
     "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/eh"
 )
 
 const AccountAggregateType eventhorizon.AggregateType = "AccountAggregate"
 
+func NewAccountAggregate(id eventhorizon.UUID) *AccountAggregate {
+	return &AccountAggregate{
+		AggregateBase: eventhorizon.NewAggregateBase(AccountAggregateType, id),
+	}
+}
+
+func (o *AccountAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
+    println("HandleCommand %v - %v", ctx, cmd)
+    return nil
+}
+
+func (o *AccountAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
+    println("ApplyEvent %v - %v", ctx, event)
+    return nil
+}
+
 type AccountAggregate struct {
     *eventhorizon.AggregateBase
     *Account
-}
-
-func NewAccountAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Account) (ret *AccountAggregate, err error) {
-    ret = &AccountAggregate{
-        AggregateBase: AggregateBase,
-        Account: Entity,
-    }
-    
-    return
 }
 
 
@@ -27,6 +35,7 @@ func NewAccountAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *AccountAggregateInitializer) {
 	ret = &AccountAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(AccountAggregateType,
+        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewAccountAggregate(id) },
         AccountCommandTypes().Literals(), AccountEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
 	return
@@ -34,15 +43,15 @@ func NewAccountAggregateInitializer(
 
 
 func (o *AccountAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().CreatedAccount())
+    o.RegisterForEvent(handler, AccountEventTypes().AccountCreated())
 }
 
 func (o *AccountAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().DeletedAccount())
+    o.RegisterForEvent(handler, AccountEventTypes().AccountDeleted())
 }
 
 func (o *AccountAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().UpdatedAccount())
+    o.RegisterForEvent(handler, AccountEventTypes().AccountUpdated())
 }
 
 type AccountAggregateInitializer struct {

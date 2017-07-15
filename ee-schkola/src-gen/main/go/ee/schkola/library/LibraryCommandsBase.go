@@ -22,6 +22,7 @@ const (
         
 
 type CreateBook struct {
+    Id  eventhorizon.UUID
     Title  
     Description  string
     Language  string
@@ -30,22 +31,6 @@ type CreateBook struct {
     Category  string
     Author  *person.PersonName
     Location  *Location
-}
-
-func NewCreateBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName, location *Location) (ret *CreateBook, err error) {
-    ret = &CreateBook{
-        Title : title,
-        Description : description,
-        Language : language,
-        ReleaseDate : releaseDate,
-        Edition : edition,
-        Category : category,
-        Author : author,
-        Location : location,
-    }
-    
-    return
 }
 func (o *CreateBook) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
@@ -56,15 +41,7 @@ func (o *CreateBook) CommandType() eventhorizon.CommandType      { return Create
         
 
 type DeleteBook struct {
-    Id  string
-}
-
-func NewDeleteBook(id string) (ret *DeleteBook, err error) {
-    ret = &DeleteBook{
-        Id : id,
-    }
-    
-    return
+    Id  eventhorizon.UUID
 }
 func (o *DeleteBook) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
@@ -75,6 +52,7 @@ func (o *DeleteBook) CommandType() eventhorizon.CommandType      { return Delete
         
 
 type UpdateBook struct {
+    Id  eventhorizon.UUID
     Title  
     Description  string
     Language  string
@@ -83,22 +61,6 @@ type UpdateBook struct {
     Category  string
     Author  *person.PersonName
     Location  *Location
-}
-
-func NewUpdateBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName, location *Location) (ret *UpdateBook, err error) {
-    ret = &UpdateBook{
-        Title : title,
-        Description : description,
-        Language : language,
-        ReleaseDate : releaseDate,
-        Edition : edition,
-        Category : category,
-        Author : author,
-        Location : location,
-    }
-    
-    return
 }
 func (o *UpdateBook) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
@@ -119,7 +81,7 @@ type RegisterBook struct {
 }
 
 func NewRegisterBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName) (ret *RegisterBook, err error) {
+                author *person.PersonName) (ret *RegisterBook) {
     ret = &RegisterBook{
         Title : title,
         Description : description,
@@ -141,10 +103,10 @@ func (o *RegisterBook) CommandType() eventhorizon.CommandType      { return Regi
         
 
 type UnregisterBook struct {
-    Id  string
+    Id  eventhorizon.UUID
 }
 
-func NewUnregisterBook(id string) (ret *UnregisterBook, err error) {
+func NewUnregisterBook(id eventhorizon.UUID) (ret *UnregisterBook) {
     ret = &UnregisterBook{
         Id : id,
     }
@@ -170,7 +132,7 @@ type ChangeBook struct {
 }
 
 func NewChangeBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName) (ret *ChangeBook, err error) {
+                author *person.PersonName) (ret *ChangeBook) {
     ret = &ChangeBook{
         Title : title,
         Description : description,
@@ -196,7 +158,7 @@ type ChangeBookLocation struct {
     Fold  string
 }
 
-func NewChangeBookLocation(shelf string, fold string) (ret *ChangeBookLocation, err error) {
+func NewChangeBookLocation(shelf string, fold string) (ret *ChangeBookLocation) {
     ret = &ChangeBookLocation{
         Shelf : shelf,
         Fold : fold,
@@ -225,32 +187,32 @@ func (o *BookCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *BookCommandType) IsBookCreate() bool {
-    return o == _bookCommandTypes.BookCreate()
+func (o *BookCommandType) IsCreateBook() bool {
+    return o == _bookCommandTypes.CreateBook()
 }
 
-func (o *BookCommandType) IsBookDelete() bool {
-    return o == _bookCommandTypes.BookDelete()
+func (o *BookCommandType) IsDeleteBook() bool {
+    return o == _bookCommandTypes.DeleteBook()
 }
 
-func (o *BookCommandType) IsBookUpdate() bool {
-    return o == _bookCommandTypes.BookUpdate()
+func (o *BookCommandType) IsUpdateBook() bool {
+    return o == _bookCommandTypes.UpdateBook()
 }
 
-func (o *BookCommandType) IsBookRegister() bool {
-    return o == _bookCommandTypes.BookRegister()
+func (o *BookCommandType) IsRegisterBook() bool {
+    return o == _bookCommandTypes.RegisterBook()
 }
 
-func (o *BookCommandType) IsBookUnregister() bool {
-    return o == _bookCommandTypes.BookUnregister()
+func (o *BookCommandType) IsUnregisterBook() bool {
+    return o == _bookCommandTypes.UnregisterBook()
 }
 
-func (o *BookCommandType) IsBookChange() bool {
-    return o == _bookCommandTypes.BookChange()
+func (o *BookCommandType) IsChangeBook() bool {
+    return o == _bookCommandTypes.ChangeBook()
 }
 
-func (o *BookCommandType) IsChangeLBookocation() bool {
-    return o == _bookCommandTypes.ChangeLBookocation()
+func (o *BookCommandType) IsChangeBookLocation() bool {
+    return o == _bookCommandTypes.ChangeBookLocation()
 }
 
 type bookCommandTypes struct {
@@ -259,13 +221,13 @@ type bookCommandTypes struct {
 }
 
 var _bookCommandTypes = &bookCommandTypes{values: []*BookCommandType{
-    {name: "BookCreate", ordinal: 0},
-    {name: "BookDelete", ordinal: 1},
-    {name: "BookUpdate", ordinal: 2},
-    {name: "BookRegister", ordinal: 3},
-    {name: "BookUnregister", ordinal: 4},
-    {name: "BookChange", ordinal: 5},
-    {name: "changeLBookocation", ordinal: 6}},
+    {name: "createBook", ordinal: 0},
+    {name: "deleteBook", ordinal: 1},
+    {name: "updateBook", ordinal: 2},
+    {name: "registerBook", ordinal: 3},
+    {name: "unregisterBook", ordinal: 4},
+    {name: "changeBook", ordinal: 5},
+    {name: "changeBookLocation", ordinal: 6}},
 }
 
 func BookCommandTypes() *bookCommandTypes {
@@ -286,31 +248,31 @@ func (o *bookCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *bookCommandTypes) BookCreate() *BookCommandType {
+func (o *bookCommandTypes) CreateBook() *BookCommandType {
     return _bookCommandTypes.values[0]
 }
 
-func (o *bookCommandTypes) BookDelete() *BookCommandType {
+func (o *bookCommandTypes) DeleteBook() *BookCommandType {
     return _bookCommandTypes.values[1]
 }
 
-func (o *bookCommandTypes) BookUpdate() *BookCommandType {
+func (o *bookCommandTypes) UpdateBook() *BookCommandType {
     return _bookCommandTypes.values[2]
 }
 
-func (o *bookCommandTypes) BookRegister() *BookCommandType {
+func (o *bookCommandTypes) RegisterBook() *BookCommandType {
     return _bookCommandTypes.values[3]
 }
 
-func (o *bookCommandTypes) BookUnregister() *BookCommandType {
+func (o *bookCommandTypes) UnregisterBook() *BookCommandType {
     return _bookCommandTypes.values[4]
 }
 
-func (o *bookCommandTypes) BookChange() *BookCommandType {
+func (o *bookCommandTypes) ChangeBook() *BookCommandType {
     return _bookCommandTypes.values[5]
 }
 
-func (o *bookCommandTypes) ChangeLBookocation() *BookCommandType {
+func (o *bookCommandTypes) ChangeBookLocation() *BookCommandType {
     return _bookCommandTypes.values[6]
 }
 

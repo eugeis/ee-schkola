@@ -20,7 +20,7 @@ type Attendance struct {
 }
 
 func NewAttendance(student *person.Profile, date *time.Time, course *Course, hours int, state *AttendanceState, stateTrace *schkola.Trace, 
-                token string, tokenTrace *schkola.Trace, SchkolaBase *schkola.SchkolaBase) (ret *Attendance, err error) {
+                token string, tokenTrace *schkola.Trace, SchkolaBase *schkola.SchkolaBase) (ret *Attendance) {
     ret = &Attendance{
         Student : student,
         Date : date,
@@ -50,7 +50,7 @@ type Course struct {
 }
 
 func NewCourse(name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, fee float64, 
-                description string, SchkolaBase *schkola.SchkolaBase) (ret *Course, err error) {
+                description string, SchkolaBase *schkola.SchkolaBase) (ret *Course) {
     ret = &Course{
         Name : name,
         Begin : begin,
@@ -77,7 +77,7 @@ type Grade struct {
 }
 
 func NewGrade(student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string, 
-                SchkolaBase *schkola.SchkolaBase) (ret *Grade, err error) {
+                SchkolaBase *schkola.SchkolaBase) (ret *Grade) {
     ret = &Grade{
         Student : student,
         Course : course,
@@ -103,7 +103,7 @@ type Group struct {
 }
 
 func NewGroup(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, students []*Course, 
-                courses []*Course, SchkolaBase *schkola.SchkolaBase) (ret *Group, err error) {
+                courses []*Course, SchkolaBase *schkola.SchkolaBase) (ret *Group) {
     ret = &Group{
         Name : name,
         Category : category,
@@ -140,7 +140,7 @@ type SchoolApplication struct {
 }
 
 func NewSchoolApplication(profile *person.Profile, recommendationOf *person.PersonName, churchContactPerson *person.PersonName, 
-                churchContact *person.Contact, schoolYear *SchoolYear, group string, SchkolaBase *schkola.SchkolaBase) (ret *SchoolApplication, err error) {
+                churchContact *person.Contact, schoolYear *SchoolYear, group string, SchkolaBase *schkola.SchkolaBase) (ret *SchoolApplication) {
     ret = &SchoolApplication{
         Profile : profile,
         RecommendationOf : recommendationOf,
@@ -164,7 +164,7 @@ type SchoolYear struct {
     *schkola.SchkolaBase
 }
 
-func NewSchoolYear(name string, start *time.Time, end *time.Time, dates []*Course, SchkolaBase *schkola.SchkolaBase) (ret *SchoolYear, err error) {
+func NewSchoolYear(name string, start *time.Time, end *time.Time, dates []*Course, SchkolaBase *schkola.SchkolaBase) (ret *SchoolYear) {
     ret = &SchoolYear{
         Name : name,
         Start : start,

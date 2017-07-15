@@ -21,25 +21,13 @@ const (
         
 
 type CreateAccount struct {
+    Id  eventhorizon.UUID
     Username  string
     Password  string
     Email  string
     Disabled  bool
     LastLoginAt  *time.Time
     Profile  *person.Profile
-}
-
-func NewCreateAccount(username string, password string, email string, disabled bool, lastLoginAt *time.Time, profile *person.Profile) (ret *CreateAccount, err error) {
-    ret = &CreateAccount{
-        Username : username,
-        Password : password,
-        Email : email,
-        Disabled : disabled,
-        LastLoginAt : lastLoginAt,
-        Profile : profile,
-    }
-    
-    return
 }
 func (o *CreateAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -50,15 +38,7 @@ func (o *CreateAccount) CommandType() eventhorizon.CommandType      { return Cre
         
 
 type DeleteAccount struct {
-    Id  string
-}
-
-func NewDeleteAccount(id string) (ret *DeleteAccount, err error) {
-    ret = &DeleteAccount{
-        Id : id,
-    }
-    
-    return
+    Id  eventhorizon.UUID
 }
 func (o *DeleteAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -69,25 +49,13 @@ func (o *DeleteAccount) CommandType() eventhorizon.CommandType      { return Del
         
 
 type UpdateAccount struct {
+    Id  eventhorizon.UUID
     Username  string
     Password  string
     Email  string
     Disabled  bool
     LastLoginAt  *time.Time
     Profile  *person.Profile
-}
-
-func NewUpdateAccount(username string, password string, email string, disabled bool, lastLoginAt *time.Time, profile *person.Profile) (ret *UpdateAccount, err error) {
-    ret = &UpdateAccount{
-        Username : username,
-        Password : password,
-        Email : email,
-        Disabled : disabled,
-        LastLoginAt : lastLoginAt,
-        Profile : profile,
-    }
-    
-    return
 }
 func (o *UpdateAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -123,7 +91,7 @@ type RegisterAccount struct {
     Password  string
 }
 
-func NewRegisterAccount(username string, email string, password string) (ret *RegisterAccount, err error) {
+func NewRegisterAccount(username string, email string, password string) (ret *RegisterAccount) {
     ret = &RegisterAccount{
         Username : username,
         Email : email,
@@ -153,28 +121,28 @@ func (o *AccountCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *AccountCommandType) IsAccountCreate() bool {
-    return o == _accountCommandTypes.AccountCreate()
+func (o *AccountCommandType) IsCreateAccount() bool {
+    return o == _accountCommandTypes.CreateAccount()
 }
 
-func (o *AccountCommandType) IsAccountDelete() bool {
-    return o == _accountCommandTypes.AccountDelete()
+func (o *AccountCommandType) IsDeleteAccount() bool {
+    return o == _accountCommandTypes.DeleteAccount()
 }
 
-func (o *AccountCommandType) IsAccountUpdate() bool {
-    return o == _accountCommandTypes.AccountUpdate()
+func (o *AccountCommandType) IsUpdateAccount() bool {
+    return o == _accountCommandTypes.UpdateAccount()
 }
 
-func (o *AccountCommandType) IsAccountEnable() bool {
-    return o == _accountCommandTypes.AccountEnable()
+func (o *AccountCommandType) IsEnableAccount() bool {
+    return o == _accountCommandTypes.EnableAccount()
 }
 
-func (o *AccountCommandType) IsAccountDisable() bool {
-    return o == _accountCommandTypes.AccountDisable()
+func (o *AccountCommandType) IsDisableAccount() bool {
+    return o == _accountCommandTypes.DisableAccount()
 }
 
-func (o *AccountCommandType) IsAccountRegister() bool {
-    return o == _accountCommandTypes.AccountRegister()
+func (o *AccountCommandType) IsRegisterAccount() bool {
+    return o == _accountCommandTypes.RegisterAccount()
 }
 
 type accountCommandTypes struct {
@@ -183,12 +151,12 @@ type accountCommandTypes struct {
 }
 
 var _accountCommandTypes = &accountCommandTypes{values: []*AccountCommandType{
-    {name: "AccountCreate", ordinal: 0},
-    {name: "AccountDelete", ordinal: 1},
-    {name: "AccountUpdate", ordinal: 2},
-    {name: "AccountEnable", ordinal: 3},
-    {name: "AccountDisable", ordinal: 4},
-    {name: "AccountRegister", ordinal: 5}},
+    {name: "createAccount", ordinal: 0},
+    {name: "deleteAccount", ordinal: 1},
+    {name: "updateAccount", ordinal: 2},
+    {name: "enableAccount", ordinal: 3},
+    {name: "disableAccount", ordinal: 4},
+    {name: "registerAccount", ordinal: 5}},
 }
 
 func AccountCommandTypes() *accountCommandTypes {
@@ -209,27 +177,27 @@ func (o *accountCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *accountCommandTypes) AccountCreate() *AccountCommandType {
+func (o *accountCommandTypes) CreateAccount() *AccountCommandType {
     return _accountCommandTypes.values[0]
 }
 
-func (o *accountCommandTypes) AccountDelete() *AccountCommandType {
+func (o *accountCommandTypes) DeleteAccount() *AccountCommandType {
     return _accountCommandTypes.values[1]
 }
 
-func (o *accountCommandTypes) AccountUpdate() *AccountCommandType {
+func (o *accountCommandTypes) UpdateAccount() *AccountCommandType {
     return _accountCommandTypes.values[2]
 }
 
-func (o *accountCommandTypes) AccountEnable() *AccountCommandType {
+func (o *accountCommandTypes) EnableAccount() *AccountCommandType {
     return _accountCommandTypes.values[3]
 }
 
-func (o *accountCommandTypes) AccountDisable() *AccountCommandType {
+func (o *accountCommandTypes) DisableAccount() *AccountCommandType {
     return _accountCommandTypes.values[4]
 }
 
-func (o *accountCommandTypes) AccountRegister() *AccountCommandType {
+func (o *accountCommandTypes) RegisterAccount() *AccountCommandType {
     return _accountCommandTypes.values[5]
 }
 

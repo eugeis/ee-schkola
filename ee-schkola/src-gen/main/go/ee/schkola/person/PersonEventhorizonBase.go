@@ -1,24 +1,32 @@
 package person
 
 import (
+    "context"
     "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/eh"
 )
 
 const ChurchAggregateType eventhorizon.AggregateType = "ChurchAggregate"
 
+func NewChurchAggregate(id eventhorizon.UUID) *ChurchAggregate {
+	return &ChurchAggregate{
+		AggregateBase: eventhorizon.NewAggregateBase(ChurchAggregateType, id),
+	}
+}
+
+func (o *ChurchAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
+    println("HandleCommand %v - %v", ctx, cmd)
+    return nil
+}
+
+func (o *ChurchAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
+    println("ApplyEvent %v - %v", ctx, event)
+    return nil
+}
+
 type ChurchAggregate struct {
     *eventhorizon.AggregateBase
     *Church
-}
-
-func NewChurchAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Church) (ret *ChurchAggregate, err error) {
-    ret = &ChurchAggregate{
-        AggregateBase: AggregateBase,
-        Church: Entity,
-    }
-    
-    return
 }
 
 
@@ -27,6 +35,7 @@ func NewChurchAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *ChurchAggregateInitializer) {
 	ret = &ChurchAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ChurchAggregateType,
+        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewChurchAggregate(id) },
         ChurchCommandTypes().Literals(), ChurchEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
 	return
@@ -34,15 +43,15 @@ func NewChurchAggregateInitializer(
 
 
 func (o *ChurchAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ChurchEventTypes().CreatedChurch())
+    o.RegisterForEvent(handler, ChurchEventTypes().ChurchCreated())
 }
 
 func (o *ChurchAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ChurchEventTypes().DeletedChurch())
+    o.RegisterForEvent(handler, ChurchEventTypes().ChurchDeleted())
 }
 
 func (o *ChurchAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ChurchEventTypes().UpdatedChurch())
+    o.RegisterForEvent(handler, ChurchEventTypes().ChurchUpdated())
 }
 
 type ChurchAggregateInitializer struct {
@@ -53,18 +62,25 @@ type ChurchAggregateInitializer struct {
 
 const GraduationAggregateType eventhorizon.AggregateType = "GraduationAggregate"
 
+func NewGraduationAggregate(id eventhorizon.UUID) *GraduationAggregate {
+	return &GraduationAggregate{
+		AggregateBase: eventhorizon.NewAggregateBase(GraduationAggregateType, id),
+	}
+}
+
+func (o *GraduationAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
+    println("HandleCommand %v - %v", ctx, cmd)
+    return nil
+}
+
+func (o *GraduationAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
+    println("ApplyEvent %v - %v", ctx, event)
+    return nil
+}
+
 type GraduationAggregate struct {
     *eventhorizon.AggregateBase
     *Graduation
-}
-
-func NewGraduationAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Graduation) (ret *GraduationAggregate, err error) {
-    ret = &GraduationAggregate{
-        AggregateBase: AggregateBase,
-        Graduation: Entity,
-    }
-    
-    return
 }
 
 
@@ -73,6 +89,7 @@ func NewGraduationAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *GraduationAggregateInitializer) {
 	ret = &GraduationAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(GraduationAggregateType,
+        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewGraduationAggregate(id) },
         GraduationCommandTypes().Literals(), GraduationEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
 	return
@@ -80,15 +97,15 @@ func NewGraduationAggregateInitializer(
 
 
 func (o *GraduationAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GraduationEventTypes().CreatedGraduation())
+    o.RegisterForEvent(handler, GraduationEventTypes().GraduationCreated())
 }
 
 func (o *GraduationAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GraduationEventTypes().DeletedGraduation())
+    o.RegisterForEvent(handler, GraduationEventTypes().GraduationDeleted())
 }
 
 func (o *GraduationAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GraduationEventTypes().UpdatedGraduation())
+    o.RegisterForEvent(handler, GraduationEventTypes().GraduationUpdated())
 }
 
 type GraduationAggregateInitializer struct {
@@ -99,18 +116,25 @@ type GraduationAggregateInitializer struct {
 
 const ProfileAggregateType eventhorizon.AggregateType = "ProfileAggregate"
 
+func NewProfileAggregate(id eventhorizon.UUID) *ProfileAggregate {
+	return &ProfileAggregate{
+		AggregateBase: eventhorizon.NewAggregateBase(ProfileAggregateType, id),
+	}
+}
+
+func (o *ProfileAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
+    println("HandleCommand %v - %v", ctx, cmd)
+    return nil
+}
+
+func (o *ProfileAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
+    println("ApplyEvent %v - %v", ctx, event)
+    return nil
+}
+
 type ProfileAggregate struct {
     *eventhorizon.AggregateBase
     *Profile
-}
-
-func NewProfileAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Profile) (ret *ProfileAggregate, err error) {
-    ret = &ProfileAggregate{
-        AggregateBase: AggregateBase,
-        Profile: Entity,
-    }
-    
-    return
 }
 
 
@@ -119,6 +143,7 @@ func NewProfileAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *ProfileAggregateInitializer) {
 	ret = &ProfileAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ProfileAggregateType,
+        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewProfileAggregate(id) },
         ProfileCommandTypes().Literals(), ProfileEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
 	return
@@ -126,15 +151,15 @@ func NewProfileAggregateInitializer(
 
 
 func (o *ProfileAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ProfileEventTypes().CreatedProfile())
+    o.RegisterForEvent(handler, ProfileEventTypes().ProfileCreated())
 }
 
 func (o *ProfileAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ProfileEventTypes().DeletedProfile())
+    o.RegisterForEvent(handler, ProfileEventTypes().ProfileDeleted())
 }
 
 func (o *ProfileAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ProfileEventTypes().UpdatedProfile())
+    o.RegisterForEvent(handler, ProfileEventTypes().ProfileUpdated())
 }
 
 type ProfileAggregateInitializer struct {

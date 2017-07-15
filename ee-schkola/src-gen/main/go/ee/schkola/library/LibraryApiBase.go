@@ -19,7 +19,7 @@ type Book struct {
 }
 
 func NewBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName, location *Location, SchkolaBase *schkola.SchkolaBase) (ret *Book, err error) {
+                author *person.PersonName, location *Location, SchkolaBase *schkola.SchkolaBase) (ret *Book) {
     ret = &Book{
         Title : title,
         Description : description,
@@ -46,7 +46,7 @@ type Location struct {
     Fold  string
 }
 
-func NewLocation(shelf string, fold string) (ret *Location, err error) {
+func NewLocation(shelf string, fold string) (ret *Location) {
     ret = &Location{
         Shelf : shelf,
         Fold : fold,
