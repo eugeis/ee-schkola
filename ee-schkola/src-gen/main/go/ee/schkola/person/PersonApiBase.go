@@ -2,7 +2,6 @@ package person
 
 import (
     "ee/schkola"
-    "ee/schkola/student"
     "github.com/eugeis/gee/enum"
     "time"
 )
@@ -115,10 +114,10 @@ type ChurchInfo struct {
     church string
     association string
     member bool
-    services []*student.Course
+    services string
 }
 
-func NewChurchInfo(church string, association string, member bool, services []*student.Course) (ret *ChurchInfo, err error) {
+func NewChurchInfo(church string, association string, member bool, services string) (ret *ChurchInfo, err error) {
     ret = &ChurchInfo{
         church: church,
         association: association,
@@ -127,11 +126,6 @@ func NewChurchInfo(church string, association string, member bool, services []*s
     }
     
     return
-}
-
-func (o *ChurchInfo) AddToServices(item *student.Course) *student.Course {
-    o.services = append(o.services, item)
-    return item
 }
 
 

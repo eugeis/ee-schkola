@@ -24,8 +24,8 @@ func NewAccountAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Acco
 
 
 func NewAccountAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *AccountAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *AccountAggregateInitializer) {
 	ret = &AccountAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(AccountAggregateType,
         AccountCommandTypes().Literals(), AccountEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -52,8 +52,8 @@ type AccountAggregateInitializer struct {
 
 
 func NewAuthEventhorizonInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *AuthEventhorizonInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *AuthEventhorizonInitializer) {
 	ret = &AuthEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
             commandBus: commandBus, 
     accountAggregateInitializer: NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
@@ -69,10 +69,10 @@ func (o *AuthEventhorizonInitializer) Setup() (err error) {
 }
 
 type AuthEventhorizonInitializer struct {
-    eventStore *eventhorizon.EventStore
-    eventBus *eventhorizon.EventBus
-    eventPublisher *eventhorizon.EventPublisher
-    commandBus *eventhorizon.CommandBus
+    eventStore eventhorizon.EventStore
+    eventBus eventhorizon.EventBus
+    eventPublisher eventhorizon.EventPublisher
+    commandBus eventhorizon.CommandBus
     accountAggregateInitializer *AccountAggregateInitializer
 }
 

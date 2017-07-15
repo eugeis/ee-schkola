@@ -24,8 +24,8 @@ func NewExpenseAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Expe
 
 
 func NewExpenseAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *ExpenseAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *ExpenseAggregateInitializer) {
 	ret = &ExpenseAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ExpenseAggregateType,
         ExpenseCommandTypes().Literals(), ExpenseEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -70,8 +70,8 @@ func NewExpensePurposeAggregate(AggregateBase *eventhorizon.AggregateBase, Entit
 
 
 func NewExpensePurposeAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *ExpensePurposeAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *ExpensePurposeAggregateInitializer) {
 	ret = &ExpensePurposeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ExpensePurposeAggregateType,
         ExpensePurposeCommandTypes().Literals(), ExpensePurposeEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -116,8 +116,8 @@ func NewFeeAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Fee) (re
 
 
 func NewFeeAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *FeeAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *FeeAggregateInitializer) {
 	ret = &FeeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(FeeAggregateType,
         FeeCommandTypes().Literals(), FeeEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -162,8 +162,8 @@ func NewFeeKindAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *FeeK
 
 
 func NewFeeKindAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *FeeKindAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *FeeKindAggregateInitializer) {
 	ret = &FeeKindAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(FeeKindAggregateType,
         FeeKindCommandTypes().Literals(), FeeKindEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -190,8 +190,8 @@ type FeeKindAggregateInitializer struct {
 
 
 func NewFinanceEventhorizonInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *FinanceEventhorizonInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *FinanceEventhorizonInitializer) {
 	ret = &FinanceEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
             commandBus: commandBus, 
     expenseAggregateInitializer: NewExpenseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
@@ -222,10 +222,10 @@ func (o *FinanceEventhorizonInitializer) Setup() (err error) {
 }
 
 type FinanceEventhorizonInitializer struct {
-    eventStore *eventhorizon.EventStore
-    eventBus *eventhorizon.EventBus
-    eventPublisher *eventhorizon.EventPublisher
-    commandBus *eventhorizon.CommandBus
+    eventStore eventhorizon.EventStore
+    eventBus eventhorizon.EventBus
+    eventPublisher eventhorizon.EventPublisher
+    commandBus eventhorizon.CommandBus
     expenseAggregateInitializer *ExpenseAggregateInitializer
     expensePurposeAggregateInitializer *ExpensePurposeAggregateInitializer
     feeAggregateInitializer *FeeAggregateInitializer

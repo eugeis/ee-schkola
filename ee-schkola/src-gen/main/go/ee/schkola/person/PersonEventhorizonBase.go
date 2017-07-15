@@ -24,8 +24,8 @@ func NewChurchAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Churc
 
 
 func NewChurchAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *ChurchAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *ChurchAggregateInitializer) {
 	ret = &ChurchAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ChurchAggregateType,
         ChurchCommandTypes().Literals(), ChurchEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -70,8 +70,8 @@ func NewGraduationAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *G
 
 
 func NewGraduationAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *GraduationAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *GraduationAggregateInitializer) {
 	ret = &GraduationAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(GraduationAggregateType,
         GraduationCommandTypes().Literals(), GraduationEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -116,8 +116,8 @@ func NewProfileAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Prof
 
 
 func NewProfileAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *ProfileAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *ProfileAggregateInitializer) {
 	ret = &ProfileAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ProfileAggregateType,
         ProfileCommandTypes().Literals(), ProfileEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -144,8 +144,8 @@ type ProfileAggregateInitializer struct {
 
 
 func NewPersonEventhorizonInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *PersonEventhorizonInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *PersonEventhorizonInitializer) {
 	ret = &PersonEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
             commandBus: commandBus, 
     churchAggregateInitializer: NewChurchAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
@@ -171,10 +171,10 @@ func (o *PersonEventhorizonInitializer) Setup() (err error) {
 }
 
 type PersonEventhorizonInitializer struct {
-    eventStore *eventhorizon.EventStore
-    eventBus *eventhorizon.EventBus
-    eventPublisher *eventhorizon.EventPublisher
-    commandBus *eventhorizon.CommandBus
+    eventStore eventhorizon.EventStore
+    eventBus eventhorizon.EventBus
+    eventPublisher eventhorizon.EventPublisher
+    commandBus eventhorizon.CommandBus
     churchAggregateInitializer *ChurchAggregateInitializer
     graduationAggregateInitializer *GraduationAggregateInitializer
     profileAggregateInitializer *ProfileAggregateInitializer

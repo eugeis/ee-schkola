@@ -24,8 +24,8 @@ func NewBookAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Book) (
 
 
 func NewBookAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *BookAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *BookAggregateInitializer) {
 	ret = &BookAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(BookAggregateType,
         BookCommandTypes().Literals(), BookEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -52,8 +52,8 @@ type BookAggregateInitializer struct {
 
 
 func NewLibraryEventhorizonInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *LibraryEventhorizonInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *LibraryEventhorizonInitializer) {
 	ret = &LibraryEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
             commandBus: commandBus, 
     bookAggregateInitializer: NewBookAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
@@ -69,10 +69,10 @@ func (o *LibraryEventhorizonInitializer) Setup() (err error) {
 }
 
 type LibraryEventhorizonInitializer struct {
-    eventStore *eventhorizon.EventStore
-    eventBus *eventhorizon.EventBus
-    eventPublisher *eventhorizon.EventPublisher
-    commandBus *eventhorizon.CommandBus
+    eventStore eventhorizon.EventStore
+    eventBus eventhorizon.EventBus
+    eventPublisher eventhorizon.EventPublisher
+    commandBus eventhorizon.CommandBus
     bookAggregateInitializer *BookAggregateInitializer
 }
 

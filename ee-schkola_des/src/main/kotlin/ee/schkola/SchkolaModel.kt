@@ -74,7 +74,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val church = propS()
             val association = propS()
             val member = propB()
-            val services = prop(n.List)
+            val services = prop(n.String)
         }
 
         object Family : Basic() {

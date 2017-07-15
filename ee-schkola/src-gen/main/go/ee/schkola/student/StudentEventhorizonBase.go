@@ -24,8 +24,8 @@ func NewAttendanceAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *A
 
 
 func NewAttendanceAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *AttendanceAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *AttendanceAggregateInitializer) {
 	ret = &AttendanceAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(AttendanceAggregateType,
         AttendanceCommandTypes().Literals(), AttendanceEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -70,8 +70,8 @@ func NewCourseAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Cours
 
 
 func NewCourseAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *CourseAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *CourseAggregateInitializer) {
 	ret = &CourseAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(CourseAggregateType,
         CourseCommandTypes().Literals(), CourseEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -116,8 +116,8 @@ func NewGradeAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Grade)
 
 
 func NewGradeAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *GradeAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *GradeAggregateInitializer) {
 	ret = &GradeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(GradeAggregateType,
         GradeCommandTypes().Literals(), GradeEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -162,8 +162,8 @@ func NewGroupAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Group)
 
 
 func NewGroupAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *GroupAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *GroupAggregateInitializer) {
 	ret = &GroupAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(GroupAggregateType,
         GroupCommandTypes().Literals(), GroupEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -208,8 +208,8 @@ func NewSchoolApplicationAggregate(AggregateBase *eventhorizon.AggregateBase, En
 
 
 func NewSchoolApplicationAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *SchoolApplicationAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *SchoolApplicationAggregateInitializer) {
 	ret = &SchoolApplicationAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(SchoolApplicationAggregateType,
         SchoolApplicationCommandTypes().Literals(), SchoolApplicationEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -254,8 +254,8 @@ func NewSchoolYearAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *S
 
 
 func NewSchoolYearAggregateInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *SchoolYearAggregateInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *SchoolYearAggregateInitializer) {
 	ret = &SchoolYearAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(SchoolYearAggregateType,
         SchoolYearCommandTypes().Literals(), SchoolYearEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
@@ -282,8 +282,8 @@ type SchoolYearAggregateInitializer struct {
 
 
 func NewStudentEventhorizonInitializer(
-	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *StudentEventhorizonInitializer) {
+	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
+	commandBus eventhorizon.CommandBus) (ret *StudentEventhorizonInitializer) {
 	ret = &StudentEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
             commandBus: commandBus, 
     attendanceAggregateInitializer: NewAttendanceAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
@@ -324,10 +324,10 @@ func (o *StudentEventhorizonInitializer) Setup() (err error) {
 }
 
 type StudentEventhorizonInitializer struct {
-    eventStore *eventhorizon.EventStore
-    eventBus *eventhorizon.EventBus
-    eventPublisher *eventhorizon.EventPublisher
-    commandBus *eventhorizon.CommandBus
+    eventStore eventhorizon.EventStore
+    eventBus eventhorizon.EventBus
+    eventPublisher eventhorizon.EventPublisher
+    commandBus eventhorizon.CommandBus
     attendanceAggregateInitializer *AttendanceAggregateInitializer
     courseAggregateInitializer *CourseAggregateInitializer
     gradeAggregateInitializer *GradeAggregateInitializer
