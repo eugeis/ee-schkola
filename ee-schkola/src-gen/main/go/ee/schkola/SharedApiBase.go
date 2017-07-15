@@ -6,13 +6,14 @@ import (
 
 type SchkolaBase struct {
     *Trace
-    Id  string
+    id string
 }
 
 func NewSchkolaBase(id string) (ret *SchkolaBase, err error) {
     ret = &SchkolaBase{
-        Id : id,
+        id: id,
     }
+    
     return
 }
 
@@ -34,6 +35,7 @@ func NewTrace(createdAt *time.Time, updatedAt *time.Time, modifiedBy string) (re
         UpdatedAt : updatedAt,
         ModifiedBy : modifiedBy,
     }
+    
     return
 }
 

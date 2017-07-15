@@ -7,202 +7,209 @@ import (
 )
 
 type BookCreate struct {
-    Title  
-    Description  string
-    Language  string
-    ReleaseDate  *time.Time
-    Edition  string
-    Category  string
-    Author  *person.PersonName
-    Location  *Location
+    title 
+    description string
+    language string
+    releaseDate *time.Time
+    edition string
+    category string
+    author *person.PersonName
+    location *Location
 }
 
 func NewBookCreate(title , description string, language string, releaseDate *time.Time, edition string, category string, 
                 author *person.PersonName, location *Location) (ret *BookCreate, err error) {
     ret = &BookCreate{
-        Title : title,
-        Description : description,
-        Language : language,
-        ReleaseDate : releaseDate,
-        Edition : edition,
-        Category : category,
-        Author : author,
-        Location : location,
+        title: title,
+        description: description,
+        language: language,
+        releaseDate: releaseDate,
+        edition: edition,
+        category: category,
+        author: author,
+        location: location,
     }
+    
     return
 }
 
 
 
 type BookDelete struct {
-    Id  string
+    id string
 }
 
 func NewBookDelete(id string) (ret *BookDelete, err error) {
     ret = &BookDelete{
-        Id : id,
+        id: id,
     }
+    
     return
 }
 
 
 
 type BookUpdate struct {
-    Title  
-    Description  string
-    Language  string
-    ReleaseDate  *time.Time
-    Edition  string
-    Category  string
-    Author  *person.PersonName
-    Location  *Location
+    title 
+    description string
+    language string
+    releaseDate *time.Time
+    edition string
+    category string
+    author *person.PersonName
+    location *Location
 }
 
 func NewBookUpdate(title , description string, language string, releaseDate *time.Time, edition string, category string, 
                 author *person.PersonName, location *Location) (ret *BookUpdate, err error) {
     ret = &BookUpdate{
-        Title : title,
-        Description : description,
-        Language : language,
-        ReleaseDate : releaseDate,
-        Edition : edition,
-        Category : category,
-        Author : author,
-        Location : location,
+        title: title,
+        description: description,
+        language: language,
+        releaseDate: releaseDate,
+        edition: edition,
+        category: category,
+        author: author,
+        location: location,
     }
+    
     return
 }
 
 
 
 type BookRegister struct {
-    Title  
-    Description  string
-    Language  string
-    ReleaseDate  *time.Time
-    Edition  string
-    Category  string
-    Author  *person.PersonName
+    title 
+    description string
+    language string
+    releaseDate *time.Time
+    edition string
+    category string
+    author *person.PersonName
 }
 
 func NewBookRegister(title , description string, language string, releaseDate *time.Time, edition string, category string, 
                 author *person.PersonName) (ret *BookRegister, err error) {
     ret = &BookRegister{
-        Title : title,
-        Description : description,
-        Language : language,
-        ReleaseDate : releaseDate,
-        Edition : edition,
-        Category : category,
-        Author : author,
+        title: title,
+        description: description,
+        language: language,
+        releaseDate: releaseDate,
+        edition: edition,
+        category: category,
+        author: author,
     }
+    
     return
 }
 
 
 
 type BookUnregister struct {
-    Id  string
+    id string
 }
 
 func NewBookUnregister(id string) (ret *BookUnregister, err error) {
     ret = &BookUnregister{
-        Id : id,
+        id: id,
     }
+    
     return
 }
 
 
 
 type BookChange struct {
-    Title  
-    Description  string
-    Language  string
-    ReleaseDate  *time.Time
-    Edition  string
-    Category  string
-    Author  *person.PersonName
+    title 
+    description string
+    language string
+    releaseDate *time.Time
+    edition string
+    category string
+    author *person.PersonName
 }
 
 func NewBookChange(title , description string, language string, releaseDate *time.Time, edition string, category string, 
                 author *person.PersonName) (ret *BookChange, err error) {
     ret = &BookChange{
-        Title : title,
-        Description : description,
-        Language : language,
-        ReleaseDate : releaseDate,
-        Edition : edition,
-        Category : category,
-        Author : author,
+        title: title,
+        description: description,
+        language: language,
+        releaseDate: releaseDate,
+        edition: edition,
+        category: category,
+        author: author,
     }
+    
     return
 }
 
 
 
 type ChangeBookLocation struct {
-    Shelf  string
-    Fold  string
+    shelf string
+    fold string
 }
 
 func NewChangeBookLocation(shelf string, fold string) (ret *ChangeBookLocation, err error) {
     ret = &ChangeBookLocation{
-        Shelf : shelf,
-        Fold : fold,
+        shelf: shelf,
+        fold: fold,
     }
+    
     return
 }
 
 
 
 
-type BookAggregateCommandType struct {
+type BookCommandType struct {
 	name  string
 	ordinal int
 }
 
-func (o *BookAggregateCommandType) Name() string {
+func (o *BookCommandType) Name() string {
     return o.name
 }
 
-func (o *BookAggregateCommandType) Ordinal() int {
+func (o *BookCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *BookAggregateCommandType) IsCreateBook() bool {
-    return o == _bookAggregateCommandTypes.CreateBook()
+func (o *BookCommandType) IsCreateBook() bool {
+    return o == _bookCommandTypes.CreateBook()
 }
 
-func (o *BookAggregateCommandType) IsDeleteBook() bool {
-    return o == _bookAggregateCommandTypes.DeleteBook()
+func (o *BookCommandType) IsDeleteBook() bool {
+    return o == _bookCommandTypes.DeleteBook()
 }
 
-func (o *BookAggregateCommandType) IsUpdateBook() bool {
-    return o == _bookAggregateCommandTypes.UpdateBook()
+func (o *BookCommandType) IsUpdateBook() bool {
+    return o == _bookCommandTypes.UpdateBook()
 }
 
-func (o *BookAggregateCommandType) IsRegisterBook() bool {
-    return o == _bookAggregateCommandTypes.RegisterBook()
+func (o *BookCommandType) IsRegisterBook() bool {
+    return o == _bookCommandTypes.RegisterBook()
 }
 
-func (o *BookAggregateCommandType) IsUnregisterBook() bool {
-    return o == _bookAggregateCommandTypes.UnregisterBook()
+func (o *BookCommandType) IsUnregisterBook() bool {
+    return o == _bookCommandTypes.UnregisterBook()
 }
 
-func (o *BookAggregateCommandType) IsChangeBook() bool {
-    return o == _bookAggregateCommandTypes.ChangeBook()
+func (o *BookCommandType) IsChangeBook() bool {
+    return o == _bookCommandTypes.ChangeBook()
 }
 
-func (o *BookAggregateCommandType) IsChangeLBookocation() bool {
-    return o == _bookAggregateCommandTypes.ChangeLBookocation()
+func (o *BookCommandType) IsChangeLBookocation() bool {
+    return o == _bookCommandTypes.ChangeLBookocation()
 }
 
-type bookAggregateCommandTypes struct {
-	values []*BookAggregateCommandType
+type bookCommandTypes struct {
+	values []*BookCommandType
     literals []enum.Literal
 }
 
-var _bookAggregateCommandTypes = &bookAggregateCommandTypes{values: []*BookAggregateCommandType{
+var _bookCommandTypes = &bookCommandTypes{values: []*BookCommandType{
     {name: "createBook", ordinal: 0},
     {name: "deleteBook", ordinal: 1},
     {name: "updateBook", ordinal: 2},
@@ -212,15 +219,15 @@ var _bookAggregateCommandTypes = &bookAggregateCommandTypes{values: []*BookAggre
     {name: "changeLBookocation", ordinal: 6}},
 }
 
-func BookAggregateCommandTypes() *bookAggregateCommandTypes {
-	return _bookAggregateCommandTypes
+func BookCommandTypes() *bookCommandTypes {
+	return _bookCommandTypes
 }
 
-func (o *bookAggregateCommandTypes) Values() []*BookAggregateCommandType {
+func (o *bookCommandTypes) Values() []*BookCommandType {
 	return o.values
 }
 
-func (o *bookAggregateCommandTypes) Literals() []enum.Literal {
+func (o *bookCommandTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -230,37 +237,37 @@ func (o *bookAggregateCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *bookAggregateCommandTypes) CreateBook() *BookAggregateCommandType {
-    return _bookAggregateCommandTypes.values[0]
+func (o *bookCommandTypes) CreateBook() *BookCommandType {
+    return _bookCommandTypes.values[0]
 }
 
-func (o *bookAggregateCommandTypes) DeleteBook() *BookAggregateCommandType {
-    return _bookAggregateCommandTypes.values[1]
+func (o *bookCommandTypes) DeleteBook() *BookCommandType {
+    return _bookCommandTypes.values[1]
 }
 
-func (o *bookAggregateCommandTypes) UpdateBook() *BookAggregateCommandType {
-    return _bookAggregateCommandTypes.values[2]
+func (o *bookCommandTypes) UpdateBook() *BookCommandType {
+    return _bookCommandTypes.values[2]
 }
 
-func (o *bookAggregateCommandTypes) RegisterBook() *BookAggregateCommandType {
-    return _bookAggregateCommandTypes.values[3]
+func (o *bookCommandTypes) RegisterBook() *BookCommandType {
+    return _bookCommandTypes.values[3]
 }
 
-func (o *bookAggregateCommandTypes) UnregisterBook() *BookAggregateCommandType {
-    return _bookAggregateCommandTypes.values[4]
+func (o *bookCommandTypes) UnregisterBook() *BookCommandType {
+    return _bookCommandTypes.values[4]
 }
 
-func (o *bookAggregateCommandTypes) ChangeBook() *BookAggregateCommandType {
-    return _bookAggregateCommandTypes.values[5]
+func (o *bookCommandTypes) ChangeBook() *BookCommandType {
+    return _bookCommandTypes.values[5]
 }
 
-func (o *bookAggregateCommandTypes) ChangeLBookocation() *BookAggregateCommandType {
-    return _bookAggregateCommandTypes.values[6]
+func (o *bookCommandTypes) ChangeLBookocation() *BookCommandType {
+    return _bookCommandTypes.values[6]
 }
 
-func (o *bookAggregateCommandTypes) ParseBookAggregateCommandType(name string) (ret *BookAggregateCommandType, ok bool) {
+func (o *bookCommandTypes) ParseBookCommandType(name string) (ret *BookCommandType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*BookAggregateCommandType), ok
+		return item.(*BookCommandType), ok
 	}
 	return
 }

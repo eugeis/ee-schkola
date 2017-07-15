@@ -6,226 +6,235 @@ import (
 )
 
 type CreatedChurch struct {
-    Name  string
-    Address  *Address
-    Pastor  *PersonName
-    Contact  *Contact
+    name string
+    address *Address
+    pastor *PersonName
+    contact *Contact
 }
 
 func NewCreatedChurch(name string, address *Address, pastor *PersonName, contact *Contact) (ret *CreatedChurch, err error) {
     ret = &CreatedChurch{
-        Name : name,
-        Address : address,
-        Pastor : pastor,
-        Contact : contact,
+        name: name,
+        address: address,
+        pastor: pastor,
+        contact: contact,
     }
+    
     return
 }
 
 
 
 type DeletedChurch struct {
-    Id  string
+    id string
 }
 
 func NewDeletedChurch(id string) (ret *DeletedChurch, err error) {
     ret = &DeletedChurch{
-        Id : id,
+        id: id,
     }
+    
     return
 }
 
 
 
 type UpdatedChurch struct {
-    Name  string
-    Address  *Address
-    Pastor  *PersonName
-    Contact  *Contact
+    name string
+    address *Address
+    pastor *PersonName
+    contact *Contact
 }
 
 func NewUpdatedChurch(name string, address *Address, pastor *PersonName, contact *Contact) (ret *UpdatedChurch, err error) {
     ret = &UpdatedChurch{
-        Name : name,
-        Address : address,
-        Pastor : pastor,
-        Contact : contact,
+        name: name,
+        address: address,
+        pastor: pastor,
+        contact: contact,
     }
+    
     return
 }
 
 
 
 type CreatedGraduation struct {
-    Name  string
-    Level  *GraduationLevel
+    name string
+    level *GraduationLevel
 }
 
 func NewCreatedGraduation(name string, level *GraduationLevel) (ret *CreatedGraduation, err error) {
     ret = &CreatedGraduation{
-        Name : name,
-        Level : level,
+        name: name,
+        level: level,
     }
+    
     return
 }
 
 
 
 type DeletedGraduation struct {
-    Id  string
+    id string
 }
 
 func NewDeletedGraduation(id string) (ret *DeletedGraduation, err error) {
     ret = &DeletedGraduation{
-        Id : id,
+        id: id,
     }
+    
     return
 }
 
 
 
 type UpdatedGraduation struct {
-    Name  string
-    Level  *GraduationLevel
+    name string
+    level *GraduationLevel
 }
 
 func NewUpdatedGraduation(name string, level *GraduationLevel) (ret *UpdatedGraduation, err error) {
     ret = &UpdatedGraduation{
-        Name : name,
-        Level : level,
+        name: name,
+        level: level,
     }
+    
     return
 }
 
 
 
 type CreatedProfile struct {
-    Gender  *Gender
-    Name  *PersonName
-    BirthName  string
-    Birthday  *time.Time
-    Address  *Address
-    Contact  *Contact
-    PhotoData  []byte
-    Photo  string
-    Family  *Family
-    Church  *ChurchInfo
-    Education  *Education
+    gender *Gender
+    name *PersonName
+    birthName string
+    birthday *time.Time
+    address *Address
+    contact *Contact
+    photoData []byte
+    photo string
+    family *Family
+    church *ChurchInfo
+    education *Education
 }
 
 func NewCreatedProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
                 photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *CreatedProfile, err error) {
     ret = &CreatedProfile{
-        Gender : gender,
-        Name : name,
-        BirthName : birthName,
-        Birthday : birthday,
-        Address : address,
-        Contact : contact,
-        PhotoData : photoData,
-        Photo : photo,
-        Family : family,
-        Church : church,
-        Education : education,
+        gender: gender,
+        name: name,
+        birthName: birthName,
+        birthday: birthday,
+        address: address,
+        contact: contact,
+        photoData: photoData,
+        photo: photo,
+        family: family,
+        church: church,
+        education: education,
     }
+    
     return
 }
 
 
 
 type DeletedProfile struct {
-    Id  string
+    id string
 }
 
 func NewDeletedProfile(id string) (ret *DeletedProfile, err error) {
     ret = &DeletedProfile{
-        Id : id,
+        id: id,
     }
+    
     return
 }
 
 
 
 type UpdatedProfile struct {
-    Gender  *Gender
-    Name  *PersonName
-    BirthName  string
-    Birthday  *time.Time
-    Address  *Address
-    Contact  *Contact
-    PhotoData  []byte
-    Photo  string
-    Family  *Family
-    Church  *ChurchInfo
-    Education  *Education
+    gender *Gender
+    name *PersonName
+    birthName string
+    birthday *time.Time
+    address *Address
+    contact *Contact
+    photoData []byte
+    photo string
+    family *Family
+    church *ChurchInfo
+    education *Education
 }
 
 func NewUpdatedProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
                 photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *UpdatedProfile, err error) {
     ret = &UpdatedProfile{
-        Gender : gender,
-        Name : name,
-        BirthName : birthName,
-        Birthday : birthday,
-        Address : address,
-        Contact : contact,
-        PhotoData : photoData,
-        Photo : photo,
-        Family : family,
-        Church : church,
-        Education : education,
+        gender: gender,
+        name: name,
+        birthName: birthName,
+        birthday: birthday,
+        address: address,
+        contact: contact,
+        photoData: photoData,
+        photo: photo,
+        family: family,
+        church: church,
+        education: education,
     }
+    
     return
 }
 
 
 
 
-type ChurchAggregateEventType struct {
+type ChurchEventType struct {
 	name  string
 	ordinal int
 }
 
-func (o *ChurchAggregateEventType) Name() string {
+func (o *ChurchEventType) Name() string {
     return o.name
 }
 
-func (o *ChurchAggregateEventType) Ordinal() int {
+func (o *ChurchEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ChurchAggregateEventType) IsChurchCreated() bool {
-    return o == _churchAggregateEventTypes.ChurchCreated()
+func (o *ChurchEventType) IsChurchCreated() bool {
+    return o == _churchEventTypes.ChurchCreated()
 }
 
-func (o *ChurchAggregateEventType) IsChurchDeleted() bool {
-    return o == _churchAggregateEventTypes.ChurchDeleted()
+func (o *ChurchEventType) IsChurchDeleted() bool {
+    return o == _churchEventTypes.ChurchDeleted()
 }
 
-func (o *ChurchAggregateEventType) IsChurchUpdated() bool {
-    return o == _churchAggregateEventTypes.ChurchUpdated()
+func (o *ChurchEventType) IsChurchUpdated() bool {
+    return o == _churchEventTypes.ChurchUpdated()
 }
 
-type churchAggregateEventTypes struct {
-	values []*ChurchAggregateEventType
+type churchEventTypes struct {
+	values []*ChurchEventType
     literals []enum.Literal
 }
 
-var _churchAggregateEventTypes = &churchAggregateEventTypes{values: []*ChurchAggregateEventType{
+var _churchEventTypes = &churchEventTypes{values: []*ChurchEventType{
     {name: "ChurchCreated", ordinal: 0},
     {name: "ChurchDeleted", ordinal: 1},
     {name: "ChurchUpdated", ordinal: 2}},
 }
 
-func ChurchAggregateEventTypes() *churchAggregateEventTypes {
-	return _churchAggregateEventTypes
+func ChurchEventTypes() *churchEventTypes {
+	return _churchEventTypes
 }
 
-func (o *churchAggregateEventTypes) Values() []*ChurchAggregateEventType {
+func (o *churchEventTypes) Values() []*ChurchEventType {
 	return o.values
 }
 
-func (o *churchAggregateEventTypes) Literals() []enum.Literal {
+func (o *churchEventTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -235,71 +244,71 @@ func (o *churchAggregateEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *churchAggregateEventTypes) ChurchCreated() *ChurchAggregateEventType {
-    return _churchAggregateEventTypes.values[0]
+func (o *churchEventTypes) ChurchCreated() *ChurchEventType {
+    return _churchEventTypes.values[0]
 }
 
-func (o *churchAggregateEventTypes) ChurchDeleted() *ChurchAggregateEventType {
-    return _churchAggregateEventTypes.values[1]
+func (o *churchEventTypes) ChurchDeleted() *ChurchEventType {
+    return _churchEventTypes.values[1]
 }
 
-func (o *churchAggregateEventTypes) ChurchUpdated() *ChurchAggregateEventType {
-    return _churchAggregateEventTypes.values[2]
+func (o *churchEventTypes) ChurchUpdated() *ChurchEventType {
+    return _churchEventTypes.values[2]
 }
 
-func (o *churchAggregateEventTypes) ParseChurchAggregateEventType(name string) (ret *ChurchAggregateEventType, ok bool) {
+func (o *churchEventTypes) ParseChurchEventType(name string) (ret *ChurchEventType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*ChurchAggregateEventType), ok
+		return item.(*ChurchEventType), ok
 	}
 	return
 }
 
 
-type GraduationAggregateEventType struct {
+type GraduationEventType struct {
 	name  string
 	ordinal int
 }
 
-func (o *GraduationAggregateEventType) Name() string {
+func (o *GraduationEventType) Name() string {
     return o.name
 }
 
-func (o *GraduationAggregateEventType) Ordinal() int {
+func (o *GraduationEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GraduationAggregateEventType) IsGraduationCreated() bool {
-    return o == _graduationAggregateEventTypes.GraduationCreated()
+func (o *GraduationEventType) IsGraduationCreated() bool {
+    return o == _graduationEventTypes.GraduationCreated()
 }
 
-func (o *GraduationAggregateEventType) IsGraduationDeleted() bool {
-    return o == _graduationAggregateEventTypes.GraduationDeleted()
+func (o *GraduationEventType) IsGraduationDeleted() bool {
+    return o == _graduationEventTypes.GraduationDeleted()
 }
 
-func (o *GraduationAggregateEventType) IsGraduationUpdated() bool {
-    return o == _graduationAggregateEventTypes.GraduationUpdated()
+func (o *GraduationEventType) IsGraduationUpdated() bool {
+    return o == _graduationEventTypes.GraduationUpdated()
 }
 
-type graduationAggregateEventTypes struct {
-	values []*GraduationAggregateEventType
+type graduationEventTypes struct {
+	values []*GraduationEventType
     literals []enum.Literal
 }
 
-var _graduationAggregateEventTypes = &graduationAggregateEventTypes{values: []*GraduationAggregateEventType{
+var _graduationEventTypes = &graduationEventTypes{values: []*GraduationEventType{
     {name: "GraduationCreated", ordinal: 0},
     {name: "GraduationDeleted", ordinal: 1},
     {name: "GraduationUpdated", ordinal: 2}},
 }
 
-func GraduationAggregateEventTypes() *graduationAggregateEventTypes {
-	return _graduationAggregateEventTypes
+func GraduationEventTypes() *graduationEventTypes {
+	return _graduationEventTypes
 }
 
-func (o *graduationAggregateEventTypes) Values() []*GraduationAggregateEventType {
+func (o *graduationEventTypes) Values() []*GraduationEventType {
 	return o.values
 }
 
-func (o *graduationAggregateEventTypes) Literals() []enum.Literal {
+func (o *graduationEventTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -309,71 +318,71 @@ func (o *graduationAggregateEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *graduationAggregateEventTypes) GraduationCreated() *GraduationAggregateEventType {
-    return _graduationAggregateEventTypes.values[0]
+func (o *graduationEventTypes) GraduationCreated() *GraduationEventType {
+    return _graduationEventTypes.values[0]
 }
 
-func (o *graduationAggregateEventTypes) GraduationDeleted() *GraduationAggregateEventType {
-    return _graduationAggregateEventTypes.values[1]
+func (o *graduationEventTypes) GraduationDeleted() *GraduationEventType {
+    return _graduationEventTypes.values[1]
 }
 
-func (o *graduationAggregateEventTypes) GraduationUpdated() *GraduationAggregateEventType {
-    return _graduationAggregateEventTypes.values[2]
+func (o *graduationEventTypes) GraduationUpdated() *GraduationEventType {
+    return _graduationEventTypes.values[2]
 }
 
-func (o *graduationAggregateEventTypes) ParseGraduationAggregateEventType(name string) (ret *GraduationAggregateEventType, ok bool) {
+func (o *graduationEventTypes) ParseGraduationEventType(name string) (ret *GraduationEventType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*GraduationAggregateEventType), ok
+		return item.(*GraduationEventType), ok
 	}
 	return
 }
 
 
-type ProfileAggregateEventType struct {
+type ProfileEventType struct {
 	name  string
 	ordinal int
 }
 
-func (o *ProfileAggregateEventType) Name() string {
+func (o *ProfileEventType) Name() string {
     return o.name
 }
 
-func (o *ProfileAggregateEventType) Ordinal() int {
+func (o *ProfileEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ProfileAggregateEventType) IsProfileCreated() bool {
-    return o == _profileAggregateEventTypes.ProfileCreated()
+func (o *ProfileEventType) IsProfileCreated() bool {
+    return o == _profileEventTypes.ProfileCreated()
 }
 
-func (o *ProfileAggregateEventType) IsProfileDeleted() bool {
-    return o == _profileAggregateEventTypes.ProfileDeleted()
+func (o *ProfileEventType) IsProfileDeleted() bool {
+    return o == _profileEventTypes.ProfileDeleted()
 }
 
-func (o *ProfileAggregateEventType) IsProfileUpdated() bool {
-    return o == _profileAggregateEventTypes.ProfileUpdated()
+func (o *ProfileEventType) IsProfileUpdated() bool {
+    return o == _profileEventTypes.ProfileUpdated()
 }
 
-type profileAggregateEventTypes struct {
-	values []*ProfileAggregateEventType
+type profileEventTypes struct {
+	values []*ProfileEventType
     literals []enum.Literal
 }
 
-var _profileAggregateEventTypes = &profileAggregateEventTypes{values: []*ProfileAggregateEventType{
+var _profileEventTypes = &profileEventTypes{values: []*ProfileEventType{
     {name: "ProfileCreated", ordinal: 0},
     {name: "ProfileDeleted", ordinal: 1},
     {name: "ProfileUpdated", ordinal: 2}},
 }
 
-func ProfileAggregateEventTypes() *profileAggregateEventTypes {
-	return _profileAggregateEventTypes
+func ProfileEventTypes() *profileEventTypes {
+	return _profileEventTypes
 }
 
-func (o *profileAggregateEventTypes) Values() []*ProfileAggregateEventType {
+func (o *profileEventTypes) Values() []*ProfileEventType {
 	return o.values
 }
 
-func (o *profileAggregateEventTypes) Literals() []enum.Literal {
+func (o *profileEventTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -383,21 +392,21 @@ func (o *profileAggregateEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *profileAggregateEventTypes) ProfileCreated() *ProfileAggregateEventType {
-    return _profileAggregateEventTypes.values[0]
+func (o *profileEventTypes) ProfileCreated() *ProfileEventType {
+    return _profileEventTypes.values[0]
 }
 
-func (o *profileAggregateEventTypes) ProfileDeleted() *ProfileAggregateEventType {
-    return _profileAggregateEventTypes.values[1]
+func (o *profileEventTypes) ProfileDeleted() *ProfileEventType {
+    return _profileEventTypes.values[1]
 }
 
-func (o *profileAggregateEventTypes) ProfileUpdated() *ProfileAggregateEventType {
-    return _profileAggregateEventTypes.values[2]
+func (o *profileEventTypes) ProfileUpdated() *ProfileEventType {
+    return _profileEventTypes.values[2]
 }
 
-func (o *profileAggregateEventTypes) ParseProfileAggregateEventType(name string) (ret *ProfileAggregateEventType, ok bool) {
+func (o *profileEventTypes) ParseProfileEventType(name string) (ret *ProfileEventType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*ProfileAggregateEventType), ok
+		return item.(*ProfileEventType), ok
 	}
 	return
 }

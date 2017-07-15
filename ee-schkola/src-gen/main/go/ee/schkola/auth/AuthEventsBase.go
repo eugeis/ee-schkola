@@ -7,110 +7,113 @@ import (
 )
 
 type CreatedAccount struct {
-    Username  string
-    Password  string
-    Email  string
-    Disabled  bool
-    LastLoginAt  *time.Time
-    Profile  *person.Profile
+    username string
+    password string
+    email string
+    disabled bool
+    lastLoginAt *time.Time
+    profile *person.Profile
 }
 
 func NewCreatedAccount(username string, password string, email string, disabled bool, lastLoginAt *time.Time, profile *person.Profile) (ret *CreatedAccount, err error) {
     ret = &CreatedAccount{
-        Username : username,
-        Password : password,
-        Email : email,
-        Disabled : disabled,
-        LastLoginAt : lastLoginAt,
-        Profile : profile,
+        username: username,
+        password: password,
+        email: email,
+        disabled: disabled,
+        lastLoginAt: lastLoginAt,
+        profile: profile,
     }
+    
     return
 }
 
 
 
 type DeletedAccount struct {
-    Id  string
+    id string
 }
 
 func NewDeletedAccount(id string) (ret *DeletedAccount, err error) {
     ret = &DeletedAccount{
-        Id : id,
+        id: id,
     }
+    
     return
 }
 
 
 
 type UpdatedAccount struct {
-    Username  string
-    Password  string
-    Email  string
-    Disabled  bool
-    LastLoginAt  *time.Time
-    Profile  *person.Profile
+    username string
+    password string
+    email string
+    disabled bool
+    lastLoginAt *time.Time
+    profile *person.Profile
 }
 
 func NewUpdatedAccount(username string, password string, email string, disabled bool, lastLoginAt *time.Time, profile *person.Profile) (ret *UpdatedAccount, err error) {
     ret = &UpdatedAccount{
-        Username : username,
-        Password : password,
-        Email : email,
-        Disabled : disabled,
-        LastLoginAt : lastLoginAt,
-        Profile : profile,
+        username: username,
+        password: password,
+        email: email,
+        disabled: disabled,
+        lastLoginAt: lastLoginAt,
+        profile: profile,
     }
+    
     return
 }
 
 
 
 
-type AccountAggregateEventType struct {
+type AccountEventType struct {
 	name  string
 	ordinal int
 }
 
-func (o *AccountAggregateEventType) Name() string {
+func (o *AccountEventType) Name() string {
     return o.name
 }
 
-func (o *AccountAggregateEventType) Ordinal() int {
+func (o *AccountEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *AccountAggregateEventType) IsAccountCreated() bool {
-    return o == _accountAggregateEventTypes.AccountCreated()
+func (o *AccountEventType) IsAccountCreated() bool {
+    return o == _accountEventTypes.AccountCreated()
 }
 
-func (o *AccountAggregateEventType) IsAccountDeleted() bool {
-    return o == _accountAggregateEventTypes.AccountDeleted()
+func (o *AccountEventType) IsAccountDeleted() bool {
+    return o == _accountEventTypes.AccountDeleted()
 }
 
-func (o *AccountAggregateEventType) IsAccountUpdated() bool {
-    return o == _accountAggregateEventTypes.AccountUpdated()
+func (o *AccountEventType) IsAccountUpdated() bool {
+    return o == _accountEventTypes.AccountUpdated()
 }
 
-type accountAggregateEventTypes struct {
-	values []*AccountAggregateEventType
+type accountEventTypes struct {
+	values []*AccountEventType
     literals []enum.Literal
 }
 
-var _accountAggregateEventTypes = &accountAggregateEventTypes{values: []*AccountAggregateEventType{
+var _accountEventTypes = &accountEventTypes{values: []*AccountEventType{
     {name: "AccountCreated", ordinal: 0},
     {name: "AccountDeleted", ordinal: 1},
     {name: "AccountUpdated", ordinal: 2}},
 }
 
-func AccountAggregateEventTypes() *accountAggregateEventTypes {
-	return _accountAggregateEventTypes
+func AccountEventTypes() *accountEventTypes {
+	return _accountEventTypes
 }
 
-func (o *accountAggregateEventTypes) Values() []*AccountAggregateEventType {
+func (o *accountEventTypes) Values() []*AccountEventType {
 	return o.values
 }
 
-func (o *accountAggregateEventTypes) Literals() []enum.Literal {
+func (o *accountEventTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -120,21 +123,21 @@ func (o *accountAggregateEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *accountAggregateEventTypes) AccountCreated() *AccountAggregateEventType {
-    return _accountAggregateEventTypes.values[0]
+func (o *accountEventTypes) AccountCreated() *AccountEventType {
+    return _accountEventTypes.values[0]
 }
 
-func (o *accountAggregateEventTypes) AccountDeleted() *AccountAggregateEventType {
-    return _accountAggregateEventTypes.values[1]
+func (o *accountEventTypes) AccountDeleted() *AccountEventType {
+    return _accountEventTypes.values[1]
 }
 
-func (o *accountAggregateEventTypes) AccountUpdated() *AccountAggregateEventType {
-    return _accountAggregateEventTypes.values[2]
+func (o *accountEventTypes) AccountUpdated() *AccountEventType {
+    return _accountEventTypes.values[2]
 }
 
-func (o *accountAggregateEventTypes) ParseAccountAggregateEventType(name string) (ret *AccountAggregateEventType, ok bool) {
+func (o *accountEventTypes) ParseAccountEventType(name string) (ret *AccountEventType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*AccountAggregateEventType), ok
+		return item.(*AccountEventType), ok
 	}
 	return
 }

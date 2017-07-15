@@ -7,243 +7,255 @@ import (
 )
 
 type CreatedExpense struct {
-    Purpose  *ExpensePurpose
-    Amount  float64
-    Profile  *person.Profile
-    Date  *time.Time
+    purpose *ExpensePurpose
+    amount float64
+    profile *person.Profile
+    date *time.Time
 }
 
 func NewCreatedExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time) (ret *CreatedExpense, err error) {
     ret = &CreatedExpense{
-        Purpose : purpose,
-        Amount : amount,
-        Profile : profile,
-        Date : date,
+        purpose: purpose,
+        amount: amount,
+        profile: profile,
+        date: date,
     }
+    
     return
 }
 
 
 
 type DeletedExpense struct {
-    Id  string
+    id string
 }
 
 func NewDeletedExpense(id string) (ret *DeletedExpense, err error) {
     ret = &DeletedExpense{
-        Id : id,
+        id: id,
     }
+    
     return
 }
 
 
 
 type UpdatedExpense struct {
-    Purpose  *ExpensePurpose
-    Amount  float64
-    Profile  *person.Profile
-    Date  *time.Time
+    purpose *ExpensePurpose
+    amount float64
+    profile *person.Profile
+    date *time.Time
 }
 
 func NewUpdatedExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time) (ret *UpdatedExpense, err error) {
     ret = &UpdatedExpense{
-        Purpose : purpose,
-        Amount : amount,
-        Profile : profile,
-        Date : date,
+        purpose: purpose,
+        amount: amount,
+        profile: profile,
+        date: date,
     }
+    
     return
 }
 
 
 
 type CreatedExpensePurpose struct {
-    Name  string
-    Description  string
+    name string
+    description string
 }
 
 func NewCreatedExpensePurpose(name string, description string) (ret *CreatedExpensePurpose, err error) {
     ret = &CreatedExpensePurpose{
-        Name : name,
-        Description : description,
+        name: name,
+        description: description,
     }
+    
     return
 }
 
 
 
 type DeletedExpensePurpose struct {
-    Id  string
+    id string
 }
 
 func NewDeletedExpensePurpose(id string) (ret *DeletedExpensePurpose, err error) {
     ret = &DeletedExpensePurpose{
-        Id : id,
+        id: id,
     }
+    
     return
 }
 
 
 
 type UpdatedExpensePurpose struct {
-    Name  string
-    Description  string
+    name string
+    description string
 }
 
 func NewUpdatedExpensePurpose(name string, description string) (ret *UpdatedExpensePurpose, err error) {
     ret = &UpdatedExpensePurpose{
-        Name : name,
-        Description : description,
+        name: name,
+        description: description,
     }
+    
     return
 }
 
 
 
 type CreatedFee struct {
-    Student  *person.Profile
-    Amount  float64
-    Kind  *FeeKind
-    Date  *time.Time
+    student *person.Profile
+    amount float64
+    kind *FeeKind
+    date *time.Time
 }
 
 func NewCreatedFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time) (ret *CreatedFee, err error) {
     ret = &CreatedFee{
-        Student : student,
-        Amount : amount,
-        Kind : kind,
-        Date : date,
+        student: student,
+        amount: amount,
+        kind: kind,
+        date: date,
     }
+    
     return
 }
 
 
 
 type DeletedFee struct {
-    Id  string
+    id string
 }
 
 func NewDeletedFee(id string) (ret *DeletedFee, err error) {
     ret = &DeletedFee{
-        Id : id,
+        id: id,
     }
+    
     return
 }
 
 
 
 type UpdatedFee struct {
-    Student  *person.Profile
-    Amount  float64
-    Kind  *FeeKind
-    Date  *time.Time
+    student *person.Profile
+    amount float64
+    kind *FeeKind
+    date *time.Time
 }
 
 func NewUpdatedFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time) (ret *UpdatedFee, err error) {
     ret = &UpdatedFee{
-        Student : student,
-        Amount : amount,
-        Kind : kind,
-        Date : date,
+        student: student,
+        amount: amount,
+        kind: kind,
+        date: date,
     }
+    
     return
 }
 
 
 
 type CreatedFeeKind struct {
-    Name  string
-    Amount  float64
-    Description  string
+    name string
+    amount float64
+    description string
 }
 
 func NewCreatedFeeKind(name string, amount float64, description string) (ret *CreatedFeeKind, err error) {
     ret = &CreatedFeeKind{
-        Name : name,
-        Amount : amount,
-        Description : description,
+        name: name,
+        amount: amount,
+        description: description,
     }
+    
     return
 }
 
 
 
 type DeletedFeeKind struct {
-    Id  string
+    id string
 }
 
 func NewDeletedFeeKind(id string) (ret *DeletedFeeKind, err error) {
     ret = &DeletedFeeKind{
-        Id : id,
+        id: id,
     }
+    
     return
 }
 
 
 
 type UpdatedFeeKind struct {
-    Name  string
-    Amount  float64
-    Description  string
+    name string
+    amount float64
+    description string
 }
 
 func NewUpdatedFeeKind(name string, amount float64, description string) (ret *UpdatedFeeKind, err error) {
     ret = &UpdatedFeeKind{
-        Name : name,
-        Amount : amount,
-        Description : description,
+        name: name,
+        amount: amount,
+        description: description,
     }
+    
     return
 }
 
 
 
 
-type ExpenseAggregateEventType struct {
+type ExpenseEventType struct {
 	name  string
 	ordinal int
 }
 
-func (o *ExpenseAggregateEventType) Name() string {
+func (o *ExpenseEventType) Name() string {
     return o.name
 }
 
-func (o *ExpenseAggregateEventType) Ordinal() int {
+func (o *ExpenseEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ExpenseAggregateEventType) IsExpenseCreated() bool {
-    return o == _expenseAggregateEventTypes.ExpenseCreated()
+func (o *ExpenseEventType) IsExpenseCreated() bool {
+    return o == _expenseEventTypes.ExpenseCreated()
 }
 
-func (o *ExpenseAggregateEventType) IsExpenseDeleted() bool {
-    return o == _expenseAggregateEventTypes.ExpenseDeleted()
+func (o *ExpenseEventType) IsExpenseDeleted() bool {
+    return o == _expenseEventTypes.ExpenseDeleted()
 }
 
-func (o *ExpenseAggregateEventType) IsExpenseUpdated() bool {
-    return o == _expenseAggregateEventTypes.ExpenseUpdated()
+func (o *ExpenseEventType) IsExpenseUpdated() bool {
+    return o == _expenseEventTypes.ExpenseUpdated()
 }
 
-type expenseAggregateEventTypes struct {
-	values []*ExpenseAggregateEventType
+type expenseEventTypes struct {
+	values []*ExpenseEventType
     literals []enum.Literal
 }
 
-var _expenseAggregateEventTypes = &expenseAggregateEventTypes{values: []*ExpenseAggregateEventType{
+var _expenseEventTypes = &expenseEventTypes{values: []*ExpenseEventType{
     {name: "ExpenseCreated", ordinal: 0},
     {name: "ExpenseDeleted", ordinal: 1},
     {name: "ExpenseUpdated", ordinal: 2}},
 }
 
-func ExpenseAggregateEventTypes() *expenseAggregateEventTypes {
-	return _expenseAggregateEventTypes
+func ExpenseEventTypes() *expenseEventTypes {
+	return _expenseEventTypes
 }
 
-func (o *expenseAggregateEventTypes) Values() []*ExpenseAggregateEventType {
+func (o *expenseEventTypes) Values() []*ExpenseEventType {
 	return o.values
 }
 
-func (o *expenseAggregateEventTypes) Literals() []enum.Literal {
+func (o *expenseEventTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -253,71 +265,71 @@ func (o *expenseAggregateEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *expenseAggregateEventTypes) ExpenseCreated() *ExpenseAggregateEventType {
-    return _expenseAggregateEventTypes.values[0]
+func (o *expenseEventTypes) ExpenseCreated() *ExpenseEventType {
+    return _expenseEventTypes.values[0]
 }
 
-func (o *expenseAggregateEventTypes) ExpenseDeleted() *ExpenseAggregateEventType {
-    return _expenseAggregateEventTypes.values[1]
+func (o *expenseEventTypes) ExpenseDeleted() *ExpenseEventType {
+    return _expenseEventTypes.values[1]
 }
 
-func (o *expenseAggregateEventTypes) ExpenseUpdated() *ExpenseAggregateEventType {
-    return _expenseAggregateEventTypes.values[2]
+func (o *expenseEventTypes) ExpenseUpdated() *ExpenseEventType {
+    return _expenseEventTypes.values[2]
 }
 
-func (o *expenseAggregateEventTypes) ParseExpenseAggregateEventType(name string) (ret *ExpenseAggregateEventType, ok bool) {
+func (o *expenseEventTypes) ParseExpenseEventType(name string) (ret *ExpenseEventType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*ExpenseAggregateEventType), ok
+		return item.(*ExpenseEventType), ok
 	}
 	return
 }
 
 
-type ExpensePurposeAggregateEventType struct {
+type ExpensePurposeEventType struct {
 	name  string
 	ordinal int
 }
 
-func (o *ExpensePurposeAggregateEventType) Name() string {
+func (o *ExpensePurposeEventType) Name() string {
     return o.name
 }
 
-func (o *ExpensePurposeAggregateEventType) Ordinal() int {
+func (o *ExpensePurposeEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ExpensePurposeAggregateEventType) IsExpensePurposeCreated() bool {
-    return o == _expensePurposeAggregateEventTypes.ExpensePurposeCreated()
+func (o *ExpensePurposeEventType) IsExpensePurposeCreated() bool {
+    return o == _expensePurposeEventTypes.ExpensePurposeCreated()
 }
 
-func (o *ExpensePurposeAggregateEventType) IsExpensePurposeDeleted() bool {
-    return o == _expensePurposeAggregateEventTypes.ExpensePurposeDeleted()
+func (o *ExpensePurposeEventType) IsExpensePurposeDeleted() bool {
+    return o == _expensePurposeEventTypes.ExpensePurposeDeleted()
 }
 
-func (o *ExpensePurposeAggregateEventType) IsExpensePurposeUpdated() bool {
-    return o == _expensePurposeAggregateEventTypes.ExpensePurposeUpdated()
+func (o *ExpensePurposeEventType) IsExpensePurposeUpdated() bool {
+    return o == _expensePurposeEventTypes.ExpensePurposeUpdated()
 }
 
-type expensePurposeAggregateEventTypes struct {
-	values []*ExpensePurposeAggregateEventType
+type expensePurposeEventTypes struct {
+	values []*ExpensePurposeEventType
     literals []enum.Literal
 }
 
-var _expensePurposeAggregateEventTypes = &expensePurposeAggregateEventTypes{values: []*ExpensePurposeAggregateEventType{
+var _expensePurposeEventTypes = &expensePurposeEventTypes{values: []*ExpensePurposeEventType{
     {name: "ExpensePurposeCreated", ordinal: 0},
     {name: "ExpensePurposeDeleted", ordinal: 1},
     {name: "ExpensePurposeUpdated", ordinal: 2}},
 }
 
-func ExpensePurposeAggregateEventTypes() *expensePurposeAggregateEventTypes {
-	return _expensePurposeAggregateEventTypes
+func ExpensePurposeEventTypes() *expensePurposeEventTypes {
+	return _expensePurposeEventTypes
 }
 
-func (o *expensePurposeAggregateEventTypes) Values() []*ExpensePurposeAggregateEventType {
+func (o *expensePurposeEventTypes) Values() []*ExpensePurposeEventType {
 	return o.values
 }
 
-func (o *expensePurposeAggregateEventTypes) Literals() []enum.Literal {
+func (o *expensePurposeEventTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -327,71 +339,71 @@ func (o *expensePurposeAggregateEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *expensePurposeAggregateEventTypes) ExpensePurposeCreated() *ExpensePurposeAggregateEventType {
-    return _expensePurposeAggregateEventTypes.values[0]
+func (o *expensePurposeEventTypes) ExpensePurposeCreated() *ExpensePurposeEventType {
+    return _expensePurposeEventTypes.values[0]
 }
 
-func (o *expensePurposeAggregateEventTypes) ExpensePurposeDeleted() *ExpensePurposeAggregateEventType {
-    return _expensePurposeAggregateEventTypes.values[1]
+func (o *expensePurposeEventTypes) ExpensePurposeDeleted() *ExpensePurposeEventType {
+    return _expensePurposeEventTypes.values[1]
 }
 
-func (o *expensePurposeAggregateEventTypes) ExpensePurposeUpdated() *ExpensePurposeAggregateEventType {
-    return _expensePurposeAggregateEventTypes.values[2]
+func (o *expensePurposeEventTypes) ExpensePurposeUpdated() *ExpensePurposeEventType {
+    return _expensePurposeEventTypes.values[2]
 }
 
-func (o *expensePurposeAggregateEventTypes) ParseExpensePurposeAggregateEventType(name string) (ret *ExpensePurposeAggregateEventType, ok bool) {
+func (o *expensePurposeEventTypes) ParseExpensePurposeEventType(name string) (ret *ExpensePurposeEventType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*ExpensePurposeAggregateEventType), ok
+		return item.(*ExpensePurposeEventType), ok
 	}
 	return
 }
 
 
-type FeeAggregateEventType struct {
+type FeeEventType struct {
 	name  string
 	ordinal int
 }
 
-func (o *FeeAggregateEventType) Name() string {
+func (o *FeeEventType) Name() string {
     return o.name
 }
 
-func (o *FeeAggregateEventType) Ordinal() int {
+func (o *FeeEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *FeeAggregateEventType) IsFeeCreated() bool {
-    return o == _feeAggregateEventTypes.FeeCreated()
+func (o *FeeEventType) IsFeeCreated() bool {
+    return o == _feeEventTypes.FeeCreated()
 }
 
-func (o *FeeAggregateEventType) IsFeeDeleted() bool {
-    return o == _feeAggregateEventTypes.FeeDeleted()
+func (o *FeeEventType) IsFeeDeleted() bool {
+    return o == _feeEventTypes.FeeDeleted()
 }
 
-func (o *FeeAggregateEventType) IsFeeUpdated() bool {
-    return o == _feeAggregateEventTypes.FeeUpdated()
+func (o *FeeEventType) IsFeeUpdated() bool {
+    return o == _feeEventTypes.FeeUpdated()
 }
 
-type feeAggregateEventTypes struct {
-	values []*FeeAggregateEventType
+type feeEventTypes struct {
+	values []*FeeEventType
     literals []enum.Literal
 }
 
-var _feeAggregateEventTypes = &feeAggregateEventTypes{values: []*FeeAggregateEventType{
+var _feeEventTypes = &feeEventTypes{values: []*FeeEventType{
     {name: "FeeCreated", ordinal: 0},
     {name: "FeeDeleted", ordinal: 1},
     {name: "FeeUpdated", ordinal: 2}},
 }
 
-func FeeAggregateEventTypes() *feeAggregateEventTypes {
-	return _feeAggregateEventTypes
+func FeeEventTypes() *feeEventTypes {
+	return _feeEventTypes
 }
 
-func (o *feeAggregateEventTypes) Values() []*FeeAggregateEventType {
+func (o *feeEventTypes) Values() []*FeeEventType {
 	return o.values
 }
 
-func (o *feeAggregateEventTypes) Literals() []enum.Literal {
+func (o *feeEventTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -401,71 +413,71 @@ func (o *feeAggregateEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *feeAggregateEventTypes) FeeCreated() *FeeAggregateEventType {
-    return _feeAggregateEventTypes.values[0]
+func (o *feeEventTypes) FeeCreated() *FeeEventType {
+    return _feeEventTypes.values[0]
 }
 
-func (o *feeAggregateEventTypes) FeeDeleted() *FeeAggregateEventType {
-    return _feeAggregateEventTypes.values[1]
+func (o *feeEventTypes) FeeDeleted() *FeeEventType {
+    return _feeEventTypes.values[1]
 }
 
-func (o *feeAggregateEventTypes) FeeUpdated() *FeeAggregateEventType {
-    return _feeAggregateEventTypes.values[2]
+func (o *feeEventTypes) FeeUpdated() *FeeEventType {
+    return _feeEventTypes.values[2]
 }
 
-func (o *feeAggregateEventTypes) ParseFeeAggregateEventType(name string) (ret *FeeAggregateEventType, ok bool) {
+func (o *feeEventTypes) ParseFeeEventType(name string) (ret *FeeEventType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*FeeAggregateEventType), ok
+		return item.(*FeeEventType), ok
 	}
 	return
 }
 
 
-type FeeKindAggregateEventType struct {
+type FeeKindEventType struct {
 	name  string
 	ordinal int
 }
 
-func (o *FeeKindAggregateEventType) Name() string {
+func (o *FeeKindEventType) Name() string {
     return o.name
 }
 
-func (o *FeeKindAggregateEventType) Ordinal() int {
+func (o *FeeKindEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *FeeKindAggregateEventType) IsFeeKindCreated() bool {
-    return o == _feeKindAggregateEventTypes.FeeKindCreated()
+func (o *FeeKindEventType) IsFeeKindCreated() bool {
+    return o == _feeKindEventTypes.FeeKindCreated()
 }
 
-func (o *FeeKindAggregateEventType) IsFeeKindDeleted() bool {
-    return o == _feeKindAggregateEventTypes.FeeKindDeleted()
+func (o *FeeKindEventType) IsFeeKindDeleted() bool {
+    return o == _feeKindEventTypes.FeeKindDeleted()
 }
 
-func (o *FeeKindAggregateEventType) IsFeeKindUpdated() bool {
-    return o == _feeKindAggregateEventTypes.FeeKindUpdated()
+func (o *FeeKindEventType) IsFeeKindUpdated() bool {
+    return o == _feeKindEventTypes.FeeKindUpdated()
 }
 
-type feeKindAggregateEventTypes struct {
-	values []*FeeKindAggregateEventType
+type feeKindEventTypes struct {
+	values []*FeeKindEventType
     literals []enum.Literal
 }
 
-var _feeKindAggregateEventTypes = &feeKindAggregateEventTypes{values: []*FeeKindAggregateEventType{
+var _feeKindEventTypes = &feeKindEventTypes{values: []*FeeKindEventType{
     {name: "FeeKindCreated", ordinal: 0},
     {name: "FeeKindDeleted", ordinal: 1},
     {name: "FeeKindUpdated", ordinal: 2}},
 }
 
-func FeeKindAggregateEventTypes() *feeKindAggregateEventTypes {
-	return _feeKindAggregateEventTypes
+func FeeKindEventTypes() *feeKindEventTypes {
+	return _feeKindEventTypes
 }
 
-func (o *feeKindAggregateEventTypes) Values() []*FeeKindAggregateEventType {
+func (o *feeKindEventTypes) Values() []*FeeKindEventType {
 	return o.values
 }
 
-func (o *feeKindAggregateEventTypes) Literals() []enum.Literal {
+func (o *feeKindEventTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -475,21 +487,21 @@ func (o *feeKindAggregateEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *feeKindAggregateEventTypes) FeeKindCreated() *FeeKindAggregateEventType {
-    return _feeKindAggregateEventTypes.values[0]
+func (o *feeKindEventTypes) FeeKindCreated() *FeeKindEventType {
+    return _feeKindEventTypes.values[0]
 }
 
-func (o *feeKindAggregateEventTypes) FeeKindDeleted() *FeeKindAggregateEventType {
-    return _feeKindAggregateEventTypes.values[1]
+func (o *feeKindEventTypes) FeeKindDeleted() *FeeKindEventType {
+    return _feeKindEventTypes.values[1]
 }
 
-func (o *feeKindAggregateEventTypes) FeeKindUpdated() *FeeKindAggregateEventType {
-    return _feeKindAggregateEventTypes.values[2]
+func (o *feeKindEventTypes) FeeKindUpdated() *FeeKindEventType {
+    return _feeKindEventTypes.values[2]
 }
 
-func (o *feeKindAggregateEventTypes) ParseFeeKindAggregateEventType(name string) (ret *FeeKindAggregateEventType, ok bool) {
+func (o *feeKindEventTypes) ParseFeeKindEventType(name string) (ret *FeeKindEventType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*FeeKindAggregateEventType), ok
+		return item.(*FeeKindEventType), ok
 	}
 	return
 }

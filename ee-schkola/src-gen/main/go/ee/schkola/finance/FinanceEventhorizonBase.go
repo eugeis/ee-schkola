@@ -7,32 +7,6 @@ import (
 
 const ExpenseAggregateType eventhorizon.AggregateType = "ExpenseAggregate"
 
-type ExpenseAggregateInitializer struct {
-    *eh.AggregateInitializer
-}
-
-func (o *ExpenseAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpenseAggregateEventTypes().ExpenseCreated())
-}
-
-func (o *ExpenseAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpenseAggregateEventTypes().ExpenseDeleted())
-}
-
-func (o *ExpenseAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpenseAggregateEventTypes().ExpenseUpdated())
-}
-
-func NewExpenseAggregateInitializer(
-	store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *ExpenseAggregateInitializer) {
-	ret = &ExpenseAggregateInitializer{
-        AggregateInitializer: eh.NewAggregateInitializer(ExpenseAggregateType, ExpenseAggregateCommandTypes().Literals(),
-		ExpenseAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
-    }
-	return
-}
-
 type ExpenseAggregate struct {
     *eventhorizon.AggregateBase
     *Expense
@@ -43,38 +17,41 @@ func NewExpenseAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Expe
         AggregateBase: AggregateBase,
         Expense: Entity,
     }
+    
     return
 }
 
 
 
-const ExpensePurposeAggregateType eventhorizon.AggregateType = "ExpensePurposeAggregate"
-
-type ExpensePurposeAggregateInitializer struct {
-    *eh.AggregateInitializer
-}
-
-func (o *ExpensePurposeAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpensePurposeAggregateEventTypes().ExpensePurposeCreated())
-}
-
-func (o *ExpensePurposeAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpensePurposeAggregateEventTypes().ExpensePurposeDeleted())
-}
-
-func (o *ExpensePurposeAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpensePurposeAggregateEventTypes().ExpensePurposeUpdated())
-}
-
-func NewExpensePurposeAggregateInitializer(
-	store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *ExpensePurposeAggregateInitializer) {
-	ret = &ExpensePurposeAggregateInitializer{
-        AggregateInitializer: eh.NewAggregateInitializer(ExpensePurposeAggregateType, ExpensePurposeAggregateCommandTypes().Literals(),
-		ExpensePurposeAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+func NewExpenseAggregateInitializer(
+	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
+	commandBus *eventhorizon.CommandBus) (ret *ExpenseAggregateInitializer) {
+	ret = &ExpenseAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ExpenseAggregateType,
+        ExpenseCommandTypes().Literals(), ExpenseEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
 	return
 }
+
+
+func (o *ExpenseAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ExpenseEventTypes().ExpenseCreated())
+}
+
+func (o *ExpenseAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ExpenseEventTypes().ExpenseDeleted())
+}
+
+func (o *ExpenseAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ExpenseEventTypes().ExpenseUpdated())
+}
+
+type ExpenseAggregateInitializer struct {
+    *eh.AggregateInitializer
+}
+
+
+
+const ExpensePurposeAggregateType eventhorizon.AggregateType = "ExpensePurposeAggregate"
 
 type ExpensePurposeAggregate struct {
     *eventhorizon.AggregateBase
@@ -86,38 +63,41 @@ func NewExpensePurposeAggregate(AggregateBase *eventhorizon.AggregateBase, Entit
         AggregateBase: AggregateBase,
         ExpensePurpose: Entity,
     }
+    
     return
 }
 
 
 
-const FeeAggregateType eventhorizon.AggregateType = "FeeAggregate"
-
-type FeeAggregateInitializer struct {
-    *eh.AggregateInitializer
-}
-
-func (o *FeeAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeAggregateEventTypes().FeeCreated())
-}
-
-func (o *FeeAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeAggregateEventTypes().FeeDeleted())
-}
-
-func (o *FeeAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeAggregateEventTypes().FeeUpdated())
-}
-
-func NewFeeAggregateInitializer(
-	store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *FeeAggregateInitializer) {
-	ret = &FeeAggregateInitializer{
-        AggregateInitializer: eh.NewAggregateInitializer(FeeAggregateType, FeeAggregateCommandTypes().Literals(),
-		FeeAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+func NewExpensePurposeAggregateInitializer(
+	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
+	commandBus *eventhorizon.CommandBus) (ret *ExpensePurposeAggregateInitializer) {
+	ret = &ExpensePurposeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ExpensePurposeAggregateType,
+        ExpensePurposeCommandTypes().Literals(), ExpensePurposeEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
 	return
 }
+
+
+func (o *ExpensePurposeAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ExpensePurposeEventTypes().ExpensePurposeCreated())
+}
+
+func (o *ExpensePurposeAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ExpensePurposeEventTypes().ExpensePurposeDeleted())
+}
+
+func (o *ExpensePurposeAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ExpensePurposeEventTypes().ExpensePurposeUpdated())
+}
+
+type ExpensePurposeAggregateInitializer struct {
+    *eh.AggregateInitializer
+}
+
+
+
+const FeeAggregateType eventhorizon.AggregateType = "FeeAggregate"
 
 type FeeAggregate struct {
     *eventhorizon.AggregateBase
@@ -129,38 +109,41 @@ func NewFeeAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Fee) (re
         AggregateBase: AggregateBase,
         Fee: Entity,
     }
+    
     return
 }
 
 
 
-const FeeKindAggregateType eventhorizon.AggregateType = "FeeKindAggregate"
-
-type FeeKindAggregateInitializer struct {
-    *eh.AggregateInitializer
-}
-
-func (o *FeeKindAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeKindAggregateEventTypes().FeeKindCreated())
-}
-
-func (o *FeeKindAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeKindAggregateEventTypes().FeeKindDeleted())
-}
-
-func (o *FeeKindAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeKindAggregateEventTypes().FeeKindUpdated())
-}
-
-func NewFeeKindAggregateInitializer(
-	store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
-	commandBus *eventhorizon.CommandBus) (ret *FeeKindAggregateInitializer) {
-	ret = &FeeKindAggregateInitializer{
-        AggregateInitializer: eh.NewAggregateInitializer(FeeKindAggregateType, FeeKindAggregateCommandTypes().Literals(),
-		FeeKindAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+func NewFeeAggregateInitializer(
+	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
+	commandBus *eventhorizon.CommandBus) (ret *FeeAggregateInitializer) {
+	ret = &FeeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(FeeAggregateType,
+        FeeCommandTypes().Literals(), FeeEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
     }
 	return
 }
+
+
+func (o *FeeAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, FeeEventTypes().FeeCreated())
+}
+
+func (o *FeeAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, FeeEventTypes().FeeDeleted())
+}
+
+func (o *FeeAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, FeeEventTypes().FeeUpdated())
+}
+
+type FeeAggregateInitializer struct {
+    *eh.AggregateInitializer
+}
+
+
+
+const FeeKindAggregateType eventhorizon.AggregateType = "FeeKindAggregate"
 
 type FeeKindAggregate struct {
     *eventhorizon.AggregateBase
@@ -172,30 +155,82 @@ func NewFeeKindAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *FeeK
         AggregateBase: AggregateBase,
         FeeKind: Entity,
     }
+    
     return
 }
 
 
 
-type FinanceEventhorizonInitializer struct {
-    Store  *eventhorizon.EventStore
-    EventBus  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    CommandBus  *eventhorizon.CommandBus
+func NewFeeKindAggregateInitializer(
+	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
+	commandBus *eventhorizon.CommandBus) (ret *FeeKindAggregateInitializer) {
+	ret = &FeeKindAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(FeeKindAggregateType,
+        FeeKindCommandTypes().Literals(), FeeKindEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+    }
+	return
 }
 
-func NewFinanceEventhorizonInitializer(store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                commandBus *eventhorizon.CommandBus) (ret *FinanceEventhorizonInitializer, err error) {
-    ret = &FinanceEventhorizonInitializer{
-        Store : store,
-        EventBus : eventBus,
-        Publisher : publisher,
-        CommandBus : commandBus,
+
+func (o *FeeKindAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, FeeKindEventTypes().FeeKindCreated())
+}
+
+func (o *FeeKindAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, FeeKindEventTypes().FeeKindDeleted())
+}
+
+func (o *FeeKindAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, FeeKindEventTypes().FeeKindUpdated())
+}
+
+type FeeKindAggregateInitializer struct {
+    *eh.AggregateInitializer
+}
+
+
+
+func NewFinanceEventhorizonInitializer(
+	eventStore *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, eventPublisher *eventhorizon.EventPublisher,
+	commandBus *eventhorizon.CommandBus) (ret *FinanceEventhorizonInitializer) {
+	ret = &FinanceEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
+            commandBus: commandBus, 
+    expenseAggregateInitializer: NewExpenseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    expensePurposeAggregateInitializer: NewExpensePurposeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    feeAggregateInitializer: NewFeeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    feeKindAggregateInitializer: NewFeeKindAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
+	return
+}
+
+func (o *FinanceEventhorizonInitializer) Setup() (err error) {
+    
+    if err = o.expenseAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    
+    if err = o.expensePurposeAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    
+    if err = o.feeAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    
+    if err = o.feeKindAggregateInitializer.Setup(); err != nil {
+        return
     }
     return
 }
 
-
+type FinanceEventhorizonInitializer struct {
+    eventStore *eventhorizon.EventStore
+    eventBus *eventhorizon.EventBus
+    eventPublisher *eventhorizon.EventPublisher
+    commandBus *eventhorizon.CommandBus
+    expenseAggregateInitializer *ExpenseAggregateInitializer
+    expensePurposeAggregateInitializer *ExpensePurposeAggregateInitializer
+    feeAggregateInitializer *FeeAggregateInitializer
+    feeKindAggregateInitializer *FeeKindAggregateInitializer
+}
 
 
 
