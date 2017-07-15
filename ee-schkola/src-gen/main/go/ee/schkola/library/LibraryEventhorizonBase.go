@@ -5,33 +5,34 @@ import (
     "github.com/eugeis/gee/eh"
 )
 
-type BookAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func NewBookAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *BookAggregateInitializer, err error) {
-    ret = &BookAggregateInitializer{
-        Store : store,
-        Notifier : notifier,
-        Publisher : publisher,
-        Executor : executor,
-    }
-    return
-}
-
-
-func (o *BookAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    eh.RegisterCommands(handler, BookAggregateType, BookCommandTypes().Literals())
-}
-
-
-
-
 const BookAggregateType eventhorizon.AggregateType = "BookAggregate"
+
+type BookAggregateInitializer struct {
+    *eh.AggregateInitializer
+}
+
+func (o *BookAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, BookAggregateEventTypes().BookCreated())
+}
+
+func (o *BookAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, BookAggregateEventTypes().BookDeleted())
+}
+
+func (o *BookAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, BookAggregateEventTypes().BookUpdated())
+}
+
+func NewBookAggregateInitializer(
+	store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
+	commandBus *eventhorizon.CommandBus) (ret *BookAggregateInitializer) {
+	ret = &BookAggregateInitializer{
+        AggregateInitializer: eh.NewAggregateInitializer(BookAggregateType, BookAggregateCommandTypes().Literals(),
+		ChurchAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+    }
+	return
+}
+
 type BookAggregate struct {
     *eventhorizon.AggregateBase
     *Book

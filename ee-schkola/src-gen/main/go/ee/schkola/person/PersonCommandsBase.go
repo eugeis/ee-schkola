@@ -5,15 +5,15 @@ import (
     "time"
 )
 
-type CreateChurch struct {
+type ChurchCreate struct {
     Name  string
     Address  *Address
     Pastor  *PersonName
     Contact  *Contact
 }
 
-func NewCreateChurch(name string, address *Address, pastor *PersonName, contact *Contact) (ret *CreateChurch, err error) {
-    ret = &CreateChurch{
+func NewChurchCreate(name string, address *Address, pastor *PersonName, contact *Contact) (ret *ChurchCreate, err error) {
+    ret = &ChurchCreate{
         Name : name,
         Address : address,
         Pastor : pastor,
@@ -24,12 +24,12 @@ func NewCreateChurch(name string, address *Address, pastor *PersonName, contact 
 
 
 
-type DeleteChurch struct {
+type ChurchDelete struct {
     Id  string
 }
 
-func NewDeleteChurch(id string) (ret *DeleteChurch, err error) {
-    ret = &DeleteChurch{
+func NewChurchDelete(id string) (ret *ChurchDelete, err error) {
+    ret = &ChurchDelete{
         Id : id,
     }
     return
@@ -37,15 +37,15 @@ func NewDeleteChurch(id string) (ret *DeleteChurch, err error) {
 
 
 
-type UpdateChurch struct {
+type ChurchUpdate struct {
     Name  string
     Address  *Address
     Pastor  *PersonName
     Contact  *Contact
 }
 
-func NewUpdateChurch(name string, address *Address, pastor *PersonName, contact *Contact) (ret *UpdateChurch, err error) {
-    ret = &UpdateChurch{
+func NewChurchUpdate(name string, address *Address, pastor *PersonName, contact *Contact) (ret *ChurchUpdate, err error) {
+    ret = &ChurchUpdate{
         Name : name,
         Address : address,
         Pastor : pastor,
@@ -56,13 +56,13 @@ func NewUpdateChurch(name string, address *Address, pastor *PersonName, contact 
 
 
 
-type CreateGraduation struct {
+type GraduationCreate struct {
     Name  string
     Level  *GraduationLevel
 }
 
-func NewCreateGraduation(name string, level *GraduationLevel) (ret *CreateGraduation, err error) {
-    ret = &CreateGraduation{
+func NewGraduationCreate(name string, level *GraduationLevel) (ret *GraduationCreate, err error) {
+    ret = &GraduationCreate{
         Name : name,
         Level : level,
     }
@@ -71,12 +71,12 @@ func NewCreateGraduation(name string, level *GraduationLevel) (ret *CreateGradua
 
 
 
-type DeleteGraduation struct {
+type GraduationDelete struct {
     Id  string
 }
 
-func NewDeleteGraduation(id string) (ret *DeleteGraduation, err error) {
-    ret = &DeleteGraduation{
+func NewGraduationDelete(id string) (ret *GraduationDelete, err error) {
+    ret = &GraduationDelete{
         Id : id,
     }
     return
@@ -84,13 +84,13 @@ func NewDeleteGraduation(id string) (ret *DeleteGraduation, err error) {
 
 
 
-type UpdateGraduation struct {
+type GraduationUpdate struct {
     Name  string
     Level  *GraduationLevel
 }
 
-func NewUpdateGraduation(name string, level *GraduationLevel) (ret *UpdateGraduation, err error) {
-    ret = &UpdateGraduation{
+func NewGraduationUpdate(name string, level *GraduationLevel) (ret *GraduationUpdate, err error) {
+    ret = &GraduationUpdate{
         Name : name,
         Level : level,
     }
@@ -99,7 +99,7 @@ func NewUpdateGraduation(name string, level *GraduationLevel) (ret *UpdateGradua
 
 
 
-type CreateProfile struct {
+type ProfileCreate struct {
     Gender  *Gender
     Name  *PersonName
     BirthName  string
@@ -113,9 +113,9 @@ type CreateProfile struct {
     Education  *Education
 }
 
-func NewCreateProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
-                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *CreateProfile, err error) {
-    ret = &CreateProfile{
+func NewProfileCreate(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
+                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *ProfileCreate, err error) {
+    ret = &ProfileCreate{
         Gender : gender,
         Name : name,
         BirthName : birthName,
@@ -133,12 +133,12 @@ func NewCreateProfile(gender *Gender, name *PersonName, birthName string, birthd
 
 
 
-type DeleteProfile struct {
+type ProfileDelete struct {
     Id  string
 }
 
-func NewDeleteProfile(id string) (ret *DeleteProfile, err error) {
-    ret = &DeleteProfile{
+func NewProfileDelete(id string) (ret *ProfileDelete, err error) {
+    ret = &ProfileDelete{
         Id : id,
     }
     return
@@ -146,7 +146,7 @@ func NewDeleteProfile(id string) (ret *DeleteProfile, err error) {
 
 
 
-type UpdateProfile struct {
+type ProfileUpdate struct {
     Gender  *Gender
     Name  *PersonName
     BirthName  string
@@ -160,9 +160,9 @@ type UpdateProfile struct {
     Education  *Education
 }
 
-func NewUpdateProfile(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
-                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *UpdateProfile, err error) {
-    ret = &UpdateProfile{
+func NewProfileUpdate(gender *Gender, name *PersonName, birthName string, birthday *time.Time, address *Address, contact *Contact, 
+                photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education) (ret *ProfileUpdate, err error) {
+    ret = &ProfileUpdate{
         Gender : gender,
         Name : name,
         BirthName : birthName,
@@ -181,51 +181,51 @@ func NewUpdateProfile(gender *Gender, name *PersonName, birthName string, birthd
 
 
 
-type ChurchCommandType struct {
+type ChurchAggregateCommandType struct {
 	name  string
 	ordinal int
 }
 
-func (o *ChurchCommandType) Name() string {
+func (o *ChurchAggregateCommandType) Name() string {
     return o.name
 }
 
-func (o *ChurchCommandType) Ordinal() int {
+func (o *ChurchAggregateCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ChurchCommandType) IsChurchCreate() bool {
-    return o == _churchCommandTypes.ChurchCreate()
+func (o *ChurchAggregateCommandType) IsCreateChurch() bool {
+    return o == _churchAggregateCommandTypes.CreateChurch()
 }
 
-func (o *ChurchCommandType) IsChurchDelete() bool {
-    return o == _churchCommandTypes.ChurchDelete()
+func (o *ChurchAggregateCommandType) IsDeleteChurch() bool {
+    return o == _churchAggregateCommandTypes.DeleteChurch()
 }
 
-func (o *ChurchCommandType) IsChurchUpdate() bool {
-    return o == _churchCommandTypes.ChurchUpdate()
+func (o *ChurchAggregateCommandType) IsUpdateChurch() bool {
+    return o == _churchAggregateCommandTypes.UpdateChurch()
 }
 
-type churchCommandTypes struct {
-	values []*ChurchCommandType
+type churchAggregateCommandTypes struct {
+	values []*ChurchAggregateCommandType
     literals []enum.Literal
 }
 
-var _churchCommandTypes = &churchCommandTypes{values: []*ChurchCommandType{
-    {name: "ChurchCreate", ordinal: 0},
-    {name: "ChurchDelete", ordinal: 1},
-    {name: "ChurchUpdate", ordinal: 2}},
+var _churchAggregateCommandTypes = &churchAggregateCommandTypes{values: []*ChurchAggregateCommandType{
+    {name: "createChurch", ordinal: 0},
+    {name: "deleteChurch", ordinal: 1},
+    {name: "updateChurch", ordinal: 2}},
 }
 
-func ChurchCommandTypes() *churchCommandTypes {
-	return _churchCommandTypes
+func ChurchAggregateCommandTypes() *churchAggregateCommandTypes {
+	return _churchAggregateCommandTypes
 }
 
-func (o *churchCommandTypes) Values() []*ChurchCommandType {
+func (o *churchAggregateCommandTypes) Values() []*ChurchAggregateCommandType {
 	return o.values
 }
 
-func (o *churchCommandTypes) Literals() []enum.Literal {
+func (o *churchAggregateCommandTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -235,71 +235,71 @@ func (o *churchCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *churchCommandTypes) ChurchCreate() *ChurchCommandType {
-    return _churchCommandTypes.values[0]
+func (o *churchAggregateCommandTypes) CreateChurch() *ChurchAggregateCommandType {
+    return _churchAggregateCommandTypes.values[0]
 }
 
-func (o *churchCommandTypes) ChurchDelete() *ChurchCommandType {
-    return _churchCommandTypes.values[1]
+func (o *churchAggregateCommandTypes) DeleteChurch() *ChurchAggregateCommandType {
+    return _churchAggregateCommandTypes.values[1]
 }
 
-func (o *churchCommandTypes) ChurchUpdate() *ChurchCommandType {
-    return _churchCommandTypes.values[2]
+func (o *churchAggregateCommandTypes) UpdateChurch() *ChurchAggregateCommandType {
+    return _churchAggregateCommandTypes.values[2]
 }
 
-func (o *churchCommandTypes) ParseChurchCommandType(name string) (ret *ChurchCommandType, ok bool) {
+func (o *churchAggregateCommandTypes) ParseChurchAggregateCommandType(name string) (ret *ChurchAggregateCommandType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*ChurchCommandType), ok
+		return item.(*ChurchAggregateCommandType), ok
 	}
 	return
 }
 
 
-type GraduationCommandType struct {
+type GraduationAggregateCommandType struct {
 	name  string
 	ordinal int
 }
 
-func (o *GraduationCommandType) Name() string {
+func (o *GraduationAggregateCommandType) Name() string {
     return o.name
 }
 
-func (o *GraduationCommandType) Ordinal() int {
+func (o *GraduationAggregateCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GraduationCommandType) IsGraduationCreate() bool {
-    return o == _graduationCommandTypes.GraduationCreate()
+func (o *GraduationAggregateCommandType) IsCreateGraduation() bool {
+    return o == _graduationAggregateCommandTypes.CreateGraduation()
 }
 
-func (o *GraduationCommandType) IsGraduationDelete() bool {
-    return o == _graduationCommandTypes.GraduationDelete()
+func (o *GraduationAggregateCommandType) IsDeleteGraduation() bool {
+    return o == _graduationAggregateCommandTypes.DeleteGraduation()
 }
 
-func (o *GraduationCommandType) IsGraduationUpdate() bool {
-    return o == _graduationCommandTypes.GraduationUpdate()
+func (o *GraduationAggregateCommandType) IsUpdateGraduation() bool {
+    return o == _graduationAggregateCommandTypes.UpdateGraduation()
 }
 
-type graduationCommandTypes struct {
-	values []*GraduationCommandType
+type graduationAggregateCommandTypes struct {
+	values []*GraduationAggregateCommandType
     literals []enum.Literal
 }
 
-var _graduationCommandTypes = &graduationCommandTypes{values: []*GraduationCommandType{
-    {name: "GraduationCreate", ordinal: 0},
-    {name: "GraduationDelete", ordinal: 1},
-    {name: "GraduationUpdate", ordinal: 2}},
+var _graduationAggregateCommandTypes = &graduationAggregateCommandTypes{values: []*GraduationAggregateCommandType{
+    {name: "createGraduation", ordinal: 0},
+    {name: "deleteGraduation", ordinal: 1},
+    {name: "updateGraduation", ordinal: 2}},
 }
 
-func GraduationCommandTypes() *graduationCommandTypes {
-	return _graduationCommandTypes
+func GraduationAggregateCommandTypes() *graduationAggregateCommandTypes {
+	return _graduationAggregateCommandTypes
 }
 
-func (o *graduationCommandTypes) Values() []*GraduationCommandType {
+func (o *graduationAggregateCommandTypes) Values() []*GraduationAggregateCommandType {
 	return o.values
 }
 
-func (o *graduationCommandTypes) Literals() []enum.Literal {
+func (o *graduationAggregateCommandTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -309,71 +309,71 @@ func (o *graduationCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *graduationCommandTypes) GraduationCreate() *GraduationCommandType {
-    return _graduationCommandTypes.values[0]
+func (o *graduationAggregateCommandTypes) CreateGraduation() *GraduationAggregateCommandType {
+    return _graduationAggregateCommandTypes.values[0]
 }
 
-func (o *graduationCommandTypes) GraduationDelete() *GraduationCommandType {
-    return _graduationCommandTypes.values[1]
+func (o *graduationAggregateCommandTypes) DeleteGraduation() *GraduationAggregateCommandType {
+    return _graduationAggregateCommandTypes.values[1]
 }
 
-func (o *graduationCommandTypes) GraduationUpdate() *GraduationCommandType {
-    return _graduationCommandTypes.values[2]
+func (o *graduationAggregateCommandTypes) UpdateGraduation() *GraduationAggregateCommandType {
+    return _graduationAggregateCommandTypes.values[2]
 }
 
-func (o *graduationCommandTypes) ParseGraduationCommandType(name string) (ret *GraduationCommandType, ok bool) {
+func (o *graduationAggregateCommandTypes) ParseGraduationAggregateCommandType(name string) (ret *GraduationAggregateCommandType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*GraduationCommandType), ok
+		return item.(*GraduationAggregateCommandType), ok
 	}
 	return
 }
 
 
-type ProfileCommandType struct {
+type ProfileAggregateCommandType struct {
 	name  string
 	ordinal int
 }
 
-func (o *ProfileCommandType) Name() string {
+func (o *ProfileAggregateCommandType) Name() string {
     return o.name
 }
 
-func (o *ProfileCommandType) Ordinal() int {
+func (o *ProfileAggregateCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ProfileCommandType) IsProfileCreate() bool {
-    return o == _profileCommandTypes.ProfileCreate()
+func (o *ProfileAggregateCommandType) IsCreateProfile() bool {
+    return o == _profileAggregateCommandTypes.CreateProfile()
 }
 
-func (o *ProfileCommandType) IsProfileDelete() bool {
-    return o == _profileCommandTypes.ProfileDelete()
+func (o *ProfileAggregateCommandType) IsDeleteProfile() bool {
+    return o == _profileAggregateCommandTypes.DeleteProfile()
 }
 
-func (o *ProfileCommandType) IsProfileUpdate() bool {
-    return o == _profileCommandTypes.ProfileUpdate()
+func (o *ProfileAggregateCommandType) IsUpdateProfile() bool {
+    return o == _profileAggregateCommandTypes.UpdateProfile()
 }
 
-type profileCommandTypes struct {
-	values []*ProfileCommandType
+type profileAggregateCommandTypes struct {
+	values []*ProfileAggregateCommandType
     literals []enum.Literal
 }
 
-var _profileCommandTypes = &profileCommandTypes{values: []*ProfileCommandType{
-    {name: "ProfileCreate", ordinal: 0},
-    {name: "ProfileDelete", ordinal: 1},
-    {name: "ProfileUpdate", ordinal: 2}},
+var _profileAggregateCommandTypes = &profileAggregateCommandTypes{values: []*ProfileAggregateCommandType{
+    {name: "createProfile", ordinal: 0},
+    {name: "deleteProfile", ordinal: 1},
+    {name: "updateProfile", ordinal: 2}},
 }
 
-func ProfileCommandTypes() *profileCommandTypes {
-	return _profileCommandTypes
+func ProfileAggregateCommandTypes() *profileAggregateCommandTypes {
+	return _profileAggregateCommandTypes
 }
 
-func (o *profileCommandTypes) Values() []*ProfileCommandType {
+func (o *profileAggregateCommandTypes) Values() []*ProfileAggregateCommandType {
 	return o.values
 }
 
-func (o *profileCommandTypes) Literals() []enum.Literal {
+func (o *profileAggregateCommandTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -383,21 +383,21 @@ func (o *profileCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *profileCommandTypes) ProfileCreate() *ProfileCommandType {
-    return _profileCommandTypes.values[0]
+func (o *profileAggregateCommandTypes) CreateProfile() *ProfileAggregateCommandType {
+    return _profileAggregateCommandTypes.values[0]
 }
 
-func (o *profileCommandTypes) ProfileDelete() *ProfileCommandType {
-    return _profileCommandTypes.values[1]
+func (o *profileAggregateCommandTypes) DeleteProfile() *ProfileAggregateCommandType {
+    return _profileAggregateCommandTypes.values[1]
 }
 
-func (o *profileCommandTypes) ProfileUpdate() *ProfileCommandType {
-    return _profileCommandTypes.values[2]
+func (o *profileAggregateCommandTypes) UpdateProfile() *ProfileAggregateCommandType {
+    return _profileAggregateCommandTypes.values[2]
 }
 
-func (o *profileCommandTypes) ParseProfileCommandType(name string) (ret *ProfileCommandType, ok bool) {
+func (o *profileAggregateCommandTypes) ParseProfileAggregateCommandType(name string) (ret *ProfileAggregateCommandType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*ProfileCommandType), ok
+		return item.(*ProfileAggregateCommandType), ok
 	}
 	return
 }

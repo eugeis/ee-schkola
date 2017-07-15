@@ -6,7 +6,7 @@ import (
     "time"
 )
 
-type CreateBook struct {
+type BookCreate struct {
     Title  
     Description  string
     Language  string
@@ -17,9 +17,9 @@ type CreateBook struct {
     Location  *Location
 }
 
-func NewCreateBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName, location *Location) (ret *CreateBook, err error) {
-    ret = &CreateBook{
+func NewBookCreate(title , description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName, location *Location) (ret *BookCreate, err error) {
+    ret = &BookCreate{
         Title : title,
         Description : description,
         Language : language,
@@ -34,12 +34,12 @@ func NewCreateBook(title , description string, language string, releaseDate *tim
 
 
 
-type DeleteBook struct {
+type BookDelete struct {
     Id  string
 }
 
-func NewDeleteBook(id string) (ret *DeleteBook, err error) {
-    ret = &DeleteBook{
+func NewBookDelete(id string) (ret *BookDelete, err error) {
+    ret = &BookDelete{
         Id : id,
     }
     return
@@ -47,7 +47,7 @@ func NewDeleteBook(id string) (ret *DeleteBook, err error) {
 
 
 
-type UpdateBook struct {
+type BookUpdate struct {
     Title  
     Description  string
     Language  string
@@ -58,9 +58,9 @@ type UpdateBook struct {
     Location  *Location
 }
 
-func NewUpdateBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName, location *Location) (ret *UpdateBook, err error) {
-    ret = &UpdateBook{
+func NewBookUpdate(title , description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName, location *Location) (ret *BookUpdate, err error) {
+    ret = &BookUpdate{
         Title : title,
         Description : description,
         Language : language,
@@ -75,7 +75,7 @@ func NewUpdateBook(title , description string, language string, releaseDate *tim
 
 
 
-type RegisterBook struct {
+type BookRegister struct {
     Title  
     Description  string
     Language  string
@@ -85,9 +85,9 @@ type RegisterBook struct {
     Author  *person.PersonName
 }
 
-func NewRegisterBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName) (ret *RegisterBook, err error) {
-    ret = &RegisterBook{
+func NewBookRegister(title , description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName) (ret *BookRegister, err error) {
+    ret = &BookRegister{
         Title : title,
         Description : description,
         Language : language,
@@ -101,12 +101,12 @@ func NewRegisterBook(title , description string, language string, releaseDate *t
 
 
 
-type UnregisterBook struct {
+type BookUnregister struct {
     Id  string
 }
 
-func NewUnregisterBook(id string) (ret *UnregisterBook, err error) {
-    ret = &UnregisterBook{
+func NewBookUnregister(id string) (ret *BookUnregister, err error) {
+    ret = &BookUnregister{
         Id : id,
     }
     return
@@ -114,7 +114,7 @@ func NewUnregisterBook(id string) (ret *UnregisterBook, err error) {
 
 
 
-type ChangeBook struct {
+type BookChange struct {
     Title  
     Description  string
     Language  string
@@ -124,9 +124,9 @@ type ChangeBook struct {
     Author  *person.PersonName
 }
 
-func NewChangeBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName) (ret *ChangeBook, err error) {
-    ret = &ChangeBook{
+func NewBookChange(title , description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName) (ret *BookChange, err error) {
+    ret = &BookChange{
         Title : title,
         Description : description,
         Language : language,
@@ -156,71 +156,71 @@ func NewChangeBookLocation(shelf string, fold string) (ret *ChangeBookLocation, 
 
 
 
-type BookCommandType struct {
+type BookAggregateCommandType struct {
 	name  string
 	ordinal int
 }
 
-func (o *BookCommandType) Name() string {
+func (o *BookAggregateCommandType) Name() string {
     return o.name
 }
 
-func (o *BookCommandType) Ordinal() int {
+func (o *BookAggregateCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *BookCommandType) IsBookCreate() bool {
-    return o == _bookCommandTypes.BookCreate()
+func (o *BookAggregateCommandType) IsCreateBook() bool {
+    return o == _bookAggregateCommandTypes.CreateBook()
 }
 
-func (o *BookCommandType) IsBookDelete() bool {
-    return o == _bookCommandTypes.BookDelete()
+func (o *BookAggregateCommandType) IsDeleteBook() bool {
+    return o == _bookAggregateCommandTypes.DeleteBook()
 }
 
-func (o *BookCommandType) IsBookUpdate() bool {
-    return o == _bookCommandTypes.BookUpdate()
+func (o *BookAggregateCommandType) IsUpdateBook() bool {
+    return o == _bookAggregateCommandTypes.UpdateBook()
 }
 
-func (o *BookCommandType) IsBookRegister() bool {
-    return o == _bookCommandTypes.BookRegister()
+func (o *BookAggregateCommandType) IsRegisterBook() bool {
+    return o == _bookAggregateCommandTypes.RegisterBook()
 }
 
-func (o *BookCommandType) IsBookUnregister() bool {
-    return o == _bookCommandTypes.BookUnregister()
+func (o *BookAggregateCommandType) IsUnregisterBook() bool {
+    return o == _bookAggregateCommandTypes.UnregisterBook()
 }
 
-func (o *BookCommandType) IsBookChange() bool {
-    return o == _bookCommandTypes.BookChange()
+func (o *BookAggregateCommandType) IsChangeBook() bool {
+    return o == _bookAggregateCommandTypes.ChangeBook()
 }
 
-func (o *BookCommandType) IsChangeLBookocation() bool {
-    return o == _bookCommandTypes.ChangeLBookocation()
+func (o *BookAggregateCommandType) IsChangeLBookocation() bool {
+    return o == _bookAggregateCommandTypes.ChangeLBookocation()
 }
 
-type bookCommandTypes struct {
-	values []*BookCommandType
+type bookAggregateCommandTypes struct {
+	values []*BookAggregateCommandType
     literals []enum.Literal
 }
 
-var _bookCommandTypes = &bookCommandTypes{values: []*BookCommandType{
-    {name: "BookCreate", ordinal: 0},
-    {name: "BookDelete", ordinal: 1},
-    {name: "BookUpdate", ordinal: 2},
-    {name: "BookRegister", ordinal: 3},
-    {name: "BookUnregister", ordinal: 4},
-    {name: "BookChange", ordinal: 5},
+var _bookAggregateCommandTypes = &bookAggregateCommandTypes{values: []*BookAggregateCommandType{
+    {name: "createBook", ordinal: 0},
+    {name: "deleteBook", ordinal: 1},
+    {name: "updateBook", ordinal: 2},
+    {name: "registerBook", ordinal: 3},
+    {name: "unregisterBook", ordinal: 4},
+    {name: "changeBook", ordinal: 5},
     {name: "changeLBookocation", ordinal: 6}},
 }
 
-func BookCommandTypes() *bookCommandTypes {
-	return _bookCommandTypes
+func BookAggregateCommandTypes() *bookAggregateCommandTypes {
+	return _bookAggregateCommandTypes
 }
 
-func (o *bookCommandTypes) Values() []*BookCommandType {
+func (o *bookAggregateCommandTypes) Values() []*BookAggregateCommandType {
 	return o.values
 }
 
-func (o *bookCommandTypes) Literals() []enum.Literal {
+func (o *bookAggregateCommandTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -230,37 +230,37 @@ func (o *bookCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *bookCommandTypes) BookCreate() *BookCommandType {
-    return _bookCommandTypes.values[0]
+func (o *bookAggregateCommandTypes) CreateBook() *BookAggregateCommandType {
+    return _bookAggregateCommandTypes.values[0]
 }
 
-func (o *bookCommandTypes) BookDelete() *BookCommandType {
-    return _bookCommandTypes.values[1]
+func (o *bookAggregateCommandTypes) DeleteBook() *BookAggregateCommandType {
+    return _bookAggregateCommandTypes.values[1]
 }
 
-func (o *bookCommandTypes) BookUpdate() *BookCommandType {
-    return _bookCommandTypes.values[2]
+func (o *bookAggregateCommandTypes) UpdateBook() *BookAggregateCommandType {
+    return _bookAggregateCommandTypes.values[2]
 }
 
-func (o *bookCommandTypes) BookRegister() *BookCommandType {
-    return _bookCommandTypes.values[3]
+func (o *bookAggregateCommandTypes) RegisterBook() *BookAggregateCommandType {
+    return _bookAggregateCommandTypes.values[3]
 }
 
-func (o *bookCommandTypes) BookUnregister() *BookCommandType {
-    return _bookCommandTypes.values[4]
+func (o *bookAggregateCommandTypes) UnregisterBook() *BookAggregateCommandType {
+    return _bookAggregateCommandTypes.values[4]
 }
 
-func (o *bookCommandTypes) BookChange() *BookCommandType {
-    return _bookCommandTypes.values[5]
+func (o *bookAggregateCommandTypes) ChangeBook() *BookAggregateCommandType {
+    return _bookAggregateCommandTypes.values[5]
 }
 
-func (o *bookCommandTypes) ChangeLBookocation() *BookCommandType {
-    return _bookCommandTypes.values[6]
+func (o *bookAggregateCommandTypes) ChangeLBookocation() *BookAggregateCommandType {
+    return _bookAggregateCommandTypes.values[6]
 }
 
-func (o *bookCommandTypes) ParseBookCommandType(name string) (ret *BookCommandType, ok bool) {
+func (o *bookAggregateCommandTypes) ParseBookAggregateCommandType(name string) (ret *BookAggregateCommandType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*BookCommandType), ok
+		return item.(*BookAggregateCommandType), ok
 	}
 	return
 }

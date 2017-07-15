@@ -6,15 +6,15 @@ import (
     "time"
 )
 
-type CreateExpense struct {
+type ExpenseCreate struct {
     Purpose  *ExpensePurpose
     Amount  float64
     Profile  *person.Profile
     Date  *time.Time
 }
 
-func NewCreateExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time) (ret *CreateExpense, err error) {
-    ret = &CreateExpense{
+func NewExpenseCreate(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time) (ret *ExpenseCreate, err error) {
+    ret = &ExpenseCreate{
         Purpose : purpose,
         Amount : amount,
         Profile : profile,
@@ -25,12 +25,12 @@ func NewCreateExpense(purpose *ExpensePurpose, amount float64, profile *person.P
 
 
 
-type DeleteExpense struct {
+type ExpenseDelete struct {
     Id  string
 }
 
-func NewDeleteExpense(id string) (ret *DeleteExpense, err error) {
-    ret = &DeleteExpense{
+func NewExpenseDelete(id string) (ret *ExpenseDelete, err error) {
+    ret = &ExpenseDelete{
         Id : id,
     }
     return
@@ -38,15 +38,15 @@ func NewDeleteExpense(id string) (ret *DeleteExpense, err error) {
 
 
 
-type UpdateExpense struct {
+type ExpenseUpdate struct {
     Purpose  *ExpensePurpose
     Amount  float64
     Profile  *person.Profile
     Date  *time.Time
 }
 
-func NewUpdateExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time) (ret *UpdateExpense, err error) {
-    ret = &UpdateExpense{
+func NewExpenseUpdate(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time) (ret *ExpenseUpdate, err error) {
+    ret = &ExpenseUpdate{
         Purpose : purpose,
         Amount : amount,
         Profile : profile,
@@ -57,13 +57,13 @@ func NewUpdateExpense(purpose *ExpensePurpose, amount float64, profile *person.P
 
 
 
-type CreateExpensePurpose struct {
+type ExpensePurposeCreate struct {
     Name  string
     Description  string
 }
 
-func NewCreateExpensePurpose(name string, description string) (ret *CreateExpensePurpose, err error) {
-    ret = &CreateExpensePurpose{
+func NewExpensePurposeCreate(name string, description string) (ret *ExpensePurposeCreate, err error) {
+    ret = &ExpensePurposeCreate{
         Name : name,
         Description : description,
     }
@@ -72,12 +72,12 @@ func NewCreateExpensePurpose(name string, description string) (ret *CreateExpens
 
 
 
-type DeleteExpensePurpose struct {
+type ExpensePurposeDelete struct {
     Id  string
 }
 
-func NewDeleteExpensePurpose(id string) (ret *DeleteExpensePurpose, err error) {
-    ret = &DeleteExpensePurpose{
+func NewExpensePurposeDelete(id string) (ret *ExpensePurposeDelete, err error) {
+    ret = &ExpensePurposeDelete{
         Id : id,
     }
     return
@@ -85,13 +85,13 @@ func NewDeleteExpensePurpose(id string) (ret *DeleteExpensePurpose, err error) {
 
 
 
-type UpdateExpensePurpose struct {
+type ExpensePurposeUpdate struct {
     Name  string
     Description  string
 }
 
-func NewUpdateExpensePurpose(name string, description string) (ret *UpdateExpensePurpose, err error) {
-    ret = &UpdateExpensePurpose{
+func NewExpensePurposeUpdate(name string, description string) (ret *ExpensePurposeUpdate, err error) {
+    ret = &ExpensePurposeUpdate{
         Name : name,
         Description : description,
     }
@@ -100,15 +100,15 @@ func NewUpdateExpensePurpose(name string, description string) (ret *UpdateExpens
 
 
 
-type CreateFee struct {
+type FeeCreate struct {
     Student  *person.Profile
     Amount  float64
     Kind  *FeeKind
     Date  *time.Time
 }
 
-func NewCreateFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time) (ret *CreateFee, err error) {
-    ret = &CreateFee{
+func NewFeeCreate(student *person.Profile, amount float64, kind *FeeKind, date *time.Time) (ret *FeeCreate, err error) {
+    ret = &FeeCreate{
         Student : student,
         Amount : amount,
         Kind : kind,
@@ -119,12 +119,12 @@ func NewCreateFee(student *person.Profile, amount float64, kind *FeeKind, date *
 
 
 
-type DeleteFee struct {
+type FeeDelete struct {
     Id  string
 }
 
-func NewDeleteFee(id string) (ret *DeleteFee, err error) {
-    ret = &DeleteFee{
+func NewFeeDelete(id string) (ret *FeeDelete, err error) {
+    ret = &FeeDelete{
         Id : id,
     }
     return
@@ -132,15 +132,15 @@ func NewDeleteFee(id string) (ret *DeleteFee, err error) {
 
 
 
-type UpdateFee struct {
+type FeeUpdate struct {
     Student  *person.Profile
     Amount  float64
     Kind  *FeeKind
     Date  *time.Time
 }
 
-func NewUpdateFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time) (ret *UpdateFee, err error) {
-    ret = &UpdateFee{
+func NewFeeUpdate(student *person.Profile, amount float64, kind *FeeKind, date *time.Time) (ret *FeeUpdate, err error) {
+    ret = &FeeUpdate{
         Student : student,
         Amount : amount,
         Kind : kind,
@@ -151,14 +151,14 @@ func NewUpdateFee(student *person.Profile, amount float64, kind *FeeKind, date *
 
 
 
-type CreateFeeKind struct {
+type FeeKindCreate struct {
     Name  string
     Amount  float64
     Description  string
 }
 
-func NewCreateFeeKind(name string, amount float64, description string) (ret *CreateFeeKind, err error) {
-    ret = &CreateFeeKind{
+func NewFeeKindCreate(name string, amount float64, description string) (ret *FeeKindCreate, err error) {
+    ret = &FeeKindCreate{
         Name : name,
         Amount : amount,
         Description : description,
@@ -168,12 +168,12 @@ func NewCreateFeeKind(name string, amount float64, description string) (ret *Cre
 
 
 
-type DeleteFeeKind struct {
+type FeeKindDelete struct {
     Id  string
 }
 
-func NewDeleteFeeKind(id string) (ret *DeleteFeeKind, err error) {
-    ret = &DeleteFeeKind{
+func NewFeeKindDelete(id string) (ret *FeeKindDelete, err error) {
+    ret = &FeeKindDelete{
         Id : id,
     }
     return
@@ -181,14 +181,14 @@ func NewDeleteFeeKind(id string) (ret *DeleteFeeKind, err error) {
 
 
 
-type UpdateFeeKind struct {
+type FeeKindUpdate struct {
     Name  string
     Amount  float64
     Description  string
 }
 
-func NewUpdateFeeKind(name string, amount float64, description string) (ret *UpdateFeeKind, err error) {
-    ret = &UpdateFeeKind{
+func NewFeeKindUpdate(name string, amount float64, description string) (ret *FeeKindUpdate, err error) {
+    ret = &FeeKindUpdate{
         Name : name,
         Amount : amount,
         Description : description,
@@ -199,51 +199,51 @@ func NewUpdateFeeKind(name string, amount float64, description string) (ret *Upd
 
 
 
-type ExpenseCommandType struct {
+type ExpenseAggregateCommandType struct {
 	name  string
 	ordinal int
 }
 
-func (o *ExpenseCommandType) Name() string {
+func (o *ExpenseAggregateCommandType) Name() string {
     return o.name
 }
 
-func (o *ExpenseCommandType) Ordinal() int {
+func (o *ExpenseAggregateCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ExpenseCommandType) IsExpenseCreate() bool {
-    return o == _expenseCommandTypes.ExpenseCreate()
+func (o *ExpenseAggregateCommandType) IsCreateExpense() bool {
+    return o == _expenseAggregateCommandTypes.CreateExpense()
 }
 
-func (o *ExpenseCommandType) IsExpenseDelete() bool {
-    return o == _expenseCommandTypes.ExpenseDelete()
+func (o *ExpenseAggregateCommandType) IsDeleteExpense() bool {
+    return o == _expenseAggregateCommandTypes.DeleteExpense()
 }
 
-func (o *ExpenseCommandType) IsExpenseUpdate() bool {
-    return o == _expenseCommandTypes.ExpenseUpdate()
+func (o *ExpenseAggregateCommandType) IsUpdateExpense() bool {
+    return o == _expenseAggregateCommandTypes.UpdateExpense()
 }
 
-type expenseCommandTypes struct {
-	values []*ExpenseCommandType
+type expenseAggregateCommandTypes struct {
+	values []*ExpenseAggregateCommandType
     literals []enum.Literal
 }
 
-var _expenseCommandTypes = &expenseCommandTypes{values: []*ExpenseCommandType{
-    {name: "ExpenseCreate", ordinal: 0},
-    {name: "ExpenseDelete", ordinal: 1},
-    {name: "ExpenseUpdate", ordinal: 2}},
+var _expenseAggregateCommandTypes = &expenseAggregateCommandTypes{values: []*ExpenseAggregateCommandType{
+    {name: "createExpense", ordinal: 0},
+    {name: "deleteExpense", ordinal: 1},
+    {name: "updateExpense", ordinal: 2}},
 }
 
-func ExpenseCommandTypes() *expenseCommandTypes {
-	return _expenseCommandTypes
+func ExpenseAggregateCommandTypes() *expenseAggregateCommandTypes {
+	return _expenseAggregateCommandTypes
 }
 
-func (o *expenseCommandTypes) Values() []*ExpenseCommandType {
+func (o *expenseAggregateCommandTypes) Values() []*ExpenseAggregateCommandType {
 	return o.values
 }
 
-func (o *expenseCommandTypes) Literals() []enum.Literal {
+func (o *expenseAggregateCommandTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -253,71 +253,71 @@ func (o *expenseCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *expenseCommandTypes) ExpenseCreate() *ExpenseCommandType {
-    return _expenseCommandTypes.values[0]
+func (o *expenseAggregateCommandTypes) CreateExpense() *ExpenseAggregateCommandType {
+    return _expenseAggregateCommandTypes.values[0]
 }
 
-func (o *expenseCommandTypes) ExpenseDelete() *ExpenseCommandType {
-    return _expenseCommandTypes.values[1]
+func (o *expenseAggregateCommandTypes) DeleteExpense() *ExpenseAggregateCommandType {
+    return _expenseAggregateCommandTypes.values[1]
 }
 
-func (o *expenseCommandTypes) ExpenseUpdate() *ExpenseCommandType {
-    return _expenseCommandTypes.values[2]
+func (o *expenseAggregateCommandTypes) UpdateExpense() *ExpenseAggregateCommandType {
+    return _expenseAggregateCommandTypes.values[2]
 }
 
-func (o *expenseCommandTypes) ParseExpenseCommandType(name string) (ret *ExpenseCommandType, ok bool) {
+func (o *expenseAggregateCommandTypes) ParseExpenseAggregateCommandType(name string) (ret *ExpenseAggregateCommandType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*ExpenseCommandType), ok
+		return item.(*ExpenseAggregateCommandType), ok
 	}
 	return
 }
 
 
-type ExpensePurposeCommandType struct {
+type ExpensePurposeAggregateCommandType struct {
 	name  string
 	ordinal int
 }
 
-func (o *ExpensePurposeCommandType) Name() string {
+func (o *ExpensePurposeAggregateCommandType) Name() string {
     return o.name
 }
 
-func (o *ExpensePurposeCommandType) Ordinal() int {
+func (o *ExpensePurposeAggregateCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ExpensePurposeCommandType) IsExpensePurposeCreate() bool {
-    return o == _expensePurposeCommandTypes.ExpensePurposeCreate()
+func (o *ExpensePurposeAggregateCommandType) IsCreateExpensePurpose() bool {
+    return o == _expensePurposeAggregateCommandTypes.CreateExpensePurpose()
 }
 
-func (o *ExpensePurposeCommandType) IsExpensePurposeDelete() bool {
-    return o == _expensePurposeCommandTypes.ExpensePurposeDelete()
+func (o *ExpensePurposeAggregateCommandType) IsDeleteExpensePurpose() bool {
+    return o == _expensePurposeAggregateCommandTypes.DeleteExpensePurpose()
 }
 
-func (o *ExpensePurposeCommandType) IsExpensePurposeUpdate() bool {
-    return o == _expensePurposeCommandTypes.ExpensePurposeUpdate()
+func (o *ExpensePurposeAggregateCommandType) IsUpdateExpensePurpose() bool {
+    return o == _expensePurposeAggregateCommandTypes.UpdateExpensePurpose()
 }
 
-type expensePurposeCommandTypes struct {
-	values []*ExpensePurposeCommandType
+type expensePurposeAggregateCommandTypes struct {
+	values []*ExpensePurposeAggregateCommandType
     literals []enum.Literal
 }
 
-var _expensePurposeCommandTypes = &expensePurposeCommandTypes{values: []*ExpensePurposeCommandType{
-    {name: "ExpensePurposeCreate", ordinal: 0},
-    {name: "ExpensePurposeDelete", ordinal: 1},
-    {name: "ExpensePurposeUpdate", ordinal: 2}},
+var _expensePurposeAggregateCommandTypes = &expensePurposeAggregateCommandTypes{values: []*ExpensePurposeAggregateCommandType{
+    {name: "createExpensePurpose", ordinal: 0},
+    {name: "deleteExpensePurpose", ordinal: 1},
+    {name: "updateExpensePurpose", ordinal: 2}},
 }
 
-func ExpensePurposeCommandTypes() *expensePurposeCommandTypes {
-	return _expensePurposeCommandTypes
+func ExpensePurposeAggregateCommandTypes() *expensePurposeAggregateCommandTypes {
+	return _expensePurposeAggregateCommandTypes
 }
 
-func (o *expensePurposeCommandTypes) Values() []*ExpensePurposeCommandType {
+func (o *expensePurposeAggregateCommandTypes) Values() []*ExpensePurposeAggregateCommandType {
 	return o.values
 }
 
-func (o *expensePurposeCommandTypes) Literals() []enum.Literal {
+func (o *expensePurposeAggregateCommandTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -327,71 +327,71 @@ func (o *expensePurposeCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *expensePurposeCommandTypes) ExpensePurposeCreate() *ExpensePurposeCommandType {
-    return _expensePurposeCommandTypes.values[0]
+func (o *expensePurposeAggregateCommandTypes) CreateExpensePurpose() *ExpensePurposeAggregateCommandType {
+    return _expensePurposeAggregateCommandTypes.values[0]
 }
 
-func (o *expensePurposeCommandTypes) ExpensePurposeDelete() *ExpensePurposeCommandType {
-    return _expensePurposeCommandTypes.values[1]
+func (o *expensePurposeAggregateCommandTypes) DeleteExpensePurpose() *ExpensePurposeAggregateCommandType {
+    return _expensePurposeAggregateCommandTypes.values[1]
 }
 
-func (o *expensePurposeCommandTypes) ExpensePurposeUpdate() *ExpensePurposeCommandType {
-    return _expensePurposeCommandTypes.values[2]
+func (o *expensePurposeAggregateCommandTypes) UpdateExpensePurpose() *ExpensePurposeAggregateCommandType {
+    return _expensePurposeAggregateCommandTypes.values[2]
 }
 
-func (o *expensePurposeCommandTypes) ParseExpensePurposeCommandType(name string) (ret *ExpensePurposeCommandType, ok bool) {
+func (o *expensePurposeAggregateCommandTypes) ParseExpensePurposeAggregateCommandType(name string) (ret *ExpensePurposeAggregateCommandType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*ExpensePurposeCommandType), ok
+		return item.(*ExpensePurposeAggregateCommandType), ok
 	}
 	return
 }
 
 
-type FeeCommandType struct {
+type FeeAggregateCommandType struct {
 	name  string
 	ordinal int
 }
 
-func (o *FeeCommandType) Name() string {
+func (o *FeeAggregateCommandType) Name() string {
     return o.name
 }
 
-func (o *FeeCommandType) Ordinal() int {
+func (o *FeeAggregateCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *FeeCommandType) IsFeeCreate() bool {
-    return o == _feeCommandTypes.FeeCreate()
+func (o *FeeAggregateCommandType) IsCreateFee() bool {
+    return o == _feeAggregateCommandTypes.CreateFee()
 }
 
-func (o *FeeCommandType) IsFeeDelete() bool {
-    return o == _feeCommandTypes.FeeDelete()
+func (o *FeeAggregateCommandType) IsDeleteFee() bool {
+    return o == _feeAggregateCommandTypes.DeleteFee()
 }
 
-func (o *FeeCommandType) IsFeeUpdate() bool {
-    return o == _feeCommandTypes.FeeUpdate()
+func (o *FeeAggregateCommandType) IsUpdateFee() bool {
+    return o == _feeAggregateCommandTypes.UpdateFee()
 }
 
-type feeCommandTypes struct {
-	values []*FeeCommandType
+type feeAggregateCommandTypes struct {
+	values []*FeeAggregateCommandType
     literals []enum.Literal
 }
 
-var _feeCommandTypes = &feeCommandTypes{values: []*FeeCommandType{
-    {name: "FeeCreate", ordinal: 0},
-    {name: "FeeDelete", ordinal: 1},
-    {name: "FeeUpdate", ordinal: 2}},
+var _feeAggregateCommandTypes = &feeAggregateCommandTypes{values: []*FeeAggregateCommandType{
+    {name: "createFee", ordinal: 0},
+    {name: "deleteFee", ordinal: 1},
+    {name: "updateFee", ordinal: 2}},
 }
 
-func FeeCommandTypes() *feeCommandTypes {
-	return _feeCommandTypes
+func FeeAggregateCommandTypes() *feeAggregateCommandTypes {
+	return _feeAggregateCommandTypes
 }
 
-func (o *feeCommandTypes) Values() []*FeeCommandType {
+func (o *feeAggregateCommandTypes) Values() []*FeeAggregateCommandType {
 	return o.values
 }
 
-func (o *feeCommandTypes) Literals() []enum.Literal {
+func (o *feeAggregateCommandTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -401,71 +401,71 @@ func (o *feeCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *feeCommandTypes) FeeCreate() *FeeCommandType {
-    return _feeCommandTypes.values[0]
+func (o *feeAggregateCommandTypes) CreateFee() *FeeAggregateCommandType {
+    return _feeAggregateCommandTypes.values[0]
 }
 
-func (o *feeCommandTypes) FeeDelete() *FeeCommandType {
-    return _feeCommandTypes.values[1]
+func (o *feeAggregateCommandTypes) DeleteFee() *FeeAggregateCommandType {
+    return _feeAggregateCommandTypes.values[1]
 }
 
-func (o *feeCommandTypes) FeeUpdate() *FeeCommandType {
-    return _feeCommandTypes.values[2]
+func (o *feeAggregateCommandTypes) UpdateFee() *FeeAggregateCommandType {
+    return _feeAggregateCommandTypes.values[2]
 }
 
-func (o *feeCommandTypes) ParseFeeCommandType(name string) (ret *FeeCommandType, ok bool) {
+func (o *feeAggregateCommandTypes) ParseFeeAggregateCommandType(name string) (ret *FeeAggregateCommandType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*FeeCommandType), ok
+		return item.(*FeeAggregateCommandType), ok
 	}
 	return
 }
 
 
-type FeeKindCommandType struct {
+type FeeKindAggregateCommandType struct {
 	name  string
 	ordinal int
 }
 
-func (o *FeeKindCommandType) Name() string {
+func (o *FeeKindAggregateCommandType) Name() string {
     return o.name
 }
 
-func (o *FeeKindCommandType) Ordinal() int {
+func (o *FeeKindAggregateCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *FeeKindCommandType) IsFeeKindCreate() bool {
-    return o == _feeKindCommandTypes.FeeKindCreate()
+func (o *FeeKindAggregateCommandType) IsCreateFeeKind() bool {
+    return o == _feeKindAggregateCommandTypes.CreateFeeKind()
 }
 
-func (o *FeeKindCommandType) IsFeeKindDelete() bool {
-    return o == _feeKindCommandTypes.FeeKindDelete()
+func (o *FeeKindAggregateCommandType) IsDeleteFeeKind() bool {
+    return o == _feeKindAggregateCommandTypes.DeleteFeeKind()
 }
 
-func (o *FeeKindCommandType) IsFeeKindUpdate() bool {
-    return o == _feeKindCommandTypes.FeeKindUpdate()
+func (o *FeeKindAggregateCommandType) IsUpdateFeeKind() bool {
+    return o == _feeKindAggregateCommandTypes.UpdateFeeKind()
 }
 
-type feeKindCommandTypes struct {
-	values []*FeeKindCommandType
+type feeKindAggregateCommandTypes struct {
+	values []*FeeKindAggregateCommandType
     literals []enum.Literal
 }
 
-var _feeKindCommandTypes = &feeKindCommandTypes{values: []*FeeKindCommandType{
-    {name: "FeeKindCreate", ordinal: 0},
-    {name: "FeeKindDelete", ordinal: 1},
-    {name: "FeeKindUpdate", ordinal: 2}},
+var _feeKindAggregateCommandTypes = &feeKindAggregateCommandTypes{values: []*FeeKindAggregateCommandType{
+    {name: "createFeeKind", ordinal: 0},
+    {name: "deleteFeeKind", ordinal: 1},
+    {name: "updateFeeKind", ordinal: 2}},
 }
 
-func FeeKindCommandTypes() *feeKindCommandTypes {
-	return _feeKindCommandTypes
+func FeeKindAggregateCommandTypes() *feeKindAggregateCommandTypes {
+	return _feeKindAggregateCommandTypes
 }
 
-func (o *feeKindCommandTypes) Values() []*FeeKindCommandType {
+func (o *feeKindAggregateCommandTypes) Values() []*FeeKindAggregateCommandType {
 	return o.values
 }
 
-func (o *feeKindCommandTypes) Literals() []enum.Literal {
+func (o *feeKindAggregateCommandTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -475,21 +475,21 @@ func (o *feeKindCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *feeKindCommandTypes) FeeKindCreate() *FeeKindCommandType {
-    return _feeKindCommandTypes.values[0]
+func (o *feeKindAggregateCommandTypes) CreateFeeKind() *FeeKindAggregateCommandType {
+    return _feeKindAggregateCommandTypes.values[0]
 }
 
-func (o *feeKindCommandTypes) FeeKindDelete() *FeeKindCommandType {
-    return _feeKindCommandTypes.values[1]
+func (o *feeKindAggregateCommandTypes) DeleteFeeKind() *FeeKindAggregateCommandType {
+    return _feeKindAggregateCommandTypes.values[1]
 }
 
-func (o *feeKindCommandTypes) FeeKindUpdate() *FeeKindCommandType {
-    return _feeKindCommandTypes.values[2]
+func (o *feeKindAggregateCommandTypes) UpdateFeeKind() *FeeKindAggregateCommandType {
+    return _feeKindAggregateCommandTypes.values[2]
 }
 
-func (o *feeKindCommandTypes) ParseFeeKindCommandType(name string) (ret *FeeKindCommandType, ok bool) {
+func (o *feeKindAggregateCommandTypes) ParseFeeKindAggregateCommandType(name string) (ret *FeeKindAggregateCommandType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*FeeKindCommandType), ok
+		return item.(*FeeKindAggregateCommandType), ok
 	}
 	return
 }

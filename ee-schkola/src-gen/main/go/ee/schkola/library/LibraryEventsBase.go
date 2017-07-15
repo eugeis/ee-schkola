@@ -6,7 +6,7 @@ import (
     "time"
 )
 
-type BookCreated struct {
+type CreatedBook struct {
     Title  
     Description  string
     Language  string
@@ -17,9 +17,9 @@ type BookCreated struct {
     Location  *Location
 }
 
-func NewBookCreated(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName, location *Location) (ret *BookCreated, err error) {
-    ret = &BookCreated{
+func NewCreatedBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName, location *Location) (ret *CreatedBook, err error) {
+    ret = &CreatedBook{
         Title : title,
         Description : description,
         Language : language,
@@ -34,12 +34,12 @@ func NewBookCreated(title , description string, language string, releaseDate *ti
 
 
 
-type BookDeleted struct {
+type DeletedBook struct {
     Id  string
 }
 
-func NewBookDeleted(id string) (ret *BookDeleted, err error) {
-    ret = &BookDeleted{
+func NewDeletedBook(id string) (ret *DeletedBook, err error) {
+    ret = &DeletedBook{
         Id : id,
     }
     return
@@ -47,7 +47,7 @@ func NewBookDeleted(id string) (ret *BookDeleted, err error) {
 
 
 
-type BookUpdated struct {
+type UpdatedBook struct {
     Title  
     Description  string
     Language  string
@@ -58,9 +58,9 @@ type BookUpdated struct {
     Location  *Location
 }
 
-func NewBookUpdated(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName, location *Location) (ret *BookUpdated, err error) {
-    ret = &BookUpdated{
+func NewUpdatedBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
+                author *person.PersonName, location *Location) (ret *UpdatedBook, err error) {
+    ret = &UpdatedBook{
         Title : title,
         Description : description,
         Language : language,
@@ -76,51 +76,51 @@ func NewBookUpdated(title , description string, language string, releaseDate *ti
 
 
 
-type BookEventType struct {
+type BookAggregateEventType struct {
 	name  string
 	ordinal int
 }
 
-func (o *BookEventType) Name() string {
+func (o *BookAggregateEventType) Name() string {
     return o.name
 }
 
-func (o *BookEventType) Ordinal() int {
+func (o *BookAggregateEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *BookEventType) IsCreatedBook() bool {
-    return o == _bookEventTypes.CreatedBook()
+func (o *BookAggregateEventType) IsBookCreated() bool {
+    return o == _bookAggregateEventTypes.BookCreated()
 }
 
-func (o *BookEventType) IsDeletedBook() bool {
-    return o == _bookEventTypes.DeletedBook()
+func (o *BookAggregateEventType) IsBookDeleted() bool {
+    return o == _bookAggregateEventTypes.BookDeleted()
 }
 
-func (o *BookEventType) IsUpdatedBook() bool {
-    return o == _bookEventTypes.UpdatedBook()
+func (o *BookAggregateEventType) IsBookUpdated() bool {
+    return o == _bookAggregateEventTypes.BookUpdated()
 }
 
-type bookEventTypes struct {
-	values []*BookEventType
+type bookAggregateEventTypes struct {
+	values []*BookAggregateEventType
     literals []enum.Literal
 }
 
-var _bookEventTypes = &bookEventTypes{values: []*BookEventType{
-    {name: "createdBook", ordinal: 0},
-    {name: "deletedBook", ordinal: 1},
-    {name: "updatedBook", ordinal: 2}},
+var _bookAggregateEventTypes = &bookAggregateEventTypes{values: []*BookAggregateEventType{
+    {name: "BookCreated", ordinal: 0},
+    {name: "BookDeleted", ordinal: 1},
+    {name: "BookUpdated", ordinal: 2}},
 }
 
-func BookEventTypes() *bookEventTypes {
-	return _bookEventTypes
+func BookAggregateEventTypes() *bookAggregateEventTypes {
+	return _bookAggregateEventTypes
 }
 
-func (o *bookEventTypes) Values() []*BookEventType {
+func (o *bookAggregateEventTypes) Values() []*BookAggregateEventType {
 	return o.values
 }
 
-func (o *bookEventTypes) Literals() []enum.Literal {
+func (o *bookAggregateEventTypes) Literals() []enum.Literal {
 	if o.literals == nil {
 		o.literals = make([]enum.Literal, len(o.values))
 		for i, item := range o.values {
@@ -130,21 +130,21 @@ func (o *bookEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *bookEventTypes) CreatedBook() *BookEventType {
-    return _bookEventTypes.values[0]
+func (o *bookAggregateEventTypes) BookCreated() *BookAggregateEventType {
+    return _bookAggregateEventTypes.values[0]
 }
 
-func (o *bookEventTypes) DeletedBook() *BookEventType {
-    return _bookEventTypes.values[1]
+func (o *bookAggregateEventTypes) BookDeleted() *BookAggregateEventType {
+    return _bookAggregateEventTypes.values[1]
 }
 
-func (o *bookEventTypes) UpdatedBook() *BookEventType {
-    return _bookEventTypes.values[2]
+func (o *bookAggregateEventTypes) BookUpdated() *BookAggregateEventType {
+    return _bookAggregateEventTypes.values[2]
 }
 
-func (o *bookEventTypes) ParseBookEventType(name string) (ret *BookEventType, ok bool) {
+func (o *bookAggregateEventTypes) ParseBookAggregateEventType(name string) (ret *BookAggregateEventType, ok bool) {
 	if item, ok := enum.Parse(name, o.literals); ok {
-		return item.(*BookEventType), ok
+		return item.(*BookAggregateEventType), ok
 	}
 	return
 }

@@ -5,33 +5,34 @@ import (
     "github.com/eugeis/gee/eh"
 )
 
-type ChurchAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func NewChurchAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *ChurchAggregateInitializer, err error) {
-    ret = &ChurchAggregateInitializer{
-        Store : store,
-        Notifier : notifier,
-        Publisher : publisher,
-        Executor : executor,
-    }
-    return
-}
-
-
-func (o *ChurchAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    eh.RegisterCommands(handler, ChurchAggregateType, ChurchCommandTypes().Literals())
-}
-
-
-
-
 const ChurchAggregateType eventhorizon.AggregateType = "ChurchAggregate"
+
+type ChurchAggregateInitializer struct {
+    *eh.AggregateInitializer
+}
+
+func (o *ChurchAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ChurchAggregateEventTypes().ChurchCreated())
+}
+
+func (o *ChurchAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ChurchAggregateEventTypes().ChurchDeleted())
+}
+
+func (o *ChurchAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ChurchAggregateEventTypes().ChurchUpdated())
+}
+
+func NewChurchAggregateInitializer(
+	store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
+	commandBus *eventhorizon.CommandBus) (ret *ChurchAggregateInitializer) {
+	ret = &ChurchAggregateInitializer{
+        AggregateInitializer: eh.NewAggregateInitializer(ChurchAggregateType, ChurchAggregateCommandTypes().Literals(),
+		ChurchAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+    }
+	return
+}
+
 type ChurchAggregate struct {
     *eventhorizon.AggregateBase
     *Church
@@ -47,33 +48,34 @@ func NewChurchAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *Churc
 
 
 
-type GraduationAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func NewGraduationAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *GraduationAggregateInitializer, err error) {
-    ret = &GraduationAggregateInitializer{
-        Store : store,
-        Notifier : notifier,
-        Publisher : publisher,
-        Executor : executor,
-    }
-    return
-}
-
-
-func (o *GraduationAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    eh.RegisterCommands(handler, GraduationAggregateType, GraduationCommandTypes().Literals())
-}
-
-
-
-
 const GraduationAggregateType eventhorizon.AggregateType = "GraduationAggregate"
+
+type GraduationAggregateInitializer struct {
+    *eh.AggregateInitializer
+}
+
+func (o *GraduationAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, GraduationAggregateEventTypes().GraduationCreated())
+}
+
+func (o *GraduationAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, GraduationAggregateEventTypes().GraduationDeleted())
+}
+
+func (o *GraduationAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, GraduationAggregateEventTypes().GraduationUpdated())
+}
+
+func NewGraduationAggregateInitializer(
+	store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
+	commandBus *eventhorizon.CommandBus) (ret *GraduationAggregateInitializer) {
+	ret = &GraduationAggregateInitializer{
+        AggregateInitializer: eh.NewAggregateInitializer(GraduationAggregateType, GraduationAggregateCommandTypes().Literals(),
+		ChurchAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+    }
+	return
+}
+
 type GraduationAggregate struct {
     *eventhorizon.AggregateBase
     *Graduation
@@ -89,33 +91,34 @@ func NewGraduationAggregate(AggregateBase *eventhorizon.AggregateBase, Entity *G
 
 
 
-type ProfileAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func NewProfileAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *ProfileAggregateInitializer, err error) {
-    ret = &ProfileAggregateInitializer{
-        Store : store,
-        Notifier : notifier,
-        Publisher : publisher,
-        Executor : executor,
-    }
-    return
-}
-
-
-func (o *ProfileAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    eh.RegisterCommands(handler, ProfileAggregateType, ProfileCommandTypes().Literals())
-}
-
-
-
-
 const ProfileAggregateType eventhorizon.AggregateType = "ProfileAggregate"
+
+type ProfileAggregateInitializer struct {
+    *eh.AggregateInitializer
+}
+
+func (o *ProfileAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ProfileAggregateEventTypes().ProfileCreated())
+}
+
+func (o *ProfileAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ProfileAggregateEventTypes().ProfileDeleted())
+}
+
+func (o *ProfileAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ProfileAggregateEventTypes().ProfileUpdated())
+}
+
+func NewProfileAggregateInitializer(
+	store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
+	commandBus *eventhorizon.CommandBus) (ret *ProfileAggregateInitializer) {
+	ret = &ProfileAggregateInitializer{
+        AggregateInitializer: eh.NewAggregateInitializer(ProfileAggregateType, ProfileAggregateCommandTypes().Literals(),
+		ChurchAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+    }
+	return
+}
+
 type ProfileAggregate struct {
     *eventhorizon.AggregateBase
     *Profile

@@ -5,33 +5,34 @@ import (
     "github.com/eugeis/gee/eh"
 )
 
-type AccountAggregateInitializer struct {
-    Store  *eventhorizon.EventStore
-    Notifier  *eventhorizon.EventBus
-    Publisher  *eventhorizon.EventPublisher
-    Executor  *eventhorizon.CommandBus
-}
-
-func NewAccountAggregateInitializer(store *eventhorizon.EventStore, notifier *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher, 
-                executor *eventhorizon.CommandBus) (ret *AccountAggregateInitializer, err error) {
-    ret = &AccountAggregateInitializer{
-        Store : store,
-        Notifier : notifier,
-        Publisher : publisher,
-        Executor : executor,
-    }
-    return
-}
-
-
-func (o *AccountAggregateInitializer) RegisterCommands(handler *eventhorizon.AggregateCommandHandler)  {
-    eh.RegisterCommands(handler, AccountAggregateType, AccountCommandTypes().Literals())
-}
-
-
-
-
 const AccountAggregateType eventhorizon.AggregateType = "AccountAggregate"
+
+type AccountAggregateInitializer struct {
+    *eh.AggregateInitializer
+}
+
+func (o *AccountAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, AccountAggregateEventTypes().AccountCreated())
+}
+
+func (o *AccountAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, AccountAggregateEventTypes().AccountDeleted())
+}
+
+func (o *AccountAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, AccountAggregateEventTypes().AccountUpdated())
+}
+
+func NewAccountAggregateInitializer(
+	store *eventhorizon.EventStore, eventBus *eventhorizon.EventBus, publisher *eventhorizon.EventPublisher,
+	commandBus *eventhorizon.CommandBus) (ret *AccountAggregateInitializer) {
+	ret = &AccountAggregateInitializer{
+        AggregateInitializer: eh.NewAggregateInitializer(AccountAggregateType, AccountAggregateCommandTypes().Literals(),
+		ChurchAggregateEventTypes().Literals(), store, eventBus, publisher, commandBus),
+    }
+	return
+}
+
 type AccountAggregate struct {
     *eventhorizon.AggregateBase
     *Account
