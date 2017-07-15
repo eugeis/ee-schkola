@@ -8,11 +8,11 @@ import (
 )
 
 type ExpenseCreated struct {
-    Id  eventhorizon.UUID
-    Purpose  *ExpensePurpose
-    Amount  float64
-    Profile  *person.Profile
-    Date  *time.Time
+    Id  eventhorizon.UUID`eh:"optional"`
+    Purpose  *ExpensePurpose`eh:"optional"`
+    Amount  float64`eh:"optional"`
+    Profile  *person.Profile`eh:"optional"`
+    Date  *time.Time`eh:"optional"`
 }
 
 
@@ -24,19 +24,19 @@ type ExpenseDeleted struct {
 
 
 type ExpenseUpdated struct {
-    Id  eventhorizon.UUID
-    Purpose  *ExpensePurpose
-    Amount  float64
-    Profile  *person.Profile
-    Date  *time.Time
+    Id  eventhorizon.UUID`eh:"optional"`
+    Purpose  *ExpensePurpose`eh:"optional"`
+    Amount  float64`eh:"optional"`
+    Profile  *person.Profile`eh:"optional"`
+    Date  *time.Time`eh:"optional"`
 }
 
 
 
 type ExpensePurposeCreated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Description  string
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Description  string`eh:"optional"`
 }
 
 
@@ -48,19 +48,19 @@ type ExpensePurposeDeleted struct {
 
 
 type ExpensePurposeUpdated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Description  string
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Description  string`eh:"optional"`
 }
 
 
 
 type FeeCreated struct {
-    Id  eventhorizon.UUID
-    Student  *person.Profile
-    Amount  float64
-    Kind  *FeeKind
-    Date  *time.Time
+    Id  eventhorizon.UUID`eh:"optional"`
+    Student  *person.Profile`eh:"optional"`
+    Amount  float64`eh:"optional"`
+    Kind  *FeeKind`eh:"optional"`
+    Date  *time.Time`eh:"optional"`
 }
 
 
@@ -72,20 +72,20 @@ type FeeDeleted struct {
 
 
 type FeeUpdated struct {
-    Id  eventhorizon.UUID
-    Student  *person.Profile
-    Amount  float64
-    Kind  *FeeKind
-    Date  *time.Time
+    Id  eventhorizon.UUID`eh:"optional"`
+    Student  *person.Profile`eh:"optional"`
+    Amount  float64`eh:"optional"`
+    Kind  *FeeKind`eh:"optional"`
+    Date  *time.Time`eh:"optional"`
 }
 
 
 
 type FeeKindCreated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Amount  float64
-    Description  string
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Amount  float64`eh:"optional"`
+    Description  string`eh:"optional"`
 }
 
 
@@ -97,10 +97,10 @@ type FeeKindDeleted struct {
 
 
 type FeeKindUpdated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Amount  float64
-    Description  string
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Amount  float64`eh:"optional"`
+    Description  string`eh:"optional"`
 }
 
 

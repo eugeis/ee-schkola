@@ -7,11 +7,11 @@ import (
 )
 
 type ChurchCreated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Address  *Address
-    Pastor  *PersonName
-    Contact  *Contact
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Address  *Address`eh:"optional"`
+    Pastor  *PersonName`eh:"optional"`
+    Contact  *Contact`eh:"optional"`
 }
 
 
@@ -23,19 +23,19 @@ type ChurchDeleted struct {
 
 
 type ChurchUpdated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Address  *Address
-    Pastor  *PersonName
-    Contact  *Contact
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Address  *Address`eh:"optional"`
+    Pastor  *PersonName`eh:"optional"`
+    Contact  *Contact`eh:"optional"`
 }
 
 
 
 type GraduationCreated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Level  *GraduationLevel
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Level  *GraduationLevel`eh:"optional"`
 }
 
 
@@ -47,26 +47,26 @@ type GraduationDeleted struct {
 
 
 type GraduationUpdated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Level  *GraduationLevel
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Level  *GraduationLevel`eh:"optional"`
 }
 
 
 
 type ProfileCreated struct {
-    Id  eventhorizon.UUID
-    Gender  *Gender
-    Name  *PersonName
-    BirthName  string
-    Birthday  *time.Time
-    Address  *Address
-    Contact  *Contact
-    PhotoData  []byte
-    Photo  string
-    Family  *Family
-    Church  *ChurchInfo
-    Education  *Education
+    Id  eventhorizon.UUID`eh:"optional"`
+    Gender  *Gender`eh:"optional"`
+    Name  *PersonName`eh:"optional"`
+    BirthName  string`eh:"optional"`
+    Birthday  *time.Time`eh:"optional"`
+    Address  *Address`eh:"optional"`
+    Contact  *Contact`eh:"optional"`
+    PhotoData  []byte`eh:"optional"`
+    Photo  string`eh:"optional"`
+    Family  *Family`eh:"optional"`
+    Church  *ChurchInfo`eh:"optional"`
+    Education  *Education`eh:"optional"`
 }
 
 
@@ -78,18 +78,18 @@ type ProfileDeleted struct {
 
 
 type ProfileUpdated struct {
-    Id  eventhorizon.UUID
-    Gender  *Gender
-    Name  *PersonName
-    BirthName  string
-    Birthday  *time.Time
-    Address  *Address
-    Contact  *Contact
-    PhotoData  []byte
-    Photo  string
-    Family  *Family
-    Church  *ChurchInfo
-    Education  *Education
+    Id  eventhorizon.UUID`eh:"optional"`
+    Gender  *Gender`eh:"optional"`
+    Name  *PersonName`eh:"optional"`
+    BirthName  string`eh:"optional"`
+    Birthday  *time.Time`eh:"optional"`
+    Address  *Address`eh:"optional"`
+    Contact  *Contact`eh:"optional"`
+    PhotoData  []byte`eh:"optional"`
+    Photo  string`eh:"optional"`
+    Family  *Family`eh:"optional"`
+    Church  *ChurchInfo`eh:"optional"`
+    Education  *Education`eh:"optional"`
 }
 
 

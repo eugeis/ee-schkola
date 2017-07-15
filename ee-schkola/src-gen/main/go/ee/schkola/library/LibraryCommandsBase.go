@@ -22,15 +22,15 @@ const (
         
 
 type CreateBook struct {
-    Id  eventhorizon.UUID
-    Title  
-    Description  string
-    Language  string
-    ReleaseDate  *time.Time
-    Edition  string
-    Category  string
-    Author  *person.PersonName
-    Location  *Location
+    Id  eventhorizon.UUID`eh:"optional"`
+    Title  `eh:"optional"`
+    Description  string`eh:"optional"`
+    Language  string`eh:"optional"`
+    ReleaseDate  *time.Time`eh:"optional"`
+    Edition  string`eh:"optional"`
+    Category  string`eh:"optional"`
+    Author  *person.PersonName`eh:"optional"`
+    Location  *Location`eh:"optional"`
 }
 func (o *CreateBook) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
@@ -52,15 +52,15 @@ func (o *DeleteBook) CommandType() eventhorizon.CommandType      { return Delete
         
 
 type UpdateBook struct {
-    Id  eventhorizon.UUID
-    Title  
-    Description  string
-    Language  string
-    ReleaseDate  *time.Time
-    Edition  string
-    Category  string
-    Author  *person.PersonName
-    Location  *Location
+    Id  eventhorizon.UUID`eh:"optional"`
+    Title  `eh:"optional"`
+    Description  string`eh:"optional"`
+    Language  string`eh:"optional"`
+    ReleaseDate  *time.Time`eh:"optional"`
+    Edition  string`eh:"optional"`
+    Category  string`eh:"optional"`
+    Author  *person.PersonName`eh:"optional"`
+    Location  *Location`eh:"optional"`
 }
 func (o *UpdateBook) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
@@ -221,13 +221,13 @@ type bookCommandTypes struct {
 }
 
 var _bookCommandTypes = &bookCommandTypes{values: []*BookCommandType{
-    {name: "createBook", ordinal: 0},
-    {name: "deleteBook", ordinal: 1},
-    {name: "updateBook", ordinal: 2},
-    {name: "registerBook", ordinal: 3},
-    {name: "unregisterBook", ordinal: 4},
-    {name: "changeBook", ordinal: 5},
-    {name: "changeBookLocation", ordinal: 6}},
+    {name: "CreateBook", ordinal: 0},
+    {name: "DeleteBook", ordinal: 1},
+    {name: "UpdateBook", ordinal: 2},
+    {name: "RegisterBook", ordinal: 3},
+    {name: "UnregisterBook", ordinal: 4},
+    {name: "ChangeBook", ordinal: 5},
+    {name: "ChangeBookLocation", ordinal: 6}},
 }
 
 func BookCommandTypes() *bookCommandTypes {

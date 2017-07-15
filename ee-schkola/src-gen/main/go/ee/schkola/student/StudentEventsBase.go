@@ -9,15 +9,15 @@ import (
 )
 
 type AttendanceCreated struct {
-    Id  eventhorizon.UUID
-    Student  *person.Profile
-    Date  *time.Time
-    Course  *Course
-    Hours  int
-    State  *AttendanceState
-    StateTrace  *schkola.Trace
-    Token  string
-    TokenTrace  *schkola.Trace
+    Id  eventhorizon.UUID`eh:"optional"`
+    Student  *person.Profile`eh:"optional"`
+    Date  *time.Time`eh:"optional"`
+    Course  *Course`eh:"optional"`
+    Hours  int`eh:"optional"`
+    State  *AttendanceState`eh:"optional"`
+    StateTrace  *schkola.Trace`eh:"optional"`
+    Token  string`eh:"optional"`
+    TokenTrace  *schkola.Trace`eh:"optional"`
 }
 
 
@@ -29,28 +29,28 @@ type AttendanceDeleted struct {
 
 
 type AttendanceUpdated struct {
-    Id  eventhorizon.UUID
-    Student  *person.Profile
-    Date  *time.Time
-    Course  *Course
-    Hours  int
-    State  *AttendanceState
-    StateTrace  *schkola.Trace
-    Token  string
-    TokenTrace  *schkola.Trace
+    Id  eventhorizon.UUID`eh:"optional"`
+    Student  *person.Profile`eh:"optional"`
+    Date  *time.Time`eh:"optional"`
+    Course  *Course`eh:"optional"`
+    Hours  int`eh:"optional"`
+    State  *AttendanceState`eh:"optional"`
+    StateTrace  *schkola.Trace`eh:"optional"`
+    Token  string`eh:"optional"`
+    TokenTrace  *schkola.Trace`eh:"optional"`
 }
 
 
 
 type CourseCreated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Begin  *time.Time
-    End  *time.Time
-    Teacher  *person.PersonName
-    SchoolYear  *SchoolYear
-    Fee  float64
-    Description  string
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Begin  *time.Time`eh:"optional"`
+    End  *time.Time`eh:"optional"`
+    Teacher  *person.PersonName`eh:"optional"`
+    SchoolYear  *SchoolYear`eh:"optional"`
+    Fee  float64`eh:"optional"`
+    Description  string`eh:"optional"`
 }
 
 
@@ -62,25 +62,25 @@ type CourseDeleted struct {
 
 
 type CourseUpdated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Begin  *time.Time
-    End  *time.Time
-    Teacher  *person.PersonName
-    SchoolYear  *SchoolYear
-    Fee  float64
-    Description  string
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Begin  *time.Time`eh:"optional"`
+    End  *time.Time`eh:"optional"`
+    Teacher  *person.PersonName`eh:"optional"`
+    SchoolYear  *SchoolYear`eh:"optional"`
+    Fee  float64`eh:"optional"`
+    Description  string`eh:"optional"`
 }
 
 
 
 type GradeCreated struct {
-    Id  eventhorizon.UUID
-    Student  *person.Profile
-    Course  *Course
-    Grade  float64
-    GradeTrace  *schkola.Trace
-    Comment  string
+    Id  eventhorizon.UUID`eh:"optional"`
+    Student  *person.Profile`eh:"optional"`
+    Course  *Course`eh:"optional"`
+    Grade  float64`eh:"optional"`
+    GradeTrace  *schkola.Trace`eh:"optional"`
+    Comment  string`eh:"optional"`
 }
 
 
@@ -92,24 +92,24 @@ type GradeDeleted struct {
 
 
 type GradeUpdated struct {
-    Id  eventhorizon.UUID
-    Student  *person.Profile
-    Course  *Course
-    Grade  float64
-    GradeTrace  *schkola.Trace
-    Comment  string
+    Id  eventhorizon.UUID`eh:"optional"`
+    Student  *person.Profile`eh:"optional"`
+    Course  *Course`eh:"optional"`
+    Grade  float64`eh:"optional"`
+    GradeTrace  *schkola.Trace`eh:"optional"`
+    Comment  string`eh:"optional"`
 }
 
 
 
 type GroupCreated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Category  *GroupCategory
-    SchoolYear  *SchoolYear
-    Representative  *person.Profile
-    Students  []*Course
-    Courses  []*Course
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Category  *GroupCategory`eh:"optional"`
+    SchoolYear  *SchoolYear`eh:"optional"`
+    Representative  *person.Profile`eh:"optional"`
+    Students  []*Course`eh:"optional"`
+    Courses  []*Course`eh:"optional"`
 }
 
 func (o *GroupCreated) AddToStudents(item *Course) *Course {
@@ -131,13 +131,13 @@ type GroupDeleted struct {
 
 
 type GroupUpdated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Category  *GroupCategory
-    SchoolYear  *SchoolYear
-    Representative  *person.Profile
-    Students  []*Course
-    Courses  []*Course
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Category  *GroupCategory`eh:"optional"`
+    SchoolYear  *SchoolYear`eh:"optional"`
+    Representative  *person.Profile`eh:"optional"`
+    Students  []*Course`eh:"optional"`
+    Courses  []*Course`eh:"optional"`
 }
 
 func (o *GroupUpdated) AddToStudents(item *Course) *Course {
@@ -153,13 +153,13 @@ func (o *GroupUpdated) AddToCourses(item *Course) *Course {
 
 
 type SchoolApplicationCreated struct {
-    Id  eventhorizon.UUID
-    Profile  *person.Profile
-    RecommendationOf  *person.PersonName
-    ChurchContactPerson  *person.PersonName
-    ChurchContact  *person.Contact
-    SchoolYear  *SchoolYear
-    Group  string
+    Id  eventhorizon.UUID`eh:"optional"`
+    Profile  *person.Profile`eh:"optional"`
+    RecommendationOf  *person.PersonName`eh:"optional"`
+    ChurchContactPerson  *person.PersonName`eh:"optional"`
+    ChurchContact  *person.Contact`eh:"optional"`
+    SchoolYear  *SchoolYear`eh:"optional"`
+    Group  string`eh:"optional"`
 }
 
 
@@ -171,23 +171,23 @@ type SchoolApplicationDeleted struct {
 
 
 type SchoolApplicationUpdated struct {
-    Id  eventhorizon.UUID
-    Profile  *person.Profile
-    RecommendationOf  *person.PersonName
-    ChurchContactPerson  *person.PersonName
-    ChurchContact  *person.Contact
-    SchoolYear  *SchoolYear
-    Group  string
+    Id  eventhorizon.UUID`eh:"optional"`
+    Profile  *person.Profile`eh:"optional"`
+    RecommendationOf  *person.PersonName`eh:"optional"`
+    ChurchContactPerson  *person.PersonName`eh:"optional"`
+    ChurchContact  *person.Contact`eh:"optional"`
+    SchoolYear  *SchoolYear`eh:"optional"`
+    Group  string`eh:"optional"`
 }
 
 
 
 type SchoolYearCreated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Start  *time.Time
-    End  *time.Time
-    Dates  []*Course
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Start  *time.Time`eh:"optional"`
+    End  *time.Time`eh:"optional"`
+    Dates  []*Course`eh:"optional"`
 }
 
 func (o *SchoolYearCreated) AddToDates(item *Course) *Course {
@@ -204,11 +204,11 @@ type SchoolYearDeleted struct {
 
 
 type SchoolYearUpdated struct {
-    Id  eventhorizon.UUID
-    Name  string
-    Start  *time.Time
-    End  *time.Time
-    Dates  []*Course
+    Id  eventhorizon.UUID`eh:"optional"`
+    Name  string`eh:"optional"`
+    Start  *time.Time`eh:"optional"`
+    End  *time.Time`eh:"optional"`
+    Dates  []*Course`eh:"optional"`
 }
 
 func (o *SchoolYearUpdated) AddToDates(item *Course) *Course {

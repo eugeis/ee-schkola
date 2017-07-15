@@ -14,7 +14,7 @@ type Book struct {
     Edition  string
     Category  string
     Author  *person.PersonName
-    Location  *Location
+    location *Location
     *schkola.SchkolaBase
 }
 
@@ -28,7 +28,7 @@ func NewBook(title , description string, language string, releaseDate *time.Time
         Edition : edition,
         Category : category,
         Author : author,
-        Location : location,
+        location: location,
         SchkolaBase: SchkolaBase,
     }
     

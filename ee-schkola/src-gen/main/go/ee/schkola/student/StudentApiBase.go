@@ -9,13 +9,13 @@ import (
 
 type Attendance struct {
     Student  *person.Profile
-    Date  *time.Time
+    date *time.Time
     Course  *Course
-    Hours  int
-    State  *AttendanceState
-    StateTrace  *schkola.Trace
-    Token  string
-    TokenTrace  *schkola.Trace
+    hours int
+    state *AttendanceState
+    stateTrace *schkola.Trace
+    token string
+    tokenTrace *schkola.Trace
     *schkola.SchkolaBase
 }
 
@@ -23,13 +23,13 @@ func NewAttendance(student *person.Profile, date *time.Time, course *Course, hou
                 token string, tokenTrace *schkola.Trace, SchkolaBase *schkola.SchkolaBase) (ret *Attendance) {
     ret = &Attendance{
         Student : student,
-        Date : date,
+        date: date,
         Course : course,
-        Hours : hours,
-        State : state,
-        StateTrace : stateTrace,
-        Token : token,
-        TokenTrace : tokenTrace,
+        hours: hours,
+        state: state,
+        stateTrace: stateTrace,
+        token: token,
+        tokenTrace: tokenTrace,
         SchkolaBase: SchkolaBase,
     }
     
@@ -39,26 +39,26 @@ func NewAttendance(student *person.Profile, date *time.Time, course *Course, hou
 
 
 type Course struct {
-    Name  string
-    Begin  *time.Time
-    End  *time.Time
-    Teacher  *person.PersonName
-    SchoolYear  *SchoolYear
-    Fee  float64
-    Description  string
+    name string
+    begin *time.Time
+    end *time.Time
+    teacher *person.PersonName
+    schoolYear *SchoolYear
+    fee float64
+    description string
     *schkola.SchkolaBase
 }
 
 func NewCourse(name string, begin *time.Time, end *time.Time, teacher *person.PersonName, schoolYear *SchoolYear, fee float64, 
                 description string, SchkolaBase *schkola.SchkolaBase) (ret *Course) {
     ret = &Course{
-        Name : name,
-        Begin : begin,
-        End : end,
-        Teacher : teacher,
-        SchoolYear : schoolYear,
-        Fee : fee,
-        Description : description,
+        name: name,
+        begin: begin,
+        end: end,
+        teacher: teacher,
+        schoolYear: schoolYear,
+        fee: fee,
+        description: description,
         SchkolaBase: SchkolaBase,
     }
     
@@ -68,22 +68,22 @@ func NewCourse(name string, begin *time.Time, end *time.Time, teacher *person.Pe
 
 
 type Grade struct {
-    Student  *person.Profile
-    Course  *Course
-    Grade  float64
-    GradeTrace  *schkola.Trace
-    Comment  string
+    student *person.Profile
+    course *Course
+    grade float64
+    gradeTrace *schkola.Trace
+    comment string
     *schkola.SchkolaBase
 }
 
 func NewGrade(student *person.Profile, course *Course, grade float64, gradeTrace *schkola.Trace, comment string, 
                 SchkolaBase *schkola.SchkolaBase) (ret *Grade) {
     ret = &Grade{
-        Student : student,
-        Course : course,
-        Grade : grade,
-        GradeTrace : gradeTrace,
-        Comment : comment,
+        student: student,
+        course: course,
+        grade: grade,
+        gradeTrace: gradeTrace,
+        comment: comment,
         SchkolaBase: SchkolaBase,
     }
     
@@ -93,24 +93,24 @@ func NewGrade(student *person.Profile, course *Course, grade float64, gradeTrace
 
 
 type Group struct {
-    Name  string
-    Category  *GroupCategory
-    SchoolYear  *SchoolYear
-    Representative  *person.Profile
-    Students  []*Course
-    Courses  []*Course
+    name string
+    category *GroupCategory
+    schoolYear *SchoolYear
+    representative *person.Profile
+    students []*Course
+    courses []*Course
     *schkola.SchkolaBase
 }
 
 func NewGroup(name string, category *GroupCategory, schoolYear *SchoolYear, representative *person.Profile, students []*Course, 
                 courses []*Course, SchkolaBase *schkola.SchkolaBase) (ret *Group) {
     ret = &Group{
-        Name : name,
-        Category : category,
-        SchoolYear : schoolYear,
-        Representative : representative,
-        Students : students,
-        Courses : courses,
+        name: name,
+        category: category,
+        schoolYear: schoolYear,
+        representative: representative,
+        students: students,
+        courses: courses,
         SchkolaBase: SchkolaBase,
     }
     
@@ -118,36 +118,36 @@ func NewGroup(name string, category *GroupCategory, schoolYear *SchoolYear, repr
 }
 
 func (o *Group) AddToStudents(item *Course) *Course {
-    o.Students  = append(o.Students , item)
+    o.students = append(o.students, item)
     return item
 }
 
 func (o *Group) AddToCourses(item *Course) *Course {
-    o.Courses  = append(o.Courses , item)
+    o.courses = append(o.courses, item)
     return item
 }
 
 
 
 type SchoolApplication struct {
-    Profile  *person.Profile
-    RecommendationOf  *person.PersonName
-    ChurchContactPerson  *person.PersonName
-    ChurchContact  *person.Contact
-    SchoolYear  *SchoolYear
-    Group  string
+    profile *person.Profile
+    recommendationOf *person.PersonName
+    churchContactPerson *person.PersonName
+    churchContact *person.Contact
+    schoolYear *SchoolYear
+    group string
     *schkola.SchkolaBase
 }
 
 func NewSchoolApplication(profile *person.Profile, recommendationOf *person.PersonName, churchContactPerson *person.PersonName, 
                 churchContact *person.Contact, schoolYear *SchoolYear, group string, SchkolaBase *schkola.SchkolaBase) (ret *SchoolApplication) {
     ret = &SchoolApplication{
-        Profile : profile,
-        RecommendationOf : recommendationOf,
-        ChurchContactPerson : churchContactPerson,
-        ChurchContact : churchContact,
-        SchoolYear : schoolYear,
-        Group : group,
+        profile: profile,
+        recommendationOf: recommendationOf,
+        churchContactPerson: churchContactPerson,
+        churchContact: churchContact,
+        schoolYear: schoolYear,
+        group: group,
         SchkolaBase: SchkolaBase,
     }
     
@@ -157,19 +157,19 @@ func NewSchoolApplication(profile *person.Profile, recommendationOf *person.Pers
 
 
 type SchoolYear struct {
-    Name  string
-    Start  *time.Time
-    End  *time.Time
-    Dates  []*Course
+    name string
+    start *time.Time
+    end *time.Time
+    dates []*Course
     *schkola.SchkolaBase
 }
 
 func NewSchoolYear(name string, start *time.Time, end *time.Time, dates []*Course, SchkolaBase *schkola.SchkolaBase) (ret *SchoolYear) {
     ret = &SchoolYear{
-        Name : name,
-        Start : start,
-        End : end,
-        Dates : dates,
+        name: name,
+        start: start,
+        end: end,
+        dates: dates,
         SchkolaBase: SchkolaBase,
     }
     
@@ -177,7 +177,7 @@ func NewSchoolYear(name string, start *time.Time, end *time.Time, dates []*Cours
 }
 
 func (o *SchoolYear) AddToDates(item *Course) *Course {
-    o.Dates  = append(o.Dates , item)
+    o.dates = append(o.dates, item)
     return item
 }
 

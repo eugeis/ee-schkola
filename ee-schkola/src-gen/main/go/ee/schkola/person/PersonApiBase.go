@@ -7,19 +7,19 @@ import (
 )
 
 type Church struct {
-    Name  string
-    Address  *Address
-    Pastor  *PersonName
-    Contact  *Contact
+    name string
+    address *Address
+    pastor *PersonName
+    contact *Contact
     *schkola.SchkolaBase
 }
 
 func NewChurch(name string, address *Address, pastor *PersonName, contact *Contact, SchkolaBase *schkola.SchkolaBase) (ret *Church) {
     ret = &Church{
-        Name : name,
-        Address : address,
-        Pastor : pastor,
-        Contact : contact,
+        name: name,
+        address: address,
+        pastor: pastor,
+        contact: contact,
         SchkolaBase: SchkolaBase,
     }
     
@@ -29,15 +29,15 @@ func NewChurch(name string, address *Address, pastor *PersonName, contact *Conta
 
 
 type Graduation struct {
-    Name  string
-    Level  *GraduationLevel
+    name string
+    level *GraduationLevel
     *schkola.SchkolaBase
 }
 
 func NewGraduation(name string, level *GraduationLevel, SchkolaBase *schkola.SchkolaBase) (ret *Graduation) {
     ret = &Graduation{
-        Name : name,
-        Level : level,
+        name: name,
+        level: level,
         SchkolaBase: SchkolaBase,
     }
     
@@ -47,17 +47,17 @@ func NewGraduation(name string, level *GraduationLevel, SchkolaBase *schkola.Sch
 
 
 type Profile struct {
-    Gender  *Gender
-    Name  *PersonName
-    BirthName  string
-    Birthday  *time.Time
-    Address  *Address
-    Contact  *Contact
-    PhotoData  []byte
-    Photo  string
-    Family  *Family
-    Church  *ChurchInfo
-    Education  *Education
+    gender *Gender
+    name *PersonName
+    birthName string
+    birthday *time.Time
+    address *Address
+    contact *Contact
+    photoData []byte
+    photo string
+    family *Family
+    church *ChurchInfo
+    education *Education
     *schkola.SchkolaBase
 }
 
@@ -65,17 +65,17 @@ func NewProfile(gender *Gender, name *PersonName, birthName string, birthday *ti
                 photoData []byte, photo string, family *Family, church *ChurchInfo, education *Education, 
                 SchkolaBase *schkola.SchkolaBase) (ret *Profile) {
     ret = &Profile{
-        Gender : gender,
-        Name : name,
-        BirthName : birthName,
-        Birthday : birthday,
-        Address : address,
-        Contact : contact,
-        PhotoData : photoData,
-        Photo : photo,
-        Family : family,
-        Church : church,
-        Education : education,
+        gender: gender,
+        name: name,
+        birthName: birthName,
+        birthday: birthday,
+        address: address,
+        contact: contact,
+        photoData: photoData,
+        photo: photo,
+        family: family,
+        church: church,
+        education: education,
         SchkolaBase: SchkolaBase,
     }
     

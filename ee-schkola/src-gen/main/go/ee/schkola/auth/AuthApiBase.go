@@ -10,9 +10,9 @@ type Account struct {
     Username  string
     Password  string
     Email  string
-    Disabled  bool
-    LastLoginAt  *time.Time
-    Profile  *person.Profile
+    disabled bool
+    lastLoginAt *time.Time
+    profile *person.Profile
     *schkola.SchkolaBase
 }
 
@@ -22,9 +22,9 @@ func NewAccount(username string, password string, email string, disabled bool, l
         Username : username,
         Password : password,
         Email : email,
-        Disabled : disabled,
-        LastLoginAt : lastLoginAt,
-        Profile : profile,
+        disabled: disabled,
+        lastLoginAt: lastLoginAt,
+        profile: profile,
         SchkolaBase: SchkolaBase,
     }
     

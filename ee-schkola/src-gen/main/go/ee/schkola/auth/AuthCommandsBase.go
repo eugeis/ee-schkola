@@ -21,13 +21,13 @@ const (
         
 
 type CreateAccount struct {
-    Id  eventhorizon.UUID
-    Username  string
-    Password  string
-    Email  string
-    Disabled  bool
-    LastLoginAt  *time.Time
-    Profile  *person.Profile
+    Id  eventhorizon.UUID`eh:"optional"`
+    Username  string`eh:"optional"`
+    Password  string`eh:"optional"`
+    Email  string`eh:"optional"`
+    Disabled  bool`eh:"optional"`
+    LastLoginAt  *time.Time`eh:"optional"`
+    Profile  *person.Profile`eh:"optional"`
 }
 func (o *CreateAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -49,13 +49,13 @@ func (o *DeleteAccount) CommandType() eventhorizon.CommandType      { return Del
         
 
 type UpdateAccount struct {
-    Id  eventhorizon.UUID
-    Username  string
-    Password  string
-    Email  string
-    Disabled  bool
-    LastLoginAt  *time.Time
-    Profile  *person.Profile
+    Id  eventhorizon.UUID`eh:"optional"`
+    Username  string`eh:"optional"`
+    Password  string`eh:"optional"`
+    Email  string`eh:"optional"`
+    Disabled  bool`eh:"optional"`
+    LastLoginAt  *time.Time`eh:"optional"`
+    Profile  *person.Profile`eh:"optional"`
 }
 func (o *UpdateAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -151,12 +151,12 @@ type accountCommandTypes struct {
 }
 
 var _accountCommandTypes = &accountCommandTypes{values: []*AccountCommandType{
-    {name: "createAccount", ordinal: 0},
-    {name: "deleteAccount", ordinal: 1},
-    {name: "updateAccount", ordinal: 2},
-    {name: "enableAccount", ordinal: 3},
-    {name: "disableAccount", ordinal: 4},
-    {name: "registerAccount", ordinal: 5}},
+    {name: "CreateAccount", ordinal: 0},
+    {name: "DeleteAccount", ordinal: 1},
+    {name: "UpdateAccount", ordinal: 2},
+    {name: "EnableAccount", ordinal: 3},
+    {name: "DisableAccount", ordinal: 4},
+    {name: "RegisterAccount", ordinal: 5}},
 }
 
 func AccountCommandTypes() *accountCommandTypes {

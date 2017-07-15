@@ -8,13 +8,13 @@ import (
 )
 
 type AccountCreated struct {
-    Id  eventhorizon.UUID
-    Username  string
-    Password  string
-    Email  string
-    Disabled  bool
-    LastLoginAt  *time.Time
-    Profile  *person.Profile
+    Id  eventhorizon.UUID`eh:"optional"`
+    Username  string`eh:"optional"`
+    Password  string`eh:"optional"`
+    Email  string`eh:"optional"`
+    Disabled  bool`eh:"optional"`
+    LastLoginAt  *time.Time`eh:"optional"`
+    Profile  *person.Profile`eh:"optional"`
 }
 
 
@@ -26,13 +26,13 @@ type AccountDeleted struct {
 
 
 type AccountUpdated struct {
-    Id  eventhorizon.UUID
-    Username  string
-    Password  string
-    Email  string
-    Disabled  bool
-    LastLoginAt  *time.Time
-    Profile  *person.Profile
+    Id  eventhorizon.UUID`eh:"optional"`
+    Username  string`eh:"optional"`
+    Password  string`eh:"optional"`
+    Email  string`eh:"optional"`
+    Disabled  bool`eh:"optional"`
+    LastLoginAt  *time.Time`eh:"optional"`
+    Profile  *person.Profile`eh:"optional"`
 }
 
 
