@@ -6,6 +6,15 @@ import (
     "github.com/eugeis/gee/enum"
     "time"
 )
+const (
+     AccountCreatedEvent eventhorizon.EventType = "AccountCreated"
+     AccountDeletedEvent eventhorizon.EventType = "AccountDeleted"
+     AccountUpdatedEvent eventhorizon.EventType = "AccountUpdated"
+)
+
+
+
+
 
 type AccountCreated struct {
     Id  eventhorizon.UUID`eh:"optional"`

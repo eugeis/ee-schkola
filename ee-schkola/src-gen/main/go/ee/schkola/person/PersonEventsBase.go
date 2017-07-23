@@ -5,6 +5,29 @@ import (
     "github.com/eugeis/gee/enum"
     "time"
 )
+const (
+     ChurchCreatedEvent eventhorizon.EventType = "ChurchCreated"
+     ChurchDeletedEvent eventhorizon.EventType = "ChurchDeleted"
+     ChurchUpdatedEvent eventhorizon.EventType = "ChurchUpdated"
+)
+
+
+const (
+     GraduationCreatedEvent eventhorizon.EventType = "GraduationCreated"
+     GraduationDeletedEvent eventhorizon.EventType = "GraduationDeleted"
+     GraduationUpdatedEvent eventhorizon.EventType = "GraduationUpdated"
+)
+
+
+const (
+     ProfileCreatedEvent eventhorizon.EventType = "ProfileCreated"
+     ProfileDeletedEvent eventhorizon.EventType = "ProfileDeleted"
+     ProfileUpdatedEvent eventhorizon.EventType = "ProfileUpdated"
+)
+
+
+
+
 
 type ChurchCreated struct {
     Id  eventhorizon.UUID`eh:"optional"`

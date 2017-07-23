@@ -6,6 +6,36 @@ import (
     "github.com/eugeis/gee/enum"
     "time"
 )
+const (
+     ExpenseCreatedEvent eventhorizon.EventType = "ExpenseCreated"
+     ExpenseDeletedEvent eventhorizon.EventType = "ExpenseDeleted"
+     ExpenseUpdatedEvent eventhorizon.EventType = "ExpenseUpdated"
+)
+
+
+const (
+     ExpensePurposeCreatedEvent eventhorizon.EventType = "ExpensePurposeCreated"
+     ExpensePurposeDeletedEvent eventhorizon.EventType = "ExpensePurposeDeleted"
+     ExpensePurposeUpdatedEvent eventhorizon.EventType = "ExpensePurposeUpdated"
+)
+
+
+const (
+     FeeCreatedEvent eventhorizon.EventType = "FeeCreated"
+     FeeDeletedEvent eventhorizon.EventType = "FeeDeleted"
+     FeeUpdatedEvent eventhorizon.EventType = "FeeUpdated"
+)
+
+
+const (
+     FeeKindCreatedEvent eventhorizon.EventType = "FeeKindCreated"
+     FeeKindDeletedEvent eventhorizon.EventType = "FeeKindDeleted"
+     FeeKindUpdatedEvent eventhorizon.EventType = "FeeKindUpdated"
+)
+
+
+
+
 
 type ExpenseCreated struct {
     Id  eventhorizon.UUID`eh:"optional"`

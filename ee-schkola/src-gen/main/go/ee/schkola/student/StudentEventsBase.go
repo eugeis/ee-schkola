@@ -7,6 +7,50 @@ import (
     "github.com/eugeis/gee/enum"
     "time"
 )
+const (
+     AttendanceCreatedEvent eventhorizon.EventType = "AttendanceCreated"
+     AttendanceDeletedEvent eventhorizon.EventType = "AttendanceDeleted"
+     AttendanceUpdatedEvent eventhorizon.EventType = "AttendanceUpdated"
+)
+
+
+const (
+     CourseCreatedEvent eventhorizon.EventType = "CourseCreated"
+     CourseDeletedEvent eventhorizon.EventType = "CourseDeleted"
+     CourseUpdatedEvent eventhorizon.EventType = "CourseUpdated"
+)
+
+
+const (
+     GradeCreatedEvent eventhorizon.EventType = "GradeCreated"
+     GradeDeletedEvent eventhorizon.EventType = "GradeDeleted"
+     GradeUpdatedEvent eventhorizon.EventType = "GradeUpdated"
+)
+
+
+const (
+     GroupCreatedEvent eventhorizon.EventType = "GroupCreated"
+     GroupDeletedEvent eventhorizon.EventType = "GroupDeleted"
+     GroupUpdatedEvent eventhorizon.EventType = "GroupUpdated"
+)
+
+
+const (
+     SchoolApplicationCreatedEvent eventhorizon.EventType = "SchoolApplicationCreated"
+     SchoolApplicationDeletedEvent eventhorizon.EventType = "SchoolApplicationDeleted"
+     SchoolApplicationUpdatedEvent eventhorizon.EventType = "SchoolApplicationUpdated"
+)
+
+
+const (
+     SchoolYearCreatedEvent eventhorizon.EventType = "SchoolYearCreated"
+     SchoolYearDeletedEvent eventhorizon.EventType = "SchoolYearDeleted"
+     SchoolYearUpdatedEvent eventhorizon.EventType = "SchoolYearUpdated"
+)
+
+
+
+
 
 type AttendanceCreated struct {
     Id  eventhorizon.UUID`eh:"optional"`
