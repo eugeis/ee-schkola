@@ -15,12 +15,12 @@ func NewAccountAggregate(id eventhorizon.UUID) *AccountAggregate {
 }
 
 func (o *AccountAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
-    println("HandleCommand %v - %v", ctx, cmd)
+    println("HandleCommand", cmd.CommandType())
     return nil
 }
 
 func (o *AccountAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
-    println("ApplyEvent %v - %v", ctx, event)
+    println("ApplyEvent", event.EventType())
     return nil
 }
 

@@ -15,12 +15,12 @@ func NewChurchAggregate(id eventhorizon.UUID) *ChurchAggregate {
 }
 
 func (o *ChurchAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
-    println("HandleCommand %v - %v", ctx, cmd)
+    println("HandleCommand", cmd.CommandType())
     return nil
 }
 
 func (o *ChurchAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
-    println("ApplyEvent %v - %v", ctx, event)
+    println("ApplyEvent", event.EventType())
     return nil
 }
 
@@ -69,12 +69,12 @@ func NewGraduationAggregate(id eventhorizon.UUID) *GraduationAggregate {
 }
 
 func (o *GraduationAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
-    println("HandleCommand %v - %v", ctx, cmd)
+    println("HandleCommand", cmd.CommandType())
     return nil
 }
 
 func (o *GraduationAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
-    println("ApplyEvent %v - %v", ctx, event)
+    println("ApplyEvent", event.EventType())
     return nil
 }
 
@@ -123,12 +123,12 @@ func NewProfileAggregate(id eventhorizon.UUID) *ProfileAggregate {
 }
 
 func (o *ProfileAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
-    println("HandleCommand %v - %v", ctx, cmd)
+    println("HandleCommand", cmd.CommandType())
     return nil
 }
 
 func (o *ProfileAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
-    println("ApplyEvent %v - %v", ctx, event)
+    println("ApplyEvent", event.EventType())
     return nil
 }
 
