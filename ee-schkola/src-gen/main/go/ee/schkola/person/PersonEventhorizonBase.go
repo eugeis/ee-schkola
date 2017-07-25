@@ -1,54 +1,30 @@
 package person
 
 import (
-    "context"
     "errors"
     "fmt"
     "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/eh"
 )
 
-const ChurchAggregateType eventhorizon.AggregateType = "ChurchAggregate"
-
-func NewChurchAggregate(id eventhorizon.UUID) (ret *ChurchAggregate) {
-    ret = &ChurchAggregate{
-		AggregateBase: eventhorizon.NewAggregateBase(ChurchAggregateType, id),
-    }
-	//ret.CommandHandler = NewChurchAggregateCommandHandler(ret)
-    return
-}
-
-func (o *ChurchAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
-    println("ApplyEvent", event.EventType())
-    return nil
-}
-
-type ChurchAggregate struct {
-    *eventhorizon.AggregateBase
-    *Church
-    eventhorizon.CommandHandler
-}
-
-
-
 type ChurchCommandHandler struct {
-    CreateHandler  func (*CreateChurch, *ChurchAggregate) error
-    DeleteHandler  func (*DeleteChurch, *ChurchAggregate) error
-    UpdateHandler  func (*UpdateChurch, *ChurchAggregate) error
+    CreateHandler  func (*CreateChurch, *Church, eh.AggregateStoreEvent) error
+    DeleteHandler  func (*DeleteChurch, *Church, eh.AggregateStoreEvent) error
+    UpdateHandler  func (*UpdateChurch, *Church, eh.AggregateStoreEvent) error
 }
 
-func (o *ChurchCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *ChurchAggregate) error {
+func (o *ChurchCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
     
     var ret error
     switch cmd.CommandType() {
     case CreateChurchCommand:
-        ret = o.CreateHandler(cmd.(*CreateChurch), aggregate)
+        ret = o.CreateHandler(cmd.(*CreateChurch), entity.(*Church), store)
     case DeleteChurchCommand:
-        ret = o.DeleteHandler(cmd.(*DeleteChurch), aggregate)
+        ret = o.DeleteHandler(cmd.(*DeleteChurch), entity.(*Church), store)
     case UpdateChurchCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateChurch), aggregate)
+        ret = o.UpdateHandler(cmd.(*UpdateChurch), entity.(*Church), store)
     default:
-		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return ret
     
@@ -56,12 +32,58 @@ func (o *ChurchCommandHandler) HandleCommand(ctx *context.Context, cmd eventhori
 
 
 
+type ChurchEventHandler struct {
+    CreatedHandler  func (*ChurchCreated, *Church) error
+    DeletedHandler  func (*ChurchDeleted, *Church) error
+    UpdatedHandler  func (*ChurchUpdated, *Church) error
+}
+
+func (o *ChurchEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+    
+    var ret error
+    switch event.EventType() {
+    case ChurchCreatedEvent:
+        ret = o.CreatedHandler(event.Data().(*ChurchCreated), entity.(*Church))
+    case ChurchDeletedEvent:
+        ret = o.DeletedHandler(event.Data().(*ChurchDeleted), entity.(*Church))
+    case ChurchUpdatedEvent:
+        ret = o.UpdatedHandler(event.Data().(*ChurchUpdated), entity.(*Church))
+    default:
+		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
+	}
+    return ret
+    
+}
+
+
+
+const ChurchAggregateType eventhorizon.AggregateType = "ChurchAggregate"
+
+func NewChurchAggregate(id eventhorizon.UUID,
+    commandHandler eh.DelegateCommandHandler,
+    eventHandler eh.DelegateEventHandler) (ret *ChurchAggregate) {
+    ret = &ChurchAggregate{
+		AggregateBase: eh.NewAggregateBase(ChurchAggregateType, id, commandHandler, eventHandler, &Church{}),
+    }
+    return
+}
+
+type ChurchAggregate struct {
+    *eh.AggregateBase
+}
+
+
+
 func NewChurchAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *ChurchAggregateInitializer) {
+    commandHandler := &ChurchCommandHandler{}
+    eventHandler := &ChurchEventHandler{}
 	ret = &ChurchAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ChurchAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewChurchAggregate(id) },
+        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewChurchAggregate(id, commandHandler, eventHandler) },
         ChurchCommandTypes().Literals(), ChurchEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        ChurchCommandHandler: commandHandler,
+        ChurchEventHandler: eventHandler,
     }
 	return
 }
@@ -82,51 +104,29 @@ func (o *ChurchAggregateInitializer) RegisterForUpdated(handler eventhorizon.Eve
 type ChurchAggregateInitializer struct {
     *eh.AggregateInitializer
     *ChurchCommandHandler
-}
-
-
-
-const GraduationAggregateType eventhorizon.AggregateType = "GraduationAggregate"
-
-func NewGraduationAggregate(id eventhorizon.UUID) (ret *GraduationAggregate) {
-    ret = &GraduationAggregate{
-		AggregateBase: eventhorizon.NewAggregateBase(GraduationAggregateType, id),
-    }
-	//ret.CommandHandler = NewGraduationAggregateCommandHandler(ret)
-    return
-}
-
-func (o *GraduationAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
-    println("ApplyEvent", event.EventType())
-    return nil
-}
-
-type GraduationAggregate struct {
-    *eventhorizon.AggregateBase
-    *Graduation
-    eventhorizon.CommandHandler
+    *ChurchEventHandler
 }
 
 
 
 type GraduationCommandHandler struct {
-    CreateHandler  func (*CreateGraduation, *GraduationAggregate) error
-    DeleteHandler  func (*DeleteGraduation, *GraduationAggregate) error
-    UpdateHandler  func (*UpdateGraduation, *GraduationAggregate) error
+    CreateHandler  func (*CreateGraduation, *Graduation, eh.AggregateStoreEvent) error
+    DeleteHandler  func (*DeleteGraduation, *Graduation, eh.AggregateStoreEvent) error
+    UpdateHandler  func (*UpdateGraduation, *Graduation, eh.AggregateStoreEvent) error
 }
 
-func (o *GraduationCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *GraduationAggregate) error {
+func (o *GraduationCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
     
     var ret error
     switch cmd.CommandType() {
     case CreateGraduationCommand:
-        ret = o.CreateHandler(cmd.(*CreateGraduation), aggregate)
+        ret = o.CreateHandler(cmd.(*CreateGraduation), entity.(*Graduation), store)
     case DeleteGraduationCommand:
-        ret = o.DeleteHandler(cmd.(*DeleteGraduation), aggregate)
+        ret = o.DeleteHandler(cmd.(*DeleteGraduation), entity.(*Graduation), store)
     case UpdateGraduationCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateGraduation), aggregate)
+        ret = o.UpdateHandler(cmd.(*UpdateGraduation), entity.(*Graduation), store)
     default:
-		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return ret
     
@@ -134,12 +134,58 @@ func (o *GraduationCommandHandler) HandleCommand(ctx *context.Context, cmd event
 
 
 
+type GraduationEventHandler struct {
+    CreatedHandler  func (*GraduationCreated, *Graduation) error
+    DeletedHandler  func (*GraduationDeleted, *Graduation) error
+    UpdatedHandler  func (*GraduationUpdated, *Graduation) error
+}
+
+func (o *GraduationEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+    
+    var ret error
+    switch event.EventType() {
+    case GraduationCreatedEvent:
+        ret = o.CreatedHandler(event.Data().(*GraduationCreated), entity.(*Graduation))
+    case GraduationDeletedEvent:
+        ret = o.DeletedHandler(event.Data().(*GraduationDeleted), entity.(*Graduation))
+    case GraduationUpdatedEvent:
+        ret = o.UpdatedHandler(event.Data().(*GraduationUpdated), entity.(*Graduation))
+    default:
+		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
+	}
+    return ret
+    
+}
+
+
+
+const GraduationAggregateType eventhorizon.AggregateType = "GraduationAggregate"
+
+func NewGraduationAggregate(id eventhorizon.UUID,
+    commandHandler eh.DelegateCommandHandler,
+    eventHandler eh.DelegateEventHandler) (ret *GraduationAggregate) {
+    ret = &GraduationAggregate{
+		AggregateBase: eh.NewAggregateBase(GraduationAggregateType, id, commandHandler, eventHandler, &Graduation{}),
+    }
+    return
+}
+
+type GraduationAggregate struct {
+    *eh.AggregateBase
+}
+
+
+
 func NewGraduationAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *GraduationAggregateInitializer) {
+    commandHandler := &GraduationCommandHandler{}
+    eventHandler := &GraduationEventHandler{}
 	ret = &GraduationAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(GraduationAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewGraduationAggregate(id) },
+        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewGraduationAggregate(id, commandHandler, eventHandler) },
         GraduationCommandTypes().Literals(), GraduationEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        GraduationCommandHandler: commandHandler,
+        GraduationEventHandler: eventHandler,
     }
 	return
 }
@@ -160,51 +206,29 @@ func (o *GraduationAggregateInitializer) RegisterForUpdated(handler eventhorizon
 type GraduationAggregateInitializer struct {
     *eh.AggregateInitializer
     *GraduationCommandHandler
-}
-
-
-
-const ProfileAggregateType eventhorizon.AggregateType = "ProfileAggregate"
-
-func NewProfileAggregate(id eventhorizon.UUID) (ret *ProfileAggregate) {
-    ret = &ProfileAggregate{
-		AggregateBase: eventhorizon.NewAggregateBase(ProfileAggregateType, id),
-    }
-	//ret.CommandHandler = NewProfileAggregateCommandHandler(ret)
-    return
-}
-
-func (o *ProfileAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
-    println("ApplyEvent", event.EventType())
-    return nil
-}
-
-type ProfileAggregate struct {
-    *eventhorizon.AggregateBase
-    *Profile
-    eventhorizon.CommandHandler
+    *GraduationEventHandler
 }
 
 
 
 type ProfileCommandHandler struct {
-    CreateHandler  func (*CreateProfile, *ProfileAggregate) error
-    DeleteHandler  func (*DeleteProfile, *ProfileAggregate) error
-    UpdateHandler  func (*UpdateProfile, *ProfileAggregate) error
+    CreateHandler  func (*CreateProfile, *Profile, eh.AggregateStoreEvent) error
+    DeleteHandler  func (*DeleteProfile, *Profile, eh.AggregateStoreEvent) error
+    UpdateHandler  func (*UpdateProfile, *Profile, eh.AggregateStoreEvent) error
 }
 
-func (o *ProfileCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *ProfileAggregate) error {
+func (o *ProfileCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
     
     var ret error
     switch cmd.CommandType() {
     case CreateProfileCommand:
-        ret = o.CreateHandler(cmd.(*CreateProfile), aggregate)
+        ret = o.CreateHandler(cmd.(*CreateProfile), entity.(*Profile), store)
     case DeleteProfileCommand:
-        ret = o.DeleteHandler(cmd.(*DeleteProfile), aggregate)
+        ret = o.DeleteHandler(cmd.(*DeleteProfile), entity.(*Profile), store)
     case UpdateProfileCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateProfile), aggregate)
+        ret = o.UpdateHandler(cmd.(*UpdateProfile), entity.(*Profile), store)
     default:
-		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return ret
     
@@ -212,12 +236,58 @@ func (o *ProfileCommandHandler) HandleCommand(ctx *context.Context, cmd eventhor
 
 
 
+type ProfileEventHandler struct {
+    CreatedHandler  func (*ProfileCreated, *Profile) error
+    DeletedHandler  func (*ProfileDeleted, *Profile) error
+    UpdatedHandler  func (*ProfileUpdated, *Profile) error
+}
+
+func (o *ProfileEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+    
+    var ret error
+    switch event.EventType() {
+    case ProfileCreatedEvent:
+        ret = o.CreatedHandler(event.Data().(*ProfileCreated), entity.(*Profile))
+    case ProfileDeletedEvent:
+        ret = o.DeletedHandler(event.Data().(*ProfileDeleted), entity.(*Profile))
+    case ProfileUpdatedEvent:
+        ret = o.UpdatedHandler(event.Data().(*ProfileUpdated), entity.(*Profile))
+    default:
+		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
+	}
+    return ret
+    
+}
+
+
+
+const ProfileAggregateType eventhorizon.AggregateType = "ProfileAggregate"
+
+func NewProfileAggregate(id eventhorizon.UUID,
+    commandHandler eh.DelegateCommandHandler,
+    eventHandler eh.DelegateEventHandler) (ret *ProfileAggregate) {
+    ret = &ProfileAggregate{
+		AggregateBase: eh.NewAggregateBase(ProfileAggregateType, id, commandHandler, eventHandler, &Profile{}),
+    }
+    return
+}
+
+type ProfileAggregate struct {
+    *eh.AggregateBase
+}
+
+
+
 func NewProfileAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *ProfileAggregateInitializer) {
+    commandHandler := &ProfileCommandHandler{}
+    eventHandler := &ProfileEventHandler{}
 	ret = &ProfileAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ProfileAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewProfileAggregate(id) },
+        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewProfileAggregate(id, commandHandler, eventHandler) },
         ProfileCommandTypes().Literals(), ProfileEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        ProfileCommandHandler: commandHandler,
+        ProfileEventHandler: eventHandler,
     }
 	return
 }
@@ -238,6 +308,7 @@ func (o *ProfileAggregateInitializer) RegisterForUpdated(handler eventhorizon.Ev
 type ProfileAggregateInitializer struct {
     *eh.AggregateInitializer
     *ProfileCommandHandler
+    *ProfileEventHandler
 }
 
 

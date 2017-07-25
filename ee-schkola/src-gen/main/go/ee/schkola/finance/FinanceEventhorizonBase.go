@@ -1,54 +1,30 @@
 package finance
 
 import (
-    "context"
     "errors"
     "fmt"
     "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/eh"
 )
 
-const ExpenseAggregateType eventhorizon.AggregateType = "ExpenseAggregate"
-
-func NewExpenseAggregate(id eventhorizon.UUID) (ret *ExpenseAggregate) {
-    ret = &ExpenseAggregate{
-		AggregateBase: eventhorizon.NewAggregateBase(ExpenseAggregateType, id),
-    }
-	//ret.CommandHandler = NewExpenseAggregateCommandHandler(ret)
-    return
-}
-
-func (o *ExpenseAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
-    println("ApplyEvent", event.EventType())
-    return nil
-}
-
-type ExpenseAggregate struct {
-    *eventhorizon.AggregateBase
-    *Expense
-    eventhorizon.CommandHandler
-}
-
-
-
 type ExpenseCommandHandler struct {
-    CreateHandler  func (*CreateExpense, *ExpenseAggregate) error
-    DeleteHandler  func (*DeleteExpense, *ExpenseAggregate) error
-    UpdateHandler  func (*UpdateExpense, *ExpenseAggregate) error
+    CreateHandler  func (*CreateExpense, *Expense, eh.AggregateStoreEvent) error
+    DeleteHandler  func (*DeleteExpense, *Expense, eh.AggregateStoreEvent) error
+    UpdateHandler  func (*UpdateExpense, *Expense, eh.AggregateStoreEvent) error
 }
 
-func (o *ExpenseCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *ExpenseAggregate) error {
+func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
     
     var ret error
     switch cmd.CommandType() {
     case CreateExpenseCommand:
-        ret = o.CreateHandler(cmd.(*CreateExpense), aggregate)
+        ret = o.CreateHandler(cmd.(*CreateExpense), entity.(*Expense), store)
     case DeleteExpenseCommand:
-        ret = o.DeleteHandler(cmd.(*DeleteExpense), aggregate)
+        ret = o.DeleteHandler(cmd.(*DeleteExpense), entity.(*Expense), store)
     case UpdateExpenseCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateExpense), aggregate)
+        ret = o.UpdateHandler(cmd.(*UpdateExpense), entity.(*Expense), store)
     default:
-		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return ret
     
@@ -56,12 +32,58 @@ func (o *ExpenseCommandHandler) HandleCommand(ctx *context.Context, cmd eventhor
 
 
 
+type ExpenseEventHandler struct {
+    CreatedHandler  func (*ExpenseCreated, *Expense) error
+    DeletedHandler  func (*ExpenseDeleted, *Expense) error
+    UpdatedHandler  func (*ExpenseUpdated, *Expense) error
+}
+
+func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+    
+    var ret error
+    switch event.EventType() {
+    case ExpenseCreatedEvent:
+        ret = o.CreatedHandler(event.Data().(*ExpenseCreated), entity.(*Expense))
+    case ExpenseDeletedEvent:
+        ret = o.DeletedHandler(event.Data().(*ExpenseDeleted), entity.(*Expense))
+    case ExpenseUpdatedEvent:
+        ret = o.UpdatedHandler(event.Data().(*ExpenseUpdated), entity.(*Expense))
+    default:
+		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
+	}
+    return ret
+    
+}
+
+
+
+const ExpenseAggregateType eventhorizon.AggregateType = "ExpenseAggregate"
+
+func NewExpenseAggregate(id eventhorizon.UUID,
+    commandHandler eh.DelegateCommandHandler,
+    eventHandler eh.DelegateEventHandler) (ret *ExpenseAggregate) {
+    ret = &ExpenseAggregate{
+		AggregateBase: eh.NewAggregateBase(ExpenseAggregateType, id, commandHandler, eventHandler, &Expense{}),
+    }
+    return
+}
+
+type ExpenseAggregate struct {
+    *eh.AggregateBase
+}
+
+
+
 func NewExpenseAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *ExpenseAggregateInitializer) {
+    commandHandler := &ExpenseCommandHandler{}
+    eventHandler := &ExpenseEventHandler{}
 	ret = &ExpenseAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ExpenseAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewExpenseAggregate(id) },
+        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewExpenseAggregate(id, commandHandler, eventHandler) },
         ExpenseCommandTypes().Literals(), ExpenseEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        ExpenseCommandHandler: commandHandler,
+        ExpenseEventHandler: eventHandler,
     }
 	return
 }
@@ -82,51 +104,29 @@ func (o *ExpenseAggregateInitializer) RegisterForUpdated(handler eventhorizon.Ev
 type ExpenseAggregateInitializer struct {
     *eh.AggregateInitializer
     *ExpenseCommandHandler
-}
-
-
-
-const ExpensePurposeAggregateType eventhorizon.AggregateType = "ExpensePurposeAggregate"
-
-func NewExpensePurposeAggregate(id eventhorizon.UUID) (ret *ExpensePurposeAggregate) {
-    ret = &ExpensePurposeAggregate{
-		AggregateBase: eventhorizon.NewAggregateBase(ExpensePurposeAggregateType, id),
-    }
-	//ret.CommandHandler = NewExpensePurposeAggregateCommandHandler(ret)
-    return
-}
-
-func (o *ExpensePurposeAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
-    println("ApplyEvent", event.EventType())
-    return nil
-}
-
-type ExpensePurposeAggregate struct {
-    *eventhorizon.AggregateBase
-    *ExpensePurpose
-    eventhorizon.CommandHandler
+    *ExpenseEventHandler
 }
 
 
 
 type ExpensePurposeCommandHandler struct {
-    CreateHandler  func (*CreateExpensePurpose, *ExpensePurposeAggregate) error
-    DeleteHandler  func (*DeleteExpensePurpose, *ExpensePurposeAggregate) error
-    UpdateHandler  func (*UpdateExpensePurpose, *ExpensePurposeAggregate) error
+    CreateHandler  func (*CreateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) error
+    DeleteHandler  func (*DeleteExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) error
+    UpdateHandler  func (*UpdateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) error
 }
 
-func (o *ExpensePurposeCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *ExpensePurposeAggregate) error {
+func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
     
     var ret error
     switch cmd.CommandType() {
     case CreateExpensePurposeCommand:
-        ret = o.CreateHandler(cmd.(*CreateExpensePurpose), aggregate)
+        ret = o.CreateHandler(cmd.(*CreateExpensePurpose), entity.(*ExpensePurpose), store)
     case DeleteExpensePurposeCommand:
-        ret = o.DeleteHandler(cmd.(*DeleteExpensePurpose), aggregate)
+        ret = o.DeleteHandler(cmd.(*DeleteExpensePurpose), entity.(*ExpensePurpose), store)
     case UpdateExpensePurposeCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateExpensePurpose), aggregate)
+        ret = o.UpdateHandler(cmd.(*UpdateExpensePurpose), entity.(*ExpensePurpose), store)
     default:
-		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return ret
     
@@ -134,12 +134,58 @@ func (o *ExpensePurposeCommandHandler) HandleCommand(ctx *context.Context, cmd e
 
 
 
+type ExpensePurposeEventHandler struct {
+    CreatedHandler  func (*ExpensePurposeCreated, *ExpensePurpose) error
+    DeletedHandler  func (*ExpensePurposeDeleted, *ExpensePurpose) error
+    UpdatedHandler  func (*ExpensePurposeUpdated, *ExpensePurpose) error
+}
+
+func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+    
+    var ret error
+    switch event.EventType() {
+    case ExpensePurposeCreatedEvent:
+        ret = o.CreatedHandler(event.Data().(*ExpensePurposeCreated), entity.(*ExpensePurpose))
+    case ExpensePurposeDeletedEvent:
+        ret = o.DeletedHandler(event.Data().(*ExpensePurposeDeleted), entity.(*ExpensePurpose))
+    case ExpensePurposeUpdatedEvent:
+        ret = o.UpdatedHandler(event.Data().(*ExpensePurposeUpdated), entity.(*ExpensePurpose))
+    default:
+		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
+	}
+    return ret
+    
+}
+
+
+
+const ExpensePurposeAggregateType eventhorizon.AggregateType = "ExpensePurposeAggregate"
+
+func NewExpensePurposeAggregate(id eventhorizon.UUID,
+    commandHandler eh.DelegateCommandHandler,
+    eventHandler eh.DelegateEventHandler) (ret *ExpensePurposeAggregate) {
+    ret = &ExpensePurposeAggregate{
+		AggregateBase: eh.NewAggregateBase(ExpensePurposeAggregateType, id, commandHandler, eventHandler, &ExpensePurpose{}),
+    }
+    return
+}
+
+type ExpensePurposeAggregate struct {
+    *eh.AggregateBase
+}
+
+
+
 func NewExpensePurposeAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *ExpensePurposeAggregateInitializer) {
+    commandHandler := &ExpensePurposeCommandHandler{}
+    eventHandler := &ExpensePurposeEventHandler{}
 	ret = &ExpensePurposeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ExpensePurposeAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewExpensePurposeAggregate(id) },
+        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewExpensePurposeAggregate(id, commandHandler, eventHandler) },
         ExpensePurposeCommandTypes().Literals(), ExpensePurposeEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        ExpensePurposeCommandHandler: commandHandler,
+        ExpensePurposeEventHandler: eventHandler,
     }
 	return
 }
@@ -160,51 +206,29 @@ func (o *ExpensePurposeAggregateInitializer) RegisterForUpdated(handler eventhor
 type ExpensePurposeAggregateInitializer struct {
     *eh.AggregateInitializer
     *ExpensePurposeCommandHandler
-}
-
-
-
-const FeeAggregateType eventhorizon.AggregateType = "FeeAggregate"
-
-func NewFeeAggregate(id eventhorizon.UUID) (ret *FeeAggregate) {
-    ret = &FeeAggregate{
-		AggregateBase: eventhorizon.NewAggregateBase(FeeAggregateType, id),
-    }
-	//ret.CommandHandler = NewFeeAggregateCommandHandler(ret)
-    return
-}
-
-func (o *FeeAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
-    println("ApplyEvent", event.EventType())
-    return nil
-}
-
-type FeeAggregate struct {
-    *eventhorizon.AggregateBase
-    *Fee
-    eventhorizon.CommandHandler
+    *ExpensePurposeEventHandler
 }
 
 
 
 type FeeCommandHandler struct {
-    CreateHandler  func (*CreateFee, *FeeAggregate) error
-    DeleteHandler  func (*DeleteFee, *FeeAggregate) error
-    UpdateHandler  func (*UpdateFee, *FeeAggregate) error
+    CreateHandler  func (*CreateFee, *Fee, eh.AggregateStoreEvent) error
+    DeleteHandler  func (*DeleteFee, *Fee, eh.AggregateStoreEvent) error
+    UpdateHandler  func (*UpdateFee, *Fee, eh.AggregateStoreEvent) error
 }
 
-func (o *FeeCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *FeeAggregate) error {
+func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
     
     var ret error
     switch cmd.CommandType() {
     case CreateFeeCommand:
-        ret = o.CreateHandler(cmd.(*CreateFee), aggregate)
+        ret = o.CreateHandler(cmd.(*CreateFee), entity.(*Fee), store)
     case DeleteFeeCommand:
-        ret = o.DeleteHandler(cmd.(*DeleteFee), aggregate)
+        ret = o.DeleteHandler(cmd.(*DeleteFee), entity.(*Fee), store)
     case UpdateFeeCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateFee), aggregate)
+        ret = o.UpdateHandler(cmd.(*UpdateFee), entity.(*Fee), store)
     default:
-		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return ret
     
@@ -212,12 +236,58 @@ func (o *FeeCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon
 
 
 
+type FeeEventHandler struct {
+    CreatedHandler  func (*FeeCreated, *Fee) error
+    DeletedHandler  func (*FeeDeleted, *Fee) error
+    UpdatedHandler  func (*FeeUpdated, *Fee) error
+}
+
+func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+    
+    var ret error
+    switch event.EventType() {
+    case FeeCreatedEvent:
+        ret = o.CreatedHandler(event.Data().(*FeeCreated), entity.(*Fee))
+    case FeeDeletedEvent:
+        ret = o.DeletedHandler(event.Data().(*FeeDeleted), entity.(*Fee))
+    case FeeUpdatedEvent:
+        ret = o.UpdatedHandler(event.Data().(*FeeUpdated), entity.(*Fee))
+    default:
+		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
+	}
+    return ret
+    
+}
+
+
+
+const FeeAggregateType eventhorizon.AggregateType = "FeeAggregate"
+
+func NewFeeAggregate(id eventhorizon.UUID,
+    commandHandler eh.DelegateCommandHandler,
+    eventHandler eh.DelegateEventHandler) (ret *FeeAggregate) {
+    ret = &FeeAggregate{
+		AggregateBase: eh.NewAggregateBase(FeeAggregateType, id, commandHandler, eventHandler, &Fee{}),
+    }
+    return
+}
+
+type FeeAggregate struct {
+    *eh.AggregateBase
+}
+
+
+
 func NewFeeAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *FeeAggregateInitializer) {
+    commandHandler := &FeeCommandHandler{}
+    eventHandler := &FeeEventHandler{}
 	ret = &FeeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(FeeAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewFeeAggregate(id) },
+        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewFeeAggregate(id, commandHandler, eventHandler) },
         FeeCommandTypes().Literals(), FeeEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        FeeCommandHandler: commandHandler,
+        FeeEventHandler: eventHandler,
     }
 	return
 }
@@ -238,51 +308,29 @@ func (o *FeeAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventH
 type FeeAggregateInitializer struct {
     *eh.AggregateInitializer
     *FeeCommandHandler
-}
-
-
-
-const FeeKindAggregateType eventhorizon.AggregateType = "FeeKindAggregate"
-
-func NewFeeKindAggregate(id eventhorizon.UUID) (ret *FeeKindAggregate) {
-    ret = &FeeKindAggregate{
-		AggregateBase: eventhorizon.NewAggregateBase(FeeKindAggregateType, id),
-    }
-	//ret.CommandHandler = NewFeeKindAggregateCommandHandler(ret)
-    return
-}
-
-func (o *FeeKindAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
-    println("ApplyEvent", event.EventType())
-    return nil
-}
-
-type FeeKindAggregate struct {
-    *eventhorizon.AggregateBase
-    *FeeKind
-    eventhorizon.CommandHandler
+    *FeeEventHandler
 }
 
 
 
 type FeeKindCommandHandler struct {
-    CreateHandler  func (*CreateFeeKind, *FeeKindAggregate) error
-    DeleteHandler  func (*DeleteFeeKind, *FeeKindAggregate) error
-    UpdateHandler  func (*UpdateFeeKind, *FeeKindAggregate) error
+    CreateHandler  func (*CreateFeeKind, *FeeKind, eh.AggregateStoreEvent) error
+    DeleteHandler  func (*DeleteFeeKind, *FeeKind, eh.AggregateStoreEvent) error
+    UpdateHandler  func (*UpdateFeeKind, *FeeKind, eh.AggregateStoreEvent) error
 }
 
-func (o *FeeKindCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *FeeKindAggregate) error {
+func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
     
     var ret error
     switch cmd.CommandType() {
     case CreateFeeKindCommand:
-        ret = o.CreateHandler(cmd.(*CreateFeeKind), aggregate)
+        ret = o.CreateHandler(cmd.(*CreateFeeKind), entity.(*FeeKind), store)
     case DeleteFeeKindCommand:
-        ret = o.DeleteHandler(cmd.(*DeleteFeeKind), aggregate)
+        ret = o.DeleteHandler(cmd.(*DeleteFeeKind), entity.(*FeeKind), store)
     case UpdateFeeKindCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateFeeKind), aggregate)
+        ret = o.UpdateHandler(cmd.(*UpdateFeeKind), entity.(*FeeKind), store)
     default:
-		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return ret
     
@@ -290,12 +338,58 @@ func (o *FeeKindCommandHandler) HandleCommand(ctx *context.Context, cmd eventhor
 
 
 
+type FeeKindEventHandler struct {
+    CreatedHandler  func (*FeeKindCreated, *FeeKind) error
+    DeletedHandler  func (*FeeKindDeleted, *FeeKind) error
+    UpdatedHandler  func (*FeeKindUpdated, *FeeKind) error
+}
+
+func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+    
+    var ret error
+    switch event.EventType() {
+    case FeeKindCreatedEvent:
+        ret = o.CreatedHandler(event.Data().(*FeeKindCreated), entity.(*FeeKind))
+    case FeeKindDeletedEvent:
+        ret = o.DeletedHandler(event.Data().(*FeeKindDeleted), entity.(*FeeKind))
+    case FeeKindUpdatedEvent:
+        ret = o.UpdatedHandler(event.Data().(*FeeKindUpdated), entity.(*FeeKind))
+    default:
+		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
+	}
+    return ret
+    
+}
+
+
+
+const FeeKindAggregateType eventhorizon.AggregateType = "FeeKindAggregate"
+
+func NewFeeKindAggregate(id eventhorizon.UUID,
+    commandHandler eh.DelegateCommandHandler,
+    eventHandler eh.DelegateEventHandler) (ret *FeeKindAggregate) {
+    ret = &FeeKindAggregate{
+		AggregateBase: eh.NewAggregateBase(FeeKindAggregateType, id, commandHandler, eventHandler, &FeeKind{}),
+    }
+    return
+}
+
+type FeeKindAggregate struct {
+    *eh.AggregateBase
+}
+
+
+
 func NewFeeKindAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *FeeKindAggregateInitializer) {
+    commandHandler := &FeeKindCommandHandler{}
+    eventHandler := &FeeKindEventHandler{}
 	ret = &FeeKindAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(FeeKindAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewFeeKindAggregate(id) },
+        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewFeeKindAggregate(id, commandHandler, eventHandler) },
         FeeKindCommandTypes().Literals(), FeeKindEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        FeeKindCommandHandler: commandHandler,
+        FeeKindEventHandler: eventHandler,
     }
 	return
 }
@@ -316,6 +410,7 @@ func (o *FeeKindAggregateInitializer) RegisterForUpdated(handler eventhorizon.Ev
 type FeeKindAggregateInitializer struct {
     *eh.AggregateInitializer
     *FeeKindCommandHandler
+    *FeeKindEventHandler
 }
 
 

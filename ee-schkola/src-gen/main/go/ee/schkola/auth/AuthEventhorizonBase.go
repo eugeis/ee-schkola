@@ -1,63 +1,39 @@
 package auth
 
 import (
-    "context"
     "errors"
     "fmt"
     "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/eh"
 )
 
-const AccountAggregateType eventhorizon.AggregateType = "AccountAggregate"
-
-func NewAccountAggregate(id eventhorizon.UUID) (ret *AccountAggregate) {
-    ret = &AccountAggregate{
-		AggregateBase: eventhorizon.NewAggregateBase(AccountAggregateType, id),
-    }
-	//ret.CommandHandler = NewAccountAggregateCommandHandler(ret)
-    return
-}
-
-func (o *AccountAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
-    println("ApplyEvent", event.EventType())
-    return nil
-}
-
-type AccountAggregate struct {
-    *eventhorizon.AggregateBase
-    *Account
-    eventhorizon.CommandHandler
-}
-
-
-
 type AccountCommandHandler struct {
-    CreateHandler  func (*CreateAccount, *AccountAggregate) error
-    DeleteHandler  func (*DeleteAccount, *AccountAggregate) error
-    UpdateHandler  func (*UpdateAccount, *AccountAggregate) error
-    EnableHandler  func (*EnableAccount, *AccountAggregate) error
-    DisableHandler  func (*DisableAccount, *AccountAggregate) error
-    RegisterHandler  func (*RegisterAccount, *AccountAggregate) error
+    CreateHandler  func (*CreateAccount, *Account, eh.AggregateStoreEvent) error
+    DeleteHandler  func (*DeleteAccount, *Account, eh.AggregateStoreEvent) error
+    UpdateHandler  func (*UpdateAccount, *Account, eh.AggregateStoreEvent) error
+    EnableHandler  func (*EnableAccount, *Account, eh.AggregateStoreEvent) error
+    DisableHandler  func (*DisableAccount, *Account, eh.AggregateStoreEvent) error
+    RegisterHandler  func (*RegisterAccount, *Account, eh.AggregateStoreEvent) error
 }
 
-func (o *AccountCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *AccountAggregate) error {
+func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
     
     var ret error
     switch cmd.CommandType() {
     case CreateAccountCommand:
-        ret = o.CreateHandler(cmd.(*CreateAccount), aggregate)
+        ret = o.CreateHandler(cmd.(*CreateAccount), entity.(*Account), store)
     case DeleteAccountCommand:
-        ret = o.DeleteHandler(cmd.(*DeleteAccount), aggregate)
+        ret = o.DeleteHandler(cmd.(*DeleteAccount), entity.(*Account), store)
     case UpdateAccountCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateAccount), aggregate)
+        ret = o.UpdateHandler(cmd.(*UpdateAccount), entity.(*Account), store)
     case EnableAccountCommand:
-        ret = o.EnableHandler(cmd.(*EnableAccount), aggregate)
+        ret = o.EnableHandler(cmd.(*EnableAccount), entity.(*Account), store)
     case DisableAccountCommand:
-        ret = o.DisableHandler(cmd.(*DisableAccount), aggregate)
+        ret = o.DisableHandler(cmd.(*DisableAccount), entity.(*Account), store)
     case RegisterAccountCommand:
-        ret = o.RegisterHandler(cmd.(*RegisterAccount), aggregate)
+        ret = o.RegisterHandler(cmd.(*RegisterAccount), entity.(*Account), store)
     default:
-		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return ret
     
@@ -65,12 +41,58 @@ func (o *AccountCommandHandler) HandleCommand(ctx *context.Context, cmd eventhor
 
 
 
+type AccountEventHandler struct {
+    CreatedHandler  func (*AccountCreated, *Account) error
+    DeletedHandler  func (*AccountDeleted, *Account) error
+    UpdatedHandler  func (*AccountUpdated, *Account) error
+}
+
+func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+    
+    var ret error
+    switch event.EventType() {
+    case AccountCreatedEvent:
+        ret = o.CreatedHandler(event.Data().(*AccountCreated), entity.(*Account))
+    case AccountDeletedEvent:
+        ret = o.DeletedHandler(event.Data().(*AccountDeleted), entity.(*Account))
+    case AccountUpdatedEvent:
+        ret = o.UpdatedHandler(event.Data().(*AccountUpdated), entity.(*Account))
+    default:
+		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
+	}
+    return ret
+    
+}
+
+
+
+const AccountAggregateType eventhorizon.AggregateType = "AccountAggregate"
+
+func NewAccountAggregate(id eventhorizon.UUID,
+    commandHandler eh.DelegateCommandHandler,
+    eventHandler eh.DelegateEventHandler) (ret *AccountAggregate) {
+    ret = &AccountAggregate{
+		AggregateBase: eh.NewAggregateBase(AccountAggregateType, id, commandHandler, eventHandler, &Account{}),
+    }
+    return
+}
+
+type AccountAggregate struct {
+    *eh.AggregateBase
+}
+
+
+
 func NewAccountAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *AccountAggregateInitializer) {
+    commandHandler := &AccountCommandHandler{}
+    eventHandler := &AccountEventHandler{}
 	ret = &AccountAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(AccountAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewAccountAggregate(id) },
+        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewAccountAggregate(id, commandHandler, eventHandler) },
         AccountCommandTypes().Literals(), AccountEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        AccountCommandHandler: commandHandler,
+        AccountEventHandler: eventHandler,
     }
 	return
 }
@@ -91,6 +113,7 @@ func (o *AccountAggregateInitializer) RegisterForUpdated(handler eventhorizon.Ev
 type AccountAggregateInitializer struct {
     *eh.AggregateInitializer
     *AccountCommandHandler
+    *AccountEventHandler
 }
 
 
