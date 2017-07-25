@@ -30,10 +30,16 @@ func main() {
 
 	personEngine := person.NewPersonEventhorizonInitializer(eventStore, eventBus, eventPublisher, commandBus)
 
-	personEngine.ChurchAggregateInitializer.CreateHandler = func(cmd *person.CreateChurch, entity *person.Church,
+	personEngine.ChurchAggregateInitializer.CreateHandler = func(item *person.CreateChurch, entity *person.Church,
 		es eh.AggregateStoreEvent) error {
-		println(fmt.Sprintf("Handle %v,%v", cmd, entity))
-		es.StoreEvent(person.ChurchCreatedEvent, &person.ChurchCreated{Name: cmd.Name})
+		println(fmt.Sprintf("Handle Command %v,%v", item, entity))
+		es.StoreEvent(person.ChurchCreatedEvent, &person.ChurchCreated{Name: item.Name})
+		return nil
+	}
+
+	personEngine.ChurchAggregateInitializer.CreatedHandler = func(item *person.ChurchCreated, entity *person.Church) error {
+		println(fmt.Sprintf("Handle Event %v,%v", item, entity))
+
 		return nil
 	}
 

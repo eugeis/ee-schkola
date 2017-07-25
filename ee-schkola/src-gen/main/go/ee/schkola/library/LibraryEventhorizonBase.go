@@ -42,6 +42,13 @@ func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{
     
 }
 
+func (o *BookCommandHandler) SetupCommandHandler() error {
+    
+    var ret error
+    return ret
+    
+}
+
 
 
 type BookEventHandler struct {
@@ -67,24 +74,16 @@ func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) e
     
 }
 
-
-
-const BookAggregateType eventhorizon.AggregateType = "BookAggregate"
-
-func NewBookAggregate(id eventhorizon.UUID,
-    commandHandler eh.DelegateCommandHandler,
-    eventHandler eh.DelegateEventHandler) (ret *BookAggregate) {
-    ret = &BookAggregate{
-		AggregateBase: eh.NewAggregateBase(BookAggregateType, id, commandHandler, eventHandler, &Book{}),
-    }
-    return
-}
-
-type BookAggregate struct {
-    *eh.AggregateBase
+func (o *BookEventHandler) SetupEventHandler() error {
+    
+    var ret error
+    return ret
+    
 }
 
 
+
+const BookAggregateType eventhorizon.AggregateType = "BookAggregateInitializer"
 
 func NewBookAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
@@ -92,8 +91,11 @@ func NewBookAggregateInitializer(
     commandHandler := &BookCommandHandler{}
     eventHandler := &BookEventHandler{}
 	ret = &BookAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(BookAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewBookAggregate(id, commandHandler, eventHandler) },
-        BookCommandTypes().Literals(), BookEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        func(id eventhorizon.UUID) eventhorizon.Aggregate {
+            return eh.NewAggregateBase(BookAggregateType, id, commandHandler, eventHandler, &Book{})
+        },
+        BookCommandTypes().Literals(), BookEventTypes().Literals(), nil,
+        eventStore, eventBus, eventPublisher, commandBus),
         BookCommandHandler: commandHandler,
         BookEventHandler: eventHandler,
     }

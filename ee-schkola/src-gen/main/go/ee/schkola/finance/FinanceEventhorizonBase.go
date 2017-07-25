@@ -30,6 +30,13 @@ func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
     
 }
 
+func (o *ExpenseCommandHandler) SetupCommandHandler() error {
+    
+    var ret error
+    return ret
+    
+}
+
 
 
 type ExpenseEventHandler struct {
@@ -55,24 +62,16 @@ func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}
     
 }
 
-
-
-const ExpenseAggregateType eventhorizon.AggregateType = "ExpenseAggregate"
-
-func NewExpenseAggregate(id eventhorizon.UUID,
-    commandHandler eh.DelegateCommandHandler,
-    eventHandler eh.DelegateEventHandler) (ret *ExpenseAggregate) {
-    ret = &ExpenseAggregate{
-		AggregateBase: eh.NewAggregateBase(ExpenseAggregateType, id, commandHandler, eventHandler, &Expense{}),
-    }
-    return
-}
-
-type ExpenseAggregate struct {
-    *eh.AggregateBase
+func (o *ExpenseEventHandler) SetupEventHandler() error {
+    
+    var ret error
+    return ret
+    
 }
 
 
+
+const ExpenseAggregateType eventhorizon.AggregateType = "ExpenseAggregateInitializer"
 
 func NewExpenseAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
@@ -80,8 +79,11 @@ func NewExpenseAggregateInitializer(
     commandHandler := &ExpenseCommandHandler{}
     eventHandler := &ExpenseEventHandler{}
 	ret = &ExpenseAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ExpenseAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewExpenseAggregate(id, commandHandler, eventHandler) },
-        ExpenseCommandTypes().Literals(), ExpenseEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        func(id eventhorizon.UUID) eventhorizon.Aggregate {
+            return eh.NewAggregateBase(ExpenseAggregateType, id, commandHandler, eventHandler, &Expense{})
+        },
+        ExpenseCommandTypes().Literals(), ExpenseEventTypes().Literals(), nil,
+        eventStore, eventBus, eventPublisher, commandBus),
         ExpenseCommandHandler: commandHandler,
         ExpenseEventHandler: eventHandler,
     }
@@ -132,6 +134,13 @@ func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity 
     
 }
 
+func (o *ExpensePurposeCommandHandler) SetupCommandHandler() error {
+    
+    var ret error
+    return ret
+    
+}
+
 
 
 type ExpensePurposeEventHandler struct {
@@ -157,24 +166,16 @@ func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity inte
     
 }
 
-
-
-const ExpensePurposeAggregateType eventhorizon.AggregateType = "ExpensePurposeAggregate"
-
-func NewExpensePurposeAggregate(id eventhorizon.UUID,
-    commandHandler eh.DelegateCommandHandler,
-    eventHandler eh.DelegateEventHandler) (ret *ExpensePurposeAggregate) {
-    ret = &ExpensePurposeAggregate{
-		AggregateBase: eh.NewAggregateBase(ExpensePurposeAggregateType, id, commandHandler, eventHandler, &ExpensePurpose{}),
-    }
-    return
-}
-
-type ExpensePurposeAggregate struct {
-    *eh.AggregateBase
+func (o *ExpensePurposeEventHandler) SetupEventHandler() error {
+    
+    var ret error
+    return ret
+    
 }
 
 
+
+const ExpensePurposeAggregateType eventhorizon.AggregateType = "ExpensePurposeAggregateInitializer"
 
 func NewExpensePurposeAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
@@ -182,8 +183,11 @@ func NewExpensePurposeAggregateInitializer(
     commandHandler := &ExpensePurposeCommandHandler{}
     eventHandler := &ExpensePurposeEventHandler{}
 	ret = &ExpensePurposeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ExpensePurposeAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewExpensePurposeAggregate(id, commandHandler, eventHandler) },
-        ExpensePurposeCommandTypes().Literals(), ExpensePurposeEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        func(id eventhorizon.UUID) eventhorizon.Aggregate {
+            return eh.NewAggregateBase(ExpensePurposeAggregateType, id, commandHandler, eventHandler, &ExpensePurpose{})
+        },
+        ExpensePurposeCommandTypes().Literals(), ExpensePurposeEventTypes().Literals(), nil,
+        eventStore, eventBus, eventPublisher, commandBus),
         ExpensePurposeCommandHandler: commandHandler,
         ExpensePurposeEventHandler: eventHandler,
     }
@@ -234,6 +238,13 @@ func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}
     
 }
 
+func (o *FeeCommandHandler) SetupCommandHandler() error {
+    
+    var ret error
+    return ret
+    
+}
+
 
 
 type FeeEventHandler struct {
@@ -259,24 +270,16 @@ func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) er
     
 }
 
-
-
-const FeeAggregateType eventhorizon.AggregateType = "FeeAggregate"
-
-func NewFeeAggregate(id eventhorizon.UUID,
-    commandHandler eh.DelegateCommandHandler,
-    eventHandler eh.DelegateEventHandler) (ret *FeeAggregate) {
-    ret = &FeeAggregate{
-		AggregateBase: eh.NewAggregateBase(FeeAggregateType, id, commandHandler, eventHandler, &Fee{}),
-    }
-    return
-}
-
-type FeeAggregate struct {
-    *eh.AggregateBase
+func (o *FeeEventHandler) SetupEventHandler() error {
+    
+    var ret error
+    return ret
+    
 }
 
 
+
+const FeeAggregateType eventhorizon.AggregateType = "FeeAggregateInitializer"
 
 func NewFeeAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
@@ -284,8 +287,11 @@ func NewFeeAggregateInitializer(
     commandHandler := &FeeCommandHandler{}
     eventHandler := &FeeEventHandler{}
 	ret = &FeeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(FeeAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewFeeAggregate(id, commandHandler, eventHandler) },
-        FeeCommandTypes().Literals(), FeeEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        func(id eventhorizon.UUID) eventhorizon.Aggregate {
+            return eh.NewAggregateBase(FeeAggregateType, id, commandHandler, eventHandler, &Fee{})
+        },
+        FeeCommandTypes().Literals(), FeeEventTypes().Literals(), nil,
+        eventStore, eventBus, eventPublisher, commandBus),
         FeeCommandHandler: commandHandler,
         FeeEventHandler: eventHandler,
     }
@@ -336,6 +342,13 @@ func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
     
 }
 
+func (o *FeeKindCommandHandler) SetupCommandHandler() error {
+    
+    var ret error
+    return ret
+    
+}
+
 
 
 type FeeKindEventHandler struct {
@@ -361,24 +374,16 @@ func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}
     
 }
 
-
-
-const FeeKindAggregateType eventhorizon.AggregateType = "FeeKindAggregate"
-
-func NewFeeKindAggregate(id eventhorizon.UUID,
-    commandHandler eh.DelegateCommandHandler,
-    eventHandler eh.DelegateEventHandler) (ret *FeeKindAggregate) {
-    ret = &FeeKindAggregate{
-		AggregateBase: eh.NewAggregateBase(FeeKindAggregateType, id, commandHandler, eventHandler, &FeeKind{}),
-    }
-    return
-}
-
-type FeeKindAggregate struct {
-    *eh.AggregateBase
+func (o *FeeKindEventHandler) SetupEventHandler() error {
+    
+    var ret error
+    return ret
+    
 }
 
 
+
+const FeeKindAggregateType eventhorizon.AggregateType = "FeeKindAggregateInitializer"
 
 func NewFeeKindAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
@@ -386,8 +391,11 @@ func NewFeeKindAggregateInitializer(
     commandHandler := &FeeKindCommandHandler{}
     eventHandler := &FeeKindEventHandler{}
 	ret = &FeeKindAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(FeeKindAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewFeeKindAggregate(id, commandHandler, eventHandler) },
-        FeeKindCommandTypes().Literals(), FeeKindEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        func(id eventhorizon.UUID) eventhorizon.Aggregate {
+            return eh.NewAggregateBase(FeeKindAggregateType, id, commandHandler, eventHandler, &FeeKind{})
+        },
+        FeeKindCommandTypes().Literals(), FeeKindEventTypes().Literals(), nil,
+        eventStore, eventBus, eventPublisher, commandBus),
         FeeKindCommandHandler: commandHandler,
         FeeKindEventHandler: eventHandler,
     }

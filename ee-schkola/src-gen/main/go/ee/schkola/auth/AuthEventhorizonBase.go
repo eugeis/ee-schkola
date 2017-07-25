@@ -39,6 +39,13 @@ func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
     
 }
 
+func (o *AccountCommandHandler) SetupCommandHandler() error {
+    
+    var ret error
+    return ret
+    
+}
+
 
 
 type AccountEventHandler struct {
@@ -64,24 +71,16 @@ func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}
     
 }
 
-
-
-const AccountAggregateType eventhorizon.AggregateType = "AccountAggregate"
-
-func NewAccountAggregate(id eventhorizon.UUID,
-    commandHandler eh.DelegateCommandHandler,
-    eventHandler eh.DelegateEventHandler) (ret *AccountAggregate) {
-    ret = &AccountAggregate{
-		AggregateBase: eh.NewAggregateBase(AccountAggregateType, id, commandHandler, eventHandler, &Account{}),
-    }
-    return
-}
-
-type AccountAggregate struct {
-    *eh.AggregateBase
+func (o *AccountEventHandler) SetupEventHandler() error {
+    
+    var ret error
+    return ret
+    
 }
 
 
+
+const AccountAggregateType eventhorizon.AggregateType = "AccountAggregateInitializer"
 
 func NewAccountAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
@@ -89,8 +88,11 @@ func NewAccountAggregateInitializer(
     commandHandler := &AccountCommandHandler{}
     eventHandler := &AccountEventHandler{}
 	ret = &AccountAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(AccountAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewAccountAggregate(id, commandHandler, eventHandler) },
-        AccountCommandTypes().Literals(), AccountEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        func(id eventhorizon.UUID) eventhorizon.Aggregate {
+            return eh.NewAggregateBase(AccountAggregateType, id, commandHandler, eventHandler, &Account{})
+        },
+        AccountCommandTypes().Literals(), AccountEventTypes().Literals(), nil,
+        eventStore, eventBus, eventPublisher, commandBus),
         AccountCommandHandler: commandHandler,
         AccountEventHandler: eventHandler,
     }

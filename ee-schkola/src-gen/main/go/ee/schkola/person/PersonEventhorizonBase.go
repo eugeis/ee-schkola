@@ -30,6 +30,13 @@ func (o *ChurchCommandHandler) Execute(cmd eventhorizon.Command, entity interfac
     
 }
 
+func (o *ChurchCommandHandler) SetupCommandHandler() error {
+    
+    var ret error
+    return ret
+    
+}
+
 
 
 type ChurchEventHandler struct {
@@ -55,24 +62,16 @@ func (o *ChurchEventHandler) Apply(event eventhorizon.Event, entity interface{})
     
 }
 
-
-
-const ChurchAggregateType eventhorizon.AggregateType = "ChurchAggregate"
-
-func NewChurchAggregate(id eventhorizon.UUID,
-    commandHandler eh.DelegateCommandHandler,
-    eventHandler eh.DelegateEventHandler) (ret *ChurchAggregate) {
-    ret = &ChurchAggregate{
-		AggregateBase: eh.NewAggregateBase(ChurchAggregateType, id, commandHandler, eventHandler, &Church{}),
-    }
-    return
-}
-
-type ChurchAggregate struct {
-    *eh.AggregateBase
+func (o *ChurchEventHandler) SetupEventHandler() error {
+    
+    var ret error
+    return ret
+    
 }
 
 
+
+const ChurchAggregateType eventhorizon.AggregateType = "ChurchAggregateInitializer"
 
 func NewChurchAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
@@ -80,8 +79,11 @@ func NewChurchAggregateInitializer(
     commandHandler := &ChurchCommandHandler{}
     eventHandler := &ChurchEventHandler{}
 	ret = &ChurchAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ChurchAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewChurchAggregate(id, commandHandler, eventHandler) },
-        ChurchCommandTypes().Literals(), ChurchEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        func(id eventhorizon.UUID) eventhorizon.Aggregate {
+            return eh.NewAggregateBase(ChurchAggregateType, id, commandHandler, eventHandler, &Church{})
+        },
+        ChurchCommandTypes().Literals(), ChurchEventTypes().Literals(), nil,
+        eventStore, eventBus, eventPublisher, commandBus),
         ChurchCommandHandler: commandHandler,
         ChurchEventHandler: eventHandler,
     }
@@ -132,6 +134,13 @@ func (o *GraduationCommandHandler) Execute(cmd eventhorizon.Command, entity inte
     
 }
 
+func (o *GraduationCommandHandler) SetupCommandHandler() error {
+    
+    var ret error
+    return ret
+    
+}
+
 
 
 type GraduationEventHandler struct {
@@ -157,24 +166,16 @@ func (o *GraduationEventHandler) Apply(event eventhorizon.Event, entity interfac
     
 }
 
-
-
-const GraduationAggregateType eventhorizon.AggregateType = "GraduationAggregate"
-
-func NewGraduationAggregate(id eventhorizon.UUID,
-    commandHandler eh.DelegateCommandHandler,
-    eventHandler eh.DelegateEventHandler) (ret *GraduationAggregate) {
-    ret = &GraduationAggregate{
-		AggregateBase: eh.NewAggregateBase(GraduationAggregateType, id, commandHandler, eventHandler, &Graduation{}),
-    }
-    return
-}
-
-type GraduationAggregate struct {
-    *eh.AggregateBase
+func (o *GraduationEventHandler) SetupEventHandler() error {
+    
+    var ret error
+    return ret
+    
 }
 
 
+
+const GraduationAggregateType eventhorizon.AggregateType = "GraduationAggregateInitializer"
 
 func NewGraduationAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
@@ -182,8 +183,11 @@ func NewGraduationAggregateInitializer(
     commandHandler := &GraduationCommandHandler{}
     eventHandler := &GraduationEventHandler{}
 	ret = &GraduationAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(GraduationAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewGraduationAggregate(id, commandHandler, eventHandler) },
-        GraduationCommandTypes().Literals(), GraduationEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        func(id eventhorizon.UUID) eventhorizon.Aggregate {
+            return eh.NewAggregateBase(GraduationAggregateType, id, commandHandler, eventHandler, &Graduation{})
+        },
+        GraduationCommandTypes().Literals(), GraduationEventTypes().Literals(), nil,
+        eventStore, eventBus, eventPublisher, commandBus),
         GraduationCommandHandler: commandHandler,
         GraduationEventHandler: eventHandler,
     }
@@ -234,6 +238,13 @@ func (o *ProfileCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
     
 }
 
+func (o *ProfileCommandHandler) SetupCommandHandler() error {
+    
+    var ret error
+    return ret
+    
+}
+
 
 
 type ProfileEventHandler struct {
@@ -259,24 +270,16 @@ func (o *ProfileEventHandler) Apply(event eventhorizon.Event, entity interface{}
     
 }
 
-
-
-const ProfileAggregateType eventhorizon.AggregateType = "ProfileAggregate"
-
-func NewProfileAggregate(id eventhorizon.UUID,
-    commandHandler eh.DelegateCommandHandler,
-    eventHandler eh.DelegateEventHandler) (ret *ProfileAggregate) {
-    ret = &ProfileAggregate{
-		AggregateBase: eh.NewAggregateBase(ProfileAggregateType, id, commandHandler, eventHandler, &Profile{}),
-    }
-    return
-}
-
-type ProfileAggregate struct {
-    *eh.AggregateBase
+func (o *ProfileEventHandler) SetupEventHandler() error {
+    
+    var ret error
+    return ret
+    
 }
 
 
+
+const ProfileAggregateType eventhorizon.AggregateType = "ProfileAggregateInitializer"
 
 func NewProfileAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
@@ -284,8 +287,11 @@ func NewProfileAggregateInitializer(
     commandHandler := &ProfileCommandHandler{}
     eventHandler := &ProfileEventHandler{}
 	ret = &ProfileAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ProfileAggregateType,
-        func(id eventhorizon.UUID) eventhorizon.Aggregate { return NewProfileAggregate(id, commandHandler, eventHandler) },
-        ProfileCommandTypes().Literals(), ProfileEventTypes().Literals(), eventStore, eventBus, eventPublisher, commandBus),
+        func(id eventhorizon.UUID) eventhorizon.Aggregate {
+            return eh.NewAggregateBase(ProfileAggregateType, id, commandHandler, eventHandler, &Profile{})
+        },
+        ProfileCommandTypes().Literals(), ProfileEventTypes().Literals(), nil,
+        eventStore, eventBus, eventPublisher, commandBus),
         ProfileCommandHandler: commandHandler,
         ProfileEventHandler: eventHandler,
     }
