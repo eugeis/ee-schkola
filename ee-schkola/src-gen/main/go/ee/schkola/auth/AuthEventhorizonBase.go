@@ -14,7 +14,7 @@ func NewAccountAggregate(id eventhorizon.UUID) (ret *AccountAggregate) {
     ret = &AccountAggregate{
 		AggregateBase: eventhorizon.NewAggregateBase(AccountAggregateType, id),
     }
-	ret.CommandHandler = NewAccountAggregateCommandHandler(ret)
+	//ret.CommandHandler = NewAccountAggregateCommandHandler(ret)
     return
 }
 
@@ -23,38 +23,44 @@ func (o *AccountAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Ev
     return nil
 }
 
-
-func NewAccountAggregateCommandHandler(aggregate *AccountAggregate) *AccountAggregateCommandHandler {
-	return &AccountAggregateCommandHandler{
-		aggregate: aggregate,
-        handlers: make(map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *AccountAggregate) error),
-    }
-}
-
-type AccountAggregateCommandHandler struct {
-	aggregate *AccountAggregate
-	handlers  map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *AccountAggregate) error
-}
-
-func (o *AccountAggregateCommandHandler) AddHandler(commandType eventhorizon.CommandType,
-	handler func(cmd eventhorizon.Command, aggregate *AccountAggregate) error) {
-	o.handlers[commandType] = handler
-}
-
-func (o *AccountAggregateCommandHandler) HandleCommand(ctx context.Context, cmd eventhorizon.Command) (err error) {
-	if handler, ok := o.handlers[cmd.CommandType()]; ok {
-		err = handler(cmd, o.aggregate)
-	} else {
-		err = errors.New(fmt.Sprintf("There is no handlers for command %v registered in the aggregate %v",
-			cmd.CommandType(), cmd.AggregateType()))
-	}
-	return
-}
-
 type AccountAggregate struct {
     *eventhorizon.AggregateBase
     *Account
     eventhorizon.CommandHandler
+}
+
+
+
+type AccountCommandHandler struct {
+    CreateHandler  func (*CreateAccount, *AccountAggregate) error
+    DeleteHandler  func (*DeleteAccount, *AccountAggregate) error
+    UpdateHandler  func (*UpdateAccount, *AccountAggregate) error
+    EnableHandler  func (*EnableAccount, *AccountAggregate) error
+    DisableHandler  func (*DisableAccount, *AccountAggregate) error
+    RegisterHandler  func (*RegisterAccount, *AccountAggregate) error
+}
+
+func (o *AccountCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *AccountAggregate) error {
+    
+    var ret error
+    switch cmd.CommandType() {
+    case CreateAccountCommand:
+        ret = o.CreateHandler(cmd.(*CreateAccount), aggregate)
+    case DeleteAccountCommand:
+        ret = o.DeleteHandler(cmd.(*DeleteAccount), aggregate)
+    case UpdateAccountCommand:
+        ret = o.UpdateHandler(cmd.(*UpdateAccount), aggregate)
+    case EnableAccountCommand:
+        ret = o.EnableHandler(cmd.(*EnableAccount), aggregate)
+    case DisableAccountCommand:
+        ret = o.DisableHandler(cmd.(*DisableAccount), aggregate)
+    case RegisterAccountCommand:
+        ret = o.RegisterHandler(cmd.(*RegisterAccount), aggregate)
+    default:
+		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+	}
+    return ret
+    
 }
 
 
@@ -84,6 +90,7 @@ func (o *AccountAggregateInitializer) RegisterForUpdated(handler eventhorizon.Ev
 
 type AccountAggregateInitializer struct {
     *eh.AggregateInitializer
+    *AccountCommandHandler
 }
 
 

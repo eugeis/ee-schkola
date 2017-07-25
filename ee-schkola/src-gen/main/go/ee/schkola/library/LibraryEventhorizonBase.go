@@ -14,7 +14,7 @@ func NewBookAggregate(id eventhorizon.UUID) (ret *BookAggregate) {
     ret = &BookAggregate{
 		AggregateBase: eventhorizon.NewAggregateBase(BookAggregateType, id),
     }
-	ret.CommandHandler = NewBookAggregateCommandHandler(ret)
+	//ret.CommandHandler = NewBookAggregateCommandHandler(ret)
     return
 }
 
@@ -23,38 +23,47 @@ func (o *BookAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event
     return nil
 }
 
-
-func NewBookAggregateCommandHandler(aggregate *BookAggregate) *BookAggregateCommandHandler {
-	return &BookAggregateCommandHandler{
-		aggregate: aggregate,
-        handlers: make(map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *BookAggregate) error),
-    }
-}
-
-type BookAggregateCommandHandler struct {
-	aggregate *BookAggregate
-	handlers  map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *BookAggregate) error
-}
-
-func (o *BookAggregateCommandHandler) AddHandler(commandType eventhorizon.CommandType,
-	handler func(cmd eventhorizon.Command, aggregate *BookAggregate) error) {
-	o.handlers[commandType] = handler
-}
-
-func (o *BookAggregateCommandHandler) HandleCommand(ctx context.Context, cmd eventhorizon.Command) (err error) {
-	if handler, ok := o.handlers[cmd.CommandType()]; ok {
-		err = handler(cmd, o.aggregate)
-	} else {
-		err = errors.New(fmt.Sprintf("There is no handlers for command %v registered in the aggregate %v",
-			cmd.CommandType(), cmd.AggregateType()))
-	}
-	return
-}
-
 type BookAggregate struct {
     *eventhorizon.AggregateBase
     *Book
     eventhorizon.CommandHandler
+}
+
+
+
+type BookCommandHandler struct {
+    CreateHandler  func (*CreateBook, *BookAggregate) error
+    DeleteHandler  func (*DeleteBook, *BookAggregate) error
+    UpdateHandler  func (*UpdateBook, *BookAggregate) error
+    RegisterHandler  func (*RegisterBook, *BookAggregate) error
+    UnregisterHandler  func (*UnregisterBook, *BookAggregate) error
+    ChangeHandler  func (*ChangeBook, *BookAggregate) error
+    ChangeLocationHandler  func (*ChangeBookLocation, *BookAggregate) error
+}
+
+func (o *BookCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *BookAggregate) error {
+    
+    var ret error
+    switch cmd.CommandType() {
+    case CreateBookCommand:
+        ret = o.CreateHandler(cmd.(*CreateBook), aggregate)
+    case DeleteBookCommand:
+        ret = o.DeleteHandler(cmd.(*DeleteBook), aggregate)
+    case UpdateBookCommand:
+        ret = o.UpdateHandler(cmd.(*UpdateBook), aggregate)
+    case RegisterBookCommand:
+        ret = o.RegisterHandler(cmd.(*RegisterBook), aggregate)
+    case UnregisterBookCommand:
+        ret = o.UnregisterHandler(cmd.(*UnregisterBook), aggregate)
+    case ChangeBookCommand:
+        ret = o.ChangeHandler(cmd.(*ChangeBook), aggregate)
+    case ChangeBookLocationCommand:
+        ret = o.ChangeLocationHandler(cmd.(*ChangeBookLocation), aggregate)
+    default:
+		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+	}
+    return ret
+    
 }
 
 
@@ -84,6 +93,7 @@ func (o *BookAggregateInitializer) RegisterForUpdated(handler eventhorizon.Event
 
 type BookAggregateInitializer struct {
     *eh.AggregateInitializer
+    *BookCommandHandler
 }
 
 

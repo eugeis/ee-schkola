@@ -30,6 +30,13 @@ func main() {
 
 	personEngine.Setup()
 
+	h := &person.ChurchAggregateCommandHandler{}
+
+
+	h.AddHandler(person.CreateChurchCommand, func(cmd *person.CreateChurch, aggregate *person.ChurchAggregate) error {
+		return nil
+	})
+
 	/*
 
 	// Create the read repositories.
@@ -87,4 +94,3 @@ func test() {
 	)
 	sugar.Infof("Failed to fetch URL: %s", url)
 }
-

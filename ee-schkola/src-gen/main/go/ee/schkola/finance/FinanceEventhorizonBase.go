@@ -14,7 +14,7 @@ func NewExpenseAggregate(id eventhorizon.UUID) (ret *ExpenseAggregate) {
     ret = &ExpenseAggregate{
 		AggregateBase: eventhorizon.NewAggregateBase(ExpenseAggregateType, id),
     }
-	ret.CommandHandler = NewExpenseAggregateCommandHandler(ret)
+	//ret.CommandHandler = NewExpenseAggregateCommandHandler(ret)
     return
 }
 
@@ -23,38 +23,35 @@ func (o *ExpenseAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Ev
     return nil
 }
 
-
-func NewExpenseAggregateCommandHandler(aggregate *ExpenseAggregate) *ExpenseAggregateCommandHandler {
-	return &ExpenseAggregateCommandHandler{
-		aggregate: aggregate,
-        handlers: make(map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *ExpenseAggregate) error),
-    }
-}
-
-type ExpenseAggregateCommandHandler struct {
-	aggregate *ExpenseAggregate
-	handlers  map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *ExpenseAggregate) error
-}
-
-func (o *ExpenseAggregateCommandHandler) AddHandler(commandType eventhorizon.CommandType,
-	handler func(cmd eventhorizon.Command, aggregate *ExpenseAggregate) error) {
-	o.handlers[commandType] = handler
-}
-
-func (o *ExpenseAggregateCommandHandler) HandleCommand(ctx context.Context, cmd eventhorizon.Command) (err error) {
-	if handler, ok := o.handlers[cmd.CommandType()]; ok {
-		err = handler(cmd, o.aggregate)
-	} else {
-		err = errors.New(fmt.Sprintf("There is no handlers for command %v registered in the aggregate %v",
-			cmd.CommandType(), cmd.AggregateType()))
-	}
-	return
-}
-
 type ExpenseAggregate struct {
     *eventhorizon.AggregateBase
     *Expense
     eventhorizon.CommandHandler
+}
+
+
+
+type ExpenseCommandHandler struct {
+    CreateHandler  func (*CreateExpense, *ExpenseAggregate) error
+    DeleteHandler  func (*DeleteExpense, *ExpenseAggregate) error
+    UpdateHandler  func (*UpdateExpense, *ExpenseAggregate) error
+}
+
+func (o *ExpenseCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *ExpenseAggregate) error {
+    
+    var ret error
+    switch cmd.CommandType() {
+    case CreateExpenseCommand:
+        ret = o.CreateHandler(cmd.(*CreateExpense), aggregate)
+    case DeleteExpenseCommand:
+        ret = o.DeleteHandler(cmd.(*DeleteExpense), aggregate)
+    case UpdateExpenseCommand:
+        ret = o.UpdateHandler(cmd.(*UpdateExpense), aggregate)
+    default:
+		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+	}
+    return ret
+    
 }
 
 
@@ -84,6 +81,7 @@ func (o *ExpenseAggregateInitializer) RegisterForUpdated(handler eventhorizon.Ev
 
 type ExpenseAggregateInitializer struct {
     *eh.AggregateInitializer
+    *ExpenseCommandHandler
 }
 
 
@@ -94,7 +92,7 @@ func NewExpensePurposeAggregate(id eventhorizon.UUID) (ret *ExpensePurposeAggreg
     ret = &ExpensePurposeAggregate{
 		AggregateBase: eventhorizon.NewAggregateBase(ExpensePurposeAggregateType, id),
     }
-	ret.CommandHandler = NewExpensePurposeAggregateCommandHandler(ret)
+	//ret.CommandHandler = NewExpensePurposeAggregateCommandHandler(ret)
     return
 }
 
@@ -103,38 +101,35 @@ func (o *ExpensePurposeAggregate) ApplyEvent(ctx context.Context, event eventhor
     return nil
 }
 
-
-func NewExpensePurposeAggregateCommandHandler(aggregate *ExpensePurposeAggregate) *ExpensePurposeAggregateCommandHandler {
-	return &ExpensePurposeAggregateCommandHandler{
-		aggregate: aggregate,
-        handlers: make(map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *ExpensePurposeAggregate) error),
-    }
-}
-
-type ExpensePurposeAggregateCommandHandler struct {
-	aggregate *ExpensePurposeAggregate
-	handlers  map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *ExpensePurposeAggregate) error
-}
-
-func (o *ExpensePurposeAggregateCommandHandler) AddHandler(commandType eventhorizon.CommandType,
-	handler func(cmd eventhorizon.Command, aggregate *ExpensePurposeAggregate) error) {
-	o.handlers[commandType] = handler
-}
-
-func (o *ExpensePurposeAggregateCommandHandler) HandleCommand(ctx context.Context, cmd eventhorizon.Command) (err error) {
-	if handler, ok := o.handlers[cmd.CommandType()]; ok {
-		err = handler(cmd, o.aggregate)
-	} else {
-		err = errors.New(fmt.Sprintf("There is no handlers for command %v registered in the aggregate %v",
-			cmd.CommandType(), cmd.AggregateType()))
-	}
-	return
-}
-
 type ExpensePurposeAggregate struct {
     *eventhorizon.AggregateBase
     *ExpensePurpose
     eventhorizon.CommandHandler
+}
+
+
+
+type ExpensePurposeCommandHandler struct {
+    CreateHandler  func (*CreateExpensePurpose, *ExpensePurposeAggregate) error
+    DeleteHandler  func (*DeleteExpensePurpose, *ExpensePurposeAggregate) error
+    UpdateHandler  func (*UpdateExpensePurpose, *ExpensePurposeAggregate) error
+}
+
+func (o *ExpensePurposeCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *ExpensePurposeAggregate) error {
+    
+    var ret error
+    switch cmd.CommandType() {
+    case CreateExpensePurposeCommand:
+        ret = o.CreateHandler(cmd.(*CreateExpensePurpose), aggregate)
+    case DeleteExpensePurposeCommand:
+        ret = o.DeleteHandler(cmd.(*DeleteExpensePurpose), aggregate)
+    case UpdateExpensePurposeCommand:
+        ret = o.UpdateHandler(cmd.(*UpdateExpensePurpose), aggregate)
+    default:
+		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+	}
+    return ret
+    
 }
 
 
@@ -164,6 +159,7 @@ func (o *ExpensePurposeAggregateInitializer) RegisterForUpdated(handler eventhor
 
 type ExpensePurposeAggregateInitializer struct {
     *eh.AggregateInitializer
+    *ExpensePurposeCommandHandler
 }
 
 
@@ -174,7 +170,7 @@ func NewFeeAggregate(id eventhorizon.UUID) (ret *FeeAggregate) {
     ret = &FeeAggregate{
 		AggregateBase: eventhorizon.NewAggregateBase(FeeAggregateType, id),
     }
-	ret.CommandHandler = NewFeeAggregateCommandHandler(ret)
+	//ret.CommandHandler = NewFeeAggregateCommandHandler(ret)
     return
 }
 
@@ -183,38 +179,35 @@ func (o *FeeAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event)
     return nil
 }
 
-
-func NewFeeAggregateCommandHandler(aggregate *FeeAggregate) *FeeAggregateCommandHandler {
-	return &FeeAggregateCommandHandler{
-		aggregate: aggregate,
-        handlers: make(map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *FeeAggregate) error),
-    }
-}
-
-type FeeAggregateCommandHandler struct {
-	aggregate *FeeAggregate
-	handlers  map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *FeeAggregate) error
-}
-
-func (o *FeeAggregateCommandHandler) AddHandler(commandType eventhorizon.CommandType,
-	handler func(cmd eventhorizon.Command, aggregate *FeeAggregate) error) {
-	o.handlers[commandType] = handler
-}
-
-func (o *FeeAggregateCommandHandler) HandleCommand(ctx context.Context, cmd eventhorizon.Command) (err error) {
-	if handler, ok := o.handlers[cmd.CommandType()]; ok {
-		err = handler(cmd, o.aggregate)
-	} else {
-		err = errors.New(fmt.Sprintf("There is no handlers for command %v registered in the aggregate %v",
-			cmd.CommandType(), cmd.AggregateType()))
-	}
-	return
-}
-
 type FeeAggregate struct {
     *eventhorizon.AggregateBase
     *Fee
     eventhorizon.CommandHandler
+}
+
+
+
+type FeeCommandHandler struct {
+    CreateHandler  func (*CreateFee, *FeeAggregate) error
+    DeleteHandler  func (*DeleteFee, *FeeAggregate) error
+    UpdateHandler  func (*UpdateFee, *FeeAggregate) error
+}
+
+func (o *FeeCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *FeeAggregate) error {
+    
+    var ret error
+    switch cmd.CommandType() {
+    case CreateFeeCommand:
+        ret = o.CreateHandler(cmd.(*CreateFee), aggregate)
+    case DeleteFeeCommand:
+        ret = o.DeleteHandler(cmd.(*DeleteFee), aggregate)
+    case UpdateFeeCommand:
+        ret = o.UpdateHandler(cmd.(*UpdateFee), aggregate)
+    default:
+		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+	}
+    return ret
+    
 }
 
 
@@ -244,6 +237,7 @@ func (o *FeeAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventH
 
 type FeeAggregateInitializer struct {
     *eh.AggregateInitializer
+    *FeeCommandHandler
 }
 
 
@@ -254,7 +248,7 @@ func NewFeeKindAggregate(id eventhorizon.UUID) (ret *FeeKindAggregate) {
     ret = &FeeKindAggregate{
 		AggregateBase: eventhorizon.NewAggregateBase(FeeKindAggregateType, id),
     }
-	ret.CommandHandler = NewFeeKindAggregateCommandHandler(ret)
+	//ret.CommandHandler = NewFeeKindAggregateCommandHandler(ret)
     return
 }
 
@@ -263,38 +257,35 @@ func (o *FeeKindAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Ev
     return nil
 }
 
-
-func NewFeeKindAggregateCommandHandler(aggregate *FeeKindAggregate) *FeeKindAggregateCommandHandler {
-	return &FeeKindAggregateCommandHandler{
-		aggregate: aggregate,
-        handlers: make(map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *FeeKindAggregate) error),
-    }
-}
-
-type FeeKindAggregateCommandHandler struct {
-	aggregate *FeeKindAggregate
-	handlers  map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *FeeKindAggregate) error
-}
-
-func (o *FeeKindAggregateCommandHandler) AddHandler(commandType eventhorizon.CommandType,
-	handler func(cmd eventhorizon.Command, aggregate *FeeKindAggregate) error) {
-	o.handlers[commandType] = handler
-}
-
-func (o *FeeKindAggregateCommandHandler) HandleCommand(ctx context.Context, cmd eventhorizon.Command) (err error) {
-	if handler, ok := o.handlers[cmd.CommandType()]; ok {
-		err = handler(cmd, o.aggregate)
-	} else {
-		err = errors.New(fmt.Sprintf("There is no handlers for command %v registered in the aggregate %v",
-			cmd.CommandType(), cmd.AggregateType()))
-	}
-	return
-}
-
 type FeeKindAggregate struct {
     *eventhorizon.AggregateBase
     *FeeKind
     eventhorizon.CommandHandler
+}
+
+
+
+type FeeKindCommandHandler struct {
+    CreateHandler  func (*CreateFeeKind, *FeeKindAggregate) error
+    DeleteHandler  func (*DeleteFeeKind, *FeeKindAggregate) error
+    UpdateHandler  func (*UpdateFeeKind, *FeeKindAggregate) error
+}
+
+func (o *FeeKindCommandHandler) HandleCommand(ctx *context.Context, cmd eventhorizon.Command, aggregate *FeeKindAggregate) error {
+    
+    var ret error
+    switch cmd.CommandType() {
+    case CreateFeeKindCommand:
+        ret = o.CreateHandler(cmd.(*CreateFeeKind), aggregate)
+    case DeleteFeeKindCommand:
+        ret = o.DeleteHandler(cmd.(*DeleteFeeKind), aggregate)
+    case UpdateFeeKindCommand:
+        ret = o.UpdateHandler(cmd.(*UpdateFeeKind), aggregate)
+    default:
+		ret = errors.New(fmt.Sprintf("Wrong comand type '%v' for aggregate '%v", cmd.CommandType(), aggregate))
+	}
+    return ret
+    
 }
 
 
@@ -324,6 +315,7 @@ func (o *FeeKindAggregateInitializer) RegisterForUpdated(handler eventhorizon.Ev
 
 type FeeKindAggregateInitializer struct {
     *eh.AggregateInitializer
+    *FeeKindCommandHandler
 }
 
 
