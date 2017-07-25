@@ -2,21 +2,20 @@ package student
 
 import (
     "context"
+    "errors"
+    "fmt"
     "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/eh"
 )
 
 const AttendanceAggregateType eventhorizon.AggregateType = "AttendanceAggregate"
 
-func NewAttendanceAggregate(id eventhorizon.UUID) *AttendanceAggregate {
-	return &AttendanceAggregate{
+func NewAttendanceAggregate(id eventhorizon.UUID) (ret *AttendanceAggregate) {
+    ret = &AttendanceAggregate{
 		AggregateBase: eventhorizon.NewAggregateBase(AttendanceAggregateType, id),
-	}
-}
-
-func (o *AttendanceAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
-    println("HandleCommand", cmd.CommandType())
-    return nil
+    }
+	ret.CommandHandler = NewAttendanceAggregateCommandHandler(ret)
+    return
 }
 
 func (o *AttendanceAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
@@ -24,9 +23,38 @@ func (o *AttendanceAggregate) ApplyEvent(ctx context.Context, event eventhorizon
     return nil
 }
 
+
+func NewAttendanceAggregateCommandHandler(aggregate *AttendanceAggregate) *AttendanceAggregateCommandHandler {
+	return &AttendanceAggregateCommandHandler{
+		aggregate: aggregate,
+        handlers: make(map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *AttendanceAggregate) error),
+    }
+}
+
+type AttendanceAggregateCommandHandler struct {
+	aggregate *AttendanceAggregate
+	handlers  map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *AttendanceAggregate) error
+}
+
+func (o *AttendanceAggregateCommandHandler) AddHandler(commandType eventhorizon.CommandType,
+	handler func(cmd eventhorizon.Command, aggregate *AttendanceAggregate) error) {
+	o.handlers[commandType] = handler
+}
+
+func (o *AttendanceAggregateCommandHandler) HandleCommand(ctx context.Context, cmd eventhorizon.Command) (err error) {
+	if handler, ok := o.handlers[cmd.CommandType()]; ok {
+		err = handler(cmd, o.aggregate)
+	} else {
+		err = errors.New(fmt.Sprintf("There is no handlers for command %v registered in the aggregate %v",
+			cmd.CommandType(), cmd.AggregateType()))
+	}
+	return
+}
+
 type AttendanceAggregate struct {
     *eventhorizon.AggregateBase
     *Attendance
+    eventhorizon.CommandHandler
 }
 
 
@@ -62,15 +90,12 @@ type AttendanceAggregateInitializer struct {
 
 const CourseAggregateType eventhorizon.AggregateType = "CourseAggregate"
 
-func NewCourseAggregate(id eventhorizon.UUID) *CourseAggregate {
-	return &CourseAggregate{
+func NewCourseAggregate(id eventhorizon.UUID) (ret *CourseAggregate) {
+    ret = &CourseAggregate{
 		AggregateBase: eventhorizon.NewAggregateBase(CourseAggregateType, id),
-	}
-}
-
-func (o *CourseAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
-    println("HandleCommand", cmd.CommandType())
-    return nil
+    }
+	ret.CommandHandler = NewCourseAggregateCommandHandler(ret)
+    return
 }
 
 func (o *CourseAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
@@ -78,9 +103,38 @@ func (o *CourseAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Eve
     return nil
 }
 
+
+func NewCourseAggregateCommandHandler(aggregate *CourseAggregate) *CourseAggregateCommandHandler {
+	return &CourseAggregateCommandHandler{
+		aggregate: aggregate,
+        handlers: make(map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *CourseAggregate) error),
+    }
+}
+
+type CourseAggregateCommandHandler struct {
+	aggregate *CourseAggregate
+	handlers  map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *CourseAggregate) error
+}
+
+func (o *CourseAggregateCommandHandler) AddHandler(commandType eventhorizon.CommandType,
+	handler func(cmd eventhorizon.Command, aggregate *CourseAggregate) error) {
+	o.handlers[commandType] = handler
+}
+
+func (o *CourseAggregateCommandHandler) HandleCommand(ctx context.Context, cmd eventhorizon.Command) (err error) {
+	if handler, ok := o.handlers[cmd.CommandType()]; ok {
+		err = handler(cmd, o.aggregate)
+	} else {
+		err = errors.New(fmt.Sprintf("There is no handlers for command %v registered in the aggregate %v",
+			cmd.CommandType(), cmd.AggregateType()))
+	}
+	return
+}
+
 type CourseAggregate struct {
     *eventhorizon.AggregateBase
     *Course
+    eventhorizon.CommandHandler
 }
 
 
@@ -116,15 +170,12 @@ type CourseAggregateInitializer struct {
 
 const GradeAggregateType eventhorizon.AggregateType = "GradeAggregate"
 
-func NewGradeAggregate(id eventhorizon.UUID) *GradeAggregate {
-	return &GradeAggregate{
+func NewGradeAggregate(id eventhorizon.UUID) (ret *GradeAggregate) {
+    ret = &GradeAggregate{
 		AggregateBase: eventhorizon.NewAggregateBase(GradeAggregateType, id),
-	}
-}
-
-func (o *GradeAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
-    println("HandleCommand", cmd.CommandType())
-    return nil
+    }
+	ret.CommandHandler = NewGradeAggregateCommandHandler(ret)
+    return
 }
 
 func (o *GradeAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
@@ -132,9 +183,38 @@ func (o *GradeAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Even
     return nil
 }
 
+
+func NewGradeAggregateCommandHandler(aggregate *GradeAggregate) *GradeAggregateCommandHandler {
+	return &GradeAggregateCommandHandler{
+		aggregate: aggregate,
+        handlers: make(map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *GradeAggregate) error),
+    }
+}
+
+type GradeAggregateCommandHandler struct {
+	aggregate *GradeAggregate
+	handlers  map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *GradeAggregate) error
+}
+
+func (o *GradeAggregateCommandHandler) AddHandler(commandType eventhorizon.CommandType,
+	handler func(cmd eventhorizon.Command, aggregate *GradeAggregate) error) {
+	o.handlers[commandType] = handler
+}
+
+func (o *GradeAggregateCommandHandler) HandleCommand(ctx context.Context, cmd eventhorizon.Command) (err error) {
+	if handler, ok := o.handlers[cmd.CommandType()]; ok {
+		err = handler(cmd, o.aggregate)
+	} else {
+		err = errors.New(fmt.Sprintf("There is no handlers for command %v registered in the aggregate %v",
+			cmd.CommandType(), cmd.AggregateType()))
+	}
+	return
+}
+
 type GradeAggregate struct {
     *eventhorizon.AggregateBase
     *Grade
+    eventhorizon.CommandHandler
 }
 
 
@@ -170,15 +250,12 @@ type GradeAggregateInitializer struct {
 
 const GroupAggregateType eventhorizon.AggregateType = "GroupAggregate"
 
-func NewGroupAggregate(id eventhorizon.UUID) *GroupAggregate {
-	return &GroupAggregate{
+func NewGroupAggregate(id eventhorizon.UUID) (ret *GroupAggregate) {
+    ret = &GroupAggregate{
 		AggregateBase: eventhorizon.NewAggregateBase(GroupAggregateType, id),
-	}
-}
-
-func (o *GroupAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
-    println("HandleCommand", cmd.CommandType())
-    return nil
+    }
+	ret.CommandHandler = NewGroupAggregateCommandHandler(ret)
+    return
 }
 
 func (o *GroupAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
@@ -186,9 +263,38 @@ func (o *GroupAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Even
     return nil
 }
 
+
+func NewGroupAggregateCommandHandler(aggregate *GroupAggregate) *GroupAggregateCommandHandler {
+	return &GroupAggregateCommandHandler{
+		aggregate: aggregate,
+        handlers: make(map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *GroupAggregate) error),
+    }
+}
+
+type GroupAggregateCommandHandler struct {
+	aggregate *GroupAggregate
+	handlers  map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *GroupAggregate) error
+}
+
+func (o *GroupAggregateCommandHandler) AddHandler(commandType eventhorizon.CommandType,
+	handler func(cmd eventhorizon.Command, aggregate *GroupAggregate) error) {
+	o.handlers[commandType] = handler
+}
+
+func (o *GroupAggregateCommandHandler) HandleCommand(ctx context.Context, cmd eventhorizon.Command) (err error) {
+	if handler, ok := o.handlers[cmd.CommandType()]; ok {
+		err = handler(cmd, o.aggregate)
+	} else {
+		err = errors.New(fmt.Sprintf("There is no handlers for command %v registered in the aggregate %v",
+			cmd.CommandType(), cmd.AggregateType()))
+	}
+	return
+}
+
 type GroupAggregate struct {
     *eventhorizon.AggregateBase
     *Group
+    eventhorizon.CommandHandler
 }
 
 
@@ -224,15 +330,12 @@ type GroupAggregateInitializer struct {
 
 const SchoolApplicationAggregateType eventhorizon.AggregateType = "SchoolApplicationAggregate"
 
-func NewSchoolApplicationAggregate(id eventhorizon.UUID) *SchoolApplicationAggregate {
-	return &SchoolApplicationAggregate{
+func NewSchoolApplicationAggregate(id eventhorizon.UUID) (ret *SchoolApplicationAggregate) {
+    ret = &SchoolApplicationAggregate{
 		AggregateBase: eventhorizon.NewAggregateBase(SchoolApplicationAggregateType, id),
-	}
-}
-
-func (o *SchoolApplicationAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
-    println("HandleCommand", cmd.CommandType())
-    return nil
+    }
+	ret.CommandHandler = NewSchoolApplicationAggregateCommandHandler(ret)
+    return
 }
 
 func (o *SchoolApplicationAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
@@ -240,9 +343,38 @@ func (o *SchoolApplicationAggregate) ApplyEvent(ctx context.Context, event event
     return nil
 }
 
+
+func NewSchoolApplicationAggregateCommandHandler(aggregate *SchoolApplicationAggregate) *SchoolApplicationAggregateCommandHandler {
+	return &SchoolApplicationAggregateCommandHandler{
+		aggregate: aggregate,
+        handlers: make(map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *SchoolApplicationAggregate) error),
+    }
+}
+
+type SchoolApplicationAggregateCommandHandler struct {
+	aggregate *SchoolApplicationAggregate
+	handlers  map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *SchoolApplicationAggregate) error
+}
+
+func (o *SchoolApplicationAggregateCommandHandler) AddHandler(commandType eventhorizon.CommandType,
+	handler func(cmd eventhorizon.Command, aggregate *SchoolApplicationAggregate) error) {
+	o.handlers[commandType] = handler
+}
+
+func (o *SchoolApplicationAggregateCommandHandler) HandleCommand(ctx context.Context, cmd eventhorizon.Command) (err error) {
+	if handler, ok := o.handlers[cmd.CommandType()]; ok {
+		err = handler(cmd, o.aggregate)
+	} else {
+		err = errors.New(fmt.Sprintf("There is no handlers for command %v registered in the aggregate %v",
+			cmd.CommandType(), cmd.AggregateType()))
+	}
+	return
+}
+
 type SchoolApplicationAggregate struct {
     *eventhorizon.AggregateBase
     *SchoolApplication
+    eventhorizon.CommandHandler
 }
 
 
@@ -278,15 +410,12 @@ type SchoolApplicationAggregateInitializer struct {
 
 const SchoolYearAggregateType eventhorizon.AggregateType = "SchoolYearAggregate"
 
-func NewSchoolYearAggregate(id eventhorizon.UUID) *SchoolYearAggregate {
-	return &SchoolYearAggregate{
+func NewSchoolYearAggregate(id eventhorizon.UUID) (ret *SchoolYearAggregate) {
+    ret = &SchoolYearAggregate{
 		AggregateBase: eventhorizon.NewAggregateBase(SchoolYearAggregateType, id),
-	}
-}
-
-func (o *SchoolYearAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
-    println("HandleCommand", cmd.CommandType())
-    return nil
+    }
+	ret.CommandHandler = NewSchoolYearAggregateCommandHandler(ret)
+    return
 }
 
 func (o *SchoolYearAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
@@ -294,9 +423,38 @@ func (o *SchoolYearAggregate) ApplyEvent(ctx context.Context, event eventhorizon
     return nil
 }
 
+
+func NewSchoolYearAggregateCommandHandler(aggregate *SchoolYearAggregate) *SchoolYearAggregateCommandHandler {
+	return &SchoolYearAggregateCommandHandler{
+		aggregate: aggregate,
+        handlers: make(map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *SchoolYearAggregate) error),
+    }
+}
+
+type SchoolYearAggregateCommandHandler struct {
+	aggregate *SchoolYearAggregate
+	handlers  map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *SchoolYearAggregate) error
+}
+
+func (o *SchoolYearAggregateCommandHandler) AddHandler(commandType eventhorizon.CommandType,
+	handler func(cmd eventhorizon.Command, aggregate *SchoolYearAggregate) error) {
+	o.handlers[commandType] = handler
+}
+
+func (o *SchoolYearAggregateCommandHandler) HandleCommand(ctx context.Context, cmd eventhorizon.Command) (err error) {
+	if handler, ok := o.handlers[cmd.CommandType()]; ok {
+		err = handler(cmd, o.aggregate)
+	} else {
+		err = errors.New(fmt.Sprintf("There is no handlers for command %v registered in the aggregate %v",
+			cmd.CommandType(), cmd.AggregateType()))
+	}
+	return
+}
+
 type SchoolYearAggregate struct {
     *eventhorizon.AggregateBase
     *SchoolYear
+    eventhorizon.CommandHandler
 }
 
 
@@ -335,38 +493,38 @@ func NewStudentEventhorizonInitializer(
 	commandBus eventhorizon.CommandBus) (ret *StudentEventhorizonInitializer) {
 	ret = &StudentEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
             commandBus: commandBus, 
-    attendanceAggregateInitializer: NewAttendanceAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-    courseAggregateInitializer: NewCourseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-    gradeAggregateInitializer: NewGradeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-    groupAggregateInitializer: NewGroupAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-    schoolApplicationAggregateInitializer: NewSchoolApplicationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-    schoolYearAggregateInitializer: NewSchoolYearAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
+    AttendanceAggregateInitializer: NewAttendanceAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    CourseAggregateInitializer: NewCourseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    GradeAggregateInitializer: NewGradeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    GroupAggregateInitializer: NewGroupAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    SchoolApplicationAggregateInitializer: NewSchoolApplicationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    SchoolYearAggregateInitializer: NewSchoolYearAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
 	return
 }
 
 func (o *StudentEventhorizonInitializer) Setup() (err error) {
     
-    if err = o.attendanceAggregateInitializer.Setup(); err != nil {
+    if err = o.AttendanceAggregateInitializer.Setup(); err != nil {
         return
     }
     
-    if err = o.courseAggregateInitializer.Setup(); err != nil {
+    if err = o.CourseAggregateInitializer.Setup(); err != nil {
         return
     }
     
-    if err = o.gradeAggregateInitializer.Setup(); err != nil {
+    if err = o.GradeAggregateInitializer.Setup(); err != nil {
         return
     }
     
-    if err = o.groupAggregateInitializer.Setup(); err != nil {
+    if err = o.GroupAggregateInitializer.Setup(); err != nil {
         return
     }
     
-    if err = o.schoolApplicationAggregateInitializer.Setup(); err != nil {
+    if err = o.SchoolApplicationAggregateInitializer.Setup(); err != nil {
         return
     }
     
-    if err = o.schoolYearAggregateInitializer.Setup(); err != nil {
+    if err = o.SchoolYearAggregateInitializer.Setup(); err != nil {
         return
     }
     return
@@ -377,12 +535,12 @@ type StudentEventhorizonInitializer struct {
     eventBus eventhorizon.EventBus
     eventPublisher eventhorizon.EventPublisher
     commandBus eventhorizon.CommandBus
-    attendanceAggregateInitializer *AttendanceAggregateInitializer
-    courseAggregateInitializer *CourseAggregateInitializer
-    gradeAggregateInitializer *GradeAggregateInitializer
-    groupAggregateInitializer *GroupAggregateInitializer
-    schoolApplicationAggregateInitializer *SchoolApplicationAggregateInitializer
-    schoolYearAggregateInitializer *SchoolYearAggregateInitializer
+    AttendanceAggregateInitializer  *AttendanceAggregateInitializer
+    CourseAggregateInitializer  *CourseAggregateInitializer
+    GradeAggregateInitializer  *GradeAggregateInitializer
+    GroupAggregateInitializer  *GroupAggregateInitializer
+    SchoolApplicationAggregateInitializer  *SchoolApplicationAggregateInitializer
+    SchoolYearAggregateInitializer  *SchoolYearAggregateInitializer
 }
 
 

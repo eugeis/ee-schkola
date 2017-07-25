@@ -2,21 +2,20 @@ package auth
 
 import (
     "context"
+    "errors"
+    "fmt"
     "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/eh"
 )
 
 const AccountAggregateType eventhorizon.AggregateType = "AccountAggregate"
 
-func NewAccountAggregate(id eventhorizon.UUID) *AccountAggregate {
-	return &AccountAggregate{
+func NewAccountAggregate(id eventhorizon.UUID) (ret *AccountAggregate) {
+    ret = &AccountAggregate{
 		AggregateBase: eventhorizon.NewAggregateBase(AccountAggregateType, id),
-	}
-}
-
-func (o *AccountAggregate) HandleCommand(ctx context.Context, cmd eventhorizon.Command) error {
-    println("HandleCommand", cmd.CommandType())
-    return nil
+    }
+	ret.CommandHandler = NewAccountAggregateCommandHandler(ret)
+    return
 }
 
 func (o *AccountAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Event) error {
@@ -24,9 +23,38 @@ func (o *AccountAggregate) ApplyEvent(ctx context.Context, event eventhorizon.Ev
     return nil
 }
 
+
+func NewAccountAggregateCommandHandler(aggregate *AccountAggregate) *AccountAggregateCommandHandler {
+	return &AccountAggregateCommandHandler{
+		aggregate: aggregate,
+        handlers: make(map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *AccountAggregate) error),
+    }
+}
+
+type AccountAggregateCommandHandler struct {
+	aggregate *AccountAggregate
+	handlers  map[eventhorizon.CommandType]func(cmd eventhorizon.Command, aggregate *AccountAggregate) error
+}
+
+func (o *AccountAggregateCommandHandler) AddHandler(commandType eventhorizon.CommandType,
+	handler func(cmd eventhorizon.Command, aggregate *AccountAggregate) error) {
+	o.handlers[commandType] = handler
+}
+
+func (o *AccountAggregateCommandHandler) HandleCommand(ctx context.Context, cmd eventhorizon.Command) (err error) {
+	if handler, ok := o.handlers[cmd.CommandType()]; ok {
+		err = handler(cmd, o.aggregate)
+	} else {
+		err = errors.New(fmt.Sprintf("There is no handlers for command %v registered in the aggregate %v",
+			cmd.CommandType(), cmd.AggregateType()))
+	}
+	return
+}
+
 type AccountAggregate struct {
     *eventhorizon.AggregateBase
     *Account
+    eventhorizon.CommandHandler
 }
 
 
@@ -65,13 +93,13 @@ func NewAuthEventhorizonInitializer(
 	commandBus eventhorizon.CommandBus) (ret *AuthEventhorizonInitializer) {
 	ret = &AuthEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
             commandBus: commandBus, 
-    accountAggregateInitializer: NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
+    AccountAggregateInitializer: NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
 	return
 }
 
 func (o *AuthEventhorizonInitializer) Setup() (err error) {
     
-    if err = o.accountAggregateInitializer.Setup(); err != nil {
+    if err = o.AccountAggregateInitializer.Setup(); err != nil {
         return
     }
     return
@@ -82,7 +110,7 @@ type AuthEventhorizonInitializer struct {
     eventBus eventhorizon.EventBus
     eventPublisher eventhorizon.EventPublisher
     commandBus eventhorizon.CommandBus
-    accountAggregateInitializer *AccountAggregateInitializer
+    AccountAggregateInitializer  *AccountAggregateInitializer
 }
 
 
