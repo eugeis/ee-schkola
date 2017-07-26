@@ -13,9 +13,8 @@ type ExpenseCommandHandler struct {
     UpdateHandler  func (*UpdateExpense, *Expense, eh.AggregateStoreEvent) error
 }
 
-func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
+func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
-    var ret error
     switch cmd.CommandType() {
     case CreateExpenseCommand:
         ret = o.CreateHandler(cmd.(*CreateExpense), entity.(*Expense), store)
@@ -26,14 +25,34 @@ func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
     default:
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
-    return ret
+    return
     
 }
 
-func (o *ExpenseCommandHandler) SetupCommandHandler() error {
+func (o *ExpenseCommandHandler) SetupCommandHandler() (ret error) {
     
-    var ret error
-    return ret
+    if o.CreateHandler == nil {
+        o.CreateHandler = func(command *CreateExpense, entity *Expense,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.DeleteHandler == nil {
+        o.DeleteHandler = func(command *DeleteExpense, entity *Expense,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.UpdateHandler == nil {
+        o.UpdateHandler = func(command *UpdateExpense, entity *Expense,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    return
     
 }
 
@@ -45,9 +64,8 @@ type ExpenseEventHandler struct {
     UpdatedHandler  func (*ExpenseUpdated, *Expense) error
 }
 
-func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
-    var ret error
     switch event.EventType() {
     case ExpenseCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*ExpenseCreated), entity.(*Expense))
@@ -58,14 +76,31 @@ func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return ret
+    return
     
 }
 
-func (o *ExpenseEventHandler) SetupEventHandler() error {
+func (o *ExpenseEventHandler) SetupEventHandler() (ret error) {
     
-    var ret error
-    return ret
+    if o.CreatedHandler == nil {
+        o.CreatedHandler = func(event *ExpenseCreated, entity *Expense) (ret error) {
+            return
+        }
+    }
+    
+    if o.DeletedHandler == nil {
+        o.DeletedHandler = func(event *ExpenseDeleted, entity *Expense) (ret error) {
+            return
+        }
+    }
+    
+    if o.UpdatedHandler == nil {
+        o.UpdatedHandler = func(event *ExpenseUpdated, entity *Expense) (ret error) {
+            return
+        }
+    }
+    
+    return
     
 }
 
@@ -118,9 +153,8 @@ type ExpensePurposeCommandHandler struct {
     UpdateHandler  func (*UpdateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) error
 }
 
-func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
+func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
-    var ret error
     switch cmd.CommandType() {
     case CreateExpensePurposeCommand:
         ret = o.CreateHandler(cmd.(*CreateExpensePurpose), entity.(*ExpensePurpose), store)
@@ -131,14 +165,34 @@ func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity 
     default:
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
-    return ret
+    return
     
 }
 
-func (o *ExpensePurposeCommandHandler) SetupCommandHandler() error {
+func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (ret error) {
     
-    var ret error
-    return ret
+    if o.CreateHandler == nil {
+        o.CreateHandler = func(command *CreateExpensePurpose, entity *ExpensePurpose,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.DeleteHandler == nil {
+        o.DeleteHandler = func(command *DeleteExpensePurpose, entity *ExpensePurpose,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.UpdateHandler == nil {
+        o.UpdateHandler = func(command *UpdateExpensePurpose, entity *ExpensePurpose,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    return
     
 }
 
@@ -150,9 +204,8 @@ type ExpensePurposeEventHandler struct {
     UpdatedHandler  func (*ExpensePurposeUpdated, *ExpensePurpose) error
 }
 
-func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
-    var ret error
     switch event.EventType() {
     case ExpensePurposeCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*ExpensePurposeCreated), entity.(*ExpensePurpose))
@@ -163,14 +216,31 @@ func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity inte
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return ret
+    return
     
 }
 
-func (o *ExpensePurposeEventHandler) SetupEventHandler() error {
+func (o *ExpensePurposeEventHandler) SetupEventHandler() (ret error) {
     
-    var ret error
-    return ret
+    if o.CreatedHandler == nil {
+        o.CreatedHandler = func(event *ExpensePurposeCreated, entity *ExpensePurpose) (ret error) {
+            return
+        }
+    }
+    
+    if o.DeletedHandler == nil {
+        o.DeletedHandler = func(event *ExpensePurposeDeleted, entity *ExpensePurpose) (ret error) {
+            return
+        }
+    }
+    
+    if o.UpdatedHandler == nil {
+        o.UpdatedHandler = func(event *ExpensePurposeUpdated, entity *ExpensePurpose) (ret error) {
+            return
+        }
+    }
+    
+    return
     
 }
 
@@ -223,9 +293,8 @@ type FeeCommandHandler struct {
     UpdateHandler  func (*UpdateFee, *Fee, eh.AggregateStoreEvent) error
 }
 
-func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
+func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
-    var ret error
     switch cmd.CommandType() {
     case CreateFeeCommand:
         ret = o.CreateHandler(cmd.(*CreateFee), entity.(*Fee), store)
@@ -236,14 +305,34 @@ func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}
     default:
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
-    return ret
+    return
     
 }
 
-func (o *FeeCommandHandler) SetupCommandHandler() error {
+func (o *FeeCommandHandler) SetupCommandHandler() (ret error) {
     
-    var ret error
-    return ret
+    if o.CreateHandler == nil {
+        o.CreateHandler = func(command *CreateFee, entity *Fee,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.DeleteHandler == nil {
+        o.DeleteHandler = func(command *DeleteFee, entity *Fee,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.UpdateHandler == nil {
+        o.UpdateHandler = func(command *UpdateFee, entity *Fee,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    return
     
 }
 
@@ -255,9 +344,8 @@ type FeeEventHandler struct {
     UpdatedHandler  func (*FeeUpdated, *Fee) error
 }
 
-func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
-    var ret error
     switch event.EventType() {
     case FeeCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*FeeCreated), entity.(*Fee))
@@ -268,14 +356,31 @@ func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) er
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return ret
+    return
     
 }
 
-func (o *FeeEventHandler) SetupEventHandler() error {
+func (o *FeeEventHandler) SetupEventHandler() (ret error) {
     
-    var ret error
-    return ret
+    if o.CreatedHandler == nil {
+        o.CreatedHandler = func(event *FeeCreated, entity *Fee) (ret error) {
+            return
+        }
+    }
+    
+    if o.DeletedHandler == nil {
+        o.DeletedHandler = func(event *FeeDeleted, entity *Fee) (ret error) {
+            return
+        }
+    }
+    
+    if o.UpdatedHandler == nil {
+        o.UpdatedHandler = func(event *FeeUpdated, entity *Fee) (ret error) {
+            return
+        }
+    }
+    
+    return
     
 }
 
@@ -328,9 +433,8 @@ type FeeKindCommandHandler struct {
     UpdateHandler  func (*UpdateFeeKind, *FeeKind, eh.AggregateStoreEvent) error
 }
 
-func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
+func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
-    var ret error
     switch cmd.CommandType() {
     case CreateFeeKindCommand:
         ret = o.CreateHandler(cmd.(*CreateFeeKind), entity.(*FeeKind), store)
@@ -341,14 +445,34 @@ func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
     default:
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
-    return ret
+    return
     
 }
 
-func (o *FeeKindCommandHandler) SetupCommandHandler() error {
+func (o *FeeKindCommandHandler) SetupCommandHandler() (ret error) {
     
-    var ret error
-    return ret
+    if o.CreateHandler == nil {
+        o.CreateHandler = func(command *CreateFeeKind, entity *FeeKind,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.DeleteHandler == nil {
+        o.DeleteHandler = func(command *DeleteFeeKind, entity *FeeKind,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.UpdateHandler == nil {
+        o.UpdateHandler = func(command *UpdateFeeKind, entity *FeeKind,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    return
     
 }
 
@@ -360,9 +484,8 @@ type FeeKindEventHandler struct {
     UpdatedHandler  func (*FeeKindUpdated, *FeeKind) error
 }
 
-func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
-    var ret error
     switch event.EventType() {
     case FeeKindCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*FeeKindCreated), entity.(*FeeKind))
@@ -373,14 +496,31 @@ func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return ret
+    return
     
 }
 
-func (o *FeeKindEventHandler) SetupEventHandler() error {
+func (o *FeeKindEventHandler) SetupEventHandler() (ret error) {
     
-    var ret error
-    return ret
+    if o.CreatedHandler == nil {
+        o.CreatedHandler = func(event *FeeKindCreated, entity *FeeKind) (ret error) {
+            return
+        }
+    }
+    
+    if o.DeletedHandler == nil {
+        o.DeletedHandler = func(event *FeeKindDeleted, entity *FeeKind) (ret error) {
+            return
+        }
+    }
+    
+    if o.UpdatedHandler == nil {
+        o.UpdatedHandler = func(event *FeeKindUpdated, entity *FeeKind) (ret error) {
+            return
+        }
+    }
+    
+    return
     
 }
 

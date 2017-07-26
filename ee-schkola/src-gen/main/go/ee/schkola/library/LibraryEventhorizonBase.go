@@ -17,9 +17,8 @@ type BookCommandHandler struct {
     ChangeLocationHandler  func (*ChangeBookLocation, *Book, eh.AggregateStoreEvent) error
 }
 
-func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
+func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
-    var ret error
     switch cmd.CommandType() {
     case CreateBookCommand:
         ret = o.CreateHandler(cmd.(*CreateBook), entity.(*Book), store)
@@ -38,14 +37,62 @@ func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{
     default:
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
-    return ret
+    return
     
 }
 
-func (o *BookCommandHandler) SetupCommandHandler() error {
+func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
     
-    var ret error
-    return ret
+    if o.CreateHandler == nil {
+        o.CreateHandler = func(command *CreateBook, entity *Book,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.DeleteHandler == nil {
+        o.DeleteHandler = func(command *DeleteBook, entity *Book,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.UpdateHandler == nil {
+        o.UpdateHandler = func(command *UpdateBook, entity *Book,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.RegisterHandler == nil {
+        o.RegisterHandler = func(command *RegisterBook, entity *Book,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.UnregisterHandler == nil {
+        o.UnregisterHandler = func(command *UnregisterBook, entity *Book,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.ChangeHandler == nil {
+        o.ChangeHandler = func(command *ChangeBook, entity *Book,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.ChangeLocationHandler == nil {
+        o.ChangeLocationHandler = func(command *ChangeBookLocation, entity *Book,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    return
     
 }
 
@@ -57,9 +104,8 @@ type BookEventHandler struct {
     UpdatedHandler  func (*BookUpdated, *Book) error
 }
 
-func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
-    var ret error
     switch event.EventType() {
     case BookCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*BookCreated), entity.(*Book))
@@ -70,14 +116,31 @@ func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) e
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return ret
+    return
     
 }
 
-func (o *BookEventHandler) SetupEventHandler() error {
+func (o *BookEventHandler) SetupEventHandler() (ret error) {
     
-    var ret error
-    return ret
+    if o.CreatedHandler == nil {
+        o.CreatedHandler = func(event *BookCreated, entity *Book) (ret error) {
+            return
+        }
+    }
+    
+    if o.DeletedHandler == nil {
+        o.DeletedHandler = func(event *BookDeleted, entity *Book) (ret error) {
+            return
+        }
+    }
+    
+    if o.UpdatedHandler == nil {
+        o.UpdatedHandler = func(event *BookUpdated, entity *Book) (ret error) {
+            return
+        }
+    }
+    
+    return
     
 }
 

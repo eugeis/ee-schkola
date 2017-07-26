@@ -16,9 +16,8 @@ type AccountCommandHandler struct {
     RegisterHandler  func (*RegisterAccount, *Account, eh.AggregateStoreEvent) error
 }
 
-func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) error {
+func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
-    var ret error
     switch cmd.CommandType() {
     case CreateAccountCommand:
         ret = o.CreateHandler(cmd.(*CreateAccount), entity.(*Account), store)
@@ -35,14 +34,55 @@ func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
     default:
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
-    return ret
+    return
     
 }
 
-func (o *AccountCommandHandler) SetupCommandHandler() error {
+func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
     
-    var ret error
-    return ret
+    if o.CreateHandler == nil {
+        o.CreateHandler = func(command *CreateAccount, entity *Account,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.DeleteHandler == nil {
+        o.DeleteHandler = func(command *DeleteAccount, entity *Account,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.UpdateHandler == nil {
+        o.UpdateHandler = func(command *UpdateAccount, entity *Account,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.EnableHandler == nil {
+        o.EnableHandler = func(command *EnableAccount, entity *Account,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.DisableHandler == nil {
+        o.DisableHandler = func(command *DisableAccount, entity *Account,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    if o.RegisterHandler == nil {
+        o.RegisterHandler = func(command *RegisterAccount, entity *Account,
+            store eh.AggregateStoreEvent) (ret error) {
+            return
+        }
+    }
+    
+    return
     
 }
 
@@ -54,9 +94,8 @@ type AccountEventHandler struct {
     UpdatedHandler  func (*AccountUpdated, *Account) error
 }
 
-func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}) error {
+func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
-    var ret error
     switch event.EventType() {
     case AccountCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*AccountCreated), entity.(*Account))
@@ -67,14 +106,31 @@ func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return ret
+    return
     
 }
 
-func (o *AccountEventHandler) SetupEventHandler() error {
+func (o *AccountEventHandler) SetupEventHandler() (ret error) {
     
-    var ret error
-    return ret
+    if o.CreatedHandler == nil {
+        o.CreatedHandler = func(event *AccountCreated, entity *Account) (ret error) {
+            return
+        }
+    }
+    
+    if o.DeletedHandler == nil {
+        o.DeletedHandler = func(event *AccountDeleted, entity *Account) (ret error) {
+            return
+        }
+    }
+    
+    if o.UpdatedHandler == nil {
+        o.UpdatedHandler = func(event *AccountUpdated, entity *Account) (ret error) {
+            return
+        }
+    }
+    
+    return
     
 }
 
