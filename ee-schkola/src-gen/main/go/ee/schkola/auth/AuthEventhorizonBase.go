@@ -91,7 +91,8 @@ func NewAccountAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(AccountAggregateType, id, commandHandler, eventHandler, &Account{})
         },
-        AccountCommandTypes().Literals(), AccountEventTypes().Literals(), nil,
+        AccountCommandTypes().Literals(), AccountEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         AccountCommandHandler: commandHandler,
         AccountEventHandler: eventHandler,

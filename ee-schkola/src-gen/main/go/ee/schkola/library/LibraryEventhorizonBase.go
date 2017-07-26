@@ -94,7 +94,8 @@ func NewBookAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(BookAggregateType, id, commandHandler, eventHandler, &Book{})
         },
-        BookCommandTypes().Literals(), BookEventTypes().Literals(), nil,
+        BookCommandTypes().Literals(), BookEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         BookCommandHandler: commandHandler,
         BookEventHandler: eventHandler,

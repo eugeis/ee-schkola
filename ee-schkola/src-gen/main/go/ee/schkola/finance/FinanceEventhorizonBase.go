@@ -82,7 +82,8 @@ func NewExpenseAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(ExpenseAggregateType, id, commandHandler, eventHandler, &Expense{})
         },
-        ExpenseCommandTypes().Literals(), ExpenseEventTypes().Literals(), nil,
+        ExpenseCommandTypes().Literals(), ExpenseEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         ExpenseCommandHandler: commandHandler,
         ExpenseEventHandler: eventHandler,
@@ -186,7 +187,8 @@ func NewExpensePurposeAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(ExpensePurposeAggregateType, id, commandHandler, eventHandler, &ExpensePurpose{})
         },
-        ExpensePurposeCommandTypes().Literals(), ExpensePurposeEventTypes().Literals(), nil,
+        ExpensePurposeCommandTypes().Literals(), ExpensePurposeEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         ExpensePurposeCommandHandler: commandHandler,
         ExpensePurposeEventHandler: eventHandler,
@@ -290,7 +292,8 @@ func NewFeeAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(FeeAggregateType, id, commandHandler, eventHandler, &Fee{})
         },
-        FeeCommandTypes().Literals(), FeeEventTypes().Literals(), nil,
+        FeeCommandTypes().Literals(), FeeEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         FeeCommandHandler: commandHandler,
         FeeEventHandler: eventHandler,
@@ -394,7 +397,8 @@ func NewFeeKindAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(FeeKindAggregateType, id, commandHandler, eventHandler, &FeeKind{})
         },
-        FeeKindCommandTypes().Literals(), FeeKindEventTypes().Literals(), nil,
+        FeeKindCommandTypes().Literals(), FeeKindEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         FeeKindCommandHandler: commandHandler,
         FeeKindEventHandler: eventHandler,

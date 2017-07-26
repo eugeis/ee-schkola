@@ -82,7 +82,8 @@ func NewChurchAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(ChurchAggregateType, id, commandHandler, eventHandler, &Church{})
         },
-        ChurchCommandTypes().Literals(), ChurchEventTypes().Literals(), nil,
+        ChurchCommandTypes().Literals(), ChurchEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         ChurchCommandHandler: commandHandler,
         ChurchEventHandler: eventHandler,
@@ -186,7 +187,8 @@ func NewGraduationAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(GraduationAggregateType, id, commandHandler, eventHandler, &Graduation{})
         },
-        GraduationCommandTypes().Literals(), GraduationEventTypes().Literals(), nil,
+        GraduationCommandTypes().Literals(), GraduationEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         GraduationCommandHandler: commandHandler,
         GraduationEventHandler: eventHandler,
@@ -290,7 +292,8 @@ func NewProfileAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(ProfileAggregateType, id, commandHandler, eventHandler, &Profile{})
         },
-        ProfileCommandTypes().Literals(), ProfileEventTypes().Literals(), nil,
+        ProfileCommandTypes().Literals(), ProfileEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         ProfileCommandHandler: commandHandler,
         ProfileEventHandler: eventHandler,

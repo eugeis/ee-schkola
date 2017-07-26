@@ -91,7 +91,8 @@ func NewAttendanceAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(AttendanceAggregateType, id, commandHandler, eventHandler, &Attendance{})
         },
-        AttendanceCommandTypes().Literals(), AttendanceEventTypes().Literals(), nil,
+        AttendanceCommandTypes().Literals(), AttendanceEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         AttendanceCommandHandler: commandHandler,
         AttendanceEventHandler: eventHandler,
@@ -195,7 +196,8 @@ func NewCourseAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(CourseAggregateType, id, commandHandler, eventHandler, &Course{})
         },
-        CourseCommandTypes().Literals(), CourseEventTypes().Literals(), nil,
+        CourseCommandTypes().Literals(), CourseEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         CourseCommandHandler: commandHandler,
         CourseEventHandler: eventHandler,
@@ -299,7 +301,8 @@ func NewGradeAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(GradeAggregateType, id, commandHandler, eventHandler, &Grade{})
         },
-        GradeCommandTypes().Literals(), GradeEventTypes().Literals(), nil,
+        GradeCommandTypes().Literals(), GradeEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         GradeCommandHandler: commandHandler,
         GradeEventHandler: eventHandler,
@@ -403,7 +406,8 @@ func NewGroupAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(GroupAggregateType, id, commandHandler, eventHandler, &Group{})
         },
-        GroupCommandTypes().Literals(), GroupEventTypes().Literals(), nil,
+        GroupCommandTypes().Literals(), GroupEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         GroupCommandHandler: commandHandler,
         GroupEventHandler: eventHandler,
@@ -507,7 +511,8 @@ func NewSchoolApplicationAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(SchoolApplicationAggregateType, id, commandHandler, eventHandler, &SchoolApplication{})
         },
-        SchoolApplicationCommandTypes().Literals(), SchoolApplicationEventTypes().Literals(), nil,
+        SchoolApplicationCommandTypes().Literals(), SchoolApplicationEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         SchoolApplicationCommandHandler: commandHandler,
         SchoolApplicationEventHandler: eventHandler,
@@ -611,7 +616,8 @@ func NewSchoolYearAggregateInitializer(
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
             return eh.NewAggregateBase(SchoolYearAggregateType, id, commandHandler, eventHandler, &SchoolYear{})
         },
-        SchoolYearCommandTypes().Literals(), SchoolYearEventTypes().Literals(), nil,
+        SchoolYearCommandTypes().Literals(), SchoolYearEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus),
         SchoolYearCommandHandler: commandHandler,
         SchoolYearEventHandler: eventHandler,
