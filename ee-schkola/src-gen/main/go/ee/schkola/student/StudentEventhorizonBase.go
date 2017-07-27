@@ -41,43 +41,43 @@ func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity inte
 func (o *AttendanceCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateAttendance, entity *Attendance,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.CreateHandler = func(command *CreateAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(CreateAttendanceCommand)
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteAttendance, entity *Attendance,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.DeleteHandler = func(command *DeleteAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(DeleteAttendanceCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateAttendance, entity *Attendance,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.UpdateHandler = func(command *UpdateAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(UpdateAttendanceCommand)
             return
         }
     }
     
     if o.ConfirmHandler == nil {
-        o.ConfirmHandler = func(command *ConfirmAttendance, entity *Attendance,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.ConfirmHandler = func(command *ConfirmAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(ConfirmAttendanceCommand)
             return
         }
     }
     
     if o.CancelHandler == nil {
-        o.CancelHandler = func(command *CancelAttendance, entity *Attendance,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.CancelHandler = func(command *CancelAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(CancelAttendanceCommand)
             return
         }
     }
     
     if o.RegisterHandler == nil {
-        o.RegisterHandler = func(command *RegisterAttendance, entity *Attendance,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.RegisterHandler = func(command *RegisterAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(RegisterAttendanceCommand)
             return
         }
     }
@@ -114,18 +114,21 @@ func (o *AttendanceEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AttendanceCreated, entity *Attendance) (ret error) {
+            ret = eh.EventHandlerNotImplemented(AttendanceCreatedEvent)
             return
         }
     }
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *AttendanceDeleted, entity *Attendance) (ret error) {
+            ret = eh.EventHandlerNotImplemented(AttendanceDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *AttendanceUpdated, entity *Attendance) (ret error) {
+            ret = eh.EventHandlerNotImplemented(AttendanceUpdatedEvent)
             return
         }
     }
@@ -202,22 +205,22 @@ func (o *CourseCommandHandler) Execute(cmd eventhorizon.Command, entity interfac
 func (o *CourseCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateCourse, entity *Course,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.CreateHandler = func(command *CreateCourse, entity *Course, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(CreateCourseCommand)
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteCourse, entity *Course,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.DeleteHandler = func(command *DeleteCourse, entity *Course, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(DeleteCourseCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateCourse, entity *Course,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.UpdateHandler = func(command *UpdateCourse, entity *Course, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(UpdateCourseCommand)
             return
         }
     }
@@ -254,18 +257,21 @@ func (o *CourseEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *CourseCreated, entity *Course) (ret error) {
+            ret = eh.EventHandlerNotImplemented(CourseCreatedEvent)
             return
         }
     }
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *CourseDeleted, entity *Course) (ret error) {
+            ret = eh.EventHandlerNotImplemented(CourseDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *CourseUpdated, entity *Course) (ret error) {
+            ret = eh.EventHandlerNotImplemented(CourseUpdatedEvent)
             return
         }
     }
@@ -342,22 +348,22 @@ func (o *GradeCommandHandler) Execute(cmd eventhorizon.Command, entity interface
 func (o *GradeCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateGrade, entity *Grade,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.CreateHandler = func(command *CreateGrade, entity *Grade, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(CreateGradeCommand)
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteGrade, entity *Grade,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.DeleteHandler = func(command *DeleteGrade, entity *Grade, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(DeleteGradeCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateGrade, entity *Grade,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.UpdateHandler = func(command *UpdateGrade, entity *Grade, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(UpdateGradeCommand)
             return
         }
     }
@@ -394,18 +400,21 @@ func (o *GradeEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *GradeCreated, entity *Grade) (ret error) {
+            ret = eh.EventHandlerNotImplemented(GradeCreatedEvent)
             return
         }
     }
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *GradeDeleted, entity *Grade) (ret error) {
+            ret = eh.EventHandlerNotImplemented(GradeDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *GradeUpdated, entity *Grade) (ret error) {
+            ret = eh.EventHandlerNotImplemented(GradeUpdatedEvent)
             return
         }
     }
@@ -482,22 +491,22 @@ func (o *GroupCommandHandler) Execute(cmd eventhorizon.Command, entity interface
 func (o *GroupCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateGroup, entity *Group,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.CreateHandler = func(command *CreateGroup, entity *Group, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(CreateGroupCommand)
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteGroup, entity *Group,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.DeleteHandler = func(command *DeleteGroup, entity *Group, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(DeleteGroupCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateGroup, entity *Group,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.UpdateHandler = func(command *UpdateGroup, entity *Group, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(UpdateGroupCommand)
             return
         }
     }
@@ -534,18 +543,21 @@ func (o *GroupEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *GroupCreated, entity *Group) (ret error) {
+            ret = eh.EventHandlerNotImplemented(GroupCreatedEvent)
             return
         }
     }
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *GroupDeleted, entity *Group) (ret error) {
+            ret = eh.EventHandlerNotImplemented(GroupDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *GroupUpdated, entity *Group) (ret error) {
+            ret = eh.EventHandlerNotImplemented(GroupUpdatedEvent)
             return
         }
     }
@@ -622,22 +634,22 @@ func (o *SchoolApplicationCommandHandler) Execute(cmd eventhorizon.Command, enti
 func (o *SchoolApplicationCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateSchoolApplication, entity *SchoolApplication,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.CreateHandler = func(command *CreateSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(CreateSchoolApplicationCommand)
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteSchoolApplication, entity *SchoolApplication,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.DeleteHandler = func(command *DeleteSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(DeleteSchoolApplicationCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateSchoolApplication, entity *SchoolApplication,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.UpdateHandler = func(command *UpdateSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(UpdateSchoolApplicationCommand)
             return
         }
     }
@@ -674,18 +686,21 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *SchoolApplicationCreated, entity *SchoolApplication) (ret error) {
+            ret = eh.EventHandlerNotImplemented(SchoolApplicationCreatedEvent)
             return
         }
     }
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *SchoolApplicationDeleted, entity *SchoolApplication) (ret error) {
+            ret = eh.EventHandlerNotImplemented(SchoolApplicationDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *SchoolApplicationUpdated, entity *SchoolApplication) (ret error) {
+            ret = eh.EventHandlerNotImplemented(SchoolApplicationUpdatedEvent)
             return
         }
     }
@@ -762,22 +777,22 @@ func (o *SchoolYearCommandHandler) Execute(cmd eventhorizon.Command, entity inte
 func (o *SchoolYearCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateSchoolYear, entity *SchoolYear,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.CreateHandler = func(command *CreateSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(CreateSchoolYearCommand)
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteSchoolYear, entity *SchoolYear,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.DeleteHandler = func(command *DeleteSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(DeleteSchoolYearCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateSchoolYear, entity *SchoolYear,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.UpdateHandler = func(command *UpdateSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(UpdateSchoolYearCommand)
             return
         }
     }
@@ -814,18 +829,21 @@ func (o *SchoolYearEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *SchoolYearCreated, entity *SchoolYear) (ret error) {
+            ret = eh.EventHandlerNotImplemented(SchoolYearCreatedEvent)
             return
         }
     }
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *SchoolYearDeleted, entity *SchoolYear) (ret error) {
+            ret = eh.EventHandlerNotImplemented(SchoolYearDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *SchoolYearUpdated, entity *SchoolYear) (ret error) {
+            ret = eh.EventHandlerNotImplemented(SchoolYearUpdatedEvent)
             return
         }
     }

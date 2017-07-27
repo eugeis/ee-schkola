@@ -44,50 +44,50 @@ func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{
 func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateBook, entity *Book,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.CreateHandler = func(command *CreateBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(CreateBookCommand)
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteBook, entity *Book,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.DeleteHandler = func(command *DeleteBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(DeleteBookCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateBook, entity *Book,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.UpdateHandler = func(command *UpdateBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(UpdateBookCommand)
             return
         }
     }
     
     if o.RegisterHandler == nil {
-        o.RegisterHandler = func(command *RegisterBook, entity *Book,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.RegisterHandler = func(command *RegisterBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(RegisterBookCommand)
             return
         }
     }
     
     if o.UnregisterHandler == nil {
-        o.UnregisterHandler = func(command *UnregisterBook, entity *Book,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.UnregisterHandler = func(command *UnregisterBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(UnregisterBookCommand)
             return
         }
     }
     
     if o.ChangeHandler == nil {
-        o.ChangeHandler = func(command *ChangeBook, entity *Book,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.ChangeHandler = func(command *ChangeBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(ChangeBookCommand)
             return
         }
     }
     
     if o.ChangeLocationHandler == nil {
-        o.ChangeLocationHandler = func(command *ChangeBookLocation, entity *Book,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.ChangeLocationHandler = func(command *ChangeBookLocation, entity *Book, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(ChangeBookLocationCommand)
             return
         }
     }
@@ -124,18 +124,21 @@ func (o *BookEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *BookCreated, entity *Book) (ret error) {
+            ret = eh.EventHandlerNotImplemented(BookCreatedEvent)
             return
         }
     }
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *BookDeleted, entity *Book) (ret error) {
+            ret = eh.EventHandlerNotImplemented(BookDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *BookUpdated, entity *Book) (ret error) {
+            ret = eh.EventHandlerNotImplemented(BookUpdatedEvent)
             return
         }
     }

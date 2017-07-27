@@ -32,22 +32,22 @@ func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 func (o *ExpenseCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateExpense, entity *Expense,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.CreateHandler = func(command *CreateExpense, entity *Expense, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(CreateExpenseCommand)
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteExpense, entity *Expense,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.DeleteHandler = func(command *DeleteExpense, entity *Expense, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(DeleteExpenseCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateExpense, entity *Expense,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.UpdateHandler = func(command *UpdateExpense, entity *Expense, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(UpdateExpenseCommand)
             return
         }
     }
@@ -84,18 +84,21 @@ func (o *ExpenseEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ExpenseCreated, entity *Expense) (ret error) {
+            ret = eh.EventHandlerNotImplemented(ExpenseCreatedEvent)
             return
         }
     }
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *ExpenseDeleted, entity *Expense) (ret error) {
+            ret = eh.EventHandlerNotImplemented(ExpenseDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *ExpenseUpdated, entity *Expense) (ret error) {
+            ret = eh.EventHandlerNotImplemented(ExpenseUpdatedEvent)
             return
         }
     }
@@ -172,22 +175,22 @@ func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity 
 func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateExpensePurpose, entity *ExpensePurpose,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.CreateHandler = func(command *CreateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(CreateExpensePurposeCommand)
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteExpensePurpose, entity *ExpensePurpose,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.DeleteHandler = func(command *DeleteExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(DeleteExpensePurposeCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateExpensePurpose, entity *ExpensePurpose,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.UpdateHandler = func(command *UpdateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(UpdateExpensePurposeCommand)
             return
         }
     }
@@ -224,18 +227,21 @@ func (o *ExpensePurposeEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ExpensePurposeCreated, entity *ExpensePurpose) (ret error) {
+            ret = eh.EventHandlerNotImplemented(ExpensePurposeCreatedEvent)
             return
         }
     }
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *ExpensePurposeDeleted, entity *ExpensePurpose) (ret error) {
+            ret = eh.EventHandlerNotImplemented(ExpensePurposeDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *ExpensePurposeUpdated, entity *ExpensePurpose) (ret error) {
+            ret = eh.EventHandlerNotImplemented(ExpensePurposeUpdatedEvent)
             return
         }
     }
@@ -312,22 +318,22 @@ func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}
 func (o *FeeCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateFee, entity *Fee,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.CreateHandler = func(command *CreateFee, entity *Fee, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(CreateFeeCommand)
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteFee, entity *Fee,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.DeleteHandler = func(command *DeleteFee, entity *Fee, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(DeleteFeeCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateFee, entity *Fee,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.UpdateHandler = func(command *UpdateFee, entity *Fee, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(UpdateFeeCommand)
             return
         }
     }
@@ -364,18 +370,21 @@ func (o *FeeEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *FeeCreated, entity *Fee) (ret error) {
+            ret = eh.EventHandlerNotImplemented(FeeCreatedEvent)
             return
         }
     }
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *FeeDeleted, entity *Fee) (ret error) {
+            ret = eh.EventHandlerNotImplemented(FeeDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *FeeUpdated, entity *Fee) (ret error) {
+            ret = eh.EventHandlerNotImplemented(FeeUpdatedEvent)
             return
         }
     }
@@ -452,22 +461,22 @@ func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 func (o *FeeKindCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateFeeKind, entity *FeeKind,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.CreateHandler = func(command *CreateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(CreateFeeKindCommand)
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteFeeKind, entity *FeeKind,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.DeleteHandler = func(command *DeleteFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(DeleteFeeKindCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateFeeKind, entity *FeeKind,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.UpdateHandler = func(command *UpdateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(UpdateFeeKindCommand)
             return
         }
     }
@@ -504,18 +513,21 @@ func (o *FeeKindEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *FeeKindCreated, entity *FeeKind) (ret error) {
+            ret = eh.EventHandlerNotImplemented(FeeKindCreatedEvent)
             return
         }
     }
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *FeeKindDeleted, entity *FeeKind) (ret error) {
+            ret = eh.EventHandlerNotImplemented(FeeKindDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *FeeKindUpdated, entity *FeeKind) (ret error) {
+            ret = eh.EventHandlerNotImplemented(FeeKindUpdatedEvent)
             return
         }
     }

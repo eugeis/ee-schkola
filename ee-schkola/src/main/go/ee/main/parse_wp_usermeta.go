@@ -143,6 +143,10 @@ func parseJson() {
 			.spirit {
 				width: 100px;
 			}
+
+			.photo {
+				height:	200px;
+			}
 		</style>
 	</head>`)
 	w.WriteString("<body>")
@@ -153,35 +157,35 @@ func parseJson() {
 										"church_contact", "user_email",
 										"address", "plz", "city",
 										"job", "education",
-										"marital_state", "spirit"}, w)
+										"marital_state", "photo", "spirit"}, w)
 	w.WriteString("<h2>2. Klasse</h2>")
 	writeReport(users2, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
 										"church", "church_commitment", "church_member", "church_services", "church_responsible",
 										"church_contact", "user_email",
 										"address", "plz", "city",
 										"job", "education",
-										"marital_state", "biblikum_1", "paided_last_years", "spirit"}, w)
+										"marital_state", "biblikum_1", "paided_last_years", "photo", "spirit"}, w)
 	w.WriteString("<h2>3. Klasse</h2>")
 	writeReport(users3, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
 										"church", "church_commitment", "church_member", "church_services", "church_responsible",
 										"church_contact", "user_email",
 										"address", "plz", "city",
 										"job", "education",
-										"marital_state", "biblikum_1", "paided_last_years", "spirit"}, w)
+										"marital_state", "biblikum_1", "paided_last_years", "photo", "spirit"}, w)
 	w.WriteString("<h2>4. Klasse</h2>")
 	writeReport(users4, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
 										"church", "church_commitment", "church_member", "church_services", "church_responsible",
 										"church_contact", "user_email",
 										"address", "plz", "city",
 										"job", "education",
-										"marital_state", "biblikum_1", "biblikum_2", "paided_last_years", "spirit"}, w)
+										"marital_state", "biblikum_1", "biblikum_2", "paided_last_years", "photo", "spirit"}, w)
 	w.WriteString("<h2>Zusatzjahr</h2>")
 	writeReport(users5, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
 										"church", "church_commitment", "church_member", "church_services", "church_responsible",
 										"church_contact", "user_email",
 										"address", "plz", "city",
 										"job", "education",
-										"marital_state", "biblikum_1", "biblikum_2", "paided_last_years", "spirit"}, w)
+										"marital_state", "biblikum_1", "biblikum_2", "paided_last_years", "photo", "spirit"}, w)
 
 	w.WriteString("</body>")
 	w.WriteString("</html>")
@@ -212,6 +216,8 @@ func writeReport(userKeys []string, users map[string]map[string]interface{}, col
 			cell := user[k]
 			if cell == nil {
 				w.WriteString("<td></td>")
+			} else if k == "photo" {
+				w.WriteString(fmt.Sprintf("<td><img src='img/%v' class='photo'></td>", cell))
 			} else {
 				w.WriteString(fmt.Sprintf("<td>%v</td>", cell))
 			}

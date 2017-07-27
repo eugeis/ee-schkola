@@ -41,43 +41,43 @@ func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateAccount, entity *Account,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.CreateHandler = func(command *CreateAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(CreateAccountCommand)
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteAccount, entity *Account,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.DeleteHandler = func(command *DeleteAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(DeleteAccountCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateAccount, entity *Account,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.UpdateHandler = func(command *UpdateAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(UpdateAccountCommand)
             return
         }
     }
     
     if o.EnableHandler == nil {
-        o.EnableHandler = func(command *EnableAccount, entity *Account,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.EnableHandler = func(command *EnableAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(EnableAccountCommand)
             return
         }
     }
     
     if o.DisableHandler == nil {
-        o.DisableHandler = func(command *DisableAccount, entity *Account,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.DisableHandler = func(command *DisableAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(DisableAccountCommand)
             return
         }
     }
     
     if o.RegisterHandler == nil {
-        o.RegisterHandler = func(command *RegisterAccount, entity *Account,
-            store eh.AggregateStoreEvent) (ret error) {
+        o.RegisterHandler = func(command *RegisterAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
+            ret = eh.CommandHandlerNotImplemented(RegisterAccountCommand)
             return
         }
     }
@@ -114,18 +114,21 @@ func (o *AccountEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AccountCreated, entity *Account) (ret error) {
+            ret = eh.EventHandlerNotImplemented(AccountCreatedEvent)
             return
         }
     }
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *AccountDeleted, entity *Account) (ret error) {
+            ret = eh.EventHandlerNotImplemented(AccountDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *AccountUpdated, entity *Account) (ret error) {
+            ret = eh.EventHandlerNotImplemented(AccountUpdatedEvent)
             return
         }
     }
