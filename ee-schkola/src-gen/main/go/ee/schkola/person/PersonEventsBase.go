@@ -37,20 +37,10 @@ type ChurchCreated struct {
     Contact  *Contact`eh:"optional"`
 }
 
-func NewCreated() (ret *ChurchCreated) {
-    ret = &ChurchCreated{}
-    return
-}
-
 
 
 type ChurchDeleted struct {
     Id  eventhorizon.UUID
-}
-
-func NewDeleted() (ret *ChurchDeleted) {
-    ret = &ChurchDeleted{}
-    return
 }
 
 
@@ -63,11 +53,6 @@ type ChurchUpdated struct {
     Contact  *Contact`eh:"optional"`
 }
 
-func NewUpdated() (ret *ChurchUpdated) {
-    ret = &ChurchUpdated{}
-    return
-}
-
 
 
 type GraduationCreated struct {
@@ -76,20 +61,10 @@ type GraduationCreated struct {
     Level  *GraduationLevel`eh:"optional"`
 }
 
-func NewCreated() (ret *GraduationCreated) {
-    ret = &GraduationCreated{}
-    return
-}
-
 
 
 type GraduationDeleted struct {
     Id  eventhorizon.UUID
-}
-
-func NewDeleted() (ret *GraduationDeleted) {
-    ret = &GraduationDeleted{}
-    return
 }
 
 
@@ -98,11 +73,6 @@ type GraduationUpdated struct {
     Id  eventhorizon.UUID`eh:"optional"`
     Name  string`eh:"optional"`
     Level  *GraduationLevel`eh:"optional"`
-}
-
-func NewUpdated() (ret *GraduationUpdated) {
-    ret = &GraduationUpdated{}
-    return
 }
 
 
@@ -122,20 +92,10 @@ type ProfileCreated struct {
     Education  *Education`eh:"optional"`
 }
 
-func NewCreated() (ret *ProfileCreated) {
-    ret = &ProfileCreated{}
-    return
-}
-
 
 
 type ProfileDeleted struct {
     Id  eventhorizon.UUID
-}
-
-func NewDeleted() (ret *ProfileDeleted) {
-    ret = &ProfileDeleted{}
-    return
 }
 
 
@@ -153,11 +113,6 @@ type ProfileUpdated struct {
     Family  *Family`eh:"optional"`
     Church  *ChurchInfo`eh:"optional"`
     Education  *Education`eh:"optional"`
-}
-
-func NewUpdated() (ret *ProfileUpdated) {
-    ret = &ProfileUpdated{}
-    return
 }
 
 

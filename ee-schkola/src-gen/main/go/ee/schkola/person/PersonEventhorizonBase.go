@@ -13,11 +13,6 @@ type ChurchCommandHandler struct {
     UpdateHandler  func (*UpdateChurch, *Church, eh.AggregateStoreEvent) error
 }
 
-func NewChurchCommandHandler() (ret *ChurchCommandHandler) {
-    ret = &ChurchCommandHandler{}
-    return
-}
-
 func (o *ChurchCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
     switch cmd.CommandType() {
@@ -88,11 +83,6 @@ type ChurchEventHandler struct {
     UpdatedHandler  func (*ChurchUpdated, *Church) error
 }
 
-func NewChurchEventHandler() (ret *ChurchEventHandler) {
-    ret = &ChurchEventHandler{}
-    return
-}
-
 func (o *ChurchEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -154,7 +144,7 @@ func NewChurchAggregateInitializer(
     eventHandler := &ChurchEventHandler{}
 	ret = &ChurchAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ChurchAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(ChurchAggregateType, id, commandHandler, eventHandler, &Church{})
+            return eh.NewAggregateBase(ChurchAggregateType, id, commandHandler, eventHandler, NewChurch())
         },
         ChurchCommandTypes().Literals(), ChurchEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -184,26 +174,12 @@ type ChurchAggregateInitializer struct {
     *ChurchEventHandler
 }
 
-func NewChurchAggregateInitializer() (ret *ChurchAggregateInitializer) {
-    ret = &ChurchAggregateInitializer{
-        AggregateInitializer: ,
-        ChurchCommandHandler: NewChurchCommandHandler(),
-        ChurchEventHandler: NewChurchEventHandler(),
-    }
-    return
-}
-
 
 
 type GraduationCommandHandler struct {
     CreateHandler  func (*CreateGraduation, *Graduation, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteGraduation, *Graduation, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateGraduation, *Graduation, eh.AggregateStoreEvent) error
-}
-
-func NewGraduationCommandHandler() (ret *GraduationCommandHandler) {
-    ret = &GraduationCommandHandler{}
-    return
 }
 
 func (o *GraduationCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -272,11 +248,6 @@ type GraduationEventHandler struct {
     UpdatedHandler  func (*GraduationUpdated, *Graduation) error
 }
 
-func NewGraduationEventHandler() (ret *GraduationEventHandler) {
-    ret = &GraduationEventHandler{}
-    return
-}
-
 func (o *GraduationEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -334,7 +305,7 @@ func NewGraduationAggregateInitializer(
     eventHandler := &GraduationEventHandler{}
 	ret = &GraduationAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(GraduationAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(GraduationAggregateType, id, commandHandler, eventHandler, &Graduation{})
+            return eh.NewAggregateBase(GraduationAggregateType, id, commandHandler, eventHandler, NewGraduation())
         },
         GraduationCommandTypes().Literals(), GraduationEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -364,26 +335,12 @@ type GraduationAggregateInitializer struct {
     *GraduationEventHandler
 }
 
-func NewGraduationAggregateInitializer() (ret *GraduationAggregateInitializer) {
-    ret = &GraduationAggregateInitializer{
-        AggregateInitializer: ,
-        GraduationCommandHandler: NewGraduationCommandHandler(),
-        GraduationEventHandler: NewGraduationEventHandler(),
-    }
-    return
-}
-
 
 
 type ProfileCommandHandler struct {
     CreateHandler  func (*CreateProfile, *Profile, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteProfile, *Profile, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateProfile, *Profile, eh.AggregateStoreEvent) error
-}
-
-func NewProfileCommandHandler() (ret *ProfileCommandHandler) {
-    ret = &ProfileCommandHandler{}
-    return
 }
 
 func (o *ProfileCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -470,11 +427,6 @@ type ProfileEventHandler struct {
     UpdatedHandler  func (*ProfileUpdated, *Profile) error
 }
 
-func NewProfileEventHandler() (ret *ProfileEventHandler) {
-    ret = &ProfileEventHandler{}
-    return
-}
-
 func (o *ProfileEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -550,7 +502,7 @@ func NewProfileAggregateInitializer(
     eventHandler := &ProfileEventHandler{}
 	ret = &ProfileAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ProfileAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(ProfileAggregateType, id, commandHandler, eventHandler, &Profile{})
+            return eh.NewAggregateBase(ProfileAggregateType, id, commandHandler, eventHandler, NewProfile())
         },
         ProfileCommandTypes().Literals(), ProfileEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -578,15 +530,6 @@ type ProfileAggregateInitializer struct {
     *eh.AggregateInitializer
     *ProfileCommandHandler
     *ProfileEventHandler
-}
-
-func NewProfileAggregateInitializer() (ret *ProfileAggregateInitializer) {
-    ret = &ProfileAggregateInitializer{
-        AggregateInitializer: ,
-        ProfileCommandHandler: NewProfileCommandHandler(),
-        ProfileEventHandler: NewProfileEventHandler(),
-    }
-    return
 }
 
 
@@ -626,11 +569,6 @@ type PersonEventhorizonInitializer struct {
     ChurchAggregateInitializer  *ChurchAggregateInitializer
     GraduationAggregateInitializer  *GraduationAggregateInitializer
     ProfileAggregateInitializer  *ProfileAggregateInitializer
-}
-
-func NewPersonEventhorizonInitializer() (ret *PersonEventhorizonInitializer) {
-    ret = &PersonEventhorizonInitializer{}
-    return
 }
 
 

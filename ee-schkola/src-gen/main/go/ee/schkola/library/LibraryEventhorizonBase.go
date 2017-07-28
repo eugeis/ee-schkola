@@ -17,11 +17,6 @@ type BookCommandHandler struct {
     ChangeLocationHandler  func (*ChangeBookLocation, *Book, eh.AggregateStoreEvent) error
 }
 
-func NewBookCommandHandler() (ret *BookCommandHandler) {
-    ret = &BookCommandHandler{}
-    return
-}
-
 func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
     switch cmd.CommandType() {
@@ -167,11 +162,6 @@ type BookEventHandler struct {
     UpdatedHandler  func (*BookUpdated, *Book) error
 }
 
-func NewBookEventHandler() (ret *BookEventHandler) {
-    ret = &BookEventHandler{}
-    return
-}
-
 func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -241,7 +231,7 @@ func NewBookAggregateInitializer(
     eventHandler := &BookEventHandler{}
 	ret = &BookAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(BookAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(BookAggregateType, id, commandHandler, eventHandler, &Book{})
+            return eh.NewAggregateBase(BookAggregateType, id, commandHandler, eventHandler, NewBook())
         },
         BookCommandTypes().Literals(), BookEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -271,15 +261,6 @@ type BookAggregateInitializer struct {
     *BookEventHandler
 }
 
-func NewBookAggregateInitializer() (ret *BookAggregateInitializer) {
-    ret = &BookAggregateInitializer{
-        AggregateInitializer: ,
-        BookCommandHandler: NewBookCommandHandler(),
-        BookEventHandler: NewBookEventHandler(),
-    }
-    return
-}
-
 
 
 func NewLibraryEventhorizonInitializer(
@@ -305,11 +286,6 @@ type LibraryEventhorizonInitializer struct {
     eventPublisher eventhorizon.EventPublisher
     commandBus eventhorizon.CommandBus
     BookAggregateInitializer  *BookAggregateInitializer
-}
-
-func NewLibraryEventhorizonInitializer() (ret *LibraryEventhorizonInitializer) {
-    ret = &LibraryEventhorizonInitializer{}
-    return
 }
 
 

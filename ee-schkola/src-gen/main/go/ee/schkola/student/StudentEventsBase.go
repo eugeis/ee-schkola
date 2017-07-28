@@ -64,20 +64,10 @@ type AttendanceCreated struct {
     TokenTrace  *schkola.Trace`eh:"optional"`
 }
 
-func NewCreated() (ret *AttendanceCreated) {
-    ret = &AttendanceCreated{}
-    return
-}
-
 
 
 type AttendanceDeleted struct {
     Id  eventhorizon.UUID
-}
-
-func NewDeleted() (ret *AttendanceDeleted) {
-    ret = &AttendanceDeleted{}
-    return
 }
 
 
@@ -94,11 +84,6 @@ type AttendanceUpdated struct {
     TokenTrace  *schkola.Trace`eh:"optional"`
 }
 
-func NewUpdated() (ret *AttendanceUpdated) {
-    ret = &AttendanceUpdated{}
-    return
-}
-
 
 
 type CourseCreated struct {
@@ -112,20 +97,10 @@ type CourseCreated struct {
     Description  string`eh:"optional"`
 }
 
-func NewCreated() (ret *CourseCreated) {
-    ret = &CourseCreated{}
-    return
-}
-
 
 
 type CourseDeleted struct {
     Id  eventhorizon.UUID
-}
-
-func NewDeleted() (ret *CourseDeleted) {
-    ret = &CourseDeleted{}
-    return
 }
 
 
@@ -141,11 +116,6 @@ type CourseUpdated struct {
     Description  string`eh:"optional"`
 }
 
-func NewUpdated() (ret *CourseUpdated) {
-    ret = &CourseUpdated{}
-    return
-}
-
 
 
 type GradeCreated struct {
@@ -157,20 +127,10 @@ type GradeCreated struct {
     Comment  string`eh:"optional"`
 }
 
-func NewCreated() (ret *GradeCreated) {
-    ret = &GradeCreated{}
-    return
-}
-
 
 
 type GradeDeleted struct {
     Id  eventhorizon.UUID
-}
-
-func NewDeleted() (ret *GradeDeleted) {
-    ret = &GradeDeleted{}
-    return
 }
 
 
@@ -184,11 +144,6 @@ type GradeUpdated struct {
     Comment  string`eh:"optional"`
 }
 
-func NewUpdated() (ret *GradeUpdated) {
-    ret = &GradeUpdated{}
-    return
-}
-
 
 
 type GroupCreated struct {
@@ -199,11 +154,6 @@ type GroupCreated struct {
     Representative  *person.Profile`eh:"optional"`
     Students  []*Course`eh:"optional"`
     Courses  []*Course`eh:"optional"`
-}
-
-func NewCreated() (ret *GroupCreated) {
-    ret = &GroupCreated{}
-    return
 }
 
 func (o *GroupCreated) AddToStudents(item *Course) *Course {
@@ -222,11 +172,6 @@ type GroupDeleted struct {
     Id  eventhorizon.UUID
 }
 
-func NewDeleted() (ret *GroupDeleted) {
-    ret = &GroupDeleted{}
-    return
-}
-
 
 
 type GroupUpdated struct {
@@ -237,11 +182,6 @@ type GroupUpdated struct {
     Representative  *person.Profile`eh:"optional"`
     Students  []*Course`eh:"optional"`
     Courses  []*Course`eh:"optional"`
-}
-
-func NewUpdated() (ret *GroupUpdated) {
-    ret = &GroupUpdated{}
-    return
 }
 
 func (o *GroupUpdated) AddToStudents(item *Course) *Course {
@@ -266,20 +206,10 @@ type SchoolApplicationCreated struct {
     Group  string`eh:"optional"`
 }
 
-func NewCreated() (ret *SchoolApplicationCreated) {
-    ret = &SchoolApplicationCreated{}
-    return
-}
-
 
 
 type SchoolApplicationDeleted struct {
     Id  eventhorizon.UUID
-}
-
-func NewDeleted() (ret *SchoolApplicationDeleted) {
-    ret = &SchoolApplicationDeleted{}
-    return
 }
 
 
@@ -294,11 +224,6 @@ type SchoolApplicationUpdated struct {
     Group  string`eh:"optional"`
 }
 
-func NewUpdated() (ret *SchoolApplicationUpdated) {
-    ret = &SchoolApplicationUpdated{}
-    return
-}
-
 
 
 type SchoolYearCreated struct {
@@ -307,11 +232,6 @@ type SchoolYearCreated struct {
     Start  *time.Time`eh:"optional"`
     End  *time.Time`eh:"optional"`
     Dates  []*Course`eh:"optional"`
-}
-
-func NewCreated() (ret *SchoolYearCreated) {
-    ret = &SchoolYearCreated{}
-    return
 }
 
 func (o *SchoolYearCreated) AddToDates(item *Course) *Course {
@@ -325,11 +245,6 @@ type SchoolYearDeleted struct {
     Id  eventhorizon.UUID
 }
 
-func NewDeleted() (ret *SchoolYearDeleted) {
-    ret = &SchoolYearDeleted{}
-    return
-}
-
 
 
 type SchoolYearUpdated struct {
@@ -338,11 +253,6 @@ type SchoolYearUpdated struct {
     Start  *time.Time`eh:"optional"`
     End  *time.Time`eh:"optional"`
     Dates  []*Course`eh:"optional"`
-}
-
-func NewUpdated() (ret *SchoolYearUpdated) {
-    ret = &SchoolYearUpdated{}
-    return
 }
 
 func (o *SchoolYearUpdated) AddToDates(item *Course) *Course {

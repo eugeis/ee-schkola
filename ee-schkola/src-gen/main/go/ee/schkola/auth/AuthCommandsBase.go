@@ -29,11 +29,6 @@ type CreateAccount struct {
     LastLoginAt  *time.Time`eh:"optional"`
     Profile  *person.Profile`eh:"optional"`
 }
-
-func NewCreate() (ret *CreateAccount) {
-    ret = &CreateAccount{}
-    return
-}
 func (o *CreateAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
 func (o *CreateAccount) CommandType() eventhorizon.CommandType      { return CreateAccountCommand }
@@ -44,11 +39,6 @@ func (o *CreateAccount) CommandType() eventhorizon.CommandType      { return Cre
 
 type DeleteAccount struct {
     Id  eventhorizon.UUID
-}
-
-func NewDelete() (ret *DeleteAccount) {
-    ret = &DeleteAccount{}
-    return
 }
 func (o *DeleteAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -66,11 +56,6 @@ type UpdateAccount struct {
     Disabled  bool`eh:"optional"`
     LastLoginAt  *time.Time`eh:"optional"`
     Profile  *person.Profile`eh:"optional"`
-}
-
-func NewUpdate() (ret *UpdateAccount) {
-    ret = &UpdateAccount{}
-    return
 }
 func (o *UpdateAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }

@@ -13,11 +13,6 @@ type ExpenseCommandHandler struct {
     UpdateHandler  func (*UpdateExpense, *Expense, eh.AggregateStoreEvent) error
 }
 
-func NewExpenseCommandHandler() (ret *ExpenseCommandHandler) {
-    ret = &ExpenseCommandHandler{}
-    return
-}
-
 func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
     switch cmd.CommandType() {
@@ -88,11 +83,6 @@ type ExpenseEventHandler struct {
     UpdatedHandler  func (*ExpenseUpdated, *Expense) error
 }
 
-func NewExpenseEventHandler() (ret *ExpenseEventHandler) {
-    ret = &ExpenseEventHandler{}
-    return
-}
-
 func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -154,7 +144,7 @@ func NewExpenseAggregateInitializer(
     eventHandler := &ExpenseEventHandler{}
 	ret = &ExpenseAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ExpenseAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(ExpenseAggregateType, id, commandHandler, eventHandler, &Expense{})
+            return eh.NewAggregateBase(ExpenseAggregateType, id, commandHandler, eventHandler, NewExpense())
         },
         ExpenseCommandTypes().Literals(), ExpenseEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -184,26 +174,12 @@ type ExpenseAggregateInitializer struct {
     *ExpenseEventHandler
 }
 
-func NewExpenseAggregateInitializer() (ret *ExpenseAggregateInitializer) {
-    ret = &ExpenseAggregateInitializer{
-        AggregateInitializer: ,
-        ExpenseCommandHandler: NewExpenseCommandHandler(),
-        ExpenseEventHandler: NewExpenseEventHandler(),
-    }
-    return
-}
-
 
 
 type ExpensePurposeCommandHandler struct {
     CreateHandler  func (*CreateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) error
-}
-
-func NewExpensePurposeCommandHandler() (ret *ExpensePurposeCommandHandler) {
-    ret = &ExpensePurposeCommandHandler{}
-    return
 }
 
 func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -272,11 +248,6 @@ type ExpensePurposeEventHandler struct {
     UpdatedHandler  func (*ExpensePurposeUpdated, *ExpensePurpose) error
 }
 
-func NewExpensePurposeEventHandler() (ret *ExpensePurposeEventHandler) {
-    ret = &ExpensePurposeEventHandler{}
-    return
-}
-
 func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -334,7 +305,7 @@ func NewExpensePurposeAggregateInitializer(
     eventHandler := &ExpensePurposeEventHandler{}
 	ret = &ExpensePurposeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ExpensePurposeAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(ExpensePurposeAggregateType, id, commandHandler, eventHandler, &ExpensePurpose{})
+            return eh.NewAggregateBase(ExpensePurposeAggregateType, id, commandHandler, eventHandler, NewExpensePurpose())
         },
         ExpensePurposeCommandTypes().Literals(), ExpensePurposeEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -364,26 +335,12 @@ type ExpensePurposeAggregateInitializer struct {
     *ExpensePurposeEventHandler
 }
 
-func NewExpensePurposeAggregateInitializer() (ret *ExpensePurposeAggregateInitializer) {
-    ret = &ExpensePurposeAggregateInitializer{
-        AggregateInitializer: ,
-        ExpensePurposeCommandHandler: NewExpensePurposeCommandHandler(),
-        ExpensePurposeEventHandler: NewExpensePurposeEventHandler(),
-    }
-    return
-}
-
 
 
 type FeeCommandHandler struct {
     CreateHandler  func (*CreateFee, *Fee, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteFee, *Fee, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateFee, *Fee, eh.AggregateStoreEvent) error
-}
-
-func NewFeeCommandHandler() (ret *FeeCommandHandler) {
-    ret = &FeeCommandHandler{}
-    return
 }
 
 func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -456,11 +413,6 @@ type FeeEventHandler struct {
     UpdatedHandler  func (*FeeUpdated, *Fee) error
 }
 
-func NewFeeEventHandler() (ret *FeeEventHandler) {
-    ret = &FeeEventHandler{}
-    return
-}
-
 func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -522,7 +474,7 @@ func NewFeeAggregateInitializer(
     eventHandler := &FeeEventHandler{}
 	ret = &FeeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(FeeAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(FeeAggregateType, id, commandHandler, eventHandler, &Fee{})
+            return eh.NewAggregateBase(FeeAggregateType, id, commandHandler, eventHandler, NewFee())
         },
         FeeCommandTypes().Literals(), FeeEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -552,26 +504,12 @@ type FeeAggregateInitializer struct {
     *FeeEventHandler
 }
 
-func NewFeeAggregateInitializer() (ret *FeeAggregateInitializer) {
-    ret = &FeeAggregateInitializer{
-        AggregateInitializer: ,
-        FeeCommandHandler: NewFeeCommandHandler(),
-        FeeEventHandler: NewFeeEventHandler(),
-    }
-    return
-}
-
 
 
 type FeeKindCommandHandler struct {
     CreateHandler  func (*CreateFeeKind, *FeeKind, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteFeeKind, *FeeKind, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateFeeKind, *FeeKind, eh.AggregateStoreEvent) error
-}
-
-func NewFeeKindCommandHandler() (ret *FeeKindCommandHandler) {
-    ret = &FeeKindCommandHandler{}
-    return
 }
 
 func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -642,11 +580,6 @@ type FeeKindEventHandler struct {
     UpdatedHandler  func (*FeeKindUpdated, *FeeKind) error
 }
 
-func NewFeeKindEventHandler() (ret *FeeKindEventHandler) {
-    ret = &FeeKindEventHandler{}
-    return
-}
-
 func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -706,7 +639,7 @@ func NewFeeKindAggregateInitializer(
     eventHandler := &FeeKindEventHandler{}
 	ret = &FeeKindAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(FeeKindAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(FeeKindAggregateType, id, commandHandler, eventHandler, &FeeKind{})
+            return eh.NewAggregateBase(FeeKindAggregateType, id, commandHandler, eventHandler, NewFeeKind())
         },
         FeeKindCommandTypes().Literals(), FeeKindEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -734,15 +667,6 @@ type FeeKindAggregateInitializer struct {
     *eh.AggregateInitializer
     *FeeKindCommandHandler
     *FeeKindEventHandler
-}
-
-func NewFeeKindAggregateInitializer() (ret *FeeKindAggregateInitializer) {
-    ret = &FeeKindAggregateInitializer{
-        AggregateInitializer: ,
-        FeeKindCommandHandler: NewFeeKindCommandHandler(),
-        FeeKindEventHandler: NewFeeKindEventHandler(),
-    }
-    return
 }
 
 
@@ -788,11 +712,6 @@ type FinanceEventhorizonInitializer struct {
     ExpensePurposeAggregateInitializer  *ExpensePurposeAggregateInitializer
     FeeAggregateInitializer  *FeeAggregateInitializer
     FeeKindAggregateInitializer  *FeeKindAggregateInitializer
-}
-
-func NewFinanceEventhorizonInitializer() (ret *FinanceEventhorizonInitializer) {
-    ret = &FinanceEventhorizonInitializer{}
-    return
 }
 
 

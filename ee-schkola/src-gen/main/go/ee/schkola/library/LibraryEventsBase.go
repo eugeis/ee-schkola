@@ -28,20 +28,10 @@ type BookCreated struct {
     Location  *Location`eh:"optional"`
 }
 
-func NewCreated() (ret *BookCreated) {
-    ret = &BookCreated{}
-    return
-}
-
 
 
 type BookDeleted struct {
     Id  eventhorizon.UUID
-}
-
-func NewDeleted() (ret *BookDeleted) {
-    ret = &BookDeleted{}
-    return
 }
 
 
@@ -56,11 +46,6 @@ type BookUpdated struct {
     Category  string`eh:"optional"`
     Author  *person.PersonName`eh:"optional"`
     Location  *Location`eh:"optional"`
-}
-
-func NewUpdated() (ret *BookUpdated) {
-    ret = &BookUpdated{}
-    return
 }
 
 

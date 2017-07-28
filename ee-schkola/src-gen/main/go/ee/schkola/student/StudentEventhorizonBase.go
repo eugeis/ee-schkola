@@ -16,11 +16,6 @@ type AttendanceCommandHandler struct {
     RegisterHandler  func (*RegisterAttendance, *Attendance, eh.AggregateStoreEvent) error
 }
 
-func NewAttendanceCommandHandler() (ret *AttendanceCommandHandler) {
-    ret = &AttendanceCommandHandler{}
-    return
-}
-
 func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
     switch cmd.CommandType() {
@@ -130,11 +125,6 @@ type AttendanceEventHandler struct {
     UpdatedHandler  func (*AttendanceUpdated, *Attendance) error
 }
 
-func NewAttendanceEventHandler() (ret *AttendanceEventHandler) {
-    ret = &AttendanceEventHandler{}
-    return
-}
-
 func (o *AttendanceEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -204,7 +194,7 @@ func NewAttendanceAggregateInitializer(
     eventHandler := &AttendanceEventHandler{}
 	ret = &AttendanceAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(AttendanceAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(AttendanceAggregateType, id, commandHandler, eventHandler, &Attendance{})
+            return eh.NewAggregateBase(AttendanceAggregateType, id, commandHandler, eventHandler, NewAttendance())
         },
         AttendanceCommandTypes().Literals(), AttendanceEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -234,26 +224,12 @@ type AttendanceAggregateInitializer struct {
     *AttendanceEventHandler
 }
 
-func NewAttendanceAggregateInitializer() (ret *AttendanceAggregateInitializer) {
-    ret = &AttendanceAggregateInitializer{
-        AggregateInitializer: ,
-        AttendanceCommandHandler: NewAttendanceCommandHandler(),
-        AttendanceEventHandler: NewAttendanceEventHandler(),
-    }
-    return
-}
-
 
 
 type CourseCommandHandler struct {
     CreateHandler  func (*CreateCourse, *Course, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteCourse, *Course, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateCourse, *Course, eh.AggregateStoreEvent) error
-}
-
-func NewCourseCommandHandler() (ret *CourseCommandHandler) {
-    ret = &CourseCommandHandler{}
-    return
 }
 
 func (o *CourseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -332,11 +308,6 @@ type CourseEventHandler struct {
     UpdatedHandler  func (*CourseUpdated, *Course) error
 }
 
-func NewCourseEventHandler() (ret *CourseEventHandler) {
-    ret = &CourseEventHandler{}
-    return
-}
-
 func (o *CourseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -404,7 +375,7 @@ func NewCourseAggregateInitializer(
     eventHandler := &CourseEventHandler{}
 	ret = &CourseAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(CourseAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(CourseAggregateType, id, commandHandler, eventHandler, &Course{})
+            return eh.NewAggregateBase(CourseAggregateType, id, commandHandler, eventHandler, NewCourse())
         },
         CourseCommandTypes().Literals(), CourseEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -434,26 +405,12 @@ type CourseAggregateInitializer struct {
     *CourseEventHandler
 }
 
-func NewCourseAggregateInitializer() (ret *CourseAggregateInitializer) {
-    ret = &CourseAggregateInitializer{
-        AggregateInitializer: ,
-        CourseCommandHandler: NewCourseCommandHandler(),
-        CourseEventHandler: NewCourseEventHandler(),
-    }
-    return
-}
-
 
 
 type GradeCommandHandler struct {
     CreateHandler  func (*CreateGrade, *Grade, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteGrade, *Grade, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateGrade, *Grade, eh.AggregateStoreEvent) error
-}
-
-func NewGradeCommandHandler() (ret *GradeCommandHandler) {
-    ret = &GradeCommandHandler{}
-    return
 }
 
 func (o *GradeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -528,11 +485,6 @@ type GradeEventHandler struct {
     UpdatedHandler  func (*GradeUpdated, *Grade) error
 }
 
-func NewGradeEventHandler() (ret *GradeEventHandler) {
-    ret = &GradeEventHandler{}
-    return
-}
-
 func (o *GradeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -596,7 +548,7 @@ func NewGradeAggregateInitializer(
     eventHandler := &GradeEventHandler{}
 	ret = &GradeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(GradeAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(GradeAggregateType, id, commandHandler, eventHandler, &Grade{})
+            return eh.NewAggregateBase(GradeAggregateType, id, commandHandler, eventHandler, NewGrade())
         },
         GradeCommandTypes().Literals(), GradeEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -626,26 +578,12 @@ type GradeAggregateInitializer struct {
     *GradeEventHandler
 }
 
-func NewGradeAggregateInitializer() (ret *GradeAggregateInitializer) {
-    ret = &GradeAggregateInitializer{
-        AggregateInitializer: ,
-        GradeCommandHandler: NewGradeCommandHandler(),
-        GradeEventHandler: NewGradeEventHandler(),
-    }
-    return
-}
-
 
 
 type GroupCommandHandler struct {
     CreateHandler  func (*CreateGroup, *Group, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteGroup, *Group, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateGroup, *Group, eh.AggregateStoreEvent) error
-}
-
-func NewGroupCommandHandler() (ret *GroupCommandHandler) {
-    ret = &GroupCommandHandler{}
-    return
 }
 
 func (o *GroupCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -722,11 +660,6 @@ type GroupEventHandler struct {
     UpdatedHandler  func (*GroupUpdated, *Group) error
 }
 
-func NewGroupEventHandler() (ret *GroupEventHandler) {
-    ret = &GroupEventHandler{}
-    return
-}
-
 func (o *GroupEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -792,7 +725,7 @@ func NewGroupAggregateInitializer(
     eventHandler := &GroupEventHandler{}
 	ret = &GroupAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(GroupAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(GroupAggregateType, id, commandHandler, eventHandler, &Group{})
+            return eh.NewAggregateBase(GroupAggregateType, id, commandHandler, eventHandler, NewGroup())
         },
         GroupCommandTypes().Literals(), GroupEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -822,26 +755,12 @@ type GroupAggregateInitializer struct {
     *GroupEventHandler
 }
 
-func NewGroupAggregateInitializer() (ret *GroupAggregateInitializer) {
-    ret = &GroupAggregateInitializer{
-        AggregateInitializer: ,
-        GroupCommandHandler: NewGroupCommandHandler(),
-        GroupEventHandler: NewGroupEventHandler(),
-    }
-    return
-}
-
 
 
 type SchoolApplicationCommandHandler struct {
     CreateHandler  func (*CreateSchoolApplication, *SchoolApplication, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteSchoolApplication, *SchoolApplication, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateSchoolApplication, *SchoolApplication, eh.AggregateStoreEvent) error
-}
-
-func NewSchoolApplicationCommandHandler() (ret *SchoolApplicationCommandHandler) {
-    ret = &SchoolApplicationCommandHandler{}
-    return
 }
 
 func (o *SchoolApplicationCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -918,11 +837,6 @@ type SchoolApplicationEventHandler struct {
     UpdatedHandler  func (*SchoolApplicationUpdated, *SchoolApplication) error
 }
 
-func NewSchoolApplicationEventHandler() (ret *SchoolApplicationEventHandler) {
-    ret = &SchoolApplicationEventHandler{}
-    return
-}
-
 func (o *SchoolApplicationEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -988,7 +902,7 @@ func NewSchoolApplicationAggregateInitializer(
     eventHandler := &SchoolApplicationEventHandler{}
 	ret = &SchoolApplicationAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(SchoolApplicationAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(SchoolApplicationAggregateType, id, commandHandler, eventHandler, &SchoolApplication{})
+            return eh.NewAggregateBase(SchoolApplicationAggregateType, id, commandHandler, eventHandler, NewSchoolApplication())
         },
         SchoolApplicationCommandTypes().Literals(), SchoolApplicationEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -1018,26 +932,12 @@ type SchoolApplicationAggregateInitializer struct {
     *SchoolApplicationEventHandler
 }
 
-func NewSchoolApplicationAggregateInitializer() (ret *SchoolApplicationAggregateInitializer) {
-    ret = &SchoolApplicationAggregateInitializer{
-        AggregateInitializer: ,
-        SchoolApplicationCommandHandler: NewSchoolApplicationCommandHandler(),
-        SchoolApplicationEventHandler: NewSchoolApplicationEventHandler(),
-    }
-    return
-}
-
 
 
 type SchoolYearCommandHandler struct {
     CreateHandler  func (*CreateSchoolYear, *SchoolYear, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteSchoolYear, *SchoolYear, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateSchoolYear, *SchoolYear, eh.AggregateStoreEvent) error
-}
-
-func NewSchoolYearCommandHandler() (ret *SchoolYearCommandHandler) {
-    ret = &SchoolYearCommandHandler{}
-    return
 }
 
 func (o *SchoolYearCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -1110,11 +1010,6 @@ type SchoolYearEventHandler struct {
     UpdatedHandler  func (*SchoolYearUpdated, *SchoolYear) error
 }
 
-func NewSchoolYearEventHandler() (ret *SchoolYearEventHandler) {
-    ret = &SchoolYearEventHandler{}
-    return
-}
-
 func (o *SchoolYearEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -1176,7 +1071,7 @@ func NewSchoolYearAggregateInitializer(
     eventHandler := &SchoolYearEventHandler{}
 	ret = &SchoolYearAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(SchoolYearAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(SchoolYearAggregateType, id, commandHandler, eventHandler, &SchoolYear{})
+            return eh.NewAggregateBase(SchoolYearAggregateType, id, commandHandler, eventHandler, NewSchoolYear())
         },
         SchoolYearCommandTypes().Literals(), SchoolYearEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -1204,15 +1099,6 @@ type SchoolYearAggregateInitializer struct {
     *eh.AggregateInitializer
     *SchoolYearCommandHandler
     *SchoolYearEventHandler
-}
-
-func NewSchoolYearAggregateInitializer() (ret *SchoolYearAggregateInitializer) {
-    ret = &SchoolYearAggregateInitializer{
-        AggregateInitializer: ,
-        SchoolYearCommandHandler: NewSchoolYearCommandHandler(),
-        SchoolYearEventHandler: NewSchoolYearEventHandler(),
-    }
-    return
 }
 
 
@@ -1270,11 +1156,6 @@ type StudentEventhorizonInitializer struct {
     GroupAggregateInitializer  *GroupAggregateInitializer
     SchoolApplicationAggregateInitializer  *SchoolApplicationAggregateInitializer
     SchoolYearAggregateInitializer  *SchoolYearAggregateInitializer
-}
-
-func NewStudentEventhorizonInitializer() (ret *StudentEventhorizonInitializer) {
-    ret = &StudentEventhorizonInitializer{}
-    return
 }
 
 

@@ -16,11 +16,6 @@ type AccountCommandHandler struct {
     RegisterHandler  func (*RegisterAccount, *Account, eh.AggregateStoreEvent) error
 }
 
-func NewAccountCommandHandler() (ret *AccountCommandHandler) {
-    ret = &AccountCommandHandler{}
-    return
-}
-
 func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
     switch cmd.CommandType() {
@@ -127,11 +122,6 @@ type AccountEventHandler struct {
     UpdatedHandler  func (*AccountUpdated, *Account) error
 }
 
-func NewAccountEventHandler() (ret *AccountEventHandler) {
-    ret = &AccountEventHandler{}
-    return
-}
-
 func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     
     switch event.EventType() {
@@ -197,7 +187,7 @@ func NewAccountAggregateInitializer(
     eventHandler := &AccountEventHandler{}
 	ret = &AccountAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(AccountAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(AccountAggregateType, id, commandHandler, eventHandler, &Account{})
+            return eh.NewAggregateBase(AccountAggregateType, id, commandHandler, eventHandler, NewAccount())
         },
         AccountCommandTypes().Literals(), AccountEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
@@ -227,15 +217,6 @@ type AccountAggregateInitializer struct {
     *AccountEventHandler
 }
 
-func NewAccountAggregateInitializer() (ret *AccountAggregateInitializer) {
-    ret = &AccountAggregateInitializer{
-        AggregateInitializer: ,
-        AccountCommandHandler: NewAccountCommandHandler(),
-        AccountEventHandler: NewAccountEventHandler(),
-    }
-    return
-}
-
 
 
 func NewAuthEventhorizonInitializer(
@@ -261,11 +242,6 @@ type AuthEventhorizonInitializer struct {
     eventPublisher eventhorizon.EventPublisher
     commandBus eventhorizon.CommandBus
     AccountAggregateInitializer  *AccountAggregateInitializer
-}
-
-func NewAuthEventhorizonInitializer() (ret *AuthEventhorizonInitializer) {
-    ret = &AuthEventhorizonInitializer{}
-    return
 }
 
 

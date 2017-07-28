@@ -32,11 +32,6 @@ type CreateBook struct {
     Author  *person.PersonName`eh:"optional"`
     Location  *Location`eh:"optional"`
 }
-
-func NewCreate() (ret *CreateBook) {
-    ret = &CreateBook{}
-    return
-}
 func (o *CreateBook) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
 func (o *CreateBook) CommandType() eventhorizon.CommandType      { return CreateBookCommand }
@@ -47,11 +42,6 @@ func (o *CreateBook) CommandType() eventhorizon.CommandType      { return Create
 
 type DeleteBook struct {
     Id  eventhorizon.UUID
-}
-
-func NewDelete() (ret *DeleteBook) {
-    ret = &DeleteBook{}
-    return
 }
 func (o *DeleteBook) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
@@ -71,11 +61,6 @@ type UpdateBook struct {
     Category  string`eh:"optional"`
     Author  *person.PersonName`eh:"optional"`
     Location  *Location`eh:"optional"`
-}
-
-func NewUpdate() (ret *UpdateBook) {
-    ret = &UpdateBook{}
-    return
 }
 func (o *UpdateBook) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
