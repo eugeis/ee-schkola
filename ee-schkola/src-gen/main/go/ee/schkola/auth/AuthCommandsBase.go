@@ -29,6 +29,11 @@ type CreateAccount struct {
     LastLoginAt  *time.Time`eh:"optional"`
     Profile  *person.Profile`eh:"optional"`
 }
+
+func NewCreate() (ret *CreateAccount) {
+    ret = &CreateAccount{}
+    return
+}
 func (o *CreateAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
 func (o *CreateAccount) CommandType() eventhorizon.CommandType      { return CreateAccountCommand }
@@ -39,6 +44,11 @@ func (o *CreateAccount) CommandType() eventhorizon.CommandType      { return Cre
 
 type DeleteAccount struct {
     Id  eventhorizon.UUID
+}
+
+func NewDelete() (ret *DeleteAccount) {
+    ret = &DeleteAccount{}
+    return
 }
 func (o *DeleteAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -57,6 +67,11 @@ type UpdateAccount struct {
     LastLoginAt  *time.Time`eh:"optional"`
     Profile  *person.Profile`eh:"optional"`
 }
+
+func NewUpdate() (ret *UpdateAccount) {
+    ret = &UpdateAccount{}
+    return
+}
 func (o *UpdateAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
 func (o *UpdateAccount) CommandType() eventhorizon.CommandType      { return UpdateAccountCommand }
@@ -67,6 +82,11 @@ func (o *UpdateAccount) CommandType() eventhorizon.CommandType      { return Upd
 
 type EnableAccount struct {
 }
+
+func NewEnable() (ret *EnableAccount) {
+    ret = &EnableAccount{}
+    return
+}
 func (o *EnableAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *EnableAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
 func (o *EnableAccount) CommandType() eventhorizon.CommandType      { return EnableAccountCommand }
@@ -76,6 +96,11 @@ func (o *EnableAccount) CommandType() eventhorizon.CommandType      { return Ena
         
 
 type DisableAccount struct {
+}
+
+func NewDisable() (ret *DisableAccount) {
+    ret = &DisableAccount{}
+    return
 }
 func (o *DisableAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DisableAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -91,13 +116,8 @@ type RegisterAccount struct {
     Password  string
 }
 
-func NewRegisterAccount(username string, email string, password string) (ret *RegisterAccount) {
-    ret = &RegisterAccount{
-        Username : username,
-        Email : email,
-        Password : password,
-    }
-    
+func NewRegister() (ret *RegisterAccount) {
+    ret = &RegisterAccount{}
     return
 }
 func (o *RegisterAccount) AggregateID() eventhorizon.UUID            { return o.Id  }

@@ -16,6 +16,11 @@ type AttendanceCommandHandler struct {
     RegisterHandler  func (*RegisterAttendance, *Attendance, eh.AggregateStoreEvent) error
 }
 
+func NewAttendanceCommandHandler() (ret *AttendanceCommandHandler) {
+    ret = &AttendanceCommandHandler{}
+    return
+}
+
 func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
     switch cmd.CommandType() {
@@ -42,42 +47,73 @@ func (o *AttendanceCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(CreateAttendanceCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, AttendanceAggregateType)
+            } else {
+                store.StoreEvent(AttendanceCreatedEvent, &AttendanceCreated{
+                    Id: command.Id,
+                    Student: command.Student,
+                    Date: command.Date,
+                    Course: command.Course,
+                    Hours: command.Hours,
+                    State: command.State,
+                    StateTrace: command.StateTrace,
+                    Token: command.Token,
+                    TokenTrace: command.TokenTrace,})
+            }
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(DeleteAttendanceCommand)
+        o.DeleteHandler = func(command *DeleteAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteAttendanceCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(UpdateAttendanceCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, AttendanceAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, AttendanceAggregateType)
+            } else {
+                store.StoreEvent(AttendanceUpdatedEvent, &AttendanceUpdated{
+                    Id: command.Id,
+                    Student: command.Student,
+                    Date: command.Date,
+                    Course: command.Course,
+                    Hours: command.Hours,
+                    State: command.State,
+                    StateTrace: command.StateTrace,
+                    Token: command.Token,
+                    TokenTrace: command.TokenTrace,})
+            }
             return
         }
     }
     
     if o.ConfirmHandler == nil {
-        o.ConfirmHandler = func(command *ConfirmAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(ConfirmAttendanceCommand)
+        o.ConfirmHandler = func(command *ConfirmAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(ConfirmAttendanceCommand)
             return
         }
     }
     
     if o.CancelHandler == nil {
-        o.CancelHandler = func(command *CancelAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(CancelAttendanceCommand)
+        o.CancelHandler = func(command *CancelAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(CancelAttendanceCommand)
             return
         }
     }
     
     if o.RegisterHandler == nil {
         o.RegisterHandler = func(command *RegisterAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(RegisterAttendanceCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, AttendanceAggregateType)
+            } else {
+                store.StoreEvent(Event, &{
+                    Student: command.Student,
+                    Course: command.Course,})
+            }
             return
         }
     }
@@ -92,6 +128,11 @@ type AttendanceEventHandler struct {
     CreatedHandler  func (*AttendanceCreated, *Attendance) error
     DeletedHandler  func (*AttendanceDeleted, *Attendance) error
     UpdatedHandler  func (*AttendanceUpdated, *Attendance) error
+}
+
+func NewAttendanceEventHandler() (ret *AttendanceEventHandler) {
+    ret = &AttendanceEventHandler{}
+    return
 }
 
 func (o *AttendanceEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
@@ -114,21 +155,36 @@ func (o *AttendanceEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AttendanceCreated, entity *Attendance) (ret error) {
-            ret = eh.EventHandlerNotImplemented(AttendanceCreatedEvent)
+            entity.Id = event.Id
+            entity.Student = event.Student
+            entity.Date = event.Date
+            entity.Course = event.Course
+            entity.Hours = event.Hours
+            entity.State = event.State
+            entity.StateTrace = event.StateTrace
+            entity.Token = event.Token
+            entity.TokenTrace = event.TokenTrace
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *AttendanceDeleted, entity *Attendance) (ret error) {
-            ret = eh.EventHandlerNotImplemented(AttendanceDeletedEvent)
+        o.DeletedHandler = func(event *AttendanceDeleted, entity *Attendance) (ret error) {    ret = eh.EventHandlerNotImplemented(AttendanceDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *AttendanceUpdated, entity *Attendance) (ret error) {
-            ret = eh.EventHandlerNotImplemented(AttendanceUpdatedEvent)
+            entity.Id = event.Id
+            entity.Student = event.Student
+            entity.Date = event.Date
+            entity.Course = event.Course
+            entity.Hours = event.Hours
+            entity.State = event.State
+            entity.StateTrace = event.StateTrace
+            entity.Token = event.Token
+            entity.TokenTrace = event.TokenTrace
             return
         }
     }
@@ -178,12 +234,26 @@ type AttendanceAggregateInitializer struct {
     *AttendanceEventHandler
 }
 
+func NewAttendanceAggregateInitializer() (ret *AttendanceAggregateInitializer) {
+    ret = &AttendanceAggregateInitializer{
+        AggregateInitializer: ,
+        AttendanceCommandHandler: NewAttendanceCommandHandler(),
+        AttendanceEventHandler: NewAttendanceEventHandler(),
+    }
+    return
+}
+
 
 
 type CourseCommandHandler struct {
     CreateHandler  func (*CreateCourse, *Course, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteCourse, *Course, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateCourse, *Course, eh.AggregateStoreEvent) error
+}
+
+func NewCourseCommandHandler() (ret *CourseCommandHandler) {
+    ret = &CourseCommandHandler{}
+    return
 }
 
 func (o *CourseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -206,21 +276,46 @@ func (o *CourseCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateCourse, entity *Course, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(CreateCourseCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, CourseAggregateType)
+            } else {
+                store.StoreEvent(CourseCreatedEvent, &CourseCreated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Begin: command.Begin,
+                    End: command.End,
+                    Teacher: command.Teacher,
+                    SchoolYear: command.SchoolYear,
+                    Fee: command.Fee,
+                    Description: command.Description,})
+            }
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteCourse, entity *Course, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(DeleteCourseCommand)
+        o.DeleteHandler = func(command *DeleteCourse, entity *Course, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteCourseCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateCourse, entity *Course, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(UpdateCourseCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, CourseAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, CourseAggregateType)
+            } else {
+                store.StoreEvent(CourseUpdatedEvent, &CourseUpdated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Begin: command.Begin,
+                    End: command.End,
+                    Teacher: command.Teacher,
+                    SchoolYear: command.SchoolYear,
+                    Fee: command.Fee,
+                    Description: command.Description,})
+            }
             return
         }
     }
@@ -235,6 +330,11 @@ type CourseEventHandler struct {
     CreatedHandler  func (*CourseCreated, *Course) error
     DeletedHandler  func (*CourseDeleted, *Course) error
     UpdatedHandler  func (*CourseUpdated, *Course) error
+}
+
+func NewCourseEventHandler() (ret *CourseEventHandler) {
+    ret = &CourseEventHandler{}
+    return
 }
 
 func (o *CourseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
@@ -257,21 +357,34 @@ func (o *CourseEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *CourseCreated, entity *Course) (ret error) {
-            ret = eh.EventHandlerNotImplemented(CourseCreatedEvent)
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Begin = event.Begin
+            entity.End = event.End
+            entity.Teacher = event.Teacher
+            entity.SchoolYear = event.SchoolYear
+            entity.Fee = event.Fee
+            entity.Description = event.Description
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *CourseDeleted, entity *Course) (ret error) {
-            ret = eh.EventHandlerNotImplemented(CourseDeletedEvent)
+        o.DeletedHandler = func(event *CourseDeleted, entity *Course) (ret error) {    ret = eh.EventHandlerNotImplemented(CourseDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *CourseUpdated, entity *Course) (ret error) {
-            ret = eh.EventHandlerNotImplemented(CourseUpdatedEvent)
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Begin = event.Begin
+            entity.End = event.End
+            entity.Teacher = event.Teacher
+            entity.SchoolYear = event.SchoolYear
+            entity.Fee = event.Fee
+            entity.Description = event.Description
             return
         }
     }
@@ -321,12 +434,26 @@ type CourseAggregateInitializer struct {
     *CourseEventHandler
 }
 
+func NewCourseAggregateInitializer() (ret *CourseAggregateInitializer) {
+    ret = &CourseAggregateInitializer{
+        AggregateInitializer: ,
+        CourseCommandHandler: NewCourseCommandHandler(),
+        CourseEventHandler: NewCourseEventHandler(),
+    }
+    return
+}
+
 
 
 type GradeCommandHandler struct {
     CreateHandler  func (*CreateGrade, *Grade, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteGrade, *Grade, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateGrade, *Grade, eh.AggregateStoreEvent) error
+}
+
+func NewGradeCommandHandler() (ret *GradeCommandHandler) {
+    ret = &GradeCommandHandler{}
+    return
 }
 
 func (o *GradeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -349,21 +476,42 @@ func (o *GradeCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateGrade, entity *Grade, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(CreateGradeCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, GradeAggregateType)
+            } else {
+                store.StoreEvent(GradeCreatedEvent, &GradeCreated{
+                    Id: command.Id,
+                    Student: command.Student,
+                    Course: command.Course,
+                    Grade: command.Grade,
+                    GradeTrace: command.GradeTrace,
+                    Comment: command.Comment,})
+            }
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteGrade, entity *Grade, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(DeleteGradeCommand)
+        o.DeleteHandler = func(command *DeleteGrade, entity *Grade, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteGradeCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateGrade, entity *Grade, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(UpdateGradeCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, GradeAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, GradeAggregateType)
+            } else {
+                store.StoreEvent(GradeUpdatedEvent, &GradeUpdated{
+                    Id: command.Id,
+                    Student: command.Student,
+                    Course: command.Course,
+                    Grade: command.Grade,
+                    GradeTrace: command.GradeTrace,
+                    Comment: command.Comment,})
+            }
             return
         }
     }
@@ -378,6 +526,11 @@ type GradeEventHandler struct {
     CreatedHandler  func (*GradeCreated, *Grade) error
     DeletedHandler  func (*GradeDeleted, *Grade) error
     UpdatedHandler  func (*GradeUpdated, *Grade) error
+}
+
+func NewGradeEventHandler() (ret *GradeEventHandler) {
+    ret = &GradeEventHandler{}
+    return
 }
 
 func (o *GradeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
@@ -400,21 +553,30 @@ func (o *GradeEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *GradeCreated, entity *Grade) (ret error) {
-            ret = eh.EventHandlerNotImplemented(GradeCreatedEvent)
+            entity.Id = event.Id
+            entity.Student = event.Student
+            entity.Course = event.Course
+            entity.Grade = event.Grade
+            entity.GradeTrace = event.GradeTrace
+            entity.Comment = event.Comment
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *GradeDeleted, entity *Grade) (ret error) {
-            ret = eh.EventHandlerNotImplemented(GradeDeletedEvent)
+        o.DeletedHandler = func(event *GradeDeleted, entity *Grade) (ret error) {    ret = eh.EventHandlerNotImplemented(GradeDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *GradeUpdated, entity *Grade) (ret error) {
-            ret = eh.EventHandlerNotImplemented(GradeUpdatedEvent)
+            entity.Id = event.Id
+            entity.Student = event.Student
+            entity.Course = event.Course
+            entity.Grade = event.Grade
+            entity.GradeTrace = event.GradeTrace
+            entity.Comment = event.Comment
             return
         }
     }
@@ -464,12 +626,26 @@ type GradeAggregateInitializer struct {
     *GradeEventHandler
 }
 
+func NewGradeAggregateInitializer() (ret *GradeAggregateInitializer) {
+    ret = &GradeAggregateInitializer{
+        AggregateInitializer: ,
+        GradeCommandHandler: NewGradeCommandHandler(),
+        GradeEventHandler: NewGradeEventHandler(),
+    }
+    return
+}
+
 
 
 type GroupCommandHandler struct {
     CreateHandler  func (*CreateGroup, *Group, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteGroup, *Group, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateGroup, *Group, eh.AggregateStoreEvent) error
+}
+
+func NewGroupCommandHandler() (ret *GroupCommandHandler) {
+    ret = &GroupCommandHandler{}
+    return
 }
 
 func (o *GroupCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -492,21 +668,44 @@ func (o *GroupCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateGroup, entity *Group, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(CreateGroupCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, GroupAggregateType)
+            } else {
+                store.StoreEvent(GroupCreatedEvent, &GroupCreated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Category: command.Category,
+                    SchoolYear: command.SchoolYear,
+                    Representative: command.Representative,
+                    Students: command.Students,
+                    Courses: command.Courses,})
+            }
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteGroup, entity *Group, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(DeleteGroupCommand)
+        o.DeleteHandler = func(command *DeleteGroup, entity *Group, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteGroupCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateGroup, entity *Group, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(UpdateGroupCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, GroupAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, GroupAggregateType)
+            } else {
+                store.StoreEvent(GroupUpdatedEvent, &GroupUpdated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Category: command.Category,
+                    SchoolYear: command.SchoolYear,
+                    Representative: command.Representative,
+                    Students: command.Students,
+                    Courses: command.Courses,})
+            }
             return
         }
     }
@@ -521,6 +720,11 @@ type GroupEventHandler struct {
     CreatedHandler  func (*GroupCreated, *Group) error
     DeletedHandler  func (*GroupDeleted, *Group) error
     UpdatedHandler  func (*GroupUpdated, *Group) error
+}
+
+func NewGroupEventHandler() (ret *GroupEventHandler) {
+    ret = &GroupEventHandler{}
+    return
 }
 
 func (o *GroupEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
@@ -543,21 +747,32 @@ func (o *GroupEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *GroupCreated, entity *Group) (ret error) {
-            ret = eh.EventHandlerNotImplemented(GroupCreatedEvent)
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Category = event.Category
+            entity.SchoolYear = event.SchoolYear
+            entity.Representative = event.Representative
+            entity.Students = event.Students
+            entity.Courses = event.Courses
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *GroupDeleted, entity *Group) (ret error) {
-            ret = eh.EventHandlerNotImplemented(GroupDeletedEvent)
+        o.DeletedHandler = func(event *GroupDeleted, entity *Group) (ret error) {    ret = eh.EventHandlerNotImplemented(GroupDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *GroupUpdated, entity *Group) (ret error) {
-            ret = eh.EventHandlerNotImplemented(GroupUpdatedEvent)
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Category = event.Category
+            entity.SchoolYear = event.SchoolYear
+            entity.Representative = event.Representative
+            entity.Students = event.Students
+            entity.Courses = event.Courses
             return
         }
     }
@@ -607,12 +822,26 @@ type GroupAggregateInitializer struct {
     *GroupEventHandler
 }
 
+func NewGroupAggregateInitializer() (ret *GroupAggregateInitializer) {
+    ret = &GroupAggregateInitializer{
+        AggregateInitializer: ,
+        GroupCommandHandler: NewGroupCommandHandler(),
+        GroupEventHandler: NewGroupEventHandler(),
+    }
+    return
+}
+
 
 
 type SchoolApplicationCommandHandler struct {
     CreateHandler  func (*CreateSchoolApplication, *SchoolApplication, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteSchoolApplication, *SchoolApplication, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateSchoolApplication, *SchoolApplication, eh.AggregateStoreEvent) error
+}
+
+func NewSchoolApplicationCommandHandler() (ret *SchoolApplicationCommandHandler) {
+    ret = &SchoolApplicationCommandHandler{}
+    return
 }
 
 func (o *SchoolApplicationCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -635,21 +864,44 @@ func (o *SchoolApplicationCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(CreateSchoolApplicationCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, SchoolApplicationAggregateType)
+            } else {
+                store.StoreEvent(SchoolApplicationCreatedEvent, &SchoolApplicationCreated{
+                    Id: command.Id,
+                    Profile: command.Profile,
+                    RecommendationOf: command.RecommendationOf,
+                    ChurchContactPerson: command.ChurchContactPerson,
+                    ChurchContact: command.ChurchContact,
+                    SchoolYear: command.SchoolYear,
+                    Group: command.Group,})
+            }
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(DeleteSchoolApplicationCommand)
+        o.DeleteHandler = func(command *DeleteSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteSchoolApplicationCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(UpdateSchoolApplicationCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, SchoolApplicationAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, SchoolApplicationAggregateType)
+            } else {
+                store.StoreEvent(SchoolApplicationUpdatedEvent, &SchoolApplicationUpdated{
+                    Id: command.Id,
+                    Profile: command.Profile,
+                    RecommendationOf: command.RecommendationOf,
+                    ChurchContactPerson: command.ChurchContactPerson,
+                    ChurchContact: command.ChurchContact,
+                    SchoolYear: command.SchoolYear,
+                    Group: command.Group,})
+            }
             return
         }
     }
@@ -664,6 +916,11 @@ type SchoolApplicationEventHandler struct {
     CreatedHandler  func (*SchoolApplicationCreated, *SchoolApplication) error
     DeletedHandler  func (*SchoolApplicationDeleted, *SchoolApplication) error
     UpdatedHandler  func (*SchoolApplicationUpdated, *SchoolApplication) error
+}
+
+func NewSchoolApplicationEventHandler() (ret *SchoolApplicationEventHandler) {
+    ret = &SchoolApplicationEventHandler{}
+    return
 }
 
 func (o *SchoolApplicationEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
@@ -686,21 +943,32 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *SchoolApplicationCreated, entity *SchoolApplication) (ret error) {
-            ret = eh.EventHandlerNotImplemented(SchoolApplicationCreatedEvent)
+            entity.Id = event.Id
+            entity.Profile = event.Profile
+            entity.RecommendationOf = event.RecommendationOf
+            entity.ChurchContactPerson = event.ChurchContactPerson
+            entity.ChurchContact = event.ChurchContact
+            entity.SchoolYear = event.SchoolYear
+            entity.Group = event.Group
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *SchoolApplicationDeleted, entity *SchoolApplication) (ret error) {
-            ret = eh.EventHandlerNotImplemented(SchoolApplicationDeletedEvent)
+        o.DeletedHandler = func(event *SchoolApplicationDeleted, entity *SchoolApplication) (ret error) {    ret = eh.EventHandlerNotImplemented(SchoolApplicationDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *SchoolApplicationUpdated, entity *SchoolApplication) (ret error) {
-            ret = eh.EventHandlerNotImplemented(SchoolApplicationUpdatedEvent)
+            entity.Id = event.Id
+            entity.Profile = event.Profile
+            entity.RecommendationOf = event.RecommendationOf
+            entity.ChurchContactPerson = event.ChurchContactPerson
+            entity.ChurchContact = event.ChurchContact
+            entity.SchoolYear = event.SchoolYear
+            entity.Group = event.Group
             return
         }
     }
@@ -750,12 +1018,26 @@ type SchoolApplicationAggregateInitializer struct {
     *SchoolApplicationEventHandler
 }
 
+func NewSchoolApplicationAggregateInitializer() (ret *SchoolApplicationAggregateInitializer) {
+    ret = &SchoolApplicationAggregateInitializer{
+        AggregateInitializer: ,
+        SchoolApplicationCommandHandler: NewSchoolApplicationCommandHandler(),
+        SchoolApplicationEventHandler: NewSchoolApplicationEventHandler(),
+    }
+    return
+}
+
 
 
 type SchoolYearCommandHandler struct {
     CreateHandler  func (*CreateSchoolYear, *SchoolYear, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteSchoolYear, *SchoolYear, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateSchoolYear, *SchoolYear, eh.AggregateStoreEvent) error
+}
+
+func NewSchoolYearCommandHandler() (ret *SchoolYearCommandHandler) {
+    ret = &SchoolYearCommandHandler{}
+    return
 }
 
 func (o *SchoolYearCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -778,21 +1060,40 @@ func (o *SchoolYearCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(CreateSchoolYearCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, SchoolYearAggregateType)
+            } else {
+                store.StoreEvent(SchoolYearCreatedEvent, &SchoolYearCreated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Start: command.Start,
+                    End: command.End,
+                    Dates: command.Dates,})
+            }
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(DeleteSchoolYearCommand)
+        o.DeleteHandler = func(command *DeleteSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteSchoolYearCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(UpdateSchoolYearCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, SchoolYearAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, SchoolYearAggregateType)
+            } else {
+                store.StoreEvent(SchoolYearUpdatedEvent, &SchoolYearUpdated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Start: command.Start,
+                    End: command.End,
+                    Dates: command.Dates,})
+            }
             return
         }
     }
@@ -807,6 +1108,11 @@ type SchoolYearEventHandler struct {
     CreatedHandler  func (*SchoolYearCreated, *SchoolYear) error
     DeletedHandler  func (*SchoolYearDeleted, *SchoolYear) error
     UpdatedHandler  func (*SchoolYearUpdated, *SchoolYear) error
+}
+
+func NewSchoolYearEventHandler() (ret *SchoolYearEventHandler) {
+    ret = &SchoolYearEventHandler{}
+    return
 }
 
 func (o *SchoolYearEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
@@ -829,21 +1135,28 @@ func (o *SchoolYearEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *SchoolYearCreated, entity *SchoolYear) (ret error) {
-            ret = eh.EventHandlerNotImplemented(SchoolYearCreatedEvent)
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Start = event.Start
+            entity.End = event.End
+            entity.Dates = event.Dates
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *SchoolYearDeleted, entity *SchoolYear) (ret error) {
-            ret = eh.EventHandlerNotImplemented(SchoolYearDeletedEvent)
+        o.DeletedHandler = func(event *SchoolYearDeleted, entity *SchoolYear) (ret error) {    ret = eh.EventHandlerNotImplemented(SchoolYearDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *SchoolYearUpdated, entity *SchoolYear) (ret error) {
-            ret = eh.EventHandlerNotImplemented(SchoolYearUpdatedEvent)
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Start = event.Start
+            entity.End = event.End
+            entity.Dates = event.Dates
             return
         }
     }
@@ -891,6 +1204,15 @@ type SchoolYearAggregateInitializer struct {
     *eh.AggregateInitializer
     *SchoolYearCommandHandler
     *SchoolYearEventHandler
+}
+
+func NewSchoolYearAggregateInitializer() (ret *SchoolYearAggregateInitializer) {
+    ret = &SchoolYearAggregateInitializer{
+        AggregateInitializer: ,
+        SchoolYearCommandHandler: NewSchoolYearCommandHandler(),
+        SchoolYearEventHandler: NewSchoolYearEventHandler(),
+    }
+    return
 }
 
 
@@ -948,6 +1270,11 @@ type StudentEventhorizonInitializer struct {
     GroupAggregateInitializer  *GroupAggregateInitializer
     SchoolApplicationAggregateInitializer  *SchoolApplicationAggregateInitializer
     SchoolYearAggregateInitializer  *SchoolYearAggregateInitializer
+}
+
+func NewStudentEventhorizonInitializer() (ret *StudentEventhorizonInitializer) {
+    ret = &StudentEventhorizonInitializer{}
+    return
 }
 
 

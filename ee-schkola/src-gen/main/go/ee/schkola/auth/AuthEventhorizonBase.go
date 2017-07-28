@@ -16,6 +16,11 @@ type AccountCommandHandler struct {
     RegisterHandler  func (*RegisterAccount, *Account, eh.AggregateStoreEvent) error
 }
 
+func NewAccountCommandHandler() (ret *AccountCommandHandler) {
+    ret = &AccountCommandHandler{}
+    return
+}
+
 func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
     switch cmd.CommandType() {
@@ -42,42 +47,70 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(CreateAccountCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, AccountAggregateType)
+            } else {
+                store.StoreEvent(AccountCreatedEvent, &AccountCreated{
+                    Id: command.Id,
+                    Username: command.Username,
+                    Password: command.Password,
+                    Email: command.Email,
+                    Disabled: command.Disabled,
+                    LastLoginAt: command.LastLoginAt,
+                    Profile: command.Profile,})
+            }
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(DeleteAccountCommand)
+        o.DeleteHandler = func(command *DeleteAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteAccountCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(UpdateAccountCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, AccountAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, AccountAggregateType)
+            } else {
+                store.StoreEvent(AccountUpdatedEvent, &AccountUpdated{
+                    Id: command.Id,
+                    Username: command.Username,
+                    Password: command.Password,
+                    Email: command.Email,
+                    Disabled: command.Disabled,
+                    LastLoginAt: command.LastLoginAt,
+                    Profile: command.Profile,})
+            }
             return
         }
     }
     
     if o.EnableHandler == nil {
-        o.EnableHandler = func(command *EnableAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(EnableAccountCommand)
+        o.EnableHandler = func(command *EnableAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(EnableAccountCommand)
             return
         }
     }
     
     if o.DisableHandler == nil {
-        o.DisableHandler = func(command *DisableAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(DisableAccountCommand)
+        o.DisableHandler = func(command *DisableAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DisableAccountCommand)
             return
         }
     }
     
     if o.RegisterHandler == nil {
         o.RegisterHandler = func(command *RegisterAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(RegisterAccountCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, AccountAggregateType)
+            } else {
+                store.StoreEvent(Event, &{
+                    Username: command.Username,
+                    Email: command.Email,
+                    Password: command.Password,})
+            }
             return
         }
     }
@@ -92,6 +125,11 @@ type AccountEventHandler struct {
     CreatedHandler  func (*AccountCreated, *Account) error
     DeletedHandler  func (*AccountDeleted, *Account) error
     UpdatedHandler  func (*AccountUpdated, *Account) error
+}
+
+func NewAccountEventHandler() (ret *AccountEventHandler) {
+    ret = &AccountEventHandler{}
+    return
 }
 
 func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
@@ -114,21 +152,32 @@ func (o *AccountEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AccountCreated, entity *Account) (ret error) {
-            ret = eh.EventHandlerNotImplemented(AccountCreatedEvent)
+            entity.Id = event.Id
+            entity.Username = event.Username
+            entity.Password = event.Password
+            entity.Email = event.Email
+            entity.Disabled = event.Disabled
+            entity.LastLoginAt = event.LastLoginAt
+            entity.Profile = event.Profile
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *AccountDeleted, entity *Account) (ret error) {
-            ret = eh.EventHandlerNotImplemented(AccountDeletedEvent)
+        o.DeletedHandler = func(event *AccountDeleted, entity *Account) (ret error) {    ret = eh.EventHandlerNotImplemented(AccountDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *AccountUpdated, entity *Account) (ret error) {
-            ret = eh.EventHandlerNotImplemented(AccountUpdatedEvent)
+            entity.Id = event.Id
+            entity.Username = event.Username
+            entity.Password = event.Password
+            entity.Email = event.Email
+            entity.Disabled = event.Disabled
+            entity.LastLoginAt = event.LastLoginAt
+            entity.Profile = event.Profile
             return
         }
     }
@@ -178,6 +227,15 @@ type AccountAggregateInitializer struct {
     *AccountEventHandler
 }
 
+func NewAccountAggregateInitializer() (ret *AccountAggregateInitializer) {
+    ret = &AccountAggregateInitializer{
+        AggregateInitializer: ,
+        AccountCommandHandler: NewAccountCommandHandler(),
+        AccountEventHandler: NewAccountEventHandler(),
+    }
+    return
+}
+
 
 
 func NewAuthEventhorizonInitializer(
@@ -203,6 +261,11 @@ type AuthEventhorizonInitializer struct {
     eventPublisher eventhorizon.EventPublisher
     commandBus eventhorizon.CommandBus
     AccountAggregateInitializer  *AccountAggregateInitializer
+}
+
+func NewAuthEventhorizonInitializer() (ret *AuthEventhorizonInitializer) {
+    ret = &AuthEventhorizonInitializer{}
+    return
 }
 
 

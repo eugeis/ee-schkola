@@ -32,6 +32,11 @@ type CreateBook struct {
     Author  *person.PersonName`eh:"optional"`
     Location  *Location`eh:"optional"`
 }
+
+func NewCreate() (ret *CreateBook) {
+    ret = &CreateBook{}
+    return
+}
 func (o *CreateBook) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
 func (o *CreateBook) CommandType() eventhorizon.CommandType      { return CreateBookCommand }
@@ -42,6 +47,11 @@ func (o *CreateBook) CommandType() eventhorizon.CommandType      { return Create
 
 type DeleteBook struct {
     Id  eventhorizon.UUID
+}
+
+func NewDelete() (ret *DeleteBook) {
+    ret = &DeleteBook{}
+    return
 }
 func (o *DeleteBook) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
@@ -62,6 +72,11 @@ type UpdateBook struct {
     Author  *person.PersonName`eh:"optional"`
     Location  *Location`eh:"optional"`
 }
+
+func NewUpdate() (ret *UpdateBook) {
+    ret = &UpdateBook{}
+    return
+}
 func (o *UpdateBook) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
 func (o *UpdateBook) CommandType() eventhorizon.CommandType      { return UpdateBookCommand }
@@ -80,18 +95,8 @@ type RegisterBook struct {
     Author  *person.PersonName
 }
 
-func NewRegisterBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName) (ret *RegisterBook) {
-    ret = &RegisterBook{
-        Title : title,
-        Description : description,
-        Language : language,
-        ReleaseDate : releaseDate,
-        Edition : edition,
-        Category : category,
-        Author : author,
-    }
-    
+func NewRegister() (ret *RegisterBook) {
+    ret = &RegisterBook{}
     return
 }
 func (o *RegisterBook) AggregateID() eventhorizon.UUID            { return o.Id  }
@@ -106,11 +111,8 @@ type UnregisterBook struct {
     Id  eventhorizon.UUID
 }
 
-func NewUnregisterBook(id eventhorizon.UUID) (ret *UnregisterBook) {
-    ret = &UnregisterBook{
-        Id : id,
-    }
-    
+func NewUnregister() (ret *UnregisterBook) {
+    ret = &UnregisterBook{}
     return
 }
 func (o *UnregisterBook) AggregateID() eventhorizon.UUID            { return o.Id  }
@@ -131,18 +133,8 @@ type ChangeBook struct {
     Author  *person.PersonName
 }
 
-func NewChangeBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName) (ret *ChangeBook) {
-    ret = &ChangeBook{
-        Title : title,
-        Description : description,
-        Language : language,
-        ReleaseDate : releaseDate,
-        Edition : edition,
-        Category : category,
-        Author : author,
-    }
-    
+func NewChange() (ret *ChangeBook) {
+    ret = &ChangeBook{}
     return
 }
 func (o *ChangeBook) AggregateID() eventhorizon.UUID            { return o.Id  }
@@ -158,12 +150,8 @@ type ChangeBookLocation struct {
     Fold  string
 }
 
-func NewChangeBookLocation(shelf string, fold string) (ret *ChangeBookLocation) {
-    ret = &ChangeBookLocation{
-        Shelf : shelf,
-        Fold : fold,
-    }
-    
+func NewChangeLocation() (ret *ChangeBookLocation) {
+    ret = &ChangeBookLocation{}
     return
 }
 func (o *ChangeBookLocation) AggregateID() eventhorizon.UUID            { return o.Id  }

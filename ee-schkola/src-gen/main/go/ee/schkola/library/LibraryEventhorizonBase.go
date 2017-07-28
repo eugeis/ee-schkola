@@ -17,6 +17,11 @@ type BookCommandHandler struct {
     ChangeLocationHandler  func (*ChangeBookLocation, *Book, eh.AggregateStoreEvent) error
 }
 
+func NewBookCommandHandler() (ret *BookCommandHandler) {
+    ret = &BookCommandHandler{}
+    return
+}
+
 func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
     switch cmd.CommandType() {
@@ -45,49 +50,107 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(CreateBookCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, BookAggregateType)
+            } else {
+                store.StoreEvent(BookCreatedEvent, &BookCreated{
+                    Id: command.Id,
+                    Title: command.Title,
+                    Description: command.Description,
+                    Language: command.Language,
+                    ReleaseDate: command.ReleaseDate,
+                    Edition: command.Edition,
+                    Category: command.Category,
+                    Author: command.Author,
+                    Location: command.Location,})
+            }
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(DeleteBookCommand)
+        o.DeleteHandler = func(command *DeleteBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteBookCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(UpdateBookCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
+            } else {
+                store.StoreEvent(BookUpdatedEvent, &BookUpdated{
+                    Id: command.Id,
+                    Title: command.Title,
+                    Description: command.Description,
+                    Language: command.Language,
+                    ReleaseDate: command.ReleaseDate,
+                    Edition: command.Edition,
+                    Category: command.Category,
+                    Author: command.Author,
+                    Location: command.Location,})
+            }
             return
         }
     }
     
     if o.RegisterHandler == nil {
         o.RegisterHandler = func(command *RegisterBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(RegisterBookCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, BookAggregateType)
+            } else {
+                store.StoreEvent(Event, &{
+                    Title: command.Title,
+                    Description: command.Description,
+                    Language: command.Language,
+                    ReleaseDate: command.ReleaseDate,
+                    Edition: command.Edition,
+                    Category: command.Category,
+                    Author: command.Author,})
+            }
             return
         }
     }
     
     if o.UnregisterHandler == nil {
-        o.UnregisterHandler = func(command *UnregisterBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(UnregisterBookCommand)
+        o.UnregisterHandler = func(command *UnregisterBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(UnregisterBookCommand)
             return
         }
     }
     
     if o.ChangeHandler == nil {
         o.ChangeHandler = func(command *ChangeBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(ChangeBookCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
+            } else {
+                store.StoreEvent(Event, &{
+                    Title: command.Title,
+                    Description: command.Description,
+                    Language: command.Language,
+                    ReleaseDate: command.ReleaseDate,
+                    Edition: command.Edition,
+                    Category: command.Category,
+                    Author: command.Author,})
+            }
             return
         }
     }
     
     if o.ChangeLocationHandler == nil {
         o.ChangeLocationHandler = func(command *ChangeBookLocation, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(ChangeBookLocationCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
+            } else {
+                store.StoreEvent(Event, &{
+                    Shelf: command.Shelf,
+                    Fold: command.Fold,})
+            }
             return
         }
     }
@@ -102,6 +165,11 @@ type BookEventHandler struct {
     CreatedHandler  func (*BookCreated, *Book) error
     DeletedHandler  func (*BookDeleted, *Book) error
     UpdatedHandler  func (*BookUpdated, *Book) error
+}
+
+func NewBookEventHandler() (ret *BookEventHandler) {
+    ret = &BookEventHandler{}
+    return
 }
 
 func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
@@ -124,21 +192,36 @@ func (o *BookEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *BookCreated, entity *Book) (ret error) {
-            ret = eh.EventHandlerNotImplemented(BookCreatedEvent)
+            entity.Id = event.Id
+            entity.Title = event.Title
+            entity.Description = event.Description
+            entity.Language = event.Language
+            entity.ReleaseDate = event.ReleaseDate
+            entity.Edition = event.Edition
+            entity.Category = event.Category
+            entity.Author = event.Author
+            entity.Location = event.Location
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *BookDeleted, entity *Book) (ret error) {
-            ret = eh.EventHandlerNotImplemented(BookDeletedEvent)
+        o.DeletedHandler = func(event *BookDeleted, entity *Book) (ret error) {    ret = eh.EventHandlerNotImplemented(BookDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *BookUpdated, entity *Book) (ret error) {
-            ret = eh.EventHandlerNotImplemented(BookUpdatedEvent)
+            entity.Id = event.Id
+            entity.Title = event.Title
+            entity.Description = event.Description
+            entity.Language = event.Language
+            entity.ReleaseDate = event.ReleaseDate
+            entity.Edition = event.Edition
+            entity.Category = event.Category
+            entity.Author = event.Author
+            entity.Location = event.Location
             return
         }
     }
@@ -188,6 +271,15 @@ type BookAggregateInitializer struct {
     *BookEventHandler
 }
 
+func NewBookAggregateInitializer() (ret *BookAggregateInitializer) {
+    ret = &BookAggregateInitializer{
+        AggregateInitializer: ,
+        BookCommandHandler: NewBookCommandHandler(),
+        BookEventHandler: NewBookEventHandler(),
+    }
+    return
+}
+
 
 
 func NewLibraryEventhorizonInitializer(
@@ -213,6 +305,11 @@ type LibraryEventhorizonInitializer struct {
     eventPublisher eventhorizon.EventPublisher
     commandBus eventhorizon.CommandBus
     BookAggregateInitializer  *BookAggregateInitializer
+}
+
+func NewLibraryEventhorizonInitializer() (ret *LibraryEventhorizonInitializer) {
+    ret = &LibraryEventhorizonInitializer{}
+    return
 }
 
 

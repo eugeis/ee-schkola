@@ -10,11 +10,10 @@ type SchkolaBase struct {
     Id  eventhorizon.UUID
 }
 
-func NewSchkolaBase(id eventhorizon.UUID) (ret *SchkolaBase) {
+func NewSchkolaBase() (ret *SchkolaBase) {
     ret = &SchkolaBase{
-        Id : id,
+        Trace: NewTrace(),
     }
-    
     return
 }
 
@@ -30,13 +29,8 @@ type Trace struct {
     ModifiedBy  string
 }
 
-func NewTrace(createdAt *time.Time, updatedAt *time.Time, modifiedBy string) (ret *Trace) {
-    ret = &Trace{
-        CreatedAt : createdAt,
-        UpdatedAt : updatedAt,
-        ModifiedBy : modifiedBy,
-    }
-    
+func NewTrace() (ret *Trace) {
+    ret = &Trace{}
     return
 }
 

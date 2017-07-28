@@ -1,453 +1,643 @@
 package person
 
 import (
-	"errors"
-	"fmt"
-	"github.com/looplab/eventhorizon"
-	"github.com/eugeis/gee/eh"
+    "errors"
+    "fmt"
+    "github.com/looplab/eventhorizon"
+    "github.com/eugeis/gee/eh"
 )
 
 type ChurchCommandHandler struct {
-	CreateHandler func(*CreateChurch, *Church, eh.AggregateStoreEvent) error
-	DeleteHandler func(*DeleteChurch, *Church, eh.AggregateStoreEvent) error
-	UpdateHandler func(*UpdateChurch, *Church, eh.AggregateStoreEvent) error
+    CreateHandler  func (*CreateChurch, *Church, eh.AggregateStoreEvent) error
+    DeleteHandler  func (*DeleteChurch, *Church, eh.AggregateStoreEvent) error
+    UpdateHandler  func (*UpdateChurch, *Church, eh.AggregateStoreEvent) error
+}
+
+func NewChurchCommandHandler() (ret *ChurchCommandHandler) {
+    ret = &ChurchCommandHandler{}
+    return
 }
 
 func (o *ChurchCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-
-	switch cmd.CommandType() {
-	case CreateChurchCommand:
-		ret = o.CreateHandler(cmd.(*CreateChurch), entity.(*Church), store)
-	case DeleteChurchCommand:
-		ret = o.DeleteHandler(cmd.(*DeleteChurch), entity.(*Church), store)
-	case UpdateChurchCommand:
-		ret = o.UpdateHandler(cmd.(*UpdateChurch), entity.(*Church), store)
-	default:
+    
+    switch cmd.CommandType() {
+    case CreateChurchCommand:
+        ret = o.CreateHandler(cmd.(*CreateChurch), entity.(*Church), store)
+    case DeleteChurchCommand:
+        ret = o.DeleteHandler(cmd.(*DeleteChurch), entity.(*Church), store)
+    case UpdateChurchCommand:
+        ret = o.UpdateHandler(cmd.(*UpdateChurch), entity.(*Church), store)
+    default:
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
-	return
-
+    return
+    
 }
 
 func (o *ChurchCommandHandler) SetupCommandHandler() (ret error) {
-
-	if o.CreateHandler == nil {
-		o.CreateHandler = func(command *CreateChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
-			ret = eh.CommandHandlerNotImplemented(CreateChurchCommand)
-			return
-		}
-	}
-
-	if o.DeleteHandler == nil {
-		o.DeleteHandler = func(command *DeleteChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
-			ret = eh.CommandHandlerNotImplemented(DeleteChurchCommand)
-			return
-		}
-	}
-
-	if o.UpdateHandler == nil {
-		o.UpdateHandler = func(command *UpdateChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
-			ret = eh.CommandHandlerNotImplemented(UpdateChurchCommand)
-			return
-		}
-	}
-
-	return
-
+    
+    if o.CreateHandler == nil {
+        o.CreateHandler = func(command *CreateChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, ChurchAggregateType)
+            } else {
+                store.StoreEvent(ChurchCreatedEvent, &ChurchCreated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Address: command.Address,
+                    Pastor: command.Pastor,
+                    Contact: command.Contact,})
+            }
+            return
+        }
+    }
+    
+    if o.DeleteHandler == nil {
+        o.DeleteHandler = func(command *DeleteChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteChurchCommand)
+            return
+        }
+    }
+    
+    if o.UpdateHandler == nil {
+        o.UpdateHandler = func(command *UpdateChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, ChurchAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, ChurchAggregateType)
+            } else {
+                store.StoreEvent(ChurchUpdatedEvent, &ChurchUpdated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Address: command.Address,
+                    Pastor: command.Pastor,
+                    Contact: command.Contact,})
+            }
+            return
+        }
+    }
+    
+    return
+    
 }
 
+
+
 type ChurchEventHandler struct {
-	CreatedHandler func(*ChurchCreated, *Church) error
-	DeletedHandler func(*ChurchDeleted, *Church) error
-	UpdatedHandler func(*ChurchUpdated, *Church) error
+    CreatedHandler  func (*ChurchCreated, *Church) error
+    DeletedHandler  func (*ChurchDeleted, *Church) error
+    UpdatedHandler  func (*ChurchUpdated, *Church) error
+}
+
+func NewChurchEventHandler() (ret *ChurchEventHandler) {
+    ret = &ChurchEventHandler{}
+    return
 }
 
 func (o *ChurchEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-
-	switch event.EventType() {
-	case ChurchCreatedEvent:
-		ret = o.CreatedHandler(event.Data().(*ChurchCreated), entity.(*Church))
-	case ChurchDeletedEvent:
-		ret = o.DeletedHandler(event.Data().(*ChurchDeleted), entity.(*Church))
-	case ChurchUpdatedEvent:
-		ret = o.UpdatedHandler(event.Data().(*ChurchUpdated), entity.(*Church))
-	default:
+    
+    switch event.EventType() {
+    case ChurchCreatedEvent:
+        ret = o.CreatedHandler(event.Data().(*ChurchCreated), entity.(*Church))
+    case ChurchDeletedEvent:
+        ret = o.DeletedHandler(event.Data().(*ChurchDeleted), entity.(*Church))
+    case ChurchUpdatedEvent:
+        ret = o.UpdatedHandler(event.Data().(*ChurchUpdated), entity.(*Church))
+    default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-	return
-
+    return
+    
 }
 
 func (o *ChurchEventHandler) SetupEventHandler() (ret error) {
-
-	if o.CreatedHandler == nil {
-		o.CreatedHandler = func(event *ChurchCreated, entity *Church) (ret error) {
-			ret = eh.EventHandlerNotImplemented(ChurchCreatedEvent)
-			return
-		}
-	}
-
-	if o.DeletedHandler == nil {
-		o.DeletedHandler = func(event *ChurchDeleted, entity *Church) (ret error) {
-			ret = eh.EventHandlerNotImplemented(ChurchDeletedEvent)
-			return
-		}
-	}
-
-	if o.UpdatedHandler == nil {
-		o.UpdatedHandler = func(event *ChurchUpdated, entity *Church) (ret error) {
-			ret = eh.EventHandlerNotImplemented(ChurchUpdatedEvent)
-			return
-		}
-	}
-
-	return
-
+    
+    if o.CreatedHandler == nil {
+        o.CreatedHandler = func(event *ChurchCreated, entity *Church) (ret error) {
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Address = event.Address
+            entity.Pastor = event.Pastor
+            entity.Contact = event.Contact
+            return
+        }
+    }
+    
+    if o.DeletedHandler == nil {
+        o.DeletedHandler = func(event *ChurchDeleted, entity *Church) (ret error) {    ret = eh.EventHandlerNotImplemented(ChurchDeletedEvent)
+            return
+        }
+    }
+    
+    if o.UpdatedHandler == nil {
+        o.UpdatedHandler = func(event *ChurchUpdated, entity *Church) (ret error) {
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Address = event.Address
+            entity.Pastor = event.Pastor
+            entity.Contact = event.Contact
+            return
+        }
+    }
+    
+    return
+    
 }
+
+
 
 const ChurchAggregateType eventhorizon.AggregateType = "ChurchAggregateInitializer"
 
 func NewChurchAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *ChurchAggregateInitializer) {
-	commandHandler := &ChurchCommandHandler{}
-	eventHandler := &ChurchEventHandler{}
+    commandHandler := &ChurchCommandHandler{}
+    eventHandler := &ChurchEventHandler{}
 	ret = &ChurchAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ChurchAggregateType,
-		func(id eventhorizon.UUID) eventhorizon.Aggregate {
-			return eh.NewAggregateBase(ChurchAggregateType, id, commandHandler, eventHandler, &Church{})
-		},
-		ChurchCommandTypes().Literals(), ChurchEventTypes().Literals(),
-		[]func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-		eventStore, eventBus, eventPublisher, commandBus),
-		ChurchCommandHandler: commandHandler,
-		ChurchEventHandler:   eventHandler,
-	}
+        func(id eventhorizon.UUID) eventhorizon.Aggregate {
+            return eh.NewAggregateBase(ChurchAggregateType, id, commandHandler, eventHandler, &Church{})
+        },
+        ChurchCommandTypes().Literals(), ChurchEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
+        eventStore, eventBus, eventPublisher, commandBus),
+        ChurchCommandHandler: commandHandler,
+        ChurchEventHandler: eventHandler,
+    }
 	return
 }
 
-func (o *ChurchAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler) {
-	o.RegisterForEvent(handler, ChurchEventTypes().ChurchCreated())
+
+func (o *ChurchAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ChurchEventTypes().ChurchCreated())
 }
 
-func (o *ChurchAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler) {
-	o.RegisterForEvent(handler, ChurchEventTypes().ChurchDeleted())
+func (o *ChurchAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ChurchEventTypes().ChurchDeleted())
 }
 
-func (o *ChurchAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler) {
-	o.RegisterForEvent(handler, ChurchEventTypes().ChurchUpdated())
+func (o *ChurchAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ChurchEventTypes().ChurchUpdated())
 }
 
 type ChurchAggregateInitializer struct {
-	*eh.AggregateInitializer
-	*ChurchCommandHandler
-	*ChurchEventHandler
+    *eh.AggregateInitializer
+    *ChurchCommandHandler
+    *ChurchEventHandler
 }
 
+func NewChurchAggregateInitializer() (ret *ChurchAggregateInitializer) {
+    ret = &ChurchAggregateInitializer{
+        AggregateInitializer: ,
+        ChurchCommandHandler: NewChurchCommandHandler(),
+        ChurchEventHandler: NewChurchEventHandler(),
+    }
+    return
+}
+
+
+
 type GraduationCommandHandler struct {
-	CreateHandler func(*CreateGraduation, *Graduation, eh.AggregateStoreEvent) error
-	DeleteHandler func(*DeleteGraduation, *Graduation, eh.AggregateStoreEvent) error
-	UpdateHandler func(*UpdateGraduation, *Graduation, eh.AggregateStoreEvent) error
+    CreateHandler  func (*CreateGraduation, *Graduation, eh.AggregateStoreEvent) error
+    DeleteHandler  func (*DeleteGraduation, *Graduation, eh.AggregateStoreEvent) error
+    UpdateHandler  func (*UpdateGraduation, *Graduation, eh.AggregateStoreEvent) error
+}
+
+func NewGraduationCommandHandler() (ret *GraduationCommandHandler) {
+    ret = &GraduationCommandHandler{}
+    return
 }
 
 func (o *GraduationCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-
-	switch cmd.CommandType() {
-	case CreateGraduationCommand:
-		ret = o.CreateHandler(cmd.(*CreateGraduation), entity.(*Graduation), store)
-	case DeleteGraduationCommand:
-		ret = o.DeleteHandler(cmd.(*DeleteGraduation), entity.(*Graduation), store)
-	case UpdateGraduationCommand:
-		ret = o.UpdateHandler(cmd.(*UpdateGraduation), entity.(*Graduation), store)
-	default:
+    
+    switch cmd.CommandType() {
+    case CreateGraduationCommand:
+        ret = o.CreateHandler(cmd.(*CreateGraduation), entity.(*Graduation), store)
+    case DeleteGraduationCommand:
+        ret = o.DeleteHandler(cmd.(*DeleteGraduation), entity.(*Graduation), store)
+    case UpdateGraduationCommand:
+        ret = o.UpdateHandler(cmd.(*UpdateGraduation), entity.(*Graduation), store)
+    default:
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
-	return
-
+    return
+    
 }
 
 func (o *GraduationCommandHandler) SetupCommandHandler() (ret error) {
-
-	if o.CreateHandler == nil {
-		o.CreateHandler = func(command *CreateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
-			ret = eh.CommandHandlerNotImplemented(CreateGraduationCommand)
-			return
-		}
-	}
-
-	if o.DeleteHandler == nil {
-		o.DeleteHandler = func(command *DeleteGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
-			ret = eh.CommandHandlerNotImplemented(DeleteGraduationCommand)
-			return
-		}
-	}
-
-	if o.UpdateHandler == nil {
-		o.UpdateHandler = func(command *UpdateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
-			ret = eh.CommandHandlerNotImplemented(UpdateGraduationCommand)
-			return
-		}
-	}
-
-	return
-
+    
+    if o.CreateHandler == nil {
+        o.CreateHandler = func(command *CreateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, GraduationAggregateType)
+            } else {
+                store.StoreEvent(GraduationCreatedEvent, &GraduationCreated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Level: command.Level,})
+            }
+            return
+        }
+    }
+    
+    if o.DeleteHandler == nil {
+        o.DeleteHandler = func(command *DeleteGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteGraduationCommand)
+            return
+        }
+    }
+    
+    if o.UpdateHandler == nil {
+        o.UpdateHandler = func(command *UpdateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, GraduationAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, GraduationAggregateType)
+            } else {
+                store.StoreEvent(GraduationUpdatedEvent, &GraduationUpdated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Level: command.Level,})
+            }
+            return
+        }
+    }
+    
+    return
+    
 }
 
+
+
 type GraduationEventHandler struct {
-	CreatedHandler func(*GraduationCreated, *Graduation) error
-	DeletedHandler func(*GraduationDeleted, *Graduation) error
-	UpdatedHandler func(*GraduationUpdated, *Graduation) error
+    CreatedHandler  func (*GraduationCreated, *Graduation) error
+    DeletedHandler  func (*GraduationDeleted, *Graduation) error
+    UpdatedHandler  func (*GraduationUpdated, *Graduation) error
+}
+
+func NewGraduationEventHandler() (ret *GraduationEventHandler) {
+    ret = &GraduationEventHandler{}
+    return
 }
 
 func (o *GraduationEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-
-	switch event.EventType() {
-	case GraduationCreatedEvent:
-		ret = o.CreatedHandler(event.Data().(*GraduationCreated), entity.(*Graduation))
-	case GraduationDeletedEvent:
-		ret = o.DeletedHandler(event.Data().(*GraduationDeleted), entity.(*Graduation))
-	case GraduationUpdatedEvent:
-		ret = o.UpdatedHandler(event.Data().(*GraduationUpdated), entity.(*Graduation))
-	default:
+    
+    switch event.EventType() {
+    case GraduationCreatedEvent:
+        ret = o.CreatedHandler(event.Data().(*GraduationCreated), entity.(*Graduation))
+    case GraduationDeletedEvent:
+        ret = o.DeletedHandler(event.Data().(*GraduationDeleted), entity.(*Graduation))
+    case GraduationUpdatedEvent:
+        ret = o.UpdatedHandler(event.Data().(*GraduationUpdated), entity.(*Graduation))
+    default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-	return
-
+    return
+    
 }
 
 func (o *GraduationEventHandler) SetupEventHandler() (ret error) {
-
-	if o.CreatedHandler == nil {
-		o.CreatedHandler = func(event *GraduationCreated, entity *Graduation) (ret error) {
-			ret = eh.EventHandlerNotImplemented(GraduationCreatedEvent)
-			return
-		}
-	}
-
-	if o.DeletedHandler == nil {
-		o.DeletedHandler = func(event *GraduationDeleted, entity *Graduation) (ret error) {
-			ret = eh.EventHandlerNotImplemented(GraduationDeletedEvent)
-			return
-		}
-	}
-
-	if o.UpdatedHandler == nil {
-		o.UpdatedHandler = func(event *GraduationUpdated, entity *Graduation) (ret error) {
-			ret = eh.EventHandlerNotImplemented(GraduationUpdatedEvent)
-			return
-		}
-	}
-
-	return
-
+    
+    if o.CreatedHandler == nil {
+        o.CreatedHandler = func(event *GraduationCreated, entity *Graduation) (ret error) {
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Level = event.Level
+            return
+        }
+    }
+    
+    if o.DeletedHandler == nil {
+        o.DeletedHandler = func(event *GraduationDeleted, entity *Graduation) (ret error) {    ret = eh.EventHandlerNotImplemented(GraduationDeletedEvent)
+            return
+        }
+    }
+    
+    if o.UpdatedHandler == nil {
+        o.UpdatedHandler = func(event *GraduationUpdated, entity *Graduation) (ret error) {
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Level = event.Level
+            return
+        }
+    }
+    
+    return
+    
 }
+
+
 
 const GraduationAggregateType eventhorizon.AggregateType = "GraduationAggregateInitializer"
 
 func NewGraduationAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *GraduationAggregateInitializer) {
-	commandHandler := &GraduationCommandHandler{}
-	eventHandler := &GraduationEventHandler{}
+    commandHandler := &GraduationCommandHandler{}
+    eventHandler := &GraduationEventHandler{}
 	ret = &GraduationAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(GraduationAggregateType,
-		func(id eventhorizon.UUID) eventhorizon.Aggregate {
-			return eh.NewAggregateBase(GraduationAggregateType, id, commandHandler, eventHandler, &Graduation{})
-		},
-		GraduationCommandTypes().Literals(), GraduationEventTypes().Literals(),
-		[]func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-		eventStore, eventBus, eventPublisher, commandBus),
-		GraduationCommandHandler: commandHandler,
-		GraduationEventHandler:   eventHandler,
-	}
+        func(id eventhorizon.UUID) eventhorizon.Aggregate {
+            return eh.NewAggregateBase(GraduationAggregateType, id, commandHandler, eventHandler, &Graduation{})
+        },
+        GraduationCommandTypes().Literals(), GraduationEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
+        eventStore, eventBus, eventPublisher, commandBus),
+        GraduationCommandHandler: commandHandler,
+        GraduationEventHandler: eventHandler,
+    }
 	return
 }
 
-func (o *GraduationAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler) {
-	o.RegisterForEvent(handler, GraduationEventTypes().GraduationCreated())
+
+func (o *GraduationAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, GraduationEventTypes().GraduationCreated())
 }
 
-func (o *GraduationAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler) {
-	o.RegisterForEvent(handler, GraduationEventTypes().GraduationDeleted())
+func (o *GraduationAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, GraduationEventTypes().GraduationDeleted())
 }
 
-func (o *GraduationAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler) {
-	o.RegisterForEvent(handler, GraduationEventTypes().GraduationUpdated())
+func (o *GraduationAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, GraduationEventTypes().GraduationUpdated())
 }
 
 type GraduationAggregateInitializer struct {
-	*eh.AggregateInitializer
-	*GraduationCommandHandler
-	*GraduationEventHandler
+    *eh.AggregateInitializer
+    *GraduationCommandHandler
+    *GraduationEventHandler
 }
 
+func NewGraduationAggregateInitializer() (ret *GraduationAggregateInitializer) {
+    ret = &GraduationAggregateInitializer{
+        AggregateInitializer: ,
+        GraduationCommandHandler: NewGraduationCommandHandler(),
+        GraduationEventHandler: NewGraduationEventHandler(),
+    }
+    return
+}
+
+
+
 type ProfileCommandHandler struct {
-	CreateHandler func(*CreateProfile, *Profile, eh.AggregateStoreEvent) error
-	DeleteHandler func(*DeleteProfile, *Profile, eh.AggregateStoreEvent) error
-	UpdateHandler func(*UpdateProfile, *Profile, eh.AggregateStoreEvent) error
+    CreateHandler  func (*CreateProfile, *Profile, eh.AggregateStoreEvent) error
+    DeleteHandler  func (*DeleteProfile, *Profile, eh.AggregateStoreEvent) error
+    UpdateHandler  func (*UpdateProfile, *Profile, eh.AggregateStoreEvent) error
+}
+
+func NewProfileCommandHandler() (ret *ProfileCommandHandler) {
+    ret = &ProfileCommandHandler{}
+    return
 }
 
 func (o *ProfileCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-
-	switch cmd.CommandType() {
-	case CreateProfileCommand:
-		ret = o.CreateHandler(cmd.(*CreateProfile), entity.(*Profile), store)
-	case DeleteProfileCommand:
-		ret = o.DeleteHandler(cmd.(*DeleteProfile), entity.(*Profile), store)
-	case UpdateProfileCommand:
-		ret = o.UpdateHandler(cmd.(*UpdateProfile), entity.(*Profile), store)
-	default:
+    
+    switch cmd.CommandType() {
+    case CreateProfileCommand:
+        ret = o.CreateHandler(cmd.(*CreateProfile), entity.(*Profile), store)
+    case DeleteProfileCommand:
+        ret = o.DeleteHandler(cmd.(*DeleteProfile), entity.(*Profile), store)
+    case UpdateProfileCommand:
+        ret = o.UpdateHandler(cmd.(*UpdateProfile), entity.(*Profile), store)
+    default:
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
-	return
-
+    return
+    
 }
 
 func (o *ProfileCommandHandler) SetupCommandHandler() (ret error) {
-
-	if o.CreateHandler == nil {
-		o.CreateHandler = func(command *CreateProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
-			ret = eh.CommandHandlerNotImplemented(CreateProfileCommand)
-			return
-		}
-	}
-
-	if o.DeleteHandler == nil {
-		o.DeleteHandler = func(command *DeleteProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
-			ret = eh.CommandHandlerNotImplemented(DeleteProfileCommand)
-			return
-		}
-	}
-
-	if o.UpdateHandler == nil {
-		o.UpdateHandler = func(command *UpdateProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
-			ret = eh.CommandHandlerNotImplemented(UpdateProfileCommand)
-			return
-		}
-	}
-
-	return
-
+    
+    if o.CreateHandler == nil {
+        o.CreateHandler = func(command *CreateProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, ProfileAggregateType)
+            } else {
+                store.StoreEvent(ProfileCreatedEvent, &ProfileCreated{
+                    Id: command.Id,
+                    Gender: command.Gender,
+                    Name: command.Name,
+                    BirthName: command.BirthName,
+                    Birthday: command.Birthday,
+                    Address: command.Address,
+                    Contact: command.Contact,
+                    PhotoData: command.PhotoData,
+                    Photo: command.Photo,
+                    Family: command.Family,
+                    Church: command.Church,
+                    Education: command.Education,})
+            }
+            return
+        }
+    }
+    
+    if o.DeleteHandler == nil {
+        o.DeleteHandler = func(command *DeleteProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteProfileCommand)
+            return
+        }
+    }
+    
+    if o.UpdateHandler == nil {
+        o.UpdateHandler = func(command *UpdateProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, ProfileAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, ProfileAggregateType)
+            } else {
+                store.StoreEvent(ProfileUpdatedEvent, &ProfileUpdated{
+                    Id: command.Id,
+                    Gender: command.Gender,
+                    Name: command.Name,
+                    BirthName: command.BirthName,
+                    Birthday: command.Birthday,
+                    Address: command.Address,
+                    Contact: command.Contact,
+                    PhotoData: command.PhotoData,
+                    Photo: command.Photo,
+                    Family: command.Family,
+                    Church: command.Church,
+                    Education: command.Education,})
+            }
+            return
+        }
+    }
+    
+    return
+    
 }
 
+
+
 type ProfileEventHandler struct {
-	CreatedHandler func(*ProfileCreated, *Profile) error
-	DeletedHandler func(*ProfileDeleted, *Profile) error
-	UpdatedHandler func(*ProfileUpdated, *Profile) error
+    CreatedHandler  func (*ProfileCreated, *Profile) error
+    DeletedHandler  func (*ProfileDeleted, *Profile) error
+    UpdatedHandler  func (*ProfileUpdated, *Profile) error
+}
+
+func NewProfileEventHandler() (ret *ProfileEventHandler) {
+    ret = &ProfileEventHandler{}
+    return
 }
 
 func (o *ProfileEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-
-	switch event.EventType() {
-	case ProfileCreatedEvent:
-		ret = o.CreatedHandler(event.Data().(*ProfileCreated), entity.(*Profile))
-	case ProfileDeletedEvent:
-		ret = o.DeletedHandler(event.Data().(*ProfileDeleted), entity.(*Profile))
-	case ProfileUpdatedEvent:
-		ret = o.UpdatedHandler(event.Data().(*ProfileUpdated), entity.(*Profile))
-	default:
+    
+    switch event.EventType() {
+    case ProfileCreatedEvent:
+        ret = o.CreatedHandler(event.Data().(*ProfileCreated), entity.(*Profile))
+    case ProfileDeletedEvent:
+        ret = o.DeletedHandler(event.Data().(*ProfileDeleted), entity.(*Profile))
+    case ProfileUpdatedEvent:
+        ret = o.UpdatedHandler(event.Data().(*ProfileUpdated), entity.(*Profile))
+    default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-	return
-
+    return
+    
 }
 
 func (o *ProfileEventHandler) SetupEventHandler() (ret error) {
-
-	if o.CreatedHandler == nil {
-		o.CreatedHandler = func(event *ProfileCreated, entity *Profile) (ret error) {
-			ret = eh.EventHandlerNotImplemented(ProfileCreatedEvent)
-			return
-		}
-	}
-
-	if o.DeletedHandler == nil {
-		o.DeletedHandler = func(event *ProfileDeleted, entity *Profile) (ret error) {
-			ret = eh.EventHandlerNotImplemented(ProfileDeletedEvent)
-			return
-		}
-	}
-
-	if o.UpdatedHandler == nil {
-		o.UpdatedHandler = func(event *ProfileUpdated, entity *Profile) (ret error) {
-			ret = eh.EventHandlerNotImplemented(ProfileUpdatedEvent)
-			return
-		}
-	}
-
-	return
-
+    
+    if o.CreatedHandler == nil {
+        o.CreatedHandler = func(event *ProfileCreated, entity *Profile) (ret error) {
+            entity.Id = event.Id
+            entity.Gender = event.Gender
+            entity.Name = event.Name
+            entity.BirthName = event.BirthName
+            entity.Birthday = event.Birthday
+            entity.Address = event.Address
+            entity.Contact = event.Contact
+            entity.PhotoData = event.PhotoData
+            entity.Photo = event.Photo
+            entity.Family = event.Family
+            entity.Church = event.Church
+            entity.Education = event.Education
+            return
+        }
+    }
+    
+    if o.DeletedHandler == nil {
+        o.DeletedHandler = func(event *ProfileDeleted, entity *Profile) (ret error) {    ret = eh.EventHandlerNotImplemented(ProfileDeletedEvent)
+            return
+        }
+    }
+    
+    if o.UpdatedHandler == nil {
+        o.UpdatedHandler = func(event *ProfileUpdated, entity *Profile) (ret error) {
+            entity.Id = event.Id
+            entity.Gender = event.Gender
+            entity.Name = event.Name
+            entity.BirthName = event.BirthName
+            entity.Birthday = event.Birthday
+            entity.Address = event.Address
+            entity.Contact = event.Contact
+            entity.PhotoData = event.PhotoData
+            entity.Photo = event.Photo
+            entity.Family = event.Family
+            entity.Church = event.Church
+            entity.Education = event.Education
+            return
+        }
+    }
+    
+    return
+    
 }
+
+
 
 const ProfileAggregateType eventhorizon.AggregateType = "ProfileAggregateInitializer"
 
 func NewProfileAggregateInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *ProfileAggregateInitializer) {
-	commandHandler := &ProfileCommandHandler{}
-	eventHandler := &ProfileEventHandler{}
+    commandHandler := &ProfileCommandHandler{}
+    eventHandler := &ProfileEventHandler{}
 	ret = &ProfileAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ProfileAggregateType,
-		func(id eventhorizon.UUID) eventhorizon.Aggregate {
-			return eh.NewAggregateBase(ProfileAggregateType, id, commandHandler, eventHandler, &Profile{})
-		},
-		ProfileCommandTypes().Literals(), ProfileEventTypes().Literals(),
-		[]func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-		eventStore, eventBus, eventPublisher, commandBus),
-		ProfileCommandHandler: commandHandler,
-		ProfileEventHandler:   eventHandler,
-	}
+        func(id eventhorizon.UUID) eventhorizon.Aggregate {
+            return eh.NewAggregateBase(ProfileAggregateType, id, commandHandler, eventHandler, &Profile{})
+        },
+        ProfileCommandTypes().Literals(), ProfileEventTypes().Literals(),
+        []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
+        eventStore, eventBus, eventPublisher, commandBus),
+        ProfileCommandHandler: commandHandler,
+        ProfileEventHandler: eventHandler,
+    }
 	return
 }
 
-func (o *ProfileAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler) {
-	o.RegisterForEvent(handler, ProfileEventTypes().ProfileCreated())
+
+func (o *ProfileAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ProfileEventTypes().ProfileCreated())
 }
 
-func (o *ProfileAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler) {
-	o.RegisterForEvent(handler, ProfileEventTypes().ProfileDeleted())
+func (o *ProfileAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ProfileEventTypes().ProfileDeleted())
 }
 
-func (o *ProfileAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler) {
-	o.RegisterForEvent(handler, ProfileEventTypes().ProfileUpdated())
+func (o *ProfileAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ProfileEventTypes().ProfileUpdated())
 }
 
 type ProfileAggregateInitializer struct {
-	*eh.AggregateInitializer
-	*ProfileCommandHandler
-	*ProfileEventHandler
+    *eh.AggregateInitializer
+    *ProfileCommandHandler
+    *ProfileEventHandler
 }
+
+func NewProfileAggregateInitializer() (ret *ProfileAggregateInitializer) {
+    ret = &ProfileAggregateInitializer{
+        AggregateInitializer: ,
+        ProfileCommandHandler: NewProfileCommandHandler(),
+        ProfileEventHandler: NewProfileEventHandler(),
+    }
+    return
+}
+
+
 
 func NewPersonEventhorizonInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *PersonEventhorizonInitializer) {
 	ret = &PersonEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
-		commandBus:                                  commandBus,
-		ChurchAggregateInitializer:                  NewChurchAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-		GraduationAggregateInitializer:              NewGraduationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-		ProfileAggregateInitializer:                 NewProfileAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
+            commandBus: commandBus, 
+    ChurchAggregateInitializer: NewChurchAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    GraduationAggregateInitializer: NewGraduationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    ProfileAggregateInitializer: NewProfileAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
 	return
 }
 
 func (o *PersonEventhorizonInitializer) Setup() (err error) {
-
-	if err = o.ChurchAggregateInitializer.Setup(); err != nil {
-		return
-	}
-
-	if err = o.GraduationAggregateInitializer.Setup(); err != nil {
-		return
-	}
-
-	if err = o.ProfileAggregateInitializer.Setup(); err != nil {
-		return
-	}
-	return
+    
+    if err = o.ChurchAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    
+    if err = o.GraduationAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    
+    if err = o.ProfileAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    return
 }
 
 type PersonEventhorizonInitializer struct {
-	eventStore                     eventhorizon.EventStore
-	eventBus                       eventhorizon.EventBus
-	eventPublisher                 eventhorizon.EventPublisher
-	commandBus                     eventhorizon.CommandBus
-	ChurchAggregateInitializer     *ChurchAggregateInitializer
-	GraduationAggregateInitializer *GraduationAggregateInitializer
-	ProfileAggregateInitializer    *ProfileAggregateInitializer
+    eventStore eventhorizon.EventStore
+    eventBus eventhorizon.EventBus
+    eventPublisher eventhorizon.EventPublisher
+    commandBus eventhorizon.CommandBus
+    ChurchAggregateInitializer  *ChurchAggregateInitializer
+    GraduationAggregateInitializer  *GraduationAggregateInitializer
+    ProfileAggregateInitializer  *ProfileAggregateInitializer
 }
+
+func NewPersonEventhorizonInitializer() (ret *PersonEventhorizonInitializer) {
+    ret = &PersonEventhorizonInitializer{}
+    return
+}
+
+
+
+
+
+
+
+
+

@@ -11,8 +11,6 @@ import (
 	"log"
 	"go.uber.org/zap"
 	"time"
-	"github.com/eugeis/gee/eh"
-	"fmt"
 )
 
 func main() {
@@ -29,20 +27,6 @@ func main() {
 	commandBus := commandbus.NewCommandBus()
 
 	personEngine := person.NewPersonEventhorizonInitializer(eventStore, eventBus, eventPublisher, commandBus)
-
-	personEngine.ChurchAggregateInitializer.CreateHandler = func(item *person.CreateChurch, entity *person.Church,
-		es eh.AggregateStoreEvent) error {
-		println(fmt.Sprintf("Handle Command %v,%v", item, entity))
-		es.StoreEvent(person.ChurchCreatedEvent, &person.ChurchCreated{Name: item.Name})
-		return nil
-	}
-
-	personEngine.ChurchAggregateInitializer.CreatedHandler = func(item *person.ChurchCreated, entity *person.Church) error {
-		println(fmt.Sprintf("Handle Event %v,%v", item, entity))
-
-		return nil
-	}
-
 
 	personEngine.Setup()
 

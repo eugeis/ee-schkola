@@ -13,6 +13,11 @@ type ExpenseCommandHandler struct {
     UpdateHandler  func (*UpdateExpense, *Expense, eh.AggregateStoreEvent) error
 }
 
+func NewExpenseCommandHandler() (ret *ExpenseCommandHandler) {
+    ret = &ExpenseCommandHandler{}
+    return
+}
+
 func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     
     switch cmd.CommandType() {
@@ -33,21 +38,40 @@ func (o *ExpenseCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateExpense, entity *Expense, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(CreateExpenseCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, ExpenseAggregateType)
+            } else {
+                store.StoreEvent(ExpenseCreatedEvent, &ExpenseCreated{
+                    Id: command.Id,
+                    Purpose: command.Purpose,
+                    Amount: command.Amount,
+                    Profile: command.Profile,
+                    Date: command.Date,})
+            }
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteExpense, entity *Expense, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(DeleteExpenseCommand)
+        o.DeleteHandler = func(command *DeleteExpense, entity *Expense, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteExpenseCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateExpense, entity *Expense, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(UpdateExpenseCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, ExpenseAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, ExpenseAggregateType)
+            } else {
+                store.StoreEvent(ExpenseUpdatedEvent, &ExpenseUpdated{
+                    Id: command.Id,
+                    Purpose: command.Purpose,
+                    Amount: command.Amount,
+                    Profile: command.Profile,
+                    Date: command.Date,})
+            }
             return
         }
     }
@@ -62,6 +86,11 @@ type ExpenseEventHandler struct {
     CreatedHandler  func (*ExpenseCreated, *Expense) error
     DeletedHandler  func (*ExpenseDeleted, *Expense) error
     UpdatedHandler  func (*ExpenseUpdated, *Expense) error
+}
+
+func NewExpenseEventHandler() (ret *ExpenseEventHandler) {
+    ret = &ExpenseEventHandler{}
+    return
 }
 
 func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
@@ -84,21 +113,28 @@ func (o *ExpenseEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ExpenseCreated, entity *Expense) (ret error) {
-            ret = eh.EventHandlerNotImplemented(ExpenseCreatedEvent)
+            entity.Id = event.Id
+            entity.Purpose = event.Purpose
+            entity.Amount = event.Amount
+            entity.Profile = event.Profile
+            entity.Date = event.Date
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *ExpenseDeleted, entity *Expense) (ret error) {
-            ret = eh.EventHandlerNotImplemented(ExpenseDeletedEvent)
+        o.DeletedHandler = func(event *ExpenseDeleted, entity *Expense) (ret error) {    ret = eh.EventHandlerNotImplemented(ExpenseDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *ExpenseUpdated, entity *Expense) (ret error) {
-            ret = eh.EventHandlerNotImplemented(ExpenseUpdatedEvent)
+            entity.Id = event.Id
+            entity.Purpose = event.Purpose
+            entity.Amount = event.Amount
+            entity.Profile = event.Profile
+            entity.Date = event.Date
             return
         }
     }
@@ -148,12 +184,26 @@ type ExpenseAggregateInitializer struct {
     *ExpenseEventHandler
 }
 
+func NewExpenseAggregateInitializer() (ret *ExpenseAggregateInitializer) {
+    ret = &ExpenseAggregateInitializer{
+        AggregateInitializer: ,
+        ExpenseCommandHandler: NewExpenseCommandHandler(),
+        ExpenseEventHandler: NewExpenseEventHandler(),
+    }
+    return
+}
+
 
 
 type ExpensePurposeCommandHandler struct {
     CreateHandler  func (*CreateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) error
+}
+
+func NewExpensePurposeCommandHandler() (ret *ExpensePurposeCommandHandler) {
+    ret = &ExpensePurposeCommandHandler{}
+    return
 }
 
 func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -176,21 +226,36 @@ func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(CreateExpensePurposeCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, ExpensePurposeAggregateType)
+            } else {
+                store.StoreEvent(ExpensePurposeCreatedEvent, &ExpensePurposeCreated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Description: command.Description,})
+            }
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(DeleteExpensePurposeCommand)
+        o.DeleteHandler = func(command *DeleteExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteExpensePurposeCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(UpdateExpensePurposeCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, ExpensePurposeAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, ExpensePurposeAggregateType)
+            } else {
+                store.StoreEvent(ExpensePurposeUpdatedEvent, &ExpensePurposeUpdated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Description: command.Description,})
+            }
             return
         }
     }
@@ -205,6 +270,11 @@ type ExpensePurposeEventHandler struct {
     CreatedHandler  func (*ExpensePurposeCreated, *ExpensePurpose) error
     DeletedHandler  func (*ExpensePurposeDeleted, *ExpensePurpose) error
     UpdatedHandler  func (*ExpensePurposeUpdated, *ExpensePurpose) error
+}
+
+func NewExpensePurposeEventHandler() (ret *ExpensePurposeEventHandler) {
+    ret = &ExpensePurposeEventHandler{}
+    return
 }
 
 func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
@@ -227,21 +297,24 @@ func (o *ExpensePurposeEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ExpensePurposeCreated, entity *ExpensePurpose) (ret error) {
-            ret = eh.EventHandlerNotImplemented(ExpensePurposeCreatedEvent)
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Description = event.Description
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *ExpensePurposeDeleted, entity *ExpensePurpose) (ret error) {
-            ret = eh.EventHandlerNotImplemented(ExpensePurposeDeletedEvent)
+        o.DeletedHandler = func(event *ExpensePurposeDeleted, entity *ExpensePurpose) (ret error) {    ret = eh.EventHandlerNotImplemented(ExpensePurposeDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *ExpensePurposeUpdated, entity *ExpensePurpose) (ret error) {
-            ret = eh.EventHandlerNotImplemented(ExpensePurposeUpdatedEvent)
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Description = event.Description
             return
         }
     }
@@ -291,12 +364,26 @@ type ExpensePurposeAggregateInitializer struct {
     *ExpensePurposeEventHandler
 }
 
+func NewExpensePurposeAggregateInitializer() (ret *ExpensePurposeAggregateInitializer) {
+    ret = &ExpensePurposeAggregateInitializer{
+        AggregateInitializer: ,
+        ExpensePurposeCommandHandler: NewExpensePurposeCommandHandler(),
+        ExpensePurposeEventHandler: NewExpensePurposeEventHandler(),
+    }
+    return
+}
+
 
 
 type FeeCommandHandler struct {
     CreateHandler  func (*CreateFee, *Fee, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteFee, *Fee, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateFee, *Fee, eh.AggregateStoreEvent) error
+}
+
+func NewFeeCommandHandler() (ret *FeeCommandHandler) {
+    ret = &FeeCommandHandler{}
+    return
 }
 
 func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -319,21 +406,40 @@ func (o *FeeCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateFee, entity *Fee, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(CreateFeeCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, FeeAggregateType)
+            } else {
+                store.StoreEvent(FeeCreatedEvent, &FeeCreated{
+                    Id: command.Id,
+                    Student: command.Student,
+                    Amount: command.Amount,
+                    Kind: command.Kind,
+                    Date: command.Date,})
+            }
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteFee, entity *Fee, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(DeleteFeeCommand)
+        o.DeleteHandler = func(command *DeleteFee, entity *Fee, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteFeeCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateFee, entity *Fee, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(UpdateFeeCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, FeeAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, FeeAggregateType)
+            } else {
+                store.StoreEvent(FeeUpdatedEvent, &FeeUpdated{
+                    Id: command.Id,
+                    Student: command.Student,
+                    Amount: command.Amount,
+                    Kind: command.Kind,
+                    Date: command.Date,})
+            }
             return
         }
     }
@@ -348,6 +454,11 @@ type FeeEventHandler struct {
     CreatedHandler  func (*FeeCreated, *Fee) error
     DeletedHandler  func (*FeeDeleted, *Fee) error
     UpdatedHandler  func (*FeeUpdated, *Fee) error
+}
+
+func NewFeeEventHandler() (ret *FeeEventHandler) {
+    ret = &FeeEventHandler{}
+    return
 }
 
 func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
@@ -370,21 +481,28 @@ func (o *FeeEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *FeeCreated, entity *Fee) (ret error) {
-            ret = eh.EventHandlerNotImplemented(FeeCreatedEvent)
+            entity.Id = event.Id
+            entity.Student = event.Student
+            entity.Amount = event.Amount
+            entity.Kind = event.Kind
+            entity.Date = event.Date
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *FeeDeleted, entity *Fee) (ret error) {
-            ret = eh.EventHandlerNotImplemented(FeeDeletedEvent)
+        o.DeletedHandler = func(event *FeeDeleted, entity *Fee) (ret error) {    ret = eh.EventHandlerNotImplemented(FeeDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *FeeUpdated, entity *Fee) (ret error) {
-            ret = eh.EventHandlerNotImplemented(FeeUpdatedEvent)
+            entity.Id = event.Id
+            entity.Student = event.Student
+            entity.Amount = event.Amount
+            entity.Kind = event.Kind
+            entity.Date = event.Date
             return
         }
     }
@@ -434,12 +552,26 @@ type FeeAggregateInitializer struct {
     *FeeEventHandler
 }
 
+func NewFeeAggregateInitializer() (ret *FeeAggregateInitializer) {
+    ret = &FeeAggregateInitializer{
+        AggregateInitializer: ,
+        FeeCommandHandler: NewFeeCommandHandler(),
+        FeeEventHandler: NewFeeEventHandler(),
+    }
+    return
+}
+
 
 
 type FeeKindCommandHandler struct {
     CreateHandler  func (*CreateFeeKind, *FeeKind, eh.AggregateStoreEvent) error
     DeleteHandler  func (*DeleteFeeKind, *FeeKind, eh.AggregateStoreEvent) error
     UpdateHandler  func (*UpdateFeeKind, *FeeKind, eh.AggregateStoreEvent) error
+}
+
+func NewFeeKindCommandHandler() (ret *FeeKindCommandHandler) {
+    ret = &FeeKindCommandHandler{}
+    return
 }
 
 func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -462,21 +594,38 @@ func (o *FeeKindCommandHandler) SetupCommandHandler() (ret error) {
     
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(CreateFeeKindCommand)
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, FeeKindAggregateType)
+            } else {
+                store.StoreEvent(FeeKindCreatedEvent, &FeeKindCreated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Amount: command.Amount,
+                    Description: command.Description,})
+            }
             return
         }
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(DeleteFeeKindCommand)
+        o.DeleteHandler = func(command *DeleteFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteFeeKindCommand)
             return
         }
     }
     
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (ret error) {
-            ret = eh.CommandHandlerNotImplemented(UpdateFeeKindCommand)
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, FeeKindAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, FeeKindAggregateType)
+            } else {
+                store.StoreEvent(FeeKindUpdatedEvent, &FeeKindUpdated{
+                    Id: command.Id,
+                    Name: command.Name,
+                    Amount: command.Amount,
+                    Description: command.Description,})
+            }
             return
         }
     }
@@ -491,6 +640,11 @@ type FeeKindEventHandler struct {
     CreatedHandler  func (*FeeKindCreated, *FeeKind) error
     DeletedHandler  func (*FeeKindDeleted, *FeeKind) error
     UpdatedHandler  func (*FeeKindUpdated, *FeeKind) error
+}
+
+func NewFeeKindEventHandler() (ret *FeeKindEventHandler) {
+    ret = &FeeKindEventHandler{}
+    return
 }
 
 func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
@@ -513,21 +667,26 @@ func (o *FeeKindEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *FeeKindCreated, entity *FeeKind) (ret error) {
-            ret = eh.EventHandlerNotImplemented(FeeKindCreatedEvent)
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Amount = event.Amount
+            entity.Description = event.Description
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *FeeKindDeleted, entity *FeeKind) (ret error) {
-            ret = eh.EventHandlerNotImplemented(FeeKindDeletedEvent)
+        o.DeletedHandler = func(event *FeeKindDeleted, entity *FeeKind) (ret error) {    ret = eh.EventHandlerNotImplemented(FeeKindDeletedEvent)
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *FeeKindUpdated, entity *FeeKind) (ret error) {
-            ret = eh.EventHandlerNotImplemented(FeeKindUpdatedEvent)
+            entity.Id = event.Id
+            entity.Name = event.Name
+            entity.Amount = event.Amount
+            entity.Description = event.Description
             return
         }
     }
@@ -577,6 +736,15 @@ type FeeKindAggregateInitializer struct {
     *FeeKindEventHandler
 }
 
+func NewFeeKindAggregateInitializer() (ret *FeeKindAggregateInitializer) {
+    ret = &FeeKindAggregateInitializer{
+        AggregateInitializer: ,
+        FeeKindCommandHandler: NewFeeKindCommandHandler(),
+        FeeKindEventHandler: NewFeeKindEventHandler(),
+    }
+    return
+}
+
 
 
 func NewFinanceEventhorizonInitializer(
@@ -620,6 +788,11 @@ type FinanceEventhorizonInitializer struct {
     ExpensePurposeAggregateInitializer  *ExpensePurposeAggregateInitializer
     FeeAggregateInitializer  *FeeAggregateInitializer
     FeeKindAggregateInitializer  *FeeKindAggregateInitializer
+}
+
+func NewFinanceEventhorizonInitializer() (ret *FinanceEventhorizonInitializer) {
+    ret = &FinanceEventhorizonInitializer{}
+    return
 }
 
 

@@ -45,10 +45,20 @@ type ExpenseCreated struct {
     Date  *time.Time`eh:"optional"`
 }
 
+func NewCreated() (ret *ExpenseCreated) {
+    ret = &ExpenseCreated{}
+    return
+}
+
 
 
 type ExpenseDeleted struct {
     Id  eventhorizon.UUID
+}
+
+func NewDeleted() (ret *ExpenseDeleted) {
+    ret = &ExpenseDeleted{}
+    return
 }
 
 
@@ -61,6 +71,11 @@ type ExpenseUpdated struct {
     Date  *time.Time`eh:"optional"`
 }
 
+func NewUpdated() (ret *ExpenseUpdated) {
+    ret = &ExpenseUpdated{}
+    return
+}
+
 
 
 type ExpensePurposeCreated struct {
@@ -69,10 +84,20 @@ type ExpensePurposeCreated struct {
     Description  string`eh:"optional"`
 }
 
+func NewCreated() (ret *ExpensePurposeCreated) {
+    ret = &ExpensePurposeCreated{}
+    return
+}
+
 
 
 type ExpensePurposeDeleted struct {
     Id  eventhorizon.UUID
+}
+
+func NewDeleted() (ret *ExpensePurposeDeleted) {
+    ret = &ExpensePurposeDeleted{}
+    return
 }
 
 
@@ -81,6 +106,11 @@ type ExpensePurposeUpdated struct {
     Id  eventhorizon.UUID`eh:"optional"`
     Name  string`eh:"optional"`
     Description  string`eh:"optional"`
+}
+
+func NewUpdated() (ret *ExpensePurposeUpdated) {
+    ret = &ExpensePurposeUpdated{}
+    return
 }
 
 
@@ -93,10 +123,20 @@ type FeeCreated struct {
     Date  *time.Time`eh:"optional"`
 }
 
+func NewCreated() (ret *FeeCreated) {
+    ret = &FeeCreated{}
+    return
+}
+
 
 
 type FeeDeleted struct {
     Id  eventhorizon.UUID
+}
+
+func NewDeleted() (ret *FeeDeleted) {
+    ret = &FeeDeleted{}
+    return
 }
 
 
@@ -109,6 +149,11 @@ type FeeUpdated struct {
     Date  *time.Time`eh:"optional"`
 }
 
+func NewUpdated() (ret *FeeUpdated) {
+    ret = &FeeUpdated{}
+    return
+}
+
 
 
 type FeeKindCreated struct {
@@ -118,10 +163,20 @@ type FeeKindCreated struct {
     Description  string`eh:"optional"`
 }
 
+func NewCreated() (ret *FeeKindCreated) {
+    ret = &FeeKindCreated{}
+    return
+}
+
 
 
 type FeeKindDeleted struct {
     Id  eventhorizon.UUID
+}
+
+func NewDeleted() (ret *FeeKindDeleted) {
+    ret = &FeeKindDeleted{}
+    return
 }
 
 
@@ -131,6 +186,11 @@ type FeeKindUpdated struct {
     Name  string`eh:"optional"`
     Amount  float64`eh:"optional"`
     Description  string`eh:"optional"`
+}
+
+func NewUpdated() (ret *FeeKindUpdated) {
+    ret = &FeeKindUpdated{}
+    return
 }
 
 

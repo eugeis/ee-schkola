@@ -67,6 +67,11 @@ type CreateAttendance struct {
     Token  string`eh:"optional"`
     TokenTrace  *schkola.Trace`eh:"optional"`
 }
+
+func NewCreate() (ret *CreateAttendance) {
+    ret = &CreateAttendance{}
+    return
+}
 func (o *CreateAttendance) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
 func (o *CreateAttendance) CommandType() eventhorizon.CommandType      { return CreateAttendanceCommand }
@@ -77,6 +82,11 @@ func (o *CreateAttendance) CommandType() eventhorizon.CommandType      { return 
 
 type DeleteAttendance struct {
     Id  eventhorizon.UUID
+}
+
+func NewDelete() (ret *DeleteAttendance) {
+    ret = &DeleteAttendance{}
+    return
 }
 func (o *DeleteAttendance) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
@@ -97,6 +107,11 @@ type UpdateAttendance struct {
     Token  string`eh:"optional"`
     TokenTrace  *schkola.Trace`eh:"optional"`
 }
+
+func NewUpdate() (ret *UpdateAttendance) {
+    ret = &UpdateAttendance{}
+    return
+}
 func (o *UpdateAttendance) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
 func (o *UpdateAttendance) CommandType() eventhorizon.CommandType      { return UpdateAttendanceCommand }
@@ -107,6 +122,11 @@ func (o *UpdateAttendance) CommandType() eventhorizon.CommandType      { return 
 
 type ConfirmAttendance struct {
 }
+
+func NewConfirm() (ret *ConfirmAttendance) {
+    ret = &ConfirmAttendance{}
+    return
+}
 func (o *ConfirmAttendance) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *ConfirmAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
 func (o *ConfirmAttendance) CommandType() eventhorizon.CommandType      { return ConfirmAttendanceCommand }
@@ -116,6 +136,11 @@ func (o *ConfirmAttendance) CommandType() eventhorizon.CommandType      { return
         
 
 type CancelAttendance struct {
+}
+
+func NewCancel() (ret *CancelAttendance) {
+    ret = &CancelAttendance{}
+    return
 }
 func (o *CancelAttendance) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CancelAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
@@ -130,12 +155,8 @@ type RegisterAttendance struct {
     Course  *Course
 }
 
-func NewRegisterAttendance(student *person.Profile, course *Course) (ret *RegisterAttendance) {
-    ret = &RegisterAttendance{
-        Student : student,
-        Course : course,
-    }
-    
+func NewRegister() (ret *RegisterAttendance) {
+    ret = &RegisterAttendance{}
     return
 }
 func (o *RegisterAttendance) AggregateID() eventhorizon.UUID            { return o.Id  }
@@ -156,6 +177,11 @@ type CreateCourse struct {
     Fee  float64`eh:"optional"`
     Description  string`eh:"optional"`
 }
+
+func NewCreate() (ret *CreateCourse) {
+    ret = &CreateCourse{}
+    return
+}
 func (o *CreateCourse) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateCourse) AggregateType() eventhorizon.AggregateType  { return CourseAggregateType }
 func (o *CreateCourse) CommandType() eventhorizon.CommandType      { return CreateCourseCommand }
@@ -166,6 +192,11 @@ func (o *CreateCourse) CommandType() eventhorizon.CommandType      { return Crea
 
 type DeleteCourse struct {
     Id  eventhorizon.UUID
+}
+
+func NewDelete() (ret *DeleteCourse) {
+    ret = &DeleteCourse{}
+    return
 }
 func (o *DeleteCourse) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteCourse) AggregateType() eventhorizon.AggregateType  { return CourseAggregateType }
@@ -185,6 +216,11 @@ type UpdateCourse struct {
     Fee  float64`eh:"optional"`
     Description  string`eh:"optional"`
 }
+
+func NewUpdate() (ret *UpdateCourse) {
+    ret = &UpdateCourse{}
+    return
+}
 func (o *UpdateCourse) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateCourse) AggregateType() eventhorizon.AggregateType  { return CourseAggregateType }
 func (o *UpdateCourse) CommandType() eventhorizon.CommandType      { return UpdateCourseCommand }
@@ -201,6 +237,11 @@ type CreateGrade struct {
     GradeTrace  *schkola.Trace`eh:"optional"`
     Comment  string`eh:"optional"`
 }
+
+func NewCreate() (ret *CreateGrade) {
+    ret = &CreateGrade{}
+    return
+}
 func (o *CreateGrade) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateGrade) AggregateType() eventhorizon.AggregateType  { return GradeAggregateType }
 func (o *CreateGrade) CommandType() eventhorizon.CommandType      { return CreateGradeCommand }
@@ -211,6 +252,11 @@ func (o *CreateGrade) CommandType() eventhorizon.CommandType      { return Creat
 
 type DeleteGrade struct {
     Id  eventhorizon.UUID
+}
+
+func NewDelete() (ret *DeleteGrade) {
+    ret = &DeleteGrade{}
+    return
 }
 func (o *DeleteGrade) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteGrade) AggregateType() eventhorizon.AggregateType  { return GradeAggregateType }
@@ -228,6 +274,11 @@ type UpdateGrade struct {
     GradeTrace  *schkola.Trace`eh:"optional"`
     Comment  string`eh:"optional"`
 }
+
+func NewUpdate() (ret *UpdateGrade) {
+    ret = &UpdateGrade{}
+    return
+}
 func (o *UpdateGrade) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateGrade) AggregateType() eventhorizon.AggregateType  { return GradeAggregateType }
 func (o *UpdateGrade) CommandType() eventhorizon.CommandType      { return UpdateGradeCommand }
@@ -244,6 +295,11 @@ type CreateGroup struct {
     Representative  *person.Profile`eh:"optional"`
     Students  []*Course`eh:"optional"`
     Courses  []*Course`eh:"optional"`
+}
+
+func NewCreate() (ret *CreateGroup) {
+    ret = &CreateGroup{}
+    return
 }
 
 func (o *CreateGroup) AddToStudents(item *Course) *Course {
@@ -266,6 +322,11 @@ func (o *CreateGroup) CommandType() eventhorizon.CommandType      { return Creat
 type DeleteGroup struct {
     Id  eventhorizon.UUID
 }
+
+func NewDelete() (ret *DeleteGroup) {
+    ret = &DeleteGroup{}
+    return
+}
 func (o *DeleteGroup) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteGroup) AggregateType() eventhorizon.AggregateType  { return GroupAggregateType }
 func (o *DeleteGroup) CommandType() eventhorizon.CommandType      { return DeleteGroupCommand }
@@ -282,6 +343,11 @@ type UpdateGroup struct {
     Representative  *person.Profile`eh:"optional"`
     Students  []*Course`eh:"optional"`
     Courses  []*Course`eh:"optional"`
+}
+
+func NewUpdate() (ret *UpdateGroup) {
+    ret = &UpdateGroup{}
+    return
 }
 
 func (o *UpdateGroup) AddToStudents(item *Course) *Course {
@@ -310,6 +376,11 @@ type CreateSchoolApplication struct {
     SchoolYear  *SchoolYear`eh:"optional"`
     Group  string`eh:"optional"`
 }
+
+func NewCreate() (ret *CreateSchoolApplication) {
+    ret = &CreateSchoolApplication{}
+    return
+}
 func (o *CreateSchoolApplication) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *CreateSchoolApplication) AggregateType() eventhorizon.AggregateType  { return SchoolApplicationAggregateType }
 func (o *CreateSchoolApplication) CommandType() eventhorizon.CommandType      { return CreateSchoolApplicationCommand }
@@ -320,6 +391,11 @@ func (o *CreateSchoolApplication) CommandType() eventhorizon.CommandType      { 
 
 type DeleteSchoolApplication struct {
     Id  eventhorizon.UUID
+}
+
+func NewDelete() (ret *DeleteSchoolApplication) {
+    ret = &DeleteSchoolApplication{}
+    return
 }
 func (o *DeleteSchoolApplication) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteSchoolApplication) AggregateType() eventhorizon.AggregateType  { return SchoolApplicationAggregateType }
@@ -338,6 +414,11 @@ type UpdateSchoolApplication struct {
     SchoolYear  *SchoolYear`eh:"optional"`
     Group  string`eh:"optional"`
 }
+
+func NewUpdate() (ret *UpdateSchoolApplication) {
+    ret = &UpdateSchoolApplication{}
+    return
+}
 func (o *UpdateSchoolApplication) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *UpdateSchoolApplication) AggregateType() eventhorizon.AggregateType  { return SchoolApplicationAggregateType }
 func (o *UpdateSchoolApplication) CommandType() eventhorizon.CommandType      { return UpdateSchoolApplicationCommand }
@@ -352,6 +433,11 @@ type CreateSchoolYear struct {
     Start  *time.Time`eh:"optional"`
     End  *time.Time`eh:"optional"`
     Dates  []*Course`eh:"optional"`
+}
+
+func NewCreate() (ret *CreateSchoolYear) {
+    ret = &CreateSchoolYear{}
+    return
 }
 
 func (o *CreateSchoolYear) AddToDates(item *Course) *Course {
@@ -369,6 +455,11 @@ func (o *CreateSchoolYear) CommandType() eventhorizon.CommandType      { return 
 type DeleteSchoolYear struct {
     Id  eventhorizon.UUID
 }
+
+func NewDelete() (ret *DeleteSchoolYear) {
+    ret = &DeleteSchoolYear{}
+    return
+}
 func (o *DeleteSchoolYear) AggregateID() eventhorizon.UUID            { return o.Id  }
 func (o *DeleteSchoolYear) AggregateType() eventhorizon.AggregateType  { return SchoolYearAggregateType }
 func (o *DeleteSchoolYear) CommandType() eventhorizon.CommandType      { return DeleteSchoolYearCommand }
@@ -383,6 +474,11 @@ type UpdateSchoolYear struct {
     Start  *time.Time`eh:"optional"`
     End  *time.Time`eh:"optional"`
     Dates  []*Course`eh:"optional"`
+}
+
+func NewUpdate() (ret *UpdateSchoolYear) {
+    ret = &UpdateSchoolYear{}
+    return
 }
 
 func (o *UpdateSchoolYear) AddToDates(item *Course) *Course {

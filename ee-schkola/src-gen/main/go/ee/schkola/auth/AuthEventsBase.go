@@ -26,10 +26,20 @@ type AccountCreated struct {
     Profile  *person.Profile`eh:"optional"`
 }
 
+func NewCreated() (ret *AccountCreated) {
+    ret = &AccountCreated{}
+    return
+}
+
 
 
 type AccountDeleted struct {
     Id  eventhorizon.UUID
+}
+
+func NewDeleted() (ret *AccountDeleted) {
+    ret = &AccountDeleted{}
+    return
 }
 
 
@@ -42,6 +52,11 @@ type AccountUpdated struct {
     Disabled  bool`eh:"optional"`
     LastLoginAt  *time.Time`eh:"optional"`
     Profile  *person.Profile`eh:"optional"`
+}
+
+func NewUpdated() (ret *AccountUpdated) {
+    ret = &AccountUpdated{}
+    return
 }
 
 

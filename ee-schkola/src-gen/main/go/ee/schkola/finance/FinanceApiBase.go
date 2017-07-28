@@ -7,82 +7,65 @@ import (
 )
 
 type Expense struct {
-    purpose *ExpensePurpose
-    amount float64
-    profile *person.Profile
-    date *time.Time
+    Purpose  *ExpensePurpose
+    Amount  float64
+    Profile  *person.Profile
+    Date  *time.Time
     *schkola.SchkolaBase
 }
 
-func NewExpense(purpose *ExpensePurpose, amount float64, profile *person.Profile, date *time.Time, SchkolaBase *schkola.SchkolaBase) (ret *Expense) {
+func NewExpense() (ret *Expense) {
     ret = &Expense{
-        purpose: purpose,
-        amount: amount,
-        profile: profile,
-        date: date,
-        SchkolaBase: SchkolaBase,
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
-    
     return
 }
 
 
 
 type ExpensePurpose struct {
-    name string
-    description string
+    Name  string
+    Description  string
     *schkola.SchkolaBase
 }
 
-func NewExpensePurpose(name string, description string, SchkolaBase *schkola.SchkolaBase) (ret *ExpensePurpose) {
+func NewExpensePurpose() (ret *ExpensePurpose) {
     ret = &ExpensePurpose{
-        name: name,
-        description: description,
-        SchkolaBase: SchkolaBase,
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
-    
     return
 }
 
 
 
 type Fee struct {
-    student *person.Profile
-    amount float64
-    kind *FeeKind
-    date *time.Time
+    Student  *person.Profile
+    Amount  float64
+    Kind  *FeeKind
+    Date  *time.Time
     *schkola.SchkolaBase
 }
 
-func NewFee(student *person.Profile, amount float64, kind *FeeKind, date *time.Time, SchkolaBase *schkola.SchkolaBase) (ret *Fee) {
+func NewFee() (ret *Fee) {
     ret = &Fee{
-        student: student,
-        amount: amount,
-        kind: kind,
-        date: date,
-        SchkolaBase: SchkolaBase,
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
-    
     return
 }
 
 
 
 type FeeKind struct {
-    name string
-    amount float64
-    description string
+    Name  string
+    Amount  float64
+    Description  string
     *schkola.SchkolaBase
 }
 
-func NewFeeKind(name string, amount float64, description string, SchkolaBase *schkola.SchkolaBase) (ret *FeeKind) {
+func NewFeeKind() (ret *FeeKind) {
     ret = &FeeKind{
-        name: name,
-        amount: amount,
-        description: description,
-        SchkolaBase: SchkolaBase,
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
-    
     return
 }
 

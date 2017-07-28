@@ -14,24 +14,14 @@ type Book struct {
     Edition  string
     Category  string
     Author  *person.PersonName
-    location *Location
+    Location  *Location
     *schkola.SchkolaBase
 }
 
-func NewBook(title , description string, language string, releaseDate *time.Time, edition string, category string, 
-                author *person.PersonName, location *Location, SchkolaBase *schkola.SchkolaBase) (ret *Book) {
+func NewBook() (ret *Book) {
     ret = &Book{
-        Title : title,
-        Description : description,
-        Language : language,
-        ReleaseDate : releaseDate,
-        Edition : edition,
-        Category : category,
-        Author : author,
-        location: location,
-        SchkolaBase: SchkolaBase,
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
-    
     return
 }
 
@@ -46,12 +36,8 @@ type Location struct {
     Fold  string
 }
 
-func NewLocation(shelf string, fold string) (ret *Location) {
-    ret = &Location{
-        Shelf : shelf,
-        Fold : fold,
-    }
-    
+func NewLocation() (ret *Location) {
+    ret = &Location{}
     return
 }
 
