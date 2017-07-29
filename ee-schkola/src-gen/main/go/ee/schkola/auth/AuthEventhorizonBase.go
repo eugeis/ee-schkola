@@ -59,7 +59,15 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteAccountCommand)
+        o.DeleteHandler = func(command *DeleteAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, AccountAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, AccountAggregateType)
+            } else {
+                store.StoreEvent(AccountDeletedEvent, &AccountDeleted{
+                    Id: command.Id,})
+            }
             return
         }
     }
@@ -142,32 +150,49 @@ func (o *AccountEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AccountCreated, entity *Account) (ret error) {
-            entity.Id = event.Id
-            entity.Username = event.Username
-            entity.Password = event.Password
-            entity.Email = event.Email
-            entity.Disabled = event.Disabled
-            entity.LastLoginAt = event.LastLoginAt
-            entity.Profile = event.Profile
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, AccountAggregateType)
+            } else {
+                entity.Id = event.Id
+                entity.Username = event.Username
+                entity.Password = event.Password
+                entity.Email = event.Email
+                entity.Disabled = event.Disabled
+                entity.LastLoginAt = event.LastLoginAt
+                entity.Profile = event.Profile
+            }
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *AccountDeleted, entity *Account) (ret error) {    ret = eh.EventHandlerNotImplemented(AccountDeletedEvent)
+        o.DeletedHandler = func(event *AccountDeleted, entity *Account) (ret error) {
+            if len(entity.Id) > 0 {
+                ret = eh.EntityNotExists(entity.Id, AccountAggregateType)
+            } else if entity.Id != event.Id {
+                ret = eh.IdsDismatch(entity.Id, event.Id, AccountAggregateType)
+            } else {
+                entity.Id = ""
+            }
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *AccountUpdated, entity *Account) (ret error) {
-            entity.Id = event.Id
-            entity.Username = event.Username
-            entity.Password = event.Password
-            entity.Email = event.Email
-            entity.Disabled = event.Disabled
-            entity.LastLoginAt = event.LastLoginAt
-            entity.Profile = event.Profile
+            if len(entity.Id) > 0 {
+                ret = eh.EntityNotExists(entity.Id, AccountAggregateType)
+            } else if entity.Id != event.Id {
+                ret = eh.IdsDismatch(entity.Id, event.Id, AccountAggregateType)
+            } else {
+                entity.Id = event.Id
+                entity.Username = event.Username
+                entity.Password = event.Password
+                entity.Email = event.Email
+                entity.Disabled = event.Disabled
+                entity.LastLoginAt = event.LastLoginAt
+                entity.Profile = event.Profile
+            }
             return
         }
     }

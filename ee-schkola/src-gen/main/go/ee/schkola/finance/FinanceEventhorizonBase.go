@@ -48,7 +48,15 @@ func (o *ExpenseCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteExpense, entity *Expense, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteExpenseCommand)
+        o.DeleteHandler = func(command *DeleteExpense, entity *Expense, store eh.AggregateStoreEvent) (ret error) {
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, ExpenseAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, ExpenseAggregateType)
+            } else {
+                store.StoreEvent(ExpenseDeletedEvent, &ExpenseDeleted{
+                    Id: command.Id,})
+            }
             return
         }
     }
@@ -103,28 +111,45 @@ func (o *ExpenseEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ExpenseCreated, entity *Expense) (ret error) {
-            entity.Id = event.Id
-            entity.Purpose = event.Purpose
-            entity.Amount = event.Amount
-            entity.Profile = event.Profile
-            entity.Date = event.Date
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, ExpenseAggregateType)
+            } else {
+                entity.Id = event.Id
+                entity.Purpose = event.Purpose
+                entity.Amount = event.Amount
+                entity.Profile = event.Profile
+                entity.Date = event.Date
+            }
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *ExpenseDeleted, entity *Expense) (ret error) {    ret = eh.EventHandlerNotImplemented(ExpenseDeletedEvent)
+        o.DeletedHandler = func(event *ExpenseDeleted, entity *Expense) (ret error) {
+            if len(entity.Id) > 0 {
+                ret = eh.EntityNotExists(entity.Id, ExpenseAggregateType)
+            } else if entity.Id != event.Id {
+                ret = eh.IdsDismatch(entity.Id, event.Id, ExpenseAggregateType)
+            } else {
+                entity.Id = ""
+            }
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *ExpenseUpdated, entity *Expense) (ret error) {
-            entity.Id = event.Id
-            entity.Purpose = event.Purpose
-            entity.Amount = event.Amount
-            entity.Profile = event.Profile
-            entity.Date = event.Date
+            if len(entity.Id) > 0 {
+                ret = eh.EntityNotExists(entity.Id, ExpenseAggregateType)
+            } else if entity.Id != event.Id {
+                ret = eh.IdsDismatch(entity.Id, event.Id, ExpenseAggregateType)
+            } else {
+                entity.Id = event.Id
+                entity.Purpose = event.Purpose
+                entity.Amount = event.Amount
+                entity.Profile = event.Profile
+                entity.Date = event.Date
+            }
             return
         }
     }
@@ -215,7 +240,15 @@ func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteExpensePurposeCommand)
+        o.DeleteHandler = func(command *DeleteExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (ret error) {
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, ExpensePurposeAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, ExpensePurposeAggregateType)
+            } else {
+                store.StoreEvent(ExpensePurposeDeletedEvent, &ExpensePurposeDeleted{
+                    Id: command.Id,})
+            }
             return
         }
     }
@@ -268,24 +301,41 @@ func (o *ExpensePurposeEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ExpensePurposeCreated, entity *ExpensePurpose) (ret error) {
-            entity.Id = event.Id
-            entity.Name = event.Name
-            entity.Description = event.Description
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, ExpensePurposeAggregateType)
+            } else {
+                entity.Id = event.Id
+                entity.Name = event.Name
+                entity.Description = event.Description
+            }
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *ExpensePurposeDeleted, entity *ExpensePurpose) (ret error) {    ret = eh.EventHandlerNotImplemented(ExpensePurposeDeletedEvent)
+        o.DeletedHandler = func(event *ExpensePurposeDeleted, entity *ExpensePurpose) (ret error) {
+            if len(entity.Id) > 0 {
+                ret = eh.EntityNotExists(entity.Id, ExpensePurposeAggregateType)
+            } else if entity.Id != event.Id {
+                ret = eh.IdsDismatch(entity.Id, event.Id, ExpensePurposeAggregateType)
+            } else {
+                entity.Id = ""
+            }
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *ExpensePurposeUpdated, entity *ExpensePurpose) (ret error) {
-            entity.Id = event.Id
-            entity.Name = event.Name
-            entity.Description = event.Description
+            if len(entity.Id) > 0 {
+                ret = eh.EntityNotExists(entity.Id, ExpensePurposeAggregateType)
+            } else if entity.Id != event.Id {
+                ret = eh.IdsDismatch(entity.Id, event.Id, ExpensePurposeAggregateType)
+            } else {
+                entity.Id = event.Id
+                entity.Name = event.Name
+                entity.Description = event.Description
+            }
             return
         }
     }
@@ -378,7 +428,15 @@ func (o *FeeCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteFee, entity *Fee, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteFeeCommand)
+        o.DeleteHandler = func(command *DeleteFee, entity *Fee, store eh.AggregateStoreEvent) (ret error) {
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, FeeAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, FeeAggregateType)
+            } else {
+                store.StoreEvent(FeeDeletedEvent, &FeeDeleted{
+                    Id: command.Id,})
+            }
             return
         }
     }
@@ -433,28 +491,45 @@ func (o *FeeEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *FeeCreated, entity *Fee) (ret error) {
-            entity.Id = event.Id
-            entity.Student = event.Student
-            entity.Amount = event.Amount
-            entity.Kind = event.Kind
-            entity.Date = event.Date
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, FeeAggregateType)
+            } else {
+                entity.Id = event.Id
+                entity.Student = event.Student
+                entity.Amount = event.Amount
+                entity.Kind = event.Kind
+                entity.Date = event.Date
+            }
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *FeeDeleted, entity *Fee) (ret error) {    ret = eh.EventHandlerNotImplemented(FeeDeletedEvent)
+        o.DeletedHandler = func(event *FeeDeleted, entity *Fee) (ret error) {
+            if len(entity.Id) > 0 {
+                ret = eh.EntityNotExists(entity.Id, FeeAggregateType)
+            } else if entity.Id != event.Id {
+                ret = eh.IdsDismatch(entity.Id, event.Id, FeeAggregateType)
+            } else {
+                entity.Id = ""
+            }
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *FeeUpdated, entity *Fee) (ret error) {
-            entity.Id = event.Id
-            entity.Student = event.Student
-            entity.Amount = event.Amount
-            entity.Kind = event.Kind
-            entity.Date = event.Date
+            if len(entity.Id) > 0 {
+                ret = eh.EntityNotExists(entity.Id, FeeAggregateType)
+            } else if entity.Id != event.Id {
+                ret = eh.IdsDismatch(entity.Id, event.Id, FeeAggregateType)
+            } else {
+                entity.Id = event.Id
+                entity.Student = event.Student
+                entity.Amount = event.Amount
+                entity.Kind = event.Kind
+                entity.Date = event.Date
+            }
             return
         }
     }
@@ -546,7 +621,15 @@ func (o *FeeKindCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DeleteFeeKindCommand)
+        o.DeleteHandler = func(command *DeleteFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (ret error) {
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, FeeKindAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, FeeKindAggregateType)
+            } else {
+                store.StoreEvent(FeeKindDeletedEvent, &FeeKindDeleted{
+                    Id: command.Id,})
+            }
             return
         }
     }
@@ -600,26 +683,43 @@ func (o *FeeKindEventHandler) SetupEventHandler() (ret error) {
     
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *FeeKindCreated, entity *FeeKind) (ret error) {
-            entity.Id = event.Id
-            entity.Name = event.Name
-            entity.Amount = event.Amount
-            entity.Description = event.Description
+            if len(entity.Id) > 0 {
+                ret = eh.EntityAlreadyExists(entity.Id, FeeKindAggregateType)
+            } else {
+                entity.Id = event.Id
+                entity.Name = event.Name
+                entity.Amount = event.Amount
+                entity.Description = event.Description
+            }
             return
         }
     }
     
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *FeeKindDeleted, entity *FeeKind) (ret error) {    ret = eh.EventHandlerNotImplemented(FeeKindDeletedEvent)
+        o.DeletedHandler = func(event *FeeKindDeleted, entity *FeeKind) (ret error) {
+            if len(entity.Id) > 0 {
+                ret = eh.EntityNotExists(entity.Id, FeeKindAggregateType)
+            } else if entity.Id != event.Id {
+                ret = eh.IdsDismatch(entity.Id, event.Id, FeeKindAggregateType)
+            } else {
+                entity.Id = ""
+            }
             return
         }
     }
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *FeeKindUpdated, entity *FeeKind) (ret error) {
-            entity.Id = event.Id
-            entity.Name = event.Name
-            entity.Amount = event.Amount
-            entity.Description = event.Description
+            if len(entity.Id) > 0 {
+                ret = eh.EntityNotExists(entity.Id, FeeKindAggregateType)
+            } else if entity.Id != event.Id {
+                ret = eh.IdsDismatch(entity.Id, event.Id, FeeKindAggregateType)
+            } else {
+                entity.Id = event.Id
+                entity.Name = event.Name
+                entity.Amount = event.Amount
+                entity.Description = event.Description
+            }
             return
         }
     }
