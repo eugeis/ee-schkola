@@ -1,0 +1,265 @@
+
+swagger: '2.0'
+info:
+  title: Schkola
+  description: ee.lang.CommentEmptyClass@4441d567
+  version: "1.0.0"
+schemes:
+  - http
+  - https
+produces:
+  - application/json
+paths:
+  /auth/account:
+  /finance/expense:
+  /finance/expense-purpose:
+  /finance/fee:
+  /finance/fee-kind:
+  /library/book:
+  /person/church:
+  /person/graduation:
+  /person/profile:
+  /student/attendance:
+  /student/course:
+  /student/grade:
+  /student/group:
+  /student/school-application:
+  /student/school-year:
+parameters:
+responses:
+definitions:
+  Account:
+    type: object
+    properties:
+      username :
+        type: string
+      password :
+        type: string
+      email :
+        type: string
+      disabled :
+        type: boolean
+      lastLoginAt :
+        type: $ref: "#/definitions/Time"
+      profile :
+        type: $ref: "#/definitions/Profile"
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  Expense:
+    type: object
+    properties:
+      purpose :
+        type: $ref: "#/definitions/ExpensePurpose"
+      amount :
+        type: float64
+      profile :
+        type: $ref: "#/definitions/Profile"
+      date :
+        type: $ref: "#/definitions/Time"
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  ExpensePurpose:
+    type: object
+    properties:
+      name :
+        type: string
+      description :
+        type: string
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  Fee:
+    type: object
+    properties:
+      student :
+        type: $ref: "#/definitions/Profile"
+      amount :
+        type: float64
+      kind :
+        type: $ref: "#/definitions/FeeKind"
+      date :
+        type: $ref: "#/definitions/Time"
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  FeeKind:
+    type: object
+    properties:
+      name :
+        type: string
+      amount :
+        type: float64
+      description :
+        type: string
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  Book:
+    type: object
+    properties:
+      title :
+        type: 
+      description :
+        type: string
+      language :
+        type: string
+      releaseDate :
+        type: $ref: "#/definitions/Time"
+      edition :
+        type: string
+      category :
+        type: string
+      author :
+        type: $ref: "#/definitions/PersonName"
+      location :
+        type: $ref: "#/definitions/Location"
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  Church:
+    type: object
+    properties:
+      name :
+        type: string
+      address :
+        type: $ref: "#/definitions/Address"
+      pastor :
+        type: $ref: "#/definitions/PersonName"
+      contact :
+        type: $ref: "#/definitions/Contact"
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  Graduation:
+    type: object
+    properties:
+      name :
+        type: string
+      level :
+        type: $ref: "#/definitions/GraduationLevel"
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  Profile:
+    type: object
+    properties:
+      gender :
+        type: $ref: "#/definitions/Gender"
+      name :
+        type: $ref: "#/definitions/PersonName"
+      birthName :
+        type: string
+      birthday :
+        type: $ref: "#/definitions/Time"
+      address :
+        type: $ref: "#/definitions/Address"
+      contact :
+        type: $ref: "#/definitions/Contact"
+      photoData :
+        type: []byte
+      photo :
+        type: string
+      family :
+        type: $ref: "#/definitions/Family"
+      church :
+        type: $ref: "#/definitions/ChurchInfo"
+      education :
+        type: $ref: "#/definitions/Education"
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  Attendance:
+    type: object
+    properties:
+      student :
+        type: $ref: "#/definitions/Profile"
+      date :
+        type: $ref: "#/definitions/Time"
+      course :
+        type: $ref: "#/definitions/Course"
+      hours :
+        type: integer
+      state :
+        type: $ref: "#/definitions/AttendanceState"
+      stateTrace :
+        type: $ref: "#/definitions/Trace"
+      token :
+        type: string
+      tokenTrace :
+        type: $ref: "#/definitions/Trace"
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  Course:
+    type: object
+    properties:
+      name :
+        type: string
+      begin :
+        type: $ref: "#/definitions/Time"
+      end :
+        type: $ref: "#/definitions/Time"
+      teacher :
+        type: $ref: "#/definitions/PersonName"
+      schoolYear :
+        type: $ref: "#/definitions/SchoolYear"
+      fee :
+        type: float64
+      description :
+        type: string
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  Grade:
+    type: object
+    properties:
+      student :
+        type: $ref: "#/definitions/Profile"
+      course :
+        type: $ref: "#/definitions/Course"
+      grade :
+        type: float64
+      gradeTrace :
+        type: $ref: "#/definitions/Trace"
+      comment :
+        type: string
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  Group:
+    type: object
+    properties:
+      name :
+        type: string
+      category :
+        type: $ref: "#/definitions/GroupCategory"
+      schoolYear :
+        type: $ref: "#/definitions/SchoolYear"
+      representative :
+        type: $ref: "#/definitions/Profile"
+      students :
+        type: []$ref: "#/definitions/T"
+      courses :
+        type: []$ref: "#/definitions/T"
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  SchoolApplication:
+    type: object
+    properties:
+      profile :
+        type: $ref: "#/definitions/Profile"
+      recommendationOf :
+        type: $ref: "#/definitions/PersonName"
+      churchContactPerson :
+        type: $ref: "#/definitions/PersonName"
+      churchContact :
+        type: $ref: "#/definitions/Contact"
+      schoolYear :
+        type: $ref: "#/definitions/SchoolYear"
+      group :
+        type: string
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"
+  SchoolYear:
+    type: object
+    properties:
+      name :
+        type: string
+      start :
+        type: $ref: "#/definitions/Time"
+      end :
+        type: $ref: "#/definitions/Time"
+      dates :
+        type: []$ref: "#/definitions/T"
+      schkolaBase :
+        type: $ref: "#/definitions/SchkolaBase"

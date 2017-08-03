@@ -118,11 +118,11 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
         object GraduationLevel : EnumType() {
             val Unknown = lit()
-            val MiddleSchool = lit({ doc("Hauptschule") })
-            val SecondarySchool = lit({ doc("Realschule") })
-            val HighSchool = lit({ doc("Abitur") })
-            val TechnicalCollege = lit({ doc("Fachschule") })
-            val College = lit({ doc("Hochschule") })
+            val MiddleSchool = lit { doc("Hauptschule") }
+            val SecondarySchool = lit { doc("Realschule") }
+            val HighSchool = lit { doc("Abitur") }
+            val TechnicalCollege = lit { doc("Fachschule") }
+            val College = lit { doc("Hochschule") }
         }
 
         object Graduation : Entity({ superUnit(Shared.SchkolaBase) }) {
