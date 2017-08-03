@@ -1,8 +1,6 @@
-
 swagger: '2.0'
 info:
   title: Schkola
-  description: ee.lang.CommentEmptyClass@4441d567
   version: "1.0.0"
 schemes:
   - http
@@ -40,7 +38,8 @@ definitions:
       disabled :
         type: boolean
       lastLoginAt :
-        type: $ref: "#/definitions/Time"
+        type: string
+        format: date-time
       profile :
         type: $ref: "#/definitions/Profile"
       schkolaBase :
@@ -51,11 +50,13 @@ definitions:
       purpose :
         type: $ref: "#/definitions/ExpensePurpose"
       amount :
-        type: float64
+        type: number
+        format: float
       profile :
         type: $ref: "#/definitions/Profile"
       date :
-        type: $ref: "#/definitions/Time"
+        type: string
+        format: date-time
       schkolaBase :
         type: $ref: "#/definitions/SchkolaBase"
   ExpensePurpose:
@@ -73,11 +74,13 @@ definitions:
       student :
         type: $ref: "#/definitions/Profile"
       amount :
-        type: float64
+        type: number
+        format: float
       kind :
         type: $ref: "#/definitions/FeeKind"
       date :
-        type: $ref: "#/definitions/Time"
+        type: string
+        format: date-time
       schkolaBase :
         type: $ref: "#/definitions/SchkolaBase"
   FeeKind:
@@ -86,7 +89,8 @@ definitions:
       name :
         type: string
       amount :
-        type: float64
+        type: number
+        format: float
       description :
         type: string
       schkolaBase :
@@ -101,7 +105,8 @@ definitions:
       language :
         type: string
       releaseDate :
-        type: $ref: "#/definitions/Time"
+        type: string
+        format: date-time
       edition :
         type: string
       category :
@@ -144,13 +149,15 @@ definitions:
       birthName :
         type: string
       birthday :
-        type: $ref: "#/definitions/Time"
+        type: string
+        format: date-time
       address :
         type: $ref: "#/definitions/Address"
       contact :
         type: $ref: "#/definitions/Contact"
       photoData :
-        type: []byte
+        type: string
+        format: binary
       photo :
         type: string
       family :
@@ -161,17 +168,26 @@ definitions:
         type: $ref: "#/definitions/Education"
       schkolaBase :
         type: $ref: "#/definitions/SchkolaBase"
+  SchkolaBase:
+    type: object
+    properties:
+      trace :
+        type: $ref: "#/definitions/Trace"
+      id :
+        type: string
   Attendance:
     type: object
     properties:
       student :
         type: $ref: "#/definitions/Profile"
       date :
-        type: $ref: "#/definitions/Time"
+        type: string
+        format: date-time
       course :
         type: $ref: "#/definitions/Course"
       hours :
         type: integer
+        format: int32
       state :
         type: $ref: "#/definitions/AttendanceState"
       stateTrace :
@@ -188,15 +204,18 @@ definitions:
       name :
         type: string
       begin :
-        type: $ref: "#/definitions/Time"
+        type: string
+        format: date-time
       end :
-        type: $ref: "#/definitions/Time"
+        type: string
+        format: date-time
       teacher :
         type: $ref: "#/definitions/PersonName"
       schoolYear :
         type: $ref: "#/definitions/SchoolYear"
       fee :
-        type: float64
+        type: number
+        format: float
       description :
         type: string
       schkolaBase :
@@ -209,7 +228,8 @@ definitions:
       course :
         type: $ref: "#/definitions/Course"
       grade :
-        type: float64
+        type: number
+        format: float
       gradeTrace :
         type: $ref: "#/definitions/Trace"
       comment :
@@ -228,9 +248,9 @@ definitions:
       representative :
         type: $ref: "#/definitions/Profile"
       students :
-        type: []$ref: "#/definitions/T"
+        type: []$ref: "#/definitions/Course"
       courses :
-        type: []$ref: "#/definitions/T"
+        type: []$ref: "#/definitions/Course"
       schkolaBase :
         type: $ref: "#/definitions/SchkolaBase"
   SchoolApplication:
@@ -256,10 +276,12 @@ definitions:
       name :
         type: string
       start :
-        type: $ref: "#/definitions/Time"
+        type: string
+        format: date-time
       end :
-        type: $ref: "#/definitions/Time"
+        type: string
+        format: date-time
       dates :
-        type: []$ref: "#/definitions/T"
+        type: []$ref: "#/definitions/Course"
       schkolaBase :
         type: $ref: "#/definitions/SchkolaBase"

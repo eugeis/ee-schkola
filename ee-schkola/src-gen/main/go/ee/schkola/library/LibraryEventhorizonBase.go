@@ -100,68 +100,25 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     if o.RegisterHandler == nil {
-        o.RegisterHandler = func(command *RegisterBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) > 0 {
-                ret = eh.EntityAlreadyExists(entity.Id, BookAggregateType)
-            } else {
-                store.StoreEvent(Event, &{
-                    Title: command.Title,
-                    Description: command.Description,
-                    Language: command.Language,
-                    ReleaseDate: command.ReleaseDate,
-                    Edition: command.Edition,
-                    Category: command.Category,
-                    Author: command.Author,})
-            }
+        o.RegisterHandler = func(command *RegisterBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(RegisterBookCommand)
             return
         }
     }
     
     if o.UnregisterHandler == nil {
-        o.UnregisterHandler = func(command *UnregisterBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
-            } else if entity.Id != command.Id {
-                ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
-            } else {
-                store.StoreEvent(Event, &{
-                    Id: command.Id,})
-            }
+        o.UnregisterHandler = func(command *UnregisterBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(UnregisterBookCommand)
             return
         }
     }
     
     if o.ChangeHandler == nil {
-        o.ChangeHandler = func(command *ChangeBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
-            } else if entity.Id != command.Id {
-                ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
-            } else {
-                store.StoreEvent(Event, &{
-                    Title: command.Title,
-                    Description: command.Description,
-                    Language: command.Language,
-                    ReleaseDate: command.ReleaseDate,
-                    Edition: command.Edition,
-                    Category: command.Category,
-                    Author: command.Author,})
-            }
+        o.ChangeHandler = func(command *ChangeBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(ChangeBookCommand)
             return
         }
     }
     
     if o.ChangeLocationHandler == nil {
-        o.ChangeLocationHandler = func(command *ChangeBookLocation, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
-            } else if entity.Id != command.Id {
-                ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
-            } else {
-                store.StoreEvent(Event, &{
-                    Shelf: command.Shelf,
-                    Fold: command.Fold,})
-            }
+        o.ChangeLocationHandler = func(command *ChangeBookLocation, entity *Book, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(ChangeBookLocationCommand)
             return
         }
     }
@@ -300,16 +257,11 @@ func NewLibraryEventhorizonInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *LibraryEventhorizonInitializer) {
 	ret = &LibraryEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
-            commandBus: commandBus, 
-    BookAggregateInitializer: NewBookAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
+            commandBus: commandBus, }
 	return
 }
 
 func (o *LibraryEventhorizonInitializer) Setup() (err error) {
-    
-    if err = o.BookAggregateInitializer.Setup(); err != nil {
-        return
-    }
     return
 }
 

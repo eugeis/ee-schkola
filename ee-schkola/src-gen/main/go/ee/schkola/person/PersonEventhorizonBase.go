@@ -613,26 +613,11 @@ func NewPersonEventhorizonInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *PersonEventhorizonInitializer) {
 	ret = &PersonEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
-            commandBus: commandBus, 
-    ChurchAggregateInitializer: NewChurchAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-    GraduationAggregateInitializer: NewGraduationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-    ProfileAggregateInitializer: NewProfileAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
+            commandBus: commandBus, }
 	return
 }
 
 func (o *PersonEventhorizonInitializer) Setup() (err error) {
-    
-    if err = o.ChurchAggregateInitializer.Setup(); err != nil {
-        return
-    }
-    
-    if err = o.GraduationAggregateInitializer.Setup(); err != nil {
-        return
-    }
-    
-    if err = o.ProfileAggregateInitializer.Setup(); err != nil {
-        return
-    }
     return
 }
 

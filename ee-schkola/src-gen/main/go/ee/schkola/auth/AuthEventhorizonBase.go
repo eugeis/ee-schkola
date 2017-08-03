@@ -105,15 +105,7 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     if o.RegisterHandler == nil {
-        o.RegisterHandler = func(command *RegisterAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) > 0 {
-                ret = eh.EntityAlreadyExists(entity.Id, AccountAggregateType)
-            } else {
-                store.StoreEvent(Event, &{
-                    Username: command.Username,
-                    Email: command.Email,
-                    Password: command.Password,})
-            }
+        o.RegisterHandler = func(command *RegisterAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(RegisterAccountCommand)
             return
         }
     }
@@ -248,16 +240,11 @@ func NewAuthEventhorizonInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *AuthEventhorizonInitializer) {
 	ret = &AuthEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
-            commandBus: commandBus, 
-    AccountAggregateInitializer: NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
+            commandBus: commandBus, }
 	return
 }
 
 func (o *AuthEventhorizonInitializer) Setup() (err error) {
-    
-    if err = o.AccountAggregateInitializer.Setup(); err != nil {
-        return
-    }
     return
 }
 
