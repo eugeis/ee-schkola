@@ -1,287 +1,482 @@
-swagger: '2.0'
+openapi: "3.0.0"
 info:
   title: Schkola
   version: "1.0.0"
-schemes:
-  - http
-  - https
-produces:
-  - application/json
 paths:
-  /auth/account:
-  /finance/expense:
-  /finance/expense-purpose:
-  /finance/fee:
-  /finance/fee-kind:
-  /library/book:
-  /person/church:
-  /person/graduation:
-  /person/profile:
-  /student/attendance:
-  /student/course:
-  /student/grade:
-  /student/group:
-  /student/school-application:
-  /student/school-year:
-parameters:
-responses:
-definitions:
-  Account:
-    type: object
-    properties:
-      username :
-        type: string
-      password :
-        type: string
-      email :
-        type: string
-      disabled :
-        type: boolean
-      lastLoginAt :
-        type: string
-        format: date-time
-      profile :
-        type: $ref: "#/definitions/Profile"
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  Expense:
-    type: object
-    properties:
-      purpose :
-        type: $ref: "#/definitions/ExpensePurpose"
-      amount :
-        type: number
-        format: float
-      profile :
-        type: $ref: "#/definitions/Profile"
-      date :
-        type: string
-        format: date-time
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  ExpensePurpose:
-    type: object
-    properties:
-      name :
-        type: string
-      description :
-        type: string
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  Fee:
-    type: object
-    properties:
-      student :
-        type: $ref: "#/definitions/Profile"
-      amount :
-        type: number
-        format: float
-      kind :
-        type: $ref: "#/definitions/FeeKind"
-      date :
-        type: string
-        format: date-time
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  FeeKind:
-    type: object
-    properties:
-      name :
-        type: string
-      amount :
-        type: number
-        format: float
-      description :
-        type: string
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  Book:
-    type: object
-    properties:
-      title :
-        type: 
-      description :
-        type: string
-      language :
-        type: string
-      releaseDate :
-        type: string
-        format: date-time
-      edition :
-        type: string
-      category :
-        type: string
-      author :
-        type: $ref: "#/definitions/PersonName"
-      location :
-        type: $ref: "#/definitions/Location"
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  Church:
-    type: object
-    properties:
-      name :
-        type: string
-      address :
-        type: $ref: "#/definitions/Address"
-      pastor :
-        type: $ref: "#/definitions/PersonName"
-      contact :
-        type: $ref: "#/definitions/Contact"
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  Graduation:
-    type: object
-    properties:
-      name :
-        type: string
-      level :
-        type: $ref: "#/definitions/GraduationLevel"
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  Profile:
-    type: object
-    properties:
-      gender :
-        type: $ref: "#/definitions/Gender"
-      name :
-        type: $ref: "#/definitions/PersonName"
-      birthName :
-        type: string
-      birthday :
-        type: string
-        format: date-time
-      address :
-        type: $ref: "#/definitions/Address"
-      contact :
-        type: $ref: "#/definitions/Contact"
-      photoData :
-        type: string
-        format: binary
-      photo :
-        type: string
-      family :
-        type: $ref: "#/definitions/Family"
-      church :
-        type: $ref: "#/definitions/ChurchInfo"
-      education :
-        type: $ref: "#/definitions/Education"
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  SchkolaBase:
-    type: object
-    properties:
-      trace :
-        type: $ref: "#/definitions/Trace"
-      id :
-        type: string
-  Attendance:
-    type: object
-    properties:
-      student :
-        type: $ref: "#/definitions/Profile"
-      date :
-        type: string
-        format: date-time
-      course :
-        type: $ref: "#/definitions/Course"
-      hours :
-        type: integer
-        format: int32
-      state :
-        type: $ref: "#/definitions/AttendanceState"
-      stateTrace :
-        type: $ref: "#/definitions/Trace"
-      token :
-        type: string
-      tokenTrace :
-        type: $ref: "#/definitions/Trace"
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  Course:
-    type: object
-    properties:
-      name :
-        type: string
-      begin :
-        type: string
-        format: date-time
-      end :
-        type: string
-        format: date-time
-      teacher :
-        type: $ref: "#/definitions/PersonName"
-      schoolYear :
-        type: $ref: "#/definitions/SchoolYear"
-      fee :
-        type: number
-        format: float
-      description :
-        type: string
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  Grade:
-    type: object
-    properties:
-      student :
-        type: $ref: "#/definitions/Profile"
-      course :
-        type: $ref: "#/definitions/Course"
-      grade :
-        type: number
-        format: float
-      gradeTrace :
-        type: $ref: "#/definitions/Trace"
-      comment :
-        type: string
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  Group:
-    type: object
-    properties:
-      name :
-        type: string
-      category :
-        type: $ref: "#/definitions/GroupCategory"
-      schoolYear :
-        type: $ref: "#/definitions/SchoolYear"
-      representative :
-        type: $ref: "#/definitions/Profile"
-      students :
-        type: []$ref: "#/definitions/Course"
-      courses :
-        type: []$ref: "#/definitions/Course"
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  SchoolApplication:
-    type: object
-    properties:
-      profile :
-        type: $ref: "#/definitions/Profile"
-      recommendationOf :
-        type: $ref: "#/definitions/PersonName"
-      churchContactPerson :
-        type: $ref: "#/definitions/PersonName"
-      churchContact :
-        type: $ref: "#/definitions/Contact"
-      schoolYear :
-        type: $ref: "#/definitions/SchoolYear"
-      group :
-        type: string
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
-  SchoolYear:
-    type: object
-    properties:
-      name :
-        type: string
-      start :
-        type: string
-        format: date-time
-      end :
-        type: string
-        format: date-time
-      dates :
-        type: []$ref: "#/definitions/Course"
-      schkolaBase :
-        type: $ref: "#/definitions/SchkolaBase"
+  /library/books:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findByTitle
+              - findByAuthor
+              - findByPattern
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+        - name: author
+          in: query
+          required: false
+          schema:            
+            $ref: "#/components/schemas/PersonName"
+        - name: pattern
+          in: query
+          required: false
+          schema:            
+            type: string
+        - name: title
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+  /person/profiles:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findByName
+              - findByEmail
+              - findByPhone
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+        - name: email
+          in: query
+          required: false
+          schema:            
+            type: string
+        - name: name
+          in: query
+          required: false
+          schema:            
+            $ref: "#/components/schemas/PersonName"
+        - name: phone
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        username :          
+          type: string
+        password :          
+          type: string
+        email :          
+          type: string
+        disabled :          
+          type: boolean
+        lastLoginAt :          
+          type: string
+          format: date-time
+        profile :          
+          $ref: "#/components/schemas/Profile"
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    Expense:
+      type: object
+      properties:
+        purpose :          
+          $ref: "#/components/schemas/ExpensePurpose"
+        amount :          
+          type: number
+          format: float
+        profile :          
+          $ref: "#/components/schemas/Profile"
+        date :          
+          type: string
+          format: date-time
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    ExpensePurpose:
+      type: object
+      properties:
+        name :          
+          type: string
+        description :          
+          type: string
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    Fee:
+      type: object
+      properties:
+        student :          
+          $ref: "#/components/schemas/Profile"
+        amount :          
+          type: number
+          format: float
+        kind :          
+          $ref: "#/components/schemas/FeeKind"
+        date :          
+          type: string
+          format: date-time
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    FeeKind:
+      type: object
+      properties:
+        name :          
+          type: string
+        amount :          
+          type: number
+          format: float
+        description :          
+          type: string
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    Book:
+      type: object
+      properties:
+        title :          
+          type: string
+        description :          
+          type: string
+        language :          
+          type: string
+        releaseDate :          
+          type: string
+          format: date-time
+        edition :          
+          type: string
+        category :          
+          type: string
+        author :          
+          $ref: "#/components/schemas/PersonName"
+        location :          
+          $ref: "#/components/schemas/Location"
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    Location:
+      type: object
+      properties:
+        shelf :          
+          type: string
+        fold :          
+          type: string
+    Address:
+      type: object
+      properties:
+        street :          
+          type: string
+        suite :          
+          type: string
+        city :          
+          type: string
+        code :          
+          type: string
+        country :          
+          type: string
+    Church:
+      type: object
+      properties:
+        name :          
+          type: string
+        address :          
+          $ref: "#/components/schemas/Address"
+        pastor :          
+          $ref: "#/components/schemas/PersonName"
+        contact :          
+          $ref: "#/components/schemas/Contact"
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    ChurchInfo:
+      type: object
+      properties:
+        church :          
+          type: string
+        association :          
+          type: string
+        member :          
+          type: boolean
+        services :          
+          type: string
+    Contact:
+      type: object
+      properties:
+        phone :          
+          type: string
+        email :          
+          type: string
+        cellphone :          
+          type: string
+    Education:
+      type: object
+      properties:
+        graduation :          
+          $ref: "#/components/schemas/Graduation"
+        profession :          
+          type: string
+    Family:
+      type: object
+      properties:
+        maritalState :          
+          $ref: "#/components/schemas/MaritalState"
+        childrenCount :          
+          type: integer
+          format: int32
+        partner :          
+          $ref: "#/components/schemas/PersonName"
+    Gender:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - Unknown
+            - Male
+            - Female
+    Graduation:
+      type: object
+      properties:
+        name :          
+          type: string
+        level :          
+          $ref: "#/components/schemas/GraduationLevel"
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    GraduationLevel:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - Unknown
+            - MiddleSchool
+            - SecondarySchool
+            - HighSchool
+            - TechnicalCollege
+            - College
+    MaritalState:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - Unknown
+            - Single
+            - Married
+            - Separated
+            - Divorced
+            - Widowed
+    PersonName:
+      type: object
+      properties:
+        first :          
+          type: string
+        last :          
+          type: string
+    Profile:
+      type: object
+      properties:
+        gender :          
+          $ref: "#/components/schemas/Gender"
+        name :          
+          $ref: "#/components/schemas/PersonName"
+        birthName :          
+          type: string
+        birthday :          
+          type: string
+          format: date-time
+        address :          
+          $ref: "#/components/schemas/Address"
+        contact :          
+          $ref: "#/components/schemas/Contact"
+        photoData :          
+          type: string
+          format: binary
+        photo :          
+          type: string
+        family :          
+          $ref: "#/components/schemas/Family"
+        church :          
+          $ref: "#/components/schemas/ChurchInfo"
+        education :          
+          $ref: "#/components/schemas/Education"
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    SchkolaBase:
+      type: object
+      properties:
+        trace :          
+          $ref: "#/components/schemas/Trace"
+        id :          
+          type: string
+    Trace:
+      type: object
+      properties:
+        createdAt :          
+          type: string
+          format: date-time
+        updatedAt :          
+          type: string
+          format: date-time
+        modifiedBy :          
+          type: string
+    Attendance:
+      type: object
+      properties:
+        student :          
+          $ref: "#/components/schemas/Profile"
+        date :          
+          type: string
+          format: date-time
+        course :          
+          $ref: "#/components/schemas/Course"
+        hours :          
+          type: integer
+          format: int32
+        state :          
+          $ref: "#/components/schemas/AttendanceState"
+        stateTrace :          
+          $ref: "#/components/schemas/Trace"
+        token :          
+          type: string
+        tokenTrace :          
+          $ref: "#/components/schemas/Trace"
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    AttendanceState:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - Registered
+            - Confirmed
+            - Canceled
+            - Present
+    Course:
+      type: object
+      properties:
+        name :          
+          type: string
+        begin :          
+          type: string
+          format: date-time
+        end :          
+          type: string
+          format: date-time
+        teacher :          
+          $ref: "#/components/schemas/PersonName"
+        schoolYear :          
+          $ref: "#/components/schemas/SchoolYear"
+        fee :          
+          type: number
+          format: float
+        description :          
+          type: string
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    Grade:
+      type: object
+      properties:
+        student :          
+          $ref: "#/components/schemas/Profile"
+        course :          
+          $ref: "#/components/schemas/Course"
+        grade :          
+          type: number
+          format: float
+        gradeTrace :          
+          $ref: "#/components/schemas/Trace"
+        comment :          
+          type: string
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    Group:
+      type: object
+      properties:
+        name :          
+          type: string
+        category :          
+          $ref: "#/components/schemas/GroupCategory"
+        schoolYear :          
+          $ref: "#/components/schemas/SchoolYear"
+        representative :          
+          $ref: "#/components/schemas/Profile"
+        students :          
+          type: array
+          items:
+            $ref: "#/components/schemas/Course"
+        courses :          
+          type: array
+          items:
+            $ref: "#/components/schemas/Course"
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    GroupCategory:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - CourseGroup
+            - YearGroup
+    SchoolApplication:
+      type: object
+      properties:
+        profile :          
+          $ref: "#/components/schemas/Profile"
+        recommendationOf :          
+          $ref: "#/components/schemas/PersonName"
+        churchContactPerson :          
+          $ref: "#/components/schemas/PersonName"
+        churchContact :          
+          $ref: "#/components/schemas/Contact"
+        schoolYear :          
+          $ref: "#/components/schemas/SchoolYear"
+        group :          
+          type: string
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"
+    SchoolYear:
+      type: object
+      properties:
+        name :          
+          type: string
+        start :          
+          type: string
+          format: date-time
+        end :          
+          type: string
+          format: date-time
+        dates :          
+          type: array
+          items:
+            $ref: "#/components/schemas/Course"
+        schkolaBase :          
+          $ref: "#/components/schemas/SchkolaBase"

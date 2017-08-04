@@ -7,7 +7,7 @@ import (
 )
 
 type Book struct {
-    Title  
+    Title  string
     Description  string
     Language  string
     ReleaseDate  *time.Time

@@ -18,7 +18,7 @@ const (
 
 type BookCreated struct {
     Id  eventhorizon.UUID`eh:"optional"`
-    Title  `eh:"optional"`
+    Title  string`eh:"optional"`
     Description  string`eh:"optional"`
     Language  string`eh:"optional"`
     ReleaseDate  *time.Time`eh:"optional"`
@@ -38,7 +38,7 @@ type BookDeleted struct {
 
 type BookUpdated struct {
     Id  eventhorizon.UUID`eh:"optional"`
-    Title  `eh:"optional"`
+    Title  string`eh:"optional"`
     Description  string`eh:"optional"`
     Language  string`eh:"optional"`
     ReleaseDate  *time.Time`eh:"optional"`

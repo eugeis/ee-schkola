@@ -23,7 +23,7 @@ const (
 
 type CreateBook struct {
     Id  eventhorizon.UUID`eh:"optional"`
-    Title  `eh:"optional"`
+    Title  string`eh:"optional"`
     Description  string`eh:"optional"`
     Language  string`eh:"optional"`
     ReleaseDate  *time.Time`eh:"optional"`
@@ -53,7 +53,7 @@ func (o *DeleteBook) CommandType() eventhorizon.CommandType      { return Delete
 
 type UpdateBook struct {
     Id  eventhorizon.UUID`eh:"optional"`
-    Title  `eh:"optional"`
+    Title  string`eh:"optional"`
     Description  string`eh:"optional"`
     Language  string`eh:"optional"`
     ReleaseDate  *time.Time`eh:"optional"`
@@ -71,7 +71,7 @@ func (o *UpdateBook) CommandType() eventhorizon.CommandType      { return Update
         
 
 type RegisterBook struct {
-    Title  
+    Title  string
     Description  string
     Language  string
     ReleaseDate  *time.Time
@@ -109,7 +109,7 @@ func (o *UnregisterBook) CommandType() eventhorizon.CommandType      { return Un
         
 
 type ChangeBook struct {
-    Title  
+    Title  string
     Description  string
     Language  string
     ReleaseDate  *time.Time

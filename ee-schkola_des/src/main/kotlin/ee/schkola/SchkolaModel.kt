@@ -240,7 +240,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         }
 
         object Book : Entity({ superUnit(Shared.SchkolaBase) }) {
-            val title = prop { nullable(false) }
+            val title = propS { nullable(false) }
             val description = prop(n.Text)
             val language = propS()
             val releaseDate = propDT()
