@@ -51,6 +51,7 @@ type ChurchRouter struct {
 }
 
 func (o *ChurchRouter) Setup() (ret error) {
+            
     return
     
 }
