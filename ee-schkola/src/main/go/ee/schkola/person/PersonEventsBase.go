@@ -1,8 +1,8 @@
 package person
 
 import (
-    "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/enum"
+    "github.com/looplab/eventhorizon"
     "time"
 )
 const (

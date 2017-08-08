@@ -3,8 +3,8 @@ package student
 import (
     "ee/schkola"
     "ee/schkola/person"
-    "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/enum"
+    "github.com/looplab/eventhorizon"
     "time"
 )
 const (

@@ -3,8 +3,8 @@ package finance
 import (
     "errors"
     "fmt"
-    "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/eh"
+    "github.com/looplab/eventhorizon"
 )
 
 type ExpenseCommandHandler struct {
@@ -14,7 +14,7 @@ type ExpenseCommandHandler struct {
 }
 
 func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateExpenseCommand:
         ret = o.CreateHandler(cmd.(*CreateExpense), entity.(*Expense), store)
@@ -30,7 +30,7 @@ func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 }
 
 func (o *ExpenseCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateExpense, entity *Expense, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -92,7 +92,7 @@ type ExpenseEventHandler struct {
 }
 
 func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case ExpenseCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*ExpenseCreated), entity.(*Expense))
@@ -108,7 +108,7 @@ func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}
 }
 
 func (o *ExpenseEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ExpenseCreated, entity *Expense) (ret error) {
             if len(entity.Id) > 0 {
@@ -208,7 +208,7 @@ type ExpensePurposeCommandHandler struct {
 }
 
 func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateExpensePurposeCommand:
         ret = o.CreateHandler(cmd.(*CreateExpensePurpose), entity.(*ExpensePurpose), store)
@@ -224,7 +224,7 @@ func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity 
 }
 
 func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -282,7 +282,7 @@ type ExpensePurposeEventHandler struct {
 }
 
 func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case ExpensePurposeCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*ExpensePurposeCreated), entity.(*ExpensePurpose))
@@ -298,7 +298,7 @@ func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity inte
 }
 
 func (o *ExpensePurposeEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ExpensePurposeCreated, entity *ExpensePurpose) (ret error) {
             if len(entity.Id) > 0 {
@@ -394,7 +394,7 @@ type FeeCommandHandler struct {
 }
 
 func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateFeeCommand:
         ret = o.CreateHandler(cmd.(*CreateFee), entity.(*Fee), store)
@@ -410,7 +410,7 @@ func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}
 }
 
 func (o *FeeCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateFee, entity *Fee, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -472,7 +472,7 @@ type FeeEventHandler struct {
 }
 
 func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case FeeCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*FeeCreated), entity.(*Fee))
@@ -488,7 +488,7 @@ func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (r
 }
 
 func (o *FeeEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *FeeCreated, entity *Fee) (ret error) {
             if len(entity.Id) > 0 {
@@ -588,7 +588,7 @@ type FeeKindCommandHandler struct {
 }
 
 func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateFeeKindCommand:
         ret = o.CreateHandler(cmd.(*CreateFeeKind), entity.(*FeeKind), store)
@@ -604,7 +604,7 @@ func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 }
 
 func (o *FeeKindCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -664,7 +664,7 @@ type FeeKindEventHandler struct {
 }
 
 func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case FeeKindCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*FeeKindCreated), entity.(*FeeKind))
@@ -680,7 +680,7 @@ func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}
 }
 
 func (o *FeeKindEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *FeeKindCreated, entity *FeeKind) (ret error) {
             if len(entity.Id) > 0 {

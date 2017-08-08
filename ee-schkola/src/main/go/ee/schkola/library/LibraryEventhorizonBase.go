@@ -3,8 +3,8 @@ package library
 import (
     "errors"
     "fmt"
-    "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/eh"
+    "github.com/looplab/eventhorizon"
 )
 
 type BookCommandHandler struct {
@@ -18,7 +18,7 @@ type BookCommandHandler struct {
 }
 
 func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateBookCommand:
         ret = o.CreateHandler(cmd.(*CreateBook), entity.(*Book), store)
@@ -42,7 +42,7 @@ func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{
 }
 
 func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -136,7 +136,7 @@ type BookEventHandler struct {
 }
 
 func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case BookCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*BookCreated), entity.(*Book))
@@ -152,7 +152,7 @@ func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (
 }
 
 func (o *BookEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *BookCreated, entity *Book) (ret error) {
             if len(entity.Id) > 0 {

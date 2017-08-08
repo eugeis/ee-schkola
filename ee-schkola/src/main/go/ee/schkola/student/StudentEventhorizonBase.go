@@ -3,8 +3,8 @@ package student
 import (
     "errors"
     "fmt"
-    "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/eh"
+    "github.com/looplab/eventhorizon"
 )
 
 type AttendanceCommandHandler struct {
@@ -17,7 +17,7 @@ type AttendanceCommandHandler struct {
 }
 
 func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateAttendanceCommand:
         ret = o.CreateHandler(cmd.(*CreateAttendance), entity.(*Attendance), store)
@@ -39,7 +39,7 @@ func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity inte
 }
 
 func (o *AttendanceCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -127,7 +127,7 @@ type AttendanceEventHandler struct {
 }
 
 func (o *AttendanceEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case AttendanceCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*AttendanceCreated), entity.(*Attendance))
@@ -143,7 +143,7 @@ func (o *AttendanceEventHandler) Apply(event eventhorizon.Event, entity interfac
 }
 
 func (o *AttendanceEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AttendanceCreated, entity *Attendance) (ret error) {
             if len(entity.Id) > 0 {
@@ -251,7 +251,7 @@ type CourseCommandHandler struct {
 }
 
 func (o *CourseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateCourseCommand:
         ret = o.CreateHandler(cmd.(*CreateCourse), entity.(*Course), store)
@@ -267,7 +267,7 @@ func (o *CourseCommandHandler) Execute(cmd eventhorizon.Command, entity interfac
 }
 
 func (o *CourseCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateCourse, entity *Course, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -335,7 +335,7 @@ type CourseEventHandler struct {
 }
 
 func (o *CourseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case CourseCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*CourseCreated), entity.(*Course))
@@ -351,7 +351,7 @@ func (o *CourseEventHandler) Apply(event eventhorizon.Event, entity interface{})
 }
 
 func (o *CourseEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *CourseCreated, entity *Course) (ret error) {
             if len(entity.Id) > 0 {
@@ -457,7 +457,7 @@ type GradeCommandHandler struct {
 }
 
 func (o *GradeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateGradeCommand:
         ret = o.CreateHandler(cmd.(*CreateGrade), entity.(*Grade), store)
@@ -473,7 +473,7 @@ func (o *GradeCommandHandler) Execute(cmd eventhorizon.Command, entity interface
 }
 
 func (o *GradeCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateGrade, entity *Grade, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -537,7 +537,7 @@ type GradeEventHandler struct {
 }
 
 func (o *GradeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case GradeCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*GradeCreated), entity.(*Grade))
@@ -553,7 +553,7 @@ func (o *GradeEventHandler) Apply(event eventhorizon.Event, entity interface{}) 
 }
 
 func (o *GradeEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *GradeCreated, entity *Grade) (ret error) {
             if len(entity.Id) > 0 {
@@ -655,7 +655,7 @@ type GroupCommandHandler struct {
 }
 
 func (o *GroupCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateGroupCommand:
         ret = o.CreateHandler(cmd.(*CreateGroup), entity.(*Group), store)
@@ -671,7 +671,7 @@ func (o *GroupCommandHandler) Execute(cmd eventhorizon.Command, entity interface
 }
 
 func (o *GroupCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateGroup, entity *Group, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -737,7 +737,7 @@ type GroupEventHandler struct {
 }
 
 func (o *GroupEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case GroupCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*GroupCreated), entity.(*Group))
@@ -753,7 +753,7 @@ func (o *GroupEventHandler) Apply(event eventhorizon.Event, entity interface{}) 
 }
 
 func (o *GroupEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *GroupCreated, entity *Group) (ret error) {
             if len(entity.Id) > 0 {
@@ -857,7 +857,7 @@ type SchoolApplicationCommandHandler struct {
 }
 
 func (o *SchoolApplicationCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateSchoolApplicationCommand:
         ret = o.CreateHandler(cmd.(*CreateSchoolApplication), entity.(*SchoolApplication), store)
@@ -873,7 +873,7 @@ func (o *SchoolApplicationCommandHandler) Execute(cmd eventhorizon.Command, enti
 }
 
 func (o *SchoolApplicationCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -939,7 +939,7 @@ type SchoolApplicationEventHandler struct {
 }
 
 func (o *SchoolApplicationEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case SchoolApplicationCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*SchoolApplicationCreated), entity.(*SchoolApplication))
@@ -955,7 +955,7 @@ func (o *SchoolApplicationEventHandler) Apply(event eventhorizon.Event, entity i
 }
 
 func (o *SchoolApplicationEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *SchoolApplicationCreated, entity *SchoolApplication) (ret error) {
             if len(entity.Id) > 0 {
@@ -1059,7 +1059,7 @@ type SchoolYearCommandHandler struct {
 }
 
 func (o *SchoolYearCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateSchoolYearCommand:
         ret = o.CreateHandler(cmd.(*CreateSchoolYear), entity.(*SchoolYear), store)
@@ -1075,7 +1075,7 @@ func (o *SchoolYearCommandHandler) Execute(cmd eventhorizon.Command, entity inte
 }
 
 func (o *SchoolYearCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -1137,7 +1137,7 @@ type SchoolYearEventHandler struct {
 }
 
 func (o *SchoolYearEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case SchoolYearCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*SchoolYearCreated), entity.(*SchoolYear))
@@ -1153,7 +1153,7 @@ func (o *SchoolYearEventHandler) Apply(event eventhorizon.Event, entity interfac
 }
 
 func (o *SchoolYearEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *SchoolYearCreated, entity *SchoolYear) (ret error) {
             if len(entity.Id) > 0 {

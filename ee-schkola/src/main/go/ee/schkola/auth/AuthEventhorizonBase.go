@@ -3,8 +3,8 @@ package auth
 import (
     "errors"
     "fmt"
-    "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/eh"
+    "github.com/looplab/eventhorizon"
 )
 
 type AccountCommandHandler struct {
@@ -17,7 +17,7 @@ type AccountCommandHandler struct {
 }
 
 func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateAccountCommand:
         ret = o.CreateHandler(cmd.(*CreateAccount), entity.(*Account), store)
@@ -39,7 +39,7 @@ func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 }
 
 func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -123,7 +123,7 @@ type AccountEventHandler struct {
 }
 
 func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case AccountCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*AccountCreated), entity.(*Account))
@@ -139,7 +139,7 @@ func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}
 }
 
 func (o *AccountEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AccountCreated, entity *Account) (ret error) {
             if len(entity.Id) > 0 {

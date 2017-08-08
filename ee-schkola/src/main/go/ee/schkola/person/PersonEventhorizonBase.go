@@ -3,8 +3,8 @@ package person
 import (
     "errors"
     "fmt"
-    "github.com/looplab/eventhorizon"
     "github.com/eugeis/gee/eh"
+    "github.com/looplab/eventhorizon"
 )
 
 type ChurchCommandHandler struct {
@@ -14,7 +14,7 @@ type ChurchCommandHandler struct {
 }
 
 func (o *ChurchCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateChurchCommand:
         ret = o.CreateHandler(cmd.(*CreateChurch), entity.(*Church), store)
@@ -30,7 +30,7 @@ func (o *ChurchCommandHandler) Execute(cmd eventhorizon.Command, entity interfac
 }
 
 func (o *ChurchCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -92,7 +92,7 @@ type ChurchEventHandler struct {
 }
 
 func (o *ChurchEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case ChurchCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*ChurchCreated), entity.(*Church))
@@ -108,7 +108,7 @@ func (o *ChurchEventHandler) Apply(event eventhorizon.Event, entity interface{})
 }
 
 func (o *ChurchEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ChurchCreated, entity *Church) (ret error) {
             if len(entity.Id) > 0 {
@@ -208,7 +208,7 @@ type GraduationCommandHandler struct {
 }
 
 func (o *GraduationCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateGraduationCommand:
         ret = o.CreateHandler(cmd.(*CreateGraduation), entity.(*Graduation), store)
@@ -224,7 +224,7 @@ func (o *GraduationCommandHandler) Execute(cmd eventhorizon.Command, entity inte
 }
 
 func (o *GraduationCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -282,7 +282,7 @@ type GraduationEventHandler struct {
 }
 
 func (o *GraduationEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case GraduationCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*GraduationCreated), entity.(*Graduation))
@@ -298,7 +298,7 @@ func (o *GraduationEventHandler) Apply(event eventhorizon.Event, entity interfac
 }
 
 func (o *GraduationEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *GraduationCreated, entity *Graduation) (ret error) {
             if len(entity.Id) > 0 {
@@ -394,7 +394,7 @@ type ProfileCommandHandler struct {
 }
 
 func (o *ProfileCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-    
+            
     switch cmd.CommandType() {
     case CreateProfileCommand:
         ret = o.CreateHandler(cmd.(*CreateProfile), entity.(*Profile), store)
@@ -410,7 +410,7 @@ func (o *ProfileCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 }
 
 func (o *ProfileCommandHandler) SetupCommandHandler() (ret error) {
-    
+            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -486,7 +486,7 @@ type ProfileEventHandler struct {
 }
 
 func (o *ProfileEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-    
+            
     switch event.EventType() {
     case ProfileCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*ProfileCreated), entity.(*Profile))
@@ -502,7 +502,7 @@ func (o *ProfileEventHandler) Apply(event eventhorizon.Event, entity interface{}
 }
 
 func (o *ProfileEventHandler) SetupEventHandler() (ret error) {
-    
+            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ProfileCreated, entity *Profile) (ret error) {
             if len(entity.Id) > 0 {
