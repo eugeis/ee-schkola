@@ -1,4 +1,4 @@
-package schkola
+package mailer
 
 import (
 	"gopkg.in/gomail.v2"
