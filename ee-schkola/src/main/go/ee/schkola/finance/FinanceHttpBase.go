@@ -5,36 +5,52 @@ import (
     "net/http"
 )
 
-type ExpenseHttpHandler struct {
+type ExpenseHttpQueryHandler struct {
+}
+
+func NewExpenseHttpQueryHandler() (ret *ExpenseHttpQueryHandler) {
+    ret = &ExpenseHttpQueryHandler{}
+    return
+}
+
+
+
+type ExpenseHttpCommandHandler struct {
+}
+
+func NewExpenseHttpCommandHandler() (ret *ExpenseHttpCommandHandler) {
+    ret = &ExpenseHttpCommandHandler{}
+    return
+}
+
+func (o *ExpenseHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *ExpenseHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *ExpenseHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+
+
+type ExpenseRouter struct {
     Router  *mux.Router
     PathPrefix  string
+    QueryHandler  *ExpenseHttpQueryHandler
+    CommandHandler  *ExpenseHttpCommandHandler
 }
 
-func (o *ExpenseHttpHandler) Setup() (ret error) {
-            
-    return
-    
-}
-
-func (o *ExpenseHttpHandler) ExpensesGet(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *ExpenseHttpHandler) ExpensesPost(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *ExpenseHttpHandler) ExpensesPut(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *ExpenseHttpHandler) ExpensesDelete(w http.ResponseWriter, r *http.Request)  {
+func (o *ExpenseRouter) Setup() (ret error) {
             
     return
     
@@ -42,36 +58,52 @@ func (o *ExpenseHttpHandler) ExpensesDelete(w http.ResponseWriter, r *http.Reque
 
 
 
-type ExpensePurposeHttpHandler struct {
+type ExpensePurposeHttpQueryHandler struct {
+}
+
+func NewExpensePurposeHttpQueryHandler() (ret *ExpensePurposeHttpQueryHandler) {
+    ret = &ExpensePurposeHttpQueryHandler{}
+    return
+}
+
+
+
+type ExpensePurposeHttpCommandHandler struct {
+}
+
+func NewExpensePurposeHttpCommandHandler() (ret *ExpensePurposeHttpCommandHandler) {
+    ret = &ExpensePurposeHttpCommandHandler{}
+    return
+}
+
+func (o *ExpensePurposeHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *ExpensePurposeHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *ExpensePurposeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+
+
+type ExpensePurposeRouter struct {
     Router  *mux.Router
     PathPrefix  string
+    QueryHandler  *ExpensePurposeHttpQueryHandler
+    CommandHandler  *ExpensePurposeHttpCommandHandler
 }
 
-func (o *ExpensePurposeHttpHandler) Setup() (ret error) {
-            
-    return
-    
-}
-
-func (o *ExpensePurposeHttpHandler) ExpensePurposesGet(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *ExpensePurposeHttpHandler) ExpensePurposesPost(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *ExpensePurposeHttpHandler) ExpensePurposesPut(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *ExpensePurposeHttpHandler) ExpensePurposesDelete(w http.ResponseWriter, r *http.Request)  {
+func (o *ExpensePurposeRouter) Setup() (ret error) {
             
     return
     
@@ -79,36 +111,52 @@ func (o *ExpensePurposeHttpHandler) ExpensePurposesDelete(w http.ResponseWriter,
 
 
 
-type FeeHttpHandler struct {
+type FeeHttpQueryHandler struct {
+}
+
+func NewFeeHttpQueryHandler() (ret *FeeHttpQueryHandler) {
+    ret = &FeeHttpQueryHandler{}
+    return
+}
+
+
+
+type FeeHttpCommandHandler struct {
+}
+
+func NewFeeHttpCommandHandler() (ret *FeeHttpCommandHandler) {
+    ret = &FeeHttpCommandHandler{}
+    return
+}
+
+func (o *FeeHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *FeeHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *FeeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+
+
+type FeeRouter struct {
     Router  *mux.Router
     PathPrefix  string
+    QueryHandler  *FeeHttpQueryHandler
+    CommandHandler  *FeeHttpCommandHandler
 }
 
-func (o *FeeHttpHandler) Setup() (ret error) {
-            
-    return
-    
-}
-
-func (o *FeeHttpHandler) FeesGet(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *FeeHttpHandler) FeesPost(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *FeeHttpHandler) FeesPut(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *FeeHttpHandler) FeesDelete(w http.ResponseWriter, r *http.Request)  {
+func (o *FeeRouter) Setup() (ret error) {
             
     return
     
@@ -116,36 +164,52 @@ func (o *FeeHttpHandler) FeesDelete(w http.ResponseWriter, r *http.Request)  {
 
 
 
-type FeeKindHttpHandler struct {
+type FeeKindHttpQueryHandler struct {
+}
+
+func NewFeeKindHttpQueryHandler() (ret *FeeKindHttpQueryHandler) {
+    ret = &FeeKindHttpQueryHandler{}
+    return
+}
+
+
+
+type FeeKindHttpCommandHandler struct {
+}
+
+func NewFeeKindHttpCommandHandler() (ret *FeeKindHttpCommandHandler) {
+    ret = &FeeKindHttpCommandHandler{}
+    return
+}
+
+func (o *FeeKindHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *FeeKindHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *FeeKindHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+
+
+type FeeKindRouter struct {
     Router  *mux.Router
     PathPrefix  string
+    QueryHandler  *FeeKindHttpQueryHandler
+    CommandHandler  *FeeKindHttpCommandHandler
 }
 
-func (o *FeeKindHttpHandler) Setup() (ret error) {
-            
-    return
-    
-}
-
-func (o *FeeKindHttpHandler) FeeKindsGet(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *FeeKindHttpHandler) FeeKindsPost(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *FeeKindHttpHandler) FeeKindsPut(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *FeeKindHttpHandler) FeeKindsDelete(w http.ResponseWriter, r *http.Request)  {
+func (o *FeeKindRouter) Setup() (ret error) {
             
     return
     

@@ -5,36 +5,70 @@ import (
     "net/http"
 )
 
-type AttendanceHttpHandler struct {
+type AttendanceHttpQueryHandler struct {
+}
+
+func NewAttendanceHttpQueryHandler() (ret *AttendanceHttpQueryHandler) {
+    ret = &AttendanceHttpQueryHandler{}
+    return
+}
+
+
+
+type AttendanceHttpCommandHandler struct {
+}
+
+func NewAttendanceHttpCommandHandler() (ret *AttendanceHttpCommandHandler) {
+    ret = &AttendanceHttpCommandHandler{}
+    return
+}
+
+func (o *AttendanceHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *AttendanceHttpCommandHandler) Register(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *AttendanceHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *AttendanceHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *AttendanceHttpCommandHandler) Confirm(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *AttendanceHttpCommandHandler) Cancel(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+
+
+type AttendanceRouter struct {
     Router  *mux.Router
     PathPrefix  string
+    QueryHandler  *AttendanceHttpQueryHandler
+    CommandHandler  *AttendanceHttpCommandHandler
 }
 
-func (o *AttendanceHttpHandler) Setup() (ret error) {
-            
-    return
-    
-}
-
-func (o *AttendanceHttpHandler) AttendancesGet(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *AttendanceHttpHandler) AttendancesPost(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *AttendanceHttpHandler) AttendancesPut(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *AttendanceHttpHandler) AttendancesDelete(w http.ResponseWriter, r *http.Request)  {
+func (o *AttendanceRouter) Setup() (ret error) {
             
     return
     
@@ -42,36 +76,52 @@ func (o *AttendanceHttpHandler) AttendancesDelete(w http.ResponseWriter, r *http
 
 
 
-type CourseHttpHandler struct {
+type CourseHttpQueryHandler struct {
+}
+
+func NewCourseHttpQueryHandler() (ret *CourseHttpQueryHandler) {
+    ret = &CourseHttpQueryHandler{}
+    return
+}
+
+
+
+type CourseHttpCommandHandler struct {
+}
+
+func NewCourseHttpCommandHandler() (ret *CourseHttpCommandHandler) {
+    ret = &CourseHttpCommandHandler{}
+    return
+}
+
+func (o *CourseHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *CourseHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *CourseHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+
+
+type CourseRouter struct {
     Router  *mux.Router
     PathPrefix  string
+    QueryHandler  *CourseHttpQueryHandler
+    CommandHandler  *CourseHttpCommandHandler
 }
 
-func (o *CourseHttpHandler) Setup() (ret error) {
-            
-    return
-    
-}
-
-func (o *CourseHttpHandler) CoursesGet(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *CourseHttpHandler) CoursesPost(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *CourseHttpHandler) CoursesPut(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *CourseHttpHandler) CoursesDelete(w http.ResponseWriter, r *http.Request)  {
+func (o *CourseRouter) Setup() (ret error) {
             
     return
     
@@ -79,36 +129,52 @@ func (o *CourseHttpHandler) CoursesDelete(w http.ResponseWriter, r *http.Request
 
 
 
-type GradeHttpHandler struct {
+type GradeHttpQueryHandler struct {
+}
+
+func NewGradeHttpQueryHandler() (ret *GradeHttpQueryHandler) {
+    ret = &GradeHttpQueryHandler{}
+    return
+}
+
+
+
+type GradeHttpCommandHandler struct {
+}
+
+func NewGradeHttpCommandHandler() (ret *GradeHttpCommandHandler) {
+    ret = &GradeHttpCommandHandler{}
+    return
+}
+
+func (o *GradeHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *GradeHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *GradeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+
+
+type GradeRouter struct {
     Router  *mux.Router
     PathPrefix  string
+    QueryHandler  *GradeHttpQueryHandler
+    CommandHandler  *GradeHttpCommandHandler
 }
 
-func (o *GradeHttpHandler) Setup() (ret error) {
-            
-    return
-    
-}
-
-func (o *GradeHttpHandler) GradesGet(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *GradeHttpHandler) GradesPost(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *GradeHttpHandler) GradesPut(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *GradeHttpHandler) GradesDelete(w http.ResponseWriter, r *http.Request)  {
+func (o *GradeRouter) Setup() (ret error) {
             
     return
     
@@ -116,36 +182,52 @@ func (o *GradeHttpHandler) GradesDelete(w http.ResponseWriter, r *http.Request) 
 
 
 
-type GroupHttpHandler struct {
+type GroupHttpQueryHandler struct {
+}
+
+func NewGroupHttpQueryHandler() (ret *GroupHttpQueryHandler) {
+    ret = &GroupHttpQueryHandler{}
+    return
+}
+
+
+
+type GroupHttpCommandHandler struct {
+}
+
+func NewGroupHttpCommandHandler() (ret *GroupHttpCommandHandler) {
+    ret = &GroupHttpCommandHandler{}
+    return
+}
+
+func (o *GroupHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *GroupHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *GroupHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+
+
+type GroupRouter struct {
     Router  *mux.Router
     PathPrefix  string
+    QueryHandler  *GroupHttpQueryHandler
+    CommandHandler  *GroupHttpCommandHandler
 }
 
-func (o *GroupHttpHandler) Setup() (ret error) {
-            
-    return
-    
-}
-
-func (o *GroupHttpHandler) GroupsGet(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *GroupHttpHandler) GroupsPost(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *GroupHttpHandler) GroupsPut(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *GroupHttpHandler) GroupsDelete(w http.ResponseWriter, r *http.Request)  {
+func (o *GroupRouter) Setup() (ret error) {
             
     return
     
@@ -153,36 +235,52 @@ func (o *GroupHttpHandler) GroupsDelete(w http.ResponseWriter, r *http.Request) 
 
 
 
-type SchoolApplicationHttpHandler struct {
+type SchoolApplicationHttpQueryHandler struct {
+}
+
+func NewSchoolApplicationHttpQueryHandler() (ret *SchoolApplicationHttpQueryHandler) {
+    ret = &SchoolApplicationHttpQueryHandler{}
+    return
+}
+
+
+
+type SchoolApplicationHttpCommandHandler struct {
+}
+
+func NewSchoolApplicationHttpCommandHandler() (ret *SchoolApplicationHttpCommandHandler) {
+    ret = &SchoolApplicationHttpCommandHandler{}
+    return
+}
+
+func (o *SchoolApplicationHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *SchoolApplicationHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *SchoolApplicationHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+
+
+type SchoolApplicationRouter struct {
     Router  *mux.Router
     PathPrefix  string
+    QueryHandler  *SchoolApplicationHttpQueryHandler
+    CommandHandler  *SchoolApplicationHttpCommandHandler
 }
 
-func (o *SchoolApplicationHttpHandler) Setup() (ret error) {
-            
-    return
-    
-}
-
-func (o *SchoolApplicationHttpHandler) SchoolApplicationsGet(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *SchoolApplicationHttpHandler) SchoolApplicationsPost(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *SchoolApplicationHttpHandler) SchoolApplicationsPut(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *SchoolApplicationHttpHandler) SchoolApplicationsDelete(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolApplicationRouter) Setup() (ret error) {
             
     return
     
@@ -190,36 +288,52 @@ func (o *SchoolApplicationHttpHandler) SchoolApplicationsDelete(w http.ResponseW
 
 
 
-type SchoolYearHttpHandler struct {
+type SchoolYearHttpQueryHandler struct {
+}
+
+func NewSchoolYearHttpQueryHandler() (ret *SchoolYearHttpQueryHandler) {
+    ret = &SchoolYearHttpQueryHandler{}
+    return
+}
+
+
+
+type SchoolYearHttpCommandHandler struct {
+}
+
+func NewSchoolYearHttpCommandHandler() (ret *SchoolYearHttpCommandHandler) {
+    ret = &SchoolYearHttpCommandHandler{}
+    return
+}
+
+func (o *SchoolYearHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *SchoolYearHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+func (o *SchoolYearHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+            
+    return
+    
+}
+
+
+
+type SchoolYearRouter struct {
     Router  *mux.Router
     PathPrefix  string
+    QueryHandler  *SchoolYearHttpQueryHandler
+    CommandHandler  *SchoolYearHttpCommandHandler
 }
 
-func (o *SchoolYearHttpHandler) Setup() (ret error) {
-            
-    return
-    
-}
-
-func (o *SchoolYearHttpHandler) SchoolYearsGet(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *SchoolYearHttpHandler) SchoolYearsPost(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *SchoolYearHttpHandler) SchoolYearsPut(w http.ResponseWriter, r *http.Request)  {
-            
-    return
-    
-}
-
-func (o *SchoolYearHttpHandler) SchoolYearsDelete(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolYearRouter) Setup() (ret error) {
             
     return
     
