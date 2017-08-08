@@ -257,11 +257,16 @@ func NewLibraryEventhorizonInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *LibraryEventhorizonInitializer) {
 	ret = &LibraryEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
-            commandBus: commandBus, }
+            commandBus: commandBus, 
+    BookAggregateInitializer: NewBookAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
 	return
 }
 
 func (o *LibraryEventhorizonInitializer) Setup() (err error) {
+    
+    if err = o.BookAggregateInitializer.Setup(); err != nil {
+        return
+    }
     return
 }
 

@@ -240,11 +240,16 @@ func NewAuthEventhorizonInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *AuthEventhorizonInitializer) {
 	ret = &AuthEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
-            commandBus: commandBus, }
+            commandBus: commandBus, 
+    AccountAggregateInitializer: NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
 	return
 }
 
 func (o *AuthEventhorizonInitializer) Setup() (err error) {
+    
+    if err = o.AccountAggregateInitializer.Setup(); err != nil {
+        return
+    }
     return
 }
 

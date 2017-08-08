@@ -775,11 +775,31 @@ func NewFinanceEventhorizonInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *FinanceEventhorizonInitializer) {
 	ret = &FinanceEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
-            commandBus: commandBus, }
+            commandBus: commandBus, 
+    ExpenseAggregateInitializer: NewExpenseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    ExpensePurposeAggregateInitializer: NewExpensePurposeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    FeeAggregateInitializer: NewFeeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    FeeKindAggregateInitializer: NewFeeKindAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
 	return
 }
 
 func (o *FinanceEventhorizonInitializer) Setup() (err error) {
+    
+    if err = o.ExpenseAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    
+    if err = o.ExpensePurposeAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    
+    if err = o.FeeAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    
+    if err = o.FeeKindAggregateInitializer.Setup(); err != nil {
+        return
+    }
     return
 }
 

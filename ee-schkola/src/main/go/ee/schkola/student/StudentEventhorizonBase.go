@@ -1250,11 +1250,41 @@ func NewStudentEventhorizonInitializer(
 	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
 	commandBus eventhorizon.CommandBus) (ret *StudentEventhorizonInitializer) {
 	ret = &StudentEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
-            commandBus: commandBus, }
+            commandBus: commandBus, 
+    AttendanceAggregateInitializer: NewAttendanceAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    CourseAggregateInitializer: NewCourseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    GradeAggregateInitializer: NewGradeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    GroupAggregateInitializer: NewGroupAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    SchoolApplicationAggregateInitializer: NewSchoolApplicationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    SchoolYearAggregateInitializer: NewSchoolYearAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
 	return
 }
 
 func (o *StudentEventhorizonInitializer) Setup() (err error) {
+    
+    if err = o.AttendanceAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    
+    if err = o.CourseAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    
+    if err = o.GradeAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    
+    if err = o.GroupAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    
+    if err = o.SchoolApplicationAggregateInitializer.Setup(); err != nil {
+        return
+    }
+    
+    if err = o.SchoolYearAggregateInitializer.Setup(); err != nil {
+        return
+    }
     return
 }
 
