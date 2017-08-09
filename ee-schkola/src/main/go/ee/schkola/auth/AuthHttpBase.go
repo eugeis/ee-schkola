@@ -1,6 +1,7 @@
 package auth
 
 import (
+    "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "net/http"
 )
@@ -70,6 +71,10 @@ type AccountRouter struct {
 
 func (o *AccountRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Register").HandlerFunc(o.CommandHandler.Register)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }

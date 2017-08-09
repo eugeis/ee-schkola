@@ -1,6 +1,7 @@
 package person
 
 import (
+    "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "net/http"
 )
@@ -52,6 +53,9 @@ type ChurchRouter struct {
 
 func (o *ChurchRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -105,6 +109,9 @@ type GraduationRouter struct {
 
 func (o *GraduationRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -176,6 +183,12 @@ type ProfileRouter struct {
 
 func (o *ProfileRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindByName").HandlerFunc(o.QueryHandler.FindByName), 
+    o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindByEmail").HandlerFunc(o.QueryHandler.FindByEmail), 
+    o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindByPhone").HandlerFunc(o.QueryHandler.FindByPhone)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }

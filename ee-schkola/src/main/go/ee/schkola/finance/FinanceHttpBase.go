@@ -1,6 +1,7 @@
 package finance
 
 import (
+    "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "net/http"
 )
@@ -52,6 +53,9 @@ type ExpenseRouter struct {
 
 func (o *ExpenseRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -105,6 +109,9 @@ type ExpensePurposeRouter struct {
 
 func (o *ExpensePurposeRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -158,6 +165,9 @@ type FeeRouter struct {
 
 func (o *FeeRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -211,6 +221,9 @@ type FeeKindRouter struct {
 
 func (o *FeeKindRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }

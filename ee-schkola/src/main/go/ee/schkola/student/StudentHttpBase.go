@@ -1,6 +1,7 @@
 package student
 
 import (
+    "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "net/http"
 )
@@ -70,6 +71,10 @@ type AttendanceRouter struct {
 
 func (o *AttendanceRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Register").HandlerFunc(o.CommandHandler.Register)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -123,6 +128,9 @@ type CourseRouter struct {
 
 func (o *CourseRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -176,6 +184,9 @@ type GradeRouter struct {
 
 func (o *GradeRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -229,6 +240,9 @@ type GroupRouter struct {
 
 func (o *GroupRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -282,6 +296,9 @@ type SchoolApplicationRouter struct {
 
 func (o *SchoolApplicationRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -335,6 +352,9 @@ type SchoolYearRouter struct {
 
 func (o *SchoolYearRouter) Setup() (ret error) {
             
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
