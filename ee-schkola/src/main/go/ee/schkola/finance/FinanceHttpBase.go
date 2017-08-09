@@ -45,17 +45,27 @@ func (o *ExpenseHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Reques
 
 
 type ExpenseRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *ExpenseHttpQueryHandler
     CommandHandler  *ExpenseHttpCommandHandler
 }
 
+func NewExpenseRouter(Router *mux.Router) (ret *ExpenseRouter) {
+    ret = &ExpenseRouter{
+        PathPrefix :"Expenses",
+        Router :Router,
+        QueryHandler :NewExpenseHttpQueryHandler(),
+        CommandHandler :NewExpenseHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *ExpenseRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateExpense").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateExpense").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteExpense").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -101,17 +111,27 @@ func (o *ExpensePurposeHttpCommandHandler) Delete(w http.ResponseWriter, r *http
 
 
 type ExpensePurposeRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *ExpensePurposeHttpQueryHandler
     CommandHandler  *ExpensePurposeHttpCommandHandler
 }
 
+func NewExpensePurposeRouter(Router *mux.Router) (ret *ExpensePurposeRouter) {
+    ret = &ExpensePurposeRouter{
+        PathPrefix :"ExpensePurposes",
+        Router :Router,
+        QueryHandler :NewExpensePurposeHttpQueryHandler(),
+        CommandHandler :NewExpensePurposeHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *ExpensePurposeRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateExpensePurpose").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateExpensePurpose").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteExpensePurpose").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -157,17 +177,27 @@ func (o *FeeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  
 
 
 type FeeRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *FeeHttpQueryHandler
     CommandHandler  *FeeHttpCommandHandler
 }
 
+func NewFeeRouter(Router *mux.Router) (ret *FeeRouter) {
+    ret = &FeeRouter{
+        PathPrefix :"Fees",
+        Router :Router,
+        QueryHandler :NewFeeHttpQueryHandler(),
+        CommandHandler :NewFeeHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *FeeRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateFee").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateFee").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteFee").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -213,19 +243,45 @@ func (o *FeeKindHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Reques
 
 
 type FeeKindRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *FeeKindHttpQueryHandler
     CommandHandler  *FeeKindHttpCommandHandler
 }
 
+func NewFeeKindRouter(Router *mux.Router) (ret *FeeKindRouter) {
+    ret = &FeeKindRouter{
+        PathPrefix :"FeeKinds",
+        Router :Router,
+        QueryHandler :NewFeeKindHttpQueryHandler(),
+        CommandHandler :NewFeeKindHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *FeeKindRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateFeeKind").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateFeeKind").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteFeeKind").HandlerFunc(o.CommandHandler.Delete)
     return
     
+}
+
+
+
+type FinanceRouter struct {
+    Router  *mux.Router
+    PathPrefix  string
+    ExpenseRouter  *ExpenseRouter
+    ExpensePurposeRouter  *ExpensePurposeRouter
+    FeeRouter  *FeeRouter
+    FeeKindRouter  *FeeKindRouter
+}
+
+func (o *FinanceRouter) Setup() (ret error) {
+            
+    return
 }
 
 

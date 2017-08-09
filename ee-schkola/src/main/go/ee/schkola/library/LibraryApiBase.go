@@ -20,7 +20,7 @@ type Book struct {
 
 func NewBook() (ret *Book) {
     ret = &Book{
-        SchkolaBase: schkola.NewSchkolaBase(),
+        SchkolaBase:schkola.NewSchkolaBase(),
     }
     return
 }

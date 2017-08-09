@@ -63,18 +63,28 @@ func (o *AttendanceHttpCommandHandler) Cancel(w http.ResponseWriter, r *http.Req
 
 
 type AttendanceRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *AttendanceHttpQueryHandler
     CommandHandler  *AttendanceHttpCommandHandler
 }
 
+func NewAttendanceRouter(Router *mux.Router) (ret *AttendanceRouter) {
+    ret = &AttendanceRouter{
+        PathPrefix :"Attendances",
+        Router :Router,
+        QueryHandler :NewAttendanceHttpQueryHandler(),
+        CommandHandler :NewAttendanceHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *AttendanceRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Register").HandlerFunc(o.CommandHandler.Register)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateAttendance").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("RegisterAttendance").HandlerFunc(o.CommandHandler.Register)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateAttendance").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteAttendance").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -120,17 +130,27 @@ func (o *CourseHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request
 
 
 type CourseRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *CourseHttpQueryHandler
     CommandHandler  *CourseHttpCommandHandler
 }
 
+func NewCourseRouter(Router *mux.Router) (ret *CourseRouter) {
+    ret = &CourseRouter{
+        PathPrefix :"Courses",
+        Router :Router,
+        QueryHandler :NewCourseHttpQueryHandler(),
+        CommandHandler :NewCourseHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *CourseRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateCourse").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateCourse").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteCourse").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -176,17 +196,27 @@ func (o *GradeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)
 
 
 type GradeRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *GradeHttpQueryHandler
     CommandHandler  *GradeHttpCommandHandler
 }
 
+func NewGradeRouter(Router *mux.Router) (ret *GradeRouter) {
+    ret = &GradeRouter{
+        PathPrefix :"Grades",
+        Router :Router,
+        QueryHandler :NewGradeHttpQueryHandler(),
+        CommandHandler :NewGradeHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *GradeRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateGrade").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateGrade").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteGrade").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -232,17 +262,27 @@ func (o *GroupHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)
 
 
 type GroupRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *GroupHttpQueryHandler
     CommandHandler  *GroupHttpCommandHandler
 }
 
+func NewGroupRouter(Router *mux.Router) (ret *GroupRouter) {
+    ret = &GroupRouter{
+        PathPrefix :"Groups",
+        Router :Router,
+        QueryHandler :NewGroupHttpQueryHandler(),
+        CommandHandler :NewGroupHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *GroupRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateGroup").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateGroup").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteGroup").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -288,17 +328,27 @@ func (o *SchoolApplicationHttpCommandHandler) Delete(w http.ResponseWriter, r *h
 
 
 type SchoolApplicationRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *SchoolApplicationHttpQueryHandler
     CommandHandler  *SchoolApplicationHttpCommandHandler
 }
 
+func NewSchoolApplicationRouter(Router *mux.Router) (ret *SchoolApplicationRouter) {
+    ret = &SchoolApplicationRouter{
+        PathPrefix :"SchoolApplications",
+        Router :Router,
+        QueryHandler :NewSchoolApplicationHttpQueryHandler(),
+        CommandHandler :NewSchoolApplicationHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *SchoolApplicationRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateSchoolApplication").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateSchoolApplication").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteSchoolApplication").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -344,19 +394,47 @@ func (o *SchoolYearHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Req
 
 
 type SchoolYearRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *SchoolYearHttpQueryHandler
     CommandHandler  *SchoolYearHttpCommandHandler
 }
 
+func NewSchoolYearRouter(Router *mux.Router) (ret *SchoolYearRouter) {
+    ret = &SchoolYearRouter{
+        PathPrefix :"SchoolYears",
+        Router :Router,
+        QueryHandler :NewSchoolYearHttpQueryHandler(),
+        CommandHandler :NewSchoolYearHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *SchoolYearRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateSchoolYear").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateSchoolYear").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteSchoolYear").HandlerFunc(o.CommandHandler.Delete)
     return
     
+}
+
+
+
+type StudentRouter struct {
+    Router  *mux.Router
+    PathPrefix  string
+    AttendanceRouter  *AttendanceRouter
+    CourseRouter  *CourseRouter
+    GradeRouter  *GradeRouter
+    GroupRouter  *GroupRouter
+    SchoolApplicationRouter  *SchoolApplicationRouter
+    SchoolYearRouter  *SchoolYearRouter
+}
+
+func (o *StudentRouter) Setup() (ret error) {
+            
+    return
 }
 
 

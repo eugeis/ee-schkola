@@ -18,7 +18,7 @@ type Account struct {
 
 func NewAccount() (ret *Account) {
     ret = &Account{
-        SchkolaBase: schkola.NewSchkolaBase(),
+        SchkolaBase:schkola.NewSchkolaBase(),
     }
     return
 }

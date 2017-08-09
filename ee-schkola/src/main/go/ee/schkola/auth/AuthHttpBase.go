@@ -63,20 +63,43 @@ func (o *AccountHttpCommandHandler) Disable(w http.ResponseWriter, r *http.Reque
 
 
 type AccountRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *AccountHttpQueryHandler
     CommandHandler  *AccountHttpCommandHandler
 }
 
+func NewAccountRouter(Router *mux.Router) (ret *AccountRouter) {
+    ret = &AccountRouter{
+        PathPrefix :"Accounts",
+        Router :Router,
+        QueryHandler :NewAccountHttpQueryHandler(),
+        CommandHandler :NewAccountHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *AccountRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Register").HandlerFunc(o.CommandHandler.Register)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateAccount").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("RegisterAccount").HandlerFunc(o.CommandHandler.Register)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateAccount").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteAccount").HandlerFunc(o.CommandHandler.Delete)
     return
     
+}
+
+
+
+type AuthRouter struct {
+    Router  *mux.Router
+    PathPrefix  string
+    AccountRouter  *AccountRouter
+}
+
+func (o *AuthRouter) Setup() (ret error) {
+            
+    return
 }
 
 

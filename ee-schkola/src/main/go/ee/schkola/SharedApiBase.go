@@ -12,7 +12,7 @@ type SchkolaBase struct {
 
 func NewSchkolaBase() (ret *SchkolaBase) {
     ret = &SchkolaBase{
-        Trace: NewTrace(),
+        Trace:NewTrace(),
     }
     return
 }

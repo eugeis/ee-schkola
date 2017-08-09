@@ -45,17 +45,27 @@ func (o *ChurchHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request
 
 
 type ChurchRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *ChurchHttpQueryHandler
     CommandHandler  *ChurchHttpCommandHandler
 }
 
+func NewChurchRouter(Router *mux.Router) (ret *ChurchRouter) {
+    ret = &ChurchRouter{
+        PathPrefix :"Churchs",
+        Router :Router,
+        QueryHandler :NewChurchHttpQueryHandler(),
+        CommandHandler :NewChurchHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *ChurchRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateChurch").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateChurch").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteChurch").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -101,17 +111,27 @@ func (o *GraduationHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Req
 
 
 type GraduationRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *GraduationHttpQueryHandler
     CommandHandler  *GraduationHttpCommandHandler
 }
 
+func NewGraduationRouter(Router *mux.Router) (ret *GraduationRouter) {
+    ret = &GraduationRouter{
+        PathPrefix :"Graduations",
+        Router :Router,
+        QueryHandler :NewGraduationHttpQueryHandler(),
+        CommandHandler :NewGraduationHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *GraduationRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateGraduation").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateGraduation").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteGraduation").HandlerFunc(o.CommandHandler.Delete)
     return
     
 }
@@ -175,22 +195,47 @@ func (o *ProfileHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Reques
 
 
 type ProfileRouter struct {
-    Router  *mux.Router
     PathPrefix  string
+    Router  *mux.Router
     QueryHandler  *ProfileHttpQueryHandler
     CommandHandler  *ProfileHttpCommandHandler
 }
 
+func NewProfileRouter(Router *mux.Router) (ret *ProfileRouter) {
+    ret = &ProfileRouter{
+        PathPrefix :"Profiles",
+        Router :Router,
+        QueryHandler :NewProfileHttpQueryHandler(),
+        CommandHandler :NewProfileHttpCommandHandler(),
+    }
+    return
+}
+
 func (o *ProfileRouter) Setup() (ret error) {
             
-    o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindByName").HandlerFunc(o.QueryHandler.FindByName), 
-    o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindByEmail").HandlerFunc(o.QueryHandler.FindByEmail), 
-    o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindByPhone").HandlerFunc(o.QueryHandler.FindByPhone)
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("Create").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("Update").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+    o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindProfileByName").HandlerFunc(o.QueryHandler.FindByName)
+    o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindProfileByEmail").HandlerFunc(o.QueryHandler.FindByEmail)
+    o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindProfileByPhone").HandlerFunc(o.QueryHandler.FindByPhone)
+    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateProfile").HandlerFunc(o.CommandHandler.Create)
+    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateProfile").HandlerFunc(o.CommandHandler.Update)
+    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteProfile").HandlerFunc(o.CommandHandler.Delete)
     return
     
+}
+
+
+
+type PersonRouter struct {
+    Router  *mux.Router
+    PathPrefix  string
+    ChurchRouter  *ChurchRouter
+    GraduationRouter  *GraduationRouter
+    ProfileRouter  *ProfileRouter
+}
+
+func (o *PersonRouter) Setup() (ret error) {
+            
+    return
 }
 
 
