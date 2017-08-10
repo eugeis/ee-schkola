@@ -5,7 +5,6 @@ import (
     "github.com/gorilla/mux"
     "net/http"
 )
-
 type BookHttpQueryHandler struct {
 }
 
@@ -15,23 +14,22 @@ func NewBookHttpQueryHandler() (ret *BookHttpQueryHandler) {
 }
 
 func (o *BookHttpQueryHandler) FindByTitle(w http.ResponseWriter, r *http.Request)  {
-            
     return
     
+    return
 }
 
 func (o *BookHttpQueryHandler) FindByAuthor(w http.ResponseWriter, r *http.Request)  {
-            
     return
     
+    return
 }
 
 func (o *BookHttpQueryHandler) FindByPattern(w http.ResponseWriter, r *http.Request)  {
-            
     return
     
+    return
 }
-
 
 
 type BookHttpCommandHandler struct {
@@ -43,68 +41,56 @@ func NewBookHttpCommandHandler() (ret *BookHttpCommandHandler) {
 }
 
 func (o *BookHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-            
     return
     
+    return
 }
 
 func (o *BookHttpCommandHandler) Register(w http.ResponseWriter, r *http.Request)  {
-            
     return
     
+    return
 }
 
 func (o *BookHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-            
     return
     
+    return
 }
 
 func (o *BookHttpCommandHandler) Change(w http.ResponseWriter, r *http.Request)  {
-            
     return
     
+    return
 }
 
 func (o *BookHttpCommandHandler) ChangeLocation(w http.ResponseWriter, r *http.Request)  {
-            
     return
     
+    return
 }
 
 func (o *BookHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-            
     return
     
+    return
 }
 
 func (o *BookHttpCommandHandler) Unregister(w http.ResponseWriter, r *http.Request)  {
-            
     return
     
+    return
 }
-
 
 
 type BookRouter struct {
-    PathPrefix  string
-    Router  *mux.Router
-    QueryHandler  *BookHttpQueryHandler
-    CommandHandler  *BookHttpCommandHandler
-}
-
-func NewBookRouter(Router *mux.Router) (ret *BookRouter) {
-    ret = &BookRouter{
-        PathPrefix :"Books",
-        Router :Router,
-        QueryHandler :NewBookHttpQueryHandler(),
-        CommandHandler :NewBookHttpCommandHandler(),
-    }
-    return
+    PathPrefix string
+    Router *mux.Router
+    QueryHandler *BookHttpQueryHandler
+    CommandHandler *BookHttpCommandHandler
 }
 
 func (o *BookRouter) Setup() (ret error) {
-            
     o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindBookByTitle").HandlerFunc(o.QueryHandler.FindByTitle)
     o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindBookByAuthor").HandlerFunc(o.QueryHandler.FindByAuthor)
     o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindBookByPattern").HandlerFunc(o.QueryHandler.FindByPattern)
@@ -117,18 +103,18 @@ func (o *BookRouter) Setup() (ret error) {
     o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("UnregisterBook").HandlerFunc(o.CommandHandler.Unregister)
     return
     
+    return
 }
-
 
 
 type LibraryRouter struct {
-    Router  *mux.Router
-    PathPrefix  string
-    BookRouter  *BookRouter
+    Router *mux.Router
+    PathPrefix string
+    BookRouter *BookRouter
 }
 
 func (o *LibraryRouter) Setup() (ret error) {
-            
+    return
     return
 }
 

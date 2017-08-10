@@ -15,37 +15,34 @@ const (
 
 
 
-
 type BookCreated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Title  string`eh:"optional"`
-    Description  string`eh:"optional"`
-    Language  string`eh:"optional"`
-    ReleaseDate  *time.Time`eh:"optional"`
-    Edition  string`eh:"optional"`
-    Category  string`eh:"optional"`
-    Author  *person.PersonName`eh:"optional"`
-    Location  *Location`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Title string`eh:"optional"`
+    Description string`eh:"optional"`
+    Language string`eh:"optional"`
+    ReleaseDate *time.Time`eh:"optional"`
+    Edition string`eh:"optional"`
+    Category string`eh:"optional"`
+    Author *person.PersonName`eh:"optional"`
+    Location *Location`eh:"optional"`
 }
-
 
 
 type BookDeleted struct {
-    Id  eventhorizon.UUID
+    Id eventhorizon.UUID
 }
 
 
-
 type BookUpdated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Title  string`eh:"optional"`
-    Description  string`eh:"optional"`
-    Language  string`eh:"optional"`
-    ReleaseDate  *time.Time`eh:"optional"`
-    Edition  string`eh:"optional"`
-    Category  string`eh:"optional"`
-    Author  *person.PersonName`eh:"optional"`
-    Location  *Location`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Title string`eh:"optional"`
+    Description string`eh:"optional"`
+    Language string`eh:"optional"`
+    ReleaseDate *time.Time`eh:"optional"`
+    Edition string`eh:"optional"`
+    Category string`eh:"optional"`
+    Author *person.PersonName`eh:"optional"`
+    Location *Location`eh:"optional"`
 }
 
 

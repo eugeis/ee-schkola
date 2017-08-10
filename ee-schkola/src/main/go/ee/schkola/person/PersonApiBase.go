@@ -5,61 +5,57 @@ import (
     "github.com/eugeis/gee/enum"
     "time"
 )
-
 type Church struct {
-    Name  string
-    Address  *Address
-    Pastor  *PersonName
-    Contact  *Contact
+    Name string
+    Address *Address
+    Pastor *PersonName
+    Contact *Contact
     *schkola.SchkolaBase
 }
 
 func NewChurch() (ret *Church) {
     ret = &Church{
-        SchkolaBase:schkola.NewSchkolaBase(),
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
     return
 }
 
 
-
 type Graduation struct {
-    Name  string
-    Level  *GraduationLevel
+    Name string
+    Level *GraduationLevel
     *schkola.SchkolaBase
 }
 
 func NewGraduation() (ret *Graduation) {
     ret = &Graduation{
-        SchkolaBase:schkola.NewSchkolaBase(),
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
     return
 }
 
 
-
 type Profile struct {
-    Gender  *Gender
-    Name  *PersonName
-    BirthName  string
-    Birthday  *time.Time
-    Address  *Address
-    Contact  *Contact
-    PhotoData  []byte
-    Photo  string
-    Family  *Family
-    Church  *ChurchInfo
-    Education  *Education
+    Gender *Gender
+    Name *PersonName
+    BirthName string
+    Birthday *time.Time
+    Address *Address
+    Contact *Contact
+    PhotoData []byte
+    Photo string
+    Family *Family
+    Church *ChurchInfo
+    Education *Education
     *schkola.SchkolaBase
 }
 
 func NewProfile() (ret *Profile) {
     ret = &Profile{
-        SchkolaBase:schkola.NewSchkolaBase(),
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
     return
 }
-
 
 
 
@@ -67,11 +63,11 @@ func NewProfile() (ret *Profile) {
 
 
 type Address struct {
-    Street  string
-    Suite  string
-    City  string
-    Code  string
-    Country  string
+    Street string
+    Suite string
+    City string
+    Code string
+    Country string
 }
 
 func NewAddress() (ret *Address) {
@@ -80,12 +76,11 @@ func NewAddress() (ret *Address) {
 }
 
 
-
 type ChurchInfo struct {
-    Church  string
-    Association  string
-    Member  bool
-    Services  string
+    Church string
+    Association string
+    Member bool
+    Services string
 }
 
 func NewChurchInfo() (ret *ChurchInfo) {
@@ -94,11 +89,10 @@ func NewChurchInfo() (ret *ChurchInfo) {
 }
 
 
-
 type Contact struct {
-    Phone  string
-    Email  string
-    Cellphone  string
+    Phone string
+    Email string
+    Cellphone string
 }
 
 func NewContact() (ret *Contact) {
@@ -107,10 +101,9 @@ func NewContact() (ret *Contact) {
 }
 
 
-
 type Education struct {
-    Graduation  *Graduation
-    Profession  string
+    Graduation *Graduation
+    Profession string
 }
 
 func NewEducation() (ret *Education) {
@@ -119,11 +112,10 @@ func NewEducation() (ret *Education) {
 }
 
 
-
 type Family struct {
-    MaritalState  *MaritalState
-    ChildrenCount  int
-    Partner  *PersonName
+    MaritalState *MaritalState
+    ChildrenCount int
+    Partner *PersonName
 }
 
 func NewFamily() (ret *Family) {
@@ -132,10 +124,9 @@ func NewFamily() (ret *Family) {
 }
 
 
-
 type PersonName struct {
-    First  string
-    Last  string
+    First string
+    Last string
 }
 
 func NewPersonName() (ret *PersonName) {

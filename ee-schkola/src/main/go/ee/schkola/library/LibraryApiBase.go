@@ -5,22 +5,21 @@ import (
     "ee/schkola/person"
     "time"
 )
-
 type Book struct {
-    Title  string
-    Description  string
-    Language  string
-    ReleaseDate  *time.Time
-    Edition  string
-    Category  string
-    Author  *person.PersonName
-    Location  *Location
+    Title string
+    Description string
+    Language string
+    ReleaseDate *time.Time
+    Edition string
+    Category string
+    Author *person.PersonName
+    Location *Location
     *schkola.SchkolaBase
 }
 
 func NewBook() (ret *Book) {
     ret = &Book{
-        SchkolaBase:schkola.NewSchkolaBase(),
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
     return
 }
@@ -30,10 +29,9 @@ func NewBook() (ret *Book) {
 
 
 
-
 type Location struct {
-    Shelf  string
-    Fold  string
+    Shelf string
+    Fold string
 }
 
 func NewLocation() (ret *Location) {

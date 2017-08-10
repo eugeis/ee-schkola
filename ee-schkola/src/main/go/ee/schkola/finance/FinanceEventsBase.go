@@ -36,101 +36,89 @@ const (
 
 
 
-
 type ExpenseCreated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Purpose  *ExpensePurpose`eh:"optional"`
-    Amount  float64`eh:"optional"`
-    Profile  *person.Profile`eh:"optional"`
-    Date  *time.Time`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Purpose *ExpensePurpose`eh:"optional"`
+    Amount float64`eh:"optional"`
+    Profile *person.Profile`eh:"optional"`
+    Date *time.Time`eh:"optional"`
 }
-
 
 
 type ExpenseDeleted struct {
-    Id  eventhorizon.UUID
+    Id eventhorizon.UUID
 }
-
 
 
 type ExpenseUpdated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Purpose  *ExpensePurpose`eh:"optional"`
-    Amount  float64`eh:"optional"`
-    Profile  *person.Profile`eh:"optional"`
-    Date  *time.Time`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Purpose *ExpensePurpose`eh:"optional"`
+    Amount float64`eh:"optional"`
+    Profile *person.Profile`eh:"optional"`
+    Date *time.Time`eh:"optional"`
 }
-
 
 
 type ExpensePurposeCreated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Name  string`eh:"optional"`
-    Description  string`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Name string`eh:"optional"`
+    Description string`eh:"optional"`
 }
-
 
 
 type ExpensePurposeDeleted struct {
-    Id  eventhorizon.UUID
+    Id eventhorizon.UUID
 }
-
 
 
 type ExpensePurposeUpdated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Name  string`eh:"optional"`
-    Description  string`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Name string`eh:"optional"`
+    Description string`eh:"optional"`
 }
-
 
 
 type FeeCreated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Student  *person.Profile`eh:"optional"`
-    Amount  float64`eh:"optional"`
-    Kind  *FeeKind`eh:"optional"`
-    Date  *time.Time`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Student *person.Profile`eh:"optional"`
+    Amount float64`eh:"optional"`
+    Kind *FeeKind`eh:"optional"`
+    Date *time.Time`eh:"optional"`
 }
-
 
 
 type FeeDeleted struct {
-    Id  eventhorizon.UUID
+    Id eventhorizon.UUID
 }
-
 
 
 type FeeUpdated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Student  *person.Profile`eh:"optional"`
-    Amount  float64`eh:"optional"`
-    Kind  *FeeKind`eh:"optional"`
-    Date  *time.Time`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Student *person.Profile`eh:"optional"`
+    Amount float64`eh:"optional"`
+    Kind *FeeKind`eh:"optional"`
+    Date *time.Time`eh:"optional"`
 }
-
 
 
 type FeeKindCreated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Name  string`eh:"optional"`
-    Amount  float64`eh:"optional"`
-    Description  string`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Name string`eh:"optional"`
+    Amount float64`eh:"optional"`
+    Description string`eh:"optional"`
 }
-
 
 
 type FeeKindDeleted struct {
-    Id  eventhorizon.UUID
+    Id eventhorizon.UUID
 }
 
 
-
 type FeeKindUpdated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Name  string`eh:"optional"`
-    Amount  float64`eh:"optional"`
-    Description  string`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Name string`eh:"optional"`
+    Amount float64`eh:"optional"`
+    Description string`eh:"optional"`
 }
 
 

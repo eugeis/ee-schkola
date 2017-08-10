@@ -6,131 +6,125 @@ import (
     "github.com/eugeis/gee/enum"
     "time"
 )
-
 type Attendance struct {
-    Student  *person.Profile
-    Date  *time.Time
-    Course  *Course
-    Hours  int
-    State  *AttendanceState
-    StateTrace  *schkola.Trace
-    Token  string
-    TokenTrace  *schkola.Trace
+    Student *person.Profile
+    Date *time.Time
+    Course *Course
+    Hours int
+    State *AttendanceState
+    StateTrace *schkola.Trace
+    Token string
+    TokenTrace *schkola.Trace
     *schkola.SchkolaBase
 }
 
 func NewAttendance() (ret *Attendance) {
     ret = &Attendance{
-        SchkolaBase:schkola.NewSchkolaBase(),
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
     return
 }
 
 
-
 type Course struct {
-    Name  string
-    Begin  *time.Time
-    End  *time.Time
-    Teacher  *person.PersonName
-    SchoolYear  *SchoolYear
-    Fee  float64
-    Description  string
+    Name string
+    Begin *time.Time
+    End *time.Time
+    Teacher *person.PersonName
+    SchoolYear *SchoolYear
+    Fee float64
+    Description string
     *schkola.SchkolaBase
 }
 
 func NewCourse() (ret *Course) {
     ret = &Course{
-        SchkolaBase:schkola.NewSchkolaBase(),
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
     return
 }
 
 
-
 type Grade struct {
-    Student  *person.Profile
-    Course  *Course
-    Grade  float64
-    GradeTrace  *schkola.Trace
-    Comment  string
+    Student *person.Profile
+    Course *Course
+    Grade float64
+    GradeTrace *schkola.Trace
+    Comment string
     *schkola.SchkolaBase
 }
 
 func NewGrade() (ret *Grade) {
     ret = &Grade{
-        SchkolaBase:schkola.NewSchkolaBase(),
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
     return
 }
 
 
-
 type Group struct {
-    Name  string
-    Category  *GroupCategory
-    SchoolYear  *SchoolYear
-    Representative  *person.Profile
-    Students  []*Course
-    Courses  []*Course
+    Name string
+    Category *GroupCategory
+    SchoolYear *SchoolYear
+    Representative *person.Profile
+    Students []*Course
+    Courses []*Course
     *schkola.SchkolaBase
 }
 
 func NewGroup() (ret *Group) {
     ret = &Group{
-        SchkolaBase:schkola.NewSchkolaBase(),
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
     return
 }
 
 func (o *Group) AddToStudents(item *Course) *Course {
-    o.Students  = append(o.Students , item)
+    o.Students = append(o.Students, item)
     return item
 }
 
 func (o *Group) AddToCourses(item *Course) *Course {
-    o.Courses  = append(o.Courses , item)
+    o.Courses = append(o.Courses, item)
     return item
 }
 
 
-
 type SchoolApplication struct {
-    Profile  *person.Profile
-    RecommendationOf  *person.PersonName
-    ChurchContactPerson  *person.PersonName
-    ChurchContact  *person.Contact
-    SchoolYear  *SchoolYear
-    Group  string
+    Profile *person.Profile
+    RecommendationOf *person.PersonName
+    ChurchContactPerson *person.PersonName
+    ChurchContact *person.Contact
+    SchoolYear *SchoolYear
+    Group string
     *schkola.SchkolaBase
 }
 
 func NewSchoolApplication() (ret *SchoolApplication) {
     ret = &SchoolApplication{
-        SchkolaBase:schkola.NewSchkolaBase(),
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
     return
 }
 
 
-
 type SchoolYear struct {
-    Name  string
-    Start  *time.Time
-    End  *time.Time
-    Dates  []*Course
+    Name string
+    Start *time.Time
+    End *time.Time
+    Dates []*Course
     *schkola.SchkolaBase
 }
 
 func NewSchoolYear() (ret *SchoolYear) {
     ret = &SchoolYear{
-        SchkolaBase:schkola.NewSchkolaBase(),
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
     return
 }
 
 func (o *SchoolYear) AddToDates(item *Course) *Course {
-    o.Dates  = append(o.Dates , item)
+    o.Dates = append(o.Dates, item)
     return item
 }
 

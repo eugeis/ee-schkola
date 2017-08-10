@@ -92,163 +92,163 @@ components:
     Account:
       type: object
       properties:
-        username :          
+        username:          
           type: string
-        password :          
+        password:          
           type: string
-        email :          
+        email:          
           type: string
-        disabled :          
+        disabled:          
           type: boolean
-        lastLoginAt :          
+        lastLoginAt:          
           type: string
           format: date-time
-        profile :          
+        profile:          
           $ref: "#/components/schemas/Profile"
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     Expense:
       type: object
       properties:
-        purpose :          
+        purpose:          
           $ref: "#/components/schemas/ExpensePurpose"
-        amount :          
+        amount:          
           type: number
           format: float
-        profile :          
+        profile:          
           $ref: "#/components/schemas/Profile"
-        date :          
+        date:          
           type: string
           format: date-time
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     ExpensePurpose:
       type: object
       properties:
-        name :          
+        name:          
           type: string
-        description :          
+        description:          
           type: string
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     Fee:
       type: object
       properties:
-        student :          
+        student:          
           $ref: "#/components/schemas/Profile"
-        amount :          
+        amount:          
           type: number
           format: float
-        kind :          
+        kind:          
           $ref: "#/components/schemas/FeeKind"
-        date :          
+        date:          
           type: string
           format: date-time
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     FeeKind:
       type: object
       properties:
-        name :          
+        name:          
           type: string
-        amount :          
+        amount:          
           type: number
           format: float
-        description :          
+        description:          
           type: string
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     Book:
       type: object
       properties:
-        title :          
+        title:          
           type: string
-        description :          
+        description:          
           type: string
-        language :          
+        language:          
           type: string
-        releaseDate :          
+        releaseDate:          
           type: string
           format: date-time
-        edition :          
+        edition:          
           type: string
-        category :          
+        category:          
           type: string
-        author :          
+        author:          
           $ref: "#/components/schemas/PersonName"
-        location :          
+        location:          
           $ref: "#/components/schemas/Location"
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     Location:
       type: object
       properties:
-        shelf :          
+        shelf:          
           type: string
-        fold :          
+        fold:          
           type: string
     Address:
       type: object
       properties:
-        street :          
+        street:          
           type: string
-        suite :          
+        suite:          
           type: string
-        city :          
+        city:          
           type: string
-        code :          
+        code:          
           type: string
-        country :          
+        country:          
           type: string
     Church:
       type: object
       properties:
-        name :          
+        name:          
           type: string
-        address :          
+        address:          
           $ref: "#/components/schemas/Address"
-        pastor :          
+        pastor:          
           $ref: "#/components/schemas/PersonName"
-        contact :          
+        contact:          
           $ref: "#/components/schemas/Contact"
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     ChurchInfo:
       type: object
       properties:
-        church :          
+        church:          
           type: string
-        association :          
+        association:          
           type: string
-        member :          
+        member:          
           type: boolean
-        services :          
+        services:          
           type: string
     Contact:
       type: object
       properties:
-        phone :          
+        phone:          
           type: string
-        email :          
+        email:          
           type: string
-        cellphone :          
+        cellphone:          
           type: string
     Education:
       type: object
       properties:
-        graduation :          
+        graduation:          
           $ref: "#/components/schemas/Graduation"
-        profession :          
+        profession:          
           type: string
     Family:
       type: object
       properties:
-        maritalState :          
+        maritalState:          
           $ref: "#/components/schemas/MaritalState"
-        childrenCount :          
+        childrenCount:          
           type: integer
           format: int32
-        partner :          
+        partner:          
           $ref: "#/components/schemas/PersonName"
     Gender:
       type: object
@@ -262,11 +262,11 @@ components:
     Graduation:
       type: object
       properties:
-        name :          
+        name:          
           type: string
-        level :          
+        level:          
           $ref: "#/components/schemas/GraduationLevel"
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     GraduationLevel:
       type: object
@@ -295,79 +295,79 @@ components:
     PersonName:
       type: object
       properties:
-        first :          
+        first:          
           type: string
-        last :          
+        last:          
           type: string
     Profile:
       type: object
       properties:
-        gender :          
+        gender:          
           $ref: "#/components/schemas/Gender"
-        name :          
+        name:          
           $ref: "#/components/schemas/PersonName"
-        birthName :          
+        birthName:          
           type: string
-        birthday :          
+        birthday:          
           type: string
           format: date-time
-        address :          
+        address:          
           $ref: "#/components/schemas/Address"
-        contact :          
+        contact:          
           $ref: "#/components/schemas/Contact"
-        photoData :          
+        photoData:          
           type: string
           format: binary
-        photo :          
+        photo:          
           type: string
-        family :          
+        family:          
           $ref: "#/components/schemas/Family"
-        church :          
+        church:          
           $ref: "#/components/schemas/ChurchInfo"
-        education :          
+        education:          
           $ref: "#/components/schemas/Education"
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     SchkolaBase:
       type: object
       properties:
-        trace :          
+        trace:          
           $ref: "#/components/schemas/Trace"
-        id :          
+        id:          
           type: string
     Trace:
       type: object
       properties:
-        createdAt :          
+        createdAt:          
           type: string
           format: date-time
-        updatedAt :          
+        updatedAt:          
           type: string
           format: date-time
-        modifiedBy :          
+        modifiedBy:          
           type: string
     Attendance:
       type: object
       properties:
-        student :          
+        student:          
           $ref: "#/components/schemas/Profile"
-        date :          
+        date:          
           type: string
           format: date-time
-        course :          
+        course:          
           $ref: "#/components/schemas/Course"
-        hours :          
+        hours:          
           type: integer
           format: int32
-        state :          
+        state:          
           $ref: "#/components/schemas/AttendanceState"
-        stateTrace :          
+        stateTrace:          
           $ref: "#/components/schemas/Trace"
-        token :          
+        token:          
           type: string
-        tokenTrace :          
+        tokenTrace:          
           $ref: "#/components/schemas/Trace"
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     AttendanceState:
       type: object
@@ -382,61 +382,61 @@ components:
     Course:
       type: object
       properties:
-        name :          
+        name:          
           type: string
-        begin :          
-          type: string
-          format: date-time
-        end :          
+        begin:          
           type: string
           format: date-time
-        teacher :          
+        end:          
+          type: string
+          format: date-time
+        teacher:          
           $ref: "#/components/schemas/PersonName"
-        schoolYear :          
+        schoolYear:          
           $ref: "#/components/schemas/SchoolYear"
-        fee :          
+        fee:          
           type: number
           format: float
-        description :          
+        description:          
           type: string
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     Grade:
       type: object
       properties:
-        student :          
+        student:          
           $ref: "#/components/schemas/Profile"
-        course :          
+        course:          
           $ref: "#/components/schemas/Course"
-        grade :          
+        grade:          
           type: number
           format: float
-        gradeTrace :          
+        gradeTrace:          
           $ref: "#/components/schemas/Trace"
-        comment :          
+        comment:          
           type: string
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     Group:
       type: object
       properties:
-        name :          
+        name:          
           type: string
-        category :          
+        category:          
           $ref: "#/components/schemas/GroupCategory"
-        schoolYear :          
+        schoolYear:          
           $ref: "#/components/schemas/SchoolYear"
-        representative :          
+        representative:          
           $ref: "#/components/schemas/Profile"
-        students :          
+        students:          
           type: array
           items:
             $ref: "#/components/schemas/Course"
-        courses :          
+        courses:          
           type: array
           items:
             $ref: "#/components/schemas/Course"
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     GroupCategory:
       type: object
@@ -449,34 +449,34 @@ components:
     SchoolApplication:
       type: object
       properties:
-        profile :          
+        profile:          
           $ref: "#/components/schemas/Profile"
-        recommendationOf :          
+        recommendationOf:          
           $ref: "#/components/schemas/PersonName"
-        churchContactPerson :          
+        churchContactPerson:          
           $ref: "#/components/schemas/PersonName"
-        churchContact :          
+        churchContact:          
           $ref: "#/components/schemas/Contact"
-        schoolYear :          
+        schoolYear:          
           $ref: "#/components/schemas/SchoolYear"
-        group :          
+        group:          
           type: string
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"
     SchoolYear:
       type: object
       properties:
-        name :          
+        name:          
           type: string
-        start :          
-          type: string
-          format: date-time
-        end :          
+        start:          
           type: string
           format: date-time
-        dates :          
+        end:          
+          type: string
+          format: date-time
+        dates:          
           type: array
           items:
             $ref: "#/components/schemas/Course"
-        schkolaBase :          
+        schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"

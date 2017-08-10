@@ -6,18 +6,16 @@ import (
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
 )
-
 type AccountCommandHandler struct {
-    CreateHandler  func (*CreateAccount, *Account, eh.AggregateStoreEvent) error
-    DeleteHandler  func (*DeleteAccount, *Account, eh.AggregateStoreEvent) error
-    UpdateHandler  func (*UpdateAccount, *Account, eh.AggregateStoreEvent) error
-    EnableHandler  func (*EnableAccount, *Account, eh.AggregateStoreEvent) error
-    DisableHandler  func (*DisableAccount, *Account, eh.AggregateStoreEvent) error
-    RegisterHandler  func (*RegisterAccount, *Account, eh.AggregateStoreEvent) error
+    CreateHandler func (*CreateAccount, *Account, eh.AggregateStoreEvent) error
+    DeleteHandler func (*DeleteAccount, *Account, eh.AggregateStoreEvent) error
+    UpdateHandler func (*UpdateAccount, *Account, eh.AggregateStoreEvent) error
+    EnableHandler func (*EnableAccount, *Account, eh.AggregateStoreEvent) error
+    DisableHandler func (*DisableAccount, *Account, eh.AggregateStoreEvent) error
+    RegisterHandler func (*RegisterAccount, *Account, eh.AggregateStoreEvent) error
 }
 
 func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-            
     switch cmd.CommandType() {
     case CreateAccountCommand:
         ret = o.CreateHandler(cmd.(*CreateAccount), entity.(*Account), store)
@@ -36,10 +34,10 @@ func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 	}
     return
     
+    return
 }
 
 func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
-            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -112,18 +110,17 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
     
     return
     
+    return
 }
-
 
 
 type AccountEventHandler struct {
-    CreatedHandler  func (*AccountCreated, *Account) error
-    DeletedHandler  func (*AccountDeleted, *Account) error
-    UpdatedHandler  func (*AccountUpdated, *Account) error
+    CreatedHandler func (*AccountCreated, *Account) error
+    DeletedHandler func (*AccountDeleted, *Account) error
+    UpdatedHandler func (*AccountUpdated, *Account) error
 }
 
 func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-            
     switch event.EventType() {
     case AccountCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*AccountCreated), entity.(*Account))
@@ -136,10 +133,10 @@ func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}
 	}
     return
     
+    return
 }
 
 func (o *AccountEventHandler) SetupEventHandler() (ret error) {
-            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AccountCreated, entity *Account) (ret error) {
             if len(entity.Id) > 0 {
@@ -191,15 +188,21 @@ func (o *AccountEventHandler) SetupEventHandler() (ret error) {
     
     return
     
+    return
 }
 
 
+const AccountAggregateType eventhorizon.AggregateType = "Account"
 
-const AccountAggregateType eventhorizon.AggregateType = "AccountAggregateInitializer"
+type AccountAggregateInitializer struct {
+    *eh.AggregateInitializer
+    *AccountCommandHandler
+    *AccountEventHandler
+}
 
-func NewAccountAggregateInitializer(
-	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
-	commandBus eventhorizon.CommandBus) (ret *AccountAggregateInitializer) {
+func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
+                commandBus eventhorizon.CommandBus) (ret *AccountAggregateInitializer) {
+    
     commandHandler := &AccountCommandHandler{}
     eventHandler := &AccountEventHandler{}
 	ret = &AccountAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(AccountAggregateType,
@@ -212,7 +215,8 @@ func NewAccountAggregateInitializer(
         AccountCommandHandler: commandHandler,
         AccountEventHandler: eventHandler,
     }
-	return
+
+    return
 }
 
 
@@ -228,37 +232,35 @@ func (o *AccountAggregateInitializer) RegisterForUpdated(handler eventhorizon.Ev
     o.RegisterForEvent(handler, AccountEventTypes().AccountUpdated())
 }
 
-type AccountAggregateInitializer struct {
-    *eh.AggregateInitializer
-    *AccountCommandHandler
-    *AccountEventHandler
-}
 
-
-
-func NewAuthEventhorizonInitializer(
-	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
-	commandBus eventhorizon.CommandBus) (ret *AuthEventhorizonInitializer) {
-	ret = &AuthEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
-            commandBus: commandBus, 
-    AccountAggregateInitializer: NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
-	return
-}
-
-func (o *AuthEventhorizonInitializer) Setup() (err error) {
-    
-    if err = o.AccountAggregateInitializer.Setup(); err != nil {
-        return
-    }
-    return
-}
 
 type AuthEventhorizonInitializer struct {
     eventStore eventhorizon.EventStore
     eventBus eventhorizon.EventBus
     eventPublisher eventhorizon.EventPublisher
     commandBus eventhorizon.CommandBus
-    AccountAggregateInitializer  *AccountAggregateInitializer
+    AccountAggregateInitializer *AccountAggregateInitializer
+}
+
+func NewAuthEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
+                commandBus eventhorizon.CommandBus) (ret *AuthEventhorizonInitializer) {
+    ret = &AuthEventhorizonInitializer{
+        eventStore: eventStore,
+        eventBus: eventBus,
+        eventPublisher: eventPublisher,
+        commandBus: commandBus,
+        AccountAggregateInitializer: NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    }
+    return
+}
+
+func (o *AuthEventhorizonInitializer) Setup() (ret error) {
+    
+    if ret = o.AccountAggregateInitializer.Setup(); ret != nil {
+        return
+    }
+
+    return
 }
 
 

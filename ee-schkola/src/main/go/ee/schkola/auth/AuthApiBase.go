@@ -5,20 +5,19 @@ import (
     "ee/schkola/person"
     "time"
 )
-
 type Account struct {
-    Username  string
-    Password  string
-    Email  string
-    Disabled  bool
-    LastLoginAt  *time.Time
-    Profile  *person.Profile
+    Username string
+    Password string
+    Email string
+    Disabled bool
+    LastLoginAt *time.Time
+    Profile *person.Profile
     *schkola.SchkolaBase
 }
 
 func NewAccount() (ret *Account) {
     ret = &Account{
-        SchkolaBase:schkola.NewSchkolaBase(),
+        SchkolaBase: schkola.NewSchkolaBase(),
     }
     return
 }

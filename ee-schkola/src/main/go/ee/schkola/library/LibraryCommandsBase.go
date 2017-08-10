@@ -20,126 +20,119 @@ const (
 
 
         
-
 type CreateBook struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Title  string`eh:"optional"`
-    Description  string`eh:"optional"`
-    Language  string`eh:"optional"`
-    ReleaseDate  *time.Time`eh:"optional"`
-    Edition  string`eh:"optional"`
-    Category  string`eh:"optional"`
-    Author  *person.PersonName`eh:"optional"`
-    Location  *Location`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Title string`eh:"optional"`
+    Description string`eh:"optional"`
+    Language string`eh:"optional"`
+    ReleaseDate *time.Time`eh:"optional"`
+    Edition string`eh:"optional"`
+    Category string`eh:"optional"`
+    Author *person.PersonName`eh:"optional"`
+    Location *Location`eh:"optional"`
 }
-func (o *CreateBook) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *CreateBook) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *CreateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
 func (o *CreateBook) CommandType() eventhorizon.CommandType      { return CreateBookCommand }
 
 
 
         
-
 type DeleteBook struct {
-    Id  eventhorizon.UUID
+    Id eventhorizon.UUID
 }
-func (o *DeleteBook) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *DeleteBook) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *DeleteBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
 func (o *DeleteBook) CommandType() eventhorizon.CommandType      { return DeleteBookCommand }
 
 
 
         
-
 type UpdateBook struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Title  string`eh:"optional"`
-    Description  string`eh:"optional"`
-    Language  string`eh:"optional"`
-    ReleaseDate  *time.Time`eh:"optional"`
-    Edition  string`eh:"optional"`
-    Category  string`eh:"optional"`
-    Author  *person.PersonName`eh:"optional"`
-    Location  *Location`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Title string`eh:"optional"`
+    Description string`eh:"optional"`
+    Language string`eh:"optional"`
+    ReleaseDate *time.Time`eh:"optional"`
+    Edition string`eh:"optional"`
+    Category string`eh:"optional"`
+    Author *person.PersonName`eh:"optional"`
+    Location *Location`eh:"optional"`
 }
-func (o *UpdateBook) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *UpdateBook) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
 func (o *UpdateBook) CommandType() eventhorizon.CommandType      { return UpdateBookCommand }
 
 
 
         
-
 type RegisterBook struct {
-    Title  string
-    Description  string
-    Language  string
-    ReleaseDate  *time.Time
-    Edition  string
-    Category  string
-    Author  *person.PersonName
+    Title string
+    Description string
+    Language string
+    ReleaseDate *time.Time
+    Edition string
+    Category string
+    Author *person.PersonName
 }
 
 func NewRegister() (ret *RegisterBook) {
     ret = &RegisterBook{}
     return
 }
-func (o *RegisterBook) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *RegisterBook) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *RegisterBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
 func (o *RegisterBook) CommandType() eventhorizon.CommandType      { return RegisterBookCommand }
 
 
 
         
-
 type UnregisterBook struct {
-    Id  eventhorizon.UUID
+    Id eventhorizon.UUID
 }
 
 func NewUnregister() (ret *UnregisterBook) {
     ret = &UnregisterBook{}
     return
 }
-func (o *UnregisterBook) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *UnregisterBook) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UnregisterBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
 func (o *UnregisterBook) CommandType() eventhorizon.CommandType      { return UnregisterBookCommand }
 
 
 
         
-
 type ChangeBook struct {
-    Title  string
-    Description  string
-    Language  string
-    ReleaseDate  *time.Time
-    Edition  string
-    Category  string
-    Author  *person.PersonName
+    Title string
+    Description string
+    Language string
+    ReleaseDate *time.Time
+    Edition string
+    Category string
+    Author *person.PersonName
 }
 
 func NewChange() (ret *ChangeBook) {
     ret = &ChangeBook{}
     return
 }
-func (o *ChangeBook) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *ChangeBook) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *ChangeBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
 func (o *ChangeBook) CommandType() eventhorizon.CommandType      { return ChangeBookCommand }
 
 
 
         
-
 type ChangeBookLocation struct {
-    Shelf  string
-    Fold  string
+    Shelf string
+    Fold string
 }
 
 func NewChangeLocation() (ret *ChangeBookLocation) {
     ret = &ChangeBookLocation{}
     return
 }
-func (o *ChangeBookLocation) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *ChangeBookLocation) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *ChangeBookLocation) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
 func (o *ChangeBookLocation) CommandType() eventhorizon.CommandType      { return ChangeBookLocationCommand }
 

@@ -28,91 +28,82 @@ const (
 
 
 
-
 type ChurchCreated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Name  string`eh:"optional"`
-    Address  *Address`eh:"optional"`
-    Pastor  *PersonName`eh:"optional"`
-    Contact  *Contact`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Name string`eh:"optional"`
+    Address *Address`eh:"optional"`
+    Pastor *PersonName`eh:"optional"`
+    Contact *Contact`eh:"optional"`
 }
-
 
 
 type ChurchDeleted struct {
-    Id  eventhorizon.UUID
+    Id eventhorizon.UUID
 }
-
 
 
 type ChurchUpdated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Name  string`eh:"optional"`
-    Address  *Address`eh:"optional"`
-    Pastor  *PersonName`eh:"optional"`
-    Contact  *Contact`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Name string`eh:"optional"`
+    Address *Address`eh:"optional"`
+    Pastor *PersonName`eh:"optional"`
+    Contact *Contact`eh:"optional"`
 }
-
 
 
 type GraduationCreated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Name  string`eh:"optional"`
-    Level  *GraduationLevel`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Name string`eh:"optional"`
+    Level *GraduationLevel`eh:"optional"`
 }
-
 
 
 type GraduationDeleted struct {
-    Id  eventhorizon.UUID
+    Id eventhorizon.UUID
 }
-
 
 
 type GraduationUpdated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Name  string`eh:"optional"`
-    Level  *GraduationLevel`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Name string`eh:"optional"`
+    Level *GraduationLevel`eh:"optional"`
 }
-
 
 
 type ProfileCreated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Gender  *Gender`eh:"optional"`
-    Name  *PersonName`eh:"optional"`
-    BirthName  string`eh:"optional"`
-    Birthday  *time.Time`eh:"optional"`
-    Address  *Address`eh:"optional"`
-    Contact  *Contact`eh:"optional"`
-    PhotoData  []byte`eh:"optional"`
-    Photo  string`eh:"optional"`
-    Family  *Family`eh:"optional"`
-    Church  *ChurchInfo`eh:"optional"`
-    Education  *Education`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Gender *Gender`eh:"optional"`
+    Name *PersonName`eh:"optional"`
+    BirthName string`eh:"optional"`
+    Birthday *time.Time`eh:"optional"`
+    Address *Address`eh:"optional"`
+    Contact *Contact`eh:"optional"`
+    PhotoData []byte`eh:"optional"`
+    Photo string`eh:"optional"`
+    Family *Family`eh:"optional"`
+    Church *ChurchInfo`eh:"optional"`
+    Education *Education`eh:"optional"`
 }
-
 
 
 type ProfileDeleted struct {
-    Id  eventhorizon.UUID
+    Id eventhorizon.UUID
 }
 
 
-
 type ProfileUpdated struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Gender  *Gender`eh:"optional"`
-    Name  *PersonName`eh:"optional"`
-    BirthName  string`eh:"optional"`
-    Birthday  *time.Time`eh:"optional"`
-    Address  *Address`eh:"optional"`
-    Contact  *Contact`eh:"optional"`
-    PhotoData  []byte`eh:"optional"`
-    Photo  string`eh:"optional"`
-    Family  *Family`eh:"optional"`
-    Church  *ChurchInfo`eh:"optional"`
-    Education  *Education`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Gender *Gender`eh:"optional"`
+    Name *PersonName`eh:"optional"`
+    BirthName string`eh:"optional"`
+    Birthday *time.Time`eh:"optional"`
+    Address *Address`eh:"optional"`
+    Contact *Contact`eh:"optional"`
+    PhotoData []byte`eh:"optional"`
+    Photo string`eh:"optional"`
+    Family *Family`eh:"optional"`
+    Church *ChurchInfo`eh:"optional"`
+    Education *Education`eh:"optional"`
 }
 
 

@@ -6,19 +6,17 @@ import (
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
 )
-
 type BookCommandHandler struct {
-    CreateHandler  func (*CreateBook, *Book, eh.AggregateStoreEvent) error
-    DeleteHandler  func (*DeleteBook, *Book, eh.AggregateStoreEvent) error
-    UpdateHandler  func (*UpdateBook, *Book, eh.AggregateStoreEvent) error
-    RegisterHandler  func (*RegisterBook, *Book, eh.AggregateStoreEvent) error
-    UnregisterHandler  func (*UnregisterBook, *Book, eh.AggregateStoreEvent) error
-    ChangeHandler  func (*ChangeBook, *Book, eh.AggregateStoreEvent) error
-    ChangeLocationHandler  func (*ChangeBookLocation, *Book, eh.AggregateStoreEvent) error
+    CreateHandler func (*CreateBook, *Book, eh.AggregateStoreEvent) error
+    DeleteHandler func (*DeleteBook, *Book, eh.AggregateStoreEvent) error
+    UpdateHandler func (*UpdateBook, *Book, eh.AggregateStoreEvent) error
+    RegisterHandler func (*RegisterBook, *Book, eh.AggregateStoreEvent) error
+    UnregisterHandler func (*UnregisterBook, *Book, eh.AggregateStoreEvent) error
+    ChangeHandler func (*ChangeBook, *Book, eh.AggregateStoreEvent) error
+    ChangeLocationHandler func (*ChangeBookLocation, *Book, eh.AggregateStoreEvent) error
 }
 
 func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
-            
     switch cmd.CommandType() {
     case CreateBookCommand:
         ret = o.CreateHandler(cmd.(*CreateBook), entity.(*Book), store)
@@ -39,10 +37,10 @@ func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{
 	}
     return
     
+    return
 }
 
 func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
-            
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -125,18 +123,17 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
     
     return
     
+    return
 }
-
 
 
 type BookEventHandler struct {
-    CreatedHandler  func (*BookCreated, *Book) error
-    DeletedHandler  func (*BookDeleted, *Book) error
-    UpdatedHandler  func (*BookUpdated, *Book) error
+    CreatedHandler func (*BookCreated, *Book) error
+    DeletedHandler func (*BookDeleted, *Book) error
+    UpdatedHandler func (*BookUpdated, *Book) error
 }
 
 func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
-            
     switch event.EventType() {
     case BookCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*BookCreated), entity.(*Book))
@@ -149,10 +146,10 @@ func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (
 	}
     return
     
+    return
 }
 
 func (o *BookEventHandler) SetupEventHandler() (ret error) {
-            
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *BookCreated, entity *Book) (ret error) {
             if len(entity.Id) > 0 {
@@ -208,15 +205,21 @@ func (o *BookEventHandler) SetupEventHandler() (ret error) {
     
     return
     
+    return
 }
 
 
+const BookAggregateType eventhorizon.AggregateType = "Book"
 
-const BookAggregateType eventhorizon.AggregateType = "BookAggregateInitializer"
+type BookAggregateInitializer struct {
+    *eh.AggregateInitializer
+    *BookCommandHandler
+    *BookEventHandler
+}
 
-func NewBookAggregateInitializer(
-	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
-	commandBus eventhorizon.CommandBus) (ret *BookAggregateInitializer) {
+func NewBookAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
+                commandBus eventhorizon.CommandBus) (ret *BookAggregateInitializer) {
+    
     commandHandler := &BookCommandHandler{}
     eventHandler := &BookEventHandler{}
 	ret = &BookAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(BookAggregateType,
@@ -229,7 +232,8 @@ func NewBookAggregateInitializer(
         BookCommandHandler: commandHandler,
         BookEventHandler: eventHandler,
     }
-	return
+
+    return
 }
 
 
@@ -245,37 +249,35 @@ func (o *BookAggregateInitializer) RegisterForUpdated(handler eventhorizon.Event
     o.RegisterForEvent(handler, BookEventTypes().BookUpdated())
 }
 
-type BookAggregateInitializer struct {
-    *eh.AggregateInitializer
-    *BookCommandHandler
-    *BookEventHandler
-}
 
-
-
-func NewLibraryEventhorizonInitializer(
-	eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher,
-	commandBus eventhorizon.CommandBus) (ret *LibraryEventhorizonInitializer) {
-	ret = &LibraryEventhorizonInitializer{eventStore: eventStore, eventBus: eventBus, eventPublisher: eventPublisher,
-            commandBus: commandBus, 
-    BookAggregateInitializer: NewBookAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus)}
-	return
-}
-
-func (o *LibraryEventhorizonInitializer) Setup() (err error) {
-    
-    if err = o.BookAggregateInitializer.Setup(); err != nil {
-        return
-    }
-    return
-}
 
 type LibraryEventhorizonInitializer struct {
     eventStore eventhorizon.EventStore
     eventBus eventhorizon.EventBus
     eventPublisher eventhorizon.EventPublisher
     commandBus eventhorizon.CommandBus
-    BookAggregateInitializer  *BookAggregateInitializer
+    BookAggregateInitializer *BookAggregateInitializer
+}
+
+func NewLibraryEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
+                commandBus eventhorizon.CommandBus) (ret *LibraryEventhorizonInitializer) {
+    ret = &LibraryEventhorizonInitializer{
+        eventStore: eventStore,
+        eventBus: eventBus,
+        eventPublisher: eventPublisher,
+        commandBus: commandBus,
+        BookAggregateInitializer: NewBookAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+    }
+    return
+}
+
+func (o *LibraryEventhorizonInitializer) Setup() (ret error) {
+    
+    if ret = o.BookAggregateInitializer.Setup(); ret != nil {
+        return
+    }
+
+    return
 }
 
 

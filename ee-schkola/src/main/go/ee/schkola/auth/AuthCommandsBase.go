@@ -19,52 +19,48 @@ const (
 
 
         
-
 type CreateAccount struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Username  string`eh:"optional"`
-    Password  string`eh:"optional"`
-    Email  string`eh:"optional"`
-    Disabled  bool`eh:"optional"`
-    LastLoginAt  *time.Time`eh:"optional"`
-    Profile  *person.Profile`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Username string`eh:"optional"`
+    Password string`eh:"optional"`
+    Email string`eh:"optional"`
+    Disabled bool`eh:"optional"`
+    LastLoginAt *time.Time`eh:"optional"`
+    Profile *person.Profile`eh:"optional"`
 }
-func (o *CreateAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *CreateAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *CreateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
 func (o *CreateAccount) CommandType() eventhorizon.CommandType      { return CreateAccountCommand }
 
 
 
         
-
 type DeleteAccount struct {
-    Id  eventhorizon.UUID
+    Id eventhorizon.UUID
 }
-func (o *DeleteAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *DeleteAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *DeleteAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
 func (o *DeleteAccount) CommandType() eventhorizon.CommandType      { return DeleteAccountCommand }
 
 
 
         
-
 type UpdateAccount struct {
-    Id  eventhorizon.UUID`eh:"optional"`
-    Username  string`eh:"optional"`
-    Password  string`eh:"optional"`
-    Email  string`eh:"optional"`
-    Disabled  bool`eh:"optional"`
-    LastLoginAt  *time.Time`eh:"optional"`
-    Profile  *person.Profile`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
+    Username string`eh:"optional"`
+    Password string`eh:"optional"`
+    Email string`eh:"optional"`
+    Disabled bool`eh:"optional"`
+    LastLoginAt *time.Time`eh:"optional"`
+    Profile *person.Profile`eh:"optional"`
 }
-func (o *UpdateAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *UpdateAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
 func (o *UpdateAccount) CommandType() eventhorizon.CommandType      { return UpdateAccountCommand }
 
 
 
         
-
 type EnableAccount struct {
 }
 
@@ -72,14 +68,13 @@ func NewEnable() (ret *EnableAccount) {
     ret = &EnableAccount{}
     return
 }
-func (o *EnableAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *EnableAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *EnableAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
 func (o *EnableAccount) CommandType() eventhorizon.CommandType      { return EnableAccountCommand }
 
 
 
         
-
 type DisableAccount struct {
 }
 
@@ -87,25 +82,24 @@ func NewDisable() (ret *DisableAccount) {
     ret = &DisableAccount{}
     return
 }
-func (o *DisableAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *DisableAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *DisableAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
 func (o *DisableAccount) CommandType() eventhorizon.CommandType      { return DisableAccountCommand }
 
 
 
         
-
 type RegisterAccount struct {
-    Username  string
-    Email  string
-    Password  string
+    Username string
+    Email string
+    Password string
 }
 
 func NewRegister() (ret *RegisterAccount) {
     ret = &RegisterAccount{}
     return
 }
-func (o *RegisterAccount) AggregateID() eventhorizon.UUID            { return o.Id  }
+func (o *RegisterAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *RegisterAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
 func (o *RegisterAccount) CommandType() eventhorizon.CommandType      { return RegisterAccountCommand }
 
