@@ -23,21 +23,12 @@ func NewChurchHttpCommandHandler() (ret *ChurchHttpCommandHandler) {
 }
 
 func (o *ChurchHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *ChurchHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *ChurchHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 
@@ -52,8 +43,6 @@ func (o *ChurchRouter) Setup() (ret error) {
     o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateChurch").HandlerFunc(o.CommandHandler.Create)
     o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateChurch").HandlerFunc(o.CommandHandler.Update)
     o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteChurch").HandlerFunc(o.CommandHandler.Delete)
-    return
-    
     return
 }
 
@@ -76,21 +65,12 @@ func NewGraduationHttpCommandHandler() (ret *GraduationHttpCommandHandler) {
 }
 
 func (o *GraduationHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *GraduationHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *GraduationHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 
@@ -106,8 +86,6 @@ func (o *GraduationRouter) Setup() (ret error) {
     o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateGraduation").HandlerFunc(o.CommandHandler.Update)
     o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteGraduation").HandlerFunc(o.CommandHandler.Delete)
     return
-    
-    return
 }
 
 
@@ -120,21 +98,12 @@ func NewProfileHttpQueryHandler() (ret *ProfileHttpQueryHandler) {
 }
 
 func (o *ProfileHttpQueryHandler) FindByName(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *ProfileHttpQueryHandler) FindByEmail(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *ProfileHttpQueryHandler) FindByPhone(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 
@@ -147,21 +116,12 @@ func NewProfileHttpCommandHandler() (ret *ProfileHttpCommandHandler) {
 }
 
 func (o *ProfileHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *ProfileHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *ProfileHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 
@@ -180,8 +140,6 @@ func (o *ProfileRouter) Setup() (ret error) {
     o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateProfile").HandlerFunc(o.CommandHandler.Update)
     o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteProfile").HandlerFunc(o.CommandHandler.Delete)
     return
-    
-    return
 }
 
 
@@ -194,7 +152,7 @@ type PersonRouter struct {
 }
 
 func (o *PersonRouter) Setup() (ret error) {
-    return
+    
     return
 }
 

@@ -33,8 +33,6 @@ func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity inte
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return
-    
-    return
 }
 
 func (o *AttendanceCommandHandler) SetupCommandHandler() (ret error) {
@@ -113,8 +111,6 @@ func (o *AttendanceCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     return
-    
-    return
 }
 
 
@@ -135,8 +131,6 @@ func (o *AttendanceEventHandler) Apply(event eventhorizon.Event, entity interfac
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return
-    
     return
 }
 
@@ -193,8 +187,6 @@ func (o *AttendanceEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
-    return
     
     return
 }
@@ -260,8 +252,6 @@ func (o *CourseCommandHandler) Execute(cmd eventhorizon.Command, entity interfac
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return
-    
-    return
 }
 
 func (o *CourseCommandHandler) SetupCommandHandler() (ret error) {
@@ -320,8 +310,6 @@ func (o *CourseCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     return
-    
-    return
 }
 
 
@@ -342,8 +330,6 @@ func (o *CourseEventHandler) Apply(event eventhorizon.Event, entity interface{})
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return
-    
     return
 }
 
@@ -398,8 +384,6 @@ func (o *CourseEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
-    return
     
     return
 }
@@ -465,8 +449,6 @@ func (o *GradeCommandHandler) Execute(cmd eventhorizon.Command, entity interface
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return
-    
-    return
 }
 
 func (o *GradeCommandHandler) SetupCommandHandler() (ret error) {
@@ -521,8 +503,6 @@ func (o *GradeCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     return
-    
-    return
 }
 
 
@@ -543,8 +523,6 @@ func (o *GradeEventHandler) Apply(event eventhorizon.Event, entity interface{}) 
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return
-    
     return
 }
 
@@ -595,8 +573,6 @@ func (o *GradeEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
-    return
     
     return
 }
@@ -662,8 +638,6 @@ func (o *GroupCommandHandler) Execute(cmd eventhorizon.Command, entity interface
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return
-    
-    return
 }
 
 func (o *GroupCommandHandler) SetupCommandHandler() (ret error) {
@@ -720,8 +694,6 @@ func (o *GroupCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     return
-    
-    return
 }
 
 
@@ -742,8 +714,6 @@ func (o *GroupEventHandler) Apply(event eventhorizon.Event, entity interface{}) 
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return
-    
     return
 }
 
@@ -796,8 +766,6 @@ func (o *GroupEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
-    return
     
     return
 }
@@ -863,8 +831,6 @@ func (o *SchoolApplicationCommandHandler) Execute(cmd eventhorizon.Command, enti
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return
-    
-    return
 }
 
 func (o *SchoolApplicationCommandHandler) SetupCommandHandler() (ret error) {
@@ -921,8 +887,6 @@ func (o *SchoolApplicationCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     return
-    
-    return
 }
 
 
@@ -943,8 +907,6 @@ func (o *SchoolApplicationEventHandler) Apply(event eventhorizon.Event, entity i
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return
-    
     return
 }
 
@@ -997,8 +959,6 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
-    return
     
     return
 }
@@ -1064,8 +1024,6 @@ func (o *SchoolYearCommandHandler) Execute(cmd eventhorizon.Command, entity inte
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return
-    
-    return
 }
 
 func (o *SchoolYearCommandHandler) SetupCommandHandler() (ret error) {
@@ -1118,8 +1076,6 @@ func (o *SchoolYearCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     return
-    
-    return
 }
 
 
@@ -1140,8 +1096,6 @@ func (o *SchoolYearEventHandler) Apply(event eventhorizon.Event, entity interfac
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return
-    
     return
 }
 
@@ -1190,8 +1144,6 @@ func (o *SchoolYearEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
-    return
     
     return
 }

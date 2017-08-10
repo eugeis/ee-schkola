@@ -33,8 +33,6 @@ func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return
-    
-    return
 }
 
 func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
@@ -109,8 +107,6 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     return
-    
-    return
 }
 
 
@@ -131,8 +127,6 @@ func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return
-    
     return
 }
 
@@ -185,8 +179,6 @@ func (o *AccountEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
-    return
     
     return
 }

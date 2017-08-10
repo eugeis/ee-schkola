@@ -23,39 +23,21 @@ func NewAccountHttpCommandHandler() (ret *AccountHttpCommandHandler) {
 }
 
 func (o *AccountHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *AccountHttpCommandHandler) Register(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *AccountHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *AccountHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *AccountHttpCommandHandler) Enable(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *AccountHttpCommandHandler) Disable(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 
@@ -72,8 +54,6 @@ func (o *AccountRouter) Setup() (ret error) {
     o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateAccount").HandlerFunc(o.CommandHandler.Update)
     o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteAccount").HandlerFunc(o.CommandHandler.Delete)
     return
-    
-    return
 }
 
 
@@ -84,7 +64,7 @@ type AuthRouter struct {
 }
 
 func (o *AuthRouter) Setup() (ret error) {
-    return
+    
     return
 }
 

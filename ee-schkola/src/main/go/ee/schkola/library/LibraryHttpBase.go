@@ -14,21 +14,12 @@ func NewBookHttpQueryHandler() (ret *BookHttpQueryHandler) {
 }
 
 func (o *BookHttpQueryHandler) FindByTitle(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *BookHttpQueryHandler) FindByAuthor(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *BookHttpQueryHandler) FindByPattern(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 
@@ -41,45 +32,24 @@ func NewBookHttpCommandHandler() (ret *BookHttpCommandHandler) {
 }
 
 func (o *BookHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *BookHttpCommandHandler) Register(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *BookHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *BookHttpCommandHandler) Change(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *BookHttpCommandHandler) ChangeLocation(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *BookHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *BookHttpCommandHandler) Unregister(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 
@@ -102,8 +72,6 @@ func (o *BookRouter) Setup() (ret error) {
     o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteBook").HandlerFunc(o.CommandHandler.Delete)
     o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("UnregisterBook").HandlerFunc(o.CommandHandler.Unregister)
     return
-    
-    return
 }
 
 
@@ -114,7 +82,7 @@ type LibraryRouter struct {
 }
 
 func (o *LibraryRouter) Setup() (ret error) {
-    return
+    
     return
 }
 

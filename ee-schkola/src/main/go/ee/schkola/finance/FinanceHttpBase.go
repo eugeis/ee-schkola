@@ -23,21 +23,12 @@ func NewExpenseHttpCommandHandler() (ret *ExpenseHttpCommandHandler) {
 }
 
 func (o *ExpenseHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *ExpenseHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *ExpenseHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 
@@ -52,8 +43,6 @@ func (o *ExpenseRouter) Setup() (ret error) {
     o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateExpense").HandlerFunc(o.CommandHandler.Create)
     o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateExpense").HandlerFunc(o.CommandHandler.Update)
     o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteExpense").HandlerFunc(o.CommandHandler.Delete)
-    return
-    
     return
 }
 
@@ -76,21 +65,12 @@ func NewExpensePurposeHttpCommandHandler() (ret *ExpensePurposeHttpCommandHandle
 }
 
 func (o *ExpensePurposeHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *ExpensePurposeHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *ExpensePurposeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 
@@ -105,8 +85,6 @@ func (o *ExpensePurposeRouter) Setup() (ret error) {
     o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateExpensePurpose").HandlerFunc(o.CommandHandler.Create)
     o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateExpensePurpose").HandlerFunc(o.CommandHandler.Update)
     o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteExpensePurpose").HandlerFunc(o.CommandHandler.Delete)
-    return
-    
     return
 }
 
@@ -129,21 +107,12 @@ func NewFeeHttpCommandHandler() (ret *FeeHttpCommandHandler) {
 }
 
 func (o *FeeHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *FeeHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *FeeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 
@@ -158,8 +127,6 @@ func (o *FeeRouter) Setup() (ret error) {
     o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateFee").HandlerFunc(o.CommandHandler.Create)
     o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateFee").HandlerFunc(o.CommandHandler.Update)
     o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteFee").HandlerFunc(o.CommandHandler.Delete)
-    return
-    
     return
 }
 
@@ -182,21 +149,12 @@ func NewFeeKindHttpCommandHandler() (ret *FeeKindHttpCommandHandler) {
 }
 
 func (o *FeeKindHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *FeeKindHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 func (o *FeeKindHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    return
-    
-    return
 }
 
 
@@ -212,8 +170,6 @@ func (o *FeeKindRouter) Setup() (ret error) {
     o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateFeeKind").HandlerFunc(o.CommandHandler.Update)
     o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteFeeKind").HandlerFunc(o.CommandHandler.Delete)
     return
-    
-    return
 }
 
 
@@ -227,7 +183,7 @@ type FinanceRouter struct {
 }
 
 func (o *FinanceRouter) Setup() (ret error) {
-    return
+    
     return
 }
 

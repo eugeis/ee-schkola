@@ -36,8 +36,6 @@ func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return
-    
-    return
 }
 
 func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
@@ -122,8 +120,6 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
     }
     
     return
-    
-    return
 }
 
 
@@ -144,8 +140,6 @@ func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (
     default:
 		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
-    return
-    
     return
 }
 
@@ -202,8 +196,6 @@ func (o *BookEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
-    return
     
     return
 }
