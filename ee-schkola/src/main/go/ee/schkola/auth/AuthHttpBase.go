@@ -13,6 +13,24 @@ func NewAccountHttpQueryHandler() (ret *AccountHttpQueryHandler) {
     return
 }
 
+func (o *AccountHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
+}
+
+func (o *AccountHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
+}
+
+func (o *AccountHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
+}
+
+func (o *AccountHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
+}
+
+func (o *AccountHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
+}
+
+func (o *AccountHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
+}
+
 
 type AccountHttpCommandHandler struct {
 }
@@ -43,28 +61,48 @@ func (o *AccountHttpCommandHandler) Disable(w http.ResponseWriter, r *http.Reque
 
 type AccountRouter struct {
     PathPrefix string
-    Router *mux.Router
     QueryHandler *AccountHttpQueryHandler
     CommandHandler *AccountHttpCommandHandler
+    Router *mux.Router
 }
 
-func (o *AccountRouter) Setup() (ret error) {
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateAccount").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("RegisterAccount").HandlerFunc(o.CommandHandler.Register)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateAccount").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteAccount").HandlerFunc(o.CommandHandler.Delete)
+func NewAccountRouter(PathPrefix string) (ret *AccountRouter) {
+    
+    ret.PathPrefix = ret.PathPrefix + "/" + "accounts"
+    return
+}
+
+func (o *AccountRouter) Setup(router *mux.Router) (ret error) {
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindAccountAll").HandlerFunc(o.QueryHandler.FindAll)
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindAccountById").HandlerFunc(o.QueryHandler.FindById)
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("CountAccountById").HandlerFunc(o.QueryHandler.CountById)
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("CountAccountAll").HandlerFunc(o.QueryHandler.CountAll)
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("ExistAccountAll").HandlerFunc(o.QueryHandler.ExistAll)
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("ExistAccountById").HandlerFunc(o.QueryHandler.ExistById)
+    router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateAccount").HandlerFunc(o.CommandHandler.Create)
+    router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("RegisterAccount").HandlerFunc(o.CommandHandler.Register)
+    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateAccount").HandlerFunc(o.CommandHandler.Update)
+    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteAccount").HandlerFunc(o.CommandHandler.Delete)
     return
 }
 
 
 type AuthRouter struct {
-    Router *mux.Router
     PathPrefix string
     AccountRouter *AccountRouter
+    Router *mux.Router
 }
 
-func (o *AuthRouter) Setup() (ret error) {
+func NewAuthRouter(PathPrefix string) (ret *AuthRouter) {
     
+    ret.PathPrefix = ret.PathPrefix + "/" + "auth"
+    return
+}
+
+func (o *AuthRouter) Setup(router *mux.Router) (ret error) {
+    if ret = o.AccountRouter.Setup(router); ret != nil {
+        return
+    }
     return
 }
 

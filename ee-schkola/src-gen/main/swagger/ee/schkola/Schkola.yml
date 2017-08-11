@@ -3,6 +3,166 @@ info:
   title: Schkola
   version: "1.0.0"
 paths:
+  /auth/accounts:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findAll
+              - findById
+              - countById
+            - countAll
+            - existAll
+            - existById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+  /finance/expenses:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findAll
+              - findById
+              - countById
+            - countAll
+            - existAll
+            - existById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Expense"
+  /finance/expense-purposes:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findAll
+              - findById
+              - countById
+            - countAll
+            - existAll
+            - existById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExpensePurpose"
+  /finance/fees:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findAll
+              - findById
+              - countById
+            - countAll
+            - existAll
+            - existById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Fee"
+  /finance/fee-kinds:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findAll
+              - findById
+              - countById
+            - countAll
+            - existAll
+            - existById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeeKind"
   /library/books:
     get:
       parameters:
@@ -45,6 +205,70 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Book"
+  /person/churchs:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findAll
+              - findById
+              - countById
+            - countAll
+            - existAll
+            - existById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Church"
+  /person/graduations:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findAll
+              - findById
+              - countById
+            - countAll
+            - existAll
+            - existById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Graduation"
   /person/profiles:
     get:
       parameters:
@@ -87,6 +311,198 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Profile"
+  /student/attendances:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findAll
+              - findById
+              - countById
+            - countAll
+            - existAll
+            - existById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Attendance"
+  /student/courses:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findAll
+              - findById
+              - countById
+            - countAll
+            - existAll
+            - existById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Course"
+  /student/grades:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findAll
+              - findById
+              - countById
+            - countAll
+            - existAll
+            - existById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Grade"
+  /student/groups:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findAll
+              - findById
+              - countById
+            - countAll
+            - existAll
+            - existById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Group"
+  /student/school-applications:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findAll
+              - findById
+              - countById
+            - countAll
+            - existAll
+            - existById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SchoolApplication"
+  /student/school-years:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findAll
+              - findById
+              - countById
+            - countAll
+            - existAll
+            - existById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SchoolYear"
 components:
   schemas:
     Account:

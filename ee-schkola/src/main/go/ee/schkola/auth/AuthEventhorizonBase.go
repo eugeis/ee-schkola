@@ -192,6 +192,20 @@ type AccountAggregateInitializer struct {
     *AccountEventHandler
 }
 
+
+func (o *AccountAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, AccountEventTypes().AccountCreated())
+}
+
+func (o *AccountAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, AccountEventTypes().AccountDeleted())
+}
+
+func (o *AccountAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, AccountEventTypes().AccountUpdated())
+}
+
+
 func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus) (ret *AccountAggregateInitializer) {
     
@@ -210,20 +224,6 @@ func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
 
     return
 }
-
-
-func (o *AccountAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().AccountCreated())
-}
-
-func (o *AccountAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().AccountDeleted())
-}
-
-func (o *AccountAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().AccountUpdated())
-}
-
 
 
 type AuthEventhorizonInitializer struct {

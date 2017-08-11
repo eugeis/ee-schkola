@@ -209,6 +209,20 @@ type BookAggregateInitializer struct {
     *BookEventHandler
 }
 
+
+func (o *BookAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, BookEventTypes().BookCreated())
+}
+
+func (o *BookAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, BookEventTypes().BookDeleted())
+}
+
+func (o *BookAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, BookEventTypes().BookUpdated())
+}
+
+
 func NewBookAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus) (ret *BookAggregateInitializer) {
     
@@ -227,20 +241,6 @@ func NewBookAggregateInitializer(eventStore eventhorizon.EventStore, eventBus ev
 
     return
 }
-
-
-func (o *BookAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, BookEventTypes().BookCreated())
-}
-
-func (o *BookAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, BookEventTypes().BookDeleted())
-}
-
-func (o *BookAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, BookEventTypes().BookUpdated())
-}
-
 
 
 type LibraryEventhorizonInitializer struct {

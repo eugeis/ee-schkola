@@ -157,6 +157,20 @@ type ChurchAggregateInitializer struct {
     *ChurchEventHandler
 }
 
+
+func (o *ChurchAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ChurchEventTypes().ChurchCreated())
+}
+
+func (o *ChurchAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ChurchEventTypes().ChurchDeleted())
+}
+
+func (o *ChurchAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ChurchEventTypes().ChurchUpdated())
+}
+
+
 func NewChurchAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus) (ret *ChurchAggregateInitializer) {
     
@@ -175,20 +189,6 @@ func NewChurchAggregateInitializer(eventStore eventhorizon.EventStore, eventBus 
 
     return
 }
-
-
-func (o *ChurchAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ChurchEventTypes().ChurchCreated())
-}
-
-func (o *ChurchAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ChurchEventTypes().ChurchDeleted())
-}
-
-func (o *ChurchAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ChurchEventTypes().ChurchUpdated())
-}
-
 
 
 type GraduationCommandHandler struct {
@@ -334,6 +334,20 @@ type GraduationAggregateInitializer struct {
     *GraduationEventHandler
 }
 
+
+func (o *GraduationAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, GraduationEventTypes().GraduationCreated())
+}
+
+func (o *GraduationAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, GraduationEventTypes().GraduationDeleted())
+}
+
+func (o *GraduationAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, GraduationEventTypes().GraduationUpdated())
+}
+
+
 func NewGraduationAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus) (ret *GraduationAggregateInitializer) {
     
@@ -352,20 +366,6 @@ func NewGraduationAggregateInitializer(eventStore eventhorizon.EventStore, event
 
     return
 }
-
-
-func (o *GraduationAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GraduationEventTypes().GraduationCreated())
-}
-
-func (o *GraduationAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GraduationEventTypes().GraduationDeleted())
-}
-
-func (o *GraduationAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GraduationEventTypes().GraduationUpdated())
-}
-
 
 
 type ProfileCommandHandler struct {
@@ -547,6 +547,20 @@ type ProfileAggregateInitializer struct {
     *ProfileEventHandler
 }
 
+
+func (o *ProfileAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ProfileEventTypes().ProfileCreated())
+}
+
+func (o *ProfileAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ProfileEventTypes().ProfileDeleted())
+}
+
+func (o *ProfileAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, ProfileEventTypes().ProfileUpdated())
+}
+
+
 func NewProfileAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus) (ret *ProfileAggregateInitializer) {
     
@@ -565,20 +579,6 @@ func NewProfileAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
 
     return
 }
-
-
-func (o *ProfileAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ProfileEventTypes().ProfileCreated())
-}
-
-func (o *ProfileAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ProfileEventTypes().ProfileDeleted())
-}
-
-func (o *ProfileAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ProfileEventTypes().ProfileUpdated())
-}
-
 
 
 type PersonEventhorizonInitializer struct {

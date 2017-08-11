@@ -55,34 +55,48 @@ func (o *BookHttpCommandHandler) Unregister(w http.ResponseWriter, r *http.Reque
 
 type BookRouter struct {
     PathPrefix string
-    Router *mux.Router
     QueryHandler *BookHttpQueryHandler
     CommandHandler *BookHttpCommandHandler
+    Router *mux.Router
 }
 
-func (o *BookRouter) Setup() (ret error) {
-    o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindBookByTitle").HandlerFunc(o.QueryHandler.FindByTitle)
-    o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindBookByAuthor").HandlerFunc(o.QueryHandler.FindByAuthor)
-    o.Router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindBookByPattern").HandlerFunc(o.QueryHandler.FindByPattern)
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateBook").HandlerFunc(o.CommandHandler.Create)
-    o.Router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("RegisterBook").HandlerFunc(o.CommandHandler.Register)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateBook").HandlerFunc(o.CommandHandler.Update)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("ChangeBook").HandlerFunc(o.CommandHandler.Change)
-    o.Router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("ChangeBookLocation").HandlerFunc(o.CommandHandler.ChangeLocation)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteBook").HandlerFunc(o.CommandHandler.Delete)
-    o.Router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("UnregisterBook").HandlerFunc(o.CommandHandler.Unregister)
+func NewBookRouter(PathPrefix string) (ret *BookRouter) {
+    
+    ret.PathPrefix = ret.PathPrefix + "/" + "books"
+    return
+}
+
+func (o *BookRouter) Setup(router *mux.Router) (ret error) {
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindBookByTitle").HandlerFunc(o.QueryHandler.FindByTitle)
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindBookByAuthor").HandlerFunc(o.QueryHandler.FindByAuthor)
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindBookByPattern").HandlerFunc(o.QueryHandler.FindByPattern)
+    router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateBook").HandlerFunc(o.CommandHandler.Create)
+    router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("RegisterBook").HandlerFunc(o.CommandHandler.Register)
+    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateBook").HandlerFunc(o.CommandHandler.Update)
+    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("ChangeBook").HandlerFunc(o.CommandHandler.Change)
+    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("ChangeBookLocation").HandlerFunc(o.CommandHandler.ChangeLocation)
+    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteBook").HandlerFunc(o.CommandHandler.Delete)
+    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("UnregisterBook").HandlerFunc(o.CommandHandler.Unregister)
     return
 }
 
 
 type LibraryRouter struct {
-    Router *mux.Router
     PathPrefix string
     BookRouter *BookRouter
+    Router *mux.Router
 }
 
-func (o *LibraryRouter) Setup() (ret error) {
+func NewLibraryRouter(PathPrefix string) (ret *LibraryRouter) {
     
+    ret.PathPrefix = ret.PathPrefix + "/" + "library"
+    return
+}
+
+func (o *LibraryRouter) Setup(router *mux.Router) (ret error) {
+    if ret = o.BookRouter.Setup(router); ret != nil {
+        return
+    }
     return
 }
 
