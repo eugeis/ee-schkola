@@ -5,6 +5,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
+    "time"
 )
 type ChurchCommandHandler struct {
     CreateHandler func (*CreateChurch, *Church, eh.AggregateStoreEvent) error
@@ -37,7 +38,7 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (ret error) {
                     Name: command.Name,
                     Address: command.Address,
                     Pastor: command.Pastor,
-                    Contact: command.Contact,})
+                    Contact: command.Contact,}, time.Now())
             }
             return
         }
@@ -51,7 +52,7 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (ret error) {
                 ret = eh.IdsDismatch(entity.Id, command.Id, ChurchAggregateType)
             } else {
                 store.StoreEvent(ChurchDeletedEvent, &ChurchDeleted{
-                    Id: command.Id,})
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -69,7 +70,7 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (ret error) {
                     Name: command.Name,
                     Address: command.Address,
                     Pastor: command.Pastor,
-                    Contact: command.Contact,})
+                    Contact: command.Contact,}, time.Now())
             }
             return
         }
@@ -208,7 +209,7 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (ret error) {
                 store.StoreEvent(GraduationCreatedEvent, &GraduationCreated{
                     Id: command.Id,
                     Name: command.Name,
-                    Level: command.Level,})
+                    Level: command.Level,}, time.Now())
             }
             return
         }
@@ -222,7 +223,7 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (ret error) {
                 ret = eh.IdsDismatch(entity.Id, command.Id, GraduationAggregateType)
             } else {
                 store.StoreEvent(GraduationDeletedEvent, &GraduationDeleted{
-                    Id: command.Id,})
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -238,7 +239,7 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (ret error) {
                 store.StoreEvent(GraduationUpdatedEvent, &GraduationUpdated{
                     Id: command.Id,
                     Name: command.Name,
-                    Level: command.Level,})
+                    Level: command.Level,}, time.Now())
             }
             return
         }
@@ -382,7 +383,7 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (ret error) {
                     Photo: command.Photo,
                     Family: command.Family,
                     Church: command.Church,
-                    Education: command.Education,})
+                    Education: command.Education,}, time.Now())
             }
             return
         }
@@ -396,7 +397,7 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (ret error) {
                 ret = eh.IdsDismatch(entity.Id, command.Id, ProfileAggregateType)
             } else {
                 store.StoreEvent(ProfileDeletedEvent, &ProfileDeleted{
-                    Id: command.Id,})
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -421,7 +422,7 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (ret error) {
                     Photo: command.Photo,
                     Family: command.Family,
                     Church: command.Church,
-                    Education: command.Education,})
+                    Education: command.Education,}, time.Now())
             }
             return
         }

@@ -5,6 +5,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
+    "time"
 )
 type BookCommandHandler struct {
     CreateHandler func (*CreateBook, *Book, eh.AggregateStoreEvent) error
@@ -44,7 +45,7 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
                     Edition: command.Edition,
                     Category: command.Category,
                     Author: command.Author,
-                    Location: command.Location,})
+                    Location: command.Location,}, time.Now())
             }
             return
         }
@@ -58,7 +59,7 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
                 ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
             } else {
                 store.StoreEvent(BookDeletedEvent, &BookDeleted{
-                    Id: command.Id,})
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -73,7 +74,7 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
             } else {
                 store.StoreEvent(LocationChangedBookEvent, &LocationChangedBook{
                     Location: command.Location,
-                    Id: command.Id,})
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -95,7 +96,7 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
                     Edition: command.Edition,
                     Category: command.Category,
                     Author: command.Author,
-                    Location: command.Location,})
+                    Location: command.Location,}, time.Now())
             }
             return
         }

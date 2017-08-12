@@ -5,6 +5,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
+    "time"
 )
 type ExpenseCommandHandler struct {
     CreateHandler func (*CreateExpense, *Expense, eh.AggregateStoreEvent) error
@@ -37,7 +38,7 @@ func (o *ExpenseCommandHandler) SetupCommandHandler() (ret error) {
                     Purpose: command.Purpose,
                     Amount: command.Amount,
                     Profile: command.Profile,
-                    Date: command.Date,})
+                    Date: command.Date,}, time.Now())
             }
             return
         }
@@ -51,7 +52,7 @@ func (o *ExpenseCommandHandler) SetupCommandHandler() (ret error) {
                 ret = eh.IdsDismatch(entity.Id, command.Id, ExpenseAggregateType)
             } else {
                 store.StoreEvent(ExpenseDeletedEvent, &ExpenseDeleted{
-                    Id: command.Id,})
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -69,7 +70,7 @@ func (o *ExpenseCommandHandler) SetupCommandHandler() (ret error) {
                     Purpose: command.Purpose,
                     Amount: command.Amount,
                     Profile: command.Profile,
-                    Date: command.Date,})
+                    Date: command.Date,}, time.Now())
             }
             return
         }
@@ -208,7 +209,7 @@ func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (ret error) {
                 store.StoreEvent(ExpensePurposeCreatedEvent, &ExpensePurposeCreated{
                     Id: command.Id,
                     Name: command.Name,
-                    Description: command.Description,})
+                    Description: command.Description,}, time.Now())
             }
             return
         }
@@ -222,7 +223,7 @@ func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (ret error) {
                 ret = eh.IdsDismatch(entity.Id, command.Id, ExpensePurposeAggregateType)
             } else {
                 store.StoreEvent(ExpensePurposeDeletedEvent, &ExpensePurposeDeleted{
-                    Id: command.Id,})
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -238,7 +239,7 @@ func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (ret error) {
                 store.StoreEvent(ExpensePurposeUpdatedEvent, &ExpensePurposeUpdated{
                     Id: command.Id,
                     Name: command.Name,
-                    Description: command.Description,})
+                    Description: command.Description,}, time.Now())
             }
             return
         }
@@ -375,7 +376,7 @@ func (o *FeeCommandHandler) SetupCommandHandler() (ret error) {
                     Student: command.Student,
                     Amount: command.Amount,
                     Kind: command.Kind,
-                    Date: command.Date,})
+                    Date: command.Date,}, time.Now())
             }
             return
         }
@@ -389,7 +390,7 @@ func (o *FeeCommandHandler) SetupCommandHandler() (ret error) {
                 ret = eh.IdsDismatch(entity.Id, command.Id, FeeAggregateType)
             } else {
                 store.StoreEvent(FeeDeletedEvent, &FeeDeleted{
-                    Id: command.Id,})
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -407,7 +408,7 @@ func (o *FeeCommandHandler) SetupCommandHandler() (ret error) {
                     Student: command.Student,
                     Amount: command.Amount,
                     Kind: command.Kind,
-                    Date: command.Date,})
+                    Date: command.Date,}, time.Now())
             }
             return
         }
@@ -547,7 +548,7 @@ func (o *FeeKindCommandHandler) SetupCommandHandler() (ret error) {
                     Id: command.Id,
                     Name: command.Name,
                     Amount: command.Amount,
-                    Description: command.Description,})
+                    Description: command.Description,}, time.Now())
             }
             return
         }
@@ -561,7 +562,7 @@ func (o *FeeKindCommandHandler) SetupCommandHandler() (ret error) {
                 ret = eh.IdsDismatch(entity.Id, command.Id, FeeKindAggregateType)
             } else {
                 store.StoreEvent(FeeKindDeletedEvent, &FeeKindDeleted{
-                    Id: command.Id,})
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -578,7 +579,7 @@ func (o *FeeKindCommandHandler) SetupCommandHandler() (ret error) {
                     Id: command.Id,
                     Name: command.Name,
                     Amount: command.Amount,
-                    Description: command.Description,})
+                    Description: command.Description,}, time.Now())
             }
             return
         }

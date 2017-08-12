@@ -5,6 +5,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
+    "time"
 )
 type AccountCommandHandler struct {
     EnableHandler func (*EnableAccount, *Account, eh.AggregateStoreEvent) error
@@ -66,7 +67,7 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
                     Email: command.Email,
                     Disabled: command.Disabled,
                     LastLoginAt: command.LastLoginAt,
-                    Profile: command.Profile,})
+                    Profile: command.Profile,}, time.Now())
             }
             return
         }
@@ -80,7 +81,7 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
                 ret = eh.IdsDismatch(entity.Id, command.Id, AccountAggregateType)
             } else {
                 store.StoreEvent(AccountDeletedEvent, &AccountDeleted{
-                    Id: command.Id,})
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -100,7 +101,7 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
                     Email: command.Email,
                     Disabled: command.Disabled,
                     LastLoginAt: command.LastLoginAt,
-                    Profile: command.Profile,})
+                    Profile: command.Profile,}, time.Now())
             }
             return
         }
