@@ -9,11 +9,8 @@ import (
 type BookCommandHandler struct {
     CreateHandler func (*CreateBook, *Book, eh.AggregateStoreEvent) error
     DeleteHandler func (*DeleteBook, *Book, eh.AggregateStoreEvent) error
-    UpdateHandler func (*UpdateBook, *Book, eh.AggregateStoreEvent) error
-    RegisterHandler func (*RegisterBook, *Book, eh.AggregateStoreEvent) error
-    UnregisterHandler func (*UnregisterBook, *Book, eh.AggregateStoreEvent) error
-    ChangeHandler func (*ChangeBook, *Book, eh.AggregateStoreEvent) error
     ChangeLocationHandler func (*ChangeBookLocation, *Book, eh.AggregateStoreEvent) error
+    UpdateHandler func (*UpdateBook, *Book, eh.AggregateStoreEvent) error
 }
 
 func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
@@ -22,16 +19,10 @@ func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{
         ret = o.CreateHandler(cmd.(*CreateBook), entity.(*Book), store)
     case DeleteBookCommand:
         ret = o.DeleteHandler(cmd.(*DeleteBook), entity.(*Book), store)
-    case UpdateBookCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateBook), entity.(*Book), store)
-    case RegisterBookCommand:
-        ret = o.RegisterHandler(cmd.(*RegisterBook), entity.(*Book), store)
-    case UnregisterBookCommand:
-        ret = o.UnregisterHandler(cmd.(*UnregisterBook), entity.(*Book), store)
-    case ChangeBookCommand:
-        ret = o.ChangeHandler(cmd.(*ChangeBook), entity.(*Book), store)
     case ChangeBookLocationCommand:
         ret = o.ChangeLocationHandler(cmd.(*ChangeBookLocation), entity.(*Book), store)
+    case UpdateBookCommand:
+        ret = o.UpdateHandler(cmd.(*UpdateBook), entity.(*Book), store)
     default:
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
@@ -73,6 +64,21 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
         }
     }
     
+    if o.ChangeLocationHandler == nil {
+        o.ChangeLocationHandler = func(command *ChangeBookLocation, entity *Book, store eh.AggregateStoreEvent) (ret error) {
+            if len(entity.Id) == 0 {
+                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
+            } else if entity.Id != command.Id {
+                ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
+            } else {
+                store.StoreEvent(LocationChangedBookEvent, &LocationChangedBook{
+                    Id: command.Id,
+                    Location: command.Location,})
+            }
+            return
+        }
+    }
+    
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) == 0 {
@@ -95,35 +101,12 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
         }
     }
     
-    if o.RegisterHandler == nil {
-        o.RegisterHandler = func(command *RegisterBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(RegisterBookCommand)
-            return
-        }
-    }
-    
-    if o.UnregisterHandler == nil {
-        o.UnregisterHandler = func(command *UnregisterBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(UnregisterBookCommand)
-            return
-        }
-    }
-    
-    if o.ChangeHandler == nil {
-        o.ChangeHandler = func(command *ChangeBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(ChangeBookCommand)
-            return
-        }
-    }
-    
-    if o.ChangeLocationHandler == nil {
-        o.ChangeLocationHandler = func(command *ChangeBookLocation, entity *Book, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(ChangeBookLocationCommand)
-            return
-        }
-    }
-    
     return
 }
 
 
 type BookEventHandler struct {
+    LocationChangedHandler func (*LocationChangedBook, *Book) error
     CreatedHandler func (*BookCreated, *Book) error
     DeletedHandler func (*BookDeleted, *Book) error
     UpdatedHandler func (*BookUpdated, *Book) error
@@ -131,6 +114,8 @@ type BookEventHandler struct {
 
 func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
     switch event.EventType() {
+    case LocationChangedBookEvent:
+        ret = o.LocationChangedHandler(event.Data().(*LocationChangedBook), entity.(*Book))
     case BookCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*BookCreated), entity.(*Book))
     case BookDeletedEvent:
@@ -144,6 +129,20 @@ func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (
 }
 
 func (o *BookEventHandler) SetupEventHandler() (ret error) {
+    if o.LocationChangedHandler == nil {
+        o.LocationChangedHandler = func(event *LocationChangedBook, entity *Book) (ret error) {
+            if len(entity.Id) > 0 {
+                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
+            } else if entity.Id != event.Id {
+                ret = eh.IdsDismatch(entity.Id, event.Id, BookAggregateType)
+            } else {
+                entity.Id = event.Id
+                entity.Location = event.Location
+            }
+            return
+        }
+    }
+    
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *BookCreated, entity *Book) (ret error) {
             if len(entity.Id) > 0 {
@@ -209,18 +208,6 @@ type BookAggregateInitializer struct {
     *BookEventHandler
 }
 
-
-func (o *BookAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, BookEventTypes().BookCreated())
-}
-
-func (o *BookAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, BookEventTypes().BookDeleted())
-}
-
-func (o *BookAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, BookEventTypes().BookUpdated())
-}
 
 
 func NewBookAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 

@@ -7,28 +7,28 @@ import (
     "github.com/looplab/eventhorizon"
 )
 type AttendanceCommandHandler struct {
-    CreateHandler func (*CreateAttendance, *Attendance, eh.AggregateStoreEvent) error
-    DeleteHandler func (*DeleteAttendance, *Attendance, eh.AggregateStoreEvent) error
-    UpdateHandler func (*UpdateAttendance, *Attendance, eh.AggregateStoreEvent) error
     ConfirmHandler func (*ConfirmAttendance, *Attendance, eh.AggregateStoreEvent) error
     CancelHandler func (*CancelAttendance, *Attendance, eh.AggregateStoreEvent) error
     RegisterHandler func (*RegisterAttendance, *Attendance, eh.AggregateStoreEvent) error
+    CreateHandler func (*CreateAttendance, *Attendance, eh.AggregateStoreEvent) error
+    DeleteHandler func (*DeleteAttendance, *Attendance, eh.AggregateStoreEvent) error
+    UpdateHandler func (*UpdateAttendance, *Attendance, eh.AggregateStoreEvent) error
 }
 
 func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     switch cmd.CommandType() {
-    case CreateAttendanceCommand:
-        ret = o.CreateHandler(cmd.(*CreateAttendance), entity.(*Attendance), store)
-    case DeleteAttendanceCommand:
-        ret = o.DeleteHandler(cmd.(*DeleteAttendance), entity.(*Attendance), store)
-    case UpdateAttendanceCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateAttendance), entity.(*Attendance), store)
     case ConfirmAttendanceCommand:
         ret = o.ConfirmHandler(cmd.(*ConfirmAttendance), entity.(*Attendance), store)
     case CancelAttendanceCommand:
         ret = o.CancelHandler(cmd.(*CancelAttendance), entity.(*Attendance), store)
     case RegisterAttendanceCommand:
         ret = o.RegisterHandler(cmd.(*RegisterAttendance), entity.(*Attendance), store)
+    case CreateAttendanceCommand:
+        ret = o.CreateHandler(cmd.(*CreateAttendance), entity.(*Attendance), store)
+    case DeleteAttendanceCommand:
+        ret = o.DeleteHandler(cmd.(*DeleteAttendance), entity.(*Attendance), store)
+    case UpdateAttendanceCommand:
+        ret = o.UpdateHandler(cmd.(*UpdateAttendance), entity.(*Attendance), store)
     default:
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
@@ -36,6 +36,24 @@ func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity inte
 }
 
 func (o *AttendanceCommandHandler) SetupCommandHandler() (ret error) {
+    if o.ConfirmHandler == nil {
+        o.ConfirmHandler = func(command *ConfirmAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(ConfirmAttendanceCommand)
+            return
+        }
+    }
+    
+    if o.CancelHandler == nil {
+        o.CancelHandler = func(command *CancelAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(CancelAttendanceCommand)
+            return
+        }
+    }
+    
+    if o.RegisterHandler == nil {
+        o.RegisterHandler = func(command *RegisterAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(RegisterAttendanceCommand)
+            return
+        }
+    }
+    
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -88,24 +106,6 @@ func (o *AttendanceCommandHandler) SetupCommandHandler() (ret error) {
                     Token: command.Token,
                     TokenTrace: command.TokenTrace,})
             }
-            return
-        }
-    }
-    
-    if o.ConfirmHandler == nil {
-        o.ConfirmHandler = func(command *ConfirmAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(ConfirmAttendanceCommand)
-            return
-        }
-    }
-    
-    if o.CancelHandler == nil {
-        o.CancelHandler = func(command *CancelAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(CancelAttendanceCommand)
-            return
-        }
-    }
-    
-    if o.RegisterHandler == nil {
-        o.RegisterHandler = func(command *RegisterAttendance, entity *Attendance, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(RegisterAttendanceCommand)
             return
         }
     }
@@ -200,18 +200,6 @@ type AttendanceAggregateInitializer struct {
     *AttendanceEventHandler
 }
 
-
-func (o *AttendanceAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AttendanceEventTypes().AttendanceCreated())
-}
-
-func (o *AttendanceAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AttendanceEventTypes().AttendanceDeleted())
-}
-
-func (o *AttendanceAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AttendanceEventTypes().AttendanceUpdated())
-}
 
 
 func NewAttendanceAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
@@ -398,18 +386,6 @@ type CourseAggregateInitializer struct {
 }
 
 
-func (o *CourseAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, CourseEventTypes().CourseCreated())
-}
-
-func (o *CourseAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, CourseEventTypes().CourseDeleted())
-}
-
-func (o *CourseAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, CourseEventTypes().CourseUpdated())
-}
-
 
 func NewCourseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus) (ret *CourseAggregateInitializer) {
@@ -586,18 +562,6 @@ type GradeAggregateInitializer struct {
     *GradeEventHandler
 }
 
-
-func (o *GradeAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GradeEventTypes().GradeCreated())
-}
-
-func (o *GradeAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GradeEventTypes().GradeDeleted())
-}
-
-func (o *GradeAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GradeEventTypes().GradeUpdated())
-}
 
 
 func NewGradeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
@@ -780,18 +744,6 @@ type GroupAggregateInitializer struct {
 }
 
 
-func (o *GroupAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GroupEventTypes().GroupCreated())
-}
-
-func (o *GroupAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GroupEventTypes().GroupDeleted())
-}
-
-func (o *GroupAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, GroupEventTypes().GroupUpdated())
-}
-
 
 func NewGroupAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus) (ret *GroupAggregateInitializer) {
@@ -973,18 +925,6 @@ type SchoolApplicationAggregateInitializer struct {
 }
 
 
-func (o *SchoolApplicationAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, SchoolApplicationEventTypes().SchoolApplicationCreated())
-}
-
-func (o *SchoolApplicationAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, SchoolApplicationEventTypes().SchoolApplicationDeleted())
-}
-
-func (o *SchoolApplicationAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, SchoolApplicationEventTypes().SchoolApplicationUpdated())
-}
-
 
 func NewSchoolApplicationAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus) (ret *SchoolApplicationAggregateInitializer) {
@@ -1157,18 +1097,6 @@ type SchoolYearAggregateInitializer struct {
     *SchoolYearEventHandler
 }
 
-
-func (o *SchoolYearAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, SchoolYearEventTypes().SchoolYearCreated())
-}
-
-func (o *SchoolYearAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, SchoolYearEventTypes().SchoolYearDeleted())
-}
-
-func (o *SchoolYearAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, SchoolYearEventTypes().SchoolYearUpdated())
-}
 
 
 func NewSchoolYearAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 

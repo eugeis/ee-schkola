@@ -8,12 +8,12 @@ import (
     "time"
 )
 const (
-     CreateAttendanceCommand eventhorizon.CommandType = "CreateAttendance"
-     DeleteAttendanceCommand eventhorizon.CommandType = "DeleteAttendance"
-     UpdateAttendanceCommand eventhorizon.CommandType = "UpdateAttendance"
      ConfirmAttendanceCommand eventhorizon.CommandType = "ConfirmAttendance"
      CancelAttendanceCommand eventhorizon.CommandType = "CancelAttendance"
      RegisterAttendanceCommand eventhorizon.CommandType = "RegisterAttendance"
+     CreateAttendanceCommand eventhorizon.CommandType = "CreateAttendance"
+     DeleteAttendanceCommand eventhorizon.CommandType = "DeleteAttendance"
+     UpdateAttendanceCommand eventhorizon.CommandType = "UpdateAttendance"
 )
 
 
@@ -51,6 +51,50 @@ const (
      UpdateSchoolYearCommand eventhorizon.CommandType = "UpdateSchoolYear"
 )
 
+
+
+
+        
+type ConfirmAttendance struct {
+}
+
+func NewConfirm() (ret *ConfirmAttendance) {
+    ret = &ConfirmAttendance{}
+    return
+}
+func (o *ConfirmAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *ConfirmAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
+func (o *ConfirmAttendance) CommandType() eventhorizon.CommandType      { return ConfirmAttendanceCommand }
+
+
+
+        
+type CancelAttendance struct {
+}
+
+func NewCancel() (ret *CancelAttendance) {
+    ret = &CancelAttendance{}
+    return
+}
+func (o *CancelAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *CancelAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
+func (o *CancelAttendance) CommandType() eventhorizon.CommandType      { return CancelAttendanceCommand }
+
+
+
+        
+type RegisterAttendance struct {
+    Student *person.Profile
+    Course *Course
+}
+
+func NewRegister() (ret *RegisterAttendance) {
+    ret = &RegisterAttendance{}
+    return
+}
+func (o *RegisterAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *RegisterAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
+func (o *RegisterAttendance) CommandType() eventhorizon.CommandType      { return RegisterAttendanceCommand }
 
 
 
@@ -97,50 +141,6 @@ type UpdateAttendance struct {
 func (o *UpdateAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
 func (o *UpdateAttendance) CommandType() eventhorizon.CommandType      { return UpdateAttendanceCommand }
-
-
-
-        
-type ConfirmAttendance struct {
-}
-
-func NewConfirm() (ret *ConfirmAttendance) {
-    ret = &ConfirmAttendance{}
-    return
-}
-func (o *ConfirmAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *ConfirmAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
-func (o *ConfirmAttendance) CommandType() eventhorizon.CommandType      { return ConfirmAttendanceCommand }
-
-
-
-        
-type CancelAttendance struct {
-}
-
-func NewCancel() (ret *CancelAttendance) {
-    ret = &CancelAttendance{}
-    return
-}
-func (o *CancelAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *CancelAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
-func (o *CancelAttendance) CommandType() eventhorizon.CommandType      { return CancelAttendanceCommand }
-
-
-
-        
-type RegisterAttendance struct {
-    Student *person.Profile
-    Course *Course
-}
-
-func NewRegister() (ret *RegisterAttendance) {
-    ret = &RegisterAttendance{}
-    return
-}
-func (o *RegisterAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *RegisterAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
-func (o *RegisterAttendance) CommandType() eventhorizon.CommandType      { return RegisterAttendanceCommand }
 
 
 
@@ -395,18 +395,6 @@ func (o *AttendanceCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *AttendanceCommandType) IsCreateAttendance() bool {
-    return o == _attendanceCommandTypes.CreateAttendance()
-}
-
-func (o *AttendanceCommandType) IsDeleteAttendance() bool {
-    return o == _attendanceCommandTypes.DeleteAttendance()
-}
-
-func (o *AttendanceCommandType) IsUpdateAttendance() bool {
-    return o == _attendanceCommandTypes.UpdateAttendance()
-}
-
 func (o *AttendanceCommandType) IsConfirmAttendance() bool {
     return o == _attendanceCommandTypes.ConfirmAttendance()
 }
@@ -419,18 +407,30 @@ func (o *AttendanceCommandType) IsRegisterAttendance() bool {
     return o == _attendanceCommandTypes.RegisterAttendance()
 }
 
+func (o *AttendanceCommandType) IsCreateAttendance() bool {
+    return o == _attendanceCommandTypes.CreateAttendance()
+}
+
+func (o *AttendanceCommandType) IsDeleteAttendance() bool {
+    return o == _attendanceCommandTypes.DeleteAttendance()
+}
+
+func (o *AttendanceCommandType) IsUpdateAttendance() bool {
+    return o == _attendanceCommandTypes.UpdateAttendance()
+}
+
 type attendanceCommandTypes struct {
 	values []*AttendanceCommandType
     literals []enum.Literal
 }
 
 var _attendanceCommandTypes = &attendanceCommandTypes{values: []*AttendanceCommandType{
-    {name: "CreateAttendance", ordinal: 0},
-    {name: "DeleteAttendance", ordinal: 1},
-    {name: "UpdateAttendance", ordinal: 2},
-    {name: "ConfirmAttendance", ordinal: 3},
-    {name: "CancelAttendance", ordinal: 4},
-    {name: "RegisterAttendance", ordinal: 5}},
+    {name: "ConfirmAttendance", ordinal: 0},
+    {name: "CancelAttendance", ordinal: 1},
+    {name: "RegisterAttendance", ordinal: 2},
+    {name: "CreateAttendance", ordinal: 3},
+    {name: "DeleteAttendance", ordinal: 4},
+    {name: "UpdateAttendance", ordinal: 5}},
 }
 
 func AttendanceCommandTypes() *attendanceCommandTypes {
@@ -451,27 +451,27 @@ func (o *attendanceCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *attendanceCommandTypes) CreateAttendance() *AttendanceCommandType {
+func (o *attendanceCommandTypes) ConfirmAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[0]
 }
 
-func (o *attendanceCommandTypes) DeleteAttendance() *AttendanceCommandType {
+func (o *attendanceCommandTypes) CancelAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[1]
 }
 
-func (o *attendanceCommandTypes) UpdateAttendance() *AttendanceCommandType {
+func (o *attendanceCommandTypes) RegisterAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[2]
 }
 
-func (o *attendanceCommandTypes) ConfirmAttendance() *AttendanceCommandType {
+func (o *attendanceCommandTypes) CreateAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[3]
 }
 
-func (o *attendanceCommandTypes) CancelAttendance() *AttendanceCommandType {
+func (o *attendanceCommandTypes) DeleteAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[4]
 }
 
-func (o *attendanceCommandTypes) RegisterAttendance() *AttendanceCommandType {
+func (o *attendanceCommandTypes) UpdateAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[5]
 }
 

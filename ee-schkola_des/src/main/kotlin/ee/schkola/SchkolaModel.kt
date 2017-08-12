@@ -27,11 +27,9 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val lastLoginAt = propDT()
             val profile = prop { type(Person.Profile) }
 
-            object commands : Commands() {
-                val register = createBy(username, email, password)
-                val enable = command()
-                val disable = command()
-            }
+            val register = createBy(username, email, password)
+            val enable = command()
+            val disable = command()
         }
     }
 
@@ -50,11 +48,9 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val church = prop(ChurchInfo)
             val education = prop(Education)
 
-            object queries : Queries() {
-                val findByName = findBy(name)
-                val findByEmail = findBy(contact.sub { email })
-                val findByPhone = findBy(contact.sub { phone })
-            }
+            val findByName = findBy(name)
+            val findByEmail = findBy(contact.sub { email })
+            val findByPhone = findBy(contact.sub { phone })
         }
 
         object Church : Entity({ superUnit(Shared.SchkolaBase) }) {
@@ -225,11 +221,9 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val token = propS()
             val tokenTrace = prop(Shared.Trace)
 
-            object commands : Commands() {
-                val register = createBy(student, course)
-                val confirm = command()
-                val cancel = command()
-            }
+            val register = createBy(student, course)
+            val confirm = command()
+            val cancel = command()
         }
     }
 
@@ -249,18 +243,12 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val author = prop(Person.PersonName)
             val location = prop(Location)
 
-            object queries : Queries() {
-                val findByTitle = findBy(title)
-                val findByAuthor = findBy(author)
-                val findByPattern = findBy(p("pattern"))
-            }
+            val findByTitle = findBy(title)
+            val findByAuthor = findBy(author)
+            val findByPattern = findBy(p("pattern"))
 
-            object commands : Commands() {
-                val unregister = deleteBy(id())
-                val register = createBy(title, description, language, releaseDate, edition, category, author)
-                val change = updateBy(title, description, language, releaseDate, edition, category, author)
-                val changeLocation = updateBy(Location.shelf, Location.fold)
-            }
+            val LocationChanged = updated(id(), location)
+            val changeLocation = updateBy(id(), location).event(LocationChanged)
         }
     }
 }

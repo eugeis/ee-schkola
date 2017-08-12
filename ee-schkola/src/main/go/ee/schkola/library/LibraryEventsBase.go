@@ -7,12 +7,24 @@ import (
     "time"
 )
 const (
+     LocationChangedBookEvent eventhorizon.EventType = "LocationChangedBook"
      BookCreatedEvent eventhorizon.EventType = "BookCreated"
      BookDeletedEvent eventhorizon.EventType = "BookDeleted"
      BookUpdatedEvent eventhorizon.EventType = "BookUpdated"
 )
 
 
+
+
+type LocationChangedBook struct {
+    Id eventhorizon.UUID
+    Location *Location
+}
+
+func NewLocationChanged() (ret *LocationChangedBook) {
+    ret = &LocationChangedBook{}
+    return
+}
 
 
 type BookCreated struct {
@@ -61,6 +73,10 @@ func (o *BookEventType) Ordinal() int {
     return o.ordinal
 }
 
+func (o *BookEventType) IsLocationChangedBook() bool {
+    return o == _bookEventTypes.LocationChangedBook()
+}
+
 func (o *BookEventType) IsBookCreated() bool {
     return o == _bookEventTypes.BookCreated()
 }
@@ -79,9 +95,10 @@ type bookEventTypes struct {
 }
 
 var _bookEventTypes = &bookEventTypes{values: []*BookEventType{
-    {name: "BookCreated", ordinal: 0},
-    {name: "BookDeleted", ordinal: 1},
-    {name: "BookUpdated", ordinal: 2}},
+    {name: "LocationChangedBook", ordinal: 0},
+    {name: "BookCreated", ordinal: 1},
+    {name: "BookDeleted", ordinal: 2},
+    {name: "BookUpdated", ordinal: 3}},
 }
 
 func BookEventTypes() *bookEventTypes {
@@ -102,16 +119,20 @@ func (o *bookEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *bookEventTypes) BookCreated() *BookEventType {
+func (o *bookEventTypes) LocationChangedBook() *BookEventType {
     return _bookEventTypes.values[0]
 }
 
-func (o *bookEventTypes) BookDeleted() *BookEventType {
+func (o *bookEventTypes) BookCreated() *BookEventType {
     return _bookEventTypes.values[1]
 }
 
-func (o *bookEventTypes) BookUpdated() *BookEventType {
+func (o *bookEventTypes) BookDeleted() *BookEventType {
     return _bookEventTypes.values[2]
+}
+
+func (o *bookEventTypes) BookUpdated() *BookEventType {
+    return _bookEventTypes.values[3]
 }
 
 func (o *bookEventTypes) ParseBookEventType(name string) (ret *BookEventType, ok bool) {

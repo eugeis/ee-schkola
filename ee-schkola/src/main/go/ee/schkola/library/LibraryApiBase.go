@@ -29,6 +29,9 @@ func NewBook() (ret *Book) {
 
 
 
+
+
+
 type Location struct {
     Shelf string
     Fold string

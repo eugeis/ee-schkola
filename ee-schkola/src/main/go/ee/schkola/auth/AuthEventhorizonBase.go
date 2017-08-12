@@ -7,28 +7,28 @@ import (
     "github.com/looplab/eventhorizon"
 )
 type AccountCommandHandler struct {
-    CreateHandler func (*CreateAccount, *Account, eh.AggregateStoreEvent) error
-    DeleteHandler func (*DeleteAccount, *Account, eh.AggregateStoreEvent) error
-    UpdateHandler func (*UpdateAccount, *Account, eh.AggregateStoreEvent) error
     EnableHandler func (*EnableAccount, *Account, eh.AggregateStoreEvent) error
     DisableHandler func (*DisableAccount, *Account, eh.AggregateStoreEvent) error
     RegisterHandler func (*RegisterAccount, *Account, eh.AggregateStoreEvent) error
+    CreateHandler func (*CreateAccount, *Account, eh.AggregateStoreEvent) error
+    DeleteHandler func (*DeleteAccount, *Account, eh.AggregateStoreEvent) error
+    UpdateHandler func (*UpdateAccount, *Account, eh.AggregateStoreEvent) error
 }
 
 func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
     switch cmd.CommandType() {
-    case CreateAccountCommand:
-        ret = o.CreateHandler(cmd.(*CreateAccount), entity.(*Account), store)
-    case DeleteAccountCommand:
-        ret = o.DeleteHandler(cmd.(*DeleteAccount), entity.(*Account), store)
-    case UpdateAccountCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateAccount), entity.(*Account), store)
     case EnableAccountCommand:
         ret = o.EnableHandler(cmd.(*EnableAccount), entity.(*Account), store)
     case DisableAccountCommand:
         ret = o.DisableHandler(cmd.(*DisableAccount), entity.(*Account), store)
     case RegisterAccountCommand:
         ret = o.RegisterHandler(cmd.(*RegisterAccount), entity.(*Account), store)
+    case CreateAccountCommand:
+        ret = o.CreateHandler(cmd.(*CreateAccount), entity.(*Account), store)
+    case DeleteAccountCommand:
+        ret = o.DeleteHandler(cmd.(*DeleteAccount), entity.(*Account), store)
+    case UpdateAccountCommand:
+        ret = o.UpdateHandler(cmd.(*UpdateAccount), entity.(*Account), store)
     default:
 		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
@@ -36,6 +36,24 @@ func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 }
 
 func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
+    if o.EnableHandler == nil {
+        o.EnableHandler = func(command *EnableAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(EnableAccountCommand)
+            return
+        }
+    }
+    
+    if o.DisableHandler == nil {
+        o.DisableHandler = func(command *DisableAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DisableAccountCommand)
+            return
+        }
+    }
+    
+    if o.RegisterHandler == nil {
+        o.RegisterHandler = func(command *RegisterAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(RegisterAccountCommand)
+            return
+        }
+    }
+    
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
             if len(entity.Id) > 0 {
@@ -84,24 +102,6 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
                     LastLoginAt: command.LastLoginAt,
                     Profile: command.Profile,})
             }
-            return
-        }
-    }
-    
-    if o.EnableHandler == nil {
-        o.EnableHandler = func(command *EnableAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(EnableAccountCommand)
-            return
-        }
-    }
-    
-    if o.DisableHandler == nil {
-        o.DisableHandler = func(command *DisableAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DisableAccountCommand)
-            return
-        }
-    }
-    
-    if o.RegisterHandler == nil {
-        o.RegisterHandler = func(command *RegisterAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(RegisterAccountCommand)
             return
         }
     }
@@ -192,18 +192,6 @@ type AccountAggregateInitializer struct {
     *AccountEventHandler
 }
 
-
-func (o *AccountAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().AccountCreated())
-}
-
-func (o *AccountAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().AccountDeleted())
-}
-
-func (o *AccountAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().AccountUpdated())
-}
 
 
 func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 

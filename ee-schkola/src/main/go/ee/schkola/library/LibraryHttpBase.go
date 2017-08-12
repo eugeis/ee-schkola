@@ -1,8 +1,10 @@
 package library
 
 import (
+    "fmt"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
+    "html"
     "net/http"
 )
 type BookHttpQueryHandler struct {
@@ -14,12 +16,39 @@ func NewBookHttpQueryHandler() (ret *BookHttpQueryHandler) {
 }
 
 func (o *BookHttpQueryHandler) FindByTitle(w http.ResponseWriter, r *http.Request)  {
+    fmt.Fprintf(w, "Hello, %q from FindByBookTitle", html.EscapeString(r.URL.Path))
 }
 
 func (o *BookHttpQueryHandler) FindByAuthor(w http.ResponseWriter, r *http.Request)  {
+    fmt.Fprintf(w, "Hello, %q from FindByBookAuthor", html.EscapeString(r.URL.Path))
 }
 
 func (o *BookHttpQueryHandler) FindByPattern(w http.ResponseWriter, r *http.Request)  {
+    fmt.Fprintf(w, "Hello, %q from FindByBookPattern", html.EscapeString(r.URL.Path))
+}
+
+func (o *BookHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
+    fmt.Fprintf(w, "Hello, %q from FindAllBook", html.EscapeString(r.URL.Path))
+}
+
+func (o *BookHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
+    fmt.Fprintf(w, "Hello, %q from FindByBookId", html.EscapeString(r.URL.Path))
+}
+
+func (o *BookHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
+    fmt.Fprintf(w, "Hello, %q from CountAllBook", html.EscapeString(r.URL.Path))
+}
+
+func (o *BookHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
+    fmt.Fprintf(w, "Hello, %q from CountByBookId", html.EscapeString(r.URL.Path))
+}
+
+func (o *BookHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
+    fmt.Fprintf(w, "Hello, %q from ExistAllBook", html.EscapeString(r.URL.Path))
+}
+
+func (o *BookHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
+    fmt.Fprintf(w, "Hello, %q from ExistByBookId", html.EscapeString(r.URL.Path))
 }
 
 
@@ -32,24 +61,19 @@ func NewBookHttpCommandHandler() (ret *BookHttpCommandHandler) {
 }
 
 func (o *BookHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-}
-
-func (o *BookHttpCommandHandler) Register(w http.ResponseWriter, r *http.Request)  {
-}
-
-func (o *BookHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-}
-
-func (o *BookHttpCommandHandler) Change(w http.ResponseWriter, r *http.Request)  {
+    fmt.Fprintf(w, "Hello, %q from BookCreate", html.EscapeString(r.URL.Path))
 }
 
 func (o *BookHttpCommandHandler) ChangeLocation(w http.ResponseWriter, r *http.Request)  {
+    fmt.Fprintf(w, "Hello, %q from ChangeLocationBook", html.EscapeString(r.URL.Path))
+}
+
+func (o *BookHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+    fmt.Fprintf(w, "Hello, %q from BookUpdate", html.EscapeString(r.URL.Path))
 }
 
 func (o *BookHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-}
-
-func (o *BookHttpCommandHandler) Unregister(w http.ResponseWriter, r *http.Request)  {
+    fmt.Fprintf(w, "Hello, %q from BookDelete", html.EscapeString(r.URL.Path))
 }
 
 
@@ -60,23 +84,50 @@ type BookRouter struct {
     Router *mux.Router
 }
 
-func NewBookRouter(PathPrefix string) (ret *BookRouter) {
-    
-    ret.PathPrefix = ret.PathPrefix + "/" + "books"
+func NewBookRouter(pathPrefix string) (ret *BookRouter) {
+    pathPrefix = pathPrefix + "/" + "books"
+    ret = &BookRouter{
+        PathPrefix: pathPrefix,
+        QueryHandler: NewBookHttpQueryHandler(),
+        CommandHandler: NewBookHttpCommandHandler(),
+    }
     return
 }
 
 func (o *BookRouter) Setup(router *mux.Router) (ret error) {
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindBookByTitle").HandlerFunc(o.QueryHandler.FindByTitle)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindBookByAuthor").HandlerFunc(o.QueryHandler.FindByAuthor)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Name("FindBookByPattern").HandlerFunc(o.QueryHandler.FindByPattern)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("CreateBook").HandlerFunc(o.CommandHandler.Create)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Name("RegisterBook").HandlerFunc(o.CommandHandler.Register)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("UpdateBook").HandlerFunc(o.CommandHandler.Update)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("ChangeBook").HandlerFunc(o.CommandHandler.Change)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Name("ChangeBookLocation").HandlerFunc(o.CommandHandler.ChangeLocation)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("DeleteBook").HandlerFunc(o.CommandHandler.Delete)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Name("UnregisterBook").HandlerFunc(o.CommandHandler.Unregister)
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+        Name("CountBookById").HandlerFunc(o.QueryHandler.CountById).
+        Queries(net.QueryType, net.QueryTypeCount)
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+        Name("CountBookAll").HandlerFunc(o.QueryHandler.CountAll).
+        Queries(net.QueryType, net.QueryTypeCount)
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+        Name("ExistBookById").HandlerFunc(o.QueryHandler.ExistById).
+        Queries(net.QueryType, net.QueryTypeExist)
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+        Name("ExistBookAll").HandlerFunc(o.QueryHandler.ExistAll).
+        Queries(net.QueryType, net.QueryTypeExist)
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+        Name("FindBookByTitle").HandlerFunc(o.QueryHandler.FindByTitle).
+    Queries("title", "{title}")
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+        Name("FindBookByAuthor").HandlerFunc(o.QueryHandler.FindByAuthor).
+    Queries("author", "{author}")
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+        Name("FindBookByPattern").HandlerFunc(o.QueryHandler.FindByPattern).
+    Queries("pattern", "{pattern}")
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+        Name("FindBookById").HandlerFunc(o.QueryHandler.FindById)
+    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+        Name("FindBookAll").HandlerFunc(o.QueryHandler.FindAll)
+    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+        Name("CreateBook").HandlerFunc(o.CommandHandler.Create)
+    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+        Name("ChangeBookLocation").HandlerFunc(o.CommandHandler.ChangeLocation)
+    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+        Name("UpdateBook").HandlerFunc(o.CommandHandler.Update)
+    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
+        Name("DeleteBook").HandlerFunc(o.CommandHandler.Delete)
     return
 }
 
@@ -87,9 +138,12 @@ type LibraryRouter struct {
     Router *mux.Router
 }
 
-func NewLibraryRouter(PathPrefix string) (ret *LibraryRouter) {
-    
-    ret.PathPrefix = ret.PathPrefix + "/" + "library"
+func NewLibraryRouter(pathPrefix string) (ret *LibraryRouter) {
+    pathPrefix = pathPrefix + "/" + "library"
+    ret = &LibraryRouter{
+        PathPrefix: pathPrefix,
+        BookRouter: NewBookRouter(pathPrefix),
+    }
     return
 }
 

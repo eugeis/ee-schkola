@@ -13,7 +13,8 @@ import ee.task.PathResolver
 import ee.task.TaskRepository
 import java.nio.file.Paths
 
-open class SchkolaDesignApp() : ModelApp(ExplorerModel("SchkolaDesign", listOf("Component" to Schkola.initObjectTrees())) {
+open class SchkolaDesignApp() : ModelApp(ExplorerModel("SchkolaDesign",
+        listOf("Component" to Schkola.initObjectTrees())) {
     it is MultiHolder<*>
 }, taskRepository())
 /*

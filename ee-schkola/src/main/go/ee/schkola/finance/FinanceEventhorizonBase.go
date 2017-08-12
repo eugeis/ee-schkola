@@ -158,18 +158,6 @@ type ExpenseAggregateInitializer struct {
 }
 
 
-func (o *ExpenseAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpenseEventTypes().ExpenseCreated())
-}
-
-func (o *ExpenseAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpenseEventTypes().ExpenseDeleted())
-}
-
-func (o *ExpenseAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpenseEventTypes().ExpenseUpdated())
-}
-
 
 func NewExpenseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus) (ret *ExpenseAggregateInitializer) {
@@ -334,18 +322,6 @@ type ExpensePurposeAggregateInitializer struct {
     *ExpensePurposeEventHandler
 }
 
-
-func (o *ExpensePurposeAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpensePurposeEventTypes().ExpensePurposeCreated())
-}
-
-func (o *ExpensePurposeAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpensePurposeEventTypes().ExpensePurposeDeleted())
-}
-
-func (o *ExpensePurposeAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, ExpensePurposeEventTypes().ExpensePurposeUpdated())
-}
 
 
 func NewExpensePurposeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
@@ -520,18 +496,6 @@ type FeeAggregateInitializer struct {
 }
 
 
-func (o *FeeAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeEventTypes().FeeCreated())
-}
-
-func (o *FeeAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeEventTypes().FeeDeleted())
-}
-
-func (o *FeeAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeEventTypes().FeeUpdated())
-}
-
 
 func NewFeeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus) (ret *FeeAggregateInitializer) {
@@ -700,18 +664,6 @@ type FeeKindAggregateInitializer struct {
     *FeeKindEventHandler
 }
 
-
-func (o *FeeKindAggregateInitializer) RegisterForCreated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeKindEventTypes().FeeKindCreated())
-}
-
-func (o *FeeKindAggregateInitializer) RegisterForDeleted(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeKindEventTypes().FeeKindDeleted())
-}
-
-func (o *FeeKindAggregateInitializer) RegisterForUpdated(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, FeeKindEventTypes().FeeKindUpdated())
-}
 
 
 func NewFeeKindAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 

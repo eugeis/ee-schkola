@@ -15,8 +15,8 @@ paths:
             enum: 
               - findAll
               - findById
-              - countById
             - countAll
+            - countById
             - existAll
             - existById
         - name: operationType
@@ -28,6 +28,11 @@ paths:
               - find
               - count
               - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
       responses:
         '200':
           description: fsdfsdf
@@ -47,8 +52,8 @@ paths:
             enum: 
               - findAll
               - findById
-              - countById
             - countAll
+            - countById
             - existAll
             - existById
         - name: operationType
@@ -60,6 +65,11 @@ paths:
               - find
               - count
               - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
       responses:
         '200':
           description: fsdfsdf
@@ -79,8 +89,8 @@ paths:
             enum: 
               - findAll
               - findById
-              - countById
             - countAll
+            - countById
             - existAll
             - existById
         - name: operationType
@@ -92,6 +102,11 @@ paths:
               - find
               - count
               - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
       responses:
         '200':
           description: fsdfsdf
@@ -111,8 +126,8 @@ paths:
             enum: 
               - findAll
               - findById
-              - countById
             - countAll
+            - countById
             - existAll
             - existById
         - name: operationType
@@ -124,6 +139,11 @@ paths:
               - find
               - count
               - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
       responses:
         '200':
           description: fsdfsdf
@@ -143,8 +163,8 @@ paths:
             enum: 
               - findAll
               - findById
-              - countById
             - countAll
+            - countById
             - existAll
             - existById
         - name: operationType
@@ -156,6 +176,11 @@ paths:
               - find
               - count
               - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
       responses:
         '200':
           description: fsdfsdf
@@ -176,6 +201,12 @@ paths:
               - findByTitle
               - findByAuthor
               - findByPattern
+              - findAll
+              - findById
+            - countAll
+            - countById
+            - existAll
+            - existById
         - name: operationType
           in: query
           required: false
@@ -183,11 +214,18 @@ paths:
             type: string
             enum: 
               - find
+              - count
+              - exists
         - name: author
           in: query
           required: false
           schema:            
             $ref: "#/components/schemas/PersonName"
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
         - name: pattern
           in: query
           required: false
@@ -217,8 +255,8 @@ paths:
             enum: 
               - findAll
               - findById
-              - countById
             - countAll
+            - countById
             - existAll
             - existById
         - name: operationType
@@ -230,6 +268,11 @@ paths:
               - find
               - count
               - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
       responses:
         '200':
           description: fsdfsdf
@@ -249,8 +292,8 @@ paths:
             enum: 
               - findAll
               - findById
-              - countById
             - countAll
+            - countById
             - existAll
             - existById
         - name: operationType
@@ -262,6 +305,11 @@ paths:
               - find
               - count
               - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
       responses:
         '200':
           description: fsdfsdf
@@ -282,6 +330,12 @@ paths:
               - findByName
               - findByEmail
               - findByPhone
+              - findAll
+              - findById
+            - countAll
+            - countById
+            - existAll
+            - existById
         - name: operationType
           in: query
           required: false
@@ -289,7 +343,14 @@ paths:
             type: string
             enum: 
               - find
+              - count
+              - exists
         - name: email
+          in: query
+          required: false
+          schema:            
+            type: string
+        - name: id
           in: query
           required: false
           schema:            
@@ -323,8 +384,8 @@ paths:
             enum: 
               - findAll
               - findById
-              - countById
             - countAll
+            - countById
             - existAll
             - existById
         - name: operationType
@@ -336,6 +397,11 @@ paths:
               - find
               - count
               - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
       responses:
         '200':
           description: fsdfsdf
@@ -355,8 +421,8 @@ paths:
             enum: 
               - findAll
               - findById
-              - countById
             - countAll
+            - countById
             - existAll
             - existById
         - name: operationType
@@ -368,6 +434,11 @@ paths:
               - find
               - count
               - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
       responses:
         '200':
           description: fsdfsdf
@@ -387,8 +458,8 @@ paths:
             enum: 
               - findAll
               - findById
-              - countById
             - countAll
+            - countById
             - existAll
             - existById
         - name: operationType
@@ -400,6 +471,11 @@ paths:
               - find
               - count
               - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
       responses:
         '200':
           description: fsdfsdf
@@ -419,8 +495,8 @@ paths:
             enum: 
               - findAll
               - findById
-              - countById
             - countAll
+            - countById
             - existAll
             - existById
         - name: operationType
@@ -432,6 +508,11 @@ paths:
               - find
               - count
               - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
       responses:
         '200':
           description: fsdfsdf
@@ -451,8 +532,8 @@ paths:
             enum: 
               - findAll
               - findById
-              - countById
             - countAll
+            - countById
             - existAll
             - existById
         - name: operationType
@@ -464,6 +545,11 @@ paths:
               - find
               - count
               - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
       responses:
         '200':
           description: fsdfsdf
@@ -483,8 +569,8 @@ paths:
             enum: 
               - findAll
               - findById
-              - countById
             - countAll
+            - countById
             - existAll
             - existById
         - name: operationType
@@ -496,6 +582,11 @@ paths:
               - find
               - count
               - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
       responses:
         '200':
           description: fsdfsdf
