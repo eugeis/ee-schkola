@@ -107,7 +107,7 @@ func (o *AttendanceRouter) Setup(router *mux.Router) (ret error) {
         Name("FindAttendanceById").HandlerFunc(o.QueryHandler.FindById)
     router.Methods(net.GET).PathPrefix(o.PathPrefix).
         Name("FindAttendanceAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).
+    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("RegisterAttendance").HandlerFunc(o.CommandHandler.Register)
     router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateAttendance").HandlerFunc(o.CommandHandler.Create)

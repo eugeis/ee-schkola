@@ -56,6 +56,7 @@ const (
 
         
 type ConfirmAttendance struct {
+    Id eventhorizon.UUID
 }
 
 func NewConfirm() (ret *ConfirmAttendance) {
@@ -70,6 +71,7 @@ func (o *ConfirmAttendance) CommandType() eventhorizon.CommandType      { return
 
         
 type CancelAttendance struct {
+    Id eventhorizon.UUID
 }
 
 func NewCancel() (ret *CancelAttendance) {
@@ -86,6 +88,7 @@ func (o *CancelAttendance) CommandType() eventhorizon.CommandType      { return 
 type RegisterAttendance struct {
     Student *person.Profile
     Course *Course
+    Id eventhorizon.UUID
 }
 
 func NewRegister() (ret *RegisterAttendance) {

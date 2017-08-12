@@ -17,8 +17,8 @@ const (
 
 
 type LocationChangedBook struct {
-    Id eventhorizon.UUID
     Location *Location
+    Id eventhorizon.UUID
 }
 
 func NewLocationChanged() (ret *LocationChangedBook) {

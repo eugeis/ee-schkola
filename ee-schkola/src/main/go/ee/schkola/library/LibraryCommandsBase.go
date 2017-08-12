@@ -46,8 +46,8 @@ func (o *DeleteBook) CommandType() eventhorizon.CommandType      { return Delete
 
         
 type ChangeBookLocation struct {
-    Id eventhorizon.UUID
     Location *Location
+    Id eventhorizon.UUID
 }
 
 func NewChangeLocation() (ret *ChangeBookLocation) {

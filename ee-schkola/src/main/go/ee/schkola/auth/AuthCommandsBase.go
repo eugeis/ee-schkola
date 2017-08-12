@@ -20,6 +20,7 @@ const (
 
         
 type EnableAccount struct {
+    Id eventhorizon.UUID
 }
 
 func NewEnable() (ret *EnableAccount) {
@@ -34,6 +35,7 @@ func (o *EnableAccount) CommandType() eventhorizon.CommandType      { return Ena
 
         
 type DisableAccount struct {
+    Id eventhorizon.UUID
 }
 
 func NewDisable() (ret *DisableAccount) {
@@ -51,6 +53,7 @@ type RegisterAccount struct {
     Username string
     Email string
     Password string
+    Id eventhorizon.UUID
 }
 
 func NewRegister() (ret *RegisterAccount) {

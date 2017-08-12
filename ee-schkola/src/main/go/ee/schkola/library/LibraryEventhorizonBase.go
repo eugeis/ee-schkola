@@ -72,8 +72,8 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
                 ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
             } else {
                 store.StoreEvent(LocationChangedBookEvent, &LocationChangedBook{
-                    Id: command.Id,
-                    Location: command.Location,})
+                    Location: command.Location,
+                    Id: command.Id,})
             }
             return
         }
@@ -136,8 +136,8 @@ func (o *BookEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, BookAggregateType)
             } else {
-                entity.Id = event.Id
                 entity.Location = event.Location
+                entity.Id = event.Id
             }
             return
         }

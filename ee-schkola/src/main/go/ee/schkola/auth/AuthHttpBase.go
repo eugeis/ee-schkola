@@ -107,7 +107,7 @@ func (o *AccountRouter) Setup(router *mux.Router) (ret error) {
         Name("FindAccountById").HandlerFunc(o.QueryHandler.FindById)
     router.Methods(net.GET).PathPrefix(o.PathPrefix).
         Name("FindAccountAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).
+    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("RegisterAccount").HandlerFunc(o.CommandHandler.Register)
     router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateAccount").HandlerFunc(o.CommandHandler.Create)

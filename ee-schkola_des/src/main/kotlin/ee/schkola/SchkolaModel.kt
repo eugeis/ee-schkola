@@ -247,8 +247,8 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val findByAuthor = findBy(author)
             val findByPattern = findBy(p("pattern"))
 
-            val LocationChanged = updated(id(), location)
-            val changeLocation = updateBy(id(), location).event(LocationChanged)
+            val LocationChanged = updated(location)
+            val changeLocation = updateBy(location).event(LocationChanged)
         }
     }
 }
