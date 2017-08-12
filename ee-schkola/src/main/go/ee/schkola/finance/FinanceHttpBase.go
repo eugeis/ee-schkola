@@ -1,6 +1,8 @@
 package finance
 
 import (
+    "context"
+    "encoding/json"
     "fmt"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
@@ -42,26 +44,76 @@ func (o *ExpenseHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reque
 
 
 type ExpenseHttpCommandHandler struct {
+    context context.Context
     commandBus eventhorizon.CommandBus
 }
 
-func NewExpenseHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *ExpenseHttpCommandHandler) {
+func NewExpenseHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ExpenseHttpCommandHandler) {
     ret = &ExpenseHttpCommandHandler{
+        context: context,
         commandBus: commandBus,
     }
     return
 }
 
 func (o *ExpenseHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExpenseCreate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &CreateExpense{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from ExpenseCreate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *ExpenseHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExpenseUpdate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &UpdateExpense{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from ExpenseUpdate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *ExpenseHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExpenseDelete", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &DeleteExpense{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from ExpenseDelete", id, html.EscapeString(r.URL.Path))
 }
 
 
@@ -72,12 +124,12 @@ type ExpenseRouter struct {
     Router *mux.Router
 }
 
-func NewExpenseRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *ExpenseRouter) {
+func NewExpenseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *ExpenseRouter) {
     pathPrefix = pathPrefix + "/" + "expenses"
     ret = &ExpenseRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewExpenseHttpQueryHandler(),
-        CommandHandler: NewExpenseHttpCommandHandler(commandBus),
+        CommandHandler: NewExpenseHttpCommandHandler(context, commandBus),
     }
     return
 }
@@ -143,26 +195,76 @@ func (o *ExpensePurposeHttpQueryHandler) ExistById(w http.ResponseWriter, r *htt
 
 
 type ExpensePurposeHttpCommandHandler struct {
+    context context.Context
     commandBus eventhorizon.CommandBus
 }
 
-func NewExpensePurposeHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *ExpensePurposeHttpCommandHandler) {
+func NewExpensePurposeHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ExpensePurposeHttpCommandHandler) {
     ret = &ExpensePurposeHttpCommandHandler{
+        context: context,
         commandBus: commandBus,
     }
     return
 }
 
 func (o *ExpensePurposeHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExpensePurposeCreate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &CreateExpensePurpose{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from ExpensePurposeCreate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *ExpensePurposeHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExpensePurposeUpdate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &UpdateExpensePurpose{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from ExpensePurposeUpdate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *ExpensePurposeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExpensePurposeDelete", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &DeleteExpensePurpose{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from ExpensePurposeDelete", id, html.EscapeString(r.URL.Path))
 }
 
 
@@ -173,12 +275,12 @@ type ExpensePurposeRouter struct {
     Router *mux.Router
 }
 
-func NewExpensePurposeRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *ExpensePurposeRouter) {
+func NewExpensePurposeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *ExpensePurposeRouter) {
     pathPrefix = pathPrefix + "/" + "expensePurposes"
     ret = &ExpensePurposeRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewExpensePurposeHttpQueryHandler(),
-        CommandHandler: NewExpensePurposeHttpCommandHandler(commandBus),
+        CommandHandler: NewExpensePurposeHttpCommandHandler(context, commandBus),
     }
     return
 }
@@ -244,26 +346,76 @@ func (o *FeeHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) 
 
 
 type FeeHttpCommandHandler struct {
+    context context.Context
     commandBus eventhorizon.CommandBus
 }
 
-func NewFeeHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *FeeHttpCommandHandler) {
+func NewFeeHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *FeeHttpCommandHandler) {
     ret = &FeeHttpCommandHandler{
+        context: context,
         commandBus: commandBus,
     }
     return
 }
 
 func (o *FeeHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FeeCreate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &CreateFee{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from FeeCreate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *FeeHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FeeUpdate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &UpdateFee{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from FeeUpdate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *FeeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FeeDelete", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &DeleteFee{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from FeeDelete", id, html.EscapeString(r.URL.Path))
 }
 
 
@@ -274,12 +426,12 @@ type FeeRouter struct {
     Router *mux.Router
 }
 
-func NewFeeRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *FeeRouter) {
+func NewFeeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *FeeRouter) {
     pathPrefix = pathPrefix + "/" + "fees"
     ret = &FeeRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewFeeHttpQueryHandler(),
-        CommandHandler: NewFeeHttpCommandHandler(commandBus),
+        CommandHandler: NewFeeHttpCommandHandler(context, commandBus),
     }
     return
 }
@@ -345,26 +497,76 @@ func (o *FeeKindHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reque
 
 
 type FeeKindHttpCommandHandler struct {
+    context context.Context
     commandBus eventhorizon.CommandBus
 }
 
-func NewFeeKindHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *FeeKindHttpCommandHandler) {
+func NewFeeKindHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *FeeKindHttpCommandHandler) {
     ret = &FeeKindHttpCommandHandler{
+        context: context,
         commandBus: commandBus,
     }
     return
 }
 
 func (o *FeeKindHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FeeKindCreate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &CreateFeeKind{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from FeeKindCreate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *FeeKindHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FeeKindUpdate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &UpdateFeeKind{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from FeeKindUpdate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *FeeKindHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FeeKindDelete", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &DeleteFeeKind{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from FeeKindDelete", id, html.EscapeString(r.URL.Path))
 }
 
 
@@ -375,12 +577,12 @@ type FeeKindRouter struct {
     Router *mux.Router
 }
 
-func NewFeeKindRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *FeeKindRouter) {
+func NewFeeKindRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *FeeKindRouter) {
     pathPrefix = pathPrefix + "/" + "feeKinds"
     ret = &FeeKindRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewFeeKindHttpQueryHandler(),
-        CommandHandler: NewFeeKindHttpCommandHandler(commandBus),
+        CommandHandler: NewFeeKindHttpCommandHandler(context, commandBus),
     }
     return
 }
@@ -421,14 +623,14 @@ type FinanceRouter struct {
     Router *mux.Router
 }
 
-func NewFinanceRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *FinanceRouter) {
+func NewFinanceRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *FinanceRouter) {
     pathPrefix = pathPrefix + "/" + "finance"
     ret = &FinanceRouter{
         PathPrefix: pathPrefix,
-        ExpenseRouter: NewExpenseRouter(pathPrefix, commandBus),
-        ExpensePurposeRouter: NewExpensePurposeRouter(pathPrefix, commandBus),
-        FeeRouter: NewFeeRouter(pathPrefix, commandBus),
-        FeeKindRouter: NewFeeKindRouter(pathPrefix, commandBus),
+        ExpenseRouter: NewExpenseRouter(pathPrefix, context, commandBus),
+        ExpensePurposeRouter: NewExpensePurposeRouter(pathPrefix, context, commandBus),
+        FeeRouter: NewFeeRouter(pathPrefix, context, commandBus),
+        FeeKindRouter: NewFeeKindRouter(pathPrefix, context, commandBus),
     }
     return
 }

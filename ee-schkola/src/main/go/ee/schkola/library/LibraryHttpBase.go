@@ -1,6 +1,8 @@
 package library
 
 import (
+    "context"
+    "encoding/json"
     "fmt"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
@@ -54,30 +56,96 @@ func (o *BookHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)
 
 
 type BookHttpCommandHandler struct {
+    context context.Context
     commandBus eventhorizon.CommandBus
 }
 
-func NewBookHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *BookHttpCommandHandler) {
+func NewBookHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *BookHttpCommandHandler) {
     ret = &BookHttpCommandHandler{
+        context: context,
         commandBus: commandBus,
     }
     return
 }
 
 func (o *BookHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from BookCreate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &CreateBook{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from BookCreate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *BookHttpCommandHandler) ChangeLocation(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ChangeLocationBook", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &ChangeBookLocation{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from ChangeLocationBook", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *BookHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from BookUpdate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &UpdateBook{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from BookUpdate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *BookHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from BookDelete", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &DeleteBook{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from BookDelete", id, html.EscapeString(r.URL.Path))
 }
 
 
@@ -88,12 +156,12 @@ type BookRouter struct {
     Router *mux.Router
 }
 
-func NewBookRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *BookRouter) {
+func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *BookRouter) {
     pathPrefix = pathPrefix + "/" + "books"
     ret = &BookRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewBookHttpQueryHandler(),
-        CommandHandler: NewBookHttpCommandHandler(commandBus),
+        CommandHandler: NewBookHttpCommandHandler(context, commandBus),
     }
     return
 }
@@ -142,11 +210,11 @@ type LibraryRouter struct {
     Router *mux.Router
 }
 
-func NewLibraryRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *LibraryRouter) {
+func NewLibraryRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *LibraryRouter) {
     pathPrefix = pathPrefix + "/" + "library"
     ret = &LibraryRouter{
         PathPrefix: pathPrefix,
-        BookRouter: NewBookRouter(pathPrefix, commandBus),
+        BookRouter: NewBookRouter(pathPrefix, context, commandBus),
     }
     return
 }

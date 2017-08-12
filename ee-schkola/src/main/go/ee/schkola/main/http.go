@@ -7,10 +7,12 @@ import (
 	"ee/schkola/person"
 	"fmt"
 	"github.com/eugeis/gee/net"
+	"github.com/looplab/eventhorizon"
 	commandbus "github.com/looplab/eventhorizon/commandbus/local"
 	eventbus "github.com/looplab/eventhorizon/eventbus/local"
 	eventstore "github.com/looplab/eventhorizon/eventstore/memory"
 	eventpublisher "github.com/looplab/eventhorizon/publisher/local"
+	"context"
 )
 
 var log = lg.NewLogger("Schkola ")
@@ -37,7 +39,9 @@ func main() {
 
 	router.Methods(net.GET).Path("/").Name("Index").HandlerFunc(Index)
 
-	personRouter := person.NewPersonRouter("", commandBus)
+	context := eventhorizon.NewContextWithNamespace(context.Background(), "simple")
+
+	personRouter := person.NewPersonRouter("", context, commandBus)
 	personRouter.Setup(router)
 
 	log.Err("%v", http.ListenAndServe(":8080", router))

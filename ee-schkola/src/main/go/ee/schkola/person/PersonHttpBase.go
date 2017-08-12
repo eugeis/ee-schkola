@@ -1,6 +1,8 @@
 package person
 
 import (
+    "context"
+    "encoding/json"
     "fmt"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
@@ -42,26 +44,76 @@ func (o *ChurchHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reques
 
 
 type ChurchHttpCommandHandler struct {
+    context context.Context
     commandBus eventhorizon.CommandBus
 }
 
-func NewChurchHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *ChurchHttpCommandHandler) {
+func NewChurchHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ChurchHttpCommandHandler) {
     ret = &ChurchHttpCommandHandler{
+        context: context,
         commandBus: commandBus,
     }
     return
 }
 
 func (o *ChurchHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ChurchCreate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &CreateChurch{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from ChurchCreate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *ChurchHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ChurchUpdate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &UpdateChurch{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from ChurchUpdate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *ChurchHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ChurchDelete", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &DeleteChurch{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from ChurchDelete", id, html.EscapeString(r.URL.Path))
 }
 
 
@@ -72,12 +124,12 @@ type ChurchRouter struct {
     Router *mux.Router
 }
 
-func NewChurchRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *ChurchRouter) {
+func NewChurchRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *ChurchRouter) {
     pathPrefix = pathPrefix + "/" + "churches"
     ret = &ChurchRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewChurchHttpQueryHandler(),
-        CommandHandler: NewChurchHttpCommandHandler(commandBus),
+        CommandHandler: NewChurchHttpCommandHandler(context, commandBus),
     }
     return
 }
@@ -143,26 +195,76 @@ func (o *GraduationHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Re
 
 
 type GraduationHttpCommandHandler struct {
+    context context.Context
     commandBus eventhorizon.CommandBus
 }
 
-func NewGraduationHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *GraduationHttpCommandHandler) {
+func NewGraduationHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *GraduationHttpCommandHandler) {
     ret = &GraduationHttpCommandHandler{
+        context: context,
         commandBus: commandBus,
     }
     return
 }
 
 func (o *GraduationHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from GraduationCreate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &CreateGraduation{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from GraduationCreate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *GraduationHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from GraduationUpdate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &UpdateGraduation{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from GraduationUpdate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *GraduationHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from GraduationDelete", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &DeleteGraduation{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from GraduationDelete", id, html.EscapeString(r.URL.Path))
 }
 
 
@@ -173,12 +275,12 @@ type GraduationRouter struct {
     Router *mux.Router
 }
 
-func NewGraduationRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *GraduationRouter) {
+func NewGraduationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *GraduationRouter) {
     pathPrefix = pathPrefix + "/" + "graduations"
     ret = &GraduationRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewGraduationHttpQueryHandler(),
-        CommandHandler: NewGraduationHttpCommandHandler(commandBus),
+        CommandHandler: NewGraduationHttpCommandHandler(context, commandBus),
     }
     return
 }
@@ -256,26 +358,76 @@ func (o *ProfileHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reque
 
 
 type ProfileHttpCommandHandler struct {
+    context context.Context
     commandBus eventhorizon.CommandBus
 }
 
-func NewProfileHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *ProfileHttpCommandHandler) {
+func NewProfileHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ProfileHttpCommandHandler) {
     ret = &ProfileHttpCommandHandler{
+        context: context,
         commandBus: commandBus,
     }
     return
 }
 
 func (o *ProfileHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ProfileCreate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &CreateProfile{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from ProfileCreate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *ProfileHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ProfileUpdate", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &UpdateProfile{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from ProfileUpdate", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *ProfileHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ProfileDelete", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := vars["id"]
+    
+    decoder := json.NewDecoder(r.Body)
+    command := &DeleteProfile{}
+    if err := decoder.Decode(command); err != nil {
+        w.WriteHeader(http.StatusBadRequest)
+        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
+    }
+    defer r.Body.Close()
+
+    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
+		w.WriteHeader(http.StatusExpectationFailed)
+		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
+		return
+	}
+    fmt.Fprintf(w, "id=%v, %q from ProfileDelete", id, html.EscapeString(r.URL.Path))
 }
 
 
@@ -286,12 +438,12 @@ type ProfileRouter struct {
     Router *mux.Router
 }
 
-func NewProfileRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *ProfileRouter) {
+func NewProfileRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *ProfileRouter) {
     pathPrefix = pathPrefix + "/" + "profiles"
     ret = &ProfileRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewProfileHttpQueryHandler(),
-        CommandHandler: NewProfileHttpCommandHandler(commandBus),
+        CommandHandler: NewProfileHttpCommandHandler(context, commandBus),
     }
     return
 }
@@ -340,13 +492,13 @@ type PersonRouter struct {
     Router *mux.Router
 }
 
-func NewPersonRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *PersonRouter) {
+func NewPersonRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *PersonRouter) {
     pathPrefix = pathPrefix + "/" + "person"
     ret = &PersonRouter{
         PathPrefix: pathPrefix,
-        ChurchRouter: NewChurchRouter(pathPrefix, commandBus),
-        GraduationRouter: NewGraduationRouter(pathPrefix, commandBus),
-        ProfileRouter: NewProfileRouter(pathPrefix, commandBus),
+        ChurchRouter: NewChurchRouter(pathPrefix, context, commandBus),
+        GraduationRouter: NewGraduationRouter(pathPrefix, context, commandBus),
+        ProfileRouter: NewProfileRouter(pathPrefix, context, commandBus),
     }
     return
 }
