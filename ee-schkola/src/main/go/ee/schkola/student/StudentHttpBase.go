@@ -4,6 +4,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
+    "github.com/looplab/eventhorizon"
     "html"
     "net/http"
 )
@@ -41,10 +42,13 @@ func (o *AttendanceHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Re
 
 
 type AttendanceHttpCommandHandler struct {
+    commandBus eventhorizon.CommandBus
 }
 
-func NewAttendanceHttpCommandHandler() (ret *AttendanceHttpCommandHandler) {
-    ret = &AttendanceHttpCommandHandler{}
+func NewAttendanceHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *AttendanceHttpCommandHandler) {
+    ret = &AttendanceHttpCommandHandler{
+        commandBus: commandBus,
+    }
     return
 }
 
@@ -80,12 +84,12 @@ type AttendanceRouter struct {
     Router *mux.Router
 }
 
-func NewAttendanceRouter(pathPrefix string) (ret *AttendanceRouter) {
+func NewAttendanceRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *AttendanceRouter) {
     pathPrefix = pathPrefix + "/" + "attendances"
     ret = &AttendanceRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewAttendanceHttpQueryHandler(),
-        CommandHandler: NewAttendanceHttpCommandHandler(),
+        CommandHandler: NewAttendanceHttpCommandHandler(commandBus),
     }
     return
 }
@@ -153,10 +157,13 @@ func (o *CourseHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reques
 
 
 type CourseHttpCommandHandler struct {
+    commandBus eventhorizon.CommandBus
 }
 
-func NewCourseHttpCommandHandler() (ret *CourseHttpCommandHandler) {
-    ret = &CourseHttpCommandHandler{}
+func NewCourseHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *CourseHttpCommandHandler) {
+    ret = &CourseHttpCommandHandler{
+        commandBus: commandBus,
+    }
     return
 }
 
@@ -180,12 +187,12 @@ type CourseRouter struct {
     Router *mux.Router
 }
 
-func NewCourseRouter(pathPrefix string) (ret *CourseRouter) {
+func NewCourseRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *CourseRouter) {
     pathPrefix = pathPrefix + "/" + "courses"
     ret = &CourseRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewCourseHttpQueryHandler(),
-        CommandHandler: NewCourseHttpCommandHandler(),
+        CommandHandler: NewCourseHttpCommandHandler(commandBus),
     }
     return
 }
@@ -251,10 +258,13 @@ func (o *GradeHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request
 
 
 type GradeHttpCommandHandler struct {
+    commandBus eventhorizon.CommandBus
 }
 
-func NewGradeHttpCommandHandler() (ret *GradeHttpCommandHandler) {
-    ret = &GradeHttpCommandHandler{}
+func NewGradeHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *GradeHttpCommandHandler) {
+    ret = &GradeHttpCommandHandler{
+        commandBus: commandBus,
+    }
     return
 }
 
@@ -278,12 +288,12 @@ type GradeRouter struct {
     Router *mux.Router
 }
 
-func NewGradeRouter(pathPrefix string) (ret *GradeRouter) {
+func NewGradeRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *GradeRouter) {
     pathPrefix = pathPrefix + "/" + "grades"
     ret = &GradeRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewGradeHttpQueryHandler(),
-        CommandHandler: NewGradeHttpCommandHandler(),
+        CommandHandler: NewGradeHttpCommandHandler(commandBus),
     }
     return
 }
@@ -349,10 +359,13 @@ func (o *GroupHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request
 
 
 type GroupHttpCommandHandler struct {
+    commandBus eventhorizon.CommandBus
 }
 
-func NewGroupHttpCommandHandler() (ret *GroupHttpCommandHandler) {
-    ret = &GroupHttpCommandHandler{}
+func NewGroupHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *GroupHttpCommandHandler) {
+    ret = &GroupHttpCommandHandler{
+        commandBus: commandBus,
+    }
     return
 }
 
@@ -376,12 +389,12 @@ type GroupRouter struct {
     Router *mux.Router
 }
 
-func NewGroupRouter(pathPrefix string) (ret *GroupRouter) {
+func NewGroupRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *GroupRouter) {
     pathPrefix = pathPrefix + "/" + "groups"
     ret = &GroupRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewGroupHttpQueryHandler(),
-        CommandHandler: NewGroupHttpCommandHandler(),
+        CommandHandler: NewGroupHttpCommandHandler(commandBus),
     }
     return
 }
@@ -447,10 +460,13 @@ func (o *SchoolApplicationHttpQueryHandler) ExistById(w http.ResponseWriter, r *
 
 
 type SchoolApplicationHttpCommandHandler struct {
+    commandBus eventhorizon.CommandBus
 }
 
-func NewSchoolApplicationHttpCommandHandler() (ret *SchoolApplicationHttpCommandHandler) {
-    ret = &SchoolApplicationHttpCommandHandler{}
+func NewSchoolApplicationHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *SchoolApplicationHttpCommandHandler) {
+    ret = &SchoolApplicationHttpCommandHandler{
+        commandBus: commandBus,
+    }
     return
 }
 
@@ -474,12 +490,12 @@ type SchoolApplicationRouter struct {
     Router *mux.Router
 }
 
-func NewSchoolApplicationRouter(pathPrefix string) (ret *SchoolApplicationRouter) {
+func NewSchoolApplicationRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *SchoolApplicationRouter) {
     pathPrefix = pathPrefix + "/" + "schoolApplications"
     ret = &SchoolApplicationRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewSchoolApplicationHttpQueryHandler(),
-        CommandHandler: NewSchoolApplicationHttpCommandHandler(),
+        CommandHandler: NewSchoolApplicationHttpCommandHandler(commandBus),
     }
     return
 }
@@ -545,10 +561,13 @@ func (o *SchoolYearHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Re
 
 
 type SchoolYearHttpCommandHandler struct {
+    commandBus eventhorizon.CommandBus
 }
 
-func NewSchoolYearHttpCommandHandler() (ret *SchoolYearHttpCommandHandler) {
-    ret = &SchoolYearHttpCommandHandler{}
+func NewSchoolYearHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *SchoolYearHttpCommandHandler) {
+    ret = &SchoolYearHttpCommandHandler{
+        commandBus: commandBus,
+    }
     return
 }
 
@@ -572,12 +591,12 @@ type SchoolYearRouter struct {
     Router *mux.Router
 }
 
-func NewSchoolYearRouter(pathPrefix string) (ret *SchoolYearRouter) {
+func NewSchoolYearRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *SchoolYearRouter) {
     pathPrefix = pathPrefix + "/" + "schoolYears"
     ret = &SchoolYearRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewSchoolYearHttpQueryHandler(),
-        CommandHandler: NewSchoolYearHttpCommandHandler(),
+        CommandHandler: NewSchoolYearHttpCommandHandler(commandBus),
     }
     return
 }
@@ -620,16 +639,16 @@ type StudentRouter struct {
     Router *mux.Router
 }
 
-func NewStudentRouter(pathPrefix string) (ret *StudentRouter) {
+func NewStudentRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *StudentRouter) {
     pathPrefix = pathPrefix + "/" + "student"
     ret = &StudentRouter{
         PathPrefix: pathPrefix,
-        AttendanceRouter: NewAttendanceRouter(pathPrefix),
-        CourseRouter: NewCourseRouter(pathPrefix),
-        GradeRouter: NewGradeRouter(pathPrefix),
-        GroupRouter: NewGroupRouter(pathPrefix),
-        SchoolApplicationRouter: NewSchoolApplicationRouter(pathPrefix),
-        SchoolYearRouter: NewSchoolYearRouter(pathPrefix),
+        AttendanceRouter: NewAttendanceRouter(pathPrefix, commandBus),
+        CourseRouter: NewCourseRouter(pathPrefix, commandBus),
+        GradeRouter: NewGradeRouter(pathPrefix, commandBus),
+        GroupRouter: NewGroupRouter(pathPrefix, commandBus),
+        SchoolApplicationRouter: NewSchoolApplicationRouter(pathPrefix, commandBus),
+        SchoolYearRouter: NewSchoolYearRouter(pathPrefix, commandBus),
     }
     return
 }

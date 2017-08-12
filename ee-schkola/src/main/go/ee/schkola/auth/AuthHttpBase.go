@@ -4,6 +4,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
+    "github.com/looplab/eventhorizon"
     "html"
     "net/http"
 )
@@ -41,10 +42,13 @@ func (o *AccountHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reque
 
 
 type AccountHttpCommandHandler struct {
+    commandBus eventhorizon.CommandBus
 }
 
-func NewAccountHttpCommandHandler() (ret *AccountHttpCommandHandler) {
-    ret = &AccountHttpCommandHandler{}
+func NewAccountHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *AccountHttpCommandHandler) {
+    ret = &AccountHttpCommandHandler{
+        commandBus: commandBus,
+    }
     return
 }
 
@@ -80,12 +84,12 @@ type AccountRouter struct {
     Router *mux.Router
 }
 
-func NewAccountRouter(pathPrefix string) (ret *AccountRouter) {
+func NewAccountRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *AccountRouter) {
     pathPrefix = pathPrefix + "/" + "accounts"
     ret = &AccountRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewAccountHttpQueryHandler(),
-        CommandHandler: NewAccountHttpCommandHandler(),
+        CommandHandler: NewAccountHttpCommandHandler(commandBus),
     }
     return
 }
@@ -125,11 +129,11 @@ type AuthRouter struct {
     Router *mux.Router
 }
 
-func NewAuthRouter(pathPrefix string) (ret *AuthRouter) {
+func NewAuthRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *AuthRouter) {
     pathPrefix = pathPrefix + "/" + "auth"
     ret = &AuthRouter{
         PathPrefix: pathPrefix,
-        AccountRouter: NewAccountRouter(pathPrefix),
+        AccountRouter: NewAccountRouter(pathPrefix, commandBus),
     }
     return
 }

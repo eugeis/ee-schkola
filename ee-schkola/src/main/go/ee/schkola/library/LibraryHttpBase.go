@@ -4,6 +4,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
+    "github.com/looplab/eventhorizon"
     "html"
     "net/http"
 )
@@ -53,10 +54,13 @@ func (o *BookHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)
 
 
 type BookHttpCommandHandler struct {
+    commandBus eventhorizon.CommandBus
 }
 
-func NewBookHttpCommandHandler() (ret *BookHttpCommandHandler) {
-    ret = &BookHttpCommandHandler{}
+func NewBookHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *BookHttpCommandHandler) {
+    ret = &BookHttpCommandHandler{
+        commandBus: commandBus,
+    }
     return
 }
 
@@ -84,12 +88,12 @@ type BookRouter struct {
     Router *mux.Router
 }
 
-func NewBookRouter(pathPrefix string) (ret *BookRouter) {
+func NewBookRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *BookRouter) {
     pathPrefix = pathPrefix + "/" + "books"
     ret = &BookRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewBookHttpQueryHandler(),
-        CommandHandler: NewBookHttpCommandHandler(),
+        CommandHandler: NewBookHttpCommandHandler(commandBus),
     }
     return
 }
@@ -138,11 +142,11 @@ type LibraryRouter struct {
     Router *mux.Router
 }
 
-func NewLibraryRouter(pathPrefix string) (ret *LibraryRouter) {
+func NewLibraryRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *LibraryRouter) {
     pathPrefix = pathPrefix + "/" + "library"
     ret = &LibraryRouter{
         PathPrefix: pathPrefix,
-        BookRouter: NewBookRouter(pathPrefix),
+        BookRouter: NewBookRouter(pathPrefix, commandBus),
     }
     return
 }

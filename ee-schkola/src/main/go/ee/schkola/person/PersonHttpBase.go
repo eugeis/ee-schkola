@@ -4,6 +4,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
+    "github.com/looplab/eventhorizon"
     "html"
     "net/http"
 )
@@ -41,10 +42,13 @@ func (o *ChurchHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reques
 
 
 type ChurchHttpCommandHandler struct {
+    commandBus eventhorizon.CommandBus
 }
 
-func NewChurchHttpCommandHandler() (ret *ChurchHttpCommandHandler) {
-    ret = &ChurchHttpCommandHandler{}
+func NewChurchHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *ChurchHttpCommandHandler) {
+    ret = &ChurchHttpCommandHandler{
+        commandBus: commandBus,
+    }
     return
 }
 
@@ -68,12 +72,12 @@ type ChurchRouter struct {
     Router *mux.Router
 }
 
-func NewChurchRouter(pathPrefix string) (ret *ChurchRouter) {
+func NewChurchRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *ChurchRouter) {
     pathPrefix = pathPrefix + "/" + "churches"
     ret = &ChurchRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewChurchHttpQueryHandler(),
-        CommandHandler: NewChurchHttpCommandHandler(),
+        CommandHandler: NewChurchHttpCommandHandler(commandBus),
     }
     return
 }
@@ -139,10 +143,13 @@ func (o *GraduationHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Re
 
 
 type GraduationHttpCommandHandler struct {
+    commandBus eventhorizon.CommandBus
 }
 
-func NewGraduationHttpCommandHandler() (ret *GraduationHttpCommandHandler) {
-    ret = &GraduationHttpCommandHandler{}
+func NewGraduationHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *GraduationHttpCommandHandler) {
+    ret = &GraduationHttpCommandHandler{
+        commandBus: commandBus,
+    }
     return
 }
 
@@ -166,12 +173,12 @@ type GraduationRouter struct {
     Router *mux.Router
 }
 
-func NewGraduationRouter(pathPrefix string) (ret *GraduationRouter) {
+func NewGraduationRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *GraduationRouter) {
     pathPrefix = pathPrefix + "/" + "graduations"
     ret = &GraduationRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewGraduationHttpQueryHandler(),
-        CommandHandler: NewGraduationHttpCommandHandler(),
+        CommandHandler: NewGraduationHttpCommandHandler(commandBus),
     }
     return
 }
@@ -249,10 +256,13 @@ func (o *ProfileHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reque
 
 
 type ProfileHttpCommandHandler struct {
+    commandBus eventhorizon.CommandBus
 }
 
-func NewProfileHttpCommandHandler() (ret *ProfileHttpCommandHandler) {
-    ret = &ProfileHttpCommandHandler{}
+func NewProfileHttpCommandHandler(commandBus eventhorizon.CommandBus) (ret *ProfileHttpCommandHandler) {
+    ret = &ProfileHttpCommandHandler{
+        commandBus: commandBus,
+    }
     return
 }
 
@@ -276,12 +286,12 @@ type ProfileRouter struct {
     Router *mux.Router
 }
 
-func NewProfileRouter(pathPrefix string) (ret *ProfileRouter) {
+func NewProfileRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *ProfileRouter) {
     pathPrefix = pathPrefix + "/" + "profiles"
     ret = &ProfileRouter{
         PathPrefix: pathPrefix,
         QueryHandler: NewProfileHttpQueryHandler(),
-        CommandHandler: NewProfileHttpCommandHandler(),
+        CommandHandler: NewProfileHttpCommandHandler(commandBus),
     }
     return
 }
@@ -330,13 +340,13 @@ type PersonRouter struct {
     Router *mux.Router
 }
 
-func NewPersonRouter(pathPrefix string) (ret *PersonRouter) {
+func NewPersonRouter(pathPrefix string, commandBus eventhorizon.CommandBus) (ret *PersonRouter) {
     pathPrefix = pathPrefix + "/" + "person"
     ret = &PersonRouter{
         PathPrefix: pathPrefix,
-        ChurchRouter: NewChurchRouter(pathPrefix),
-        GraduationRouter: NewGraduationRouter(pathPrefix),
-        ProfileRouter: NewProfileRouter(pathPrefix),
+        ChurchRouter: NewChurchRouter(pathPrefix, commandBus),
+        GraduationRouter: NewGraduationRouter(pathPrefix, commandBus),
+        ProfileRouter: NewProfileRouter(pathPrefix, commandBus),
     }
     return
 }
