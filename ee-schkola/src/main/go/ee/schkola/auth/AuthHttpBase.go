@@ -2,8 +2,8 @@ package auth
 
 import (
     "context"
-    "encoding/json"
     "fmt"
+    "github.com/eugeis/gee/eh"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "github.com/looplab/eventhorizon"
@@ -44,75 +44,30 @@ func (o *AccountHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reque
 
 
 type AccountHttpCommandHandler struct {
-    context context.Context
-    commandBus eventhorizon.CommandBus
+    *eh.HttpCommandHandler
 }
 
 func NewAccountHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *AccountHttpCommandHandler) {
     ret = &AccountHttpCommandHandler{
-        context: context,
-        commandBus: commandBus,
+        HttpCommandHandler: eh.NewHttpCommandHandler(context, commandBus),
     }
     return
 }
 
 func (o *AccountHttpCommandHandler) Register(w http.ResponseWriter, r *http.Request)  {
-    vars := mux.Vars(r)
-    id := vars["id"]
-    
-    decoder := json.NewDecoder(r.Body)
-    command := &RegisterAccount{}
-    if err := decoder.Decode(command); err != nil {
-        w.WriteHeader(http.StatusBadRequest)
-        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
-    }
-    defer r.Body.Close()
-
-    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
-		w.WriteHeader(http.StatusExpectationFailed)
-		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
-		return
-	}
-    fmt.Fprintf(w, "id=%v, %q from AccountRegister", id, html.EscapeString(r.URL.Path))
+    o.HandleCommand(&RegisterAccount{}, w, r)
 }
 
 func (o *AccountHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    vars := mux.Vars(r)
-    id := vars["id"]
-    
-    decoder := json.NewDecoder(r.Body)
-    command := &CreateAccount{}
-    if err := decoder.Decode(command); err != nil {
-        w.WriteHeader(http.StatusBadRequest)
-        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
-    }
-    defer r.Body.Close()
-
-    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
-		w.WriteHeader(http.StatusExpectationFailed)
-		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
-		return
-	}
-    fmt.Fprintf(w, "id=%v, %q from AccountCreate", id, html.EscapeString(r.URL.Path))
+    o.HandleCommand(&CreateAccount{}, w, r)
 }
 
 func (o *AccountHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
     id := vars["id"]
     
-    decoder := json.NewDecoder(r.Body)
-    command := &UpdateAccount{}
-    if err := decoder.Decode(command); err != nil {
-        w.WriteHeader(http.StatusBadRequest)
-        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
-    }
-    defer r.Body.Close()
-
-    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
-		w.WriteHeader(http.StatusExpectationFailed)
-		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
-		return
-	}
+    o.HandleCommand(&UpdateAccount{}, w, r)
+    
     fmt.Fprintf(w, "id=%v, %q from AccountUpdate", id, html.EscapeString(r.URL.Path))
 }
 
@@ -120,19 +75,8 @@ func (o *AccountHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Reques
     vars := mux.Vars(r)
     id := vars["id"]
     
-    decoder := json.NewDecoder(r.Body)
-    command := &DeleteAccount{}
-    if err := decoder.Decode(command); err != nil {
-        w.WriteHeader(http.StatusBadRequest)
-        fmt.Fprintf(w, "Can't decode body to command %v because of %v", command, err)
-    }
-    defer r.Body.Close()
-
-    if err := o.commandBus.HandleCommand(o.context, command); err != nil {
-		w.WriteHeader(http.StatusExpectationFailed)
-		fmt.Fprintf(w, "Can't execute command %v because of %v", command, err)
-		return
-	}
+    o.HandleCommand(&DeleteAccount{}, w, r)
+    
     fmt.Fprintf(w, "id=%v, %q from AccountDelete", id, html.EscapeString(r.URL.Path))
 }
 
