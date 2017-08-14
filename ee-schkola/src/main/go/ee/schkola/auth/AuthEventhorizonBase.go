@@ -42,25 +42,19 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     if o.DisableHandler == nil {
         o.DisableHandler = func(command *DisableAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(DisableAccountCommand)
             return
         }
     }
-    
     if o.RegisterHandler == nil {
         o.RegisterHandler = func(command *RegisterAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(RegisterAccountCommand)
             return
         }
     }
-    
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) > 0 {
-                ret = eh.EntityAlreadyExists(entity.Id, AccountAggregateType)
-            } else {
-                store.StoreEvent(AccountCreatedEvent, &AccountCreated{
+            if ret = eh.ValidateNewId(entity.Id, command.Id, AccountAggregateType); ret == nil {store.StoreEvent(AccountCreatedEvent, &AccountCreated{
                     Id: command.Id,
                     Username: command.Username,
                     Password: command.Password,
@@ -72,12 +66,9 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, AccountAggregateType)
-            } else if entity.Id != command.Id {
+            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); ret == nil {
                 ret = eh.IdsDismatch(entity.Id, command.Id, AccountAggregateType)
             } else {
                 store.StoreEvent(AccountDeletedEvent, &AccountDeleted{
@@ -86,12 +77,9 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, AccountAggregateType)
-            } else if entity.Id != command.Id {
+            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); ret == nil {
                 ret = eh.IdsDismatch(entity.Id, command.Id, AccountAggregateType)
             } else {
                 store.StoreEvent(AccountUpdatedEvent, &AccountUpdated{
@@ -106,7 +94,6 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     return
 }
 
@@ -134,9 +121,7 @@ func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}
 func (o *AccountEventHandler) SetupEventHandler() (ret error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AccountCreated, entity *Account) (ret error) {
-            if len(entity.Id) > 0 {
-                ret = eh.EntityAlreadyExists(entity.Id, AccountAggregateType)
-            } else {
+            if ret = eh.ValidateNewId(entity.Id, event.Id, AccountAggregateType); ret == nil {
                 entity.Id = event.Id
                 entity.Username = event.Username
                 entity.Password = event.Password
@@ -148,27 +133,17 @@ func (o *AccountEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *AccountDeleted, entity *Account) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, AccountAggregateType)
-            } else if entity.Id != event.Id {
-                ret = eh.IdsDismatch(entity.Id, event.Id, AccountAggregateType)
-            } else {
+            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, AccountAggregateType); ret == nil {
                 *entity = *NewAccount()
             }
             return
         }
     }
-    
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *AccountUpdated, entity *Account) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, AccountAggregateType)
-            } else if entity.Id != event.Id {
-                ret = eh.IdsDismatch(entity.Id, event.Id, AccountAggregateType)
-            } else {
+            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, AccountAggregateType); ret == nil {
                 entity.Username = event.Username
                 entity.Password = event.Password
                 entity.Email = event.Email
@@ -179,7 +154,6 @@ func (o *AccountEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
     return
 }
 

@@ -33,10 +33,7 @@ func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{
 func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) > 0 {
-                ret = eh.EntityAlreadyExists(entity.Id, BookAggregateType)
-            } else {
-                store.StoreEvent(BookCreatedEvent, &BookCreated{
+            if ret = eh.ValidateNewId(entity.Id, command.Id, BookAggregateType); ret == nil {store.StoreEvent(BookCreatedEvent, &BookCreated{
                     Id: command.Id,
                     Title: command.Title,
                     Description: command.Description,
@@ -50,12 +47,9 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
-            } else if entity.Id != command.Id {
+            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, BookAggregateType); ret == nil {
                 ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
             } else {
                 store.StoreEvent(BookDeletedEvent, &BookDeleted{
@@ -64,12 +58,9 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     if o.ChangeLocationHandler == nil {
         o.ChangeLocationHandler = func(command *ChangeBookLocation, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
-            } else if entity.Id != command.Id {
+            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, BookAggregateType); ret == nil {
                 ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
             } else {
                 store.StoreEvent(LocationChangedBookEvent, &LocationChangedBook{
@@ -79,12 +70,9 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
-            } else if entity.Id != command.Id {
+            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, BookAggregateType); ret == nil {
                 ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
             } else {
                 store.StoreEvent(BookUpdatedEvent, &BookUpdated{
@@ -101,7 +89,6 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     return
 }
 
@@ -132,22 +119,15 @@ func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (
 func (o *BookEventHandler) SetupEventHandler() (ret error) {
     if o.LocationChangedHandler == nil {
         o.LocationChangedHandler = func(event *LocationChangedBook, entity *Book) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
-            } else if entity.Id != event.Id {
-                ret = eh.IdsDismatch(entity.Id, event.Id, BookAggregateType)
-            } else {
+            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, BookAggregateType); ret == nil {
                 entity.Location = event.Location
             }
             return
         }
     }
-    
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *BookCreated, entity *Book) (ret error) {
-            if len(entity.Id) > 0 {
-                ret = eh.EntityAlreadyExists(entity.Id, BookAggregateType)
-            } else {
+            if ret = eh.ValidateNewId(entity.Id, event.Id, BookAggregateType); ret == nil {
                 entity.Id = event.Id
                 entity.Title = event.Title
                 entity.Description = event.Description
@@ -161,27 +141,17 @@ func (o *BookEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *BookDeleted, entity *Book) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
-            } else if entity.Id != event.Id {
-                ret = eh.IdsDismatch(entity.Id, event.Id, BookAggregateType)
-            } else {
+            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, BookAggregateType); ret == nil {
                 *entity = *NewBook()
             }
             return
         }
     }
-    
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *BookUpdated, entity *Book) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, BookAggregateType)
-            } else if entity.Id != event.Id {
-                ret = eh.IdsDismatch(entity.Id, event.Id, BookAggregateType)
-            } else {
+            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, BookAggregateType); ret == nil {
                 entity.Title = event.Title
                 entity.Description = event.Description
                 entity.Language = event.Language
@@ -194,7 +164,6 @@ func (o *BookEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
     return
 }
 

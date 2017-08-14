@@ -30,10 +30,7 @@ func (o *ChurchCommandHandler) Execute(cmd eventhorizon.Command, entity interfac
 func (o *ChurchCommandHandler) SetupCommandHandler() (ret error) {
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) > 0 {
-                ret = eh.EntityAlreadyExists(entity.Id, ChurchAggregateType)
-            } else {
-                store.StoreEvent(ChurchCreatedEvent, &ChurchCreated{
+            if ret = eh.ValidateNewId(entity.Id, command.Id, ChurchAggregateType); ret == nil {store.StoreEvent(ChurchCreatedEvent, &ChurchCreated{
                     Id: command.Id,
                     Name: command.Name,
                     Address: command.Address,
@@ -43,12 +40,9 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, ChurchAggregateType)
-            } else if entity.Id != command.Id {
+            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ChurchAggregateType); ret == nil {
                 ret = eh.IdsDismatch(entity.Id, command.Id, ChurchAggregateType)
             } else {
                 store.StoreEvent(ChurchDeletedEvent, &ChurchDeleted{
@@ -57,12 +51,9 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, ChurchAggregateType)
-            } else if entity.Id != command.Id {
+            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ChurchAggregateType); ret == nil {
                 ret = eh.IdsDismatch(entity.Id, command.Id, ChurchAggregateType)
             } else {
                 store.StoreEvent(ChurchUpdatedEvent, &ChurchUpdated{
@@ -75,7 +66,6 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     return
 }
 
@@ -103,9 +93,7 @@ func (o *ChurchEventHandler) Apply(event eventhorizon.Event, entity interface{})
 func (o *ChurchEventHandler) SetupEventHandler() (ret error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ChurchCreated, entity *Church) (ret error) {
-            if len(entity.Id) > 0 {
-                ret = eh.EntityAlreadyExists(entity.Id, ChurchAggregateType)
-            } else {
+            if ret = eh.ValidateNewId(entity.Id, event.Id, ChurchAggregateType); ret == nil {
                 entity.Id = event.Id
                 entity.Name = event.Name
                 entity.Address = event.Address
@@ -115,27 +103,17 @@ func (o *ChurchEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *ChurchDeleted, entity *Church) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, ChurchAggregateType)
-            } else if entity.Id != event.Id {
-                ret = eh.IdsDismatch(entity.Id, event.Id, ChurchAggregateType)
-            } else {
+            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, ChurchAggregateType); ret == nil {
                 *entity = *NewChurch()
             }
             return
         }
     }
-    
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *ChurchUpdated, entity *Church) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, ChurchAggregateType)
-            } else if entity.Id != event.Id {
-                ret = eh.IdsDismatch(entity.Id, event.Id, ChurchAggregateType)
-            } else {
+            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, ChurchAggregateType); ret == nil {
                 entity.Name = event.Name
                 entity.Address = event.Address
                 entity.Pastor = event.Pastor
@@ -144,7 +122,6 @@ func (o *ChurchEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
     return
 }
 
@@ -202,10 +179,7 @@ func (o *GraduationCommandHandler) Execute(cmd eventhorizon.Command, entity inte
 func (o *GraduationCommandHandler) SetupCommandHandler() (ret error) {
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) > 0 {
-                ret = eh.EntityAlreadyExists(entity.Id, GraduationAggregateType)
-            } else {
-                store.StoreEvent(GraduationCreatedEvent, &GraduationCreated{
+            if ret = eh.ValidateNewId(entity.Id, command.Id, GraduationAggregateType); ret == nil {store.StoreEvent(GraduationCreatedEvent, &GraduationCreated{
                     Id: command.Id,
                     Name: command.Name,
                     Level: command.Level,}, time.Now())
@@ -213,12 +187,9 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, GraduationAggregateType)
-            } else if entity.Id != command.Id {
+            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, GraduationAggregateType); ret == nil {
                 ret = eh.IdsDismatch(entity.Id, command.Id, GraduationAggregateType)
             } else {
                 store.StoreEvent(GraduationDeletedEvent, &GraduationDeleted{
@@ -227,12 +198,9 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, GraduationAggregateType)
-            } else if entity.Id != command.Id {
+            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, GraduationAggregateType); ret == nil {
                 ret = eh.IdsDismatch(entity.Id, command.Id, GraduationAggregateType)
             } else {
                 store.StoreEvent(GraduationUpdatedEvent, &GraduationUpdated{
@@ -243,7 +211,6 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     return
 }
 
@@ -271,9 +238,7 @@ func (o *GraduationEventHandler) Apply(event eventhorizon.Event, entity interfac
 func (o *GraduationEventHandler) SetupEventHandler() (ret error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *GraduationCreated, entity *Graduation) (ret error) {
-            if len(entity.Id) > 0 {
-                ret = eh.EntityAlreadyExists(entity.Id, GraduationAggregateType)
-            } else {
+            if ret = eh.ValidateNewId(entity.Id, event.Id, GraduationAggregateType); ret == nil {
                 entity.Id = event.Id
                 entity.Name = event.Name
                 entity.Level = event.Level
@@ -281,34 +246,23 @@ func (o *GraduationEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *GraduationDeleted, entity *Graduation) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, GraduationAggregateType)
-            } else if entity.Id != event.Id {
-                ret = eh.IdsDismatch(entity.Id, event.Id, GraduationAggregateType)
-            } else {
+            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, GraduationAggregateType); ret == nil {
                 *entity = *NewGraduation()
             }
             return
         }
     }
-    
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *GraduationUpdated, entity *Graduation) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, GraduationAggregateType)
-            } else if entity.Id != event.Id {
-                ret = eh.IdsDismatch(entity.Id, event.Id, GraduationAggregateType)
-            } else {
+            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, GraduationAggregateType); ret == nil {
                 entity.Name = event.Name
                 entity.Level = event.Level
             }
             return
         }
     }
-    
     return
 }
 
@@ -366,10 +320,7 @@ func (o *ProfileCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 func (o *ProfileCommandHandler) SetupCommandHandler() (ret error) {
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) > 0 {
-                ret = eh.EntityAlreadyExists(entity.Id, ProfileAggregateType)
-            } else {
-                store.StoreEvent(ProfileCreatedEvent, &ProfileCreated{
+            if ret = eh.ValidateNewId(entity.Id, command.Id, ProfileAggregateType); ret == nil {store.StoreEvent(ProfileCreatedEvent, &ProfileCreated{
                     Id: command.Id,
                     Gender: command.Gender,
                     Name: command.Name,
@@ -386,12 +337,9 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, ProfileAggregateType)
-            } else if entity.Id != command.Id {
+            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ProfileAggregateType); ret == nil {
                 ret = eh.IdsDismatch(entity.Id, command.Id, ProfileAggregateType)
             } else {
                 store.StoreEvent(ProfileDeletedEvent, &ProfileDeleted{
@@ -400,12 +348,9 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, ProfileAggregateType)
-            } else if entity.Id != command.Id {
+            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ProfileAggregateType); ret == nil {
                 ret = eh.IdsDismatch(entity.Id, command.Id, ProfileAggregateType)
             } else {
                 store.StoreEvent(ProfileUpdatedEvent, &ProfileUpdated{
@@ -425,7 +370,6 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (ret error) {
             return
         }
     }
-    
     return
 }
 
@@ -453,9 +397,7 @@ func (o *ProfileEventHandler) Apply(event eventhorizon.Event, entity interface{}
 func (o *ProfileEventHandler) SetupEventHandler() (ret error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ProfileCreated, entity *Profile) (ret error) {
-            if len(entity.Id) > 0 {
-                ret = eh.EntityAlreadyExists(entity.Id, ProfileAggregateType)
-            } else {
+            if ret = eh.ValidateNewId(entity.Id, event.Id, ProfileAggregateType); ret == nil {
                 entity.Id = event.Id
                 entity.Gender = event.Gender
                 entity.Name = event.Name
@@ -472,27 +414,17 @@ func (o *ProfileEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *ProfileDeleted, entity *Profile) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, ProfileAggregateType)
-            } else if entity.Id != event.Id {
-                ret = eh.IdsDismatch(entity.Id, event.Id, ProfileAggregateType)
-            } else {
+            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, ProfileAggregateType); ret == nil {
                 *entity = *NewProfile()
             }
             return
         }
     }
-    
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *ProfileUpdated, entity *Profile) (ret error) {
-            if len(entity.Id) == 0 {
-                ret = eh.EntityNotExists(entity.Id, ProfileAggregateType)
-            } else if entity.Id != event.Id {
-                ret = eh.IdsDismatch(entity.Id, event.Id, ProfileAggregateType)
-            } else {
+            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, ProfileAggregateType); ret == nil {
                 entity.Gender = event.Gender
                 entity.Name = event.Name
                 entity.BirthName = event.BirthName
@@ -508,7 +440,6 @@ func (o *ProfileEventHandler) SetupEventHandler() (ret error) {
             return
         }
     }
-    
     return
 }
 
