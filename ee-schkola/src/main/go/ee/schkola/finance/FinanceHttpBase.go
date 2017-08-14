@@ -55,25 +55,21 @@ func NewExpenseHttpCommandHandler(context context.Context, commandBus eventhoriz
 }
 
 func (o *ExpenseHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    o.HandleCommand(&CreateExpense{}, w, r)
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&CreateExpense{Id: id}, w, r)
 }
 
 func (o *ExpenseHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&UpdateExpense{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from ExpenseUpdate", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&UpdateExpense{Id: id}, w, r)
 }
 
 func (o *ExpenseHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&DeleteExpense{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from ExpenseDelete", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&DeleteExpense{Id: id}, w, r)
 }
 
 
@@ -166,25 +162,21 @@ func NewExpensePurposeHttpCommandHandler(context context.Context, commandBus eve
 }
 
 func (o *ExpensePurposeHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    o.HandleCommand(&CreateExpensePurpose{}, w, r)
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&CreateExpensePurpose{Id: id}, w, r)
 }
 
 func (o *ExpensePurposeHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&UpdateExpensePurpose{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from ExpensePurposeUpdate", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&UpdateExpensePurpose{Id: id}, w, r)
 }
 
 func (o *ExpensePurposeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&DeleteExpensePurpose{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from ExpensePurposeDelete", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&DeleteExpensePurpose{Id: id}, w, r)
 }
 
 
@@ -277,25 +269,21 @@ func NewFeeHttpCommandHandler(context context.Context, commandBus eventhorizon.C
 }
 
 func (o *FeeHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    o.HandleCommand(&CreateFee{}, w, r)
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&CreateFee{Id: id}, w, r)
 }
 
 func (o *FeeHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&UpdateFee{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from FeeUpdate", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&UpdateFee{Id: id}, w, r)
 }
 
 func (o *FeeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&DeleteFee{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from FeeDelete", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&DeleteFee{Id: id}, w, r)
 }
 
 
@@ -388,25 +376,21 @@ func NewFeeKindHttpCommandHandler(context context.Context, commandBus eventhoriz
 }
 
 func (o *FeeKindHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    o.HandleCommand(&CreateFeeKind{}, w, r)
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&CreateFeeKind{Id: id}, w, r)
 }
 
 func (o *FeeKindHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&UpdateFeeKind{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from FeeKindUpdate", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&UpdateFeeKind{Id: id}, w, r)
 }
 
 func (o *FeeKindHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&DeleteFeeKind{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from FeeKindDelete", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&DeleteFeeKind{Id: id}, w, r)
 }
 
 

@@ -44,7 +44,7 @@ func main() {
 	personRouter := person.NewPersonRouter("", context, commandBus)
 	personRouter.Setup(router)
 
-	log.Err("%v", http.ListenAndServe(":8080", router))
+	log.Err("%v", http.ListenAndServe("127.0.0.1:8080", router))
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {

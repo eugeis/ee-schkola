@@ -157,12 +157,20 @@ func (o *AttendanceEventHandler) SetupEventHandler() (ret error) {
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *AttendanceDeleted, entity *Attendance) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, AttendanceAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, AttendanceAggregateType)
             } else {
-                entity.Id = ""
+                entity.Student = nil
+                entity.Date = nil
+                entity.Course = nil
+                entity.Hours = nil
+                entity.State = nil
+                entity.StateTrace = nil
+                entity.Token = ""
+                entity.TokenTrace = nil
+                entity.SchkolaBase = nil
             }
             return
         }
@@ -170,12 +178,11 @@ func (o *AttendanceEventHandler) SetupEventHandler() (ret error) {
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *AttendanceUpdated, entity *Attendance) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, AttendanceAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, AttendanceAggregateType)
             } else {
-                entity.Id = event.Id
                 entity.Student = event.Student
                 entity.Date = event.Date
                 entity.Course = event.Course
@@ -343,12 +350,19 @@ func (o *CourseEventHandler) SetupEventHandler() (ret error) {
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *CourseDeleted, entity *Course) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, CourseAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, CourseAggregateType)
             } else {
-                entity.Id = ""
+                entity.Name = ""
+                entity.Begin = nil
+                entity.End = nil
+                entity.Teacher = nil
+                entity.SchoolYear = nil
+                entity.Fee = nil
+                entity.Description = nil
+                entity.SchkolaBase = nil
             }
             return
         }
@@ -356,12 +370,11 @@ func (o *CourseEventHandler) SetupEventHandler() (ret error) {
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *CourseUpdated, entity *Course) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, CourseAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, CourseAggregateType)
             } else {
-                entity.Id = event.Id
                 entity.Name = event.Name
                 entity.Begin = event.Begin
                 entity.End = event.End
@@ -522,12 +535,17 @@ func (o *GradeEventHandler) SetupEventHandler() (ret error) {
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *GradeDeleted, entity *Grade) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, GradeAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, GradeAggregateType)
             } else {
-                entity.Id = ""
+                entity.Student = nil
+                entity.Course = nil
+                entity.Grade = nil
+                entity.GradeTrace = nil
+                entity.Comment = ""
+                entity.SchkolaBase = nil
             }
             return
         }
@@ -535,12 +553,11 @@ func (o *GradeEventHandler) SetupEventHandler() (ret error) {
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *GradeUpdated, entity *Grade) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, GradeAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, GradeAggregateType)
             } else {
-                entity.Id = event.Id
                 entity.Student = event.Student
                 entity.Course = event.Course
                 entity.Grade = event.Grade
@@ -702,12 +719,18 @@ func (o *GroupEventHandler) SetupEventHandler() (ret error) {
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *GroupDeleted, entity *Group) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, GroupAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, GroupAggregateType)
             } else {
-                entity.Id = ""
+                entity.Name = ""
+                entity.Category = nil
+                entity.SchoolYear = nil
+                entity.Representative = nil
+                entity.Students = nil
+                entity.Courses = nil
+                entity.SchkolaBase = nil
             }
             return
         }
@@ -715,12 +738,11 @@ func (o *GroupEventHandler) SetupEventHandler() (ret error) {
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *GroupUpdated, entity *Group) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, GroupAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, GroupAggregateType)
             } else {
-                entity.Id = event.Id
                 entity.Name = event.Name
                 entity.Category = event.Category
                 entity.SchoolYear = event.SchoolYear
@@ -883,12 +905,18 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (ret error) {
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *SchoolApplicationDeleted, entity *SchoolApplication) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, SchoolApplicationAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, SchoolApplicationAggregateType)
             } else {
-                entity.Id = ""
+                entity.Profile = nil
+                entity.RecommendationOf = nil
+                entity.ChurchContactPerson = nil
+                entity.ChurchContact = nil
+                entity.SchoolYear = nil
+                entity.Group = ""
+                entity.SchkolaBase = nil
             }
             return
         }
@@ -896,12 +924,11 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (ret error) {
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *SchoolApplicationUpdated, entity *SchoolApplication) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, SchoolApplicationAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, SchoolApplicationAggregateType)
             } else {
-                entity.Id = event.Id
                 entity.Profile = event.Profile
                 entity.RecommendationOf = event.RecommendationOf
                 entity.ChurchContactPerson = event.ChurchContactPerson
@@ -1058,12 +1085,16 @@ func (o *SchoolYearEventHandler) SetupEventHandler() (ret error) {
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *SchoolYearDeleted, entity *SchoolYear) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, SchoolYearAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, SchoolYearAggregateType)
             } else {
-                entity.Id = ""
+                entity.Name = ""
+                entity.Start = nil
+                entity.End = nil
+                entity.Dates = nil
+                entity.SchkolaBase = nil
             }
             return
         }
@@ -1071,12 +1102,11 @@ func (o *SchoolYearEventHandler) SetupEventHandler() (ret error) {
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *SchoolYearUpdated, entity *SchoolYear) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, SchoolYearAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, SchoolYearAggregateType)
             } else {
-                entity.Id = event.Id
                 entity.Name = event.Name
                 entity.Start = event.Start
                 entity.End = event.End

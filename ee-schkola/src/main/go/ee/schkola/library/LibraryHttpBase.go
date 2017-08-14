@@ -67,34 +67,27 @@ func NewBookHttpCommandHandler(context context.Context, commandBus eventhorizon.
 }
 
 func (o *BookHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    o.HandleCommand(&CreateBook{}, w, r)
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&CreateBook{Id: id}, w, r)
 }
 
 func (o *BookHttpCommandHandler) ChangeLocation(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&ChangeBookLocation{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from ChangeLocationBook", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&ChangeBookLocation{Id: id}, w, r)
 }
 
 func (o *BookHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&UpdateBook{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from BookUpdate", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&UpdateBook{Id: id}, w, r)
 }
 
 func (o *BookHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&DeleteBook{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from BookDelete", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&DeleteBook{Id: id}, w, r)
 }
 
 

@@ -151,12 +151,18 @@ func (o *AccountEventHandler) SetupEventHandler() (ret error) {
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *AccountDeleted, entity *Account) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, AccountAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, AccountAggregateType)
             } else {
-                entity.Id = ""
+                entity.Username = ""
+                entity.Password = ""
+                entity.Email = ""
+                entity.Disabled = nil
+                entity.LastLoginAt = nil
+                entity.Profile = nil
+                entity.SchkolaBase = nil
             }
             return
         }
@@ -164,12 +170,11 @@ func (o *AccountEventHandler) SetupEventHandler() (ret error) {
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *AccountUpdated, entity *Account) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, AccountAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, AccountAggregateType)
             } else {
-                entity.Id = event.Id
                 entity.Username = event.Username
                 entity.Password = event.Password
                 entity.Email = event.Email

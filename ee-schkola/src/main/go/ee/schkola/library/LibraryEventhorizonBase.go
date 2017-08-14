@@ -132,13 +132,12 @@ func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (
 func (o *BookEventHandler) SetupEventHandler() (ret error) {
     if o.LocationChangedHandler == nil {
         o.LocationChangedHandler = func(event *LocationChangedBook, entity *Book) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, BookAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, BookAggregateType)
             } else {
                 entity.Location = event.Location
-                entity.Id = event.Id
             }
             return
         }
@@ -165,12 +164,20 @@ func (o *BookEventHandler) SetupEventHandler() (ret error) {
     
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *BookDeleted, entity *Book) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, BookAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, BookAggregateType)
             } else {
-                entity.Id = ""
+                entity.Title = ""
+                entity.Description = nil
+                entity.Language = ""
+                entity.ReleaseDate = nil
+                entity.Edition = ""
+                entity.Category = ""
+                entity.Author = nil
+                entity.Location = nil
+                entity.SchkolaBase = nil
             }
             return
         }
@@ -178,12 +185,11 @@ func (o *BookEventHandler) SetupEventHandler() (ret error) {
     
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *BookUpdated, entity *Book) (ret error) {
-            if len(entity.Id) > 0 {
+            if len(entity.Id) == 0 {
                 ret = eh.EntityNotExists(entity.Id, BookAggregateType)
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, BookAggregateType)
             } else {
-                entity.Id = event.Id
                 entity.Title = event.Title
                 entity.Description = event.Description
                 entity.Language = event.Language

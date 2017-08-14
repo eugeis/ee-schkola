@@ -55,25 +55,21 @@ func NewChurchHttpCommandHandler(context context.Context, commandBus eventhorizo
 }
 
 func (o *ChurchHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    o.HandleCommand(&CreateChurch{}, w, r)
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&CreateChurch{Id: id}, w, r)
 }
 
 func (o *ChurchHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&UpdateChurch{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from ChurchUpdate", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&UpdateChurch{Id: id}, w, r)
 }
 
 func (o *ChurchHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&DeleteChurch{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from ChurchDelete", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&DeleteChurch{Id: id}, w, r)
 }
 
 
@@ -166,25 +162,21 @@ func NewGraduationHttpCommandHandler(context context.Context, commandBus eventho
 }
 
 func (o *GraduationHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    o.HandleCommand(&CreateGraduation{}, w, r)
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&CreateGraduation{Id: id}, w, r)
 }
 
 func (o *GraduationHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&UpdateGraduation{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from GraduationUpdate", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&UpdateGraduation{Id: id}, w, r)
 }
 
 func (o *GraduationHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&DeleteGraduation{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from GraduationDelete", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&DeleteGraduation{Id: id}, w, r)
 }
 
 
@@ -289,25 +281,21 @@ func NewProfileHttpCommandHandler(context context.Context, commandBus eventhoriz
 }
 
 func (o *ProfileHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    o.HandleCommand(&CreateProfile{}, w, r)
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&CreateProfile{Id: id}, w, r)
 }
 
 func (o *ProfileHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&UpdateProfile{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from ProfileUpdate", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&UpdateProfile{Id: id}, w, r)
 }
 
 func (o *ProfileHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&DeleteProfile{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from ProfileDelete", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&DeleteProfile{Id: id}, w, r)
 }
 
 

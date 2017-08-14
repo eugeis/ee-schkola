@@ -55,43 +55,33 @@ func NewAccountHttpCommandHandler(context context.Context, commandBus eventhoriz
 }
 
 func (o *AccountHttpCommandHandler) Register(w http.ResponseWriter, r *http.Request)  {
-    o.HandleCommand(&RegisterAccount{}, w, r)
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&RegisterAccount{Id: id}, w, r)
 }
 
 func (o *AccountHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
-    o.HandleCommand(&CreateAccount{}, w, r)
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&CreateAccount{Id: id}, w, r)
 }
 
 func (o *AccountHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&UpdateAccount{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from AccountUpdate", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&UpdateAccount{Id: id}, w, r)
 }
 
 func (o *AccountHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
     vars := mux.Vars(r)
-    id := vars["id"]
-    
-    o.HandleCommand(&DeleteAccount{}, w, r)
-    
-    fmt.Fprintf(w, "id=%v, %q from AccountDelete", id, html.EscapeString(r.URL.Path))
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&DeleteAccount{Id: id}, w, r)
 }
 
 func (o *AccountHttpCommandHandler) Enable(w http.ResponseWriter, r *http.Request)  {
-    vars := mux.Vars(r)
-    id := vars["id"]
-    
-    fmt.Fprintf(w, "id=%v, %q from AccountEnable", id, html.EscapeString(r.URL.Path))
 }
 
 func (o *AccountHttpCommandHandler) Disable(w http.ResponseWriter, r *http.Request)  {
-    vars := mux.Vars(r)
-    id := vars["id"]
-    
-    fmt.Fprintf(w, "id=%v, %q from AccountDisable", id, html.EscapeString(r.URL.Path))
 }
 
 
