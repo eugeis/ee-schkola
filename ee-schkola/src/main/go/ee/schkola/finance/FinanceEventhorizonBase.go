@@ -123,11 +123,7 @@ func (o *ExpenseEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, ExpenseAggregateType)
             } else {
-                entity.Purpose = nil
-                entity.Amount = nil
-                entity.Profile = nil
-                entity.Date = nil
-                entity.SchkolaBase = nil
+                *entity = *NewExpense()
             }
             return
         }
@@ -293,9 +289,7 @@ func (o *ExpensePurposeEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, ExpensePurposeAggregateType)
             } else {
-                entity.Name = ""
-                entity.Description = ""
-                entity.SchkolaBase = nil
+                *entity = *NewExpensePurpose()
             }
             return
         }
@@ -465,11 +459,7 @@ func (o *FeeEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, FeeAggregateType)
             } else {
-                entity.Student = nil
-                entity.Amount = nil
-                entity.Kind = nil
-                entity.Date = nil
-                entity.SchkolaBase = nil
+                *entity = *NewFee()
             }
             return
         }
@@ -638,10 +628,7 @@ func (o *FeeKindEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, FeeKindAggregateType)
             } else {
-                entity.Name = ""
-                entity.Amount = nil
-                entity.Description = ""
-                entity.SchkolaBase = nil
+                *entity = *NewFeeKind()
             }
             return
         }

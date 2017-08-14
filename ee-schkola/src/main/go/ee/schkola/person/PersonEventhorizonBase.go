@@ -123,11 +123,7 @@ func (o *ChurchEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, ChurchAggregateType)
             } else {
-                entity.Name = ""
-                entity.Address = nil
-                entity.Pastor = nil
-                entity.Contact = nil
-                entity.SchkolaBase = nil
+                *entity = *NewChurch()
             }
             return
         }
@@ -293,9 +289,7 @@ func (o *GraduationEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, GraduationAggregateType)
             } else {
-                entity.Name = ""
-                entity.Level = nil
-                entity.SchkolaBase = nil
+                *entity = *NewGraduation()
             }
             return
         }
@@ -486,18 +480,7 @@ func (o *ProfileEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, ProfileAggregateType)
             } else {
-                entity.Gender = nil
-                entity.Name = nil
-                entity.BirthName = ""
-                entity.Birthday = nil
-                entity.Address = nil
-                entity.Contact = nil
-                entity.PhotoData = nil
-                entity.Photo = ""
-                entity.Family = nil
-                entity.Church = nil
-                entity.Education = nil
-                entity.SchkolaBase = nil
+                *entity = *NewProfile()
             }
             return
         }

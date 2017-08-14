@@ -156,13 +156,7 @@ func (o *AccountEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, AccountAggregateType)
             } else {
-                entity.Username = ""
-                entity.Password = ""
-                entity.Email = ""
-                entity.Disabled = nil
-                entity.LastLoginAt = nil
-                entity.Profile = nil
-                entity.SchkolaBase = nil
+                *entity = *NewAccount()
             }
             return
         }

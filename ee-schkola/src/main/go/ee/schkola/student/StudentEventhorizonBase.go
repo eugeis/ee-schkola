@@ -162,15 +162,7 @@ func (o *AttendanceEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, AttendanceAggregateType)
             } else {
-                entity.Student = nil
-                entity.Date = nil
-                entity.Course = nil
-                entity.Hours = nil
-                entity.State = nil
-                entity.StateTrace = nil
-                entity.Token = ""
-                entity.TokenTrace = nil
-                entity.SchkolaBase = nil
+                *entity = *NewAttendance()
             }
             return
         }
@@ -355,14 +347,7 @@ func (o *CourseEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, CourseAggregateType)
             } else {
-                entity.Name = ""
-                entity.Begin = nil
-                entity.End = nil
-                entity.Teacher = nil
-                entity.SchoolYear = nil
-                entity.Fee = nil
-                entity.Description = nil
-                entity.SchkolaBase = nil
+                *entity = *NewCourse()
             }
             return
         }
@@ -540,12 +525,7 @@ func (o *GradeEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, GradeAggregateType)
             } else {
-                entity.Student = nil
-                entity.Course = nil
-                entity.Grade = nil
-                entity.GradeTrace = nil
-                entity.Comment = ""
-                entity.SchkolaBase = nil
+                *entity = *NewGrade()
             }
             return
         }
@@ -724,13 +704,7 @@ func (o *GroupEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, GroupAggregateType)
             } else {
-                entity.Name = ""
-                entity.Category = nil
-                entity.SchoolYear = nil
-                entity.Representative = nil
-                entity.Students = nil
-                entity.Courses = nil
-                entity.SchkolaBase = nil
+                *entity = *NewGroup()
             }
             return
         }
@@ -910,13 +884,7 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, SchoolApplicationAggregateType)
             } else {
-                entity.Profile = nil
-                entity.RecommendationOf = nil
-                entity.ChurchContactPerson = nil
-                entity.ChurchContact = nil
-                entity.SchoolYear = nil
-                entity.Group = ""
-                entity.SchkolaBase = nil
+                *entity = *NewSchoolApplication()
             }
             return
         }
@@ -1090,11 +1058,7 @@ func (o *SchoolYearEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, SchoolYearAggregateType)
             } else {
-                entity.Name = ""
-                entity.Start = nil
-                entity.End = nil
-                entity.Dates = nil
-                entity.SchkolaBase = nil
+                *entity = *NewSchoolYear()
             }
             return
         }

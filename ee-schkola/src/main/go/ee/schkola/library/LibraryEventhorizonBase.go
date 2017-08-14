@@ -169,15 +169,7 @@ func (o *BookEventHandler) SetupEventHandler() (ret error) {
             } else if entity.Id != event.Id {
                 ret = eh.IdsDismatch(entity.Id, event.Id, BookAggregateType)
             } else {
-                entity.Title = ""
-                entity.Description = nil
-                entity.Language = ""
-                entity.ReleaseDate = nil
-                entity.Edition = ""
-                entity.Category = ""
-                entity.Author = nil
-                entity.Location = nil
-                entity.SchkolaBase = nil
+                *entity = *NewBook()
             }
             return
         }
