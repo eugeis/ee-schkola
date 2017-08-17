@@ -165,7 +165,7 @@ type AccountAggregateInitializer struct {
 
 
 func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus) (ret *AccountAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AccountAggregateInitializer) {
     
     commandHandler := &AccountCommandHandler{}
     eventHandler := &AccountEventHandler{}
@@ -175,7 +175,7 @@ func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
         },
         AccountCommandTypes().Literals(), AccountEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus),
+        eventStore, eventBus, eventPublisher, commandBus, readRepos),
         AccountCommandHandler: commandHandler,
         AccountEventHandler: eventHandler,
     }
@@ -193,13 +193,13 @@ type AuthEventhorizonInitializer struct {
 }
 
 func NewAuthEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus) (ret *AuthEventhorizonInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AuthEventhorizonInitializer) {
     ret = &AuthEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,
         eventPublisher: eventPublisher,
         commandBus: commandBus,
-        AccountAggregateInitializer: NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+        AccountAggregateInitializer: NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos),
     }
     return
 }

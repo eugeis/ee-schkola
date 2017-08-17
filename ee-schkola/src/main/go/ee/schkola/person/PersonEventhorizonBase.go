@@ -133,7 +133,7 @@ type ChurchAggregateInitializer struct {
 
 
 func NewChurchAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus) (ret *ChurchAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ChurchAggregateInitializer) {
     
     commandHandler := &ChurchCommandHandler{}
     eventHandler := &ChurchEventHandler{}
@@ -143,7 +143,7 @@ func NewChurchAggregateInitializer(eventStore eventhorizon.EventStore, eventBus 
         },
         ChurchCommandTypes().Literals(), ChurchEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus),
+        eventStore, eventBus, eventPublisher, commandBus, readRepos),
         ChurchCommandHandler: commandHandler,
         ChurchEventHandler: eventHandler,
     }
@@ -270,7 +270,7 @@ type GraduationAggregateInitializer struct {
 
 
 func NewGraduationAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus) (ret *GraduationAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *GraduationAggregateInitializer) {
     
     commandHandler := &GraduationCommandHandler{}
     eventHandler := &GraduationEventHandler{}
@@ -280,7 +280,7 @@ func NewGraduationAggregateInitializer(eventStore eventhorizon.EventStore, event
         },
         GraduationCommandTypes().Literals(), GraduationEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus),
+        eventStore, eventBus, eventPublisher, commandBus, readRepos),
         GraduationCommandHandler: commandHandler,
         GraduationEventHandler: eventHandler,
     }
@@ -443,7 +443,7 @@ type ProfileAggregateInitializer struct {
 
 
 func NewProfileAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus) (ret *ProfileAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ProfileAggregateInitializer) {
     
     commandHandler := &ProfileCommandHandler{}
     eventHandler := &ProfileEventHandler{}
@@ -453,7 +453,7 @@ func NewProfileAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
         },
         ProfileCommandTypes().Literals(), ProfileEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus),
+        eventStore, eventBus, eventPublisher, commandBus, readRepos),
         ProfileCommandHandler: commandHandler,
         ProfileEventHandler: eventHandler,
     }
@@ -473,15 +473,15 @@ type PersonEventhorizonInitializer struct {
 }
 
 func NewPersonEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus) (ret *PersonEventhorizonInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *PersonEventhorizonInitializer) {
     ret = &PersonEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,
         eventPublisher: eventPublisher,
         commandBus: commandBus,
-        ChurchAggregateInitializer: NewChurchAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-        GraduationAggregateInitializer: NewGraduationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-        ProfileAggregateInitializer: NewProfileAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+        ChurchAggregateInitializer: NewChurchAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos),
+        GraduationAggregateInitializer: NewGraduationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos),
+        ProfileAggregateInitializer: NewProfileAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos),
     }
     return
 }

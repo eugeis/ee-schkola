@@ -133,7 +133,7 @@ type ExpenseAggregateInitializer struct {
 
 
 func NewExpenseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus) (ret *ExpenseAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ExpenseAggregateInitializer) {
     
     commandHandler := &ExpenseCommandHandler{}
     eventHandler := &ExpenseEventHandler{}
@@ -143,7 +143,7 @@ func NewExpenseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
         },
         ExpenseCommandTypes().Literals(), ExpenseEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus),
+        eventStore, eventBus, eventPublisher, commandBus, readRepos),
         ExpenseCommandHandler: commandHandler,
         ExpenseEventHandler: eventHandler,
     }
@@ -270,7 +270,7 @@ type ExpensePurposeAggregateInitializer struct {
 
 
 func NewExpensePurposeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus) (ret *ExpensePurposeAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ExpensePurposeAggregateInitializer) {
     
     commandHandler := &ExpensePurposeCommandHandler{}
     eventHandler := &ExpensePurposeEventHandler{}
@@ -280,7 +280,7 @@ func NewExpensePurposeAggregateInitializer(eventStore eventhorizon.EventStore, e
         },
         ExpensePurposeCommandTypes().Literals(), ExpensePurposeEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus),
+        eventStore, eventBus, eventPublisher, commandBus, readRepos),
         ExpensePurposeCommandHandler: commandHandler,
         ExpensePurposeEventHandler: eventHandler,
     }
@@ -415,7 +415,7 @@ type FeeAggregateInitializer struct {
 
 
 func NewFeeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus) (ret *FeeAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *FeeAggregateInitializer) {
     
     commandHandler := &FeeCommandHandler{}
     eventHandler := &FeeEventHandler{}
@@ -425,7 +425,7 @@ func NewFeeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eve
         },
         FeeCommandTypes().Literals(), FeeEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus),
+        eventStore, eventBus, eventPublisher, commandBus, readRepos),
         FeeCommandHandler: commandHandler,
         FeeEventHandler: eventHandler,
     }
@@ -556,7 +556,7 @@ type FeeKindAggregateInitializer struct {
 
 
 func NewFeeKindAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus) (ret *FeeKindAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *FeeKindAggregateInitializer) {
     
     commandHandler := &FeeKindCommandHandler{}
     eventHandler := &FeeKindEventHandler{}
@@ -566,7 +566,7 @@ func NewFeeKindAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
         },
         FeeKindCommandTypes().Literals(), FeeKindEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus),
+        eventStore, eventBus, eventPublisher, commandBus, readRepos),
         FeeKindCommandHandler: commandHandler,
         FeeKindEventHandler: eventHandler,
     }
@@ -587,16 +587,16 @@ type FinanceEventhorizonInitializer struct {
 }
 
 func NewFinanceEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus) (ret *FinanceEventhorizonInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *FinanceEventhorizonInitializer) {
     ret = &FinanceEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,
         eventPublisher: eventPublisher,
         commandBus: commandBus,
-        ExpenseAggregateInitializer: NewExpenseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-        ExpensePurposeAggregateInitializer: NewExpensePurposeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-        FeeAggregateInitializer: NewFeeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
-        FeeKindAggregateInitializer: NewFeeKindAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+        ExpenseAggregateInitializer: NewExpenseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos),
+        ExpensePurposeAggregateInitializer: NewExpensePurposeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos),
+        FeeAggregateInitializer: NewFeeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos),
+        FeeKindAggregateInitializer: NewFeeKindAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos),
     }
     return
 }

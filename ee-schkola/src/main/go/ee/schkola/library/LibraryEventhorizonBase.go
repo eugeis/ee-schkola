@@ -173,7 +173,7 @@ type BookAggregateInitializer struct {
 
 
 func NewBookAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus) (ret *BookAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *BookAggregateInitializer) {
     
     commandHandler := &BookCommandHandler{}
     eventHandler := &BookEventHandler{}
@@ -183,7 +183,7 @@ func NewBookAggregateInitializer(eventStore eventhorizon.EventStore, eventBus ev
         },
         BookCommandTypes().Literals(), BookEventTypes().Literals(),
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus),
+        eventStore, eventBus, eventPublisher, commandBus, readRepos),
         BookCommandHandler: commandHandler,
         BookEventHandler: eventHandler,
     }
@@ -201,13 +201,13 @@ type LibraryEventhorizonInitializer struct {
 }
 
 func NewLibraryEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus) (ret *LibraryEventhorizonInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *LibraryEventhorizonInitializer) {
     ret = &LibraryEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,
         eventPublisher: eventPublisher,
         commandBus: commandBus,
-        BookAggregateInitializer: NewBookAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus),
+        BookAggregateInitializer: NewBookAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos),
     }
     return
 }
