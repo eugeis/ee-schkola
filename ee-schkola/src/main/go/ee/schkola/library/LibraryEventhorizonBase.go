@@ -50,8 +50,6 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, BookAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
-            } else {
                 store.StoreEvent(BookDeletedEvent, &BookDeleted{
                     Id: command.Id,}, time.Now())
             }
@@ -61,8 +59,6 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
     if o.ChangeLocationHandler == nil {
         o.ChangeLocationHandler = func(command *ChangeBookLocation, entity *Book, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, BookAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
-            } else {
                 store.StoreEvent(LocationChangedBookEvent, &LocationChangedBook{
                     Location: command.Location,
                     Id: command.Id,}, time.Now())
@@ -73,8 +69,6 @@ func (o *BookCommandHandler) SetupCommandHandler() (ret error) {
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateBook, entity *Book, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, BookAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, BookAggregateType)
-            } else {
                 store.StoreEvent(BookUpdatedEvent, &BookUpdated{
                     Id: command.Id,
                     Title: command.Title,

@@ -43,8 +43,6 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (ret error) {
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ChurchAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, ChurchAggregateType)
-            } else {
                 store.StoreEvent(ChurchDeletedEvent, &ChurchDeleted{
                     Id: command.Id,}, time.Now())
             }
@@ -54,8 +52,6 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (ret error) {
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ChurchAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, ChurchAggregateType)
-            } else {
                 store.StoreEvent(ChurchUpdatedEvent, &ChurchUpdated{
                     Id: command.Id,
                     Name: command.Name,
@@ -190,8 +186,6 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (ret error) {
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, GraduationAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, GraduationAggregateType)
-            } else {
                 store.StoreEvent(GraduationDeletedEvent, &GraduationDeleted{
                     Id: command.Id,}, time.Now())
             }
@@ -201,8 +195,6 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (ret error) {
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, GraduationAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, GraduationAggregateType)
-            } else {
                 store.StoreEvent(GraduationUpdatedEvent, &GraduationUpdated{
                     Id: command.Id,
                     Name: command.Name,
@@ -340,8 +332,6 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (ret error) {
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ProfileAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, ProfileAggregateType)
-            } else {
                 store.StoreEvent(ProfileDeletedEvent, &ProfileDeleted{
                     Id: command.Id,}, time.Now())
             }
@@ -351,8 +341,6 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (ret error) {
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ProfileAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, ProfileAggregateType)
-            } else {
                 store.StoreEvent(ProfileUpdatedEvent, &ProfileUpdated{
                     Id: command.Id,
                     Gender: command.Gender,

@@ -69,8 +69,6 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, AccountAggregateType)
-            } else {
                 store.StoreEvent(AccountDeletedEvent, &AccountDeleted{
                     Id: command.Id,}, time.Now())
             }
@@ -80,8 +78,6 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, AccountAggregateType)
-            } else {
                 store.StoreEvent(AccountUpdatedEvent, &AccountUpdated{
                     Id: command.Id,
                     Username: command.Username,

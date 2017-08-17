@@ -43,8 +43,6 @@ func (o *ExpenseCommandHandler) SetupCommandHandler() (ret error) {
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteExpense, entity *Expense, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ExpenseAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, ExpenseAggregateType)
-            } else {
                 store.StoreEvent(ExpenseDeletedEvent, &ExpenseDeleted{
                     Id: command.Id,}, time.Now())
             }
@@ -54,8 +52,6 @@ func (o *ExpenseCommandHandler) SetupCommandHandler() (ret error) {
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateExpense, entity *Expense, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ExpenseAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, ExpenseAggregateType)
-            } else {
                 store.StoreEvent(ExpenseUpdatedEvent, &ExpenseUpdated{
                     Id: command.Id,
                     Purpose: command.Purpose,
@@ -190,8 +186,6 @@ func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (ret error) {
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ExpensePurposeAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, ExpensePurposeAggregateType)
-            } else {
                 store.StoreEvent(ExpensePurposeDeletedEvent, &ExpensePurposeDeleted{
                     Id: command.Id,}, time.Now())
             }
@@ -201,8 +195,6 @@ func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (ret error) {
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ExpensePurposeAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, ExpensePurposeAggregateType)
-            } else {
                 store.StoreEvent(ExpensePurposeUpdatedEvent, &ExpensePurposeUpdated{
                     Id: command.Id,
                     Name: command.Name,
@@ -333,8 +325,6 @@ func (o *FeeCommandHandler) SetupCommandHandler() (ret error) {
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteFee, entity *Fee, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, FeeAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, FeeAggregateType)
-            } else {
                 store.StoreEvent(FeeDeletedEvent, &FeeDeleted{
                     Id: command.Id,}, time.Now())
             }
@@ -344,8 +334,6 @@ func (o *FeeCommandHandler) SetupCommandHandler() (ret error) {
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateFee, entity *Fee, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, FeeAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, FeeAggregateType)
-            } else {
                 store.StoreEvent(FeeUpdatedEvent, &FeeUpdated{
                     Id: command.Id,
                     Student: command.Student,
@@ -481,8 +469,6 @@ func (o *FeeKindCommandHandler) SetupCommandHandler() (ret error) {
     if o.DeleteHandler == nil {
         o.DeleteHandler = func(command *DeleteFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, FeeKindAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, FeeKindAggregateType)
-            } else {
                 store.StoreEvent(FeeKindDeletedEvent, &FeeKindDeleted{
                     Id: command.Id,}, time.Now())
             }
@@ -492,8 +478,6 @@ func (o *FeeKindCommandHandler) SetupCommandHandler() (ret error) {
     if o.UpdateHandler == nil {
         o.UpdateHandler = func(command *UpdateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateIdsMatch(entity.Id, command.Id, FeeKindAggregateType); ret == nil {
-                ret = eh.IdsDismatch(entity.Id, command.Id, FeeKindAggregateType)
-            } else {
                 store.StoreEvent(FeeKindUpdatedEvent, &FeeKindUpdated{
                     Id: command.Id,
                     Name: command.Name,
