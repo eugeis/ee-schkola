@@ -8,7 +8,7 @@ import (
 	eventpublisher "github.com/looplab/eventhorizon/publisher/local"
 	"ee/schkola/person"
 	"context"
-	"log"
+	"github.com/eugeis/eventhorizon"
 )
 
 func main() {
@@ -24,7 +24,23 @@ func main() {
 	// Create the command bus.
 	commandBus := commandbus.NewCommandBus()
 
-	personEngine := person.NewPersonEventhorizonInitializer(eventStore, eventBus, eventPublisher, commandBus)
+
+	/*
+		if item, ok := repos[name]; !ok {
+			var t eventhorizon.ReadWriteRepo
+			t = repo.NewRepo()
+			repos[name] = item
+			return item
+		} else {
+			return item
+		}
+	 */
+
+	//repos := make(map[string]eventhorizon.ReadWriteRepo)
+	readRepos := func(string) eventhorizon.ReadWriteRepo {
+		return nil
+	}
+	personEngine := person.NewPersonEventhorizonInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
 
 	personEngine.Setup()
 

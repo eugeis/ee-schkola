@@ -715,3 +715,9 @@ func (o *StudentRouter) Setup(router *mux.Router) (ret error) {
 
 
 
+
+
+
+
+
+

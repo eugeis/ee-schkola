@@ -111,8 +111,34 @@ func parseJson() {
 		}
 	}
 
-	writeCsvEmailContacts(users1, users2, users3, users4, users5, users)
+	writeCsvEmailGroup(users1, users2, users3, users4, users5, users)
+	//writeCsvEmailContacts(users1, users2, users3, users4, users5, users)
 	//writeHtmlReport(users1, users2, users3, users4, users5, users)
+}
+
+func writeCsvEmailGroup(users1 []string, users2 []string, users3 []string,
+	users4 []string, users5 []string, users map[string]map[string]interface{}) {
+	f, _ := os.Create(fmt.Sprintf("%v/emails.txt", work))
+	defer f.Close()
+	w := bufio.NewWriter(f)
+	writeCsvEmailsForGroup(users1, users, "2017 Klasse 1", w)
+	writeCsvEmailsForGroup(users2, users, "2017 Klasse 2", w)
+	writeCsvEmailsForGroup(users3, users, "2017 Klasse 3", w)
+	writeCsvEmailsForGroup(users4, users, "2017 Klasse 4", w)
+	writeCsvEmailsForGroup(users5, users, "2017 Zusatzklasse", w)
+	w.Flush()
+}
+
+func writeCsvEmailsForGroup(userKeys []string, users map[string]map[string]interface{}, group string, w *bufio.Writer) {
+	//write data
+	w.WriteString(group)
+	w.WriteString(": ")
+	for _, userKey := range userKeys {
+		user := users[userKey]
+		//w.WriteString(fmt.Sprintf(`<%v %v>%v,`, user["first_name"], user["last_name"], user["user_email"]))
+		w.WriteString(fmt.Sprintf(`%v,`, user["user_email"]))
+	}
+	w.WriteString("\n\n\n\n")
 }
 
 func writeCsvEmailContacts(users1 []string, users2 []string, users3 []string,
@@ -120,17 +146,17 @@ func writeCsvEmailContacts(users1 []string, users2 []string, users3 []string,
 	f, _ := os.Create(fmt.Sprintf("%v/googleContacts.csv", work))
 	defer f.Close()
 	w := bufio.NewWriter(f)
-	w.WriteString("Last Name,First Name,Birthday,Gender,Mobile Phone,Company,Job Title,E-mail Address,Home City,Categories\n")
+	w.WriteString("Last Name;First Name;Birthday;Gender;Mobile Phone:Company;E-mail Address;Categories\n")
 	writeCsvEmailContactsForGroup(users1, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
-		"church", "church_services", "user_email", "city", "2017 Klasse 1"}, w)
+		"church", "user_email", "17 Klasse 1"}, w)
 	writeCsvEmailContactsForGroup(users2, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
-		"church", "church_services", "user_email", "city", "2017 Klasse 2"}, w)
+		"church", "user_email", "17 Klasse 2"}, w)
 	writeCsvEmailContactsForGroup(users3, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
-		"church", "church_services", "user_email", "city", "2017 Klasse 3"}, w)
+		"church", "user_email", "17 Klasse 3"}, w)
 	writeCsvEmailContactsForGroup(users4, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
-		"church", "church_services", "user_email", "city", "2017 Klasse 4"}, w)
+		"church", "user_email", "17 Klasse 4"}, w)
 	writeCsvEmailContactsForGroup(users5, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
-		"church", "church_services", "user_email", "city", "2017 Zusatzklasse"}, w)
+		"church", "user_email", "17 Zusatzklasse"}, w)
 	w.Flush()
 }
 
@@ -143,8 +169,10 @@ func writeCsvEmailContactsForGroup(userKeys []string, users map[string]map[strin
 			if cell == nil {
 				cell = k
 			}
-			if i > 0 {w.WriteString(", ")}
-			w.WriteString(fmt.Sprintf("%v", cell))
+			if i > 0 {
+				w.WriteString(";")
+			}
+			w.WriteString(fmt.Sprintf(`%v`, cell))
 		}
 		w.WriteString("\n")
 	}
