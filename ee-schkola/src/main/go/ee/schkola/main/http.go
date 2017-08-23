@@ -14,6 +14,7 @@ import (
 	eventpublisher "github.com/looplab/eventhorizon/publisher/local"
 	repo "github.com/looplab/eventhorizon/repo/memory"
 	"context"
+	"encoding/json"
 )
 
 var log = lg.NewLogger("Schkola ")
@@ -48,12 +49,25 @@ func main() {
 
 	router := mux.NewRouter().StrictSlash(true)
 
-	router.Methods(net.GET).Path("/").Name("Index").HandlerFunc(Index)
-
 	context := eventhorizon.NewContextWithNamespace(context.Background(), "simple")
 
 	personRouter := person.NewPersonRouter("", context, commandBus)
 	personRouter.Setup(router)
+
+	//router.Methods(net.GET).Path("/").Name("Index").HandlerFunc(Index)
+
+	router.Methods(net.GET).Path("/").Name("Index").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if ret, err := personEngine.ChurchAggregateInitializer.ProjectorRepo.FindAll(context); err == nil {
+			var js []byte
+			if js, err = json.Marshal(ret); err == nil {
+				w.Header().Set("Content-Type", "application/json")
+				w.Write(js)
+			} else {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+		}
+		return
+	})
 
 	log.Err("%v", http.ListenAndServe("127.0.0.1:8080", router))
 }
