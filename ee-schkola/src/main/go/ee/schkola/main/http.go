@@ -12,6 +12,7 @@ import (
 	eventbus "github.com/looplab/eventhorizon/eventbus/local"
 	eventstore "github.com/looplab/eventhorizon/eventstore/memory"
 	eventpublisher "github.com/looplab/eventhorizon/publisher/local"
+	repo "github.com/looplab/eventhorizon/repo/memory"
 	"context"
 )
 
@@ -31,7 +32,17 @@ func main() {
 	// Create the command bus.
 	commandBus := commandbus.NewCommandBus()
 
-	personEngine := person.NewPersonEventhorizonInitializer(eventStore, eventBus, eventPublisher, commandBus)
+	repos := make(map[string]eventhorizon.ReadWriteRepo)
+	readRepos := func(name string) (ret eventhorizon.ReadWriteRepo) {
+		if item, ok := repos[name]; !ok {
+			ret = repo.NewRepo()
+			repos[name] = ret
+		} else {
+			ret = item
+		}
+		return
+	}
+	personEngine := person.NewPersonEventhorizonInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
 
 	personEngine.Setup()
 

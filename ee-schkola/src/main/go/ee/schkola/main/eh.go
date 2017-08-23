@@ -8,7 +8,6 @@ import (
 	eventpublisher "github.com/looplab/eventhorizon/publisher/local"
 	"ee/schkola/person"
 	"context"
-	"log"
 )
 
 func main() {
