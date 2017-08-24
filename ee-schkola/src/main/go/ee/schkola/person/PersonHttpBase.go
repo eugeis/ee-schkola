@@ -11,14 +11,18 @@ import (
     "net/http"
 )
 type ChurchHttpQueryHandler struct {
+    QueryRepository *ChurchQueryRepository
 }
 
-func NewChurchHttpQueryHandler() (ret *ChurchHttpQueryHandler) {
-    ret = &ChurchHttpQueryHandler{}
+func NewChurchHttpQueryHandler(queryRepository *ChurchQueryRepository) (ret *ChurchHttpQueryHandler) {
+    ret = &ChurchHttpQueryHandler{
+        QueryRepository: queryRepository,
+    }
     return
 }
 
 func (o *ChurchHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
+    o.QueryRepository.FindAll()
     fmt.Fprintf(w, "Hello, %q from FindAllChurch", html.EscapeString(r.URL.Path))
 }
 
@@ -80,11 +84,11 @@ type ChurchRouter struct {
     Router *mux.Router
 }
 
-func NewChurchRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *ChurchRouter) {
+func NewChurchRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *ChurchQueryRepository) (ret *ChurchRouter) {
     pathPrefix = pathPrefix + "/" + "churches"
     ret = &ChurchRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewChurchHttpQueryHandler(),
+        QueryHandler: NewChurchHttpQueryHandler(queryRepository),
         CommandHandler: NewChurchHttpCommandHandler(context, commandBus),
     }
     return
@@ -118,10 +122,13 @@ func (o *ChurchRouter) Setup(router *mux.Router) (ret error) {
 
 
 type GraduationHttpQueryHandler struct {
+    QueryRepository *GraduationQueryRepository
 }
 
-func NewGraduationHttpQueryHandler() (ret *GraduationHttpQueryHandler) {
-    ret = &GraduationHttpQueryHandler{}
+func NewGraduationHttpQueryHandler(queryRepository *GraduationQueryRepository) (ret *GraduationHttpQueryHandler) {
+    ret = &GraduationHttpQueryHandler{
+        QueryRepository: queryRepository,
+    }
     return
 }
 
@@ -187,11 +194,12 @@ type GraduationRouter struct {
     Router *mux.Router
 }
 
-func NewGraduationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *GraduationRouter) {
+func NewGraduationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
+                queryRepository *GraduationQueryRepository) (ret *GraduationRouter) {
     pathPrefix = pathPrefix + "/" + "graduations"
     ret = &GraduationRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewGraduationHttpQueryHandler(),
+        QueryHandler: NewGraduationHttpQueryHandler(queryRepository),
         CommandHandler: NewGraduationHttpCommandHandler(context, commandBus),
     }
     return
@@ -225,10 +233,13 @@ func (o *GraduationRouter) Setup(router *mux.Router) (ret error) {
 
 
 type ProfileHttpQueryHandler struct {
+    QueryRepository *ProfileQueryRepository
 }
 
-func NewProfileHttpQueryHandler() (ret *ProfileHttpQueryHandler) {
-    ret = &ProfileHttpQueryHandler{}
+func NewProfileHttpQueryHandler(queryRepository *ProfileQueryRepository) (ret *ProfileHttpQueryHandler) {
+    ret = &ProfileHttpQueryHandler{
+        QueryRepository: queryRepository,
+    }
     return
 }
 
@@ -306,11 +317,11 @@ type ProfileRouter struct {
     Router *mux.Router
 }
 
-func NewProfileRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *ProfileRouter) {
+func NewProfileRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *ProfileQueryRepository) (ret *ProfileRouter) {
     pathPrefix = pathPrefix + "/" + "profiles"
     ret = &ProfileRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewProfileHttpQueryHandler(),
+        QueryHandler: NewProfileHttpQueryHandler(queryRepository),
         CommandHandler: NewProfileHttpCommandHandler(context, commandBus),
     }
     return
@@ -364,9 +375,9 @@ func NewPersonRouter(pathPrefix string, context context.Context, commandBus even
     pathPrefix = pathPrefix + "/" + "person"
     ret = &PersonRouter{
         PathPrefix: pathPrefix,
-        ChurchRouter: NewChurchRouter(pathPrefix, context, commandBus),
-        GraduationRouter: NewGraduationRouter(pathPrefix, context, commandBus),
-        ProfileRouter: NewProfileRouter(pathPrefix, context, commandBus),
+        ChurchRouter: NewChurchRouter(pathPrefix, context, commandBus, queryRepository),
+        GraduationRouter: NewGraduationRouter(pathPrefix, context, commandBus, queryRepository),
+        ProfileRouter: NewProfileRouter(pathPrefix, context, commandBus, queryRepository),
     }
     return
 }

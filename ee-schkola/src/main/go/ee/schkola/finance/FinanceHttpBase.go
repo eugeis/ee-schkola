@@ -11,10 +11,13 @@ import (
     "net/http"
 )
 type ExpenseHttpQueryHandler struct {
+    QueryRepository *ExpenseQueryRepository
 }
 
-func NewExpenseHttpQueryHandler() (ret *ExpenseHttpQueryHandler) {
-    ret = &ExpenseHttpQueryHandler{}
+func NewExpenseHttpQueryHandler(queryRepository *ExpenseQueryRepository) (ret *ExpenseHttpQueryHandler) {
+    ret = &ExpenseHttpQueryHandler{
+        QueryRepository: queryRepository,
+    }
     return
 }
 
@@ -80,11 +83,11 @@ type ExpenseRouter struct {
     Router *mux.Router
 }
 
-func NewExpenseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *ExpenseRouter) {
+func NewExpenseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *ExpenseQueryRepository) (ret *ExpenseRouter) {
     pathPrefix = pathPrefix + "/" + "expenses"
     ret = &ExpenseRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewExpenseHttpQueryHandler(),
+        QueryHandler: NewExpenseHttpQueryHandler(queryRepository),
         CommandHandler: NewExpenseHttpCommandHandler(context, commandBus),
     }
     return
@@ -118,10 +121,13 @@ func (o *ExpenseRouter) Setup(router *mux.Router) (ret error) {
 
 
 type ExpensePurposeHttpQueryHandler struct {
+    QueryRepository *ExpensePurposeQueryRepository
 }
 
-func NewExpensePurposeHttpQueryHandler() (ret *ExpensePurposeHttpQueryHandler) {
-    ret = &ExpensePurposeHttpQueryHandler{}
+func NewExpensePurposeHttpQueryHandler(queryRepository *ExpensePurposeQueryRepository) (ret *ExpensePurposeHttpQueryHandler) {
+    ret = &ExpensePurposeHttpQueryHandler{
+        QueryRepository: queryRepository,
+    }
     return
 }
 
@@ -187,11 +193,12 @@ type ExpensePurposeRouter struct {
     Router *mux.Router
 }
 
-func NewExpensePurposeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *ExpensePurposeRouter) {
+func NewExpensePurposeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
+                queryRepository *ExpensePurposeQueryRepository) (ret *ExpensePurposeRouter) {
     pathPrefix = pathPrefix + "/" + "expensePurposes"
     ret = &ExpensePurposeRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewExpensePurposeHttpQueryHandler(),
+        QueryHandler: NewExpensePurposeHttpQueryHandler(queryRepository),
         CommandHandler: NewExpensePurposeHttpCommandHandler(context, commandBus),
     }
     return
@@ -225,10 +232,13 @@ func (o *ExpensePurposeRouter) Setup(router *mux.Router) (ret error) {
 
 
 type FeeHttpQueryHandler struct {
+    QueryRepository *FeeQueryRepository
 }
 
-func NewFeeHttpQueryHandler() (ret *FeeHttpQueryHandler) {
-    ret = &FeeHttpQueryHandler{}
+func NewFeeHttpQueryHandler(queryRepository *FeeQueryRepository) (ret *FeeHttpQueryHandler) {
+    ret = &FeeHttpQueryHandler{
+        QueryRepository: queryRepository,
+    }
     return
 }
 
@@ -294,11 +304,11 @@ type FeeRouter struct {
     Router *mux.Router
 }
 
-func NewFeeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *FeeRouter) {
+func NewFeeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *FeeQueryRepository) (ret *FeeRouter) {
     pathPrefix = pathPrefix + "/" + "fees"
     ret = &FeeRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewFeeHttpQueryHandler(),
+        QueryHandler: NewFeeHttpQueryHandler(queryRepository),
         CommandHandler: NewFeeHttpCommandHandler(context, commandBus),
     }
     return
@@ -332,10 +342,13 @@ func (o *FeeRouter) Setup(router *mux.Router) (ret error) {
 
 
 type FeeKindHttpQueryHandler struct {
+    QueryRepository *FeeKindQueryRepository
 }
 
-func NewFeeKindHttpQueryHandler() (ret *FeeKindHttpQueryHandler) {
-    ret = &FeeKindHttpQueryHandler{}
+func NewFeeKindHttpQueryHandler(queryRepository *FeeKindQueryRepository) (ret *FeeKindHttpQueryHandler) {
+    ret = &FeeKindHttpQueryHandler{
+        QueryRepository: queryRepository,
+    }
     return
 }
 
@@ -401,11 +414,11 @@ type FeeKindRouter struct {
     Router *mux.Router
 }
 
-func NewFeeKindRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *FeeKindRouter) {
+func NewFeeKindRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *FeeKindQueryRepository) (ret *FeeKindRouter) {
     pathPrefix = pathPrefix + "/" + "feeKinds"
     ret = &FeeKindRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewFeeKindHttpQueryHandler(),
+        QueryHandler: NewFeeKindHttpQueryHandler(queryRepository),
         CommandHandler: NewFeeKindHttpCommandHandler(context, commandBus),
     }
     return
@@ -451,10 +464,10 @@ func NewFinanceRouter(pathPrefix string, context context.Context, commandBus eve
     pathPrefix = pathPrefix + "/" + "finance"
     ret = &FinanceRouter{
         PathPrefix: pathPrefix,
-        ExpenseRouter: NewExpenseRouter(pathPrefix, context, commandBus),
-        ExpensePurposeRouter: NewExpensePurposeRouter(pathPrefix, context, commandBus),
-        FeeRouter: NewFeeRouter(pathPrefix, context, commandBus),
-        FeeKindRouter: NewFeeKindRouter(pathPrefix, context, commandBus),
+        ExpenseRouter: NewExpenseRouter(pathPrefix, context, commandBus, queryRepository),
+        ExpensePurposeRouter: NewExpensePurposeRouter(pathPrefix, context, commandBus, queryRepository),
+        FeeRouter: NewFeeRouter(pathPrefix, context, commandBus, queryRepository),
+        FeeKindRouter: NewFeeKindRouter(pathPrefix, context, commandBus, queryRepository),
     }
     return
 }

@@ -11,10 +11,13 @@ import (
     "net/http"
 )
 type AccountHttpQueryHandler struct {
+    QueryRepository *AccountQueryRepository
 }
 
-func NewAccountHttpQueryHandler() (ret *AccountHttpQueryHandler) {
-    ret = &AccountHttpQueryHandler{}
+func NewAccountHttpQueryHandler(queryRepository *AccountQueryRepository) (ret *AccountHttpQueryHandler) {
+    ret = &AccountHttpQueryHandler{
+        QueryRepository: queryRepository,
+    }
     return
 }
 
@@ -92,11 +95,11 @@ type AccountRouter struct {
     Router *mux.Router
 }
 
-func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *AccountRouter) {
+func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *AccountQueryRepository) (ret *AccountRouter) {
     pathPrefix = pathPrefix + "/" + "accounts"
     ret = &AccountRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewAccountHttpQueryHandler(),
+        QueryHandler: NewAccountHttpQueryHandler(queryRepository),
         CommandHandler: NewAccountHttpCommandHandler(context, commandBus),
     }
     return
@@ -141,7 +144,7 @@ func NewAuthRouter(pathPrefix string, context context.Context, commandBus eventh
     pathPrefix = pathPrefix + "/" + "auth"
     ret = &AuthRouter{
         PathPrefix: pathPrefix,
-        AccountRouter: NewAccountRouter(pathPrefix, context, commandBus),
+        AccountRouter: NewAccountRouter(pathPrefix, context, commandBus, queryRepository),
     }
     return
 }

@@ -11,10 +11,13 @@ import (
     "net/http"
 )
 type BookHttpQueryHandler struct {
+    QueryRepository *BookQueryRepository
 }
 
-func NewBookHttpQueryHandler() (ret *BookHttpQueryHandler) {
-    ret = &BookHttpQueryHandler{}
+func NewBookHttpQueryHandler(queryRepository *BookQueryRepository) (ret *BookHttpQueryHandler) {
+    ret = &BookHttpQueryHandler{
+        QueryRepository: queryRepository,
+    }
     return
 }
 
@@ -98,11 +101,11 @@ type BookRouter struct {
     Router *mux.Router
 }
 
-func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *BookRouter) {
+func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *BookQueryRepository) (ret *BookRouter) {
     pathPrefix = pathPrefix + "/" + "books"
     ret = &BookRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewBookHttpQueryHandler(),
+        QueryHandler: NewBookHttpQueryHandler(queryRepository),
         CommandHandler: NewBookHttpCommandHandler(context, commandBus),
     }
     return
@@ -156,7 +159,7 @@ func NewLibraryRouter(pathPrefix string, context context.Context, commandBus eve
     pathPrefix = pathPrefix + "/" + "library"
     ret = &LibraryRouter{
         PathPrefix: pathPrefix,
-        BookRouter: NewBookRouter(pathPrefix, context, commandBus),
+        BookRouter: NewBookRouter(pathPrefix, context, commandBus, queryRepository),
     }
     return
 }
