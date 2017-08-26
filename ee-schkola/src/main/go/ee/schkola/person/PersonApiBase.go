@@ -14,8 +14,9 @@ type Church struct {
 }
 
 func NewChurch() (ret *Church) {
+    SchkolaBase:= schkola.NewSchkolaBase()
     ret = &Church{
-        SchkolaBase: schkola.NewSchkolaBase(),
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -28,8 +29,9 @@ type Graduation struct {
 }
 
 func NewGraduation() (ret *Graduation) {
+    SchkolaBase:= schkola.NewSchkolaBase()
     ret = &Graduation{
-        SchkolaBase: schkola.NewSchkolaBase(),
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -51,8 +53,9 @@ type Profile struct {
 }
 
 func NewProfile() (ret *Profile) {
+    SchkolaBase:= schkola.NewSchkolaBase()
     ret = &Profile{
-        SchkolaBase: schkola.NewSchkolaBase(),
+        SchkolaBase: SchkolaBase,
     }
     return
 }

@@ -63,8 +63,9 @@ type BookHttpCommandHandler struct {
 }
 
 func NewBookHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *BookHttpCommandHandler) {
+    HttpCommandHandler:= eh.NewHttpCommandHandler(context, commandBus)
     ret = &BookHttpCommandHandler{
-        HttpCommandHandler: eh.NewHttpCommandHandler(context, commandBus),
+        HttpCommandHandler: HttpCommandHandler,
     }
     return
 }
@@ -101,12 +102,16 @@ type BookRouter struct {
     Router *mux.Router
 }
 
-func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *BookQueryRepository) (ret *BookRouter) {
+func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *BookRouter) {
     pathPrefix = pathPrefix + "/" + "books"
+    queryRepository:= NewBookQueryRepository()
+    queryHandler:= NewBookHttpQueryHandler(queryRepository)
+    commandHandler:= NewBookHttpCommandHandler(context, commandBus)
     ret = &BookRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewBookHttpQueryHandler(queryRepository),
-        CommandHandler: NewBookHttpCommandHandler(context, commandBus),
+        QueryHandler: queryHandler,
+        CommandHandler: commandHandler,
     }
     return
 }
@@ -155,11 +160,13 @@ type LibraryRouter struct {
     Router *mux.Router
 }
 
-func NewLibraryRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *LibraryRouter) {
+func NewLibraryRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *LibraryRouter) {
     pathPrefix = pathPrefix + "/" + "library"
+    BookRouter:= NewBookRouter(pathPrefix, context, commandBus, readRepos)
     ret = &LibraryRouter{
         PathPrefix: pathPrefix,
-        BookRouter: NewBookRouter(pathPrefix, context, commandBus, queryRepository),
+        BookRouter: BookRouter,
     }
     return
 }

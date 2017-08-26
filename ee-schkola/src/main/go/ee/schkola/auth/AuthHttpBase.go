@@ -51,8 +51,9 @@ type AccountHttpCommandHandler struct {
 }
 
 func NewAccountHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *AccountHttpCommandHandler) {
+    HttpCommandHandler:= eh.NewHttpCommandHandler(context, commandBus)
     ret = &AccountHttpCommandHandler{
-        HttpCommandHandler: eh.NewHttpCommandHandler(context, commandBus),
+        HttpCommandHandler: HttpCommandHandler,
     }
     return
 }
@@ -95,12 +96,16 @@ type AccountRouter struct {
     Router *mux.Router
 }
 
-func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *AccountQueryRepository) (ret *AccountRouter) {
+func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AccountRouter) {
     pathPrefix = pathPrefix + "/" + "accounts"
+    queryRepository:= NewAccountQueryRepository()
+    queryHandler:= NewAccountHttpQueryHandler(queryRepository)
+    commandHandler:= NewAccountHttpCommandHandler(context, commandBus)
     ret = &AccountRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewAccountHttpQueryHandler(queryRepository),
-        CommandHandler: NewAccountHttpCommandHandler(context, commandBus),
+        QueryHandler: queryHandler,
+        CommandHandler: commandHandler,
     }
     return
 }
@@ -140,11 +145,13 @@ type AuthRouter struct {
     Router *mux.Router
 }
 
-func NewAuthRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *AuthRouter) {
+func NewAuthRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AuthRouter) {
     pathPrefix = pathPrefix + "/" + "auth"
+    AccountRouter:= NewAccountRouter(pathPrefix, context, commandBus, readRepos)
     ret = &AuthRouter{
         PathPrefix: pathPrefix,
-        AccountRouter: NewAccountRouter(pathPrefix, context, commandBus, queryRepository),
+        AccountRouter: AccountRouter,
     }
     return
 }

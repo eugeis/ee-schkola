@@ -22,7 +22,6 @@ func NewChurchHttpQueryHandler(queryRepository *ChurchQueryRepository) (ret *Chu
 }
 
 func (o *ChurchHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    o.QueryRepository.FindAll()
     fmt.Fprintf(w, "Hello, %q from FindAllChurch", html.EscapeString(r.URL.Path))
 }
 
@@ -52,8 +51,9 @@ type ChurchHttpCommandHandler struct {
 }
 
 func NewChurchHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ChurchHttpCommandHandler) {
+    HttpCommandHandler:= eh.NewHttpCommandHandler(context, commandBus)
     ret = &ChurchHttpCommandHandler{
-        HttpCommandHandler: eh.NewHttpCommandHandler(context, commandBus),
+        HttpCommandHandler: HttpCommandHandler,
     }
     return
 }
@@ -84,12 +84,16 @@ type ChurchRouter struct {
     Router *mux.Router
 }
 
-func NewChurchRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *ChurchQueryRepository) (ret *ChurchRouter) {
+func NewChurchRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ChurchRouter) {
     pathPrefix = pathPrefix + "/" + "churches"
+    queryRepository:= NewChurchQueryRepository()
+    queryHandler:= NewChurchHttpQueryHandler(queryRepository)
+    commandHandler:= NewChurchHttpCommandHandler(context, commandBus)
     ret = &ChurchRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewChurchHttpQueryHandler(queryRepository),
-        CommandHandler: NewChurchHttpCommandHandler(context, commandBus),
+        QueryHandler: queryHandler,
+        CommandHandler: commandHandler,
     }
     return
 }
@@ -162,8 +166,9 @@ type GraduationHttpCommandHandler struct {
 }
 
 func NewGraduationHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *GraduationHttpCommandHandler) {
+    HttpCommandHandler:= eh.NewHttpCommandHandler(context, commandBus)
     ret = &GraduationHttpCommandHandler{
-        HttpCommandHandler: eh.NewHttpCommandHandler(context, commandBus),
+        HttpCommandHandler: HttpCommandHandler,
     }
     return
 }
@@ -195,12 +200,15 @@ type GraduationRouter struct {
 }
 
 func NewGraduationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                queryRepository *GraduationQueryRepository) (ret *GraduationRouter) {
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *GraduationRouter) {
     pathPrefix = pathPrefix + "/" + "graduations"
+    queryRepository:= NewGraduationQueryRepository()
+    queryHandler:= NewGraduationHttpQueryHandler(queryRepository)
+    commandHandler:= NewGraduationHttpCommandHandler(context, commandBus)
     ret = &GraduationRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewGraduationHttpQueryHandler(queryRepository),
-        CommandHandler: NewGraduationHttpCommandHandler(context, commandBus),
+        QueryHandler: queryHandler,
+        CommandHandler: commandHandler,
     }
     return
 }
@@ -285,8 +293,9 @@ type ProfileHttpCommandHandler struct {
 }
 
 func NewProfileHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ProfileHttpCommandHandler) {
+    HttpCommandHandler:= eh.NewHttpCommandHandler(context, commandBus)
     ret = &ProfileHttpCommandHandler{
-        HttpCommandHandler: eh.NewHttpCommandHandler(context, commandBus),
+        HttpCommandHandler: HttpCommandHandler,
     }
     return
 }
@@ -317,12 +326,16 @@ type ProfileRouter struct {
     Router *mux.Router
 }
 
-func NewProfileRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *ProfileQueryRepository) (ret *ProfileRouter) {
+func NewProfileRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ProfileRouter) {
     pathPrefix = pathPrefix + "/" + "profiles"
+    queryRepository:= NewProfileQueryRepository()
+    queryHandler:= NewProfileHttpQueryHandler(queryRepository)
+    commandHandler:= NewProfileHttpCommandHandler(context, commandBus)
     ret = &ProfileRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewProfileHttpQueryHandler(queryRepository),
-        CommandHandler: NewProfileHttpCommandHandler(context, commandBus),
+        QueryHandler: queryHandler,
+        CommandHandler: commandHandler,
     }
     return
 }
@@ -371,13 +384,17 @@ type PersonRouter struct {
     Router *mux.Router
 }
 
-func NewPersonRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *PersonRouter) {
+func NewPersonRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *PersonRouter) {
     pathPrefix = pathPrefix + "/" + "person"
+    ChurchRouter:= NewChurchRouter(pathPrefix, context, commandBus, readRepos)
+    GraduationRouter:= NewGraduationRouter(pathPrefix, context, commandBus, readRepos)
+    ProfileRouter:= NewProfileRouter(pathPrefix, context, commandBus, readRepos)
     ret = &PersonRouter{
         PathPrefix: pathPrefix,
-        ChurchRouter: NewChurchRouter(pathPrefix, context, commandBus, queryRepository),
-        GraduationRouter: NewGraduationRouter(pathPrefix, context, commandBus, queryRepository),
-        ProfileRouter: NewProfileRouter(pathPrefix, context, commandBus, queryRepository),
+        ChurchRouter: ChurchRouter,
+        GraduationRouter: GraduationRouter,
+        ProfileRouter: ProfileRouter,
     }
     return
 }

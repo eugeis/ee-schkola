@@ -51,8 +51,9 @@ type AttendanceHttpCommandHandler struct {
 }
 
 func NewAttendanceHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *AttendanceHttpCommandHandler) {
+    HttpCommandHandler:= eh.NewHttpCommandHandler(context, commandBus)
     ret = &AttendanceHttpCommandHandler{
-        HttpCommandHandler: eh.NewHttpCommandHandler(context, commandBus),
+        HttpCommandHandler: HttpCommandHandler,
     }
     return
 }
@@ -96,12 +97,15 @@ type AttendanceRouter struct {
 }
 
 func NewAttendanceRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                queryRepository *AttendanceQueryRepository) (ret *AttendanceRouter) {
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AttendanceRouter) {
     pathPrefix = pathPrefix + "/" + "attendances"
+    queryRepository:= NewAttendanceQueryRepository()
+    queryHandler:= NewAttendanceHttpQueryHandler(queryRepository)
+    commandHandler:= NewAttendanceHttpCommandHandler(context, commandBus)
     ret = &AttendanceRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewAttendanceHttpQueryHandler(queryRepository),
-        CommandHandler: NewAttendanceHttpCommandHandler(context, commandBus),
+        QueryHandler: queryHandler,
+        CommandHandler: commandHandler,
     }
     return
 }
@@ -176,8 +180,9 @@ type CourseHttpCommandHandler struct {
 }
 
 func NewCourseHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *CourseHttpCommandHandler) {
+    HttpCommandHandler:= eh.NewHttpCommandHandler(context, commandBus)
     ret = &CourseHttpCommandHandler{
-        HttpCommandHandler: eh.NewHttpCommandHandler(context, commandBus),
+        HttpCommandHandler: HttpCommandHandler,
     }
     return
 }
@@ -208,12 +213,16 @@ type CourseRouter struct {
     Router *mux.Router
 }
 
-func NewCourseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *CourseQueryRepository) (ret *CourseRouter) {
+func NewCourseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *CourseRouter) {
     pathPrefix = pathPrefix + "/" + "courses"
+    queryRepository:= NewCourseQueryRepository()
+    queryHandler:= NewCourseHttpQueryHandler(queryRepository)
+    commandHandler:= NewCourseHttpCommandHandler(context, commandBus)
     ret = &CourseRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewCourseHttpQueryHandler(queryRepository),
-        CommandHandler: NewCourseHttpCommandHandler(context, commandBus),
+        QueryHandler: queryHandler,
+        CommandHandler: commandHandler,
     }
     return
 }
@@ -286,8 +295,9 @@ type GradeHttpCommandHandler struct {
 }
 
 func NewGradeHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *GradeHttpCommandHandler) {
+    HttpCommandHandler:= eh.NewHttpCommandHandler(context, commandBus)
     ret = &GradeHttpCommandHandler{
-        HttpCommandHandler: eh.NewHttpCommandHandler(context, commandBus),
+        HttpCommandHandler: HttpCommandHandler,
     }
     return
 }
@@ -318,12 +328,16 @@ type GradeRouter struct {
     Router *mux.Router
 }
 
-func NewGradeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *GradeQueryRepository) (ret *GradeRouter) {
+func NewGradeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *GradeRouter) {
     pathPrefix = pathPrefix + "/" + "grades"
+    queryRepository:= NewGradeQueryRepository()
+    queryHandler:= NewGradeHttpQueryHandler(queryRepository)
+    commandHandler:= NewGradeHttpCommandHandler(context, commandBus)
     ret = &GradeRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewGradeHttpQueryHandler(queryRepository),
-        CommandHandler: NewGradeHttpCommandHandler(context, commandBus),
+        QueryHandler: queryHandler,
+        CommandHandler: commandHandler,
     }
     return
 }
@@ -396,8 +410,9 @@ type GroupHttpCommandHandler struct {
 }
 
 func NewGroupHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *GroupHttpCommandHandler) {
+    HttpCommandHandler:= eh.NewHttpCommandHandler(context, commandBus)
     ret = &GroupHttpCommandHandler{
-        HttpCommandHandler: eh.NewHttpCommandHandler(context, commandBus),
+        HttpCommandHandler: HttpCommandHandler,
     }
     return
 }
@@ -428,12 +443,16 @@ type GroupRouter struct {
     Router *mux.Router
 }
 
-func NewGroupRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, queryRepository *GroupQueryRepository) (ret *GroupRouter) {
+func NewGroupRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *GroupRouter) {
     pathPrefix = pathPrefix + "/" + "groups"
+    queryRepository:= NewGroupQueryRepository()
+    queryHandler:= NewGroupHttpQueryHandler(queryRepository)
+    commandHandler:= NewGroupHttpCommandHandler(context, commandBus)
     ret = &GroupRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewGroupHttpQueryHandler(queryRepository),
-        CommandHandler: NewGroupHttpCommandHandler(context, commandBus),
+        QueryHandler: queryHandler,
+        CommandHandler: commandHandler,
     }
     return
 }
@@ -506,8 +525,9 @@ type SchoolApplicationHttpCommandHandler struct {
 }
 
 func NewSchoolApplicationHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *SchoolApplicationHttpCommandHandler) {
+    HttpCommandHandler:= eh.NewHttpCommandHandler(context, commandBus)
     ret = &SchoolApplicationHttpCommandHandler{
-        HttpCommandHandler: eh.NewHttpCommandHandler(context, commandBus),
+        HttpCommandHandler: HttpCommandHandler,
     }
     return
 }
@@ -539,12 +559,15 @@ type SchoolApplicationRouter struct {
 }
 
 func NewSchoolApplicationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                queryRepository *SchoolApplicationQueryRepository) (ret *SchoolApplicationRouter) {
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *SchoolApplicationRouter) {
     pathPrefix = pathPrefix + "/" + "schoolApplications"
+    queryRepository:= NewSchoolApplicationQueryRepository()
+    queryHandler:= NewSchoolApplicationHttpQueryHandler(queryRepository)
+    commandHandler:= NewSchoolApplicationHttpCommandHandler(context, commandBus)
     ret = &SchoolApplicationRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewSchoolApplicationHttpQueryHandler(queryRepository),
-        CommandHandler: NewSchoolApplicationHttpCommandHandler(context, commandBus),
+        QueryHandler: queryHandler,
+        CommandHandler: commandHandler,
     }
     return
 }
@@ -617,8 +640,9 @@ type SchoolYearHttpCommandHandler struct {
 }
 
 func NewSchoolYearHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *SchoolYearHttpCommandHandler) {
+    HttpCommandHandler:= eh.NewHttpCommandHandler(context, commandBus)
     ret = &SchoolYearHttpCommandHandler{
-        HttpCommandHandler: eh.NewHttpCommandHandler(context, commandBus),
+        HttpCommandHandler: HttpCommandHandler,
     }
     return
 }
@@ -650,12 +674,15 @@ type SchoolYearRouter struct {
 }
 
 func NewSchoolYearRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                queryRepository *SchoolYearQueryRepository) (ret *SchoolYearRouter) {
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *SchoolYearRouter) {
     pathPrefix = pathPrefix + "/" + "schoolYears"
+    queryRepository:= NewSchoolYearQueryRepository()
+    queryHandler:= NewSchoolYearHttpQueryHandler(queryRepository)
+    commandHandler:= NewSchoolYearHttpCommandHandler(context, commandBus)
     ret = &SchoolYearRouter{
         PathPrefix: pathPrefix,
-        QueryHandler: NewSchoolYearHttpQueryHandler(queryRepository),
-        CommandHandler: NewSchoolYearHttpCommandHandler(context, commandBus),
+        QueryHandler: queryHandler,
+        CommandHandler: commandHandler,
     }
     return
 }
@@ -698,16 +725,23 @@ type StudentRouter struct {
     Router *mux.Router
 }
 
-func NewStudentRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus) (ret *StudentRouter) {
+func NewStudentRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
+                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *StudentRouter) {
     pathPrefix = pathPrefix + "/" + "student"
+    AttendanceRouter:= NewAttendanceRouter(pathPrefix, context, commandBus, readRepos)
+    CourseRouter:= NewCourseRouter(pathPrefix, context, commandBus, readRepos)
+    GradeRouter:= NewGradeRouter(pathPrefix, context, commandBus, readRepos)
+    GroupRouter:= NewGroupRouter(pathPrefix, context, commandBus, readRepos)
+    SchoolApplicationRouter:= NewSchoolApplicationRouter(pathPrefix, context, commandBus, readRepos)
+    SchoolYearRouter:= NewSchoolYearRouter(pathPrefix, context, commandBus, readRepos)
     ret = &StudentRouter{
         PathPrefix: pathPrefix,
-        AttendanceRouter: NewAttendanceRouter(pathPrefix, context, commandBus, queryRepository),
-        CourseRouter: NewCourseRouter(pathPrefix, context, commandBus, queryRepository),
-        GradeRouter: NewGradeRouter(pathPrefix, context, commandBus, queryRepository),
-        GroupRouter: NewGroupRouter(pathPrefix, context, commandBus, queryRepository),
-        SchoolApplicationRouter: NewSchoolApplicationRouter(pathPrefix, context, commandBus, queryRepository),
-        SchoolYearRouter: NewSchoolYearRouter(pathPrefix, context, commandBus, queryRepository),
+        AttendanceRouter: AttendanceRouter,
+        CourseRouter: CourseRouter,
+        GradeRouter: GradeRouter,
+        GroupRouter: GroupRouter,
+        SchoolApplicationRouter: SchoolApplicationRouter,
+        SchoolYearRouter: SchoolYearRouter,
     }
     return
 }

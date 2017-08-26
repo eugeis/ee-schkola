@@ -19,8 +19,9 @@ type Attendance struct {
 }
 
 func NewAttendance() (ret *Attendance) {
+    SchkolaBase:= schkola.NewSchkolaBase()
     ret = &Attendance{
-        SchkolaBase: schkola.NewSchkolaBase(),
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -38,8 +39,9 @@ type Course struct {
 }
 
 func NewCourse() (ret *Course) {
+    SchkolaBase:= schkola.NewSchkolaBase()
     ret = &Course{
-        SchkolaBase: schkola.NewSchkolaBase(),
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -55,8 +57,9 @@ type Grade struct {
 }
 
 func NewGrade() (ret *Grade) {
+    SchkolaBase:= schkola.NewSchkolaBase()
     ret = &Grade{
-        SchkolaBase: schkola.NewSchkolaBase(),
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -73,8 +76,9 @@ type Group struct {
 }
 
 func NewGroup() (ret *Group) {
+    SchkolaBase:= schkola.NewSchkolaBase()
     ret = &Group{
-        SchkolaBase: schkola.NewSchkolaBase(),
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -101,8 +105,9 @@ type SchoolApplication struct {
 }
 
 func NewSchoolApplication() (ret *SchoolApplication) {
+    SchkolaBase:= schkola.NewSchkolaBase()
     ret = &SchoolApplication{
-        SchkolaBase: schkola.NewSchkolaBase(),
+        SchkolaBase: SchkolaBase,
     }
     return
 }
@@ -117,8 +122,9 @@ type SchoolYear struct {
 }
 
 func NewSchoolYear() (ret *SchoolYear) {
+    SchkolaBase:= schkola.NewSchkolaBase()
     ret = &SchoolYear{
-        SchkolaBase: schkola.NewSchkolaBase(),
+        SchkolaBase: SchkolaBase,
     }
     return
 }
