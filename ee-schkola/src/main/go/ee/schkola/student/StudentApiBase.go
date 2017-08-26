@@ -70,7 +70,7 @@ type Group struct {
     Category *GroupCategory
     SchoolYear *SchoolYear
     Representative *person.Profile
-    Students []*Course
+    Students []*person.Profile
     Courses []*Course
     *schkola.SchkolaBase
 }
@@ -83,7 +83,7 @@ func NewGroup() (ret *Group) {
     return
 }
 
-func (o *Group) AddToStudents(item *Course) *Course {
+func (o *Group) AddToStudents(item *person.Profile) *person.Profile {
     o.Students = append(o.Students, item)
     return item
 }
@@ -117,7 +117,7 @@ type SchoolYear struct {
     Name string
     Start *time.Time
     End *time.Time
-    Dates []*Course
+    Dates []*time.Time
     *schkola.SchkolaBase
 }
 
@@ -129,7 +129,7 @@ func NewSchoolYear() (ret *SchoolYear) {
     return
 }
 
-func (o *SchoolYear) AddToDates(item *Course) *Course {
+func (o *SchoolYear) AddToDates(item *time.Time) *time.Time {
     o.Dates = append(o.Dates, item)
     return item
 }

@@ -238,11 +238,11 @@ type CreateGroup struct {
     Category *GroupCategory`eh:"optional"`
     SchoolYear *SchoolYear`eh:"optional"`
     Representative *person.Profile`eh:"optional"`
-    Students []*Course`eh:"optional"`
+    Students []*person.Profile`eh:"optional"`
     Courses []*Course`eh:"optional"`
 }
 
-func (o *CreateGroup) AddToStudents(item *Course) *Course {
+func (o *CreateGroup) AddToStudents(item *person.Profile) *person.Profile {
     o.Students = append(o.Students, item)
     return item
 }
@@ -274,11 +274,11 @@ type UpdateGroup struct {
     Category *GroupCategory`eh:"optional"`
     SchoolYear *SchoolYear`eh:"optional"`
     Representative *person.Profile`eh:"optional"`
-    Students []*Course`eh:"optional"`
+    Students []*person.Profile`eh:"optional"`
     Courses []*Course`eh:"optional"`
 }
 
-func (o *UpdateGroup) AddToStudents(item *Course) *Course {
+func (o *UpdateGroup) AddToStudents(item *person.Profile) *person.Profile {
     o.Students = append(o.Students, item)
     return item
 }
@@ -341,10 +341,10 @@ type CreateSchoolYear struct {
     Name string`eh:"optional"`
     Start *time.Time`eh:"optional"`
     End *time.Time`eh:"optional"`
-    Dates []*Course`eh:"optional"`
+    Dates []*time.Time`eh:"optional"`
 }
 
-func (o *CreateSchoolYear) AddToDates(item *Course) *Course {
+func (o *CreateSchoolYear) AddToDates(item *time.Time) *time.Time {
     o.Dates = append(o.Dates, item)
     return item
 }
@@ -370,10 +370,10 @@ type UpdateSchoolYear struct {
     Name string`eh:"optional"`
     Start *time.Time`eh:"optional"`
     End *time.Time`eh:"optional"`
-    Dates []*Course`eh:"optional"`
+    Dates []*time.Time`eh:"optional"`
 }
 
-func (o *UpdateSchoolYear) AddToDates(item *Course) *Course {
+func (o *UpdateSchoolYear) AddToDates(item *time.Time) *time.Time {
     o.Dates = append(o.Dates, item)
     return item
 }

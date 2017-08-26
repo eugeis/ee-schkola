@@ -938,7 +938,7 @@ components:
         students:          
           type: array
           items:
-            $ref: "#/components/schemas/Course"
+            $ref: "#/components/schemas/Profile"
         courses:          
           type: array
           items:
@@ -984,6 +984,6 @@ components:
         dates:          
           type: array
           items:
-            $ref: "#/components/schemas/Course"
+            type: string
         schkolaBase:          
           $ref: "#/components/schemas/SchkolaBase"

@@ -25,8 +25,17 @@ func NewBook() (ret *Book) {
     return
 }
 
+func (o *Book) FindByAuthor(author *person.PersonName)  {
+    
+}
 
+func (o *Book) FindByPattern(pattern string)  {
+    
+}
 
+func (o *Book) FindByTitle(title string)  {
+    
+}
 
 
 
