@@ -13,12 +13,12 @@ paths:
           schema:
             type: string
             enum: 
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -50,12 +50,12 @@ paths:
           schema:
             type: string
             enum: 
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -87,12 +87,12 @@ paths:
           schema:
             type: string
             enum: 
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -124,12 +124,12 @@ paths:
           schema:
             type: string
             enum: 
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -161,12 +161,12 @@ paths:
           schema:
             type: string
             enum: 
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -201,12 +201,12 @@ paths:
               - findByTitle
               - findByAuthor
               - findByPattern
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -253,12 +253,12 @@ paths:
           schema:
             type: string
             enum: 
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -290,12 +290,12 @@ paths:
           schema:
             type: string
             enum: 
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -327,15 +327,14 @@ paths:
           schema:
             type: string
             enum: 
-              - findByName
               - findByEmail
               - findByPhone
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -355,11 +354,6 @@ paths:
           required: false
           schema:            
             type: string
-        - name: name
-          in: query
-          required: false
-          schema:            
-            $ref: "#/components/schemas/PersonName"
         - name: phone
           in: query
           required: false
@@ -382,12 +376,12 @@ paths:
           schema:
             type: string
             enum: 
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -419,12 +413,12 @@ paths:
           schema:
             type: string
             enum: 
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -456,12 +450,12 @@ paths:
           schema:
             type: string
             enum: 
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -493,12 +487,12 @@ paths:
           schema:
             type: string
             enum: 
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -530,12 +524,12 @@ paths:
           schema:
             type: string
             enum: 
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false
@@ -567,12 +561,12 @@ paths:
           schema:
             type: string
             enum: 
-              - findAll
-              - findById
-            - countAll
-            - countById
-            - existAll
-            - existById
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
         - name: operationType
           in: query
           required: false

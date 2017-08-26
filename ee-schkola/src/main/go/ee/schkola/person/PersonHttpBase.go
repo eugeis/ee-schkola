@@ -2,12 +2,10 @@ package person
 
 import (
     "context"
-    "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "github.com/looplab/eventhorizon"
-    "html"
     "net/http"
 )
 type ChurchHttpQueryHandler struct {
@@ -25,27 +23,39 @@ func NewChurchHttpQueryHandler(queryRepository *ChurchQueryRepository) (ret *Chu
 }
 
 func (o *ChurchHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllChurch", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllChurch", w, r)
 }
 
 func (o *ChurchHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByChurchId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindByChurchId", w, r)
 }
 
 func (o *ChurchHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllChurch", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllChurch", w, r)
 }
 
 func (o *ChurchHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountByChurchId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountByChurchId", w, r)
 }
 
 func (o *ChurchHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllChurch", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllChurch", w, r)
 }
 
 func (o *ChurchHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistByChurchId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistByChurchId", w, r)
 }
 
 
@@ -143,27 +153,39 @@ func NewGraduationHttpQueryHandler(queryRepository *GraduationQueryRepository) (
 }
 
 func (o *GraduationHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllGraduation", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllGraduation", w, r)
 }
 
 func (o *GraduationHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByGraduationId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindByGraduationId", w, r)
 }
 
 func (o *GraduationHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllGraduation", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllGraduation", w, r)
 }
 
 func (o *GraduationHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountByGraduationId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountByGraduationId", w, r)
 }
 
 func (o *GraduationHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllGraduation", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllGraduation", w, r)
 }
 
 func (o *GraduationHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistByGraduationId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistByGraduationId", w, r)
 }
 
 
@@ -260,40 +282,54 @@ func NewProfileHttpQueryHandler(queryRepository *ProfileQueryRepository) (ret *P
     return
 }
 
-func (o *ProfileHttpQueryHandler) FindByName(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByProfileName", html.EscapeString(r.URL.Path))
-}
-
 func (o *ProfileHttpQueryHandler) FindByEmail(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByProfileEmail", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    email := vars["email"]
+    ret, err := o.QueryRepository.FindByEmail(email)
+    o.HandleResult(ret, err, "FindByProfileEmail", w, r)
 }
 
 func (o *ProfileHttpQueryHandler) FindByPhone(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByProfilePhone", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    phone := vars["phone"]
+    ret, err := o.QueryRepository.FindByPhone(phone)
+    o.HandleResult(ret, err, "FindByProfilePhone", w, r)
 }
 
 func (o *ProfileHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllProfile", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllProfile", w, r)
 }
 
 func (o *ProfileHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByProfileId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindByProfileId", w, r)
 }
 
 func (o *ProfileHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllProfile", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllProfile", w, r)
 }
 
 func (o *ProfileHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountByProfileId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountByProfileId", w, r)
 }
 
 func (o *ProfileHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllProfile", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllProfile", w, r)
 }
 
 func (o *ProfileHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistByProfileId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistByProfileId", w, r)
 }
 
 
@@ -362,9 +398,6 @@ func (o *ProfileRouter) Setup(router *mux.Router) (ret error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).
         Name("ExistProfileAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
-        Name("FindProfileByName").HandlerFunc(o.QueryHandler.FindByName).
-    Queries("name", "{name}")
     router.Methods(net.GET).PathPrefix(o.PathPrefix).
         Name("FindProfileByEmail").HandlerFunc(o.QueryHandler.FindByEmail).
     Queries("email", "{email}")

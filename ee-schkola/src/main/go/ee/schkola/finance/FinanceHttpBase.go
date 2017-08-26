@@ -2,12 +2,10 @@ package finance
 
 import (
     "context"
-    "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "github.com/looplab/eventhorizon"
-    "html"
     "net/http"
 )
 type ExpenseHttpQueryHandler struct {
@@ -25,27 +23,39 @@ func NewExpenseHttpQueryHandler(queryRepository *ExpenseQueryRepository) (ret *E
 }
 
 func (o *ExpenseHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllExpense", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllExpense", w, r)
 }
 
 func (o *ExpenseHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByExpenseId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindByExpenseId", w, r)
 }
 
 func (o *ExpenseHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllExpense", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllExpense", w, r)
 }
 
 func (o *ExpenseHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountByExpenseId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountByExpenseId", w, r)
 }
 
 func (o *ExpenseHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllExpense", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllExpense", w, r)
 }
 
 func (o *ExpenseHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistByExpenseId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistByExpenseId", w, r)
 }
 
 
@@ -143,27 +153,39 @@ func NewExpensePurposeHttpQueryHandler(queryRepository *ExpensePurposeQueryRepos
 }
 
 func (o *ExpensePurposeHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllExpensePurpose", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllExpensePurpose", w, r)
 }
 
 func (o *ExpensePurposeHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByExpensePurposeId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindByExpensePurposeId", w, r)
 }
 
 func (o *ExpensePurposeHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllExpensePurpose", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllExpensePurpose", w, r)
 }
 
 func (o *ExpensePurposeHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountByExpensePurposeId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountByExpensePurposeId", w, r)
 }
 
 func (o *ExpensePurposeHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllExpensePurpose", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllExpensePurpose", w, r)
 }
 
 func (o *ExpensePurposeHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistByExpensePurposeId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistByExpensePurposeId", w, r)
 }
 
 
@@ -261,27 +283,39 @@ func NewFeeHttpQueryHandler(queryRepository *FeeQueryRepository) (ret *FeeHttpQu
 }
 
 func (o *FeeHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllFee", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllFee", w, r)
 }
 
 func (o *FeeHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByFeeId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindByFeeId", w, r)
 }
 
 func (o *FeeHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllFee", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllFee", w, r)
 }
 
 func (o *FeeHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountByFeeId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountByFeeId", w, r)
 }
 
 func (o *FeeHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllFee", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllFee", w, r)
 }
 
 func (o *FeeHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistByFeeId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistByFeeId", w, r)
 }
 
 
@@ -379,27 +413,39 @@ func NewFeeKindHttpQueryHandler(queryRepository *FeeKindQueryRepository) (ret *F
 }
 
 func (o *FeeKindHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllFeeKind", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllFeeKind", w, r)
 }
 
 func (o *FeeKindHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByFeeKindId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindByFeeKindId", w, r)
 }
 
 func (o *FeeKindHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllFeeKind", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllFeeKind", w, r)
 }
 
 func (o *FeeKindHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountByFeeKindId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountByFeeKindId", w, r)
 }
 
 func (o *FeeKindHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllFeeKind", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllFeeKind", w, r)
 }
 
 func (o *FeeKindHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistByFeeKindId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistByFeeKindId", w, r)
 }
 
 

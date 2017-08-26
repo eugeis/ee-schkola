@@ -2,12 +2,10 @@ package auth
 
 import (
     "context"
-    "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "github.com/looplab/eventhorizon"
-    "html"
     "net/http"
 )
 type AccountHttpQueryHandler struct {
@@ -25,27 +23,39 @@ func NewAccountHttpQueryHandler(queryRepository *AccountQueryRepository) (ret *A
 }
 
 func (o *AccountHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllAccount", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllAccount", w, r)
 }
 
 func (o *AccountHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByAccountId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindByAccountId", w, r)
 }
 
 func (o *AccountHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllAccount", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllAccount", w, r)
 }
 
 func (o *AccountHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountByAccountId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountByAccountId", w, r)
 }
 
 func (o *AccountHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllAccount", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllAccount", w, r)
 }
 
 func (o *AccountHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistByAccountId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistByAccountId", w, r)
 }
 
 

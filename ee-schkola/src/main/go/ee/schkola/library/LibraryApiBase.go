@@ -25,16 +25,19 @@ func NewBook() (ret *Book) {
     return
 }
 
-func (o *Book) FindByAuthor(author *person.PersonName)  {
+func (o *Book) FindByAuthor(author *person.PersonName) (ret *Book, err error) {
     
+    return
 }
 
-func (o *Book) FindByPattern(pattern string)  {
+func (o *Book) FindByPattern(pattern string) (ret *Book, err error) {
     
+    return
 }
 
-func (o *Book) FindByTitle(title string)  {
+func (o *Book) FindByTitle(title string) (ret *Book, err error) {
     
+    return
 }
 
 

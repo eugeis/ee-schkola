@@ -2,12 +2,10 @@ package student
 
 import (
     "context"
-    "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "github.com/looplab/eventhorizon"
-    "html"
     "net/http"
 )
 type AttendanceHttpQueryHandler struct {
@@ -25,27 +23,39 @@ func NewAttendanceHttpQueryHandler(queryRepository *AttendanceQueryRepository) (
 }
 
 func (o *AttendanceHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllAttendance", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllAttendance", w, r)
 }
 
 func (o *AttendanceHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByAttendanceId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindByAttendanceId", w, r)
 }
 
 func (o *AttendanceHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllAttendance", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllAttendance", w, r)
 }
 
 func (o *AttendanceHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountByAttendanceId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountByAttendanceId", w, r)
 }
 
 func (o *AttendanceHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllAttendance", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllAttendance", w, r)
 }
 
 func (o *AttendanceHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistByAttendanceId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistByAttendanceId", w, r)
 }
 
 
@@ -157,27 +167,39 @@ func NewCourseHttpQueryHandler(queryRepository *CourseQueryRepository) (ret *Cou
 }
 
 func (o *CourseHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllCourse", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllCourse", w, r)
 }
 
 func (o *CourseHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByCourseId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindByCourseId", w, r)
 }
 
 func (o *CourseHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllCourse", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllCourse", w, r)
 }
 
 func (o *CourseHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountByCourseId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountByCourseId", w, r)
 }
 
 func (o *CourseHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllCourse", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllCourse", w, r)
 }
 
 func (o *CourseHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistByCourseId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistByCourseId", w, r)
 }
 
 
@@ -275,27 +297,39 @@ func NewGradeHttpQueryHandler(queryRepository *GradeQueryRepository) (ret *Grade
 }
 
 func (o *GradeHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllGrade", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllGrade", w, r)
 }
 
 func (o *GradeHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByGradeId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindByGradeId", w, r)
 }
 
 func (o *GradeHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllGrade", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllGrade", w, r)
 }
 
 func (o *GradeHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountByGradeId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountByGradeId", w, r)
 }
 
 func (o *GradeHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllGrade", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllGrade", w, r)
 }
 
 func (o *GradeHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistByGradeId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistByGradeId", w, r)
 }
 
 
@@ -393,27 +427,39 @@ func NewGroupHttpQueryHandler(queryRepository *GroupQueryRepository) (ret *Group
 }
 
 func (o *GroupHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllGroup", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllGroup", w, r)
 }
 
 func (o *GroupHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByGroupId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindByGroupId", w, r)
 }
 
 func (o *GroupHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllGroup", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllGroup", w, r)
 }
 
 func (o *GroupHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountByGroupId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountByGroupId", w, r)
 }
 
 func (o *GroupHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllGroup", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllGroup", w, r)
 }
 
 func (o *GroupHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistByGroupId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistByGroupId", w, r)
 }
 
 
@@ -511,27 +557,39 @@ func NewSchoolApplicationHttpQueryHandler(queryRepository *SchoolApplicationQuer
 }
 
 func (o *SchoolApplicationHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllSchoolApplication", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllSchoolApplication", w, r)
 }
 
 func (o *SchoolApplicationHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindBySchoolApplicationId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindBySchoolApplicationId", w, r)
 }
 
 func (o *SchoolApplicationHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllSchoolApplication", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllSchoolApplication", w, r)
 }
 
 func (o *SchoolApplicationHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountBySchoolApplicationId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountBySchoolApplicationId", w, r)
 }
 
 func (o *SchoolApplicationHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllSchoolApplication", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllSchoolApplication", w, r)
 }
 
 func (o *SchoolApplicationHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistBySchoolApplicationId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistBySchoolApplicationId", w, r)
 }
 
 
@@ -629,27 +687,39 @@ func NewSchoolYearHttpQueryHandler(queryRepository *SchoolYearQueryRepository) (
 }
 
 func (o *SchoolYearHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllSchoolYear", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllSchoolYear", w, r)
 }
 
 func (o *SchoolYearHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindBySchoolYearId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindBySchoolYearId", w, r)
 }
 
 func (o *SchoolYearHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllSchoolYear", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllSchoolYear", w, r)
 }
 
 func (o *SchoolYearHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountBySchoolYearId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountBySchoolYearId", w, r)
 }
 
 func (o *SchoolYearHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllSchoolYear", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllSchoolYear", w, r)
 }
 
 func (o *SchoolYearHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistBySchoolYearId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistBySchoolYearId", w, r)
 }
 
 

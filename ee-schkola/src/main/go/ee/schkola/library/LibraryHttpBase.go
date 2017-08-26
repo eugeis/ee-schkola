@@ -2,12 +2,10 @@ package library
 
 import (
     "context"
-    "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "github.com/looplab/eventhorizon"
-    "html"
     "net/http"
 )
 type BookHttpQueryHandler struct {
@@ -25,39 +23,60 @@ func NewBookHttpQueryHandler(queryRepository *BookQueryRepository) (ret *BookHtt
 }
 
 func (o *BookHttpQueryHandler) FindByTitle(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByBookTitle", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    title := vars["title"]
+    ret, err := o.QueryRepository.FindByTitle(title)
+    o.HandleResult(ret, err, "FindByBookTitle", w, r)
 }
 
 func (o *BookHttpQueryHandler) FindByAuthor(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByBookAuthor", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    author := vars["author"]
+    ret, err := o.QueryRepository.FindByAuthor(author)
+    o.HandleResult(ret, err, "FindByBookAuthor", w, r)
 }
 
 func (o *BookHttpQueryHandler) FindByPattern(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByBookPattern", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    pattern := vars["pattern"]
+    ret, err := o.QueryRepository.FindByPattern(pattern)
+    o.HandleResult(ret, err, "FindByBookPattern", w, r)
 }
 
 func (o *BookHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindAllBook", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.FindAll()
+    o.HandleResult(ret, err, "FindAllBook", w, r)
 }
 
 func (o *BookHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from FindByBookId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.FindById(id)
+    o.HandleResult(ret, err, "FindByBookId", w, r)
 }
 
 func (o *BookHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountAllBook", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.CountAll()
+    o.HandleResult(ret, err, "CountAllBook", w, r)
 }
 
 func (o *BookHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from CountByBookId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.CountById(id)
+    o.HandleResult(ret, err, "CountByBookId", w, r)
 }
 
 func (o *BookHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistAllBook", html.EscapeString(r.URL.Path))
+    ret, err := o.QueryRepository.ExistAll()
+    o.HandleResult(ret, err, "ExistAllBook", w, r)
 }
 
 func (o *BookHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
-    fmt.Fprintf(w, "Hello, %q from ExistByBookId", html.EscapeString(r.URL.Path))
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    ret, err := o.QueryRepository.ExistById(id)
+    o.HandleResult(ret, err, "ExistByBookId", w, r)
 }
 
 

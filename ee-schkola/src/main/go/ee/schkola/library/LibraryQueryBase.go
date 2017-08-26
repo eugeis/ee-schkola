@@ -12,16 +12,19 @@ func NewBookQueryRepository() (ret *BookQueryRepository) {
     return
 }
 
-func (o *BookQueryRepository) FindByTitle(title string)  {
+func (o *BookQueryRepository) FindByTitle(title string) (ret *Book, err error) {
     
+    return
 }
 
-func (o *BookQueryRepository) FindByAuthor(author *person.PersonName)  {
+func (o *BookQueryRepository) FindByAuthor(author *person.PersonName) (ret *Book, err error) {
     
+    return
 }
 
-func (o *BookQueryRepository) FindByPattern(pattern string)  {
+func (o *BookQueryRepository) FindByPattern(pattern string) (ret *Book, err error) {
     
+    return
 }
 
 func (o *BookQueryRepository) FindAll() (ret []*Book, err error) {

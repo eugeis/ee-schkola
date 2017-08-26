@@ -89,16 +89,14 @@ func NewProfileQueryRepository() (ret *ProfileQueryRepository) {
     return
 }
 
-func (o *ProfileQueryRepository) FindByName(name *PersonName)  {
+func (o *ProfileQueryRepository) FindByEmail(email string) (ret *Profile, err error) {
     
+    return
 }
 
-func (o *ProfileQueryRepository) FindByEmail(email string)  {
+func (o *ProfileQueryRepository) FindByPhone(phone string) (ret *Profile, err error) {
     
-}
-
-func (o *ProfileQueryRepository) FindByPhone(phone string)  {
-    
+    return
 }
 
 func (o *ProfileQueryRepository) FindAll() (ret []*Profile, err error) {

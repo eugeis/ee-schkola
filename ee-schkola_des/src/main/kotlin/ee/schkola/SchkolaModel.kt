@@ -48,7 +48,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val church = prop(ChurchInfo)
             val education = prop(Education)
 
-            val findByName = findBy(name)
+            //val findByName = findBy(name)
             val findByEmail = findBy(contact.sub { email })
             val findByPhone = findBy(contact.sub { phone })
         }

@@ -60,16 +60,14 @@ func NewProfile() (ret *Profile) {
     return
 }
 
-func (o *Profile) FindByEmail(email string)  {
+func (o *Profile) FindByEmail(email string) (ret *Profile, err error) {
     
+    return
 }
 
-func (o *Profile) FindByName(name *PersonName)  {
+func (o *Profile) FindByPhone(phone string) (ret *Profile, err error) {
     
-}
-
-func (o *Profile) FindByPhone(phone string)  {
-    
+    return
 }
 
 
