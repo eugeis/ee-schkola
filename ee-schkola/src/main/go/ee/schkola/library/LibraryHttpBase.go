@@ -11,11 +11,14 @@ import (
     "net/http"
 )
 type BookHttpQueryHandler struct {
+    *eh.HttpQueryHandler
     QueryRepository *BookQueryRepository
 }
 
 func NewBookHttpQueryHandler(queryRepository *BookQueryRepository) (ret *BookHttpQueryHandler) {
+    httpQueryHandler := &eh.HttpQueryHandler{}
     ret = &BookHttpQueryHandler{
+        HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
     }
     return
@@ -63,9 +66,9 @@ type BookHttpCommandHandler struct {
 }
 
 func NewBookHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *BookHttpCommandHandler) {
-    HttpCommandHandler:= eh.NewHttpCommandHandler(context, commandBus)
+    httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
     ret = &BookHttpCommandHandler{
-        HttpCommandHandler: HttpCommandHandler,
+        HttpCommandHandler: httpCommandHandler,
     }
     return
 }
@@ -105,9 +108,9 @@ type BookRouter struct {
 func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *BookRouter) {
     pathPrefix = pathPrefix + "/" + "books"
-    queryRepository:= NewBookQueryRepository()
-    queryHandler:= NewBookHttpQueryHandler(queryRepository)
-    commandHandler:= NewBookHttpCommandHandler(context, commandBus)
+    queryRepository := NewBookQueryRepository()
+    queryHandler := NewBookHttpQueryHandler(queryRepository)
+    commandHandler := NewBookHttpCommandHandler(context, commandBus)
     ret = &BookRouter{
         PathPrefix: pathPrefix,
         QueryHandler: queryHandler,
@@ -163,10 +166,10 @@ type LibraryRouter struct {
 func NewLibraryRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *LibraryRouter) {
     pathPrefix = pathPrefix + "/" + "library"
-    BookRouter:= NewBookRouter(pathPrefix, context, commandBus, readRepos)
+    bookRouter := NewBookRouter(pathPrefix, context, commandBus, readRepos)
     ret = &LibraryRouter{
         PathPrefix: pathPrefix,
-        BookRouter: BookRouter,
+        BookRouter: bookRouter,
     }
     return
 }

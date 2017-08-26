@@ -24,32 +24,32 @@ func (o *BookQueryRepository) FindByPattern(pattern string)  {
     
 }
 
-func (o *BookQueryRepository) FindAll() (ret []*Book) {
+func (o *BookQueryRepository) FindAll() (ret []*Book, err error) {
     
     return
 }
 
-func (o *BookQueryRepository) FindById(id eventhorizon.UUID) (ret *Book) {
+func (o *BookQueryRepository) FindById(id eventhorizon.UUID) (ret *Book, err error) {
     
     return
 }
 
-func (o *BookQueryRepository) CountAll() (ret int) {
+func (o *BookQueryRepository) CountAll() (ret int, err error) {
     
     return
 }
 
-func (o *BookQueryRepository) CountById(id eventhorizon.UUID) (ret int) {
+func (o *BookQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
     
     return
 }
 
-func (o *BookQueryRepository) ExistAll() (ret bool) {
+func (o *BookQueryRepository) ExistAll() (ret bool, err error) {
     
     return
 }
 
-func (o *BookQueryRepository) ExistById(id eventhorizon.UUID) (ret bool) {
+func (o *BookQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
     
     return
 }

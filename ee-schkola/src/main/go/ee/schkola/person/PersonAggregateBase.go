@@ -474,17 +474,17 @@ type PersonEventhorizonInitializer struct {
 
 func NewPersonEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *PersonEventhorizonInitializer) {
-    ChurchAggregateInitializer:= NewChurchAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    GraduationAggregateInitializer:= NewGraduationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    ProfileAggregateInitializer:= NewProfileAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    churchAggregateInitializer := NewChurchAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    graduationAggregateInitializer := NewGraduationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    profileAggregateInitializer := NewProfileAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     ret = &PersonEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,
         eventPublisher: eventPublisher,
         commandBus: commandBus,
-        ChurchAggregateInitializer: ChurchAggregateInitializer,
-        GraduationAggregateInitializer: GraduationAggregateInitializer,
-        ProfileAggregateInitializer: ProfileAggregateInitializer,
+        ChurchAggregateInitializer: churchAggregateInitializer,
+        GraduationAggregateInitializer: graduationAggregateInitializer,
+        ProfileAggregateInitializer: profileAggregateInitializer,
     }
     return
 }

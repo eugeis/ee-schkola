@@ -11,32 +11,32 @@ func NewExpenseQueryRepository() (ret *ExpenseQueryRepository) {
     return
 }
 
-func (o *ExpenseQueryRepository) FindAll() (ret []*Expense) {
+func (o *ExpenseQueryRepository) FindAll() (ret []*Expense, err error) {
     
     return
 }
 
-func (o *ExpenseQueryRepository) FindById(id eventhorizon.UUID) (ret *Expense) {
+func (o *ExpenseQueryRepository) FindById(id eventhorizon.UUID) (ret *Expense, err error) {
     
     return
 }
 
-func (o *ExpenseQueryRepository) CountAll() (ret int) {
+func (o *ExpenseQueryRepository) CountAll() (ret int, err error) {
     
     return
 }
 
-func (o *ExpenseQueryRepository) CountById(id eventhorizon.UUID) (ret int) {
+func (o *ExpenseQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
     
     return
 }
 
-func (o *ExpenseQueryRepository) ExistAll() (ret bool) {
+func (o *ExpenseQueryRepository) ExistAll() (ret bool, err error) {
     
     return
 }
 
-func (o *ExpenseQueryRepository) ExistById(id eventhorizon.UUID) (ret bool) {
+func (o *ExpenseQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
     
     return
 }
@@ -50,32 +50,32 @@ func NewExpensePurposeQueryRepository() (ret *ExpensePurposeQueryRepository) {
     return
 }
 
-func (o *ExpensePurposeQueryRepository) FindAll() (ret []*ExpensePurpose) {
+func (o *ExpensePurposeQueryRepository) FindAll() (ret []*ExpensePurpose, err error) {
     
     return
 }
 
-func (o *ExpensePurposeQueryRepository) FindById(id eventhorizon.UUID) (ret *ExpensePurpose) {
+func (o *ExpensePurposeQueryRepository) FindById(id eventhorizon.UUID) (ret *ExpensePurpose, err error) {
     
     return
 }
 
-func (o *ExpensePurposeQueryRepository) CountAll() (ret int) {
+func (o *ExpensePurposeQueryRepository) CountAll() (ret int, err error) {
     
     return
 }
 
-func (o *ExpensePurposeQueryRepository) CountById(id eventhorizon.UUID) (ret int) {
+func (o *ExpensePurposeQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
     
     return
 }
 
-func (o *ExpensePurposeQueryRepository) ExistAll() (ret bool) {
+func (o *ExpensePurposeQueryRepository) ExistAll() (ret bool, err error) {
     
     return
 }
 
-func (o *ExpensePurposeQueryRepository) ExistById(id eventhorizon.UUID) (ret bool) {
+func (o *ExpensePurposeQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
     
     return
 }
@@ -89,32 +89,32 @@ func NewFeeQueryRepository() (ret *FeeQueryRepository) {
     return
 }
 
-func (o *FeeQueryRepository) FindAll() (ret []*Fee) {
+func (o *FeeQueryRepository) FindAll() (ret []*Fee, err error) {
     
     return
 }
 
-func (o *FeeQueryRepository) FindById(id eventhorizon.UUID) (ret *Fee) {
+func (o *FeeQueryRepository) FindById(id eventhorizon.UUID) (ret *Fee, err error) {
     
     return
 }
 
-func (o *FeeQueryRepository) CountAll() (ret int) {
+func (o *FeeQueryRepository) CountAll() (ret int, err error) {
     
     return
 }
 
-func (o *FeeQueryRepository) CountById(id eventhorizon.UUID) (ret int) {
+func (o *FeeQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
     
     return
 }
 
-func (o *FeeQueryRepository) ExistAll() (ret bool) {
+func (o *FeeQueryRepository) ExistAll() (ret bool, err error) {
     
     return
 }
 
-func (o *FeeQueryRepository) ExistById(id eventhorizon.UUID) (ret bool) {
+func (o *FeeQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
     
     return
 }
@@ -128,32 +128,32 @@ func NewFeeKindQueryRepository() (ret *FeeKindQueryRepository) {
     return
 }
 
-func (o *FeeKindQueryRepository) FindAll() (ret []*FeeKind) {
+func (o *FeeKindQueryRepository) FindAll() (ret []*FeeKind, err error) {
     
     return
 }
 
-func (o *FeeKindQueryRepository) FindById(id eventhorizon.UUID) (ret *FeeKind) {
+func (o *FeeKindQueryRepository) FindById(id eventhorizon.UUID) (ret *FeeKind, err error) {
     
     return
 }
 
-func (o *FeeKindQueryRepository) CountAll() (ret int) {
+func (o *FeeKindQueryRepository) CountAll() (ret int, err error) {
     
     return
 }
 
-func (o *FeeKindQueryRepository) CountById(id eventhorizon.UUID) (ret int) {
+func (o *FeeKindQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
     
     return
 }
 
-func (o *FeeKindQueryRepository) ExistAll() (ret bool) {
+func (o *FeeKindQueryRepository) ExistAll() (ret bool, err error) {
     
     return
 }
 
-func (o *FeeKindQueryRepository) ExistById(id eventhorizon.UUID) (ret bool) {
+func (o *FeeKindQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
     
     return
 }

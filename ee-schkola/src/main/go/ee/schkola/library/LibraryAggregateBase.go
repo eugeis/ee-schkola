@@ -202,13 +202,13 @@ type LibraryEventhorizonInitializer struct {
 
 func NewLibraryEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *LibraryEventhorizonInitializer) {
-    BookAggregateInitializer:= NewBookAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    bookAggregateInitializer := NewBookAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     ret = &LibraryEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,
         eventPublisher: eventPublisher,
         commandBus: commandBus,
-        BookAggregateInitializer: BookAggregateInitializer,
+        BookAggregateInitializer: bookAggregateInitializer,
     }
     return
 }

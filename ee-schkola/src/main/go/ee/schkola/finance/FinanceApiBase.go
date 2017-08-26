@@ -14,9 +14,9 @@ type Expense struct {
 }
 
 func NewExpense() (ret *Expense) {
-    SchkolaBase:= schkola.NewSchkolaBase()
+    schkolaBase := schkola.NewSchkolaBase()
     ret = &Expense{
-        SchkolaBase: SchkolaBase,
+        SchkolaBase: schkolaBase,
     }
     return
 }
@@ -29,9 +29,9 @@ type ExpensePurpose struct {
 }
 
 func NewExpensePurpose() (ret *ExpensePurpose) {
-    SchkolaBase:= schkola.NewSchkolaBase()
+    schkolaBase := schkola.NewSchkolaBase()
     ret = &ExpensePurpose{
-        SchkolaBase: SchkolaBase,
+        SchkolaBase: schkolaBase,
     }
     return
 }
@@ -46,9 +46,9 @@ type Fee struct {
 }
 
 func NewFee() (ret *Fee) {
-    SchkolaBase:= schkola.NewSchkolaBase()
+    schkolaBase := schkola.NewSchkolaBase()
     ret = &Fee{
-        SchkolaBase: SchkolaBase,
+        SchkolaBase: schkolaBase,
     }
     return
 }
@@ -62,9 +62,9 @@ type FeeKind struct {
 }
 
 func NewFeeKind() (ret *FeeKind) {
-    SchkolaBase:= schkola.NewSchkolaBase()
+    schkolaBase := schkola.NewSchkolaBase()
     ret = &FeeKind{
-        SchkolaBase: SchkolaBase,
+        SchkolaBase: schkolaBase,
     }
     return
 }

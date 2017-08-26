@@ -194,13 +194,13 @@ type AuthEventhorizonInitializer struct {
 
 func NewAuthEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AuthEventhorizonInitializer) {
-    AccountAggregateInitializer:= NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    accountAggregateInitializer := NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     ret = &AuthEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,
         eventPublisher: eventPublisher,
         commandBus: commandBus,
-        AccountAggregateInitializer: AccountAggregateInitializer,
+        AccountAggregateInitializer: accountAggregateInitializer,
     }
     return
 }

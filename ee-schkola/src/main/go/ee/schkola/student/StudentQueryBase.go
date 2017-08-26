@@ -11,32 +11,32 @@ func NewAttendanceQueryRepository() (ret *AttendanceQueryRepository) {
     return
 }
 
-func (o *AttendanceQueryRepository) FindAll() (ret []*Attendance) {
+func (o *AttendanceQueryRepository) FindAll() (ret []*Attendance, err error) {
     
     return
 }
 
-func (o *AttendanceQueryRepository) FindById(id eventhorizon.UUID) (ret *Attendance) {
+func (o *AttendanceQueryRepository) FindById(id eventhorizon.UUID) (ret *Attendance, err error) {
     
     return
 }
 
-func (o *AttendanceQueryRepository) CountAll() (ret int) {
+func (o *AttendanceQueryRepository) CountAll() (ret int, err error) {
     
     return
 }
 
-func (o *AttendanceQueryRepository) CountById(id eventhorizon.UUID) (ret int) {
+func (o *AttendanceQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
     
     return
 }
 
-func (o *AttendanceQueryRepository) ExistAll() (ret bool) {
+func (o *AttendanceQueryRepository) ExistAll() (ret bool, err error) {
     
     return
 }
 
-func (o *AttendanceQueryRepository) ExistById(id eventhorizon.UUID) (ret bool) {
+func (o *AttendanceQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
     
     return
 }
@@ -50,32 +50,32 @@ func NewCourseQueryRepository() (ret *CourseQueryRepository) {
     return
 }
 
-func (o *CourseQueryRepository) FindAll() (ret []*Course) {
+func (o *CourseQueryRepository) FindAll() (ret []*Course, err error) {
     
     return
 }
 
-func (o *CourseQueryRepository) FindById(id eventhorizon.UUID) (ret *Course) {
+func (o *CourseQueryRepository) FindById(id eventhorizon.UUID) (ret *Course, err error) {
     
     return
 }
 
-func (o *CourseQueryRepository) CountAll() (ret int) {
+func (o *CourseQueryRepository) CountAll() (ret int, err error) {
     
     return
 }
 
-func (o *CourseQueryRepository) CountById(id eventhorizon.UUID) (ret int) {
+func (o *CourseQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
     
     return
 }
 
-func (o *CourseQueryRepository) ExistAll() (ret bool) {
+func (o *CourseQueryRepository) ExistAll() (ret bool, err error) {
     
     return
 }
 
-func (o *CourseQueryRepository) ExistById(id eventhorizon.UUID) (ret bool) {
+func (o *CourseQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
     
     return
 }
@@ -89,32 +89,32 @@ func NewGradeQueryRepository() (ret *GradeQueryRepository) {
     return
 }
 
-func (o *GradeQueryRepository) FindAll() (ret []*Grade) {
+func (o *GradeQueryRepository) FindAll() (ret []*Grade, err error) {
     
     return
 }
 
-func (o *GradeQueryRepository) FindById(id eventhorizon.UUID) (ret *Grade) {
+func (o *GradeQueryRepository) FindById(id eventhorizon.UUID) (ret *Grade, err error) {
     
     return
 }
 
-func (o *GradeQueryRepository) CountAll() (ret int) {
+func (o *GradeQueryRepository) CountAll() (ret int, err error) {
     
     return
 }
 
-func (o *GradeQueryRepository) CountById(id eventhorizon.UUID) (ret int) {
+func (o *GradeQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
     
     return
 }
 
-func (o *GradeQueryRepository) ExistAll() (ret bool) {
+func (o *GradeQueryRepository) ExistAll() (ret bool, err error) {
     
     return
 }
 
-func (o *GradeQueryRepository) ExistById(id eventhorizon.UUID) (ret bool) {
+func (o *GradeQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
     
     return
 }
@@ -128,32 +128,32 @@ func NewGroupQueryRepository() (ret *GroupQueryRepository) {
     return
 }
 
-func (o *GroupQueryRepository) FindAll() (ret []*Group) {
+func (o *GroupQueryRepository) FindAll() (ret []*Group, err error) {
     
     return
 }
 
-func (o *GroupQueryRepository) FindById(id eventhorizon.UUID) (ret *Group) {
+func (o *GroupQueryRepository) FindById(id eventhorizon.UUID) (ret *Group, err error) {
     
     return
 }
 
-func (o *GroupQueryRepository) CountAll() (ret int) {
+func (o *GroupQueryRepository) CountAll() (ret int, err error) {
     
     return
 }
 
-func (o *GroupQueryRepository) CountById(id eventhorizon.UUID) (ret int) {
+func (o *GroupQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
     
     return
 }
 
-func (o *GroupQueryRepository) ExistAll() (ret bool) {
+func (o *GroupQueryRepository) ExistAll() (ret bool, err error) {
     
     return
 }
 
-func (o *GroupQueryRepository) ExistById(id eventhorizon.UUID) (ret bool) {
+func (o *GroupQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
     
     return
 }
@@ -167,32 +167,32 @@ func NewSchoolApplicationQueryRepository() (ret *SchoolApplicationQueryRepositor
     return
 }
 
-func (o *SchoolApplicationQueryRepository) FindAll() (ret []*SchoolApplication) {
+func (o *SchoolApplicationQueryRepository) FindAll() (ret []*SchoolApplication, err error) {
     
     return
 }
 
-func (o *SchoolApplicationQueryRepository) FindById(id eventhorizon.UUID) (ret *SchoolApplication) {
+func (o *SchoolApplicationQueryRepository) FindById(id eventhorizon.UUID) (ret *SchoolApplication, err error) {
     
     return
 }
 
-func (o *SchoolApplicationQueryRepository) CountAll() (ret int) {
+func (o *SchoolApplicationQueryRepository) CountAll() (ret int, err error) {
     
     return
 }
 
-func (o *SchoolApplicationQueryRepository) CountById(id eventhorizon.UUID) (ret int) {
+func (o *SchoolApplicationQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
     
     return
 }
 
-func (o *SchoolApplicationQueryRepository) ExistAll() (ret bool) {
+func (o *SchoolApplicationQueryRepository) ExistAll() (ret bool, err error) {
     
     return
 }
 
-func (o *SchoolApplicationQueryRepository) ExistById(id eventhorizon.UUID) (ret bool) {
+func (o *SchoolApplicationQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
     
     return
 }
@@ -206,32 +206,32 @@ func NewSchoolYearQueryRepository() (ret *SchoolYearQueryRepository) {
     return
 }
 
-func (o *SchoolYearQueryRepository) FindAll() (ret []*SchoolYear) {
+func (o *SchoolYearQueryRepository) FindAll() (ret []*SchoolYear, err error) {
     
     return
 }
 
-func (o *SchoolYearQueryRepository) FindById(id eventhorizon.UUID) (ret *SchoolYear) {
+func (o *SchoolYearQueryRepository) FindById(id eventhorizon.UUID) (ret *SchoolYear, err error) {
     
     return
 }
 
-func (o *SchoolYearQueryRepository) CountAll() (ret int) {
+func (o *SchoolYearQueryRepository) CountAll() (ret int, err error) {
     
     return
 }
 
-func (o *SchoolYearQueryRepository) CountById(id eventhorizon.UUID) (ret int) {
+func (o *SchoolYearQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
     
     return
 }
 
-func (o *SchoolYearQueryRepository) ExistAll() (ret bool) {
+func (o *SchoolYearQueryRepository) ExistAll() (ret bool, err error) {
     
     return
 }
 
-func (o *SchoolYearQueryRepository) ExistById(id eventhorizon.UUID) (ret bool) {
+func (o *SchoolYearQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
     
     return
 }

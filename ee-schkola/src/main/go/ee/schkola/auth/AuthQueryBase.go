@@ -11,32 +11,32 @@ func NewAccountQueryRepository() (ret *AccountQueryRepository) {
     return
 }
 
-func (o *AccountQueryRepository) FindAll() (ret []*Account) {
+func (o *AccountQueryRepository) FindAll() (ret []*Account, err error) {
     
     return
 }
 
-func (o *AccountQueryRepository) FindById(id eventhorizon.UUID) (ret *Account) {
+func (o *AccountQueryRepository) FindById(id eventhorizon.UUID) (ret *Account, err error) {
     
     return
 }
 
-func (o *AccountQueryRepository) CountAll() (ret int) {
+func (o *AccountQueryRepository) CountAll() (ret int, err error) {
     
     return
 }
 
-func (o *AccountQueryRepository) CountById(id eventhorizon.UUID) (ret int) {
+func (o *AccountQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
     
     return
 }
 
-func (o *AccountQueryRepository) ExistAll() (ret bool) {
+func (o *AccountQueryRepository) ExistAll() (ret bool, err error) {
     
     return
 }
 
-func (o *AccountQueryRepository) ExistById(id eventhorizon.UUID) (ret bool) {
+func (o *AccountQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
     
     return
 }

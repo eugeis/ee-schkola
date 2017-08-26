@@ -11,11 +11,14 @@ import (
     "net/http"
 )
 type AccountHttpQueryHandler struct {
+    *eh.HttpQueryHandler
     QueryRepository *AccountQueryRepository
 }
 
 func NewAccountHttpQueryHandler(queryRepository *AccountQueryRepository) (ret *AccountHttpQueryHandler) {
+    httpQueryHandler := &eh.HttpQueryHandler{}
     ret = &AccountHttpQueryHandler{
+        HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
     }
     return
@@ -51,9 +54,9 @@ type AccountHttpCommandHandler struct {
 }
 
 func NewAccountHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *AccountHttpCommandHandler) {
-    HttpCommandHandler:= eh.NewHttpCommandHandler(context, commandBus)
+    httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
     ret = &AccountHttpCommandHandler{
-        HttpCommandHandler: HttpCommandHandler,
+        HttpCommandHandler: httpCommandHandler,
     }
     return
 }
@@ -99,9 +102,9 @@ type AccountRouter struct {
 func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AccountRouter) {
     pathPrefix = pathPrefix + "/" + "accounts"
-    queryRepository:= NewAccountQueryRepository()
-    queryHandler:= NewAccountHttpQueryHandler(queryRepository)
-    commandHandler:= NewAccountHttpCommandHandler(context, commandBus)
+    queryRepository := NewAccountQueryRepository()
+    queryHandler := NewAccountHttpQueryHandler(queryRepository)
+    commandHandler := NewAccountHttpCommandHandler(context, commandBus)
     ret = &AccountRouter{
         PathPrefix: pathPrefix,
         QueryHandler: queryHandler,
@@ -148,10 +151,10 @@ type AuthRouter struct {
 func NewAuthRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AuthRouter) {
     pathPrefix = pathPrefix + "/" + "auth"
-    AccountRouter:= NewAccountRouter(pathPrefix, context, commandBus, readRepos)
+    accountRouter := NewAccountRouter(pathPrefix, context, commandBus, readRepos)
     ret = &AuthRouter{
         PathPrefix: pathPrefix,
-        AccountRouter: AccountRouter,
+        AccountRouter: accountRouter,
     }
     return
 }

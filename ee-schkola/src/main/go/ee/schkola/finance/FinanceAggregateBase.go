@@ -588,19 +588,19 @@ type FinanceEventhorizonInitializer struct {
 
 func NewFinanceEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *FinanceEventhorizonInitializer) {
-    ExpenseAggregateInitializer:= NewExpenseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    ExpensePurposeAggregateInitializer:= NewExpensePurposeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    FeeAggregateInitializer:= NewFeeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    FeeKindAggregateInitializer:= NewFeeKindAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    expenseAggregateInitializer := NewExpenseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    expensePurposeAggregateInitializer := NewExpensePurposeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    feeAggregateInitializer := NewFeeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    feeKindAggregateInitializer := NewFeeKindAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     ret = &FinanceEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,
         eventPublisher: eventPublisher,
         commandBus: commandBus,
-        ExpenseAggregateInitializer: ExpenseAggregateInitializer,
-        ExpensePurposeAggregateInitializer: ExpensePurposeAggregateInitializer,
-        FeeAggregateInitializer: FeeAggregateInitializer,
-        FeeKindAggregateInitializer: FeeKindAggregateInitializer,
+        ExpenseAggregateInitializer: expenseAggregateInitializer,
+        ExpensePurposeAggregateInitializer: expensePurposeAggregateInitializer,
+        FeeAggregateInitializer: feeAggregateInitializer,
+        FeeKindAggregateInitializer: feeKindAggregateInitializer,
     }
     return
 }

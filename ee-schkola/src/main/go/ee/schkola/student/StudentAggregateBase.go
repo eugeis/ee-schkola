@@ -964,23 +964,23 @@ type StudentEventhorizonInitializer struct {
 
 func NewStudentEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *StudentEventhorizonInitializer) {
-    AttendanceAggregateInitializer:= NewAttendanceAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    CourseAggregateInitializer:= NewCourseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    GradeAggregateInitializer:= NewGradeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    GroupAggregateInitializer:= NewGroupAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    SchoolApplicationAggregateInitializer:= NewSchoolApplicationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    SchoolYearAggregateInitializer:= NewSchoolYearAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    attendanceAggregateInitializer := NewAttendanceAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    courseAggregateInitializer := NewCourseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    gradeAggregateInitializer := NewGradeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    groupAggregateInitializer := NewGroupAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    schoolApplicationAggregateInitializer := NewSchoolApplicationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    schoolYearAggregateInitializer := NewSchoolYearAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     ret = &StudentEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,
         eventPublisher: eventPublisher,
         commandBus: commandBus,
-        AttendanceAggregateInitializer: AttendanceAggregateInitializer,
-        CourseAggregateInitializer: CourseAggregateInitializer,
-        GradeAggregateInitializer: GradeAggregateInitializer,
-        GroupAggregateInitializer: GroupAggregateInitializer,
-        SchoolApplicationAggregateInitializer: SchoolApplicationAggregateInitializer,
-        SchoolYearAggregateInitializer: SchoolYearAggregateInitializer,
+        AttendanceAggregateInitializer: attendanceAggregateInitializer,
+        CourseAggregateInitializer: courseAggregateInitializer,
+        GradeAggregateInitializer: gradeAggregateInitializer,
+        GroupAggregateInitializer: groupAggregateInitializer,
+        SchoolApplicationAggregateInitializer: schoolApplicationAggregateInitializer,
+        SchoolYearAggregateInitializer: schoolYearAggregateInitializer,
     }
     return
 }

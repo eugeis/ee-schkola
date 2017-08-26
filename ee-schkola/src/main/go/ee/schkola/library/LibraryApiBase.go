@@ -18,9 +18,9 @@ type Book struct {
 }
 
 func NewBook() (ret *Book) {
-    SchkolaBase:= schkola.NewSchkolaBase()
+    schkolaBase := schkola.NewSchkolaBase()
     ret = &Book{
-        SchkolaBase: SchkolaBase,
+        SchkolaBase: schkolaBase,
     }
     return
 }
