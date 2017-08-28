@@ -127,7 +127,8 @@ type BookRouter struct {
 func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *BookRouter) {
     pathPrefix = pathPrefix + "/" + "books"
-    queryRepository := NewBookQueryRepository()
+    repo := readRepos(string(BookAggregateType))
+    queryRepository := NewBookQueryRepository(repo, context)
     queryHandler := NewBookHttpQueryHandler(queryRepository)
     commandHandler := NewBookHttpCommandHandler(context, commandBus)
     ret = &BookRouter{

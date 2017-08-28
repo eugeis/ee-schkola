@@ -100,7 +100,8 @@ type ExpenseRouter struct {
 func NewExpenseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ExpenseRouter) {
     pathPrefix = pathPrefix + "/" + "expenses"
-    queryRepository := NewExpenseQueryRepository()
+    repo := readRepos(string(ExpenseAggregateType))
+    queryRepository := NewExpenseQueryRepository(repo, context)
     queryHandler := NewExpenseHttpQueryHandler(queryRepository)
     commandHandler := NewExpenseHttpCommandHandler(context, commandBus)
     ret = &ExpenseRouter{
@@ -230,7 +231,8 @@ type ExpensePurposeRouter struct {
 func NewExpensePurposeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ExpensePurposeRouter) {
     pathPrefix = pathPrefix + "/" + "expensePurposes"
-    queryRepository := NewExpensePurposeQueryRepository()
+    repo := readRepos(string(ExpensePurposeAggregateType))
+    queryRepository := NewExpensePurposeQueryRepository(repo, context)
     queryHandler := NewExpensePurposeHttpQueryHandler(queryRepository)
     commandHandler := NewExpensePurposeHttpCommandHandler(context, commandBus)
     ret = &ExpensePurposeRouter{
@@ -360,7 +362,8 @@ type FeeRouter struct {
 func NewFeeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *FeeRouter) {
     pathPrefix = pathPrefix + "/" + "fees"
-    queryRepository := NewFeeQueryRepository()
+    repo := readRepos(string(FeeAggregateType))
+    queryRepository := NewFeeQueryRepository(repo, context)
     queryHandler := NewFeeHttpQueryHandler(queryRepository)
     commandHandler := NewFeeHttpCommandHandler(context, commandBus)
     ret = &FeeRouter{
@@ -490,7 +493,8 @@ type FeeKindRouter struct {
 func NewFeeKindRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *FeeKindRouter) {
     pathPrefix = pathPrefix + "/" + "feeKinds"
-    queryRepository := NewFeeKindQueryRepository()
+    repo := readRepos(string(FeeKindAggregateType))
+    queryRepository := NewFeeKindQueryRepository(repo, context)
     queryHandler := NewFeeKindHttpQueryHandler(queryRepository)
     commandHandler := NewFeeKindHttpCommandHandler(context, commandBus)
     ret = &FeeKindRouter{

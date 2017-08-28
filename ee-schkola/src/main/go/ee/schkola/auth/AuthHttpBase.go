@@ -112,7 +112,8 @@ type AccountRouter struct {
 func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AccountRouter) {
     pathPrefix = pathPrefix + "/" + "accounts"
-    queryRepository := NewAccountQueryRepository()
+    repo := readRepos(string(AccountAggregateType))
+    queryRepository := NewAccountQueryRepository(repo, context)
     queryHandler := NewAccountHttpQueryHandler(queryRepository)
     commandHandler := NewAccountHttpCommandHandler(context, commandBus)
     ret = &AccountRouter{

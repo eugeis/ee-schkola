@@ -2,6 +2,7 @@ package person
 
 import (
     "ee/schkola"
+    "github.com/eugeis/gee/eh"
     "github.com/eugeis/gee/enum"
     "time"
 )
@@ -61,12 +62,12 @@ func NewProfile() (ret *Profile) {
 }
 
 func (o *Profile) FindByEmail(email string) (ret *Profile, err error) {
-    
+    err = eh.QueryNotImplemented("findProfileByEmail")
     return
 }
 
 func (o *Profile) FindByPhone(phone string) (ret *Profile, err error) {
-    
+    err = eh.QueryNotImplemented("findProfileByPhone")
     return
 }
 

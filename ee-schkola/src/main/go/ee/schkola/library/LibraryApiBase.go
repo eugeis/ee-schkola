@@ -3,6 +3,7 @@ package library
 import (
     "ee/schkola"
     "ee/schkola/person"
+    "github.com/eugeis/gee/eh"
     "time"
 )
 type Book struct {
@@ -26,17 +27,17 @@ func NewBook() (ret *Book) {
 }
 
 func (o *Book) FindByAuthor(author *person.PersonName) (ret *Book, err error) {
-    
+    err = eh.QueryNotImplemented("findBookByAuthor")
     return
 }
 
 func (o *Book) FindByPattern(pattern string) (ret *Book, err error) {
-    
+    err = eh.QueryNotImplemented("findBookByPattern")
     return
 }
 
 func (o *Book) FindByTitle(title string) (ret *Book, err error) {
-    
+    err = eh.QueryNotImplemented("findBookByTitle")
     return
 }
 

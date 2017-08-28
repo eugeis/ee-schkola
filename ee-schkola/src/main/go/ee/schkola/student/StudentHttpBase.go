@@ -112,7 +112,8 @@ type AttendanceRouter struct {
 func NewAttendanceRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AttendanceRouter) {
     pathPrefix = pathPrefix + "/" + "attendances"
-    queryRepository := NewAttendanceQueryRepository()
+    repo := readRepos(string(AttendanceAggregateType))
+    queryRepository := NewAttendanceQueryRepository(repo, context)
     queryHandler := NewAttendanceHttpQueryHandler(queryRepository)
     commandHandler := NewAttendanceHttpCommandHandler(context, commandBus)
     ret = &AttendanceRouter{
@@ -244,7 +245,8 @@ type CourseRouter struct {
 func NewCourseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *CourseRouter) {
     pathPrefix = pathPrefix + "/" + "courses"
-    queryRepository := NewCourseQueryRepository()
+    repo := readRepos(string(CourseAggregateType))
+    queryRepository := NewCourseQueryRepository(repo, context)
     queryHandler := NewCourseHttpQueryHandler(queryRepository)
     commandHandler := NewCourseHttpCommandHandler(context, commandBus)
     ret = &CourseRouter{
@@ -374,7 +376,8 @@ type GradeRouter struct {
 func NewGradeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *GradeRouter) {
     pathPrefix = pathPrefix + "/" + "grades"
-    queryRepository := NewGradeQueryRepository()
+    repo := readRepos(string(GradeAggregateType))
+    queryRepository := NewGradeQueryRepository(repo, context)
     queryHandler := NewGradeHttpQueryHandler(queryRepository)
     commandHandler := NewGradeHttpCommandHandler(context, commandBus)
     ret = &GradeRouter{
@@ -504,7 +507,8 @@ type GroupRouter struct {
 func NewGroupRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *GroupRouter) {
     pathPrefix = pathPrefix + "/" + "groups"
-    queryRepository := NewGroupQueryRepository()
+    repo := readRepos(string(GroupAggregateType))
+    queryRepository := NewGroupQueryRepository(repo, context)
     queryHandler := NewGroupHttpQueryHandler(queryRepository)
     commandHandler := NewGroupHttpCommandHandler(context, commandBus)
     ret = &GroupRouter{
@@ -634,7 +638,8 @@ type SchoolApplicationRouter struct {
 func NewSchoolApplicationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *SchoolApplicationRouter) {
     pathPrefix = pathPrefix + "/" + "schoolApplications"
-    queryRepository := NewSchoolApplicationQueryRepository()
+    repo := readRepos(string(SchoolApplicationAggregateType))
+    queryRepository := NewSchoolApplicationQueryRepository(repo, context)
     queryHandler := NewSchoolApplicationHttpQueryHandler(queryRepository)
     commandHandler := NewSchoolApplicationHttpCommandHandler(context, commandBus)
     ret = &SchoolApplicationRouter{
@@ -764,7 +769,8 @@ type SchoolYearRouter struct {
 func NewSchoolYearRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *SchoolYearRouter) {
     pathPrefix = pathPrefix + "/" + "schoolYears"
-    queryRepository := NewSchoolYearQueryRepository()
+    repo := readRepos(string(SchoolYearAggregateType))
+    queryRepository := NewSchoolYearQueryRepository(repo, context)
     queryHandler := NewSchoolYearHttpQueryHandler(queryRepository)
     commandHandler := NewSchoolYearHttpCommandHandler(context, commandBus)
     ret = &SchoolYearRouter{

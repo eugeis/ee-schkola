@@ -100,7 +100,8 @@ type ChurchRouter struct {
 func NewChurchRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ChurchRouter) {
     pathPrefix = pathPrefix + "/" + "churches"
-    queryRepository := NewChurchQueryRepository()
+    repo := readRepos(string(ChurchAggregateType))
+    queryRepository := NewChurchQueryRepository(repo, context)
     queryHandler := NewChurchHttpQueryHandler(queryRepository)
     commandHandler := NewChurchHttpCommandHandler(context, commandBus)
     ret = &ChurchRouter{
@@ -230,7 +231,8 @@ type GraduationRouter struct {
 func NewGraduationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *GraduationRouter) {
     pathPrefix = pathPrefix + "/" + "graduations"
-    queryRepository := NewGraduationQueryRepository()
+    repo := readRepos(string(GraduationAggregateType))
+    queryRepository := NewGraduationQueryRepository(repo, context)
     queryHandler := NewGraduationHttpQueryHandler(queryRepository)
     commandHandler := NewGraduationHttpCommandHandler(context, commandBus)
     ret = &GraduationRouter{
@@ -374,7 +376,8 @@ type ProfileRouter struct {
 func NewProfileRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
                 readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ProfileRouter) {
     pathPrefix = pathPrefix + "/" + "profiles"
-    queryRepository := NewProfileQueryRepository()
+    repo := readRepos(string(ProfileAggregateType))
+    queryRepository := NewProfileQueryRepository(repo, context)
     queryHandler := NewProfileHttpQueryHandler(queryRepository)
     commandHandler := NewProfileHttpCommandHandler(context, commandBus)
     ret = &ProfileRouter{
