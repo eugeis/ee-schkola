@@ -51,7 +51,7 @@ func main() {
 
 	context := eventhorizon.NewContextWithNamespace(context.Background(), "simple")
 
-	personRouter := person.NewPersonRouter("", context, commandBus)
+	personRouter := person.NewPersonRouter("", context, commandBus, readRepos)
 	personRouter.Setup(router)
 
 	//router.Methods(net.GET).Path("/").Name("Index").HandlerFunc(Index)
