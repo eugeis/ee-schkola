@@ -1,0 +1,31 @@
+<div class="login-page" [@routerTransition]>
+    <div class="row">
+        <div class="col-md-4 push-md-4">
+            <img class="user-avatar" src="assets/images/logo.png" width="150px" />
+            <h1>Bibelschule Stephanus</h1>
+            <form role="form">
+                <div class="form-content">
+                    <div class="form-group">
+                        <input type="text" class="form-control input-underline input-lg" id="" placeholder="Vornahme">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-underline input-lg" id="" placeholder="Nachname">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control input-underline input-lg" id="" placeholder="Email">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control input-underline input-lg" id="" placeholder="Passwort">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control input-underline input-lg" id="" placeholder="Passwort wiederholen">
+                    </div>
+                </div>
+                <a class="btn rounded-btn" [routerLink]="['/dashboard']"> Regisitrieren </a>&nbsp;
+                <a class="btn rounded-btn" [routerLink]="['/login']"> Anmelden </a>
+            </form>
+        </div>
+    </div>
+</div>

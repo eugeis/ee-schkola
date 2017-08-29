@@ -68,6 +68,12 @@ export class SchoolYear extends SchkolaBase {
 }
 
 
+
+
+
+
+
+
 enum AttendanceState {
     REGISTERED,
     CONFIRMED,
