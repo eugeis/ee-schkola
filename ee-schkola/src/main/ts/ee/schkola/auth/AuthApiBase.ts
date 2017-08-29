@@ -1,5 +1,5 @@
-import { Profile } from "./ee/schkola/person"
-import { SchkolaBase } from "./ee/schkola"
+import {Profile} from "../person/PersonApiBase"
+import {SchkolaBase} from "../SharedApiBase"
 
 
 export class Account extends SchkolaBase {
