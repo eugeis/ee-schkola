@@ -13,7 +13,7 @@ export class Book extends SchkolaBase {
     readonly location: Location
 
 
-    findByAuthor(author: PersonName = PersonName()) : Book {
+    findByAuthor(author: PersonName = new PersonName()) : Book {
         throw new ReferenceError("Not implemented yet.");
     }
 
