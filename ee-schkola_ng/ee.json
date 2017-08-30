@@ -1,0 +1,76 @@
+{
+  "files" : {
+    "ee-schkola/ee-schkola_ng/src/main/ts/ee/schkola/auth/AuthApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/main/ts/ee/schkola/auth/AuthApiBase.ts",
+      "date" : 1504035310000
+    },
+    "ee-schkola/ee-schkola_ng/src/main/ts/ee/schkola/finance/FinanceApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/main/ts/ee/schkola/finance/FinanceApiBase.ts",
+      "date" : 1504035311000
+    },
+    "ee-schkola/ee-schkola_ng/src/main/ts/ee/schkola/library/LibraryApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/main/ts/ee/schkola/library/LibraryApiBase.ts",
+      "date" : 1504035311000
+    },
+    "ee-schkola/ee-schkola_ng/src/main/ts/ee/schkola/person/PersonApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/main/ts/ee/schkola/person/PersonApiBase.ts",
+      "date" : 1504035311000
+    },
+    "ee-schkola/ee-schkola_ng/src/main/ts/ee/schkola/SharedApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/main/ts/ee/schkola/SharedApiBase.ts",
+      "date" : 1504035311000
+    },
+    "ee-schkola/ee-schkola_ng/src/main/ts/ee/schkola/student/StudentApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/main/ts/ee/schkola/student/StudentApiBase.ts",
+      "date" : 1504035311000
+    },
+    "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/auth/AuthApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/auth/AuthApiBase.ts",
+      "date" : 1504043650000
+    },
+    "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/finance/FinanceApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/finance/FinanceApiBase.ts",
+      "date" : 1504043651000
+    },
+    "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/library/LibraryApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/library/LibraryApiBase.ts",
+      "date" : 1504043651000
+    },
+    "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/person/PersonApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/person/PersonApiBase.ts",
+      "date" : 1504043651000
+    },
+    "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/SharedApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/SharedApiBase.ts",
+      "date" : 1504043651000
+    },
+    "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/student/StudentApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/student/StudentApiBase.ts",
+      "date" : 1504043651000
+    },
+    "ee-schkola/ee-schkola_ng/src/app/shared/AuthApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/app/shared/AuthApiBase.ts",
+      "date" : 1504043490000
+    },
+    "ee-schkola/ee-schkola_ng/src/app/shared/FinanceApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/app/shared/FinanceApiBase.ts",
+      "date" : 1504043495000
+    },
+    "ee-schkola/ee-schkola_ng/src/app/shared/LibraryApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/app/shared/LibraryApiBase.ts",
+      "date" : 1504043495000
+    },
+    "ee-schkola/ee-schkola_ng/src/app/shared/PersonApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/app/shared/PersonApiBase.ts",
+      "date" : 1504043495000
+    },
+    "ee-schkola/ee-schkola_ng/src/app/shared/SharedApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/app/shared/SharedApiBase.ts",
+      "date" : 1504043495000
+    },
+    "ee-schkola/ee-schkola_ng/src/app/shared/StudentApiBase.ts" : {
+      "path" : "ee-schkola/ee-schkola_ng/src/app/shared/StudentApiBase.ts",
+      "date" : 1504043495000
+    }
+  }
+}
