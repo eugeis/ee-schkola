@@ -112,8 +112,33 @@ func parseJson() {
 	}
 
 	writeCsvEmailGroup(users1, users2, users3, users4, users5, users)
-	//writeCsvEmailContacts(users1, users2, users3, users4, users5, users)
-	//writeHtmlReport(users1, users2, users3, users4, users5, users)
+	writeInsertInto(users1, users2, users3, users4, users5, users)
+	writeCsvEmailContacts(users1, users2, users3, users4, users5, users)
+	writeHtmlReport(users1, users2, users3, users4, users5, users)
+}
+
+func writeInsertInto(users1 []string, users2 []string, users3 []string,
+	users4 []string, users5 []string, users map[string]map[string]interface{}) {
+	f, _ := os.Create(fmt.Sprintf("%v/users.sql", work))
+	defer f.Close()
+	w := bufio.NewWriter(f)
+	writeInsertIntoForGroup(users1, users, "2017 Klasse 1", w)
+	writeInsertIntoForGroup(users2, users, "2016 1. Klasse", w)
+	writeInsertIntoForGroup(users3, users, "2016 2. Klasse", w)
+	writeInsertIntoForGroup(users4, users, "2016 3. Klasse", w)
+	writeInsertIntoForGroup(users5, users, "2016 4. Klasse", w)
+	w.Flush()
+}
+
+func writeInsertIntoForGroup(userKeys []string, users map[string]map[string]interface{}, group string, w *bufio.Writer) {
+	//write data
+	w.WriteString("insert into wp_users_bs (user_email, gr) values ")
+	for _, userKey := range userKeys {
+		user := users[userKey]
+		//w.WriteString(fmt.Sprintf(`<%v %v>%v,`, user["first_name"], user["last_name"], user["user_email"]))
+		w.WriteString(fmt.Sprintf("('%v', '%v'),", user["user_email"], group))
+	}
+	w.WriteString(";\n")
 }
 
 func writeCsvEmailGroup(users1 []string, users2 []string, users3 []string,
