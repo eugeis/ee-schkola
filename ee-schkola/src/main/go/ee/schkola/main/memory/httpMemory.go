@@ -1,11 +1,9 @@
 package main
 
 import (
-	"github.com/eugeis/gee/lg"
 	"net/http"
 	"github.com/gorilla/mux"
 	"ee/schkola/person"
-	"fmt"
 	"github.com/eugeis/gee/net"
 	"github.com/looplab/eventhorizon"
 	commandbus "github.com/looplab/eventhorizon/commandbus/local"
@@ -15,7 +13,16 @@ import (
 	repo "github.com/looplab/eventhorizon/repo/memory"
 	"context"
 	"encoding/json"
+	"fmt"
+	"github.com/eugeis/gee/lg"
 )
+
+var log = lg.NewLogger("Schkola ")
+
+func Index(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hello World!")
+}
+
 
 func main() {
 	log.Info("Server started")

@@ -22,36 +22,36 @@ func NewAccountHttpQueryHandler(queryRepository *AccountQueryRepository) (ret *A
     return
 }
 
-func (o *AccountHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
+func (o *AccountHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
     o.HandleResult(ret, err, "FindAllAccount", w, r)
 }
 
-func (o *AccountHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
+func (o *AccountHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
     o.HandleResult(ret, err, "FindByAccountId", w, r)
 }
 
-func (o *AccountHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
+func (o *AccountHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
     o.HandleResult(ret, err, "CountAllAccount", w, r)
 }
 
-func (o *AccountHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
+func (o *AccountHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
     o.HandleResult(ret, err, "CountByAccountId", w, r)
 }
 
-func (o *AccountHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
+func (o *AccountHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
     o.HandleResult(ret, err, "ExistAllAccount", w, r)
 }
 
-func (o *AccountHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
+func (o *AccountHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
@@ -71,34 +71,34 @@ func NewAccountHttpCommandHandler(context context.Context, commandBus eventhoriz
     return
 }
 
-func (o *AccountHttpCommandHandler) Register(w http.ResponseWriter, r *http.Request)  {
+func (o *AccountHttpCommandHandler) Register(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&RegisterAccount{Id: id}, w, r)
 }
 
-func (o *AccountHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+func (o *AccountHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&CreateAccount{Id: id}, w, r)
 }
 
-func (o *AccountHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+func (o *AccountHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&UpdateAccount{Id: id}, w, r)
 }
 
-func (o *AccountHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+func (o *AccountHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&DeleteAccount{Id: id}, w, r)
 }
 
-func (o *AccountHttpCommandHandler) Enable(w http.ResponseWriter, r *http.Request)  {
+func (o *AccountHttpCommandHandler) Enable(w http.ResponseWriter, r *http.Request) {
 }
 
-func (o *AccountHttpCommandHandler) Disable(w http.ResponseWriter, r *http.Request)  {
+func (o *AccountHttpCommandHandler) Disable(w http.ResponseWriter, r *http.Request) {
 }
 
 
@@ -110,7 +110,7 @@ type AccountRouter struct {
 }
 
 func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *AccountRouter) {
+                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *AccountRouter) {
     pathPrefix = pathPrefix + "/" + "accounts"
     repo := readRepos(string(AccountAggregateType))
     queryRepository := NewAccountQueryRepository(repo, context)
@@ -160,7 +160,7 @@ type AuthRouter struct {
 }
 
 func NewAuthRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *AuthRouter) {
+                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *AuthRouter) {
     pathPrefix = pathPrefix + "/" + "auth"
     accountRouter := NewAccountRouter(pathPrefix, context, commandBus, readRepos)
     ret = &AuthRouter{
@@ -171,7 +171,7 @@ func NewAuthRouter(pathPrefix string, context context.Context, commandBus eventh
 }
 
 func (o *AuthRouter) Setup(router *mux.Router) (err error) {
-    if ret = o.AccountRouter.Setup(router); ret != nil {
+    if err = o.AccountRouter.Setup(router); err != nil {
         return
     }
     return

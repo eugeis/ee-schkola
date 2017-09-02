@@ -8,29 +8,30 @@ import (
     "time"
 )
 type ChurchCommandHandler struct {
-    CreateHandler func (*CreateChurch, *Church, eh.AggregateStoreEvent) err error
-    DeleteHandler func (*DeleteChurch, *Church, eh.AggregateStoreEvent) err error
-    UpdateHandler func (*UpdateChurch, *Church, eh.AggregateStoreEvent) err error
+    CreateHandler func (*CreateChurch, *Church, eh.AggregateStoreEvent) (err error) 
+    DeleteHandler func (*DeleteChurch, *Church, eh.AggregateStoreEvent) (err error) 
+    UpdateHandler func (*UpdateChurch, *Church, eh.AggregateStoreEvent) (err error) 
 }
 
 func (o *ChurchCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateChurchCommand:
-        ret = o.CreateHandler(cmd.(*CreateChurch), entity.(*Church), store)
+        err = o.CreateHandler(cmd.(*CreateChurch), entity.(*Church), store)
     case DeleteChurchCommand:
-        ret = o.DeleteHandler(cmd.(*DeleteChurch), entity.(*Church), store)
+        err = o.DeleteHandler(cmd.(*DeleteChurch), entity.(*Church), store)
     case UpdateChurchCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateChurch), entity.(*Church), store)
+        err = o.UpdateHandler(cmd.(*UpdateChurch), entity.(*Church), store)
     default:
-		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
+		err = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return
 }
 
 func (o *ChurchCommandHandler) SetupCommandHandler() (err error) {
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
-            if ret = eh.ValidateNewId(entity.Id, command.Id, ChurchAggregateType); ret == nil {store.StoreEvent(ChurchCreatedEvent, &ChurchCreated{
+        o.CreateHandler = func(command *CreateChurch, entity *Church, store eh.AggregateStoreEvent) (err error) {
+            if err = eh.ValidateNewId(entity.Id, command.Id, ChurchAggregateType); err == nil {
+                store.StoreEvent(ChurchCreatedEvent, &ChurchCreated{
                     Id: command.Id,
                     Name: command.Name,
                     Address: command.Address,
@@ -41,8 +42,8 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (err error) {
         }
     }
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
-            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ChurchAggregateType); ret == nil {
+        o.DeleteHandler = func(command *DeleteChurch, entity *Church, store eh.AggregateStoreEvent) (err error) {
+            if err = eh.ValidateIdsMatch(entity.Id, command.Id, ChurchAggregateType); err == nil {
                 store.StoreEvent(ChurchDeletedEvent, &ChurchDeleted{
                     Id: command.Id,}, time.Now())
             }
@@ -50,8 +51,8 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (err error) {
         }
     }
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateChurch, entity *Church, store eh.AggregateStoreEvent) (ret error) {
-            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ChurchAggregateType); ret == nil {
+        o.UpdateHandler = func(command *UpdateChurch, entity *Church, store eh.AggregateStoreEvent) (err error) {
+            if err = eh.ValidateIdsMatch(entity.Id, command.Id, ChurchAggregateType); err == nil {
                 store.StoreEvent(ChurchUpdatedEvent, &ChurchUpdated{
                     Id: command.Id,
                     Name: command.Name,
@@ -67,29 +68,29 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (err error) {
 
 
 type ChurchEventHandler struct {
-    CreatedHandler func (*ChurchCreated, *Church) err error
-    DeletedHandler func (*ChurchDeleted, *Church) err error
-    UpdatedHandler func (*ChurchUpdated, *Church) err error
+    CreatedHandler func (*ChurchCreated, *Church) (err error) 
+    DeletedHandler func (*ChurchDeleted, *Church) (err error) 
+    UpdatedHandler func (*ChurchUpdated, *Church) (err error) 
 }
 
 func (o *ChurchEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
     switch event.EventType() {
     case ChurchCreatedEvent:
-        ret = o.CreatedHandler(event.Data().(*ChurchCreated), entity.(*Church))
+        err = o.CreatedHandler(event.Data().(*ChurchCreated), entity.(*Church))
     case ChurchDeletedEvent:
-        ret = o.DeletedHandler(event.Data().(*ChurchDeleted), entity.(*Church))
+        err = o.DeletedHandler(event.Data().(*ChurchDeleted), entity.(*Church))
     case ChurchUpdatedEvent:
-        ret = o.UpdatedHandler(event.Data().(*ChurchUpdated), entity.(*Church))
+        err = o.UpdatedHandler(event.Data().(*ChurchUpdated), entity.(*Church))
     default:
-		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
+		err = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
     return
 }
 
 func (o *ChurchEventHandler) SetupEventHandler() (err error) {
     if o.CreatedHandler == nil {
-        o.CreatedHandler = func(event *ChurchCreated, entity *Church) (ret error) {
-            if ret = eh.ValidateNewId(entity.Id, event.Id, ChurchAggregateType); ret == nil {
+        o.CreatedHandler = func(event *ChurchCreated, entity *Church) (err error) {
+            if err = eh.ValidateNewId(entity.Id, event.Id, ChurchAggregateType); err == nil {
                 entity.Id = event.Id
                 entity.Name = event.Name
                 entity.Address = event.Address
@@ -100,16 +101,16 @@ func (o *ChurchEventHandler) SetupEventHandler() (err error) {
         }
     }
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *ChurchDeleted, entity *Church) (ret error) {
-            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, ChurchAggregateType); ret == nil {
+        o.DeletedHandler = func(event *ChurchDeleted, entity *Church) (err error) {
+            if err = eh.ValidateIdsMatch(entity.Id, event.Id, ChurchAggregateType); err == nil {
                 *entity = *NewChurch()
             }
             return
         }
     }
     if o.UpdatedHandler == nil {
-        o.UpdatedHandler = func(event *ChurchUpdated, entity *Church) (ret error) {
-            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, ChurchAggregateType); ret == nil {
+        o.UpdatedHandler = func(event *ChurchUpdated, entity *Church) (err error) {
+            if err = eh.ValidateIdsMatch(entity.Id, event.Id, ChurchAggregateType); err == nil {
                 entity.Name = event.Name
                 entity.Address = event.Address
                 entity.Pastor = event.Pastor
@@ -134,7 +135,7 @@ type ChurchAggregateInitializer struct {
 
 
 func NewChurchAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *ChurchAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *ChurchAggregateInitializer) {
     
     commandHandler := &ChurchCommandHandler{}
     eventHandler := &ChurchEventHandler{}
@@ -153,29 +154,30 @@ func NewChurchAggregateInitializer(eventStore eventhorizon.EventStore, eventBus 
 
 
 type GraduationCommandHandler struct {
-    CreateHandler func (*CreateGraduation, *Graduation, eh.AggregateStoreEvent) err error
-    DeleteHandler func (*DeleteGraduation, *Graduation, eh.AggregateStoreEvent) err error
-    UpdateHandler func (*UpdateGraduation, *Graduation, eh.AggregateStoreEvent) err error
+    CreateHandler func (*CreateGraduation, *Graduation, eh.AggregateStoreEvent) (err error) 
+    DeleteHandler func (*DeleteGraduation, *Graduation, eh.AggregateStoreEvent) (err error) 
+    UpdateHandler func (*UpdateGraduation, *Graduation, eh.AggregateStoreEvent) (err error) 
 }
 
 func (o *GraduationCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateGraduationCommand:
-        ret = o.CreateHandler(cmd.(*CreateGraduation), entity.(*Graduation), store)
+        err = o.CreateHandler(cmd.(*CreateGraduation), entity.(*Graduation), store)
     case DeleteGraduationCommand:
-        ret = o.DeleteHandler(cmd.(*DeleteGraduation), entity.(*Graduation), store)
+        err = o.DeleteHandler(cmd.(*DeleteGraduation), entity.(*Graduation), store)
     case UpdateGraduationCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateGraduation), entity.(*Graduation), store)
+        err = o.UpdateHandler(cmd.(*UpdateGraduation), entity.(*Graduation), store)
     default:
-		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
+		err = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return
 }
 
 func (o *GraduationCommandHandler) SetupCommandHandler() (err error) {
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
-            if ret = eh.ValidateNewId(entity.Id, command.Id, GraduationAggregateType); ret == nil {store.StoreEvent(GraduationCreatedEvent, &GraduationCreated{
+        o.CreateHandler = func(command *CreateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (err error) {
+            if err = eh.ValidateNewId(entity.Id, command.Id, GraduationAggregateType); err == nil {
+                store.StoreEvent(GraduationCreatedEvent, &GraduationCreated{
                     Id: command.Id,
                     Name: command.Name,
                     Level: command.Level,}, time.Now())
@@ -184,8 +186,8 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (err error) {
         }
     }
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
-            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, GraduationAggregateType); ret == nil {
+        o.DeleteHandler = func(command *DeleteGraduation, entity *Graduation, store eh.AggregateStoreEvent) (err error) {
+            if err = eh.ValidateIdsMatch(entity.Id, command.Id, GraduationAggregateType); err == nil {
                 store.StoreEvent(GraduationDeletedEvent, &GraduationDeleted{
                     Id: command.Id,}, time.Now())
             }
@@ -193,8 +195,8 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (err error) {
         }
     }
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (ret error) {
-            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, GraduationAggregateType); ret == nil {
+        o.UpdateHandler = func(command *UpdateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (err error) {
+            if err = eh.ValidateIdsMatch(entity.Id, command.Id, GraduationAggregateType); err == nil {
                 store.StoreEvent(GraduationUpdatedEvent, &GraduationUpdated{
                     Id: command.Id,
                     Name: command.Name,
@@ -208,29 +210,29 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (err error) {
 
 
 type GraduationEventHandler struct {
-    CreatedHandler func (*GraduationCreated, *Graduation) err error
-    DeletedHandler func (*GraduationDeleted, *Graduation) err error
-    UpdatedHandler func (*GraduationUpdated, *Graduation) err error
+    CreatedHandler func (*GraduationCreated, *Graduation) (err error) 
+    DeletedHandler func (*GraduationDeleted, *Graduation) (err error) 
+    UpdatedHandler func (*GraduationUpdated, *Graduation) (err error) 
 }
 
 func (o *GraduationEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
     switch event.EventType() {
     case GraduationCreatedEvent:
-        ret = o.CreatedHandler(event.Data().(*GraduationCreated), entity.(*Graduation))
+        err = o.CreatedHandler(event.Data().(*GraduationCreated), entity.(*Graduation))
     case GraduationDeletedEvent:
-        ret = o.DeletedHandler(event.Data().(*GraduationDeleted), entity.(*Graduation))
+        err = o.DeletedHandler(event.Data().(*GraduationDeleted), entity.(*Graduation))
     case GraduationUpdatedEvent:
-        ret = o.UpdatedHandler(event.Data().(*GraduationUpdated), entity.(*Graduation))
+        err = o.UpdatedHandler(event.Data().(*GraduationUpdated), entity.(*Graduation))
     default:
-		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
+		err = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
     return
 }
 
 func (o *GraduationEventHandler) SetupEventHandler() (err error) {
     if o.CreatedHandler == nil {
-        o.CreatedHandler = func(event *GraduationCreated, entity *Graduation) (ret error) {
-            if ret = eh.ValidateNewId(entity.Id, event.Id, GraduationAggregateType); ret == nil {
+        o.CreatedHandler = func(event *GraduationCreated, entity *Graduation) (err error) {
+            if err = eh.ValidateNewId(entity.Id, event.Id, GraduationAggregateType); err == nil {
                 entity.Id = event.Id
                 entity.Name = event.Name
                 entity.Level = event.Level
@@ -239,16 +241,16 @@ func (o *GraduationEventHandler) SetupEventHandler() (err error) {
         }
     }
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *GraduationDeleted, entity *Graduation) (ret error) {
-            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, GraduationAggregateType); ret == nil {
+        o.DeletedHandler = func(event *GraduationDeleted, entity *Graduation) (err error) {
+            if err = eh.ValidateIdsMatch(entity.Id, event.Id, GraduationAggregateType); err == nil {
                 *entity = *NewGraduation()
             }
             return
         }
     }
     if o.UpdatedHandler == nil {
-        o.UpdatedHandler = func(event *GraduationUpdated, entity *Graduation) (ret error) {
-            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, GraduationAggregateType); ret == nil {
+        o.UpdatedHandler = func(event *GraduationUpdated, entity *Graduation) (err error) {
+            if err = eh.ValidateIdsMatch(entity.Id, event.Id, GraduationAggregateType); err == nil {
                 entity.Name = event.Name
                 entity.Level = event.Level
             }
@@ -271,7 +273,7 @@ type GraduationAggregateInitializer struct {
 
 
 func NewGraduationAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *GraduationAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *GraduationAggregateInitializer) {
     
     commandHandler := &GraduationCommandHandler{}
     eventHandler := &GraduationEventHandler{}
@@ -290,29 +292,30 @@ func NewGraduationAggregateInitializer(eventStore eventhorizon.EventStore, event
 
 
 type ProfileCommandHandler struct {
-    CreateHandler func (*CreateProfile, *Profile, eh.AggregateStoreEvent) err error
-    DeleteHandler func (*DeleteProfile, *Profile, eh.AggregateStoreEvent) err error
-    UpdateHandler func (*UpdateProfile, *Profile, eh.AggregateStoreEvent) err error
+    CreateHandler func (*CreateProfile, *Profile, eh.AggregateStoreEvent) (err error) 
+    DeleteHandler func (*DeleteProfile, *Profile, eh.AggregateStoreEvent) (err error) 
+    UpdateHandler func (*UpdateProfile, *Profile, eh.AggregateStoreEvent) (err error) 
 }
 
 func (o *ProfileCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateProfileCommand:
-        ret = o.CreateHandler(cmd.(*CreateProfile), entity.(*Profile), store)
+        err = o.CreateHandler(cmd.(*CreateProfile), entity.(*Profile), store)
     case DeleteProfileCommand:
-        ret = o.DeleteHandler(cmd.(*DeleteProfile), entity.(*Profile), store)
+        err = o.DeleteHandler(cmd.(*DeleteProfile), entity.(*Profile), store)
     case UpdateProfileCommand:
-        ret = o.UpdateHandler(cmd.(*UpdateProfile), entity.(*Profile), store)
+        err = o.UpdateHandler(cmd.(*UpdateProfile), entity.(*Profile), store)
     default:
-		ret = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
+		err = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
     return
 }
 
 func (o *ProfileCommandHandler) SetupCommandHandler() (err error) {
     if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
-            if ret = eh.ValidateNewId(entity.Id, command.Id, ProfileAggregateType); ret == nil {store.StoreEvent(ProfileCreatedEvent, &ProfileCreated{
+        o.CreateHandler = func(command *CreateProfile, entity *Profile, store eh.AggregateStoreEvent) (err error) {
+            if err = eh.ValidateNewId(entity.Id, command.Id, ProfileAggregateType); err == nil {
+                store.StoreEvent(ProfileCreatedEvent, &ProfileCreated{
                     Id: command.Id,
                     Gender: command.Gender,
                     Name: command.Name,
@@ -330,8 +333,8 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (err error) {
         }
     }
     if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
-            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ProfileAggregateType); ret == nil {
+        o.DeleteHandler = func(command *DeleteProfile, entity *Profile, store eh.AggregateStoreEvent) (err error) {
+            if err = eh.ValidateIdsMatch(entity.Id, command.Id, ProfileAggregateType); err == nil {
                 store.StoreEvent(ProfileDeletedEvent, &ProfileDeleted{
                     Id: command.Id,}, time.Now())
             }
@@ -339,8 +342,8 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (err error) {
         }
     }
     if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateProfile, entity *Profile, store eh.AggregateStoreEvent) (ret error) {
-            if ret = eh.ValidateIdsMatch(entity.Id, command.Id, ProfileAggregateType); ret == nil {
+        o.UpdateHandler = func(command *UpdateProfile, entity *Profile, store eh.AggregateStoreEvent) (err error) {
+            if err = eh.ValidateIdsMatch(entity.Id, command.Id, ProfileAggregateType); err == nil {
                 store.StoreEvent(ProfileUpdatedEvent, &ProfileUpdated{
                     Id: command.Id,
                     Gender: command.Gender,
@@ -363,29 +366,29 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (err error) {
 
 
 type ProfileEventHandler struct {
-    CreatedHandler func (*ProfileCreated, *Profile) err error
-    DeletedHandler func (*ProfileDeleted, *Profile) err error
-    UpdatedHandler func (*ProfileUpdated, *Profile) err error
+    CreatedHandler func (*ProfileCreated, *Profile) (err error) 
+    DeletedHandler func (*ProfileDeleted, *Profile) (err error) 
+    UpdatedHandler func (*ProfileUpdated, *Profile) (err error) 
 }
 
 func (o *ProfileEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
     switch event.EventType() {
     case ProfileCreatedEvent:
-        ret = o.CreatedHandler(event.Data().(*ProfileCreated), entity.(*Profile))
+        err = o.CreatedHandler(event.Data().(*ProfileCreated), entity.(*Profile))
     case ProfileDeletedEvent:
-        ret = o.DeletedHandler(event.Data().(*ProfileDeleted), entity.(*Profile))
+        err = o.DeletedHandler(event.Data().(*ProfileDeleted), entity.(*Profile))
     case ProfileUpdatedEvent:
-        ret = o.UpdatedHandler(event.Data().(*ProfileUpdated), entity.(*Profile))
+        err = o.UpdatedHandler(event.Data().(*ProfileUpdated), entity.(*Profile))
     default:
-		ret = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
+		err = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
     return
 }
 
 func (o *ProfileEventHandler) SetupEventHandler() (err error) {
     if o.CreatedHandler == nil {
-        o.CreatedHandler = func(event *ProfileCreated, entity *Profile) (ret error) {
-            if ret = eh.ValidateNewId(entity.Id, event.Id, ProfileAggregateType); ret == nil {
+        o.CreatedHandler = func(event *ProfileCreated, entity *Profile) (err error) {
+            if err = eh.ValidateNewId(entity.Id, event.Id, ProfileAggregateType); err == nil {
                 entity.Id = event.Id
                 entity.Gender = event.Gender
                 entity.Name = event.Name
@@ -403,16 +406,16 @@ func (o *ProfileEventHandler) SetupEventHandler() (err error) {
         }
     }
     if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *ProfileDeleted, entity *Profile) (ret error) {
-            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, ProfileAggregateType); ret == nil {
+        o.DeletedHandler = func(event *ProfileDeleted, entity *Profile) (err error) {
+            if err = eh.ValidateIdsMatch(entity.Id, event.Id, ProfileAggregateType); err == nil {
                 *entity = *NewProfile()
             }
             return
         }
     }
     if o.UpdatedHandler == nil {
-        o.UpdatedHandler = func(event *ProfileUpdated, entity *Profile) (ret error) {
-            if ret = eh.ValidateIdsMatch(entity.Id, event.Id, ProfileAggregateType); ret == nil {
+        o.UpdatedHandler = func(event *ProfileUpdated, entity *Profile) (err error) {
+            if err = eh.ValidateIdsMatch(entity.Id, event.Id, ProfileAggregateType); err == nil {
                 entity.Gender = event.Gender
                 entity.Name = event.Name
                 entity.BirthName = event.BirthName
@@ -444,7 +447,7 @@ type ProfileAggregateInitializer struct {
 
 
 func NewProfileAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *ProfileAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *ProfileAggregateInitializer) {
     
     commandHandler := &ProfileCommandHandler{}
     eventHandler := &ProfileEventHandler{}
@@ -473,7 +476,7 @@ type PersonEventhorizonInitializer struct {
 }
 
 func NewPersonEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *PersonEventhorizonInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *PersonEventhorizonInitializer) {
     churchAggregateInitializer := NewChurchAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     graduationAggregateInitializer := NewGraduationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     profileAggregateInitializer := NewProfileAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
@@ -491,15 +494,15 @@ func NewPersonEventhorizonInitializer(eventStore eventhorizon.EventStore, eventB
 
 func (o *PersonEventhorizonInitializer) Setup() (err error) {
     
-    if ret = o.ChurchAggregateInitializer.Setup(); ret != nil {
+    if err = o.ChurchAggregateInitializer.Setup(); err != nil {
         return
     }
     
-    if ret = o.GraduationAggregateInitializer.Setup(); ret != nil {
+    if err = o.GraduationAggregateInitializer.Setup(); err != nil {
         return
     }
     
-    if ret = o.ProfileAggregateInitializer.Setup(); ret != nil {
+    if err = o.ProfileAggregateInitializer.Setup(); err != nil {
         return
     }
 

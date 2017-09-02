@@ -22,36 +22,36 @@ func NewAttendanceHttpQueryHandler(queryRepository *AttendanceQueryRepository) (
     return
 }
 
-func (o *AttendanceHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
+func (o *AttendanceHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
     o.HandleResult(ret, err, "FindAllAttendance", w, r)
 }
 
-func (o *AttendanceHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
+func (o *AttendanceHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
     o.HandleResult(ret, err, "FindByAttendanceId", w, r)
 }
 
-func (o *AttendanceHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
+func (o *AttendanceHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
     o.HandleResult(ret, err, "CountAllAttendance", w, r)
 }
 
-func (o *AttendanceHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
+func (o *AttendanceHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
     o.HandleResult(ret, err, "CountByAttendanceId", w, r)
 }
 
-func (o *AttendanceHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
+func (o *AttendanceHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
     o.HandleResult(ret, err, "ExistAllAttendance", w, r)
 }
 
-func (o *AttendanceHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
+func (o *AttendanceHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
@@ -71,34 +71,34 @@ func NewAttendanceHttpCommandHandler(context context.Context, commandBus eventho
     return
 }
 
-func (o *AttendanceHttpCommandHandler) Register(w http.ResponseWriter, r *http.Request)  {
+func (o *AttendanceHttpCommandHandler) Register(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&RegisterAttendance{Id: id}, w, r)
 }
 
-func (o *AttendanceHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+func (o *AttendanceHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&CreateAttendance{Id: id}, w, r)
 }
 
-func (o *AttendanceHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+func (o *AttendanceHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&UpdateAttendance{Id: id}, w, r)
 }
 
-func (o *AttendanceHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+func (o *AttendanceHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&DeleteAttendance{Id: id}, w, r)
 }
 
-func (o *AttendanceHttpCommandHandler) Confirm(w http.ResponseWriter, r *http.Request)  {
+func (o *AttendanceHttpCommandHandler) Confirm(w http.ResponseWriter, r *http.Request) {
 }
 
-func (o *AttendanceHttpCommandHandler) Cancel(w http.ResponseWriter, r *http.Request)  {
+func (o *AttendanceHttpCommandHandler) Cancel(w http.ResponseWriter, r *http.Request) {
 }
 
 
@@ -110,7 +110,7 @@ type AttendanceRouter struct {
 }
 
 func NewAttendanceRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *AttendanceRouter) {
+                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *AttendanceRouter) {
     pathPrefix = pathPrefix + "/" + "attendances"
     repo := readRepos(string(AttendanceAggregateType))
     queryRepository := NewAttendanceQueryRepository(repo, context)
@@ -167,36 +167,36 @@ func NewCourseHttpQueryHandler(queryRepository *CourseQueryRepository) (ret *Cou
     return
 }
 
-func (o *CourseHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
+func (o *CourseHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
     o.HandleResult(ret, err, "FindAllCourse", w, r)
 }
 
-func (o *CourseHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
+func (o *CourseHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
     o.HandleResult(ret, err, "FindByCourseId", w, r)
 }
 
-func (o *CourseHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
+func (o *CourseHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
     o.HandleResult(ret, err, "CountAllCourse", w, r)
 }
 
-func (o *CourseHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
+func (o *CourseHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
     o.HandleResult(ret, err, "CountByCourseId", w, r)
 }
 
-func (o *CourseHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
+func (o *CourseHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
     o.HandleResult(ret, err, "ExistAllCourse", w, r)
 }
 
-func (o *CourseHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
+func (o *CourseHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
@@ -216,19 +216,19 @@ func NewCourseHttpCommandHandler(context context.Context, commandBus eventhorizo
     return
 }
 
-func (o *CourseHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+func (o *CourseHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&CreateCourse{Id: id}, w, r)
 }
 
-func (o *CourseHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+func (o *CourseHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&UpdateCourse{Id: id}, w, r)
 }
 
-func (o *CourseHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+func (o *CourseHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&DeleteCourse{Id: id}, w, r)
@@ -243,7 +243,7 @@ type CourseRouter struct {
 }
 
 func NewCourseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *CourseRouter) {
+                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *CourseRouter) {
     pathPrefix = pathPrefix + "/" + "courses"
     repo := readRepos(string(CourseAggregateType))
     queryRepository := NewCourseQueryRepository(repo, context)
@@ -298,36 +298,36 @@ func NewGradeHttpQueryHandler(queryRepository *GradeQueryRepository) (ret *Grade
     return
 }
 
-func (o *GradeHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
+func (o *GradeHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
     o.HandleResult(ret, err, "FindAllGrade", w, r)
 }
 
-func (o *GradeHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
+func (o *GradeHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
     o.HandleResult(ret, err, "FindByGradeId", w, r)
 }
 
-func (o *GradeHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
+func (o *GradeHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
     o.HandleResult(ret, err, "CountAllGrade", w, r)
 }
 
-func (o *GradeHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
+func (o *GradeHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
     o.HandleResult(ret, err, "CountByGradeId", w, r)
 }
 
-func (o *GradeHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
+func (o *GradeHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
     o.HandleResult(ret, err, "ExistAllGrade", w, r)
 }
 
-func (o *GradeHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
+func (o *GradeHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
@@ -347,19 +347,19 @@ func NewGradeHttpCommandHandler(context context.Context, commandBus eventhorizon
     return
 }
 
-func (o *GradeHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+func (o *GradeHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&CreateGrade{Id: id}, w, r)
 }
 
-func (o *GradeHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+func (o *GradeHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&UpdateGrade{Id: id}, w, r)
 }
 
-func (o *GradeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+func (o *GradeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&DeleteGrade{Id: id}, w, r)
@@ -374,7 +374,7 @@ type GradeRouter struct {
 }
 
 func NewGradeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *GradeRouter) {
+                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *GradeRouter) {
     pathPrefix = pathPrefix + "/" + "grades"
     repo := readRepos(string(GradeAggregateType))
     queryRepository := NewGradeQueryRepository(repo, context)
@@ -429,36 +429,36 @@ func NewGroupHttpQueryHandler(queryRepository *GroupQueryRepository) (ret *Group
     return
 }
 
-func (o *GroupHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
+func (o *GroupHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
     o.HandleResult(ret, err, "FindAllGroup", w, r)
 }
 
-func (o *GroupHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
+func (o *GroupHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
     o.HandleResult(ret, err, "FindByGroupId", w, r)
 }
 
-func (o *GroupHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
+func (o *GroupHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
     o.HandleResult(ret, err, "CountAllGroup", w, r)
 }
 
-func (o *GroupHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
+func (o *GroupHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
     o.HandleResult(ret, err, "CountByGroupId", w, r)
 }
 
-func (o *GroupHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
+func (o *GroupHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
     o.HandleResult(ret, err, "ExistAllGroup", w, r)
 }
 
-func (o *GroupHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
+func (o *GroupHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
@@ -478,19 +478,19 @@ func NewGroupHttpCommandHandler(context context.Context, commandBus eventhorizon
     return
 }
 
-func (o *GroupHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+func (o *GroupHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&CreateGroup{Id: id}, w, r)
 }
 
-func (o *GroupHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+func (o *GroupHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&UpdateGroup{Id: id}, w, r)
 }
 
-func (o *GroupHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+func (o *GroupHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&DeleteGroup{Id: id}, w, r)
@@ -505,7 +505,7 @@ type GroupRouter struct {
 }
 
 func NewGroupRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *GroupRouter) {
+                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *GroupRouter) {
     pathPrefix = pathPrefix + "/" + "groups"
     repo := readRepos(string(GroupAggregateType))
     queryRepository := NewGroupQueryRepository(repo, context)
@@ -560,36 +560,36 @@ func NewSchoolApplicationHttpQueryHandler(queryRepository *SchoolApplicationQuer
     return
 }
 
-func (o *SchoolApplicationHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolApplicationHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
     o.HandleResult(ret, err, "FindAllSchoolApplication", w, r)
 }
 
-func (o *SchoolApplicationHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolApplicationHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
     o.HandleResult(ret, err, "FindBySchoolApplicationId", w, r)
 }
 
-func (o *SchoolApplicationHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolApplicationHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
     o.HandleResult(ret, err, "CountAllSchoolApplication", w, r)
 }
 
-func (o *SchoolApplicationHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolApplicationHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
     o.HandleResult(ret, err, "CountBySchoolApplicationId", w, r)
 }
 
-func (o *SchoolApplicationHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolApplicationHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
     o.HandleResult(ret, err, "ExistAllSchoolApplication", w, r)
 }
 
-func (o *SchoolApplicationHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolApplicationHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
@@ -609,19 +609,19 @@ func NewSchoolApplicationHttpCommandHandler(context context.Context, commandBus 
     return
 }
 
-func (o *SchoolApplicationHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolApplicationHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&CreateSchoolApplication{Id: id}, w, r)
 }
 
-func (o *SchoolApplicationHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolApplicationHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&UpdateSchoolApplication{Id: id}, w, r)
 }
 
-func (o *SchoolApplicationHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolApplicationHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&DeleteSchoolApplication{Id: id}, w, r)
@@ -636,7 +636,7 @@ type SchoolApplicationRouter struct {
 }
 
 func NewSchoolApplicationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *SchoolApplicationRouter) {
+                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *SchoolApplicationRouter) {
     pathPrefix = pathPrefix + "/" + "schoolApplications"
     repo := readRepos(string(SchoolApplicationAggregateType))
     queryRepository := NewSchoolApplicationQueryRepository(repo, context)
@@ -691,36 +691,36 @@ func NewSchoolYearHttpQueryHandler(queryRepository *SchoolYearQueryRepository) (
     return
 }
 
-func (o *SchoolYearHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolYearHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
     o.HandleResult(ret, err, "FindAllSchoolYear", w, r)
 }
 
-func (o *SchoolYearHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolYearHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
     o.HandleResult(ret, err, "FindBySchoolYearId", w, r)
 }
 
-func (o *SchoolYearHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolYearHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
     o.HandleResult(ret, err, "CountAllSchoolYear", w, r)
 }
 
-func (o *SchoolYearHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolYearHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
     o.HandleResult(ret, err, "CountBySchoolYearId", w, r)
 }
 
-func (o *SchoolYearHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolYearHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
     o.HandleResult(ret, err, "ExistAllSchoolYear", w, r)
 }
 
-func (o *SchoolYearHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolYearHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
@@ -740,19 +740,19 @@ func NewSchoolYearHttpCommandHandler(context context.Context, commandBus eventho
     return
 }
 
-func (o *SchoolYearHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolYearHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&CreateSchoolYear{Id: id}, w, r)
 }
 
-func (o *SchoolYearHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolYearHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&UpdateSchoolYear{Id: id}, w, r)
 }
 
-func (o *SchoolYearHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+func (o *SchoolYearHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&DeleteSchoolYear{Id: id}, w, r)
@@ -767,7 +767,7 @@ type SchoolYearRouter struct {
 }
 
 func NewSchoolYearRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *SchoolYearRouter) {
+                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *SchoolYearRouter) {
     pathPrefix = pathPrefix + "/" + "schoolYears"
     repo := readRepos(string(SchoolYearAggregateType))
     queryRepository := NewSchoolYearQueryRepository(repo, context)
@@ -820,7 +820,7 @@ type StudentRouter struct {
 }
 
 func NewStudentRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *StudentRouter) {
+                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *StudentRouter) {
     pathPrefix = pathPrefix + "/" + "student"
     attendanceRouter := NewAttendanceRouter(pathPrefix, context, commandBus, readRepos)
     courseRouter := NewCourseRouter(pathPrefix, context, commandBus, readRepos)
@@ -841,22 +841,22 @@ func NewStudentRouter(pathPrefix string, context context.Context, commandBus eve
 }
 
 func (o *StudentRouter) Setup(router *mux.Router) (err error) {
-    if ret = o.AttendanceRouter.Setup(router); ret != nil {
+    if err = o.AttendanceRouter.Setup(router); err != nil {
         return
     }
-    if ret = o.CourseRouter.Setup(router); ret != nil {
+    if err = o.CourseRouter.Setup(router); err != nil {
         return
     }
-    if ret = o.GradeRouter.Setup(router); ret != nil {
+    if err = o.GradeRouter.Setup(router); err != nil {
         return
     }
-    if ret = o.GroupRouter.Setup(router); ret != nil {
+    if err = o.GroupRouter.Setup(router); err != nil {
         return
     }
-    if ret = o.SchoolApplicationRouter.Setup(router); ret != nil {
+    if err = o.SchoolApplicationRouter.Setup(router); err != nil {
         return
     }
-    if ret = o.SchoolYearRouter.Setup(router); ret != nil {
+    if err = o.SchoolYearRouter.Setup(router); err != nil {
         return
     }
     return

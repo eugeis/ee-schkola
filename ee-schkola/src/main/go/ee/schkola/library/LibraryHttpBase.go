@@ -22,57 +22,57 @@ func NewBookHttpQueryHandler(queryRepository *BookQueryRepository) (ret *BookHtt
     return
 }
 
-func (o *BookHttpQueryHandler) FindByTitle(w http.ResponseWriter, r *http.Request)  {
+func (o *BookHttpQueryHandler) FindByTitle(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     title := vars["title"]
     ret, err := o.QueryRepository.FindByTitle(title)
     o.HandleResult(ret, err, "FindByBookTitle", w, r)
 }
 
-func (o *BookHttpQueryHandler) FindByAuthor(w http.ResponseWriter, r *http.Request)  {
+func (o *BookHttpQueryHandler) FindByAuthor(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     author := vars["author"]
     ret, err := o.QueryRepository.FindByAuthor(author)
     o.HandleResult(ret, err, "FindByBookAuthor", w, r)
 }
 
-func (o *BookHttpQueryHandler) FindByPattern(w http.ResponseWriter, r *http.Request)  {
+func (o *BookHttpQueryHandler) FindByPattern(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     pattern := vars["pattern"]
     ret, err := o.QueryRepository.FindByPattern(pattern)
     o.HandleResult(ret, err, "FindByBookPattern", w, r)
 }
 
-func (o *BookHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request)  {
+func (o *BookHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
     o.HandleResult(ret, err, "FindAllBook", w, r)
 }
 
-func (o *BookHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request)  {
+func (o *BookHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
     o.HandleResult(ret, err, "FindByBookId", w, r)
 }
 
-func (o *BookHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request)  {
+func (o *BookHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
     o.HandleResult(ret, err, "CountAllBook", w, r)
 }
 
-func (o *BookHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request)  {
+func (o *BookHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
     o.HandleResult(ret, err, "CountByBookId", w, r)
 }
 
-func (o *BookHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request)  {
+func (o *BookHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
     o.HandleResult(ret, err, "ExistAllBook", w, r)
 }
 
-func (o *BookHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)  {
+func (o *BookHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
@@ -92,25 +92,25 @@ func NewBookHttpCommandHandler(context context.Context, commandBus eventhorizon.
     return
 }
 
-func (o *BookHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request)  {
+func (o *BookHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&CreateBook{Id: id}, w, r)
 }
 
-func (o *BookHttpCommandHandler) ChangeLocation(w http.ResponseWriter, r *http.Request)  {
+func (o *BookHttpCommandHandler) ChangeLocation(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&ChangeBookLocation{Id: id}, w, r)
 }
 
-func (o *BookHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request)  {
+func (o *BookHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&UpdateBook{Id: id}, w, r)
 }
 
-func (o *BookHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request)  {
+func (o *BookHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&DeleteBook{Id: id}, w, r)
@@ -125,7 +125,7 @@ type BookRouter struct {
 }
 
 func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *BookRouter) {
+                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *BookRouter) {
     pathPrefix = pathPrefix + "/" + "books"
     repo := readRepos(string(BookAggregateType))
     queryRepository := NewBookQueryRepository(repo, context)
@@ -184,7 +184,7 @@ type LibraryRouter struct {
 }
 
 func NewLibraryRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *LibraryRouter) {
+                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *LibraryRouter) {
     pathPrefix = pathPrefix + "/" + "library"
     bookRouter := NewBookRouter(pathPrefix, context, commandBus, readRepos)
     ret = &LibraryRouter{
@@ -195,7 +195,7 @@ func NewLibraryRouter(pathPrefix string, context context.Context, commandBus eve
 }
 
 func (o *LibraryRouter) Setup(router *mux.Router) (err error) {
-    if ret = o.BookRouter.Setup(router); ret != nil {
+    if err = o.BookRouter.Setup(router); err != nil {
         return
     }
     return
