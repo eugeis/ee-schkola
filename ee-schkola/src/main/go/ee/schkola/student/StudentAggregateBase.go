@@ -120,6 +120,10 @@ func (o *AttendanceEventHandler) Apply(event eventhorizon.Event, entity interfac
 }
 
 func (o *AttendanceEventHandler) SetupEventHandler() (err error) {
+	eventhorizon.RegisterEventData(AttendanceCreatedEvent, func() eventhorizon.EventData {
+		return &AttendanceCreated{}
+	})
+
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AttendanceCreated, entity *Attendance) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, AttendanceAggregateType); err == nil {
@@ -136,6 +140,10 @@ func (o *AttendanceEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(AttendanceDeletedEvent, func() eventhorizon.EventData {
+		return &AttendanceDeleted{}
+	})
+
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *AttendanceDeleted, entity *Attendance) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, AttendanceAggregateType); err == nil {
@@ -144,6 +152,10 @@ func (o *AttendanceEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(AttendanceUpdatedEvent, func() eventhorizon.EventData {
+		return &AttendanceUpdated{}
+	})
+
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *AttendanceUpdated, entity *Attendance) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, AttendanceAggregateType); err == nil {
@@ -175,7 +187,8 @@ type AttendanceAggregateInitializer struct {
 
 
 func NewAttendanceAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *AttendanceAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, 
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AttendanceAggregateInitializer) {
     
     commandHandler := &AttendanceCommandHandler{}
     eventHandler := &AttendanceEventHandler{}
@@ -280,6 +293,10 @@ func (o *CourseEventHandler) Apply(event eventhorizon.Event, entity interface{})
 }
 
 func (o *CourseEventHandler) SetupEventHandler() (err error) {
+	eventhorizon.RegisterEventData(CourseCreatedEvent, func() eventhorizon.EventData {
+		return &CourseCreated{}
+	})
+
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *CourseCreated, entity *Course) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, CourseAggregateType); err == nil {
@@ -295,6 +312,10 @@ func (o *CourseEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(CourseDeletedEvent, func() eventhorizon.EventData {
+		return &CourseDeleted{}
+	})
+
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *CourseDeleted, entity *Course) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, CourseAggregateType); err == nil {
@@ -303,6 +324,10 @@ func (o *CourseEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(CourseUpdatedEvent, func() eventhorizon.EventData {
+		return &CourseUpdated{}
+	})
+
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *CourseUpdated, entity *Course) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, CourseAggregateType); err == nil {
@@ -333,7 +358,8 @@ type CourseAggregateInitializer struct {
 
 
 func NewCourseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *CourseAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, 
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *CourseAggregateInitializer) {
     
     commandHandler := &CourseCommandHandler{}
     eventHandler := &CourseEventHandler{}
@@ -434,6 +460,10 @@ func (o *GradeEventHandler) Apply(event eventhorizon.Event, entity interface{}) 
 }
 
 func (o *GradeEventHandler) SetupEventHandler() (err error) {
+	eventhorizon.RegisterEventData(GradeCreatedEvent, func() eventhorizon.EventData {
+		return &GradeCreated{}
+	})
+
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *GradeCreated, entity *Grade) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, GradeAggregateType); err == nil {
@@ -447,6 +477,10 @@ func (o *GradeEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(GradeDeletedEvent, func() eventhorizon.EventData {
+		return &GradeDeleted{}
+	})
+
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *GradeDeleted, entity *Grade) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, GradeAggregateType); err == nil {
@@ -455,6 +489,10 @@ func (o *GradeEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(GradeUpdatedEvent, func() eventhorizon.EventData {
+		return &GradeUpdated{}
+	})
+
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *GradeUpdated, entity *Grade) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, GradeAggregateType); err == nil {
@@ -483,7 +521,8 @@ type GradeAggregateInitializer struct {
 
 
 func NewGradeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *GradeAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, 
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *GradeAggregateInitializer) {
     
     commandHandler := &GradeCommandHandler{}
     eventHandler := &GradeEventHandler{}
@@ -586,6 +625,10 @@ func (o *GroupEventHandler) Apply(event eventhorizon.Event, entity interface{}) 
 }
 
 func (o *GroupEventHandler) SetupEventHandler() (err error) {
+	eventhorizon.RegisterEventData(GroupCreatedEvent, func() eventhorizon.EventData {
+		return &GroupCreated{}
+	})
+
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *GroupCreated, entity *Group) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, GroupAggregateType); err == nil {
@@ -600,6 +643,10 @@ func (o *GroupEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(GroupDeletedEvent, func() eventhorizon.EventData {
+		return &GroupDeleted{}
+	})
+
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *GroupDeleted, entity *Group) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, GroupAggregateType); err == nil {
@@ -608,6 +655,10 @@ func (o *GroupEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(GroupUpdatedEvent, func() eventhorizon.EventData {
+		return &GroupUpdated{}
+	})
+
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *GroupUpdated, entity *Group) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, GroupAggregateType); err == nil {
@@ -637,7 +688,8 @@ type GroupAggregateInitializer struct {
 
 
 func NewGroupAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *GroupAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, 
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *GroupAggregateInitializer) {
     
     commandHandler := &GroupCommandHandler{}
     eventHandler := &GroupEventHandler{}
@@ -740,6 +792,10 @@ func (o *SchoolApplicationEventHandler) Apply(event eventhorizon.Event, entity i
 }
 
 func (o *SchoolApplicationEventHandler) SetupEventHandler() (err error) {
+	eventhorizon.RegisterEventData(SchoolApplicationCreatedEvent, func() eventhorizon.EventData {
+		return &SchoolApplicationCreated{}
+	})
+
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *SchoolApplicationCreated, entity *SchoolApplication) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, SchoolApplicationAggregateType); err == nil {
@@ -754,6 +810,10 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(SchoolApplicationDeletedEvent, func() eventhorizon.EventData {
+		return &SchoolApplicationDeleted{}
+	})
+
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *SchoolApplicationDeleted, entity *SchoolApplication) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, SchoolApplicationAggregateType); err == nil {
@@ -762,6 +822,10 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(SchoolApplicationUpdatedEvent, func() eventhorizon.EventData {
+		return &SchoolApplicationUpdated{}
+	})
+
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *SchoolApplicationUpdated, entity *SchoolApplication) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, SchoolApplicationAggregateType); err == nil {
@@ -791,7 +855,8 @@ type SchoolApplicationAggregateInitializer struct {
 
 
 func NewSchoolApplicationAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *SchoolApplicationAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, 
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *SchoolApplicationAggregateInitializer) {
     
     commandHandler := &SchoolApplicationCommandHandler{}
     eventHandler := &SchoolApplicationEventHandler{}
@@ -890,6 +955,10 @@ func (o *SchoolYearEventHandler) Apply(event eventhorizon.Event, entity interfac
 }
 
 func (o *SchoolYearEventHandler) SetupEventHandler() (err error) {
+	eventhorizon.RegisterEventData(SchoolYearCreatedEvent, func() eventhorizon.EventData {
+		return &SchoolYearCreated{}
+	})
+
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *SchoolYearCreated, entity *SchoolYear) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, SchoolYearAggregateType); err == nil {
@@ -902,6 +971,10 @@ func (o *SchoolYearEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(SchoolYearDeletedEvent, func() eventhorizon.EventData {
+		return &SchoolYearDeleted{}
+	})
+
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *SchoolYearDeleted, entity *SchoolYear) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, SchoolYearAggregateType); err == nil {
@@ -910,6 +983,10 @@ func (o *SchoolYearEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(SchoolYearUpdatedEvent, func() eventhorizon.EventData {
+		return &SchoolYearUpdated{}
+	})
+
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *SchoolYearUpdated, entity *SchoolYear) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, SchoolYearAggregateType); err == nil {
@@ -937,7 +1014,8 @@ type SchoolYearAggregateInitializer struct {
 
 
 func NewSchoolYearAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *SchoolYearAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, 
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *SchoolYearAggregateInitializer) {
     
     commandHandler := &SchoolYearCommandHandler{}
     eventHandler := &SchoolYearEventHandler{}
@@ -969,7 +1047,8 @@ type StudentEventhorizonInitializer struct {
 }
 
 func NewStudentEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *StudentEventhorizonInitializer) {
+                commandBus eventhorizon.CommandBus, 
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *StudentEventhorizonInitializer) {
     attendanceAggregateInitializer := NewAttendanceAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     courseAggregateInitializer := NewCourseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     gradeAggregateInitializer := NewGradeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)

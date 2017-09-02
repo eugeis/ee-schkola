@@ -98,9 +98,10 @@ type ExpenseRouter struct {
 }
 
 func NewExpenseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *ExpenseRouter) {
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ExpenseRouter) {
     pathPrefix = pathPrefix + "/" + "expenses"
-    repo := readRepos(string(ExpenseAggregateType))
+    modelFactory := func() interface{} { return NewExpense() }
+    repo := readRepos(string(ExpenseAggregateType), modelFactory)
     queryRepository := NewExpenseQueryRepository(repo, context)
     queryHandler := NewExpenseHttpQueryHandler(queryRepository)
     commandHandler := NewExpenseHttpCommandHandler(context, commandBus)
@@ -229,9 +230,10 @@ type ExpensePurposeRouter struct {
 }
 
 func NewExpensePurposeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *ExpensePurposeRouter) {
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ExpensePurposeRouter) {
     pathPrefix = pathPrefix + "/" + "expensePurposes"
-    repo := readRepos(string(ExpensePurposeAggregateType))
+    modelFactory := func() interface{} { return NewExpensePurpose() }
+    repo := readRepos(string(ExpensePurposeAggregateType), modelFactory)
     queryRepository := NewExpensePurposeQueryRepository(repo, context)
     queryHandler := NewExpensePurposeHttpQueryHandler(queryRepository)
     commandHandler := NewExpensePurposeHttpCommandHandler(context, commandBus)
@@ -360,9 +362,10 @@ type FeeRouter struct {
 }
 
 func NewFeeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *FeeRouter) {
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FeeRouter) {
     pathPrefix = pathPrefix + "/" + "fees"
-    repo := readRepos(string(FeeAggregateType))
+    modelFactory := func() interface{} { return NewFee() }
+    repo := readRepos(string(FeeAggregateType), modelFactory)
     queryRepository := NewFeeQueryRepository(repo, context)
     queryHandler := NewFeeHttpQueryHandler(queryRepository)
     commandHandler := NewFeeHttpCommandHandler(context, commandBus)
@@ -491,9 +494,10 @@ type FeeKindRouter struct {
 }
 
 func NewFeeKindRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *FeeKindRouter) {
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FeeKindRouter) {
     pathPrefix = pathPrefix + "/" + "feeKinds"
-    repo := readRepos(string(FeeKindAggregateType))
+    modelFactory := func() interface{} { return NewFeeKind() }
+    repo := readRepos(string(FeeKindAggregateType), modelFactory)
     queryRepository := NewFeeKindQueryRepository(repo, context)
     queryHandler := NewFeeKindHttpQueryHandler(queryRepository)
     commandHandler := NewFeeKindHttpCommandHandler(context, commandBus)
@@ -542,7 +546,7 @@ type FinanceRouter struct {
 }
 
 func NewFinanceRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *FinanceRouter) {
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FinanceRouter) {
     pathPrefix = pathPrefix + "/" + "finance"
     expenseRouter := NewExpenseRouter(pathPrefix, context, commandBus, readRepos)
     expensePurposeRouter := NewExpensePurposeRouter(pathPrefix, context, commandBus, readRepos)

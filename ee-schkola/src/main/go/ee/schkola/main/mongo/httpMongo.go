@@ -38,12 +38,17 @@ func main() {
 	commandBus := commandbus.NewCommandBus()
 
 	repos := make(map[string]eventhorizon.ReadWriteRepo)
-	readRepos := func(name string) (ret eventhorizon.ReadWriteRepo) {
+	readRepos := func(name string, factory func() interface{}) (ret eventhorizon.ReadWriteRepo) {
 		if item, ok := repos[name]; !ok {
-			repos[name] = &eh.ReadWriteRepoDelegate{Factory:
-			func() (ret eventhorizon.ReadWriteRepo, err error) {
-				return repo.NewRepo("localhost", "schkola", name)
+			ret = &eh.ReadWriteRepoDelegate{Factory: func() (ret eventhorizon.ReadWriteRepo, err error) {
+				var retRepo *repo.Repo
+				if retRepo, err = repo.NewRepo("localhost", "schkola", name); err == nil {
+					retRepo.SetModel(factory)
+					ret = retRepo
+				}
+				return
 			}}
+			repos[name] = ret
 		} else {
 			ret = item
 		}

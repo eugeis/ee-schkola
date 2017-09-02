@@ -116,6 +116,10 @@ func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}
 }
 
 func (o *AccountEventHandler) SetupEventHandler() (err error) {
+	eventhorizon.RegisterEventData(AccountCreatedEvent, func() eventhorizon.EventData {
+		return &AccountCreated{}
+	})
+
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AccountCreated, entity *Account) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, AccountAggregateType); err == nil {
@@ -130,6 +134,10 @@ func (o *AccountEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(AccountDeletedEvent, func() eventhorizon.EventData {
+		return &AccountDeleted{}
+	})
+
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *AccountDeleted, entity *Account) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, AccountAggregateType); err == nil {
@@ -138,6 +146,10 @@ func (o *AccountEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(AccountUpdatedEvent, func() eventhorizon.EventData {
+		return &AccountUpdated{}
+	})
+
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *AccountUpdated, entity *Account) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, AccountAggregateType); err == nil {
@@ -167,7 +179,8 @@ type AccountAggregateInitializer struct {
 
 
 func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *AccountAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, 
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AccountAggregateInitializer) {
     
     commandHandler := &AccountCommandHandler{}
     eventHandler := &AccountEventHandler{}
@@ -194,7 +207,8 @@ type AuthEventhorizonInitializer struct {
 }
 
 func NewAuthEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *AuthEventhorizonInitializer) {
+                commandBus eventhorizon.CommandBus, 
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AuthEventhorizonInitializer) {
     accountAggregateInitializer := NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     ret = &AuthEventhorizonInitializer{
         eventStore: eventStore,

@@ -88,6 +88,10 @@ func (o *ChurchEventHandler) Apply(event eventhorizon.Event, entity interface{})
 }
 
 func (o *ChurchEventHandler) SetupEventHandler() (err error) {
+	eventhorizon.RegisterEventData(ChurchCreatedEvent, func() eventhorizon.EventData {
+		return &ChurchCreated{}
+	})
+
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ChurchCreated, entity *Church) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, ChurchAggregateType); err == nil {
@@ -100,6 +104,10 @@ func (o *ChurchEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(ChurchDeletedEvent, func() eventhorizon.EventData {
+		return &ChurchDeleted{}
+	})
+
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *ChurchDeleted, entity *Church) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, ChurchAggregateType); err == nil {
@@ -108,6 +116,10 @@ func (o *ChurchEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(ChurchUpdatedEvent, func() eventhorizon.EventData {
+		return &ChurchUpdated{}
+	})
+
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *ChurchUpdated, entity *Church) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, ChurchAggregateType); err == nil {
@@ -135,7 +147,8 @@ type ChurchAggregateInitializer struct {
 
 
 func NewChurchAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *ChurchAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, 
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ChurchAggregateInitializer) {
     
     commandHandler := &ChurchCommandHandler{}
     eventHandler := &ChurchEventHandler{}
@@ -230,6 +243,10 @@ func (o *GraduationEventHandler) Apply(event eventhorizon.Event, entity interfac
 }
 
 func (o *GraduationEventHandler) SetupEventHandler() (err error) {
+	eventhorizon.RegisterEventData(GraduationCreatedEvent, func() eventhorizon.EventData {
+		return &GraduationCreated{}
+	})
+
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *GraduationCreated, entity *Graduation) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, GraduationAggregateType); err == nil {
@@ -240,6 +257,10 @@ func (o *GraduationEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(GraduationDeletedEvent, func() eventhorizon.EventData {
+		return &GraduationDeleted{}
+	})
+
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *GraduationDeleted, entity *Graduation) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, GraduationAggregateType); err == nil {
@@ -248,6 +269,10 @@ func (o *GraduationEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(GraduationUpdatedEvent, func() eventhorizon.EventData {
+		return &GraduationUpdated{}
+	})
+
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *GraduationUpdated, entity *Graduation) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, GraduationAggregateType); err == nil {
@@ -273,7 +298,8 @@ type GraduationAggregateInitializer struct {
 
 
 func NewGraduationAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *GraduationAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, 
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *GraduationAggregateInitializer) {
     
     commandHandler := &GraduationCommandHandler{}
     eventHandler := &GraduationEventHandler{}
@@ -386,6 +412,10 @@ func (o *ProfileEventHandler) Apply(event eventhorizon.Event, entity interface{}
 }
 
 func (o *ProfileEventHandler) SetupEventHandler() (err error) {
+	eventhorizon.RegisterEventData(ProfileCreatedEvent, func() eventhorizon.EventData {
+		return &ProfileCreated{}
+	})
+
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ProfileCreated, entity *Profile) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, ProfileAggregateType); err == nil {
@@ -405,6 +435,10 @@ func (o *ProfileEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(ProfileDeletedEvent, func() eventhorizon.EventData {
+		return &ProfileDeleted{}
+	})
+
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *ProfileDeleted, entity *Profile) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, ProfileAggregateType); err == nil {
@@ -413,6 +447,10 @@ func (o *ProfileEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(ProfileUpdatedEvent, func() eventhorizon.EventData {
+		return &ProfileUpdated{}
+	})
+
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *ProfileUpdated, entity *Profile) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, ProfileAggregateType); err == nil {
@@ -447,7 +485,8 @@ type ProfileAggregateInitializer struct {
 
 
 func NewProfileAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *ProfileAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, 
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ProfileAggregateInitializer) {
     
     commandHandler := &ProfileCommandHandler{}
     eventHandler := &ProfileEventHandler{}
@@ -476,7 +515,8 @@ type PersonEventhorizonInitializer struct {
 }
 
 func NewPersonEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *PersonEventhorizonInitializer) {
+                commandBus eventhorizon.CommandBus, 
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *PersonEventhorizonInitializer) {
     churchAggregateInitializer := NewChurchAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     graduationAggregateInitializer := NewGraduationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     profileAggregateInitializer := NewProfileAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)

@@ -125,9 +125,10 @@ type BookRouter struct {
 }
 
 func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *BookRouter) {
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *BookRouter) {
     pathPrefix = pathPrefix + "/" + "books"
-    repo := readRepos(string(BookAggregateType))
+    modelFactory := func() interface{} { return NewBook() }
+    repo := readRepos(string(BookAggregateType), modelFactory)
     queryRepository := NewBookQueryRepository(repo, context)
     queryHandler := NewBookHttpQueryHandler(queryRepository)
     commandHandler := NewBookHttpCommandHandler(context, commandBus)
@@ -184,7 +185,7 @@ type LibraryRouter struct {
 }
 
 func NewLibraryRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *LibraryRouter) {
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *LibraryRouter) {
     pathPrefix = pathPrefix + "/" + "library"
     bookRouter := NewBookRouter(pathPrefix, context, commandBus, readRepos)
     ret = &LibraryRouter{

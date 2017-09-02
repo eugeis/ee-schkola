@@ -110,9 +110,10 @@ type AccountRouter struct {
 }
 
 func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *AccountRouter) {
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AccountRouter) {
     pathPrefix = pathPrefix + "/" + "accounts"
-    repo := readRepos(string(AccountAggregateType))
+    modelFactory := func() interface{} { return NewAccount() }
+    repo := readRepos(string(AccountAggregateType), modelFactory)
     queryRepository := NewAccountQueryRepository(repo, context)
     queryHandler := NewAccountHttpQueryHandler(queryRepository)
     commandHandler := NewAccountHttpCommandHandler(context, commandBus)
@@ -160,7 +161,7 @@ type AuthRouter struct {
 }
 
 func NewAuthRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) (ret eventhorizon.ReadWriteRepo) ) (ret *AuthRouter) {
+                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AuthRouter) {
     pathPrefix = pathPrefix + "/" + "auth"
     accountRouter := NewAccountRouter(pathPrefix, context, commandBus, readRepos)
     ret = &AuthRouter{
