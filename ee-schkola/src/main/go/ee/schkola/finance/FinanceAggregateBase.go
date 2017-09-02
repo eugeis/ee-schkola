@@ -8,12 +8,12 @@ import (
     "time"
 )
 type ExpenseCommandHandler struct {
-    CreateHandler func (*CreateExpense, *Expense, eh.AggregateStoreEvent) error
-    DeleteHandler func (*DeleteExpense, *Expense, eh.AggregateStoreEvent) error
-    UpdateHandler func (*UpdateExpense, *Expense, eh.AggregateStoreEvent) error
+    CreateHandler func (*CreateExpense, *Expense, eh.AggregateStoreEvent) err error
+    DeleteHandler func (*DeleteExpense, *Expense, eh.AggregateStoreEvent) err error
+    UpdateHandler func (*UpdateExpense, *Expense, eh.AggregateStoreEvent) err error
 }
 
-func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
+func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateExpenseCommand:
         ret = o.CreateHandler(cmd.(*CreateExpense), entity.(*Expense), store)
@@ -27,7 +27,7 @@ func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
     return
 }
 
-func (o *ExpenseCommandHandler) SetupCommandHandler() (ret error) {
+func (o *ExpenseCommandHandler) SetupCommandHandler() (err error) {
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateExpense, entity *Expense, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateNewId(entity.Id, command.Id, ExpenseAggregateType); ret == nil {store.StoreEvent(ExpenseCreatedEvent, &ExpenseCreated{
@@ -67,12 +67,12 @@ func (o *ExpenseCommandHandler) SetupCommandHandler() (ret error) {
 
 
 type ExpenseEventHandler struct {
-    CreatedHandler func (*ExpenseCreated, *Expense) error
-    DeletedHandler func (*ExpenseDeleted, *Expense) error
-    UpdatedHandler func (*ExpenseUpdated, *Expense) error
+    CreatedHandler func (*ExpenseCreated, *Expense) err error
+    DeletedHandler func (*ExpenseDeleted, *Expense) err error
+    UpdatedHandler func (*ExpenseUpdated, *Expense) err error
 }
 
-func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
+func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
     switch event.EventType() {
     case ExpenseCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*ExpenseCreated), entity.(*Expense))
@@ -86,7 +86,7 @@ func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}
     return
 }
 
-func (o *ExpenseEventHandler) SetupEventHandler() (ret error) {
+func (o *ExpenseEventHandler) SetupEventHandler() (err error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ExpenseCreated, entity *Expense) (ret error) {
             if ret = eh.ValidateNewId(entity.Id, event.Id, ExpenseAggregateType); ret == nil {
@@ -134,7 +134,7 @@ type ExpenseAggregateInitializer struct {
 
 
 func NewExpenseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ExpenseAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *ExpenseAggregateInitializer) {
     
     commandHandler := &ExpenseCommandHandler{}
     eventHandler := &ExpenseEventHandler{}
@@ -153,12 +153,12 @@ func NewExpenseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
 
 
 type ExpensePurposeCommandHandler struct {
-    CreateHandler func (*CreateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) error
-    DeleteHandler func (*DeleteExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) error
-    UpdateHandler func (*UpdateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) error
+    CreateHandler func (*CreateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) err error
+    DeleteHandler func (*DeleteExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) err error
+    UpdateHandler func (*UpdateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) err error
 }
 
-func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
+func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateExpensePurposeCommand:
         ret = o.CreateHandler(cmd.(*CreateExpensePurpose), entity.(*ExpensePurpose), store)
@@ -172,7 +172,7 @@ func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity 
     return
 }
 
-func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (ret error) {
+func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (err error) {
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateNewId(entity.Id, command.Id, ExpensePurposeAggregateType); ret == nil {store.StoreEvent(ExpensePurposeCreatedEvent, &ExpensePurposeCreated{
@@ -208,12 +208,12 @@ func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (ret error) {
 
 
 type ExpensePurposeEventHandler struct {
-    CreatedHandler func (*ExpensePurposeCreated, *ExpensePurpose) error
-    DeletedHandler func (*ExpensePurposeDeleted, *ExpensePurpose) error
-    UpdatedHandler func (*ExpensePurposeUpdated, *ExpensePurpose) error
+    CreatedHandler func (*ExpensePurposeCreated, *ExpensePurpose) err error
+    DeletedHandler func (*ExpensePurposeDeleted, *ExpensePurpose) err error
+    UpdatedHandler func (*ExpensePurposeUpdated, *ExpensePurpose) err error
 }
 
-func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
+func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
     switch event.EventType() {
     case ExpensePurposeCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*ExpensePurposeCreated), entity.(*ExpensePurpose))
@@ -227,7 +227,7 @@ func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity inte
     return
 }
 
-func (o *ExpensePurposeEventHandler) SetupEventHandler() (ret error) {
+func (o *ExpensePurposeEventHandler) SetupEventHandler() (err error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ExpensePurposeCreated, entity *ExpensePurpose) (ret error) {
             if ret = eh.ValidateNewId(entity.Id, event.Id, ExpensePurposeAggregateType); ret == nil {
@@ -271,7 +271,7 @@ type ExpensePurposeAggregateInitializer struct {
 
 
 func NewExpensePurposeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ExpensePurposeAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *ExpensePurposeAggregateInitializer) {
     
     commandHandler := &ExpensePurposeCommandHandler{}
     eventHandler := &ExpensePurposeEventHandler{}
@@ -290,12 +290,12 @@ func NewExpensePurposeAggregateInitializer(eventStore eventhorizon.EventStore, e
 
 
 type FeeCommandHandler struct {
-    CreateHandler func (*CreateFee, *Fee, eh.AggregateStoreEvent) error
-    DeleteHandler func (*DeleteFee, *Fee, eh.AggregateStoreEvent) error
-    UpdateHandler func (*UpdateFee, *Fee, eh.AggregateStoreEvent) error
+    CreateHandler func (*CreateFee, *Fee, eh.AggregateStoreEvent) err error
+    DeleteHandler func (*DeleteFee, *Fee, eh.AggregateStoreEvent) err error
+    UpdateHandler func (*UpdateFee, *Fee, eh.AggregateStoreEvent) err error
 }
 
-func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
+func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateFeeCommand:
         ret = o.CreateHandler(cmd.(*CreateFee), entity.(*Fee), store)
@@ -309,7 +309,7 @@ func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}
     return
 }
 
-func (o *FeeCommandHandler) SetupCommandHandler() (ret error) {
+func (o *FeeCommandHandler) SetupCommandHandler() (err error) {
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateFee, entity *Fee, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateNewId(entity.Id, command.Id, FeeAggregateType); ret == nil {store.StoreEvent(FeeCreatedEvent, &FeeCreated{
@@ -349,12 +349,12 @@ func (o *FeeCommandHandler) SetupCommandHandler() (ret error) {
 
 
 type FeeEventHandler struct {
-    CreatedHandler func (*FeeCreated, *Fee) error
-    DeletedHandler func (*FeeDeleted, *Fee) error
-    UpdatedHandler func (*FeeUpdated, *Fee) error
+    CreatedHandler func (*FeeCreated, *Fee) err error
+    DeletedHandler func (*FeeDeleted, *Fee) err error
+    UpdatedHandler func (*FeeUpdated, *Fee) err error
 }
 
-func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
+func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
     switch event.EventType() {
     case FeeCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*FeeCreated), entity.(*Fee))
@@ -368,7 +368,7 @@ func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (r
     return
 }
 
-func (o *FeeEventHandler) SetupEventHandler() (ret error) {
+func (o *FeeEventHandler) SetupEventHandler() (err error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *FeeCreated, entity *Fee) (ret error) {
             if ret = eh.ValidateNewId(entity.Id, event.Id, FeeAggregateType); ret == nil {
@@ -416,7 +416,7 @@ type FeeAggregateInitializer struct {
 
 
 func NewFeeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *FeeAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *FeeAggregateInitializer) {
     
     commandHandler := &FeeCommandHandler{}
     eventHandler := &FeeEventHandler{}
@@ -435,12 +435,12 @@ func NewFeeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eve
 
 
 type FeeKindCommandHandler struct {
-    CreateHandler func (*CreateFeeKind, *FeeKind, eh.AggregateStoreEvent) error
-    DeleteHandler func (*DeleteFeeKind, *FeeKind, eh.AggregateStoreEvent) error
-    UpdateHandler func (*UpdateFeeKind, *FeeKind, eh.AggregateStoreEvent) error
+    CreateHandler func (*CreateFeeKind, *FeeKind, eh.AggregateStoreEvent) err error
+    DeleteHandler func (*DeleteFeeKind, *FeeKind, eh.AggregateStoreEvent) err error
+    UpdateHandler func (*UpdateFeeKind, *FeeKind, eh.AggregateStoreEvent) err error
 }
 
-func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
+func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateFeeKindCommand:
         ret = o.CreateHandler(cmd.(*CreateFeeKind), entity.(*FeeKind), store)
@@ -454,7 +454,7 @@ func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
     return
 }
 
-func (o *FeeKindCommandHandler) SetupCommandHandler() (ret error) {
+func (o *FeeKindCommandHandler) SetupCommandHandler() (err error) {
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (ret error) {
             if ret = eh.ValidateNewId(entity.Id, command.Id, FeeKindAggregateType); ret == nil {store.StoreEvent(FeeKindCreatedEvent, &FeeKindCreated{
@@ -492,12 +492,12 @@ func (o *FeeKindCommandHandler) SetupCommandHandler() (ret error) {
 
 
 type FeeKindEventHandler struct {
-    CreatedHandler func (*FeeKindCreated, *FeeKind) error
-    DeletedHandler func (*FeeKindDeleted, *FeeKind) error
-    UpdatedHandler func (*FeeKindUpdated, *FeeKind) error
+    CreatedHandler func (*FeeKindCreated, *FeeKind) err error
+    DeletedHandler func (*FeeKindDeleted, *FeeKind) err error
+    UpdatedHandler func (*FeeKindUpdated, *FeeKind) err error
 }
 
-func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
+func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
     switch event.EventType() {
     case FeeKindCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*FeeKindCreated), entity.(*FeeKind))
@@ -511,7 +511,7 @@ func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}
     return
 }
 
-func (o *FeeKindEventHandler) SetupEventHandler() (ret error) {
+func (o *FeeKindEventHandler) SetupEventHandler() (err error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *FeeKindCreated, entity *FeeKind) (ret error) {
             if ret = eh.ValidateNewId(entity.Id, event.Id, FeeKindAggregateType); ret == nil {
@@ -557,7 +557,7 @@ type FeeKindAggregateInitializer struct {
 
 
 func NewFeeKindAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *FeeKindAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *FeeKindAggregateInitializer) {
     
     commandHandler := &FeeKindCommandHandler{}
     eventHandler := &FeeKindEventHandler{}
@@ -587,7 +587,7 @@ type FinanceEventhorizonInitializer struct {
 }
 
 func NewFinanceEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *FinanceEventhorizonInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *FinanceEventhorizonInitializer) {
     expenseAggregateInitializer := NewExpenseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     expensePurposeAggregateInitializer := NewExpensePurposeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     feeAggregateInitializer := NewFeeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
@@ -605,7 +605,7 @@ func NewFinanceEventhorizonInitializer(eventStore eventhorizon.EventStore, event
     return
 }
 
-func (o *FinanceEventhorizonInitializer) Setup() (ret error) {
+func (o *FinanceEventhorizonInitializer) Setup() (err error) {
     
     if ret = o.ExpenseAggregateInitializer.Setup(); ret != nil {
         return

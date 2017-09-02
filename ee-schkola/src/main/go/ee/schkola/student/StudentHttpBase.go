@@ -110,7 +110,7 @@ type AttendanceRouter struct {
 }
 
 func NewAttendanceRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AttendanceRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *AttendanceRouter) {
     pathPrefix = pathPrefix + "/" + "attendances"
     repo := readRepos(string(AttendanceAggregateType))
     queryRepository := NewAttendanceQueryRepository(repo, context)
@@ -124,7 +124,7 @@ func NewAttendanceRouter(pathPrefix string, context context.Context, commandBus 
     return
 }
 
-func (o *AttendanceRouter) Setup(router *mux.Router) (ret error) {
+func (o *AttendanceRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountAttendanceById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -243,7 +243,7 @@ type CourseRouter struct {
 }
 
 func NewCourseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *CourseRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *CourseRouter) {
     pathPrefix = pathPrefix + "/" + "courses"
     repo := readRepos(string(CourseAggregateType))
     queryRepository := NewCourseQueryRepository(repo, context)
@@ -257,7 +257,7 @@ func NewCourseRouter(pathPrefix string, context context.Context, commandBus even
     return
 }
 
-func (o *CourseRouter) Setup(router *mux.Router) (ret error) {
+func (o *CourseRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountCourseById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -374,7 +374,7 @@ type GradeRouter struct {
 }
 
 func NewGradeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *GradeRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *GradeRouter) {
     pathPrefix = pathPrefix + "/" + "grades"
     repo := readRepos(string(GradeAggregateType))
     queryRepository := NewGradeQueryRepository(repo, context)
@@ -388,7 +388,7 @@ func NewGradeRouter(pathPrefix string, context context.Context, commandBus event
     return
 }
 
-func (o *GradeRouter) Setup(router *mux.Router) (ret error) {
+func (o *GradeRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountGradeById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -505,7 +505,7 @@ type GroupRouter struct {
 }
 
 func NewGroupRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *GroupRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *GroupRouter) {
     pathPrefix = pathPrefix + "/" + "groups"
     repo := readRepos(string(GroupAggregateType))
     queryRepository := NewGroupQueryRepository(repo, context)
@@ -519,7 +519,7 @@ func NewGroupRouter(pathPrefix string, context context.Context, commandBus event
     return
 }
 
-func (o *GroupRouter) Setup(router *mux.Router) (ret error) {
+func (o *GroupRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountGroupById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -636,7 +636,7 @@ type SchoolApplicationRouter struct {
 }
 
 func NewSchoolApplicationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *SchoolApplicationRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *SchoolApplicationRouter) {
     pathPrefix = pathPrefix + "/" + "schoolApplications"
     repo := readRepos(string(SchoolApplicationAggregateType))
     queryRepository := NewSchoolApplicationQueryRepository(repo, context)
@@ -650,7 +650,7 @@ func NewSchoolApplicationRouter(pathPrefix string, context context.Context, comm
     return
 }
 
-func (o *SchoolApplicationRouter) Setup(router *mux.Router) (ret error) {
+func (o *SchoolApplicationRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountSchoolApplicationById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -767,7 +767,7 @@ type SchoolYearRouter struct {
 }
 
 func NewSchoolYearRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *SchoolYearRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *SchoolYearRouter) {
     pathPrefix = pathPrefix + "/" + "schoolYears"
     repo := readRepos(string(SchoolYearAggregateType))
     queryRepository := NewSchoolYearQueryRepository(repo, context)
@@ -781,7 +781,7 @@ func NewSchoolYearRouter(pathPrefix string, context context.Context, commandBus 
     return
 }
 
-func (o *SchoolYearRouter) Setup(router *mux.Router) (ret error) {
+func (o *SchoolYearRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountSchoolYearById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -820,7 +820,7 @@ type StudentRouter struct {
 }
 
 func NewStudentRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *StudentRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *StudentRouter) {
     pathPrefix = pathPrefix + "/" + "student"
     attendanceRouter := NewAttendanceRouter(pathPrefix, context, commandBus, readRepos)
     courseRouter := NewCourseRouter(pathPrefix, context, commandBus, readRepos)
@@ -840,7 +840,7 @@ func NewStudentRouter(pathPrefix string, context context.Context, commandBus eve
     return
 }
 
-func (o *StudentRouter) Setup(router *mux.Router) (ret error) {
+func (o *StudentRouter) Setup(router *mux.Router) (err error) {
     if ret = o.AttendanceRouter.Setup(router); ret != nil {
         return
     }

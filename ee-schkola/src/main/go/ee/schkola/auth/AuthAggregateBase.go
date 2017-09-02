@@ -8,15 +8,15 @@ import (
     "time"
 )
 type AccountCommandHandler struct {
-    EnableHandler func (*EnableAccount, *Account, eh.AggregateStoreEvent) error
-    DisableHandler func (*DisableAccount, *Account, eh.AggregateStoreEvent) error
-    RegisterHandler func (*RegisterAccount, *Account, eh.AggregateStoreEvent) error
-    CreateHandler func (*CreateAccount, *Account, eh.AggregateStoreEvent) error
-    DeleteHandler func (*DeleteAccount, *Account, eh.AggregateStoreEvent) error
-    UpdateHandler func (*UpdateAccount, *Account, eh.AggregateStoreEvent) error
+    EnableHandler func (*EnableAccount, *Account, eh.AggregateStoreEvent) err error
+    DisableHandler func (*DisableAccount, *Account, eh.AggregateStoreEvent) err error
+    RegisterHandler func (*RegisterAccount, *Account, eh.AggregateStoreEvent) err error
+    CreateHandler func (*CreateAccount, *Account, eh.AggregateStoreEvent) err error
+    DeleteHandler func (*DeleteAccount, *Account, eh.AggregateStoreEvent) err error
+    UpdateHandler func (*UpdateAccount, *Account, eh.AggregateStoreEvent) err error
 }
 
-func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (ret error) {
+func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case EnableAccountCommand:
         ret = o.EnableHandler(cmd.(*EnableAccount), entity.(*Account), store)
@@ -36,7 +36,7 @@ func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
     return
 }
 
-func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
+func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
     if o.EnableHandler == nil {
         o.EnableHandler = func(command *EnableAccount, entity *Account, store eh.AggregateStoreEvent) (ret error) {ret = eh.CommandHandlerNotImplemented(EnableAccountCommand)
             return
@@ -95,12 +95,12 @@ func (o *AccountCommandHandler) SetupCommandHandler() (ret error) {
 
 
 type AccountEventHandler struct {
-    CreatedHandler func (*AccountCreated, *Account) error
-    DeletedHandler func (*AccountDeleted, *Account) error
-    UpdatedHandler func (*AccountUpdated, *Account) error
+    CreatedHandler func (*AccountCreated, *Account) err error
+    DeletedHandler func (*AccountDeleted, *Account) err error
+    UpdatedHandler func (*AccountUpdated, *Account) err error
 }
 
-func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}) (ret error) {
+func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
     switch event.EventType() {
     case AccountCreatedEvent:
         ret = o.CreatedHandler(event.Data().(*AccountCreated), entity.(*Account))
@@ -114,7 +114,7 @@ func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}
     return
 }
 
-func (o *AccountEventHandler) SetupEventHandler() (ret error) {
+func (o *AccountEventHandler) SetupEventHandler() (err error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AccountCreated, entity *Account) (ret error) {
             if ret = eh.ValidateNewId(entity.Id, event.Id, AccountAggregateType); ret == nil {
@@ -166,7 +166,7 @@ type AccountAggregateInitializer struct {
 
 
 func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AccountAggregateInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *AccountAggregateInitializer) {
     
     commandHandler := &AccountCommandHandler{}
     eventHandler := &AccountEventHandler{}
@@ -193,7 +193,7 @@ type AuthEventhorizonInitializer struct {
 }
 
 func NewAuthEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AuthEventhorizonInitializer) {
+                commandBus eventhorizon.CommandBus, readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *AuthEventhorizonInitializer) {
     accountAggregateInitializer := NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     ret = &AuthEventhorizonInitializer{
         eventStore: eventStore,
@@ -205,7 +205,7 @@ func NewAuthEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus
     return
 }
 
-func (o *AuthEventhorizonInitializer) Setup() (ret error) {
+func (o *AuthEventhorizonInitializer) Setup() (err error) {
     
     if ret = o.AccountAggregateInitializer.Setup(); ret != nil {
         return

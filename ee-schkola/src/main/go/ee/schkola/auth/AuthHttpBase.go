@@ -110,7 +110,7 @@ type AccountRouter struct {
 }
 
 func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AccountRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *AccountRouter) {
     pathPrefix = pathPrefix + "/" + "accounts"
     repo := readRepos(string(AccountAggregateType))
     queryRepository := NewAccountQueryRepository(repo, context)
@@ -124,7 +124,7 @@ func NewAccountRouter(pathPrefix string, context context.Context, commandBus eve
     return
 }
 
-func (o *AccountRouter) Setup(router *mux.Router) (ret error) {
+func (o *AccountRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountAccountById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -160,7 +160,7 @@ type AuthRouter struct {
 }
 
 func NewAuthRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *AuthRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *AuthRouter) {
     pathPrefix = pathPrefix + "/" + "auth"
     accountRouter := NewAccountRouter(pathPrefix, context, commandBus, readRepos)
     ret = &AuthRouter{
@@ -170,7 +170,7 @@ func NewAuthRouter(pathPrefix string, context context.Context, commandBus eventh
     return
 }
 
-func (o *AuthRouter) Setup(router *mux.Router) (ret error) {
+func (o *AuthRouter) Setup(router *mux.Router) (err error) {
     if ret = o.AccountRouter.Setup(router); ret != nil {
         return
     }

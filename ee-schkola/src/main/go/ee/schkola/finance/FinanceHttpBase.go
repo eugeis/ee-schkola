@@ -98,7 +98,7 @@ type ExpenseRouter struct {
 }
 
 func NewExpenseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ExpenseRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *ExpenseRouter) {
     pathPrefix = pathPrefix + "/" + "expenses"
     repo := readRepos(string(ExpenseAggregateType))
     queryRepository := NewExpenseQueryRepository(repo, context)
@@ -112,7 +112,7 @@ func NewExpenseRouter(pathPrefix string, context context.Context, commandBus eve
     return
 }
 
-func (o *ExpenseRouter) Setup(router *mux.Router) (ret error) {
+func (o *ExpenseRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountExpenseById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -229,7 +229,7 @@ type ExpensePurposeRouter struct {
 }
 
 func NewExpensePurposeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *ExpensePurposeRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *ExpensePurposeRouter) {
     pathPrefix = pathPrefix + "/" + "expensePurposes"
     repo := readRepos(string(ExpensePurposeAggregateType))
     queryRepository := NewExpensePurposeQueryRepository(repo, context)
@@ -243,7 +243,7 @@ func NewExpensePurposeRouter(pathPrefix string, context context.Context, command
     return
 }
 
-func (o *ExpensePurposeRouter) Setup(router *mux.Router) (ret error) {
+func (o *ExpensePurposeRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountExpensePurposeById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -360,7 +360,7 @@ type FeeRouter struct {
 }
 
 func NewFeeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *FeeRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *FeeRouter) {
     pathPrefix = pathPrefix + "/" + "fees"
     repo := readRepos(string(FeeAggregateType))
     queryRepository := NewFeeQueryRepository(repo, context)
@@ -374,7 +374,7 @@ func NewFeeRouter(pathPrefix string, context context.Context, commandBus eventho
     return
 }
 
-func (o *FeeRouter) Setup(router *mux.Router) (ret error) {
+func (o *FeeRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountFeeById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -491,7 +491,7 @@ type FeeKindRouter struct {
 }
 
 func NewFeeKindRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *FeeKindRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *FeeKindRouter) {
     pathPrefix = pathPrefix + "/" + "feeKinds"
     repo := readRepos(string(FeeKindAggregateType))
     queryRepository := NewFeeKindQueryRepository(repo, context)
@@ -505,7 +505,7 @@ func NewFeeKindRouter(pathPrefix string, context context.Context, commandBus eve
     return
 }
 
-func (o *FeeKindRouter) Setup(router *mux.Router) (ret error) {
+func (o *FeeKindRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountFeeKindById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -542,7 +542,7 @@ type FinanceRouter struct {
 }
 
 func NewFinanceRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *FinanceRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *FinanceRouter) {
     pathPrefix = pathPrefix + "/" + "finance"
     expenseRouter := NewExpenseRouter(pathPrefix, context, commandBus, readRepos)
     expensePurposeRouter := NewExpensePurposeRouter(pathPrefix, context, commandBus, readRepos)
@@ -558,7 +558,7 @@ func NewFinanceRouter(pathPrefix string, context context.Context, commandBus eve
     return
 }
 
-func (o *FinanceRouter) Setup(router *mux.Router) (ret error) {
+func (o *FinanceRouter) Setup(router *mux.Router) (err error) {
     if ret = o.ExpenseRouter.Setup(router); ret != nil {
         return
     }

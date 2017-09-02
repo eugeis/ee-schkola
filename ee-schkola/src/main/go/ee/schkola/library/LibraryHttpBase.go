@@ -125,7 +125,7 @@ type BookRouter struct {
 }
 
 func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *BookRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *BookRouter) {
     pathPrefix = pathPrefix + "/" + "books"
     repo := readRepos(string(BookAggregateType))
     queryRepository := NewBookQueryRepository(repo, context)
@@ -139,7 +139,7 @@ func NewBookRouter(pathPrefix string, context context.Context, commandBus eventh
     return
 }
 
-func (o *BookRouter) Setup(router *mux.Router) (ret error) {
+func (o *BookRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountBookById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -184,7 +184,7 @@ type LibraryRouter struct {
 }
 
 func NewLibraryRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string) eventhorizon.ReadWriteRepo) (ret *LibraryRouter) {
+                readRepos func (string) ret eventhorizon.ReadWriteRepo, err error) (ret *LibraryRouter) {
     pathPrefix = pathPrefix + "/" + "library"
     bookRouter := NewBookRouter(pathPrefix, context, commandBus, readRepos)
     ret = &LibraryRouter{
@@ -194,7 +194,7 @@ func NewLibraryRouter(pathPrefix string, context context.Context, commandBus eve
     return
 }
 
-func (o *LibraryRouter) Setup(router *mux.Router) (ret error) {
+func (o *LibraryRouter) Setup(router *mux.Router) (err error) {
     if ret = o.BookRouter.Setup(router); ret != nil {
         return
     }
