@@ -1,8 +1,8 @@
 package finance
 
 import (
-    "ee/schkola"
     "ee/schkola/person"
+    "github.com/looplab/eventhorizon"
     "time"
 )
 type Expense struct {
@@ -10,14 +10,11 @@ type Expense struct {
     Amount float64
     Profile *person.Profile
     Date *time.Time
-    *schkola.SchkolaBase
+    Id eventhorizon.UUID
 }
 
 func NewExpense() (ret *Expense) {
-    schkolaBase := schkola.NewSchkolaBase()
-    ret = &Expense{
-        SchkolaBase: schkolaBase,
-    }
+    ret = &Expense{}
     return
 }
 
@@ -25,14 +22,11 @@ func NewExpense() (ret *Expense) {
 type ExpensePurpose struct {
     Name string
     Description string
-    *schkola.SchkolaBase
+    Id eventhorizon.UUID
 }
 
 func NewExpensePurpose() (ret *ExpensePurpose) {
-    schkolaBase := schkola.NewSchkolaBase()
-    ret = &ExpensePurpose{
-        SchkolaBase: schkolaBase,
-    }
+    ret = &ExpensePurpose{}
     return
 }
 
@@ -42,14 +36,11 @@ type Fee struct {
     Amount float64
     Kind *FeeKind
     Date *time.Time
-    *schkola.SchkolaBase
+    Id eventhorizon.UUID
 }
 
 func NewFee() (ret *Fee) {
-    schkolaBase := schkola.NewSchkolaBase()
-    ret = &Fee{
-        SchkolaBase: schkolaBase,
-    }
+    ret = &Fee{}
     return
 }
 
@@ -58,14 +49,11 @@ type FeeKind struct {
     Name string
     Amount float64
     Description string
-    *schkola.SchkolaBase
+    Id eventhorizon.UUID
 }
 
 func NewFeeKind() (ret *FeeKind) {
-    schkolaBase := schkola.NewSchkolaBase()
-    ret = &FeeKind{
-        SchkolaBase: schkolaBase,
-    }
+    ret = &FeeKind{}
     return
 }
 

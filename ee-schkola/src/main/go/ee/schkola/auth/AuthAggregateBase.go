@@ -38,17 +38,20 @@ func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 
 func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
     if o.EnableHandler == nil {
-        o.EnableHandler = func(command *EnableAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {ret = eh.CommandHandlerNotImplemented(EnableAccountCommand)
+        o.EnableHandler = func(command *EnableAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
+            err = eh.CommandHandlerNotImplemented(EnableAccountCommand)
             return
         }
     }
     if o.DisableHandler == nil {
-        o.DisableHandler = func(command *DisableAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {ret = eh.CommandHandlerNotImplemented(DisableAccountCommand)
+        o.DisableHandler = func(command *DisableAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
+            err = eh.CommandHandlerNotImplemented(DisableAccountCommand)
             return
         }
     }
     if o.RegisterHandler == nil {
-        o.RegisterHandler = func(command *RegisterAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {ret = eh.CommandHandlerNotImplemented(RegisterAccountCommand)
+        o.RegisterHandler = func(command *RegisterAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
+            err = eh.CommandHandlerNotImplemented(RegisterAccountCommand)
             return
         }
     }
@@ -56,13 +59,13 @@ func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
         o.CreateHandler = func(command *CreateAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
             if err = eh.ValidateNewId(entity.Id, command.Id, AccountAggregateType); err == nil {
                 store.StoreEvent(AccountCreatedEvent, &AccountCreated{
-                    Id: command.Id,
                     Username: command.Username,
                     Password: command.Password,
                     Email: command.Email,
                     Disabled: command.Disabled,
                     LastLoginAt: command.LastLoginAt,
-                    Profile: command.Profile,}, time.Now())
+                    Profile: command.Profile,
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -80,13 +83,13 @@ func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
         o.UpdateHandler = func(command *UpdateAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
                 store.StoreEvent(AccountUpdatedEvent, &AccountUpdated{
-                    Id: command.Id,
                     Username: command.Username,
                     Password: command.Password,
                     Email: command.Email,
                     Disabled: command.Disabled,
                     LastLoginAt: command.LastLoginAt,
-                    Profile: command.Profile,}, time.Now())
+                    Profile: command.Profile,
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -123,13 +126,13 @@ func (o *AccountEventHandler) SetupEventHandler() (err error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AccountCreated, entity *Account) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, AccountAggregateType); err == nil {
-                entity.Id = event.Id
                 entity.Username = event.Username
                 entity.Password = event.Password
                 entity.Email = event.Email
                 entity.Disabled = event.Disabled
                 entity.LastLoginAt = event.LastLoginAt
                 entity.Profile = event.Profile
+                entity.Id = event.Id
             }
             return
         }

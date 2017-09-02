@@ -1,9 +1,9 @@
 package library
 
 import (
-    "ee/schkola"
     "ee/schkola/person"
     "github.com/eugeis/gee/eh"
+    "github.com/looplab/eventhorizon"
     "time"
 )
 type Book struct {
@@ -15,19 +15,11 @@ type Book struct {
     Category string
     Author *person.PersonName
     Location *Location
-    *schkola.SchkolaBase
+    Id eventhorizon.UUID
 }
 
 func NewBook() (ret *Book) {
-    schkolaBase := schkola.NewSchkolaBase()
-    ret = &Book{
-        SchkolaBase: schkolaBase,
-    }
-    return
-}
-
-func (o *Book) FindByAuthor(author *person.PersonName) (ret *Book, err error) {
-    err = eh.QueryNotImplemented("findBookByAuthor")
+    ret = &Book{}
     return
 }
 

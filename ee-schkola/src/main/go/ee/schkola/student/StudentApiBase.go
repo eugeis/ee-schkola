@@ -1,9 +1,9 @@
 package student
 
 import (
-    "ee/schkola"
     "ee/schkola/person"
     "github.com/eugeis/gee/enum"
+    "github.com/looplab/eventhorizon"
     "time"
 )
 type Attendance struct {
@@ -12,17 +12,12 @@ type Attendance struct {
     Course *Course
     Hours int
     State *AttendanceState
-    StateTrace *schkola.Trace
     Token string
-    TokenTrace *schkola.Trace
-    *schkola.SchkolaBase
+    Id eventhorizon.UUID
 }
 
 func NewAttendance() (ret *Attendance) {
-    schkolaBase := schkola.NewSchkolaBase()
-    ret = &Attendance{
-        SchkolaBase: schkolaBase,
-    }
+    ret = &Attendance{}
     return
 }
 
@@ -35,14 +30,11 @@ type Course struct {
     SchoolYear *SchoolYear
     Fee float64
     Description string
-    *schkola.SchkolaBase
+    Id eventhorizon.UUID
 }
 
 func NewCourse() (ret *Course) {
-    schkolaBase := schkola.NewSchkolaBase()
-    ret = &Course{
-        SchkolaBase: schkolaBase,
-    }
+    ret = &Course{}
     return
 }
 
@@ -51,16 +43,12 @@ type Grade struct {
     Student *person.Profile
     Course *Course
     Grade float64
-    GradeTrace *schkola.Trace
     Comment string
-    *schkola.SchkolaBase
+    Id eventhorizon.UUID
 }
 
 func NewGrade() (ret *Grade) {
-    schkolaBase := schkola.NewSchkolaBase()
-    ret = &Grade{
-        SchkolaBase: schkolaBase,
-    }
+    ret = &Grade{}
     return
 }
 
@@ -72,14 +60,11 @@ type Group struct {
     Representative *person.Profile
     Students []*person.Profile
     Courses []*Course
-    *schkola.SchkolaBase
+    Id eventhorizon.UUID
 }
 
 func NewGroup() (ret *Group) {
-    schkolaBase := schkola.NewSchkolaBase()
-    ret = &Group{
-        SchkolaBase: schkolaBase,
-    }
+    ret = &Group{}
     return
 }
 
@@ -101,14 +86,11 @@ type SchoolApplication struct {
     ChurchContact *person.Contact
     SchoolYear *SchoolYear
     Group string
-    *schkola.SchkolaBase
+    Id eventhorizon.UUID
 }
 
 func NewSchoolApplication() (ret *SchoolApplication) {
-    schkolaBase := schkola.NewSchkolaBase()
-    ret = &SchoolApplication{
-        SchkolaBase: schkolaBase,
-    }
+    ret = &SchoolApplication{}
     return
 }
 
@@ -118,14 +100,11 @@ type SchoolYear struct {
     Start *time.Time
     End *time.Time
     Dates []*time.Time
-    *schkola.SchkolaBase
+    Id eventhorizon.UUID
 }
 
 func NewSchoolYear() (ret *SchoolYear) {
-    schkolaBase := schkola.NewSchkolaBase()
-    ret = &SchoolYear{
-        SchkolaBase: schkolaBase,
-    }
+    ret = &SchoolYear{}
     return
 }
 

@@ -2,7 +2,6 @@ package library
 
 import (
     "context"
-    "ee/schkola/person"
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
 )
@@ -21,11 +20,6 @@ func NewBookQueryRepository(repo eventhorizon.ReadRepo, context context.Context)
 
 func (o *BookQueryRepository) FindByTitle(title string) (ret *Book, err error) {
     err = eh.QueryNotImplemented("findBookByTitle")
-    return
-}
-
-func (o *BookQueryRepository) FindByAuthor(author *person.PersonName) (ret *Book, err error) {
-    err = eh.QueryNotImplemented("findBookByAuthor")
     return
 }
 

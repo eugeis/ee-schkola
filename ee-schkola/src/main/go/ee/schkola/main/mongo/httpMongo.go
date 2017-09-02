@@ -12,10 +12,13 @@ import (
 	eventpublisher "github.com/looplab/eventhorizon/publisher/local"
 	repo "github.com/looplab/eventhorizon/repo/mongodb"
 	"context"
-	"encoding/json"
 	"github.com/eugeis/gee/eh"
 	"fmt"
 	"github.com/eugeis/gee/lg"
+	"ee/schkola/student"
+	"ee/schkola/library"
+	"ee/schkola/finance"
+	"ee/schkola/auth"
 )
 
 var log = lg.NewLogger("Schkola ")
@@ -54,35 +57,46 @@ func main() {
 		}
 		return
 	}
-	personEngine := person.NewPersonEventhorizonInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
 
+	authEngine := auth.NewAuthEventhorizonInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+	authEngine.Setup()
+
+	financeEngine := finance.NewFinanceEventhorizonInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+	financeEngine.Setup()
+
+	libraryEngine := library.NewLibraryEventhorizonInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+	libraryEngine.Setup()
+
+	personEngine := person.NewPersonEventhorizonInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
 	personEngine.Setup()
+
+	studentEngine := student.NewStudentEventhorizonInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+	studentEngine.Setup()
 
 	router := mux.NewRouter().StrictSlash(true)
 
 	context := eventhorizon.NewContextWithNamespace(context.Background(), "simple")
 
+	authRouter := auth.NewAuthRouter("", context, commandBus, readRepos)
+	authRouter.Setup(router)
+
+	financeRouter := finance.NewFinanceRouter("", context, commandBus, readRepos)
+	financeRouter.Setup(router)
+
+	libraryRouter := library.NewLibraryRouter("", context, commandBus, readRepos)
+	libraryRouter.Setup(router)
+
 	personRouter := person.NewPersonRouter("", context, commandBus, readRepos)
 	personRouter.Setup(router)
 
-	//router.Methods(net.GET).Path("/").Name("Index").HandlerFunc(Index)
+	studentRouter := student.NewStudentRouter("", context, commandBus, readRepos)
+	studentRouter.Setup(router)
 
-	router.Methods(net.GET).Path("/").Name("Index").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if ret, err := personEngine.ChurchAggregateInitializer.ProjectorRepo.FindAll(context); err == nil {
-			var js []byte
-			if js, err = json.Marshal(ret); err == nil {
-				w.Header().Set("Content-Type", "application/json")
-				w.Write(js)
-			} else {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-			}
-		}
-		return
-	})
+	router.Methods(net.GET).Path("/").Name("Index").HandlerFunc(Index)
 
 	log.Err("%v", http.ListenAndServe("127.0.0.1:8080", router))
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World!")
+	fmt.Fprintf(w, "Schkola!")
 }

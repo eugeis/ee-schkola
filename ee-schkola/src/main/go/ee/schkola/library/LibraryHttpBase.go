@@ -29,13 +29,6 @@ func (o *BookHttpQueryHandler) FindByTitle(w http.ResponseWriter, r *http.Reques
     o.HandleResult(ret, err, "FindByBookTitle", w, r)
 }
 
-func (o *BookHttpQueryHandler) FindByAuthor(w http.ResponseWriter, r *http.Request) {
-    vars := mux.Vars(r)
-    author := vars["author"]
-    ret, err := o.QueryRepository.FindByAuthor(author)
-    o.HandleResult(ret, err, "FindByBookAuthor", w, r)
-}
-
 func (o *BookHttpQueryHandler) FindByPattern(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     pattern := vars["pattern"]
@@ -156,9 +149,6 @@ func (o *BookRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).
         Name("FindBookByTitle").HandlerFunc(o.QueryHandler.FindByTitle).
     Queries("title", "{title}")
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
-        Name("FindBookByAuthor").HandlerFunc(o.QueryHandler.FindByAuthor).
-    Queries("author", "{author}")
     router.Methods(net.GET).PathPrefix(o.PathPrefix).
         Name("FindBookByPattern").HandlerFunc(o.QueryHandler.FindByPattern).
     Queries("pattern", "{pattern}")

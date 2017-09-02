@@ -5,21 +5,8 @@ import ee.design.*
 
 
 object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
-    object Shared : Module() {
-        object SchkolaBase : Entity({ virtual(true) }) {
-            val id = buildId()
-            val trace = prop { type(Trace).meta(true).anonymous(true) }
-        }
-
-        object Trace : Basic() {
-            val createdAt = propDT().replaceable(true)
-            val updatedAt = propDT().replaceable(true)
-            val modifiedBy = propS().replaceable(true)
-        }
-    }
-
     object Auth : Module() {
-        object Account : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object Account : Entity() {
             val username = propS()
             val password = propS()
             val email = propS()
@@ -35,7 +22,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
     object Person : Module() {
 
-        object Profile : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object Profile : Entity() {
             val gender = prop(Gender)
             val name = prop(PersonName)
             val birthName = propS()
@@ -53,7 +40,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val findByPhone = findBy(contact.sub { phone })
         }
 
-        object Church : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object Church : Entity() {
             val name = propS()
             val address = prop(Address)
             val pastor = prop(PersonName)
@@ -121,33 +108,33 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val College = lit { doc("Hochschule") }
         }
 
-        object Graduation : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object Graduation : Entity() {
             val name = propS()
             val level = prop(GraduationLevel)
         }
     }
 
     object Finance : Module() {
-        object Expense : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object Expense : Entity() {
             val purpose = prop(ExpensePurpose)
             val amount = propF()
             val profile = prop(Person.Profile)
             val date = propDT()
         }
 
-        object ExpensePurpose : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object ExpensePurpose : Entity() {
             val name = propS()
             val description = propS()
         }
 
-        object Fee : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object Fee : Entity() {
             val student = prop(Person.Profile)
             val amount = propF { doc("Negative values are charge a fee and positive values are paying of it.") }
             val kind = prop(FeeKind)
             val date = propDT { doc("Deadline of a fee or paying date of it.") }
         }
 
-        object FeeKind : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object FeeKind : Entity() {
             val name = propS()
             val amount = propF()
             val description = propS()
@@ -156,7 +143,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
     }
 
     object Student : Module() {
-        object SchoolApplication : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object SchoolApplication : Entity() {
             val profile = prop(Person.Profile)
             val recommendationOf = prop(Person.PersonName)
             val churchContactPerson = prop(Person.PersonName)
@@ -165,14 +152,14 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val group = propS()
         }
 
-        object SchoolYear : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object SchoolYear : Entity() {
             val name = propS()
             val start = propDT()
             val end = propDT()
             val dates = prop(n.List.GT(n.Date))
         }
 
-        object Course : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object Course : Entity() {
             val name = propS()
             val begin = propDT()
             val end = propDT()
@@ -194,7 +181,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val Present = lit()
         }
 
-        object Group : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object Group : Entity() {
             val name = propS { nullable(false) }
             val category = prop(GroupCategory)
             val schoolYear = prop(SchoolYear)
@@ -203,23 +190,20 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val courses = prop(n.List.GT(Course))
         }
 
-        object Grade : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object Grade : Entity() {
             val student = prop { type(Person.Profile).nullable(false) }
             val course = prop { type(Course).nullable(false) }
             val grade = propF()
-            val gradeTrace = prop(Shared.Trace)
             val comment = propS()
         }
 
-        object Attendance : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object Attendance : Entity() {
             val student = prop { type(Person.Profile).nullable(false) }
             val date = propDT { nullable(false) }
             val course = prop { type(Course).nullable(false) }
             val hours = propI()
             val state = prop(AttendanceState)
-            val stateTrace = prop(Shared.Trace)
             val token = propS()
-            val tokenTrace = prop(Shared.Trace)
 
             val register = createBy(student, course)
             val confirm = command()
@@ -233,7 +217,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val fold = propS()
         }
 
-        object Book : Entity({ superUnit(Shared.SchkolaBase) }) {
+        object Book : Entity() {
             val title = propS { nullable(false) }
             val description = prop(n.Text)
             val language = propS()
@@ -244,7 +228,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val location = prop(Location)
 
             val findByTitle = findBy(title)
-            val findByAuthor = findBy(author)
+            //val findByAuthor = findBy(author)
             val findByPattern = findBy(p("pattern"))
 
             val LocationChanged = updated(location)

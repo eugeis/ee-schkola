@@ -28,7 +28,6 @@ func NewLocationChanged() (ret *LocationChangedBook) {
 
 
 type BookCreated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Title string`eh:"optional"`
     Description string`eh:"optional"`
     Language string`eh:"optional"`
@@ -37,6 +36,7 @@ type BookCreated struct {
     Category string`eh:"optional"`
     Author *person.PersonName`eh:"optional"`
     Location *Location`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 
@@ -46,7 +46,6 @@ type BookDeleted struct {
 
 
 type BookUpdated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Title string`eh:"optional"`
     Description string`eh:"optional"`
     Language string`eh:"optional"`
@@ -55,6 +54,7 @@ type BookUpdated struct {
     Category string`eh:"optional"`
     Author *person.PersonName`eh:"optional"`
     Location *Location`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 

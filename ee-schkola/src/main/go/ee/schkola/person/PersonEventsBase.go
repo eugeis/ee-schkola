@@ -29,11 +29,11 @@ const (
 
 
 type ChurchCreated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Name string`eh:"optional"`
     Address *Address`eh:"optional"`
     Pastor *PersonName`eh:"optional"`
     Contact *Contact`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 
@@ -43,18 +43,18 @@ type ChurchDeleted struct {
 
 
 type ChurchUpdated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Name string`eh:"optional"`
     Address *Address`eh:"optional"`
     Pastor *PersonName`eh:"optional"`
     Contact *Contact`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 
 type GraduationCreated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Name string`eh:"optional"`
     Level *GraduationLevel`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 
@@ -64,14 +64,13 @@ type GraduationDeleted struct {
 
 
 type GraduationUpdated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Name string`eh:"optional"`
     Level *GraduationLevel`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 
 type ProfileCreated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Gender *Gender`eh:"optional"`
     Name *PersonName`eh:"optional"`
     BirthName string`eh:"optional"`
@@ -83,6 +82,7 @@ type ProfileCreated struct {
     Family *Family`eh:"optional"`
     Church *ChurchInfo`eh:"optional"`
     Education *Education`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 
@@ -92,7 +92,6 @@ type ProfileDeleted struct {
 
 
 type ProfileUpdated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Gender *Gender`eh:"optional"`
     Name *PersonName`eh:"optional"`
     BirthName string`eh:"optional"`
@@ -104,6 +103,7 @@ type ProfileUpdated struct {
     Family *Family`eh:"optional"`
     Church *ChurchInfo`eh:"optional"`
     Education *Education`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 

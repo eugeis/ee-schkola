@@ -199,7 +199,6 @@ paths:
             type: string
             enum: 
               - findByTitle
-              - findByAuthor
               - findByPattern
               - FindAll
               - FindById
@@ -216,11 +215,6 @@ paths:
               - find
               - count
               - exists
-        - name: author
-          in: query
-          required: false
-          schema:            
-            $ref: "#/components/schemas/PersonName"
         - name: id
           in: query
           required: false
@@ -606,8 +600,8 @@ components:
           format: date-time
         profile:          
           $ref: "#/components/schemas/Profile"
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string
     Expense:
       type: object
       properties:
@@ -621,8 +615,8 @@ components:
         date:          
           type: string
           format: date-time
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string
     ExpensePurpose:
       type: object
       properties:
@@ -630,8 +624,8 @@ components:
           type: string
         description:          
           type: string
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string
     Fee:
       type: object
       properties:
@@ -645,8 +639,8 @@ components:
         date:          
           type: string
           format: date-time
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string
     FeeKind:
       type: object
       properties:
@@ -657,8 +651,8 @@ components:
           format: float
         description:          
           type: string
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string
     Book:
       type: object
       properties:
@@ -679,8 +673,8 @@ components:
           $ref: "#/components/schemas/PersonName"
         location:          
           $ref: "#/components/schemas/Location"
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string
     Location:
       type: object
       properties:
@@ -712,8 +706,8 @@ components:
           $ref: "#/components/schemas/PersonName"
         contact:          
           $ref: "#/components/schemas/Contact"
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string
     ChurchInfo:
       type: object
       properties:
@@ -767,8 +761,8 @@ components:
           type: string
         level:          
           $ref: "#/components/schemas/GraduationLevel"
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string
     GraduationLevel:
       type: object
       properties:
@@ -827,25 +821,7 @@ components:
           $ref: "#/components/schemas/ChurchInfo"
         education:          
           $ref: "#/components/schemas/Education"
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
-    SchkolaBase:
-      type: object
-      properties:
-        trace:          
-          $ref: "#/components/schemas/Trace"
         id:          
-          type: string
-    Trace:
-      type: object
-      properties:
-        createdAt:          
-          type: string
-          format: date-time
-        updatedAt:          
-          type: string
-          format: date-time
-        modifiedBy:          
           type: string
     Attendance:
       type: object
@@ -862,14 +838,10 @@ components:
           format: int32
         state:          
           $ref: "#/components/schemas/AttendanceState"
-        stateTrace:          
-          $ref: "#/components/schemas/Trace"
         token:          
           type: string
-        tokenTrace:          
-          $ref: "#/components/schemas/Trace"
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string
     AttendanceState:
       type: object
       properties:
@@ -900,8 +872,8 @@ components:
           format: float
         description:          
           type: string
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string
     Grade:
       type: object
       properties:
@@ -912,12 +884,10 @@ components:
         grade:          
           type: number
           format: float
-        gradeTrace:          
-          $ref: "#/components/schemas/Trace"
         comment:          
           type: string
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string
     Group:
       type: object
       properties:
@@ -937,8 +907,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Course"
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string
     GroupCategory:
       type: object
       properties:
@@ -962,8 +932,8 @@ components:
           $ref: "#/components/schemas/SchoolYear"
         group:          
           type: string
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string
     SchoolYear:
       type: object
       properties:
@@ -979,5 +949,5 @@ components:
           type: array
           items:
             type: string
-        schkolaBase:          
-          $ref: "#/components/schemas/SchkolaBase"
+        id:          
+          type: string

@@ -37,11 +37,11 @@ const (
 
 
 type ExpenseCreated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Purpose *ExpensePurpose`eh:"optional"`
     Amount float64`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Date *time.Time`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 
@@ -51,18 +51,18 @@ type ExpenseDeleted struct {
 
 
 type ExpenseUpdated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Purpose *ExpensePurpose`eh:"optional"`
     Amount float64`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Date *time.Time`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 
 type ExpensePurposeCreated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Name string`eh:"optional"`
     Description string`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 
@@ -72,18 +72,18 @@ type ExpensePurposeDeleted struct {
 
 
 type ExpensePurposeUpdated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Name string`eh:"optional"`
     Description string`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 
 type FeeCreated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Student *person.Profile`eh:"optional"`
     Amount float64`eh:"optional"`
     Kind *FeeKind`eh:"optional"`
     Date *time.Time`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 
@@ -93,19 +93,19 @@ type FeeDeleted struct {
 
 
 type FeeUpdated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Student *person.Profile`eh:"optional"`
     Amount float64`eh:"optional"`
     Kind *FeeKind`eh:"optional"`
     Date *time.Time`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 
 type FeeKindCreated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Name string`eh:"optional"`
     Amount float64`eh:"optional"`
     Description string`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 
@@ -115,10 +115,10 @@ type FeeKindDeleted struct {
 
 
 type FeeKindUpdated struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Name string`eh:"optional"`
     Amount float64`eh:"optional"`
     Description string`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 
 

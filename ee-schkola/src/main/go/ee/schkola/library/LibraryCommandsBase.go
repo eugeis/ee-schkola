@@ -18,7 +18,6 @@ const (
 
         
 type CreateBook struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Title string`eh:"optional"`
     Description string`eh:"optional"`
     Language string`eh:"optional"`
@@ -27,6 +26,7 @@ type CreateBook struct {
     Category string`eh:"optional"`
     Author *person.PersonName`eh:"optional"`
     Location *Location`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 func (o *CreateBook) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *CreateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
@@ -62,7 +62,6 @@ func (o *ChangeBookLocation) CommandType() eventhorizon.CommandType      { retur
 
         
 type UpdateBook struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Title string`eh:"optional"`
     Description string`eh:"optional"`
     Language string`eh:"optional"`
@@ -71,6 +70,7 @@ type UpdateBook struct {
     Category string`eh:"optional"`
     Author *person.PersonName`eh:"optional"`
     Location *Location`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 func (o *UpdateBook) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }

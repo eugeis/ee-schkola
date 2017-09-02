@@ -1,8 +1,8 @@
 package auth
 
 import (
-    "ee/schkola"
     "ee/schkola/person"
+    "github.com/looplab/eventhorizon"
     "time"
 )
 type Account struct {
@@ -12,14 +12,11 @@ type Account struct {
     Disabled bool
     LastLoginAt *time.Time
     Profile *person.Profile
-    *schkola.SchkolaBase
+    Id eventhorizon.UUID
 }
 
 func NewAccount() (ret *Account) {
-    schkolaBase := schkola.NewSchkolaBase()
-    ret = &Account{
-        SchkolaBase: schkolaBase,
-    }
+    ret = &Account{}
     return
 }
 

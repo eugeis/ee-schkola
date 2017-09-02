@@ -32,11 +32,11 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (err error) {
         o.CreateHandler = func(command *CreateChurch, entity *Church, store eh.AggregateStoreEvent) (err error) {
             if err = eh.ValidateNewId(entity.Id, command.Id, ChurchAggregateType); err == nil {
                 store.StoreEvent(ChurchCreatedEvent, &ChurchCreated{
-                    Id: command.Id,
                     Name: command.Name,
                     Address: command.Address,
                     Pastor: command.Pastor,
-                    Contact: command.Contact,}, time.Now())
+                    Contact: command.Contact,
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -54,11 +54,11 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (err error) {
         o.UpdateHandler = func(command *UpdateChurch, entity *Church, store eh.AggregateStoreEvent) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, command.Id, ChurchAggregateType); err == nil {
                 store.StoreEvent(ChurchUpdatedEvent, &ChurchUpdated{
-                    Id: command.Id,
                     Name: command.Name,
                     Address: command.Address,
                     Pastor: command.Pastor,
-                    Contact: command.Contact,}, time.Now())
+                    Contact: command.Contact,
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -95,11 +95,11 @@ func (o *ChurchEventHandler) SetupEventHandler() (err error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ChurchCreated, entity *Church) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, ChurchAggregateType); err == nil {
-                entity.Id = event.Id
                 entity.Name = event.Name
                 entity.Address = event.Address
                 entity.Pastor = event.Pastor
                 entity.Contact = event.Contact
+                entity.Id = event.Id
             }
             return
         }
@@ -191,9 +191,9 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (err error) {
         o.CreateHandler = func(command *CreateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (err error) {
             if err = eh.ValidateNewId(entity.Id, command.Id, GraduationAggregateType); err == nil {
                 store.StoreEvent(GraduationCreatedEvent, &GraduationCreated{
-                    Id: command.Id,
                     Name: command.Name,
-                    Level: command.Level,}, time.Now())
+                    Level: command.Level,
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -211,9 +211,9 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (err error) {
         o.UpdateHandler = func(command *UpdateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, command.Id, GraduationAggregateType); err == nil {
                 store.StoreEvent(GraduationUpdatedEvent, &GraduationUpdated{
-                    Id: command.Id,
                     Name: command.Name,
-                    Level: command.Level,}, time.Now())
+                    Level: command.Level,
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -250,9 +250,9 @@ func (o *GraduationEventHandler) SetupEventHandler() (err error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *GraduationCreated, entity *Graduation) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, GraduationAggregateType); err == nil {
-                entity.Id = event.Id
                 entity.Name = event.Name
                 entity.Level = event.Level
+                entity.Id = event.Id
             }
             return
         }
@@ -342,7 +342,6 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (err error) {
         o.CreateHandler = func(command *CreateProfile, entity *Profile, store eh.AggregateStoreEvent) (err error) {
             if err = eh.ValidateNewId(entity.Id, command.Id, ProfileAggregateType); err == nil {
                 store.StoreEvent(ProfileCreatedEvent, &ProfileCreated{
-                    Id: command.Id,
                     Gender: command.Gender,
                     Name: command.Name,
                     BirthName: command.BirthName,
@@ -353,7 +352,8 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (err error) {
                     Photo: command.Photo,
                     Family: command.Family,
                     Church: command.Church,
-                    Education: command.Education,}, time.Now())
+                    Education: command.Education,
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -371,7 +371,6 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (err error) {
         o.UpdateHandler = func(command *UpdateProfile, entity *Profile, store eh.AggregateStoreEvent) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, command.Id, ProfileAggregateType); err == nil {
                 store.StoreEvent(ProfileUpdatedEvent, &ProfileUpdated{
-                    Id: command.Id,
                     Gender: command.Gender,
                     Name: command.Name,
                     BirthName: command.BirthName,
@@ -382,7 +381,8 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (err error) {
                     Photo: command.Photo,
                     Family: command.Family,
                     Church: command.Church,
-                    Education: command.Education,}, time.Now())
+                    Education: command.Education,
+                    Id: command.Id,}, time.Now())
             }
             return
         }
@@ -419,7 +419,6 @@ func (o *ProfileEventHandler) SetupEventHandler() (err error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ProfileCreated, entity *Profile) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, ProfileAggregateType); err == nil {
-                entity.Id = event.Id
                 entity.Gender = event.Gender
                 entity.Name = event.Name
                 entity.BirthName = event.BirthName
@@ -431,6 +430,7 @@ func (o *ProfileEventHandler) SetupEventHandler() (err error) {
                 entity.Family = event.Family
                 entity.Church = event.Church
                 entity.Education = event.Education
+                entity.Id = event.Id
             }
             return
         }

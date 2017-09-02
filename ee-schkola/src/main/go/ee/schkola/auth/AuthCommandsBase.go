@@ -68,13 +68,13 @@ func (o *RegisterAccount) CommandType() eventhorizon.CommandType      { return R
 
         
 type CreateAccount struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Username string`eh:"optional"`
     Password string`eh:"optional"`
     Email string`eh:"optional"`
     Disabled bool`eh:"optional"`
     LastLoginAt *time.Time`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 func (o *CreateAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *CreateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -94,13 +94,13 @@ func (o *DeleteAccount) CommandType() eventhorizon.CommandType      { return Del
 
         
 type UpdateAccount struct {
-    Id eventhorizon.UUID`eh:"optional"`
     Username string`eh:"optional"`
     Password string`eh:"optional"`
     Email string`eh:"optional"`
     Disabled bool`eh:"optional"`
     LastLoginAt *time.Time`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
+    Id eventhorizon.UUID`eh:"optional"`
 }
 func (o *UpdateAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
