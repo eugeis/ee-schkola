@@ -3,33 +3,38 @@
         <div class="col-md-4 push-md-4">
             <img class="user-avatar" src="assets/images/logo.png" width="150px"/>
             <h1>Bibelschule Stephanus</h1>
-            <form role="form">
+            <form role="form" (ngSubmit)="f.form.valid && register()" #f="ngForm">
                 <div class="form-content">
-                    <div class="form-group">
+                    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !firstName.valid }">
                         <input type="text" class="form-control input-underline input-lg" [(ngModel)]="model.name.first"
                                #firstName="ngModel" placeholder="Vorname" name="firstName" required>
+                        <div *ngIf="f.submitted && !firstName.valid" class="help-block">Vorname ist nicht gesetzt</div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !lastName.valid }">
                         <input type="text" class="form-control input-underline input-lg" [(ngModel)]="model.name.last"
                                #lastName="ngModel" placeholder="Nachname" name="lastName" required>
+                        <div *ngIf="f.submitted && !lastName.valid" class="help-block">Nachname ist nicht gesetzt</div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
                         <input type="text" class="form-control input-underline input-lg" [(ngModel)]="model.email"
                                #email="ngModel" placeholder="Email" name="email" required>
+                        <div *ngIf="f.submitted && !email.valid" class="help-block">Email ist nicht gesetzt</div>
                     </div>
 
                     <div class="form-group">
                         <input type="password" class="form-control input-underline input-lg"
                                [(ngModel)]="model.password" #password="ngModel" name="password" placeholder="Passwort" required>
+                        <div *ngIf="f.submitted && !password.valid" class="help-block">Password ist nicht gesetzt</div>
                     </div>
 
                     <div class="form-group">
                         <input type="password" class="form-control input-underline input-lg"
-                               [(ngModel)]="passwordRepeat" #password="ngModel" name="passwordRepeat" placeholder="Passwort wiederholen" required>
+                               [(ngModel)]="passwordRepeat" #password2="ngModel" name="password2" placeholder="Passwort wiederholen" required>
+                        <div *ngIf="f.submitted && !password2.valid" class="help-block">Password ist nicht gesetzt</div>
                     </div>
                 </div>
-                <a class="btn rounded-btn" [routerLink]="['/dashboard']"> Regisitrieren </a>&nbsp;
+                <button [disabled]="loading" class="btn btn-primary btn-round">Registrieren</button>
                 <a class="btn rounded-btn" [routerLink]="['/login']"> Anmelden </a>
             </form>
         </div>
