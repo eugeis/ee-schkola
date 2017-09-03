@@ -1,7 +1,7 @@
 package library
 
 import (
-    "ee/schkola/person"
+    "ee/schkola"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "time"
@@ -34,7 +34,7 @@ type BookCreated struct {
     ReleaseDate *time.Time`eh:"optional"`
     Edition string`eh:"optional"`
     Category string`eh:"optional"`
-    Author *person.PersonName`eh:"optional"`
+    Author *schkola.PersonName`eh:"optional"`
     Location *Location`eh:"optional"`
     Id eventhorizon.UUID`eh:"optional"`
 }
@@ -52,7 +52,7 @@ type BookUpdated struct {
     ReleaseDate *time.Time`eh:"optional"`
     Edition string`eh:"optional"`
     Category string`eh:"optional"`
-    Author *person.PersonName`eh:"optional"`
+    Author *schkola.PersonName`eh:"optional"`
     Location *Location`eh:"optional"`
     Id eventhorizon.UUID`eh:"optional"`
 }

@@ -23,6 +23,7 @@ func (o *Mailer) SendRegistration() {
 	list = append(list, User{Name: "Oxana Eisler", Address: "oxana.eisler@gmail.com"})
 	list = append(list, User{Name: "Maria Eisler", Address: "maria.eisler@gmail.com"})
 
+	//d := gomail.NewDialer("localhost", 1025, "user", "123456")
 	d := gomail.NewDialer("localhost", 1025, "user", "123456")
 	s, err := d.Dial()
 	if err != nil {

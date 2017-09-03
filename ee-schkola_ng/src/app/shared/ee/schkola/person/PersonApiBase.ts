@@ -1,34 +1,37 @@
-import {SchkolaBase} from "../SharedApiBase"
+import {PersonName} from "../SharedApiBase"
 
 
-export class Church extends SchkolaBase {
-    readonly name: string
-    readonly address: Address
-    readonly pastor: PersonName
-    readonly contact: Contact
-
-}
-
-
-export class Graduation extends SchkolaBase {
-    readonly name: string
-    readonly level: GraduationLevel
+export class Church {
+    name: string
+    address: Address
+    pastor: PersonName
+    contact: Contact
+    id: string
 
 }
 
 
-export class Profile extends SchkolaBase {
-    readonly gender: Gender
-    readonly name: PersonName
-    readonly birthName: string
-    readonly birthday: Date
-    readonly address: Address
-    readonly contact: Contact
-    readonly photoData: Blob
-    readonly photo: string
-    readonly family: Family
-    readonly church: ChurchInfo
-    readonly education: Education
+export class Graduation {
+    name: string
+    level: GraduationLevel
+    id: string
+
+}
+
+
+export class Profile {
+    gender: Gender
+    name: PersonName
+    birthName: string
+    birthday: Date
+    address: Address
+    contact: Contact
+    photoData: Blob
+    photo: string
+    family: Family
+    church: ChurchInfo
+    education: Education
+    id: string
 
 
     findByEmail(email: string = "") : Profile {
@@ -47,50 +50,43 @@ export class Profile extends SchkolaBase {
 
 
 export class Address {
-    readonly street: string
-    readonly suite: string
-    readonly city: string
-    readonly code: string
-    readonly country: string
+    street: string
+    suite: string
+    city: string
+    code: string
+    country: string
 
 }
 
 
 export class ChurchInfo {
-    readonly church: string
-    readonly association: string
-    readonly member: boolean
-    readonly services: string
+    church: string
+    association: string
+    member: boolean
+    services: string
 
 }
 
 
 export class Contact {
-    readonly phone: string
-    readonly email: string
-    readonly cellphone: string
+    phone: string
+    email: string
+    cellphone: string
 
 }
 
 
 export class Education {
-    readonly graduation: Graduation
-    readonly profession: string
+    graduation: Graduation
+    profession: string
 
 }
 
 
 export class Family {
-    readonly maritalState: MaritalState
-    readonly childrenCount: number
-    readonly partner: PersonName
-
-}
-
-
-export class PersonName {
-    readonly first: string
-    readonly last: string
+    maritalState: MaritalState
+    childrenCount: number
+    partner: PersonName
 
 }
 

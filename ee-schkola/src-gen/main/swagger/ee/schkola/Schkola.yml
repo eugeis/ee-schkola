@@ -587,6 +587,8 @@ components:
     Account:
       type: object
       properties:
+        name:          
+          $ref: "#/components/schemas/PersonName"
         username:          
           type: string
         password:          
@@ -787,13 +789,6 @@ components:
             - Separated
             - Divorced
             - Widowed
-    PersonName:
-      type: object
-      properties:
-        first:          
-          type: string
-        last:          
-          type: string
     Profile:
       type: object
       properties:
@@ -822,6 +817,13 @@ components:
         education:          
           $ref: "#/components/schemas/Education"
         id:          
+          type: string
+    PersonName:
+      type: object
+      properties:
+        first:          
+          type: string
+        last:          
           type: string
     Attendance:
       type: object

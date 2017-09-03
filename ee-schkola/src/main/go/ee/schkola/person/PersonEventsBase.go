@@ -1,6 +1,7 @@
 package person
 
 import (
+    "ee/schkola"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "time"
@@ -31,7 +32,7 @@ const (
 type ChurchCreated struct {
     Name string`eh:"optional"`
     Address *Address`eh:"optional"`
-    Pastor *PersonName`eh:"optional"`
+    Pastor *schkola.PersonName`eh:"optional"`
     Contact *Contact`eh:"optional"`
     Id eventhorizon.UUID`eh:"optional"`
 }
@@ -45,7 +46,7 @@ type ChurchDeleted struct {
 type ChurchUpdated struct {
     Name string`eh:"optional"`
     Address *Address`eh:"optional"`
-    Pastor *PersonName`eh:"optional"`
+    Pastor *schkola.PersonName`eh:"optional"`
     Contact *Contact`eh:"optional"`
     Id eventhorizon.UUID`eh:"optional"`
 }
@@ -72,7 +73,7 @@ type GraduationUpdated struct {
 
 type ProfileCreated struct {
     Gender *Gender`eh:"optional"`
-    Name *PersonName`eh:"optional"`
+    Name *schkola.PersonName`eh:"optional"`
     BirthName string`eh:"optional"`
     Birthday *time.Time`eh:"optional"`
     Address *Address`eh:"optional"`
@@ -93,7 +94,7 @@ type ProfileDeleted struct {
 
 type ProfileUpdated struct {
     Gender *Gender`eh:"optional"`
-    Name *PersonName`eh:"optional"`
+    Name *schkola.PersonName`eh:"optional"`
     BirthName string`eh:"optional"`
     Birthday *time.Time`eh:"optional"`
     Address *Address`eh:"optional"`

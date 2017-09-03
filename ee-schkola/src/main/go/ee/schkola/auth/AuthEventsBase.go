@@ -1,10 +1,10 @@
 package auth
 
 import (
+    "ee/schkola"
     "ee/schkola/person"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
-    "time"
 )
 const (
      AccountCreatedEvent eventhorizon.EventType = "AccountCreated"
@@ -16,11 +16,10 @@ const (
 
 
 type AccountCreated struct {
+    Name *schkola.PersonName`eh:"optional"`
     Username string`eh:"optional"`
     Password string`eh:"optional"`
     Email string`eh:"optional"`
-    Disabled bool`eh:"optional"`
-    LastLoginAt *time.Time`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Id eventhorizon.UUID`eh:"optional"`
 }
@@ -32,11 +31,10 @@ type AccountDeleted struct {
 
 
 type AccountUpdated struct {
+    Name *schkola.PersonName`eh:"optional"`
     Username string`eh:"optional"`
     Password string`eh:"optional"`
     Email string`eh:"optional"`
-    Disabled bool`eh:"optional"`
-    LastLoginAt *time.Time`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Id eventhorizon.UUID`eh:"optional"`
 }

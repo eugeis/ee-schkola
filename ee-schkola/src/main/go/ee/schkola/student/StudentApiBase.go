@@ -1,6 +1,7 @@
 package student
 
 import (
+    "ee/schkola"
     "ee/schkola/person"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
@@ -26,7 +27,7 @@ type Course struct {
     Name string
     Begin *time.Time
     End *time.Time
-    Teacher *person.PersonName
+    Teacher *schkola.PersonName
     SchoolYear *SchoolYear
     Fee float64
     Description string
@@ -81,8 +82,8 @@ func (o *Group) AddToCourses(item *Course) *Course {
 
 type SchoolApplication struct {
     Profile *person.Profile
-    RecommendationOf *person.PersonName
-    ChurchContactPerson *person.PersonName
+    RecommendationOf *schkola.PersonName
+    ChurchContactPerson *schkola.PersonName
     ChurchContact *person.Contact
     SchoolYear *SchoolYear
     Group string

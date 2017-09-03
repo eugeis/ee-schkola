@@ -1,14 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { SignupRoutingModule } from './signup-routing.module';
-import { SignupComponent } from './signup.component';
+import {SignupRoutingModule} from './signup-routing.module';
+import {SignupComponent} from './signup.component';
+import {AccountService} from "../shared/services/account.service";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SignupRoutingModule
-  ],
-  declarations: [SignupComponent]
+    imports: [
+        CommonModule,
+        SignupRoutingModule,
+        FormsModule
+    ],
+    declarations: [SignupComponent],
+    providers: [AccountService]
 })
-export class SignupModule { }
+export class SignupModule {
+}

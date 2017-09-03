@@ -1,7 +1,7 @@
 package library
 
 import (
-    "ee/schkola/person"
+    "ee/schkola"
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
     "time"
@@ -13,7 +13,7 @@ type Book struct {
     ReleaseDate *time.Time
     Edition string
     Category string
-    Author *person.PersonName
+    Author *schkola.PersonName
     Location *Location
     Id eventhorizon.UUID
 }

@@ -1,6 +1,7 @@
 package person
 
 import (
+    "ee/schkola"
     "github.com/eugeis/gee/eh"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
@@ -9,7 +10,7 @@ import (
 type Church struct {
     Name string
     Address *Address
-    Pastor *PersonName
+    Pastor *schkola.PersonName
     Contact *Contact
     Id eventhorizon.UUID
 }
@@ -34,7 +35,7 @@ func NewGraduation() (ret *Graduation) {
 
 type Profile struct {
     Gender *Gender
-    Name *PersonName
+    Name *schkola.PersonName
     BirthName string
     Birthday *time.Time
     Address *Address
@@ -120,22 +121,11 @@ func NewEducation() (ret *Education) {
 type Family struct {
     MaritalState *MaritalState
     ChildrenCount int
-    Partner *PersonName
+    Partner *schkola.PersonName
 }
 
 func NewFamily() (ret *Family) {
     ret = &Family{}
-    return
-}
-
-
-type PersonName struct {
-    First string
-    Last string
-}
-
-func NewPersonName() (ret *PersonName) {
-    ret = &PersonName{}
     return
 }
 

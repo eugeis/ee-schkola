@@ -1,6 +1,7 @@
 package student
 
 import (
+    "ee/schkola"
     "ee/schkola/person"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
@@ -147,7 +148,7 @@ type CreateCourse struct {
     Name string`eh:"optional"`
     Begin *time.Time`eh:"optional"`
     End *time.Time`eh:"optional"`
-    Teacher *person.PersonName`eh:"optional"`
+    Teacher *schkola.PersonName`eh:"optional"`
     SchoolYear *SchoolYear`eh:"optional"`
     Fee float64`eh:"optional"`
     Description string`eh:"optional"`
@@ -174,7 +175,7 @@ type UpdateCourse struct {
     Name string`eh:"optional"`
     Begin *time.Time`eh:"optional"`
     End *time.Time`eh:"optional"`
-    Teacher *person.PersonName`eh:"optional"`
+    Teacher *schkola.PersonName`eh:"optional"`
     SchoolYear *SchoolYear`eh:"optional"`
     Fee float64`eh:"optional"`
     Description string`eh:"optional"`
@@ -289,8 +290,8 @@ func (o *UpdateGroup) CommandType() eventhorizon.CommandType      { return Updat
         
 type CreateSchoolApplication struct {
     Profile *person.Profile`eh:"optional"`
-    RecommendationOf *person.PersonName`eh:"optional"`
-    ChurchContactPerson *person.PersonName`eh:"optional"`
+    RecommendationOf *schkola.PersonName`eh:"optional"`
+    ChurchContactPerson *schkola.PersonName`eh:"optional"`
     ChurchContact *person.Contact`eh:"optional"`
     SchoolYear *SchoolYear`eh:"optional"`
     Group string`eh:"optional"`
@@ -315,8 +316,8 @@ func (o *DeleteSchoolApplication) CommandType() eventhorizon.CommandType      { 
         
 type UpdateSchoolApplication struct {
     Profile *person.Profile`eh:"optional"`
-    RecommendationOf *person.PersonName`eh:"optional"`
-    ChurchContactPerson *person.PersonName`eh:"optional"`
+    RecommendationOf *schkola.PersonName`eh:"optional"`
+    ChurchContactPerson *schkola.PersonName`eh:"optional"`
     ChurchContact *person.Contact`eh:"optional"`
     SchoolYear *SchoolYear`eh:"optional"`
     Group string`eh:"optional"`

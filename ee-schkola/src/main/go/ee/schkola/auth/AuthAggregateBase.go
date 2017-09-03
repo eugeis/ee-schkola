@@ -10,7 +10,6 @@ import (
 type AccountCommandHandler struct {
     EnableHandler func (*EnableAccount, *Account, eh.AggregateStoreEvent) (err error) 
     DisableHandler func (*DisableAccount, *Account, eh.AggregateStoreEvent) (err error) 
-    RegisterHandler func (*RegisterAccount, *Account, eh.AggregateStoreEvent) (err error) 
     CreateHandler func (*CreateAccount, *Account, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteAccount, *Account, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateAccount, *Account, eh.AggregateStoreEvent) (err error) 
@@ -22,8 +21,6 @@ func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
         err = o.EnableHandler(cmd.(*EnableAccount), entity.(*Account), store)
     case DisableAccountCommand:
         err = o.DisableHandler(cmd.(*DisableAccount), entity.(*Account), store)
-    case RegisterAccountCommand:
-        err = o.RegisterHandler(cmd.(*RegisterAccount), entity.(*Account), store)
     case CreateAccountCommand:
         err = o.CreateHandler(cmd.(*CreateAccount), entity.(*Account), store)
     case DeleteAccountCommand:
@@ -49,21 +46,14 @@ func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
             return
         }
     }
-    if o.RegisterHandler == nil {
-        o.RegisterHandler = func(command *RegisterAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
-            err = eh.CommandHandlerNotImplemented(RegisterAccountCommand)
-            return
-        }
-    }
     if o.CreateHandler == nil {
         o.CreateHandler = func(command *CreateAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
             if err = eh.ValidateNewId(entity.Id, command.Id, AccountAggregateType); err == nil {
                 store.StoreEvent(AccountCreatedEvent, &AccountCreated{
+                    Name: command.Name,
                     Username: command.Username,
                     Password: command.Password,
                     Email: command.Email,
-                    Disabled: command.Disabled,
-                    LastLoginAt: command.LastLoginAt,
                     Profile: command.Profile,
                     Id: command.Id,}, time.Now())
             }
@@ -83,11 +73,10 @@ func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
         o.UpdateHandler = func(command *UpdateAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
                 store.StoreEvent(AccountUpdatedEvent, &AccountUpdated{
+                    Name: command.Name,
                     Username: command.Username,
                     Password: command.Password,
                     Email: command.Email,
-                    Disabled: command.Disabled,
-                    LastLoginAt: command.LastLoginAt,
                     Profile: command.Profile,
                     Id: command.Id,}, time.Now())
             }
@@ -126,11 +115,10 @@ func (o *AccountEventHandler) SetupEventHandler() (err error) {
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AccountCreated, entity *Account) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, AccountAggregateType); err == nil {
+                entity.Name = event.Name
                 entity.Username = event.Username
                 entity.Password = event.Password
                 entity.Email = event.Email
-                entity.Disabled = event.Disabled
-                entity.LastLoginAt = event.LastLoginAt
                 entity.Profile = event.Profile
                 entity.Id = event.Id
             }
@@ -156,11 +144,10 @@ func (o *AccountEventHandler) SetupEventHandler() (err error) {
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *AccountUpdated, entity *Account) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, AccountAggregateType); err == nil {
+                entity.Name = event.Name
                 entity.Username = event.Username
                 entity.Password = event.Password
                 entity.Email = event.Email
-                entity.Disabled = event.Disabled
-                entity.LastLoginAt = event.LastLoginAt
                 entity.Profile = event.Profile
             }
             return

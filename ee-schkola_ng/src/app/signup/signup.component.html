@@ -1,26 +1,32 @@
 <div class="login-page" [@routerTransition]>
     <div class="row">
         <div class="col-md-4 push-md-4">
-            <img class="user-avatar" src="assets/images/logo.png" width="150px" />
+            <img class="user-avatar" src="assets/images/logo.png" width="150px"/>
             <h1>Bibelschule Stephanus</h1>
             <form role="form">
                 <div class="form-content">
                     <div class="form-group">
-                        <input type="text" class="form-control input-underline input-lg" id="" placeholder="Vornahme">
+                        <input type="text" class="form-control input-underline input-lg" [(ngModel)]="model.name.first"
+                               #firstName="ngModel" placeholder="Vorname" name="firstName" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control input-underline input-lg" id="" placeholder="Nachname">
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" class="form-control input-underline input-lg" id="" placeholder="Email">
+                        <input type="text" class="form-control input-underline input-lg" [(ngModel)]="model.name.last"
+                               #lastName="ngModel" placeholder="Nachname" name="lastName" required>
                     </div>
 
                     <div class="form-group">
-                        <input type="password" class="form-control input-underline input-lg" id="" placeholder="Passwort">
+                        <input type="text" class="form-control input-underline input-lg" [(ngModel)]="model.email"
+                               #email="ngModel" placeholder="Email" name="email" required>
                     </div>
+
                     <div class="form-group">
-                        <input type="password" class="form-control input-underline input-lg" id="" placeholder="Passwort wiederholen">
+                        <input type="password" class="form-control input-underline input-lg"
+                               [(ngModel)]="model.password" #password="ngModel" name="password" placeholder="Passwort" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control input-underline input-lg"
+                               [(ngModel)]="passwordRepeat" #password="ngModel" name="passwordRepeat" placeholder="Passwort wiederholen" required>
                     </div>
                 </div>
                 <a class="btn rounded-btn" [routerLink]="['/dashboard']"> Regisitrieren </a>&nbsp;

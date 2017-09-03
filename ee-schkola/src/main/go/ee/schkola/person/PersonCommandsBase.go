@@ -1,6 +1,7 @@
 package person
 
 import (
+    "ee/schkola"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "time"
@@ -32,7 +33,7 @@ const (
 type CreateChurch struct {
     Name string`eh:"optional"`
     Address *Address`eh:"optional"`
-    Pastor *PersonName`eh:"optional"`
+    Pastor *schkola.PersonName`eh:"optional"`
     Contact *Contact`eh:"optional"`
     Id eventhorizon.UUID`eh:"optional"`
 }
@@ -56,7 +57,7 @@ func (o *DeleteChurch) CommandType() eventhorizon.CommandType      { return Dele
 type UpdateChurch struct {
     Name string`eh:"optional"`
     Address *Address`eh:"optional"`
-    Pastor *PersonName`eh:"optional"`
+    Pastor *schkola.PersonName`eh:"optional"`
     Contact *Contact`eh:"optional"`
     Id eventhorizon.UUID`eh:"optional"`
 }
@@ -103,7 +104,7 @@ func (o *UpdateGraduation) CommandType() eventhorizon.CommandType      { return 
         
 type CreateProfile struct {
     Gender *Gender`eh:"optional"`
-    Name *PersonName`eh:"optional"`
+    Name *schkola.PersonName`eh:"optional"`
     BirthName string`eh:"optional"`
     Birthday *time.Time`eh:"optional"`
     Address *Address`eh:"optional"`
@@ -134,7 +135,7 @@ func (o *DeleteProfile) CommandType() eventhorizon.CommandType      { return Del
         
 type UpdateProfile struct {
     Gender *Gender`eh:"optional"`
-    Name *PersonName`eh:"optional"`
+    Name *schkola.PersonName`eh:"optional"`
     BirthName string`eh:"optional"`
     Birthday *time.Time`eh:"optional"`
     Address *Address`eh:"optional"`

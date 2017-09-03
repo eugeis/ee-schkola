@@ -71,12 +71,6 @@ func NewAccountHttpCommandHandler(context context.Context, commandBus eventhoriz
     return
 }
 
-func (o *AccountHttpCommandHandler) Register(w http.ResponseWriter, r *http.Request) {
-    vars := mux.Vars(r)
-    id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&RegisterAccount{Id: id}, w, r)
-}
-
 func (o *AccountHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
@@ -142,8 +136,6 @@ func (o *AccountRouter) Setup(router *mux.Router) (err error) {
         Name("FindAccountById").HandlerFunc(o.QueryHandler.FindById)
     router.Methods(net.GET).PathPrefix(o.PathPrefix).
         Name("FindAccountAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("RegisterAccount").HandlerFunc(o.CommandHandler.Register)
     router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateAccount").HandlerFunc(o.CommandHandler.Create)
     router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").

@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { routerTransition } from '../router.animations';
+import {Component, OnInit} from '@angular/core';
+import {routerTransition} from '../router.animations';
+import {Router} from "@angular/router";
+import {AccountService} from "../shared/services/account.service";
+import {AlertService} from "../shared/services/alert.service";
+import {Account} from "../shared/ee/schkola/auth/AuthApiBase";
+import {PersonName} from "../shared/ee/schkola/SharedApiBase";
 
 @Component({
     selector: 'app-signup',
@@ -9,7 +14,30 @@ import { routerTransition } from '../router.animations';
 })
 export class SignupComponent implements OnInit {
 
-    constructor() { }
+    model: Account = new Account;
+    passwordRepeat: String;
+    loading = false;
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.model.name = new PersonName
+    }
+
+    constructor(private router: Router,
+                private accountService: AccountService,
+                private alertService: AlertService) {
+    }
+
+    register() {
+        this.loading = true;
+        this.accountService.create(this.model)
+            .subscribe(
+                data => {
+                    this.alertService.success('Registration successful', true);
+                    this.router.navigate(['/login']);
+                },
+                error => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                });
+    }
 }

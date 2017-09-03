@@ -5,16 +5,23 @@ import ee.design.*
 
 
 object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
+    object Shared : Module() {
+        object PersonName : Basic() {
+            val first = propS()
+            val last = propS()
+        }
+    }
+
     object Auth : Module() {
         object Account : Entity() {
-            val username = propS()
+            val name = prop(Shared.PersonName)
+            val username = propS({ unique(true) })
             val password = propS()
-            val email = propS()
-            val disabled = propB()
-            val lastLoginAt = propDT()
+            val email = propS({ unique(true) })
+            val disabled = propB({ meta(true) })
+            val lastLoginAt = propDT({ meta(true) })
             val profile = prop { type(Person.Profile) }
 
-            val register = createBy(username, email, password)
             val enable = command()
             val disable = command()
         }
@@ -24,7 +31,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
         object Profile : Entity() {
             val gender = prop(Gender)
-            val name = prop(PersonName)
+            val name = prop(Shared.PersonName)
             val birthName = propS()
             val birthday = propDT()
             val address = prop(Address)
@@ -43,7 +50,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         object Church : Entity() {
             val name = propS()
             val address = prop(Address)
-            val pastor = prop(PersonName)
+            val pastor = prop(Shared.PersonName)
             val contact = prop(Contact)
         }
 
@@ -62,12 +69,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         object Family : Basic() {
             val maritalState = prop(MaritalState)
             val childrenCount = propI()
-            val partner = prop(PersonName)
-        }
-
-        object PersonName : Basic() {
-            val first = propS()
-            val last = propS()
+            val partner = prop(Shared.PersonName)
         }
 
         object Address : Basic() {
@@ -145,8 +147,8 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
     object Student : Module() {
         object SchoolApplication : Entity() {
             val profile = prop(Person.Profile)
-            val recommendationOf = prop(Person.PersonName)
-            val churchContactPerson = prop(Person.PersonName)
+            val recommendationOf = prop(Shared.PersonName)
+            val churchContactPerson = prop(Shared.PersonName)
             val churchContact = prop(Person.Contact)
             val schoolYear = prop(SchoolYear)
             val group = propS()
@@ -163,7 +165,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val name = propS()
             val begin = propDT()
             val end = propDT()
-            val teacher = prop(Person.PersonName)
+            val teacher = prop(Shared.PersonName)
             val schoolYear = prop(SchoolYear)
             val fee = propF()
             val description = prop(n.Text)
@@ -224,7 +226,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val releaseDate = propDT()
             val edition = propS()
             val category = propS()
-            val author = prop(Person.PersonName)
+            val author = prop(Shared.PersonName)
             val location = prop(Location)
 
             val findByTitle = findBy(title)
