@@ -49,11 +49,6 @@ type ChangeBookLocation struct {
     Location *Location
     Id eventhorizon.UUID
 }
-
-func NewChangeLocation() (ret *ChangeBookLocation) {
-    ret = &ChangeBookLocation{}
-    return
-}
 func (o *ChangeBookLocation) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *ChangeBookLocation) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
 func (o *ChangeBookLocation) CommandType() eventhorizon.CommandType      { return ChangeBookLocationCommand }

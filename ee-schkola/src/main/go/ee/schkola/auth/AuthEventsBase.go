@@ -9,7 +9,10 @@ import (
 const (
      AccountCreatedEvent eventhorizon.EventType = "AccountCreated"
      AccountDeletedEvent eventhorizon.EventType = "AccountDeleted"
+     AccountLoggedEvent eventhorizon.EventType = "AccountLogged"
      AccountUpdatedEvent eventhorizon.EventType = "AccountUpdated"
+     AccountEnabledEvent eventhorizon.EventType = "AccountEnabled"
+     AccountDisabledEvent eventhorizon.EventType = "AccountDisabled"
 )
 
 
@@ -30,6 +33,14 @@ type AccountDeleted struct {
 }
 
 
+type AccountLogged struct {
+    Username string
+    Email string
+    Password string
+    Id eventhorizon.UUID
+}
+
+
 type AccountUpdated struct {
     Name *schkola.PersonName`eh:"optional"`
     Username string`eh:"optional"`
@@ -37,6 +48,16 @@ type AccountUpdated struct {
     Email string`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Id eventhorizon.UUID`eh:"optional"`
+}
+
+
+type AccountEnabled struct {
+    Id eventhorizon.UUID
+}
+
+
+type AccountDisabled struct {
+    Id eventhorizon.UUID
 }
 
 
@@ -63,8 +84,20 @@ func (o *AccountEventType) IsAccountDeleted() bool {
     return o == _accountEventTypes.AccountDeleted()
 }
 
+func (o *AccountEventType) IsAccountLogged() bool {
+    return o == _accountEventTypes.AccountLogged()
+}
+
 func (o *AccountEventType) IsAccountUpdated() bool {
     return o == _accountEventTypes.AccountUpdated()
+}
+
+func (o *AccountEventType) IsAccountEnabled() bool {
+    return o == _accountEventTypes.AccountEnabled()
+}
+
+func (o *AccountEventType) IsAccountDisabled() bool {
+    return o == _accountEventTypes.AccountDisabled()
 }
 
 type accountEventTypes struct {
@@ -75,7 +108,10 @@ type accountEventTypes struct {
 var _accountEventTypes = &accountEventTypes{values: []*AccountEventType{
     {name: "AccountCreated", ordinal: 0},
     {name: "AccountDeleted", ordinal: 1},
-    {name: "AccountUpdated", ordinal: 2}},
+    {name: "AccountLogged", ordinal: 2},
+    {name: "AccountUpdated", ordinal: 3},
+    {name: "AccountEnabled", ordinal: 4},
+    {name: "AccountDisabled", ordinal: 5}},
 }
 
 func AccountEventTypes() *accountEventTypes {
@@ -104,8 +140,20 @@ func (o *accountEventTypes) AccountDeleted() *AccountEventType {
     return _accountEventTypes.values[1]
 }
 
-func (o *accountEventTypes) AccountUpdated() *AccountEventType {
+func (o *accountEventTypes) AccountLogged() *AccountEventType {
     return _accountEventTypes.values[2]
+}
+
+func (o *accountEventTypes) AccountUpdated() *AccountEventType {
+    return _accountEventTypes.values[3]
+}
+
+func (o *accountEventTypes) AccountEnabled() *AccountEventType {
+    return _accountEventTypes.values[4]
+}
+
+func (o *accountEventTypes) AccountDisabled() *AccountEventType {
+    return _accountEventTypes.values[5]
 }
 
 func (o *accountEventTypes) ParseAccountEventType(name string) (ret *AccountEventType, ok bool) {

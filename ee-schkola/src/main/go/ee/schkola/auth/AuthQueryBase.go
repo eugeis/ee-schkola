@@ -7,6 +7,7 @@ import (
 type AccountQueryRepository struct {
     repo eventhorizon.ReadRepo
     context context.Context
+    AddItem *T
 }
 
 func NewAccountQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *AccountQueryRepository) {

@@ -29,6 +29,7 @@ export class SignupComponent implements OnInit {
 
     register() {
         this.loading = true;
+        this.model.id = this.model.username
         this.accountService.create(this.model)
             .subscribe(
                 data => {

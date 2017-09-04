@@ -21,11 +21,6 @@ type LocationChangedBook struct {
     Id eventhorizon.UUID
 }
 
-func NewLocationChanged() (ret *LocationChangedBook) {
-    ret = &LocationChangedBook{}
-    return
-}
-
 
 type BookCreated struct {
     Title string`eh:"optional"`

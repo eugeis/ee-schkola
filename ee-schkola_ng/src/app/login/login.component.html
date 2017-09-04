@@ -3,18 +3,20 @@
         <div class="col-md-4 push-md-4">
             <img src="assets/images/logo_200.png" width="150px" />
             <h1>Bibelschule Stephanus</h1>
-            <form role="form">
+            <form role="form" (ngSubmit)="f.form.valid && login()" #f="ngForm">
                 <div class="form-content">
                     <div class="form-group">
-                        <input type="text" ng-model="name" class="form-control input-underline input-lg" id="" placeholder="Email">
+                        <input type="text" class="form-control input-underline input-lg" name="usernameOrEmail" [(ngModel)]="model.usernameOrEmail" #usernameOrEmail="ngModel" placeholder="Benutzername oder Email" required>
+                        <div *ngIf="f.submitted && !usernameOrEmail.valid" class="help-block">Bitte Benutzernamen oder Email eingeben</div>
                     </div>
 
                     <div class="form-group">
-                        <input type="password" class="form-control input-underline input-lg" id="" placeholder="Passwort">
+                        <input type="password" class="form-control input-underline input-lg"
+                               [(ngModel)]="model.password" #password="ngModel" name="password" placeholder="Passwort" required>
+                        <div *ngIf="f.submitted && !password.valid" class="help-block">Bitte Password eingeben</div>
                     </div>
                 </div>
-                <a class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="onLoggedin()"> Anmelden </a>
-                &nbsp;
+                <button [disabled]="loading" class="btn btn-primary btn-round">Anmelden</button>
                 <a class="btn rounded-btn" [routerLink]="['/signup']">Registrieren</a>
             </form>
         </div>

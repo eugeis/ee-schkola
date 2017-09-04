@@ -14,6 +14,7 @@ type AttendanceCommandHandler struct {
     CreateHandler func (*CreateAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -39,19 +40,30 @@ func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity inte
 func (o *AttendanceCommandHandler) SetupCommandHandler() (err error) {
     if o.ConfirmHandler == nil {
         o.ConfirmHandler = func(command *ConfirmAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
-            err = eh.CommandHandlerNotImplemented(ConfirmAttendanceCommand)
+            if err = eh.ValidateIdsMatch(entity.Id, command.Id, AttendanceAggregateType); err == nil {
+                store.StoreEvent(AttendanceConfirmdEvent, &AttendanceConfirmd{
+                    Id: command.Id,}, time.Now())
+            }
             return
         }
     }
     if o.CancelHandler == nil {
         o.CancelHandler = func(command *CancelAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
-            err = eh.CommandHandlerNotImplemented(CancelAttendanceCommand)
+            if err = eh.ValidateIdsMatch(entity.Id, command.Id, AttendanceAggregateType); err == nil {
+                store.StoreEvent(AttendanceCanceldEvent, &AttendanceCanceld{
+                    Id: command.Id,}, time.Now())
+            }
             return
         }
     }
     if o.RegisterHandler == nil {
         o.RegisterHandler = func(command *RegisterAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
-            err = eh.CommandHandlerNotImplemented(RegisterAttendanceCommand)
+            if err = eh.ValidateNewId(entity.Id, command.Id, AttendanceAggregateType); err == nil {
+                store.StoreEvent(AttendanceRegisterdEvent, &AttendanceRegisterd{
+                    Student: command.Student,
+                    Course: command.Course,
+                    Id: command.Id,}, time.Now())
+            }
             return
         }
     }
@@ -100,16 +112,26 @@ func (o *AttendanceCommandHandler) SetupCommandHandler() (err error) {
 
 type AttendanceEventHandler struct {
     CreatedHandler func (*AttendanceCreated, *Attendance) (err error) 
+    RegisterdHandler func (*AttendanceRegisterd, *Attendance) (err error) 
     DeletedHandler func (*AttendanceDeleted, *Attendance) (err error) 
+    ConfirmdHandler func (*AttendanceConfirmd, *Attendance) (err error) 
+    CanceldHandler func (*AttendanceCanceld, *Attendance) (err error) 
     UpdatedHandler func (*AttendanceUpdated, *Attendance) (err error) 
+    AddItem *T
 }
 
 func (o *AttendanceEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
     switch event.EventType() {
     case AttendanceCreatedEvent:
         err = o.CreatedHandler(event.Data().(*AttendanceCreated), entity.(*Attendance))
+    case AttendanceRegisterdEvent:
+        err = o.RegisterdHandler(event.Data().(*AttendanceRegisterd), entity.(*Attendance))
     case AttendanceDeletedEvent:
         err = o.DeletedHandler(event.Data().(*AttendanceDeleted), entity.(*Attendance))
+    case AttendanceConfirmdEvent:
+        err = o.ConfirmdHandler(event.Data().(*AttendanceConfirmd), entity.(*Attendance))
+    case AttendanceCanceldEvent:
+        err = o.CanceldHandler(event.Data().(*AttendanceCanceld), entity.(*Attendance))
     case AttendanceUpdatedEvent:
         err = o.UpdatedHandler(event.Data().(*AttendanceUpdated), entity.(*Attendance))
     default:
@@ -137,6 +159,20 @@ func (o *AttendanceEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
+	eventhorizon.RegisterEventData(AttendanceRegisterdEvent, func() eventhorizon.EventData {
+		return &AttendanceRegisterd{}
+	})
+
+    if o.RegisterdHandler == nil {
+        o.RegisterdHandler = func(event *AttendanceRegisterd, entity *Attendance) (err error) {
+            if err = eh.ValidateNewId(entity.Id, event.Id, AttendanceAggregateType); err == nil {
+                entity.Student = event.Student
+                entity.Course = event.Course
+                entity.Id = event.Id
+            }
+            return
+        }
+    }
 	eventhorizon.RegisterEventData(AttendanceDeletedEvent, func() eventhorizon.EventData {
 		return &AttendanceDeleted{}
 	})
@@ -146,6 +182,24 @@ func (o *AttendanceEventHandler) SetupEventHandler() (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, AttendanceAggregateType); err == nil {
                 *entity = *NewAttendance()
             }
+            return
+        }
+    }
+	eventhorizon.RegisterEventData(AttendanceConfirmdEvent, func() eventhorizon.EventData {
+		return &AttendanceConfirmd{}
+	})
+
+    if o.ConfirmdHandler == nil {
+        o.ConfirmdHandler = func(event *AttendanceConfirmd, entity *Attendance) (err error) {    err = eh.EventHandlerNotImplemented(AttendanceConfirmdEvent)
+            return
+        }
+    }
+	eventhorizon.RegisterEventData(AttendanceCanceldEvent, func() eventhorizon.EventData {
+		return &AttendanceCanceld{}
+	})
+
+    if o.CanceldHandler == nil {
+        o.CanceldHandler = func(event *AttendanceCanceld, entity *Attendance) (err error) {    err = eh.EventHandlerNotImplemented(AttendanceCanceldEvent)
             return
         }
     }
@@ -177,8 +231,17 @@ type AttendanceAggregateInitializer struct {
     *AttendanceCommandHandler
     *AttendanceEventHandler
     ProjectorHandler *AttendanceEventHandler
+    AddItem *T
 }
 
+
+func (o *AttendanceAggregateInitializer) RegisterForConfirmd(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, AttendanceEventTypes().AttendanceConfirmd())
+}
+
+func (o *AttendanceAggregateInitializer) RegisterForCanceld(handler eventhorizon.EventHandler){
+    o.RegisterForEvent(handler, AttendanceEventTypes().AttendanceCanceld())
+}
 
 
 func NewAttendanceAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
@@ -205,6 +268,7 @@ type CourseCommandHandler struct {
     CreateHandler func (*CreateCourse, *Course, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteCourse, *Course, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateCourse, *Course, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *CourseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -271,6 +335,7 @@ type CourseEventHandler struct {
     CreatedHandler func (*CourseCreated, *Course) (err error) 
     DeletedHandler func (*CourseDeleted, *Course) (err error) 
     UpdatedHandler func (*CourseUpdated, *Course) (err error) 
+    AddItem *T
 }
 
 func (o *CourseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -348,6 +413,7 @@ type CourseAggregateInitializer struct {
     *CourseCommandHandler
     *CourseEventHandler
     ProjectorHandler *CourseEventHandler
+    AddItem *T
 }
 
 
@@ -376,6 +442,7 @@ type GradeCommandHandler struct {
     CreateHandler func (*CreateGrade, *Grade, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteGrade, *Grade, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateGrade, *Grade, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *GradeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -436,6 +503,7 @@ type GradeEventHandler struct {
     CreatedHandler func (*GradeCreated, *Grade) (err error) 
     DeletedHandler func (*GradeDeleted, *Grade) (err error) 
     UpdatedHandler func (*GradeUpdated, *Grade) (err error) 
+    AddItem *T
 }
 
 func (o *GradeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -507,6 +575,7 @@ type GradeAggregateInitializer struct {
     *GradeCommandHandler
     *GradeEventHandler
     ProjectorHandler *GradeEventHandler
+    AddItem *T
 }
 
 
@@ -535,6 +604,7 @@ type GroupCommandHandler struct {
     CreateHandler func (*CreateGroup, *Group, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteGroup, *Group, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateGroup, *Group, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *GroupCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -599,6 +669,7 @@ type GroupEventHandler struct {
     CreatedHandler func (*GroupCreated, *Group) (err error) 
     DeletedHandler func (*GroupDeleted, *Group) (err error) 
     UpdatedHandler func (*GroupUpdated, *Group) (err error) 
+    AddItem *T
 }
 
 func (o *GroupEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -674,6 +745,7 @@ type GroupAggregateInitializer struct {
     *GroupCommandHandler
     *GroupEventHandler
     ProjectorHandler *GroupEventHandler
+    AddItem *T
 }
 
 
@@ -702,6 +774,7 @@ type SchoolApplicationCommandHandler struct {
     CreateHandler func (*CreateSchoolApplication, *SchoolApplication, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteSchoolApplication, *SchoolApplication, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateSchoolApplication, *SchoolApplication, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *SchoolApplicationCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -766,6 +839,7 @@ type SchoolApplicationEventHandler struct {
     CreatedHandler func (*SchoolApplicationCreated, *SchoolApplication) (err error) 
     DeletedHandler func (*SchoolApplicationDeleted, *SchoolApplication) (err error) 
     UpdatedHandler func (*SchoolApplicationUpdated, *SchoolApplication) (err error) 
+    AddItem *T
 }
 
 func (o *SchoolApplicationEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -841,6 +915,7 @@ type SchoolApplicationAggregateInitializer struct {
     *SchoolApplicationCommandHandler
     *SchoolApplicationEventHandler
     ProjectorHandler *SchoolApplicationEventHandler
+    AddItem *T
 }
 
 
@@ -869,6 +944,7 @@ type SchoolYearCommandHandler struct {
     CreateHandler func (*CreateSchoolYear, *SchoolYear, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteSchoolYear, *SchoolYear, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateSchoolYear, *SchoolYear, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *SchoolYearCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -929,6 +1005,7 @@ type SchoolYearEventHandler struct {
     CreatedHandler func (*SchoolYearCreated, *SchoolYear) (err error) 
     DeletedHandler func (*SchoolYearDeleted, *SchoolYear) (err error) 
     UpdatedHandler func (*SchoolYearUpdated, *SchoolYear) (err error) 
+    AddItem *T
 }
 
 func (o *SchoolYearEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -1000,6 +1077,7 @@ type SchoolYearAggregateInitializer struct {
     *SchoolYearCommandHandler
     *SchoolYearEventHandler
     ProjectorHandler *SchoolYearEventHandler
+    AddItem *T
 }
 
 

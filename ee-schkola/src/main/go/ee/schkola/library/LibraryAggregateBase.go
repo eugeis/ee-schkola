@@ -12,6 +12,7 @@ type BookCommandHandler struct {
     DeleteHandler func (*DeleteBook, *Book, eh.AggregateStoreEvent) (err error) 
     ChangeLocationHandler func (*ChangeBookLocation, *Book, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateBook, *Book, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -93,6 +94,7 @@ type BookEventHandler struct {
     CreatedHandler func (*BookCreated, *Book) (err error) 
     DeletedHandler func (*BookDeleted, *Book) (err error) 
     UpdatedHandler func (*BookUpdated, *Book) (err error) 
+    AddItem *T
 }
 
 func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -186,6 +188,7 @@ type BookAggregateInitializer struct {
     *BookCommandHandler
     *BookEventHandler
     ProjectorHandler *BookEventHandler
+    AddItem *T
 }
 
 

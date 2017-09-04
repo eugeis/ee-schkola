@@ -11,6 +11,7 @@ import (
 type AccountHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *AccountQueryRepository
+    AddItem *T
 }
 
 func NewAccountHttpQueryHandler(queryRepository *AccountQueryRepository) (ret *AccountHttpQueryHandler) {
@@ -61,6 +62,7 @@ func (o *AccountHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reque
 
 type AccountHttpCommandHandler struct {
     *eh.HttpCommandHandler
+    AddItem *T
 }
 
 func NewAccountHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *AccountHttpCommandHandler) {
@@ -77,6 +79,18 @@ func (o *AccountHttpCommandHandler) Create(w http.ResponseWriter, r *http.Reques
     o.HandleCommand(&CreateAccount{Id: id}, w, r)
 }
 
+func (o *AccountHttpCommandHandler) Enable(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&EnableAccount{Id: id}, w, r)
+}
+
+func (o *AccountHttpCommandHandler) Disable(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&DisableAccount{Id: id}, w, r)
+}
+
 func (o *AccountHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
@@ -89,10 +103,7 @@ func (o *AccountHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Reques
     o.HandleCommand(&DeleteAccount{Id: id}, w, r)
 }
 
-func (o *AccountHttpCommandHandler) Enable(w http.ResponseWriter, r *http.Request) {
-}
-
-func (o *AccountHttpCommandHandler) Disable(w http.ResponseWriter, r *http.Request) {
+func (o *AccountHttpCommandHandler) Login(w http.ResponseWriter, r *http.Request) {
 }
 
 
@@ -101,6 +112,7 @@ type AccountRouter struct {
     QueryHandler *AccountHttpQueryHandler
     CommandHandler *AccountHttpCommandHandler
     Router *mux.Router
+    AddItem *T
 }
 
 func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -138,6 +150,10 @@ func (o *AccountRouter) Setup(router *mux.Router) (err error) {
         Name("FindAccountAll").HandlerFunc(o.QueryHandler.FindAll)
     router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateAccount").HandlerFunc(o.CommandHandler.Create)
+    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+        Name("EnableAccount").HandlerFunc(o.CommandHandler.Enable)
+    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+        Name("DisableAccount").HandlerFunc(o.CommandHandler.Disable)
     router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateAccount").HandlerFunc(o.CommandHandler.Update)
     router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").

@@ -11,6 +11,7 @@ type ChurchCommandHandler struct {
     CreateHandler func (*CreateChurch, *Church, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteChurch, *Church, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateChurch, *Church, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *ChurchCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -71,6 +72,7 @@ type ChurchEventHandler struct {
     CreatedHandler func (*ChurchCreated, *Church) (err error) 
     DeletedHandler func (*ChurchDeleted, *Church) (err error) 
     UpdatedHandler func (*ChurchUpdated, *Church) (err error) 
+    AddItem *T
 }
 
 func (o *ChurchEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -142,6 +144,7 @@ type ChurchAggregateInitializer struct {
     *ChurchCommandHandler
     *ChurchEventHandler
     ProjectorHandler *ChurchEventHandler
+    AddItem *T
 }
 
 
@@ -170,6 +173,7 @@ type GraduationCommandHandler struct {
     CreateHandler func (*CreateGraduation, *Graduation, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteGraduation, *Graduation, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateGraduation, *Graduation, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *GraduationCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -226,6 +230,7 @@ type GraduationEventHandler struct {
     CreatedHandler func (*GraduationCreated, *Graduation) (err error) 
     DeletedHandler func (*GraduationDeleted, *Graduation) (err error) 
     UpdatedHandler func (*GraduationUpdated, *Graduation) (err error) 
+    AddItem *T
 }
 
 func (o *GraduationEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -293,6 +298,7 @@ type GraduationAggregateInitializer struct {
     *GraduationCommandHandler
     *GraduationEventHandler
     ProjectorHandler *GraduationEventHandler
+    AddItem *T
 }
 
 
@@ -321,6 +327,7 @@ type ProfileCommandHandler struct {
     CreateHandler func (*CreateProfile, *Profile, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteProfile, *Profile, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateProfile, *Profile, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *ProfileCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -395,6 +402,7 @@ type ProfileEventHandler struct {
     CreatedHandler func (*ProfileCreated, *Profile) (err error) 
     DeletedHandler func (*ProfileDeleted, *Profile) (err error) 
     UpdatedHandler func (*ProfileUpdated, *Profile) (err error) 
+    AddItem *T
 }
 
 func (o *ProfileEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -480,6 +488,7 @@ type ProfileAggregateInitializer struct {
     *ProfileCommandHandler
     *ProfileEventHandler
     ProjectorHandler *ProfileEventHandler
+    AddItem *T
 }
 
 

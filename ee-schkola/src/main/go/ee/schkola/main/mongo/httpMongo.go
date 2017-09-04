@@ -19,6 +19,7 @@ import (
 	"ee/schkola/library"
 	"ee/schkola/finance"
 	"ee/schkola/auth"
+	"github.com/rs/cors"
 )
 
 var log = lg.NewLogger("Schkola ")
@@ -94,7 +95,9 @@ func main() {
 
 	router.Methods(net.GET).Path("/").Name("Index").HandlerFunc(Index)
 
-	log.Err("%v", http.ListenAndServe("127.0.0.1:8080", router))
+	handler := cors.Default().Handler(router)
+
+	log.Err("%v", http.ListenAndServe("127.0.0.1:8080", handler))
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {

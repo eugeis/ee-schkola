@@ -9,7 +9,10 @@ import (
 )
 const (
      AttendanceCreatedEvent eventhorizon.EventType = "AttendanceCreated"
+     AttendanceRegisterdEvent eventhorizon.EventType = "AttendanceRegisterd"
      AttendanceDeletedEvent eventhorizon.EventType = "AttendanceDeleted"
+     AttendanceConfirmdEvent eventhorizon.EventType = "AttendanceConfirmd"
+     AttendanceCanceldEvent eventhorizon.EventType = "AttendanceCanceld"
      AttendanceUpdatedEvent eventhorizon.EventType = "AttendanceUpdated"
 )
 
@@ -62,7 +65,24 @@ type AttendanceCreated struct {
 }
 
 
+type AttendanceRegisterd struct {
+    Student *person.Profile
+    Course *Course
+    Id eventhorizon.UUID
+}
+
+
 type AttendanceDeleted struct {
+    Id eventhorizon.UUID
+}
+
+
+type AttendanceConfirmd struct {
+    Id eventhorizon.UUID
+}
+
+
+type AttendanceCanceld struct {
     Id eventhorizon.UUID
 }
 
@@ -256,8 +276,20 @@ func (o *AttendanceEventType) IsAttendanceCreated() bool {
     return o == _attendanceEventTypes.AttendanceCreated()
 }
 
+func (o *AttendanceEventType) IsAttendanceRegisterd() bool {
+    return o == _attendanceEventTypes.AttendanceRegisterd()
+}
+
 func (o *AttendanceEventType) IsAttendanceDeleted() bool {
     return o == _attendanceEventTypes.AttendanceDeleted()
+}
+
+func (o *AttendanceEventType) IsAttendanceConfirmd() bool {
+    return o == _attendanceEventTypes.AttendanceConfirmd()
+}
+
+func (o *AttendanceEventType) IsAttendanceCanceld() bool {
+    return o == _attendanceEventTypes.AttendanceCanceld()
 }
 
 func (o *AttendanceEventType) IsAttendanceUpdated() bool {
@@ -271,8 +303,11 @@ type attendanceEventTypes struct {
 
 var _attendanceEventTypes = &attendanceEventTypes{values: []*AttendanceEventType{
     {name: "AttendanceCreated", ordinal: 0},
-    {name: "AttendanceDeleted", ordinal: 1},
-    {name: "AttendanceUpdated", ordinal: 2}},
+    {name: "AttendanceRegisterd", ordinal: 1},
+    {name: "AttendanceDeleted", ordinal: 2},
+    {name: "AttendanceConfirmd", ordinal: 3},
+    {name: "AttendanceCanceld", ordinal: 4},
+    {name: "AttendanceUpdated", ordinal: 5}},
 }
 
 func AttendanceEventTypes() *attendanceEventTypes {
@@ -297,12 +332,24 @@ func (o *attendanceEventTypes) AttendanceCreated() *AttendanceEventType {
     return _attendanceEventTypes.values[0]
 }
 
-func (o *attendanceEventTypes) AttendanceDeleted() *AttendanceEventType {
+func (o *attendanceEventTypes) AttendanceRegisterd() *AttendanceEventType {
     return _attendanceEventTypes.values[1]
 }
 
-func (o *attendanceEventTypes) AttendanceUpdated() *AttendanceEventType {
+func (o *attendanceEventTypes) AttendanceDeleted() *AttendanceEventType {
     return _attendanceEventTypes.values[2]
+}
+
+func (o *attendanceEventTypes) AttendanceConfirmd() *AttendanceEventType {
+    return _attendanceEventTypes.values[3]
+}
+
+func (o *attendanceEventTypes) AttendanceCanceld() *AttendanceEventType {
+    return _attendanceEventTypes.values[4]
+}
+
+func (o *attendanceEventTypes) AttendanceUpdated() *AttendanceEventType {
+    return _attendanceEventTypes.values[5]
 }
 
 func (o *attendanceEventTypes) ParseAttendanceEventType(name string) (ret *AttendanceEventType, ok bool) {

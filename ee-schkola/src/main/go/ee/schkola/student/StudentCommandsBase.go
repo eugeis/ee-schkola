@@ -58,11 +58,6 @@ const (
 type ConfirmAttendance struct {
     Id eventhorizon.UUID
 }
-
-func NewConfirm() (ret *ConfirmAttendance) {
-    ret = &ConfirmAttendance{}
-    return
-}
 func (o *ConfirmAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *ConfirmAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
 func (o *ConfirmAttendance) CommandType() eventhorizon.CommandType      { return ConfirmAttendanceCommand }
@@ -72,11 +67,6 @@ func (o *ConfirmAttendance) CommandType() eventhorizon.CommandType      { return
         
 type CancelAttendance struct {
     Id eventhorizon.UUID
-}
-
-func NewCancel() (ret *CancelAttendance) {
-    ret = &CancelAttendance{}
-    return
 }
 func (o *CancelAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *CancelAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
@@ -89,11 +79,6 @@ type RegisterAttendance struct {
     Student *person.Profile
     Course *Course
     Id eventhorizon.UUID
-}
-
-func NewRegister() (ret *RegisterAttendance) {
-    ret = &RegisterAttendance{}
-    return
 }
 func (o *RegisterAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *RegisterAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }

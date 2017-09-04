@@ -22,8 +22,9 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val lastLoginAt = propDT({ meta(true) })
             val profile = prop { type(Person.Profile) }
 
-            val enable = command()
-            val disable = command()
+            val login = command(username, email, password)
+            val enable = updateBy(p(disabled, { value(false) }))
+            val disable = updateBy(p(disabled, { value(true) }))
         }
     }
 

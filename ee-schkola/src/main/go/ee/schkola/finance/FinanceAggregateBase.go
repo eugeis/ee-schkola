@@ -11,6 +11,7 @@ type ExpenseCommandHandler struct {
     CreateHandler func (*CreateExpense, *Expense, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteExpense, *Expense, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateExpense, *Expense, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -71,6 +72,7 @@ type ExpenseEventHandler struct {
     CreatedHandler func (*ExpenseCreated, *Expense) (err error) 
     DeletedHandler func (*ExpenseDeleted, *Expense) (err error) 
     UpdatedHandler func (*ExpenseUpdated, *Expense) (err error) 
+    AddItem *T
 }
 
 func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -142,6 +144,7 @@ type ExpenseAggregateInitializer struct {
     *ExpenseCommandHandler
     *ExpenseEventHandler
     ProjectorHandler *ExpenseEventHandler
+    AddItem *T
 }
 
 
@@ -170,6 +173,7 @@ type ExpensePurposeCommandHandler struct {
     CreateHandler func (*CreateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -226,6 +230,7 @@ type ExpensePurposeEventHandler struct {
     CreatedHandler func (*ExpensePurposeCreated, *ExpensePurpose) (err error) 
     DeletedHandler func (*ExpensePurposeDeleted, *ExpensePurpose) (err error) 
     UpdatedHandler func (*ExpensePurposeUpdated, *ExpensePurpose) (err error) 
+    AddItem *T
 }
 
 func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -293,6 +298,7 @@ type ExpensePurposeAggregateInitializer struct {
     *ExpensePurposeCommandHandler
     *ExpensePurposeEventHandler
     ProjectorHandler *ExpensePurposeEventHandler
+    AddItem *T
 }
 
 
@@ -321,6 +327,7 @@ type FeeCommandHandler struct {
     CreateHandler func (*CreateFee, *Fee, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteFee, *Fee, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateFee, *Fee, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -381,6 +388,7 @@ type FeeEventHandler struct {
     CreatedHandler func (*FeeCreated, *Fee) (err error) 
     DeletedHandler func (*FeeDeleted, *Fee) (err error) 
     UpdatedHandler func (*FeeUpdated, *Fee) (err error) 
+    AddItem *T
 }
 
 func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -452,6 +460,7 @@ type FeeAggregateInitializer struct {
     *FeeCommandHandler
     *FeeEventHandler
     ProjectorHandler *FeeEventHandler
+    AddItem *T
 }
 
 
@@ -480,6 +489,7 @@ type FeeKindCommandHandler struct {
     CreateHandler func (*CreateFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error) 
+    AddItem *T
 }
 
 func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -538,6 +548,7 @@ type FeeKindEventHandler struct {
     CreatedHandler func (*FeeKindCreated, *FeeKind) (err error) 
     DeletedHandler func (*FeeKindDeleted, *FeeKind) (err error) 
     UpdatedHandler func (*FeeKindUpdated, *FeeKind) (err error) 
+    AddItem *T
 }
 
 func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -607,6 +618,7 @@ type FeeKindAggregateInitializer struct {
     *FeeKindCommandHandler
     *FeeKindEventHandler
     ProjectorHandler *FeeKindEventHandler
+    AddItem *T
 }
 
 
