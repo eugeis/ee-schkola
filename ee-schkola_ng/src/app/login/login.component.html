@@ -6,8 +6,8 @@
             <form role="form" (ngSubmit)="f.form.valid && login()" #f="ngForm">
                 <div class="form-content">
                     <div class="form-group">
-                        <input type="text" class="form-control input-underline input-lg" name="usernameOrEmail" [(ngModel)]="model.usernameOrEmail" #usernameOrEmail="ngModel" placeholder="Benutzername oder Email" required>
-                        <div *ngIf="f.submitted && !usernameOrEmail.valid" class="help-block">Bitte Benutzernamen oder Email eingeben</div>
+                        <input type="text" class="form-control input-underline input-lg" name="username" [(ngModel)]="model.username" #username="ngModel" placeholder="Benutzername" required>
+                        <div *ngIf="f.submitted && !username.valid" class="help-block">Bitte Benutzernamen eingeben</div>
                     </div>
 
                     <div class="form-group">

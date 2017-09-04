@@ -143,6 +143,12 @@ func (o *AttendanceRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).
         Name("FindAttendanceAll").HandlerFunc(o.QueryHandler.FindAll)
     router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "confirm").
+        Name("ConfirmAttendance").HandlerFunc(o.CommandHandler.Confirm)
+    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "cancel").
+        Name("CancelAttendance").HandlerFunc(o.CommandHandler.Cancel)
+    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "register").
         Name("RegisterAttendance").HandlerFunc(o.CommandHandler.Register)
     router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
@@ -151,12 +157,6 @@ func (o *AttendanceRouter) Setup(router *mux.Router) (err error) {
         Name("UpdateAttendance").HandlerFunc(o.CommandHandler.Update)
     router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteAttendance").HandlerFunc(o.CommandHandler.Delete)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
-        Queries(net.Command, "confirm").
-        Name("ConfirmAttendance").HandlerFunc(o.CommandHandler.Confirm)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
-        Queries(net.Command, "cancel").
-        Name("CancelAttendance").HandlerFunc(o.CommandHandler.Cancel)
     return
 }
 

@@ -146,6 +146,9 @@ func (o *AccountRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).
         Name("FindAccountAll").HandlerFunc(o.QueryHandler.FindAll)
     router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "login").
+        Name("LoginAccount").HandlerFunc(o.CommandHandler.Login)
+    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateAccount").HandlerFunc(o.CommandHandler.Create)
     router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "enable").
@@ -157,9 +160,6 @@ func (o *AccountRouter) Setup(router *mux.Router) (err error) {
         Name("UpdateAccount").HandlerFunc(o.CommandHandler.Update)
     router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteAccount").HandlerFunc(o.CommandHandler.Delete)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
-        Queries(net.Command, "login").
-        Name("LoginAccount").HandlerFunc(o.CommandHandler.Login)
     return
 }
 

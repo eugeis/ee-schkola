@@ -1,15 +1,20 @@
-﻿import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+﻿import {Injectable} from '@angular/core';
+import {Http, Response} from '@angular/http';
 import 'rxjs/add/operator/map'
 
 @Injectable()
 export class AuthenticationService {
-    constructor(private http: Http) { }
+    constructor(private http: Http) {
+    }
 
-    login(usernameOrEmail: string, password: string) {
-        return this.http.post('http://localhost:8080/auth/accounts/', JSON.stringify({ usernameOrEmail: usernameOrEmail, password: password }))
-            .map((response: Response) => {
+    login(username: string, password: string) {
+        let p = new URLSearchParams()
+        p.set("command", "login")
+        p.set("password", password)
+        let test = p.get("command")
+        return this.http.post("http://localhost:8080/auth/accounts/" + username,
+            {}, {params: p}).map(
+            (response: Response) => {
                 // login successful if there's a jwt token in the response
                 let account = response.json();
                 if (account && account.token) {

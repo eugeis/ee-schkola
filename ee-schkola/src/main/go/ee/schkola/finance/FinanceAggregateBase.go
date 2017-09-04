@@ -28,40 +28,34 @@ func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 }
 
 func (o *ExpenseCommandHandler) SetupCommandHandler() (err error) {
-    if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
-            if err = eh.ValidateNewId(entity.Id, command.Id, ExpenseAggregateType); err == nil {
-                store.StoreEvent(ExpenseCreatedEvent, &ExpenseCreated{
-                    Purpose: command.Purpose,
-                    Amount: command.Amount,
-                    Profile: command.Profile,
-                    Date: command.Date,
-                    Id: command.Id,}, time.Now())
-            }
-            return
+    o.CreateHandler = func(command *CreateExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateNewId(entity.Id, command.Id, ExpenseAggregateType); err == nil {
+            store.StoreEvent(ExpenseCreatedEvent, &ExpenseCreated{
+                Purpose: command.Purpose,
+                Amount: command.Amount,
+                Profile: command.Profile,
+                Date: command.Date,
+                Id: command.Id,}, time.Now())
         }
+        return
     }
-    if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, command.Id, ExpenseAggregateType); err == nil {
-                store.StoreEvent(ExpenseDeletedEvent, &ExpenseDeleted{
-                    Id: command.Id,}, time.Now())
-            }
-            return
+    o.DeleteHandler = func(command *DeleteExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, ExpenseAggregateType); err == nil {
+            store.StoreEvent(ExpenseDeletedEvent, &ExpenseDeleted{
+                Id: command.Id,}, time.Now())
         }
+        return
     }
-    if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, command.Id, ExpenseAggregateType); err == nil {
-                store.StoreEvent(ExpenseUpdatedEvent, &ExpenseUpdated{
-                    Purpose: command.Purpose,
-                    Amount: command.Amount,
-                    Profile: command.Profile,
-                    Date: command.Date,
-                    Id: command.Id,}, time.Now())
-            }
-            return
+    o.UpdateHandler = func(command *UpdateExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, ExpenseAggregateType); err == nil {
+            store.StoreEvent(ExpenseUpdatedEvent, &ExpenseUpdated{
+                Purpose: command.Purpose,
+                Amount: command.Amount,
+                Profile: command.Profile,
+                Date: command.Date,
+                Id: command.Id,}, time.Now())
         }
+        return
     }
     return
 }
@@ -95,17 +89,15 @@ func (o *ExpenseEventHandler) SetupEventHandler() (err error) {
 	})
 
     //default handler implementation
-    if o.CreatedHandler == nil {
-        o.CreatedHandler = func(event *ExpenseCreated, entity *Expense) (err error) {
-            if err = eh.ValidateNewId(entity.Id, event.Id, ExpenseAggregateType); err == nil {
-                entity.Purpose = event.Purpose
-                entity.Amount = event.Amount
-                entity.Profile = event.Profile
-                entity.Date = event.Date
-                entity.Id = event.Id
-            }
-            return
+    o.CreatedHandler = func(event *ExpenseCreated, entity *Expense) (err error) {
+        if err = eh.ValidateNewId(entity.Id, event.Id, ExpenseAggregateType); err == nil {
+            entity.Purpose = event.Purpose
+            entity.Amount = event.Amount
+            entity.Profile = event.Profile
+            entity.Date = event.Date
+            entity.Id = event.Id
         }
+        return
     }
 
     //register event object factory
@@ -114,13 +106,11 @@ func (o *ExpenseEventHandler) SetupEventHandler() (err error) {
 	})
 
     //default handler implementation
-    if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *ExpenseDeleted, entity *Expense) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpenseAggregateType); err == nil {
-                *entity = *NewExpense()
-            }
-            return
+    o.DeletedHandler = func(event *ExpenseDeleted, entity *Expense) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpenseAggregateType); err == nil {
+            *entity = *NewExpense()
         }
+        return
     }
 
     //register event object factory
@@ -129,16 +119,14 @@ func (o *ExpenseEventHandler) SetupEventHandler() (err error) {
 	})
 
     //default handler implementation
-    if o.UpdatedHandler == nil {
-        o.UpdatedHandler = func(event *ExpenseUpdated, entity *Expense) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpenseAggregateType); err == nil {
-                entity.Purpose = event.Purpose
-                entity.Amount = event.Amount
-                entity.Profile = event.Profile
-                entity.Date = event.Date
-            }
-            return
+    o.UpdatedHandler = func(event *ExpenseUpdated, entity *Expense) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpenseAggregateType); err == nil {
+            entity.Purpose = event.Purpose
+            entity.Amount = event.Amount
+            entity.Profile = event.Profile
+            entity.Date = event.Date
         }
+        return
     }
     return
 }
@@ -196,36 +184,30 @@ func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity 
 }
 
 func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (err error) {
-    if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
-            if err = eh.ValidateNewId(entity.Id, command.Id, ExpensePurposeAggregateType); err == nil {
-                store.StoreEvent(ExpensePurposeCreatedEvent, &ExpensePurposeCreated{
-                    Name: command.Name,
-                    Description: command.Description,
-                    Id: command.Id,}, time.Now())
-            }
-            return
+    o.CreateHandler = func(command *CreateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateNewId(entity.Id, command.Id, ExpensePurposeAggregateType); err == nil {
+            store.StoreEvent(ExpensePurposeCreatedEvent, &ExpensePurposeCreated{
+                Name: command.Name,
+                Description: command.Description,
+                Id: command.Id,}, time.Now())
         }
+        return
     }
-    if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, command.Id, ExpensePurposeAggregateType); err == nil {
-                store.StoreEvent(ExpensePurposeDeletedEvent, &ExpensePurposeDeleted{
-                    Id: command.Id,}, time.Now())
-            }
-            return
+    o.DeleteHandler = func(command *DeleteExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, ExpensePurposeAggregateType); err == nil {
+            store.StoreEvent(ExpensePurposeDeletedEvent, &ExpensePurposeDeleted{
+                Id: command.Id,}, time.Now())
         }
+        return
     }
-    if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, command.Id, ExpensePurposeAggregateType); err == nil {
-                store.StoreEvent(ExpensePurposeUpdatedEvent, &ExpensePurposeUpdated{
-                    Name: command.Name,
-                    Description: command.Description,
-                    Id: command.Id,}, time.Now())
-            }
-            return
+    o.UpdateHandler = func(command *UpdateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, ExpensePurposeAggregateType); err == nil {
+            store.StoreEvent(ExpensePurposeUpdatedEvent, &ExpensePurposeUpdated{
+                Name: command.Name,
+                Description: command.Description,
+                Id: command.Id,}, time.Now())
         }
+        return
     }
     return
 }
@@ -259,15 +241,13 @@ func (o *ExpensePurposeEventHandler) SetupEventHandler() (err error) {
 	})
 
     //default handler implementation
-    if o.CreatedHandler == nil {
-        o.CreatedHandler = func(event *ExpensePurposeCreated, entity *ExpensePurpose) (err error) {
-            if err = eh.ValidateNewId(entity.Id, event.Id, ExpensePurposeAggregateType); err == nil {
-                entity.Name = event.Name
-                entity.Description = event.Description
-                entity.Id = event.Id
-            }
-            return
+    o.CreatedHandler = func(event *ExpensePurposeCreated, entity *ExpensePurpose) (err error) {
+        if err = eh.ValidateNewId(entity.Id, event.Id, ExpensePurposeAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Description = event.Description
+            entity.Id = event.Id
         }
+        return
     }
 
     //register event object factory
@@ -276,13 +256,11 @@ func (o *ExpensePurposeEventHandler) SetupEventHandler() (err error) {
 	})
 
     //default handler implementation
-    if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *ExpensePurposeDeleted, entity *ExpensePurpose) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpensePurposeAggregateType); err == nil {
-                *entity = *NewExpensePurpose()
-            }
-            return
+    o.DeletedHandler = func(event *ExpensePurposeDeleted, entity *ExpensePurpose) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpensePurposeAggregateType); err == nil {
+            *entity = *NewExpensePurpose()
         }
+        return
     }
 
     //register event object factory
@@ -291,14 +269,12 @@ func (o *ExpensePurposeEventHandler) SetupEventHandler() (err error) {
 	})
 
     //default handler implementation
-    if o.UpdatedHandler == nil {
-        o.UpdatedHandler = func(event *ExpensePurposeUpdated, entity *ExpensePurpose) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpensePurposeAggregateType); err == nil {
-                entity.Name = event.Name
-                entity.Description = event.Description
-            }
-            return
+    o.UpdatedHandler = func(event *ExpensePurposeUpdated, entity *ExpensePurpose) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpensePurposeAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Description = event.Description
         }
+        return
     }
     return
 }
@@ -356,40 +332,34 @@ func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}
 }
 
 func (o *FeeCommandHandler) SetupCommandHandler() (err error) {
-    if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
-            if err = eh.ValidateNewId(entity.Id, command.Id, FeeAggregateType); err == nil {
-                store.StoreEvent(FeeCreatedEvent, &FeeCreated{
-                    Student: command.Student,
-                    Amount: command.Amount,
-                    Kind: command.Kind,
-                    Date: command.Date,
-                    Id: command.Id,}, time.Now())
-            }
-            return
+    o.CreateHandler = func(command *CreateFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateNewId(entity.Id, command.Id, FeeAggregateType); err == nil {
+            store.StoreEvent(FeeCreatedEvent, &FeeCreated{
+                Student: command.Student,
+                Amount: command.Amount,
+                Kind: command.Kind,
+                Date: command.Date,
+                Id: command.Id,}, time.Now())
         }
+        return
     }
-    if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, command.Id, FeeAggregateType); err == nil {
-                store.StoreEvent(FeeDeletedEvent, &FeeDeleted{
-                    Id: command.Id,}, time.Now())
-            }
-            return
+    o.DeleteHandler = func(command *DeleteFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, FeeAggregateType); err == nil {
+            store.StoreEvent(FeeDeletedEvent, &FeeDeleted{
+                Id: command.Id,}, time.Now())
         }
+        return
     }
-    if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, command.Id, FeeAggregateType); err == nil {
-                store.StoreEvent(FeeUpdatedEvent, &FeeUpdated{
-                    Student: command.Student,
-                    Amount: command.Amount,
-                    Kind: command.Kind,
-                    Date: command.Date,
-                    Id: command.Id,}, time.Now())
-            }
-            return
+    o.UpdateHandler = func(command *UpdateFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, FeeAggregateType); err == nil {
+            store.StoreEvent(FeeUpdatedEvent, &FeeUpdated{
+                Student: command.Student,
+                Amount: command.Amount,
+                Kind: command.Kind,
+                Date: command.Date,
+                Id: command.Id,}, time.Now())
         }
+        return
     }
     return
 }
@@ -423,17 +393,15 @@ func (o *FeeEventHandler) SetupEventHandler() (err error) {
 	})
 
     //default handler implementation
-    if o.CreatedHandler == nil {
-        o.CreatedHandler = func(event *FeeCreated, entity *Fee) (err error) {
-            if err = eh.ValidateNewId(entity.Id, event.Id, FeeAggregateType); err == nil {
-                entity.Student = event.Student
-                entity.Amount = event.Amount
-                entity.Kind = event.Kind
-                entity.Date = event.Date
-                entity.Id = event.Id
-            }
-            return
+    o.CreatedHandler = func(event *FeeCreated, entity *Fee) (err error) {
+        if err = eh.ValidateNewId(entity.Id, event.Id, FeeAggregateType); err == nil {
+            entity.Student = event.Student
+            entity.Amount = event.Amount
+            entity.Kind = event.Kind
+            entity.Date = event.Date
+            entity.Id = event.Id
         }
+        return
     }
 
     //register event object factory
@@ -442,13 +410,11 @@ func (o *FeeEventHandler) SetupEventHandler() (err error) {
 	})
 
     //default handler implementation
-    if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *FeeDeleted, entity *Fee) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeAggregateType); err == nil {
-                *entity = *NewFee()
-            }
-            return
+    o.DeletedHandler = func(event *FeeDeleted, entity *Fee) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeAggregateType); err == nil {
+            *entity = *NewFee()
         }
+        return
     }
 
     //register event object factory
@@ -457,16 +423,14 @@ func (o *FeeEventHandler) SetupEventHandler() (err error) {
 	})
 
     //default handler implementation
-    if o.UpdatedHandler == nil {
-        o.UpdatedHandler = func(event *FeeUpdated, entity *Fee) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeAggregateType); err == nil {
-                entity.Student = event.Student
-                entity.Amount = event.Amount
-                entity.Kind = event.Kind
-                entity.Date = event.Date
-            }
-            return
+    o.UpdatedHandler = func(event *FeeUpdated, entity *Fee) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeAggregateType); err == nil {
+            entity.Student = event.Student
+            entity.Amount = event.Amount
+            entity.Kind = event.Kind
+            entity.Date = event.Date
         }
+        return
     }
     return
 }
@@ -524,38 +488,32 @@ func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interfa
 }
 
 func (o *FeeKindCommandHandler) SetupCommandHandler() (err error) {
-    if o.CreateHandler == nil {
-        o.CreateHandler = func(command *CreateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
-            if err = eh.ValidateNewId(entity.Id, command.Id, FeeKindAggregateType); err == nil {
-                store.StoreEvent(FeeKindCreatedEvent, &FeeKindCreated{
-                    Name: command.Name,
-                    Amount: command.Amount,
-                    Description: command.Description,
-                    Id: command.Id,}, time.Now())
-            }
-            return
+    o.CreateHandler = func(command *CreateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateNewId(entity.Id, command.Id, FeeKindAggregateType); err == nil {
+            store.StoreEvent(FeeKindCreatedEvent, &FeeKindCreated{
+                Name: command.Name,
+                Amount: command.Amount,
+                Description: command.Description,
+                Id: command.Id,}, time.Now())
         }
+        return
     }
-    if o.DeleteHandler == nil {
-        o.DeleteHandler = func(command *DeleteFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, command.Id, FeeKindAggregateType); err == nil {
-                store.StoreEvent(FeeKindDeletedEvent, &FeeKindDeleted{
-                    Id: command.Id,}, time.Now())
-            }
-            return
+    o.DeleteHandler = func(command *DeleteFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, FeeKindAggregateType); err == nil {
+            store.StoreEvent(FeeKindDeletedEvent, &FeeKindDeleted{
+                Id: command.Id,}, time.Now())
         }
+        return
     }
-    if o.UpdateHandler == nil {
-        o.UpdateHandler = func(command *UpdateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, command.Id, FeeKindAggregateType); err == nil {
-                store.StoreEvent(FeeKindUpdatedEvent, &FeeKindUpdated{
-                    Name: command.Name,
-                    Amount: command.Amount,
-                    Description: command.Description,
-                    Id: command.Id,}, time.Now())
-            }
-            return
+    o.UpdateHandler = func(command *UpdateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, FeeKindAggregateType); err == nil {
+            store.StoreEvent(FeeKindUpdatedEvent, &FeeKindUpdated{
+                Name: command.Name,
+                Amount: command.Amount,
+                Description: command.Description,
+                Id: command.Id,}, time.Now())
         }
+        return
     }
     return
 }
@@ -589,16 +547,14 @@ func (o *FeeKindEventHandler) SetupEventHandler() (err error) {
 	})
 
     //default handler implementation
-    if o.CreatedHandler == nil {
-        o.CreatedHandler = func(event *FeeKindCreated, entity *FeeKind) (err error) {
-            if err = eh.ValidateNewId(entity.Id, event.Id, FeeKindAggregateType); err == nil {
-                entity.Name = event.Name
-                entity.Amount = event.Amount
-                entity.Description = event.Description
-                entity.Id = event.Id
-            }
-            return
+    o.CreatedHandler = func(event *FeeKindCreated, entity *FeeKind) (err error) {
+        if err = eh.ValidateNewId(entity.Id, event.Id, FeeKindAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Amount = event.Amount
+            entity.Description = event.Description
+            entity.Id = event.Id
         }
+        return
     }
 
     //register event object factory
@@ -607,13 +563,11 @@ func (o *FeeKindEventHandler) SetupEventHandler() (err error) {
 	})
 
     //default handler implementation
-    if o.DeletedHandler == nil {
-        o.DeletedHandler = func(event *FeeKindDeleted, entity *FeeKind) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeKindAggregateType); err == nil {
-                *entity = *NewFeeKind()
-            }
-            return
+    o.DeletedHandler = func(event *FeeKindDeleted, entity *FeeKind) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeKindAggregateType); err == nil {
+            *entity = *NewFeeKind()
         }
+        return
     }
 
     //register event object factory
@@ -622,15 +576,13 @@ func (o *FeeKindEventHandler) SetupEventHandler() (err error) {
 	})
 
     //default handler implementation
-    if o.UpdatedHandler == nil {
-        o.UpdatedHandler = func(event *FeeKindUpdated, entity *FeeKind) (err error) {
-            if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeKindAggregateType); err == nil {
-                entity.Name = event.Name
-                entity.Amount = event.Amount
-                entity.Description = event.Description
-            }
-            return
+    o.UpdatedHandler = func(event *FeeKindUpdated, entity *FeeKind) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeKindAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Amount = event.Amount
+            entity.Description = event.Description
         }
+        return
     }
     return
 }
