@@ -8,7 +8,6 @@ import (
 type BookQueryRepository struct {
     repo eventhorizon.ReadRepo
     context context.Context
-    AddItem *T
 }
 
 func NewBookQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *BookQueryRepository) {

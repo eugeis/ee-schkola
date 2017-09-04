@@ -23,6 +23,7 @@ type AccountCreated struct {
     Username string`eh:"optional"`
     Password string`eh:"optional"`
     Email string`eh:"optional"`
+    Disabled bool`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Id eventhorizon.UUID`eh:"optional"`
 }
@@ -46,6 +47,7 @@ type AccountUpdated struct {
     Username string`eh:"optional"`
     Password string`eh:"optional"`
     Email string`eh:"optional"`
+    Disabled bool`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Id eventhorizon.UUID`eh:"optional"`
 }

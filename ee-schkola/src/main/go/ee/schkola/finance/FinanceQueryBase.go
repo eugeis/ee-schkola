@@ -7,7 +7,6 @@ import (
 type ExpenseQueryRepository struct {
     repo eventhorizon.ReadRepo
     context context.Context
-    AddItem *T
 }
 
 func NewExpenseQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *ExpenseQueryRepository) {
@@ -73,7 +72,6 @@ func (o *ExpenseQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err 
 type ExpensePurposeQueryRepository struct {
     repo eventhorizon.ReadRepo
     context context.Context
-    AddItem *T
 }
 
 func NewExpensePurposeQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *ExpensePurposeQueryRepository) {
@@ -139,7 +137,6 @@ func (o *ExpensePurposeQueryRepository) ExistById(id eventhorizon.UUID) (ret boo
 type FeeQueryRepository struct {
     repo eventhorizon.ReadRepo
     context context.Context
-    AddItem *T
 }
 
 func NewFeeQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *FeeQueryRepository) {
@@ -205,7 +202,6 @@ func (o *FeeQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err erro
 type FeeKindQueryRepository struct {
     repo eventhorizon.ReadRepo
     context context.Context
-    AddItem *T
 }
 
 func NewFeeKindQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *FeeKindQueryRepository) {

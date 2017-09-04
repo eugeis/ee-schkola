@@ -12,7 +12,6 @@ type BookCommandHandler struct {
     DeleteHandler func (*DeleteBook, *Book, eh.AggregateStoreEvent) (err error) 
     ChangeLocationHandler func (*ChangeBookLocation, *Book, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateBook, *Book, eh.AggregateStoreEvent) (err error) 
-    AddItem *T
 }
 
 func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -94,7 +93,6 @@ type BookEventHandler struct {
     CreatedHandler func (*BookCreated, *Book) (err error) 
     DeletedHandler func (*BookDeleted, *Book) (err error) 
     UpdatedHandler func (*BookUpdated, *Book) (err error) 
-    AddItem *T
 }
 
 func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -114,10 +112,13 @@ func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (
 }
 
 func (o *BookEventHandler) SetupEventHandler() (err error) {
-	eventhorizon.RegisterEventData(LocationChangedBookEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(LocationChangedBookEvent, func() eventhorizon.EventData {
 		return &LocationChangedBook{}
 	})
 
+    //default handler implementation
     if o.LocationChangedHandler == nil {
         o.LocationChangedHandler = func(event *LocationChangedBook, entity *Book) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, BookAggregateType); err == nil {
@@ -126,10 +127,13 @@ func (o *BookEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
-	eventhorizon.RegisterEventData(BookCreatedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(BookCreatedEvent, func() eventhorizon.EventData {
 		return &BookCreated{}
 	})
 
+    //default handler implementation
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *BookCreated, entity *Book) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, BookAggregateType); err == nil {
@@ -146,10 +150,13 @@ func (o *BookEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
-	eventhorizon.RegisterEventData(BookDeletedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(BookDeletedEvent, func() eventhorizon.EventData {
 		return &BookDeleted{}
 	})
 
+    //default handler implementation
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *BookDeleted, entity *Book) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, BookAggregateType); err == nil {
@@ -158,10 +165,13 @@ func (o *BookEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
-	eventhorizon.RegisterEventData(BookUpdatedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(BookUpdatedEvent, func() eventhorizon.EventData {
 		return &BookUpdated{}
 	})
 
+    //default handler implementation
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *BookUpdated, entity *Book) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, BookAggregateType); err == nil {
@@ -188,7 +198,6 @@ type BookAggregateInitializer struct {
     *BookCommandHandler
     *BookEventHandler
     ProjectorHandler *BookEventHandler
-    AddItem *T
 }
 
 

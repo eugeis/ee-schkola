@@ -11,7 +11,6 @@ import (
 type ChurchHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *ChurchQueryRepository
-    AddItem *T
 }
 
 func NewChurchHttpQueryHandler(queryRepository *ChurchQueryRepository) (ret *ChurchHttpQueryHandler) {
@@ -62,7 +61,6 @@ func (o *ChurchHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reques
 
 type ChurchHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewChurchHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ChurchHttpCommandHandler) {
@@ -97,7 +95,6 @@ type ChurchRouter struct {
     QueryHandler *ChurchHttpQueryHandler
     CommandHandler *ChurchHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewChurchRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -146,7 +143,6 @@ func (o *ChurchRouter) Setup(router *mux.Router) (err error) {
 type GraduationHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *GraduationQueryRepository
-    AddItem *T
 }
 
 func NewGraduationHttpQueryHandler(queryRepository *GraduationQueryRepository) (ret *GraduationHttpQueryHandler) {
@@ -197,7 +193,6 @@ func (o *GraduationHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Re
 
 type GraduationHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewGraduationHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *GraduationHttpCommandHandler) {
@@ -232,7 +227,6 @@ type GraduationRouter struct {
     QueryHandler *GraduationHttpQueryHandler
     CommandHandler *GraduationHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewGraduationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -281,7 +275,6 @@ func (o *GraduationRouter) Setup(router *mux.Router) (err error) {
 type ProfileHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *ProfileQueryRepository
-    AddItem *T
 }
 
 func NewProfileHttpQueryHandler(queryRepository *ProfileQueryRepository) (ret *ProfileHttpQueryHandler) {
@@ -346,7 +339,6 @@ func (o *ProfileHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reque
 
 type ProfileHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewProfileHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ProfileHttpCommandHandler) {
@@ -381,7 +373,6 @@ type ProfileRouter struct {
     QueryHandler *ProfileHttpQueryHandler
     CommandHandler *ProfileHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewProfileRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 

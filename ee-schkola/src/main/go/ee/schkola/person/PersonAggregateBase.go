@@ -11,7 +11,6 @@ type ChurchCommandHandler struct {
     CreateHandler func (*CreateChurch, *Church, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteChurch, *Church, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateChurch, *Church, eh.AggregateStoreEvent) (err error) 
-    AddItem *T
 }
 
 func (o *ChurchCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -72,7 +71,6 @@ type ChurchEventHandler struct {
     CreatedHandler func (*ChurchCreated, *Church) (err error) 
     DeletedHandler func (*ChurchDeleted, *Church) (err error) 
     UpdatedHandler func (*ChurchUpdated, *Church) (err error) 
-    AddItem *T
 }
 
 func (o *ChurchEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -90,10 +88,13 @@ func (o *ChurchEventHandler) Apply(event eventhorizon.Event, entity interface{})
 }
 
 func (o *ChurchEventHandler) SetupEventHandler() (err error) {
-	eventhorizon.RegisterEventData(ChurchCreatedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(ChurchCreatedEvent, func() eventhorizon.EventData {
 		return &ChurchCreated{}
 	})
 
+    //default handler implementation
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ChurchCreated, entity *Church) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, ChurchAggregateType); err == nil {
@@ -106,10 +107,13 @@ func (o *ChurchEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
-	eventhorizon.RegisterEventData(ChurchDeletedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(ChurchDeletedEvent, func() eventhorizon.EventData {
 		return &ChurchDeleted{}
 	})
 
+    //default handler implementation
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *ChurchDeleted, entity *Church) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, ChurchAggregateType); err == nil {
@@ -118,10 +122,13 @@ func (o *ChurchEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
-	eventhorizon.RegisterEventData(ChurchUpdatedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(ChurchUpdatedEvent, func() eventhorizon.EventData {
 		return &ChurchUpdated{}
 	})
 
+    //default handler implementation
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *ChurchUpdated, entity *Church) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, ChurchAggregateType); err == nil {
@@ -144,7 +151,6 @@ type ChurchAggregateInitializer struct {
     *ChurchCommandHandler
     *ChurchEventHandler
     ProjectorHandler *ChurchEventHandler
-    AddItem *T
 }
 
 
@@ -173,7 +179,6 @@ type GraduationCommandHandler struct {
     CreateHandler func (*CreateGraduation, *Graduation, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteGraduation, *Graduation, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateGraduation, *Graduation, eh.AggregateStoreEvent) (err error) 
-    AddItem *T
 }
 
 func (o *GraduationCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -230,7 +235,6 @@ type GraduationEventHandler struct {
     CreatedHandler func (*GraduationCreated, *Graduation) (err error) 
     DeletedHandler func (*GraduationDeleted, *Graduation) (err error) 
     UpdatedHandler func (*GraduationUpdated, *Graduation) (err error) 
-    AddItem *T
 }
 
 func (o *GraduationEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -248,10 +252,13 @@ func (o *GraduationEventHandler) Apply(event eventhorizon.Event, entity interfac
 }
 
 func (o *GraduationEventHandler) SetupEventHandler() (err error) {
-	eventhorizon.RegisterEventData(GraduationCreatedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(GraduationCreatedEvent, func() eventhorizon.EventData {
 		return &GraduationCreated{}
 	})
 
+    //default handler implementation
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *GraduationCreated, entity *Graduation) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, GraduationAggregateType); err == nil {
@@ -262,10 +269,13 @@ func (o *GraduationEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
-	eventhorizon.RegisterEventData(GraduationDeletedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(GraduationDeletedEvent, func() eventhorizon.EventData {
 		return &GraduationDeleted{}
 	})
 
+    //default handler implementation
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *GraduationDeleted, entity *Graduation) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, GraduationAggregateType); err == nil {
@@ -274,10 +284,13 @@ func (o *GraduationEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
-	eventhorizon.RegisterEventData(GraduationUpdatedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(GraduationUpdatedEvent, func() eventhorizon.EventData {
 		return &GraduationUpdated{}
 	})
 
+    //default handler implementation
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *GraduationUpdated, entity *Graduation) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, GraduationAggregateType); err == nil {
@@ -298,7 +311,6 @@ type GraduationAggregateInitializer struct {
     *GraduationCommandHandler
     *GraduationEventHandler
     ProjectorHandler *GraduationEventHandler
-    AddItem *T
 }
 
 
@@ -327,7 +339,6 @@ type ProfileCommandHandler struct {
     CreateHandler func (*CreateProfile, *Profile, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteProfile, *Profile, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateProfile, *Profile, eh.AggregateStoreEvent) (err error) 
-    AddItem *T
 }
 
 func (o *ProfileCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -402,7 +413,6 @@ type ProfileEventHandler struct {
     CreatedHandler func (*ProfileCreated, *Profile) (err error) 
     DeletedHandler func (*ProfileDeleted, *Profile) (err error) 
     UpdatedHandler func (*ProfileUpdated, *Profile) (err error) 
-    AddItem *T
 }
 
 func (o *ProfileEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -420,10 +430,13 @@ func (o *ProfileEventHandler) Apply(event eventhorizon.Event, entity interface{}
 }
 
 func (o *ProfileEventHandler) SetupEventHandler() (err error) {
-	eventhorizon.RegisterEventData(ProfileCreatedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(ProfileCreatedEvent, func() eventhorizon.EventData {
 		return &ProfileCreated{}
 	})
 
+    //default handler implementation
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *ProfileCreated, entity *Profile) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, ProfileAggregateType); err == nil {
@@ -443,10 +456,13 @@ func (o *ProfileEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
-	eventhorizon.RegisterEventData(ProfileDeletedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(ProfileDeletedEvent, func() eventhorizon.EventData {
 		return &ProfileDeleted{}
 	})
 
+    //default handler implementation
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *ProfileDeleted, entity *Profile) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, ProfileAggregateType); err == nil {
@@ -455,10 +471,13 @@ func (o *ProfileEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
-	eventhorizon.RegisterEventData(ProfileUpdatedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(ProfileUpdatedEvent, func() eventhorizon.EventData {
 		return &ProfileUpdated{}
 	})
 
+    //default handler implementation
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *ProfileUpdated, entity *Profile) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, ProfileAggregateType); err == nil {
@@ -488,7 +507,6 @@ type ProfileAggregateInitializer struct {
     *ProfileCommandHandler
     *ProfileEventHandler
     ProjectorHandler *ProfileEventHandler
-    AddItem *T
 }
 
 

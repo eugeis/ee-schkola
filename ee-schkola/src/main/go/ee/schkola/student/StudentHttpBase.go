@@ -11,7 +11,6 @@ import (
 type AttendanceHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *AttendanceQueryRepository
-    AddItem *T
 }
 
 func NewAttendanceHttpQueryHandler(queryRepository *AttendanceQueryRepository) (ret *AttendanceHttpQueryHandler) {
@@ -62,7 +61,6 @@ func (o *AttendanceHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Re
 
 type AttendanceHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewAttendanceHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *AttendanceHttpCommandHandler) {
@@ -109,7 +107,6 @@ type AttendanceRouter struct {
     QueryHandler *AttendanceHttpQueryHandler
     CommandHandler *AttendanceHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewAttendanceRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -146,6 +143,7 @@ func (o *AttendanceRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).
         Name("FindAttendanceAll").HandlerFunc(o.QueryHandler.FindAll)
     router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "register").
         Name("RegisterAttendance").HandlerFunc(o.CommandHandler.Register)
     router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateAttendance").HandlerFunc(o.CommandHandler.Create)
@@ -153,6 +151,12 @@ func (o *AttendanceRouter) Setup(router *mux.Router) (err error) {
         Name("UpdateAttendance").HandlerFunc(o.CommandHandler.Update)
     router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteAttendance").HandlerFunc(o.CommandHandler.Delete)
+    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "confirm").
+        Name("ConfirmAttendance").HandlerFunc(o.CommandHandler.Confirm)
+    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "cancel").
+        Name("CancelAttendance").HandlerFunc(o.CommandHandler.Cancel)
     return
 }
 
@@ -160,7 +164,6 @@ func (o *AttendanceRouter) Setup(router *mux.Router) (err error) {
 type CourseHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *CourseQueryRepository
-    AddItem *T
 }
 
 func NewCourseHttpQueryHandler(queryRepository *CourseQueryRepository) (ret *CourseHttpQueryHandler) {
@@ -211,7 +214,6 @@ func (o *CourseHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reques
 
 type CourseHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewCourseHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *CourseHttpCommandHandler) {
@@ -246,7 +248,6 @@ type CourseRouter struct {
     QueryHandler *CourseHttpQueryHandler
     CommandHandler *CourseHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewCourseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -295,7 +296,6 @@ func (o *CourseRouter) Setup(router *mux.Router) (err error) {
 type GradeHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *GradeQueryRepository
-    AddItem *T
 }
 
 func NewGradeHttpQueryHandler(queryRepository *GradeQueryRepository) (ret *GradeHttpQueryHandler) {
@@ -346,7 +346,6 @@ func (o *GradeHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request
 
 type GradeHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewGradeHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *GradeHttpCommandHandler) {
@@ -381,7 +380,6 @@ type GradeRouter struct {
     QueryHandler *GradeHttpQueryHandler
     CommandHandler *GradeHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewGradeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -430,7 +428,6 @@ func (o *GradeRouter) Setup(router *mux.Router) (err error) {
 type GroupHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *GroupQueryRepository
-    AddItem *T
 }
 
 func NewGroupHttpQueryHandler(queryRepository *GroupQueryRepository) (ret *GroupHttpQueryHandler) {
@@ -481,7 +478,6 @@ func (o *GroupHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request
 
 type GroupHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewGroupHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *GroupHttpCommandHandler) {
@@ -516,7 +512,6 @@ type GroupRouter struct {
     QueryHandler *GroupHttpQueryHandler
     CommandHandler *GroupHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewGroupRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -565,7 +560,6 @@ func (o *GroupRouter) Setup(router *mux.Router) (err error) {
 type SchoolApplicationHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *SchoolApplicationQueryRepository
-    AddItem *T
 }
 
 func NewSchoolApplicationHttpQueryHandler(queryRepository *SchoolApplicationQueryRepository) (ret *SchoolApplicationHttpQueryHandler) {
@@ -616,7 +610,6 @@ func (o *SchoolApplicationHttpQueryHandler) ExistById(w http.ResponseWriter, r *
 
 type SchoolApplicationHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewSchoolApplicationHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *SchoolApplicationHttpCommandHandler) {
@@ -651,7 +644,6 @@ type SchoolApplicationRouter struct {
     QueryHandler *SchoolApplicationHttpQueryHandler
     CommandHandler *SchoolApplicationHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewSchoolApplicationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -700,7 +692,6 @@ func (o *SchoolApplicationRouter) Setup(router *mux.Router) (err error) {
 type SchoolYearHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *SchoolYearQueryRepository
-    AddItem *T
 }
 
 func NewSchoolYearHttpQueryHandler(queryRepository *SchoolYearQueryRepository) (ret *SchoolYearHttpQueryHandler) {
@@ -751,7 +742,6 @@ func (o *SchoolYearHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Re
 
 type SchoolYearHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewSchoolYearHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *SchoolYearHttpCommandHandler) {
@@ -786,7 +776,6 @@ type SchoolYearRouter struct {
     QueryHandler *SchoolYearHttpQueryHandler
     CommandHandler *SchoolYearHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewSchoolYearRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 

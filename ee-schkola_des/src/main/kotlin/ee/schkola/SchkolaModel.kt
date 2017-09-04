@@ -18,7 +18,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val username = propS({ unique(true) })
             val password = propS()
             val email = propS({ unique(true) })
-            val disabled = propB({ meta(true) })
+            val disabled = propB()
             val lastLoginAt = propDT({ meta(true) })
             val profile = prop { type(Person.Profile) }
 

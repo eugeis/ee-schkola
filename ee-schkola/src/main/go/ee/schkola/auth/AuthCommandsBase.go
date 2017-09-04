@@ -37,6 +37,7 @@ type CreateAccount struct {
     Username string`eh:"optional"`
     Password string`eh:"optional"`
     Email string`eh:"optional"`
+    Disabled bool`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Id eventhorizon.UUID`eh:"optional"`
 }
@@ -82,6 +83,7 @@ type UpdateAccount struct {
     Username string`eh:"optional"`
     Password string`eh:"optional"`
     Email string`eh:"optional"`
+    Disabled bool`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Id eventhorizon.UUID`eh:"optional"`
 }

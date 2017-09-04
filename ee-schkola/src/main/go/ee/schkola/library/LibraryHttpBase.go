@@ -11,7 +11,6 @@ import (
 type BookHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *BookQueryRepository
-    AddItem *T
 }
 
 func NewBookHttpQueryHandler(queryRepository *BookQueryRepository) (ret *BookHttpQueryHandler) {
@@ -76,7 +75,6 @@ func (o *BookHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request)
 
 type BookHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewBookHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *BookHttpCommandHandler) {
@@ -117,7 +115,6 @@ type BookRouter struct {
     QueryHandler *BookHttpQueryHandler
     CommandHandler *BookHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -162,6 +159,7 @@ func (o *BookRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateBook").HandlerFunc(o.CommandHandler.Create)
     router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "changeLocation").
         Name("ChangeBookLocation").HandlerFunc(o.CommandHandler.ChangeLocation)
     router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateBook").HandlerFunc(o.CommandHandler.Update)

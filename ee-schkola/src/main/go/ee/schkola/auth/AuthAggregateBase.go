@@ -14,7 +14,6 @@ type AccountCommandHandler struct {
     EnableHandler func (*EnableAccount, *Account, eh.AggregateStoreEvent) (err error) 
     DisableHandler func (*DisableAccount, *Account, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateAccount, *Account, eh.AggregateStoreEvent) (err error) 
-    AddItem *T
 }
 
 func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -58,6 +57,7 @@ func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
                     Username: command.Username,
                     Password: command.Password,
                     Email: command.Email,
+                    Disabled: command.Disabled,
                     Profile: command.Profile,
                     Id: command.Id,}, time.Now())
             }
@@ -77,7 +77,6 @@ func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
         o.EnableHandler = func(command *EnableAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
                 store.StoreEvent(AccountEnabledEvent, &AccountEnabled{
-                    Disabled: command.Disabled,
                     Id: command.Id,}, time.Now())
             }
             return
@@ -87,7 +86,6 @@ func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
         o.DisableHandler = func(command *DisableAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
                 store.StoreEvent(AccountDisabledEvent, &AccountDisabled{
-                    Disabled: command.Disabled,
                     Id: command.Id,}, time.Now())
             }
             return
@@ -101,6 +99,7 @@ func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
                     Username: command.Username,
                     Password: command.Password,
                     Email: command.Email,
+                    Disabled: command.Disabled,
                     Profile: command.Profile,
                     Id: command.Id,}, time.Now())
             }
@@ -118,7 +117,6 @@ type AccountEventHandler struct {
     UpdatedHandler func (*AccountUpdated, *Account) (err error) 
     EnabledHandler func (*AccountEnabled, *Account) (err error) 
     DisabledHandler func (*AccountDisabled, *Account) (err error) 
-    AddItem *T
 }
 
 func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -142,10 +140,13 @@ func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}
 }
 
 func (o *AccountEventHandler) SetupEventHandler() (err error) {
-	eventhorizon.RegisterEventData(AccountCreatedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(AccountCreatedEvent, func() eventhorizon.EventData {
 		return &AccountCreated{}
 	})
 
+    //default handler implementation
     if o.CreatedHandler == nil {
         o.CreatedHandler = func(event *AccountCreated, entity *Account) (err error) {
             if err = eh.ValidateNewId(entity.Id, event.Id, AccountAggregateType); err == nil {
@@ -153,16 +154,20 @@ func (o *AccountEventHandler) SetupEventHandler() (err error) {
                 entity.Username = event.Username
                 entity.Password = event.Password
                 entity.Email = event.Email
+                entity.Disabled = event.Disabled
                 entity.Profile = event.Profile
                 entity.Id = event.Id
             }
             return
         }
     }
-	eventhorizon.RegisterEventData(AccountDeletedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(AccountDeletedEvent, func() eventhorizon.EventData {
 		return &AccountDeleted{}
 	})
 
+    //default handler implementation
     if o.DeletedHandler == nil {
         o.DeletedHandler = func(event *AccountDeleted, entity *Account) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, AccountAggregateType); err == nil {
@@ -171,19 +176,26 @@ func (o *AccountEventHandler) SetupEventHandler() (err error) {
             return
         }
     }
-	eventhorizon.RegisterEventData(AccountLoggedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(AccountLoggedEvent, func() eventhorizon.EventData {
 		return &AccountLogged{}
 	})
 
+    //default handler implementation
     if o.LoggedHandler == nil {
-        o.LoggedHandler = func(event *AccountLogged, entity *Account) (err error) {    err = eh.EventHandlerNotImplemented(AccountLoggedEvent)
+        o.LoggedHandler = func(event *AccountLogged, entity *Account) (err error) {
+            err = eh.EventHandlerNotImplemented(AccountLoggedEvent)
             return
         }
     }
-	eventhorizon.RegisterEventData(AccountUpdatedEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(AccountUpdatedEvent, func() eventhorizon.EventData {
 		return &AccountUpdated{}
 	})
 
+    //default handler implementation
     if o.UpdatedHandler == nil {
         o.UpdatedHandler = func(event *AccountUpdated, entity *Account) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, AccountAggregateType); err == nil {
@@ -191,31 +203,38 @@ func (o *AccountEventHandler) SetupEventHandler() (err error) {
                 entity.Username = event.Username
                 entity.Password = event.Password
                 entity.Email = event.Email
+                entity.Disabled = event.Disabled
                 entity.Profile = event.Profile
             }
             return
         }
     }
-	eventhorizon.RegisterEventData(AccountEnabledEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(AccountEnabledEvent, func() eventhorizon.EventData {
 		return &AccountEnabled{}
 	})
 
+    //default handler implementation
     if o.EnabledHandler == nil {
         o.EnabledHandler = func(event *AccountEnabled, entity *Account) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, AccountAggregateType); err == nil {
-                entity.Disabled = event.Disabled
+                entity.Disabled = false
             }
             return
         }
     }
-	eventhorizon.RegisterEventData(AccountDisabledEvent, func() eventhorizon.EventData {
+
+    //register event object factory
+    eventhorizon.RegisterEventData(AccountDisabledEvent, func() eventhorizon.EventData {
 		return &AccountDisabled{}
 	})
 
+    //default handler implementation
     if o.DisabledHandler == nil {
         o.DisabledHandler = func(event *AccountDisabled, entity *Account) (err error) {
             if err = eh.ValidateIdsMatch(entity.Id, event.Id, AccountAggregateType); err == nil {
-                entity.Disabled = event.Disabled
+                entity.Disabled = true
             }
             return
         }
@@ -231,7 +250,6 @@ type AccountAggregateInitializer struct {
     *AccountCommandHandler
     *AccountEventHandler
     ProjectorHandler *AccountEventHandler
-    AddItem *T
 }
 
 

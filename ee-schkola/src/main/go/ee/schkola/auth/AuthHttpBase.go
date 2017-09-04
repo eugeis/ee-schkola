@@ -11,7 +11,6 @@ import (
 type AccountHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *AccountQueryRepository
-    AddItem *T
 }
 
 func NewAccountHttpQueryHandler(queryRepository *AccountQueryRepository) (ret *AccountHttpQueryHandler) {
@@ -62,7 +61,6 @@ func (o *AccountHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reque
 
 type AccountHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewAccountHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *AccountHttpCommandHandler) {
@@ -112,7 +110,6 @@ type AccountRouter struct {
     QueryHandler *AccountHttpQueryHandler
     CommandHandler *AccountHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -151,13 +148,18 @@ func (o *AccountRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateAccount").HandlerFunc(o.CommandHandler.Create)
     router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "enable").
         Name("EnableAccount").HandlerFunc(o.CommandHandler.Enable)
     router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "disable").
         Name("DisableAccount").HandlerFunc(o.CommandHandler.Disable)
     router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateAccount").HandlerFunc(o.CommandHandler.Update)
     router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteAccount").HandlerFunc(o.CommandHandler.Delete)
+    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "login").
+        Name("LoginAccount").HandlerFunc(o.CommandHandler.Login)
     return
 }
 

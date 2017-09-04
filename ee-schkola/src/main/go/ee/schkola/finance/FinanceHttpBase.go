@@ -11,7 +11,6 @@ import (
 type ExpenseHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *ExpenseQueryRepository
-    AddItem *T
 }
 
 func NewExpenseHttpQueryHandler(queryRepository *ExpenseQueryRepository) (ret *ExpenseHttpQueryHandler) {
@@ -62,7 +61,6 @@ func (o *ExpenseHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reque
 
 type ExpenseHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewExpenseHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ExpenseHttpCommandHandler) {
@@ -97,7 +95,6 @@ type ExpenseRouter struct {
     QueryHandler *ExpenseHttpQueryHandler
     CommandHandler *ExpenseHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewExpenseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -146,7 +143,6 @@ func (o *ExpenseRouter) Setup(router *mux.Router) (err error) {
 type ExpensePurposeHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *ExpensePurposeQueryRepository
-    AddItem *T
 }
 
 func NewExpensePurposeHttpQueryHandler(queryRepository *ExpensePurposeQueryRepository) (ret *ExpensePurposeHttpQueryHandler) {
@@ -197,7 +193,6 @@ func (o *ExpensePurposeHttpQueryHandler) ExistById(w http.ResponseWriter, r *htt
 
 type ExpensePurposeHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewExpensePurposeHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ExpensePurposeHttpCommandHandler) {
@@ -232,7 +227,6 @@ type ExpensePurposeRouter struct {
     QueryHandler *ExpensePurposeHttpQueryHandler
     CommandHandler *ExpensePurposeHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewExpensePurposeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -281,7 +275,6 @@ func (o *ExpensePurposeRouter) Setup(router *mux.Router) (err error) {
 type FeeHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *FeeQueryRepository
-    AddItem *T
 }
 
 func NewFeeHttpQueryHandler(queryRepository *FeeQueryRepository) (ret *FeeHttpQueryHandler) {
@@ -332,7 +325,6 @@ func (o *FeeHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) 
 
 type FeeHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewFeeHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *FeeHttpCommandHandler) {
@@ -367,7 +359,6 @@ type FeeRouter struct {
     QueryHandler *FeeHttpQueryHandler
     CommandHandler *FeeHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewFeeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -416,7 +407,6 @@ func (o *FeeRouter) Setup(router *mux.Router) (err error) {
 type FeeKindHttpQueryHandler struct {
     *eh.HttpQueryHandler
     QueryRepository *FeeKindQueryRepository
-    AddItem *T
 }
 
 func NewFeeKindHttpQueryHandler(queryRepository *FeeKindQueryRepository) (ret *FeeKindHttpQueryHandler) {
@@ -467,7 +457,6 @@ func (o *FeeKindHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Reque
 
 type FeeKindHttpCommandHandler struct {
     *eh.HttpCommandHandler
-    AddItem *T
 }
 
 func NewFeeKindHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *FeeKindHttpCommandHandler) {
@@ -502,7 +491,6 @@ type FeeKindRouter struct {
     QueryHandler *FeeKindHttpQueryHandler
     CommandHandler *FeeKindHttpCommandHandler
     Router *mux.Router
-    AddItem *T
 }
 
 func NewFeeKindRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 

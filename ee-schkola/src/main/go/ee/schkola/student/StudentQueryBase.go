@@ -7,7 +7,6 @@ import (
 type AttendanceQueryRepository struct {
     repo eventhorizon.ReadRepo
     context context.Context
-    AddItem *T
 }
 
 func NewAttendanceQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *AttendanceQueryRepository) {
@@ -73,7 +72,6 @@ func (o *AttendanceQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, e
 type CourseQueryRepository struct {
     repo eventhorizon.ReadRepo
     context context.Context
-    AddItem *T
 }
 
 func NewCourseQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *CourseQueryRepository) {
@@ -139,7 +137,6 @@ func (o *CourseQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err e
 type GradeQueryRepository struct {
     repo eventhorizon.ReadRepo
     context context.Context
-    AddItem *T
 }
 
 func NewGradeQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *GradeQueryRepository) {
@@ -205,7 +202,6 @@ func (o *GradeQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err er
 type GroupQueryRepository struct {
     repo eventhorizon.ReadRepo
     context context.Context
-    AddItem *T
 }
 
 func NewGroupQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *GroupQueryRepository) {
@@ -271,7 +267,6 @@ func (o *GroupQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err er
 type SchoolApplicationQueryRepository struct {
     repo eventhorizon.ReadRepo
     context context.Context
-    AddItem *T
 }
 
 func NewSchoolApplicationQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *SchoolApplicationQueryRepository) {
@@ -337,7 +332,6 @@ func (o *SchoolApplicationQueryRepository) ExistById(id eventhorizon.UUID) (ret 
 type SchoolYearQueryRepository struct {
     repo eventhorizon.ReadRepo
     context context.Context
-    AddItem *T
 }
 
 func NewSchoolYearQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *SchoolYearQueryRepository) {
