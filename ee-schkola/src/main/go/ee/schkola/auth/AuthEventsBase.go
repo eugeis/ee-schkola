@@ -25,7 +25,7 @@ type AccountCreated struct {
     Email string`eh:"optional"`
     Disabled bool`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -35,9 +35,9 @@ type AccountDeleted struct {
 
 
 type AccountLogged struct {
-    Username string
-    Email string
-    Password string
+    Username string`eh:"optional"`
+    Email string`eh:"optional"`
+    Password string`eh:"optional"`
     Id eventhorizon.UUID
 }
 
@@ -49,7 +49,7 @@ type AccountUpdated struct {
     Email string`eh:"optional"`
     Disabled bool`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 

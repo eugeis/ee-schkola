@@ -7,19 +7,13 @@ import (
     "time"
 )
 const (
-     LocationChangedBookEvent eventhorizon.EventType = "LocationChangedBook"
      BookCreatedEvent eventhorizon.EventType = "BookCreated"
      BookDeletedEvent eventhorizon.EventType = "BookDeleted"
      BookUpdatedEvent eventhorizon.EventType = "BookUpdated"
+     ChangeLocationedBookEvent eventhorizon.EventType = "ChangeLocationedBook"
 )
 
 
-
-
-type LocationChangedBook struct {
-    Location *Location
-    Id eventhorizon.UUID
-}
 
 
 type BookCreated struct {
@@ -31,7 +25,7 @@ type BookCreated struct {
     Category string`eh:"optional"`
     Author *schkola.PersonName`eh:"optional"`
     Location *Location`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -49,7 +43,13 @@ type BookUpdated struct {
     Category string`eh:"optional"`
     Author *schkola.PersonName`eh:"optional"`
     Location *Location`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
+}
+
+
+type ChangeLocationedBook struct {
+    Location *Location`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -68,10 +68,6 @@ func (o *BookEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *BookEventType) IsLocationChangedBook() bool {
-    return o == _bookEventTypes.LocationChangedBook()
-}
-
 func (o *BookEventType) IsBookCreated() bool {
     return o == _bookEventTypes.BookCreated()
 }
@@ -84,16 +80,20 @@ func (o *BookEventType) IsBookUpdated() bool {
     return o == _bookEventTypes.BookUpdated()
 }
 
+func (o *BookEventType) IsChangeLocationedBook() bool {
+    return o == _bookEventTypes.ChangeLocationedBook()
+}
+
 type bookEventTypes struct {
 	values []*BookEventType
     literals []enum.Literal
 }
 
 var _bookEventTypes = &bookEventTypes{values: []*BookEventType{
-    {name: "LocationChangedBook", ordinal: 0},
-    {name: "BookCreated", ordinal: 1},
-    {name: "BookDeleted", ordinal: 2},
-    {name: "BookUpdated", ordinal: 3}},
+    {name: "BookCreated", ordinal: 0},
+    {name: "BookDeleted", ordinal: 1},
+    {name: "BookUpdated", ordinal: 2},
+    {name: "ChangeLocationedBook", ordinal: 3}},
 }
 
 func BookEventTypes() *bookEventTypes {
@@ -114,19 +114,19 @@ func (o *bookEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *bookEventTypes) LocationChangedBook() *BookEventType {
+func (o *bookEventTypes) BookCreated() *BookEventType {
     return _bookEventTypes.values[0]
 }
 
-func (o *bookEventTypes) BookCreated() *BookEventType {
+func (o *bookEventTypes) BookDeleted() *BookEventType {
     return _bookEventTypes.values[1]
 }
 
-func (o *bookEventTypes) BookDeleted() *BookEventType {
+func (o *bookEventTypes) BookUpdated() *BookEventType {
     return _bookEventTypes.values[2]
 }
 
-func (o *bookEventTypes) BookUpdated() *BookEventType {
+func (o *bookEventTypes) ChangeLocationedBook() *BookEventType {
     return _bookEventTypes.values[3]
 }
 

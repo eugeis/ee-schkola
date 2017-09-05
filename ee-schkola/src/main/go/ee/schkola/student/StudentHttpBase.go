@@ -83,6 +83,18 @@ func (o *AttendanceHttpCommandHandler) Create(w http.ResponseWriter, r *http.Req
     o.HandleCommand(&CreateAttendance{Id: id}, w, r)
 }
 
+func (o *AttendanceHttpCommandHandler) Confirm(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&ConfirmAttendance{Id: id}, w, r)
+}
+
+func (o *AttendanceHttpCommandHandler) Cancel(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&CancelAttendance{Id: id}, w, r)
+}
+
 func (o *AttendanceHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
@@ -93,12 +105,6 @@ func (o *AttendanceHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Req
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&DeleteAttendance{Id: id}, w, r)
-}
-
-func (o *AttendanceHttpCommandHandler) Confirm(w http.ResponseWriter, r *http.Request) {
-}
-
-func (o *AttendanceHttpCommandHandler) Cancel(w http.ResponseWriter, r *http.Request) {
 }
 
 
@@ -143,16 +149,16 @@ func (o *AttendanceRouter) Setup(router *mux.Router) (err error) {
     router.Methods(net.GET).PathPrefix(o.PathPrefix).
         Name("FindAttendanceAll").HandlerFunc(o.QueryHandler.FindAll)
     router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
-        Queries(net.Command, "confirm").
-        Name("ConfirmAttendance").HandlerFunc(o.CommandHandler.Confirm)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
-        Queries(net.Command, "cancel").
-        Name("CancelAttendance").HandlerFunc(o.CommandHandler.Cancel)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "register").
         Name("RegisterAttendance").HandlerFunc(o.CommandHandler.Register)
     router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateAttendance").HandlerFunc(o.CommandHandler.Create)
+    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "confirm").
+        Name("ConfirmAttendance").HandlerFunc(o.CommandHandler.Confirm)
+    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "cancel").
+        Name("CancelAttendance").HandlerFunc(o.CommandHandler.Cancel)
     router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateAttendance").HandlerFunc(o.CommandHandler.Update)
     router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").

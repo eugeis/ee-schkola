@@ -20,9 +20,9 @@ const (
 
         
 type LoginAccount struct {
-    Username string
-    Email string
-    Password string
+    Username string`eh:"optional"`
+    Email string`eh:"optional"`
+    Password string`eh:"optional"`
     Id eventhorizon.UUID
 }
 func (o *LoginAccount) AggregateID() eventhorizon.UUID            { return o.Id }
@@ -39,7 +39,7 @@ type CreateAccount struct {
     Email string`eh:"optional"`
     Disabled bool`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *CreateAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *CreateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -85,7 +85,7 @@ type UpdateAccount struct {
     Email string`eh:"optional"`
     Disabled bool`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *UpdateAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }

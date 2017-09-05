@@ -55,7 +55,7 @@ func (o *BookCommandHandler) SetupCommandHandler() (err error) {
     }
     o.ChangeLocationHandler = func(command *ChangeBookLocation, entity *Book, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, BookAggregateType); err == nil {
-            store.StoreEvent(LocationChangedBookEvent, &LocationChangedBook{
+            store.StoreEvent(ChangeLocationedBookEvent, &ChangeLocationedBook{
                 Location: command.Location,
                 Id: command.Id,}, time.Now())
         }
@@ -81,22 +81,22 @@ func (o *BookCommandHandler) SetupCommandHandler() (err error) {
 
 
 type BookEventHandler struct {
-    LocationChangedHandler func (*LocationChangedBook, *Book) (err error) 
     CreatedHandler func (*BookCreated, *Book) (err error) 
     DeletedHandler func (*BookDeleted, *Book) (err error) 
     UpdatedHandler func (*BookUpdated, *Book) (err error) 
+    ChangeLocationedHandler func (*ChangeLocationedBook, *Book) (err error) 
 }
 
 func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
     switch event.EventType() {
-    case LocationChangedBookEvent:
-        err = o.LocationChangedHandler(event.Data().(*LocationChangedBook), entity.(*Book))
     case BookCreatedEvent:
         err = o.CreatedHandler(event.Data().(*BookCreated), entity.(*Book))
     case BookDeletedEvent:
         err = o.DeletedHandler(event.Data().(*BookDeleted), entity.(*Book))
     case BookUpdatedEvent:
         err = o.UpdatedHandler(event.Data().(*BookUpdated), entity.(*Book))
+    case ChangeLocationedBookEvent:
+        err = o.ChangeLocationedHandler(event.Data().(*ChangeLocationedBook), entity.(*Book))
     default:
 		err = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
@@ -104,19 +104,6 @@ func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (
 }
 
 func (o *BookEventHandler) SetupEventHandler() (err error) {
-
-    //register event object factory
-    eventhorizon.RegisterEventData(LocationChangedBookEvent, func() eventhorizon.EventData {
-		return &LocationChangedBook{}
-	})
-
-    //default handler implementation
-    o.LocationChangedHandler = func(event *LocationChangedBook, entity *Book) (err error) {
-        if err = eh.ValidateIdsMatch(entity.Id, event.Id, BookAggregateType); err == nil {
-            entity.Location = event.Location
-        }
-        return
-    }
 
     //register event object factory
     eventhorizon.RegisterEventData(BookCreatedEvent, func() eventhorizon.EventData {
@@ -167,6 +154,19 @@ func (o *BookEventHandler) SetupEventHandler() (err error) {
             entity.Edition = event.Edition
             entity.Category = event.Category
             entity.Author = event.Author
+            entity.Location = event.Location
+        }
+        return
+    }
+
+    //register event object factory
+    eventhorizon.RegisterEventData(ChangeLocationedBookEvent, func() eventhorizon.EventData {
+		return &ChangeLocationedBook{}
+	})
+
+    //default handler implementation
+    o.ChangeLocationedHandler = func(event *ChangeLocationedBook, entity *Book) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, event.Id, BookAggregateType); err == nil {
             entity.Location = event.Location
         }
         return

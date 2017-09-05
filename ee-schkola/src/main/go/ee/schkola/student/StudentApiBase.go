@@ -8,9 +8,9 @@ import (
     "time"
 )
 type Attendance struct {
-    Student *person.Profile
+    Student *person.Profile`eh:"optional"`
     Date *time.Time
-    Course *Course
+    Course *Course`eh:"optional"`
     Hours int
     State *AttendanceState
     Token string

@@ -102,6 +102,9 @@ func (o *AccountHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Reques
 }
 
 func (o *AccountHttpCommandHandler) Login(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&LoginAccount{Id: id}, w, r)
 }
 
 

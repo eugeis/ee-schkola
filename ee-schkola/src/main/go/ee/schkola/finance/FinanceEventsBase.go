@@ -41,7 +41,7 @@ type ExpenseCreated struct {
     Amount float64`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Date *time.Time`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -55,14 +55,14 @@ type ExpenseUpdated struct {
     Amount float64`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Date *time.Time`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
 type ExpensePurposeCreated struct {
     Name string`eh:"optional"`
     Description string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -74,7 +74,7 @@ type ExpensePurposeDeleted struct {
 type ExpensePurposeUpdated struct {
     Name string`eh:"optional"`
     Description string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -83,7 +83,7 @@ type FeeCreated struct {
     Amount float64`eh:"optional"`
     Kind *FeeKind`eh:"optional"`
     Date *time.Time`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -97,7 +97,7 @@ type FeeUpdated struct {
     Amount float64`eh:"optional"`
     Kind *FeeKind`eh:"optional"`
     Date *time.Time`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -105,7 +105,7 @@ type FeeKindCreated struct {
     Name string`eh:"optional"`
     Amount float64`eh:"optional"`
     Description string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -118,7 +118,7 @@ type FeeKindUpdated struct {
     Name string`eh:"optional"`
     Amount float64`eh:"optional"`
     Description string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 

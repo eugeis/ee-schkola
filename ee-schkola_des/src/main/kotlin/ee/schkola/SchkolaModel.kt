@@ -208,9 +208,9 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val state = prop(AttendanceState)
             val token = propS()
 
-            val register = createBy(student, course)
-            val confirm = command()
-            val cancel = command()
+            val register = createBy(student, course, p(state, { value(AttendanceState.Registered) }))
+            val confirm = updateBy(p(state, { value(AttendanceState.Confirmed) }))
+            val cancel = updateBy(p(state, { value(AttendanceState.Canceled) }))
         }
     }
 
@@ -234,8 +234,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             //val findByAuthor = findBy(author)
             val findByPattern = findBy(p("pattern"))
 
-            val LocationChanged = updated(location)
-            val changeLocation = updateBy(location).event(LocationChanged)
+            val changeLocation = updateBy(location)
         }
     }
 }

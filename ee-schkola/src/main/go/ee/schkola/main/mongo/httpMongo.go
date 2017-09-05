@@ -94,6 +94,7 @@ func main() {
 	studentRouter.Setup(router)
 
 	router.Methods(net.GET).Path("/").Name("Index").HandlerFunc(Index)
+	router.NotFoundHandler = http.HandlerFunc(NoFound)
 
 	handler := cors.Default().Handler(router)
 
@@ -101,5 +102,9 @@ func main() {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Schkola!")
+}
+
+func NoFound(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Schkola!")
 }

@@ -9,11 +9,11 @@ import (
 )
 const (
      AttendanceCreatedEvent eventhorizon.EventType = "AttendanceCreated"
-     AttendanceRegisterdEvent eventhorizon.EventType = "AttendanceRegisterd"
+     AttendanceRegisteredEvent eventhorizon.EventType = "AttendanceRegistered"
      AttendanceDeletedEvent eventhorizon.EventType = "AttendanceDeleted"
-     AttendanceConfirmdEvent eventhorizon.EventType = "AttendanceConfirmd"
-     AttendanceCanceldEvent eventhorizon.EventType = "AttendanceCanceld"
      AttendanceUpdatedEvent eventhorizon.EventType = "AttendanceUpdated"
+     AttendanceConfirmedEvent eventhorizon.EventType = "AttendanceConfirmed"
+     AttendanceCanceledEvent eventhorizon.EventType = "AttendanceCanceled"
 )
 
 
@@ -61,28 +61,18 @@ type AttendanceCreated struct {
     Hours int`eh:"optional"`
     State *AttendanceState`eh:"optional"`
     Token string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
-type AttendanceRegisterd struct {
-    Student *person.Profile
-    Course *Course
+type AttendanceRegistered struct {
+    Student *person.Profile`eh:"optional"`
+    Course *Course`eh:"optional"`
     Id eventhorizon.UUID
 }
 
 
 type AttendanceDeleted struct {
-    Id eventhorizon.UUID
-}
-
-
-type AttendanceConfirmd struct {
-    Id eventhorizon.UUID
-}
-
-
-type AttendanceCanceld struct {
     Id eventhorizon.UUID
 }
 
@@ -94,7 +84,17 @@ type AttendanceUpdated struct {
     Hours int`eh:"optional"`
     State *AttendanceState`eh:"optional"`
     Token string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
+}
+
+
+type AttendanceConfirmed struct {
+    Id eventhorizon.UUID
+}
+
+
+type AttendanceCanceled struct {
+    Id eventhorizon.UUID
 }
 
 
@@ -106,7 +106,7 @@ type CourseCreated struct {
     SchoolYear *SchoolYear`eh:"optional"`
     Fee float64`eh:"optional"`
     Description string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -123,7 +123,7 @@ type CourseUpdated struct {
     SchoolYear *SchoolYear`eh:"optional"`
     Fee float64`eh:"optional"`
     Description string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -132,7 +132,7 @@ type GradeCreated struct {
     Course *Course`eh:"optional"`
     Grade float64`eh:"optional"`
     Comment string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -146,7 +146,7 @@ type GradeUpdated struct {
     Course *Course`eh:"optional"`
     Grade float64`eh:"optional"`
     Comment string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -157,7 +157,7 @@ type GroupCreated struct {
     Representative *person.Profile`eh:"optional"`
     Students []*person.Profile`eh:"optional"`
     Courses []*Course`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 func (o *GroupCreated) AddToStudents(item *person.Profile) *person.Profile {
@@ -183,7 +183,7 @@ type GroupUpdated struct {
     Representative *person.Profile`eh:"optional"`
     Students []*person.Profile`eh:"optional"`
     Courses []*Course`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 func (o *GroupUpdated) AddToStudents(item *person.Profile) *person.Profile {
@@ -204,7 +204,7 @@ type SchoolApplicationCreated struct {
     ChurchContact *person.Contact`eh:"optional"`
     SchoolYear *SchoolYear`eh:"optional"`
     Group string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -220,7 +220,7 @@ type SchoolApplicationUpdated struct {
     ChurchContact *person.Contact`eh:"optional"`
     SchoolYear *SchoolYear`eh:"optional"`
     Group string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -229,7 +229,7 @@ type SchoolYearCreated struct {
     Start *time.Time`eh:"optional"`
     End *time.Time`eh:"optional"`
     Dates []*time.Time`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 func (o *SchoolYearCreated) AddToDates(item *time.Time) *time.Time {
@@ -248,7 +248,7 @@ type SchoolYearUpdated struct {
     Start *time.Time`eh:"optional"`
     End *time.Time`eh:"optional"`
     Dates []*time.Time`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 func (o *SchoolYearUpdated) AddToDates(item *time.Time) *time.Time {
@@ -276,24 +276,24 @@ func (o *AttendanceEventType) IsAttendanceCreated() bool {
     return o == _attendanceEventTypes.AttendanceCreated()
 }
 
-func (o *AttendanceEventType) IsAttendanceRegisterd() bool {
-    return o == _attendanceEventTypes.AttendanceRegisterd()
+func (o *AttendanceEventType) IsAttendanceRegistered() bool {
+    return o == _attendanceEventTypes.AttendanceRegistered()
 }
 
 func (o *AttendanceEventType) IsAttendanceDeleted() bool {
     return o == _attendanceEventTypes.AttendanceDeleted()
 }
 
-func (o *AttendanceEventType) IsAttendanceConfirmd() bool {
-    return o == _attendanceEventTypes.AttendanceConfirmd()
-}
-
-func (o *AttendanceEventType) IsAttendanceCanceld() bool {
-    return o == _attendanceEventTypes.AttendanceCanceld()
-}
-
 func (o *AttendanceEventType) IsAttendanceUpdated() bool {
     return o == _attendanceEventTypes.AttendanceUpdated()
+}
+
+func (o *AttendanceEventType) IsAttendanceConfirmed() bool {
+    return o == _attendanceEventTypes.AttendanceConfirmed()
+}
+
+func (o *AttendanceEventType) IsAttendanceCanceled() bool {
+    return o == _attendanceEventTypes.AttendanceCanceled()
 }
 
 type attendanceEventTypes struct {
@@ -303,11 +303,11 @@ type attendanceEventTypes struct {
 
 var _attendanceEventTypes = &attendanceEventTypes{values: []*AttendanceEventType{
     {name: "AttendanceCreated", ordinal: 0},
-    {name: "AttendanceRegisterd", ordinal: 1},
+    {name: "AttendanceRegistered", ordinal: 1},
     {name: "AttendanceDeleted", ordinal: 2},
-    {name: "AttendanceConfirmd", ordinal: 3},
-    {name: "AttendanceCanceld", ordinal: 4},
-    {name: "AttendanceUpdated", ordinal: 5}},
+    {name: "AttendanceUpdated", ordinal: 3},
+    {name: "AttendanceConfirmed", ordinal: 4},
+    {name: "AttendanceCanceled", ordinal: 5}},
 }
 
 func AttendanceEventTypes() *attendanceEventTypes {
@@ -332,7 +332,7 @@ func (o *attendanceEventTypes) AttendanceCreated() *AttendanceEventType {
     return _attendanceEventTypes.values[0]
 }
 
-func (o *attendanceEventTypes) AttendanceRegisterd() *AttendanceEventType {
+func (o *attendanceEventTypes) AttendanceRegistered() *AttendanceEventType {
     return _attendanceEventTypes.values[1]
 }
 
@@ -340,15 +340,15 @@ func (o *attendanceEventTypes) AttendanceDeleted() *AttendanceEventType {
     return _attendanceEventTypes.values[2]
 }
 
-func (o *attendanceEventTypes) AttendanceConfirmd() *AttendanceEventType {
+func (o *attendanceEventTypes) AttendanceUpdated() *AttendanceEventType {
     return _attendanceEventTypes.values[3]
 }
 
-func (o *attendanceEventTypes) AttendanceCanceld() *AttendanceEventType {
+func (o *attendanceEventTypes) AttendanceConfirmed() *AttendanceEventType {
     return _attendanceEventTypes.values[4]
 }
 
-func (o *attendanceEventTypes) AttendanceUpdated() *AttendanceEventType {
+func (o *attendanceEventTypes) AttendanceCanceled() *AttendanceEventType {
     return _attendanceEventTypes.values[5]
 }
 

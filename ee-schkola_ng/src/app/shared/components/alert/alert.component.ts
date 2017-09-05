@@ -1,5 +1,5 @@
-﻿import { Component, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+﻿import {Component, OnDestroy} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
 import {AlertService} from "../../services/alert.service";
 
 
@@ -16,7 +16,9 @@ export class AlertComponent implements OnDestroy {
 
     constructor(private alertService: AlertService) {
         // subscribe to alert messages
-        this.subscription = alertService.getMessage().subscribe(message => { this.message = message; });
+        this.subscription = alertService.getMessage().subscribe(message => {
+            this.message = message;
+        });
     }
 
     ngOnDestroy(): void {

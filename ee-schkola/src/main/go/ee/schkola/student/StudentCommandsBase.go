@@ -8,11 +8,11 @@ import (
     "time"
 )
 const (
-     ConfirmAttendanceCommand eventhorizon.CommandType = "ConfirmAttendance"
-     CancelAttendanceCommand eventhorizon.CommandType = "CancelAttendance"
      RegisterAttendanceCommand eventhorizon.CommandType = "RegisterAttendance"
      CreateAttendanceCommand eventhorizon.CommandType = "CreateAttendance"
      DeleteAttendanceCommand eventhorizon.CommandType = "DeleteAttendance"
+     ConfirmAttendanceCommand eventhorizon.CommandType = "ConfirmAttendance"
+     CancelAttendanceCommand eventhorizon.CommandType = "CancelAttendance"
      UpdateAttendanceCommand eventhorizon.CommandType = "UpdateAttendance"
 )
 
@@ -55,6 +55,44 @@ const (
 
 
         
+type RegisterAttendance struct {
+    Student *person.Profile`eh:"optional"`
+    Course *Course`eh:"optional"`
+    Id eventhorizon.UUID
+}
+func (o *RegisterAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *RegisterAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
+func (o *RegisterAttendance) CommandType() eventhorizon.CommandType      { return RegisterAttendanceCommand }
+
+
+
+        
+type CreateAttendance struct {
+    Student *person.Profile`eh:"optional"`
+    Date *time.Time`eh:"optional"`
+    Course *Course`eh:"optional"`
+    Hours int`eh:"optional"`
+    State *AttendanceState`eh:"optional"`
+    Token string`eh:"optional"`
+    Id eventhorizon.UUID
+}
+func (o *CreateAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *CreateAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
+func (o *CreateAttendance) CommandType() eventhorizon.CommandType      { return CreateAttendanceCommand }
+
+
+
+        
+type DeleteAttendance struct {
+    Id eventhorizon.UUID
+}
+func (o *DeleteAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *DeleteAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
+func (o *DeleteAttendance) CommandType() eventhorizon.CommandType      { return DeleteAttendanceCommand }
+
+
+
+        
 type ConfirmAttendance struct {
     Id eventhorizon.UUID
 }
@@ -75,44 +113,6 @@ func (o *CancelAttendance) CommandType() eventhorizon.CommandType      { return 
 
 
         
-type RegisterAttendance struct {
-    Student *person.Profile
-    Course *Course
-    Id eventhorizon.UUID
-}
-func (o *RegisterAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *RegisterAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
-func (o *RegisterAttendance) CommandType() eventhorizon.CommandType      { return RegisterAttendanceCommand }
-
-
-
-        
-type CreateAttendance struct {
-    Student *person.Profile`eh:"optional"`
-    Date *time.Time`eh:"optional"`
-    Course *Course`eh:"optional"`
-    Hours int`eh:"optional"`
-    State *AttendanceState`eh:"optional"`
-    Token string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
-}
-func (o *CreateAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *CreateAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
-func (o *CreateAttendance) CommandType() eventhorizon.CommandType      { return CreateAttendanceCommand }
-
-
-
-        
-type DeleteAttendance struct {
-    Id eventhorizon.UUID
-}
-func (o *DeleteAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *DeleteAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
-func (o *DeleteAttendance) CommandType() eventhorizon.CommandType      { return DeleteAttendanceCommand }
-
-
-
-        
 type UpdateAttendance struct {
     Student *person.Profile`eh:"optional"`
     Date *time.Time`eh:"optional"`
@@ -120,7 +120,7 @@ type UpdateAttendance struct {
     Hours int`eh:"optional"`
     State *AttendanceState`eh:"optional"`
     Token string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *UpdateAttendance) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateAttendance) AggregateType() eventhorizon.AggregateType  { return AttendanceAggregateType }
@@ -137,7 +137,7 @@ type CreateCourse struct {
     SchoolYear *SchoolYear`eh:"optional"`
     Fee float64`eh:"optional"`
     Description string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *CreateCourse) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *CreateCourse) AggregateType() eventhorizon.AggregateType  { return CourseAggregateType }
@@ -164,7 +164,7 @@ type UpdateCourse struct {
     SchoolYear *SchoolYear`eh:"optional"`
     Fee float64`eh:"optional"`
     Description string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *UpdateCourse) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateCourse) AggregateType() eventhorizon.AggregateType  { return CourseAggregateType }
@@ -178,7 +178,7 @@ type CreateGrade struct {
     Course *Course`eh:"optional"`
     Grade float64`eh:"optional"`
     Comment string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *CreateGrade) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *CreateGrade) AggregateType() eventhorizon.AggregateType  { return GradeAggregateType }
@@ -202,7 +202,7 @@ type UpdateGrade struct {
     Course *Course`eh:"optional"`
     Grade float64`eh:"optional"`
     Comment string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *UpdateGrade) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateGrade) AggregateType() eventhorizon.AggregateType  { return GradeAggregateType }
@@ -218,7 +218,7 @@ type CreateGroup struct {
     Representative *person.Profile`eh:"optional"`
     Students []*person.Profile`eh:"optional"`
     Courses []*Course`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 func (o *CreateGroup) AddToStudents(item *person.Profile) *person.Profile {
@@ -254,7 +254,7 @@ type UpdateGroup struct {
     Representative *person.Profile`eh:"optional"`
     Students []*person.Profile`eh:"optional"`
     Courses []*Course`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 func (o *UpdateGroup) AddToStudents(item *person.Profile) *person.Profile {
@@ -280,7 +280,7 @@ type CreateSchoolApplication struct {
     ChurchContact *person.Contact`eh:"optional"`
     SchoolYear *SchoolYear`eh:"optional"`
     Group string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *CreateSchoolApplication) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *CreateSchoolApplication) AggregateType() eventhorizon.AggregateType  { return SchoolApplicationAggregateType }
@@ -306,7 +306,7 @@ type UpdateSchoolApplication struct {
     ChurchContact *person.Contact`eh:"optional"`
     SchoolYear *SchoolYear`eh:"optional"`
     Group string`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *UpdateSchoolApplication) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateSchoolApplication) AggregateType() eventhorizon.AggregateType  { return SchoolApplicationAggregateType }
@@ -320,7 +320,7 @@ type CreateSchoolYear struct {
     Start *time.Time`eh:"optional"`
     End *time.Time`eh:"optional"`
     Dates []*time.Time`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 func (o *CreateSchoolYear) AddToDates(item *time.Time) *time.Time {
@@ -349,7 +349,7 @@ type UpdateSchoolYear struct {
     Start *time.Time`eh:"optional"`
     End *time.Time`eh:"optional"`
     Dates []*time.Time`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 func (o *UpdateSchoolYear) AddToDates(item *time.Time) *time.Time {
@@ -377,14 +377,6 @@ func (o *AttendanceCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *AttendanceCommandType) IsConfirmAttendance() bool {
-    return o == _attendanceCommandTypes.ConfirmAttendance()
-}
-
-func (o *AttendanceCommandType) IsCancelAttendance() bool {
-    return o == _attendanceCommandTypes.CancelAttendance()
-}
-
 func (o *AttendanceCommandType) IsRegisterAttendance() bool {
     return o == _attendanceCommandTypes.RegisterAttendance()
 }
@@ -397,6 +389,14 @@ func (o *AttendanceCommandType) IsDeleteAttendance() bool {
     return o == _attendanceCommandTypes.DeleteAttendance()
 }
 
+func (o *AttendanceCommandType) IsConfirmAttendance() bool {
+    return o == _attendanceCommandTypes.ConfirmAttendance()
+}
+
+func (o *AttendanceCommandType) IsCancelAttendance() bool {
+    return o == _attendanceCommandTypes.CancelAttendance()
+}
+
 func (o *AttendanceCommandType) IsUpdateAttendance() bool {
     return o == _attendanceCommandTypes.UpdateAttendance()
 }
@@ -407,11 +407,11 @@ type attendanceCommandTypes struct {
 }
 
 var _attendanceCommandTypes = &attendanceCommandTypes{values: []*AttendanceCommandType{
-    {name: "ConfirmAttendance", ordinal: 0},
-    {name: "CancelAttendance", ordinal: 1},
-    {name: "RegisterAttendance", ordinal: 2},
-    {name: "CreateAttendance", ordinal: 3},
-    {name: "DeleteAttendance", ordinal: 4},
+    {name: "RegisterAttendance", ordinal: 0},
+    {name: "CreateAttendance", ordinal: 1},
+    {name: "DeleteAttendance", ordinal: 2},
+    {name: "ConfirmAttendance", ordinal: 3},
+    {name: "CancelAttendance", ordinal: 4},
     {name: "UpdateAttendance", ordinal: 5}},
 }
 
@@ -433,23 +433,23 @@ func (o *attendanceCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *attendanceCommandTypes) ConfirmAttendance() *AttendanceCommandType {
+func (o *attendanceCommandTypes) RegisterAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[0]
 }
 
-func (o *attendanceCommandTypes) CancelAttendance() *AttendanceCommandType {
+func (o *attendanceCommandTypes) CreateAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[1]
 }
 
-func (o *attendanceCommandTypes) RegisterAttendance() *AttendanceCommandType {
+func (o *attendanceCommandTypes) DeleteAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[2]
 }
 
-func (o *attendanceCommandTypes) CreateAttendance() *AttendanceCommandType {
+func (o *attendanceCommandTypes) ConfirmAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[3]
 }
 
-func (o *attendanceCommandTypes) DeleteAttendance() *AttendanceCommandType {
+func (o *attendanceCommandTypes) CancelAttendance() *AttendanceCommandType {
     return _attendanceCommandTypes.values[4]
 }
 

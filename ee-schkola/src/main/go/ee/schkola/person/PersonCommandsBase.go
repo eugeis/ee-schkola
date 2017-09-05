@@ -35,7 +35,7 @@ type CreateChurch struct {
     Address *Address`eh:"optional"`
     Pastor *schkola.PersonName`eh:"optional"`
     Contact *Contact`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *CreateChurch) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *CreateChurch) AggregateType() eventhorizon.AggregateType  { return ChurchAggregateType }
@@ -59,7 +59,7 @@ type UpdateChurch struct {
     Address *Address`eh:"optional"`
     Pastor *schkola.PersonName`eh:"optional"`
     Contact *Contact`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *UpdateChurch) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateChurch) AggregateType() eventhorizon.AggregateType  { return ChurchAggregateType }
@@ -71,7 +71,7 @@ func (o *UpdateChurch) CommandType() eventhorizon.CommandType      { return Upda
 type CreateGraduation struct {
     Name string`eh:"optional"`
     Level *GraduationLevel`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *CreateGraduation) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *CreateGraduation) AggregateType() eventhorizon.AggregateType  { return GraduationAggregateType }
@@ -93,7 +93,7 @@ func (o *DeleteGraduation) CommandType() eventhorizon.CommandType      { return 
 type UpdateGraduation struct {
     Name string`eh:"optional"`
     Level *GraduationLevel`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *UpdateGraduation) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateGraduation) AggregateType() eventhorizon.AggregateType  { return GraduationAggregateType }
@@ -114,7 +114,7 @@ type CreateProfile struct {
     Family *Family`eh:"optional"`
     Church *ChurchInfo`eh:"optional"`
     Education *Education`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *CreateProfile) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *CreateProfile) AggregateType() eventhorizon.AggregateType  { return ProfileAggregateType }
@@ -145,7 +145,7 @@ type UpdateProfile struct {
     Family *Family`eh:"optional"`
     Church *ChurchInfo`eh:"optional"`
     Education *Education`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 func (o *UpdateProfile) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateProfile) AggregateType() eventhorizon.AggregateType  { return ProfileAggregateType }

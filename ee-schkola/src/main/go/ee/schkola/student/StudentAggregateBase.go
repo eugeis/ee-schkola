@@ -8,26 +8,26 @@ import (
     "time"
 )
 type AttendanceCommandHandler struct {
-    ConfirmHandler func (*ConfirmAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
-    CancelHandler func (*CancelAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
     RegisterHandler func (*RegisterAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
     CreateHandler func (*CreateAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
-    DeleteHandler func (*DeleteAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
+    DeleteHandler func (*DeleteAttendance, *Attendance, eh.AggregateStoreEvent) (err error)
+    ConfirmHandler func (*ConfirmAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
+    CancelHandler func (*CancelAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
 }
 
 func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
-    case ConfirmAttendanceCommand:
-        err = o.ConfirmHandler(cmd.(*ConfirmAttendance), entity.(*Attendance), store)
-    case CancelAttendanceCommand:
-        err = o.CancelHandler(cmd.(*CancelAttendance), entity.(*Attendance), store)
     case RegisterAttendanceCommand:
         err = o.RegisterHandler(cmd.(*RegisterAttendance), entity.(*Attendance), store)
     case CreateAttendanceCommand:
         err = o.CreateHandler(cmd.(*CreateAttendance), entity.(*Attendance), store)
     case DeleteAttendanceCommand:
         err = o.DeleteHandler(cmd.(*DeleteAttendance), entity.(*Attendance), store)
+    case ConfirmAttendanceCommand:
+        err = o.ConfirmHandler(cmd.(*ConfirmAttendance), entity.(*Attendance), store)
+    case CancelAttendanceCommand:
+        err = o.CancelHandler(cmd.(*CancelAttendance), entity.(*Attendance), store)
     case UpdateAttendanceCommand:
         err = o.UpdateHandler(cmd.(*UpdateAttendance), entity.(*Attendance), store)
     default:
@@ -37,23 +37,9 @@ func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity inte
 }
 
 func (o *AttendanceCommandHandler) SetupCommandHandler() (err error) {
-    o.ConfirmHandler = func(command *ConfirmAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
-        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AttendanceAggregateType); err == nil {
-            store.StoreEvent(AttendanceConfirmdEvent, &AttendanceConfirmd{
-                Id: command.Id,}, time.Now())
-        }
-        return
-    }
-    o.CancelHandler = func(command *CancelAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
-        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AttendanceAggregateType); err == nil {
-            store.StoreEvent(AttendanceCanceldEvent, &AttendanceCanceld{
-                Id: command.Id,}, time.Now())
-        }
-        return
-    }
     o.RegisterHandler = func(command *RegisterAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateNewId(entity.Id, command.Id, AttendanceAggregateType); err == nil {
-            store.StoreEvent(AttendanceRegisterdEvent, &AttendanceRegisterd{
+            store.StoreEvent(AttendanceRegisteredEvent, &AttendanceRegistered{
                 Student: command.Student,
                 Course: command.Course,
                 Id: command.Id,}, time.Now())
@@ -80,6 +66,20 @@ func (o *AttendanceCommandHandler) SetupCommandHandler() (err error) {
         }
         return
     }
+    o.ConfirmHandler = func(command *ConfirmAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AttendanceAggregateType); err == nil {
+            store.StoreEvent(AttendanceConfirmedEvent, &AttendanceConfirmed{
+                Id: command.Id,}, time.Now())
+        }
+        return
+    }
+    o.CancelHandler = func(command *CancelAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AttendanceAggregateType); err == nil {
+            store.StoreEvent(AttendanceCanceledEvent, &AttendanceCanceled{
+                Id: command.Id,}, time.Now())
+        }
+        return
+    }
     o.UpdateHandler = func(command *UpdateAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, AttendanceAggregateType); err == nil {
             store.StoreEvent(AttendanceUpdatedEvent, &AttendanceUpdated{
@@ -99,27 +99,27 @@ func (o *AttendanceCommandHandler) SetupCommandHandler() (err error) {
 
 type AttendanceEventHandler struct {
     CreatedHandler func (*AttendanceCreated, *Attendance) (err error) 
-    RegisterdHandler func (*AttendanceRegisterd, *Attendance) (err error) 
+    RegisteredHandler func (*AttendanceRegistered, *Attendance) (err error) 
     DeletedHandler func (*AttendanceDeleted, *Attendance) (err error) 
-    ConfirmdHandler func (*AttendanceConfirmd, *Attendance) (err error) 
-    CanceldHandler func (*AttendanceCanceld, *Attendance) (err error) 
     UpdatedHandler func (*AttendanceUpdated, *Attendance) (err error) 
+    ConfirmedHandler func (*AttendanceConfirmed, *Attendance) (err error) 
+    CanceledHandler func (*AttendanceCanceled, *Attendance) (err error) 
 }
 
 func (o *AttendanceEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
     switch event.EventType() {
     case AttendanceCreatedEvent:
         err = o.CreatedHandler(event.Data().(*AttendanceCreated), entity.(*Attendance))
-    case AttendanceRegisterdEvent:
-        err = o.RegisterdHandler(event.Data().(*AttendanceRegisterd), entity.(*Attendance))
+    case AttendanceRegisteredEvent:
+        err = o.RegisteredHandler(event.Data().(*AttendanceRegistered), entity.(*Attendance))
     case AttendanceDeletedEvent:
         err = o.DeletedHandler(event.Data().(*AttendanceDeleted), entity.(*Attendance))
-    case AttendanceConfirmdEvent:
-        err = o.ConfirmdHandler(event.Data().(*AttendanceConfirmd), entity.(*Attendance))
-    case AttendanceCanceldEvent:
-        err = o.CanceldHandler(event.Data().(*AttendanceCanceld), entity.(*Attendance))
     case AttendanceUpdatedEvent:
         err = o.UpdatedHandler(event.Data().(*AttendanceUpdated), entity.(*Attendance))
+    case AttendanceConfirmedEvent:
+        err = o.ConfirmedHandler(event.Data().(*AttendanceConfirmed), entity.(*Attendance))
+    case AttendanceCanceledEvent:
+        err = o.CanceledHandler(event.Data().(*AttendanceCanceled), entity.(*Attendance))
     default:
 		err = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
@@ -148,15 +148,16 @@ func (o *AttendanceEventHandler) SetupEventHandler() (err error) {
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(AttendanceRegisterdEvent, func() eventhorizon.EventData {
-		return &AttendanceRegisterd{}
+    eventhorizon.RegisterEventData(AttendanceRegisteredEvent, func() eventhorizon.EventData {
+		return &AttendanceRegistered{}
 	})
 
     //default handler implementation
-    o.RegisterdHandler = func(event *AttendanceRegisterd, entity *Attendance) (err error) {
+    o.RegisteredHandler = func(event *AttendanceRegistered, entity *Attendance) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, AttendanceAggregateType); err == nil {
             entity.Student = event.Student
             entity.Course = event.Course
+            entity.State = AttendanceStates().Registered()
             entity.Id = event.Id
         }
         return
@@ -172,28 +173,6 @@ func (o *AttendanceEventHandler) SetupEventHandler() (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, AttendanceAggregateType); err == nil {
             *entity = *NewAttendance()
         }
-        return
-    }
-
-    //register event object factory
-    eventhorizon.RegisterEventData(AttendanceConfirmdEvent, func() eventhorizon.EventData {
-		return &AttendanceConfirmd{}
-	})
-
-    //default handler implementation
-    o.ConfirmdHandler = func(event *AttendanceConfirmd, entity *Attendance) (err error) {
-        //err = eh.EventHandlerNotImplemented(AttendanceConfirmdEvent)
-        return
-    }
-
-    //register event object factory
-    eventhorizon.RegisterEventData(AttendanceCanceldEvent, func() eventhorizon.EventData {
-		return &AttendanceCanceld{}
-	})
-
-    //default handler implementation
-    o.CanceldHandler = func(event *AttendanceCanceld, entity *Attendance) (err error) {
-        //err = eh.EventHandlerNotImplemented(AttendanceCanceldEvent)
         return
     }
 
@@ -214,6 +193,32 @@ func (o *AttendanceEventHandler) SetupEventHandler() (err error) {
         }
         return
     }
+
+    //register event object factory
+    eventhorizon.RegisterEventData(AttendanceConfirmedEvent, func() eventhorizon.EventData {
+		return &AttendanceConfirmed{}
+	})
+
+    //default handler implementation
+    o.ConfirmedHandler = func(event *AttendanceConfirmed, entity *Attendance) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, event.Id, AttendanceAggregateType); err == nil {
+            entity.State = AttendanceStates().Confirmed()
+        }
+        return
+    }
+
+    //register event object factory
+    eventhorizon.RegisterEventData(AttendanceCanceledEvent, func() eventhorizon.EventData {
+		return &AttendanceCanceled{}
+	})
+
+    //default handler implementation
+    o.CanceledHandler = func(event *AttendanceCanceled, entity *Attendance) (err error) {
+        if err = eh.ValidateIdsMatch(entity.Id, event.Id, AttendanceAggregateType); err == nil {
+            entity.State = AttendanceStates().Canceled()
+        }
+        return
+    }
     return
 }
 
@@ -227,14 +232,6 @@ type AttendanceAggregateInitializer struct {
     ProjectorHandler *AttendanceEventHandler
 }
 
-
-func (o *AttendanceAggregateInitializer) RegisterForConfirmd(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AttendanceEventTypes().AttendanceConfirmd())
-}
-
-func (o *AttendanceAggregateInitializer) RegisterForCanceld(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AttendanceEventTypes().AttendanceCanceld())
-}
 
 
 func NewAttendanceAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 

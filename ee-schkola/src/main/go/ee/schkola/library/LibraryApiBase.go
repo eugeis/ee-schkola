@@ -14,7 +14,7 @@ type Book struct {
     Edition string
     Category string
     Author *schkola.PersonName
-    Location *Location
+    Location *Location`eh:"optional"`
     Id eventhorizon.UUID
 }
 

@@ -34,7 +34,7 @@ type ChurchCreated struct {
     Address *Address`eh:"optional"`
     Pastor *schkola.PersonName`eh:"optional"`
     Contact *Contact`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -48,14 +48,14 @@ type ChurchUpdated struct {
     Address *Address`eh:"optional"`
     Pastor *schkola.PersonName`eh:"optional"`
     Contact *Contact`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
 type GraduationCreated struct {
     Name string`eh:"optional"`
     Level *GraduationLevel`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -67,7 +67,7 @@ type GraduationDeleted struct {
 type GraduationUpdated struct {
     Name string`eh:"optional"`
     Level *GraduationLevel`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -83,7 +83,7 @@ type ProfileCreated struct {
     Family *Family`eh:"optional"`
     Church *ChurchInfo`eh:"optional"`
     Education *Education`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 
@@ -104,7 +104,7 @@ type ProfileUpdated struct {
     Family *Family`eh:"optional"`
     Church *ChurchInfo`eh:"optional"`
     Education *Education`eh:"optional"`
-    Id eventhorizon.UUID`eh:"optional"`
+    Id eventhorizon.UUID
 }
 
 

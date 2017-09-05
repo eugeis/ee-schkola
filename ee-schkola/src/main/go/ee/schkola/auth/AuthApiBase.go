@@ -8,9 +8,9 @@ import (
 )
 type Account struct {
     Name *schkola.PersonName
-    Username string
-    Password string
-    Email string
+    Username string`eh:"optional"`
+    Password string`eh:"optional"`
+    Email string`eh:"optional"`
     Disabled bool
     LastLoginAt *time.Time
     Profile *person.Profile
