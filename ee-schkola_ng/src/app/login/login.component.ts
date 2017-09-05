@@ -27,27 +27,23 @@ export class LoginComponent implements OnInit {
         this.authenticationService.logout();
 
         // get return url from route parameters or default to '/'
-        //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
-        this.returnUrl = '/dashboard';
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
     }
 
     login() {
         this.loading = true;
         this.authenticationService.login(this.model.username, this.model.password)
-            .subscribe(
-                data => {
-                    //this.router.navigate([this.returnUrl]);
-                    this.router.navigate(['/dashboard']);
-                },
-                error => {
+            .subscribe(function (data) {
+                    this.onLoggedin()
+                    this.router.navigate([this.returnUrl]);
+                }.bind(this), function (error) {
                     this.alertService.error(JSON.stringify(error.json()));
                     this.loading = false;
-                });
+                }.bind(this)
+            );
     }
 
     onLoggedin() {
         localStorage.setItem('isLoggedin', 'true');
     }
-
-
 }
