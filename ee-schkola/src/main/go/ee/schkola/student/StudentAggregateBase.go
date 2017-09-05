@@ -10,7 +10,7 @@ import (
 type AttendanceCommandHandler struct {
     RegisterHandler func (*RegisterAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
     CreateHandler func (*CreateAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
-    DeleteHandler func (*DeleteAttendance, *Attendance, eh.AggregateStoreEvent) (err error)
+    DeleteHandler func (*DeleteAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
     ConfirmHandler func (*ConfirmAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
     CancelHandler func (*CancelAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 

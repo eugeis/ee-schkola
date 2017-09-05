@@ -25,6 +25,17 @@ func NewAccount() (ret *Account) {
 
 
 
+type UserCredentials struct {
+    Username string
+    Password string
+}
+
+func NewUserCredentials() (ret *UserCredentials) {
+    ret = &UserCredentials{}
+    return
+}
+
+
 
 
 

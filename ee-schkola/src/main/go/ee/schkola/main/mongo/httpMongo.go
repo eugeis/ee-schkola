@@ -25,6 +25,14 @@ import (
 var log = lg.NewLogger("Schkola ")
 
 func main() {
+	jwtController := net.NewJwtController("/Users/ee/.rsa/schkola.rsa", "/Users/ee/.rsa/schkola.rsa.pub",
+		func(credentials net.UserCredentials) error {
+			return nil
+		})
+	if err := jwtController.Setup(); err != nil {
+		panic(err)
+	}
+
 	log.Info("Server started")
 
 	// Create the event store.
@@ -75,6 +83,7 @@ func main() {
 	studentEngine.Setup()
 
 	router := mux.NewRouter().StrictSlash(true)
+	router.NewRoute()
 
 	context := eventhorizon.NewContextWithNamespace(context.Background(), "simple")
 
@@ -93,12 +102,14 @@ func main() {
 	studentRouter := student.NewStudentRouter("", context, commandBus, readRepos)
 	studentRouter.Setup(router)
 
-	router.Methods(net.GET).Path("/").Name("Index").HandlerFunc(Index)
-	router.NotFoundHandler = http.HandlerFunc(NoFound)
+	//router.Methods(net.GET).Path("/").Name("Index").HandlerFunc(Index)
+	//router.NotFoundHandler = http.HandlerFunc(NoFound)
 
-	handler := cors.Default().Handler(router)
+	http.Handle("/login", cors.Default().Handler(jwtController.LoginHandler()))
+	handler := cors.Default().Handler(jwtController.ValidateTokenHandler(router))
+	http.Handle("/", handler)
 
-	log.Err("%v", http.ListenAndServe("127.0.0.1:8080", handler))
+	log.Err("%v", http.ListenAndServe("127.0.0.1:8080", nil))
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {

@@ -13,6 +13,11 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
     }
 
     object Auth : Module() {
+        object UserCredentials : Values() {
+            val username = propS()
+            val password = propS()
+        }
+
         object Account : Entity() {
             val name = prop(Shared.PersonName)
             val username = propS({ unique(true) })

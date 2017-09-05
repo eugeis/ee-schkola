@@ -604,6 +604,13 @@ components:
           $ref: "#/components/schemas/Profile"
         id:          
           type: string
+    UserCredentials:
+      type: object
+      properties:
+        username:          
+          type: string
+        password:          
+          type: string
     Expense:
       type: object
       properties:
