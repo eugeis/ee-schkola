@@ -10,6 +10,7 @@ import (
 	"github.com/eugeis/gee/eh/app"
 	"github.com/eugeis/gee/net"
 	"errors"
+	"github.com/eugeis/gee/crypt"
 )
 
 type Schkola struct {
@@ -67,11 +68,8 @@ func (o *Schkola) initJwtController(accounts *auth.AccountQueryRepository) (ret 
 		func(credentials net.UserCredentials) (err error) {
 			var account *auth.Account
 			if account, err = accounts.FindById(eventhorizon.UUID(credentials.Username)); err == nil {
-				var currentPassword string
-				if currentPassword, err = net.Encrypt(credentials.Password); err == nil {
-					if account.Password != currentPassword {
-						err = errors.New("password mismatch")
-					}
+				if !crypt.HashAndEquals(credentials.Password, account.Password) {
+					err = errors.New("password mismatch")
 				}
 			}
 			return

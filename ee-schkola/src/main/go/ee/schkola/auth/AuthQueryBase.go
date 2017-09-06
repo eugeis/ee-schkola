@@ -3,6 +3,7 @@ package auth
 import (
     "context"
     "github.com/looplab/eventhorizon"
+    "github.com/eugeis/gee/eh"
 )
 type AccountQueryRepository struct {
     repo eventhorizon.ReadRepo
