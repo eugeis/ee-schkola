@@ -14,6 +14,46 @@ type BookCommandHandler struct {
     UpdateHandler func (*UpdateBook, *Book, eh.AggregateStoreEvent) (err error) 
 }
 
+func (o *BookCommandHandler) AddCreatePreparer(preparer func (*CreateBook, *Book) (err error) ) {
+    prevHandler := o.CreateHandler
+	o.CreateHandler = func(command *CreateBook, entity *Book, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *BookCommandHandler) AddDeletePreparer(preparer func (*DeleteBook, *Book) (err error) ) {
+    prevHandler := o.DeleteHandler
+	o.DeleteHandler = func(command *DeleteBook, entity *Book, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *BookCommandHandler) AddChangeLocationPreparer(preparer func (*ChangeBookLocation, *Book) (err error) ) {
+    prevHandler := o.ChangeLocationHandler
+	o.ChangeLocationHandler = func(command *ChangeBookLocation, entity *Book, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *BookCommandHandler) AddUpdatePreparer(preparer func (*UpdateBook, *Book) (err error) ) {
+    prevHandler := o.UpdateHandler
+	o.UpdateHandler = func(command *UpdateBook, entity *Book, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
 func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateBookCommand:

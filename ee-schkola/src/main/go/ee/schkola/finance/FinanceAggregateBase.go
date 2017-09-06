@@ -13,6 +13,36 @@ type ExpenseCommandHandler struct {
     UpdateHandler func (*UpdateExpense, *Expense, eh.AggregateStoreEvent) (err error) 
 }
 
+func (o *ExpenseCommandHandler) AddCreatePreparer(preparer func (*CreateExpense, *Expense) (err error) ) {
+    prevHandler := o.CreateHandler
+	o.CreateHandler = func(command *CreateExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *ExpenseCommandHandler) AddDeletePreparer(preparer func (*DeleteExpense, *Expense) (err error) ) {
+    prevHandler := o.DeleteHandler
+	o.DeleteHandler = func(command *DeleteExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *ExpenseCommandHandler) AddUpdatePreparer(preparer func (*UpdateExpense, *Expense) (err error) ) {
+    prevHandler := o.UpdateHandler
+	o.UpdateHandler = func(command *UpdateExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
 func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateExpenseCommand:
@@ -169,6 +199,36 @@ type ExpensePurposeCommandHandler struct {
     UpdateHandler func (*UpdateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) (err error) 
 }
 
+func (o *ExpensePurposeCommandHandler) AddCreatePreparer(preparer func (*CreateExpensePurpose, *ExpensePurpose) (err error) ) {
+    prevHandler := o.CreateHandler
+	o.CreateHandler = func(command *CreateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *ExpensePurposeCommandHandler) AddDeletePreparer(preparer func (*DeleteExpensePurpose, *ExpensePurpose) (err error) ) {
+    prevHandler := o.DeleteHandler
+	o.DeleteHandler = func(command *DeleteExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *ExpensePurposeCommandHandler) AddUpdatePreparer(preparer func (*UpdateExpensePurpose, *ExpensePurpose) (err error) ) {
+    prevHandler := o.UpdateHandler
+	o.UpdateHandler = func(command *UpdateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
 func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateExpensePurposeCommand:
@@ -315,6 +375,36 @@ type FeeCommandHandler struct {
     CreateHandler func (*CreateFee, *Fee, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteFee, *Fee, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateFee, *Fee, eh.AggregateStoreEvent) (err error) 
+}
+
+func (o *FeeCommandHandler) AddCreatePreparer(preparer func (*CreateFee, *Fee) (err error) ) {
+    prevHandler := o.CreateHandler
+	o.CreateHandler = func(command *CreateFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *FeeCommandHandler) AddDeletePreparer(preparer func (*DeleteFee, *Fee) (err error) ) {
+    prevHandler := o.DeleteHandler
+	o.DeleteHandler = func(command *DeleteFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *FeeCommandHandler) AddUpdatePreparer(preparer func (*UpdateFee, *Fee) (err error) ) {
+    prevHandler := o.UpdateHandler
+	o.UpdateHandler = func(command *UpdateFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
 }
 
 func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -471,6 +561,36 @@ type FeeKindCommandHandler struct {
     CreateHandler func (*CreateFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error) 
+}
+
+func (o *FeeKindCommandHandler) AddCreatePreparer(preparer func (*CreateFeeKind, *FeeKind) (err error) ) {
+    prevHandler := o.CreateHandler
+	o.CreateHandler = func(command *CreateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *FeeKindCommandHandler) AddDeletePreparer(preparer func (*DeleteFeeKind, *FeeKind) (err error) ) {
+    prevHandler := o.DeleteHandler
+	o.DeleteHandler = func(command *DeleteFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *FeeKindCommandHandler) AddUpdatePreparer(preparer func (*UpdateFeeKind, *FeeKind) (err error) ) {
+    prevHandler := o.UpdateHandler
+	o.UpdateHandler = func(command *UpdateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
 }
 
 func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {

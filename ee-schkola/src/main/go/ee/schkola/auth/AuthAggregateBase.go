@@ -16,6 +16,66 @@ type AccountCommandHandler struct {
     UpdateHandler func (*UpdateAccount, *Account, eh.AggregateStoreEvent) (err error) 
 }
 
+func (o *AccountCommandHandler) AddLoginPreparer(preparer func (*LoginAccount, *Account) (err error) ) {
+    prevHandler := o.LoginHandler
+	o.LoginHandler = func(command *LoginAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *AccountCommandHandler) AddCreatePreparer(preparer func (*CreateAccount, *Account) (err error) ) {
+    prevHandler := o.CreateHandler
+	o.CreateHandler = func(command *CreateAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *AccountCommandHandler) AddDeletePreparer(preparer func (*DeleteAccount, *Account) (err error) ) {
+    prevHandler := o.DeleteHandler
+	o.DeleteHandler = func(command *DeleteAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *AccountCommandHandler) AddEnablePreparer(preparer func (*EnableAccount, *Account) (err error) ) {
+    prevHandler := o.EnableHandler
+	o.EnableHandler = func(command *EnableAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *AccountCommandHandler) AddDisablePreparer(preparer func (*DisableAccount, *Account) (err error) ) {
+    prevHandler := o.DisableHandler
+	o.DisableHandler = func(command *DisableAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *AccountCommandHandler) AddUpdatePreparer(preparer func (*UpdateAccount, *Account) (err error) ) {
+    prevHandler := o.UpdateHandler
+	o.UpdateHandler = func(command *UpdateAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
 func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case LoginAccountCommand:

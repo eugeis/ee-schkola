@@ -1,4 +1,4 @@
-package examples
+package main
 
 import "time"
 import "go.uber.org/zap"

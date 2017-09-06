@@ -16,6 +16,66 @@ type AttendanceCommandHandler struct {
     UpdateHandler func (*UpdateAttendance, *Attendance, eh.AggregateStoreEvent) (err error) 
 }
 
+func (o *AttendanceCommandHandler) AddRegisterPreparer(preparer func (*RegisterAttendance, *Attendance) (err error) ) {
+    prevHandler := o.RegisterHandler
+	o.RegisterHandler = func(command *RegisterAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *AttendanceCommandHandler) AddCreatePreparer(preparer func (*CreateAttendance, *Attendance) (err error) ) {
+    prevHandler := o.CreateHandler
+	o.CreateHandler = func(command *CreateAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *AttendanceCommandHandler) AddDeletePreparer(preparer func (*DeleteAttendance, *Attendance) (err error) ) {
+    prevHandler := o.DeleteHandler
+	o.DeleteHandler = func(command *DeleteAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *AttendanceCommandHandler) AddConfirmPreparer(preparer func (*ConfirmAttendance, *Attendance) (err error) ) {
+    prevHandler := o.ConfirmHandler
+	o.ConfirmHandler = func(command *ConfirmAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *AttendanceCommandHandler) AddCancelPreparer(preparer func (*CancelAttendance, *Attendance) (err error) ) {
+    prevHandler := o.CancelHandler
+	o.CancelHandler = func(command *CancelAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *AttendanceCommandHandler) AddUpdatePreparer(preparer func (*UpdateAttendance, *Attendance) (err error) ) {
+    prevHandler := o.UpdateHandler
+	o.UpdateHandler = func(command *UpdateAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
 func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case RegisterAttendanceCommand:
@@ -260,6 +320,36 @@ type CourseCommandHandler struct {
     UpdateHandler func (*UpdateCourse, *Course, eh.AggregateStoreEvent) (err error) 
 }
 
+func (o *CourseCommandHandler) AddCreatePreparer(preparer func (*CreateCourse, *Course) (err error) ) {
+    prevHandler := o.CreateHandler
+	o.CreateHandler = func(command *CreateCourse, entity *Course, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *CourseCommandHandler) AddDeletePreparer(preparer func (*DeleteCourse, *Course) (err error) ) {
+    prevHandler := o.DeleteHandler
+	o.DeleteHandler = func(command *DeleteCourse, entity *Course, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *CourseCommandHandler) AddUpdatePreparer(preparer func (*UpdateCourse, *Course) (err error) ) {
+    prevHandler := o.UpdateHandler
+	o.UpdateHandler = func(command *UpdateCourse, entity *Course, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
 func (o *CourseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateCourseCommand:
@@ -428,6 +518,36 @@ type GradeCommandHandler struct {
     UpdateHandler func (*UpdateGrade, *Grade, eh.AggregateStoreEvent) (err error) 
 }
 
+func (o *GradeCommandHandler) AddCreatePreparer(preparer func (*CreateGrade, *Grade) (err error) ) {
+    prevHandler := o.CreateHandler
+	o.CreateHandler = func(command *CreateGrade, entity *Grade, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *GradeCommandHandler) AddDeletePreparer(preparer func (*DeleteGrade, *Grade) (err error) ) {
+    prevHandler := o.DeleteHandler
+	o.DeleteHandler = func(command *DeleteGrade, entity *Grade, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *GradeCommandHandler) AddUpdatePreparer(preparer func (*UpdateGrade, *Grade) (err error) ) {
+    prevHandler := o.UpdateHandler
+	o.UpdateHandler = func(command *UpdateGrade, entity *Grade, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
 func (o *GradeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateGradeCommand:
@@ -582,6 +702,36 @@ type GroupCommandHandler struct {
     CreateHandler func (*CreateGroup, *Group, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteGroup, *Group, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateGroup, *Group, eh.AggregateStoreEvent) (err error) 
+}
+
+func (o *GroupCommandHandler) AddCreatePreparer(preparer func (*CreateGroup, *Group) (err error) ) {
+    prevHandler := o.CreateHandler
+	o.CreateHandler = func(command *CreateGroup, entity *Group, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *GroupCommandHandler) AddDeletePreparer(preparer func (*DeleteGroup, *Group) (err error) ) {
+    prevHandler := o.DeleteHandler
+	o.DeleteHandler = func(command *DeleteGroup, entity *Group, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *GroupCommandHandler) AddUpdatePreparer(preparer func (*UpdateGroup, *Group) (err error) ) {
+    prevHandler := o.UpdateHandler
+	o.UpdateHandler = func(command *UpdateGroup, entity *Group, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
 }
 
 func (o *GroupCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
@@ -748,6 +898,36 @@ type SchoolApplicationCommandHandler struct {
     UpdateHandler func (*UpdateSchoolApplication, *SchoolApplication, eh.AggregateStoreEvent) (err error) 
 }
 
+func (o *SchoolApplicationCommandHandler) AddCreatePreparer(preparer func (*CreateSchoolApplication, *SchoolApplication) (err error) ) {
+    prevHandler := o.CreateHandler
+	o.CreateHandler = func(command *CreateSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *SchoolApplicationCommandHandler) AddDeletePreparer(preparer func (*DeleteSchoolApplication, *SchoolApplication) (err error) ) {
+    prevHandler := o.DeleteHandler
+	o.DeleteHandler = func(command *DeleteSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *SchoolApplicationCommandHandler) AddUpdatePreparer(preparer func (*UpdateSchoolApplication, *SchoolApplication) (err error) ) {
+    prevHandler := o.UpdateHandler
+	o.UpdateHandler = func(command *UpdateSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
 func (o *SchoolApplicationCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateSchoolApplicationCommand:
@@ -910,6 +1090,36 @@ type SchoolYearCommandHandler struct {
     CreateHandler func (*CreateSchoolYear, *SchoolYear, eh.AggregateStoreEvent) (err error) 
     DeleteHandler func (*DeleteSchoolYear, *SchoolYear, eh.AggregateStoreEvent) (err error) 
     UpdateHandler func (*UpdateSchoolYear, *SchoolYear, eh.AggregateStoreEvent) (err error) 
+}
+
+func (o *SchoolYearCommandHandler) AddCreatePreparer(preparer func (*CreateSchoolYear, *SchoolYear) (err error) ) {
+    prevHandler := o.CreateHandler
+	o.CreateHandler = func(command *CreateSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *SchoolYearCommandHandler) AddDeletePreparer(preparer func (*DeleteSchoolYear, *SchoolYear) (err error) ) {
+    prevHandler := o.DeleteHandler
+	o.DeleteHandler = func(command *DeleteSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
+}
+
+func (o *SchoolYearCommandHandler) AddUpdatePreparer(preparer func (*UpdateSchoolYear, *SchoolYear) (err error) ) {
+    prevHandler := o.UpdateHandler
+	o.UpdateHandler = func(command *UpdateSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (err error) {
+		if err = preparer(command, entity); err == nil {
+			err = prevHandler(command, entity, store)
+		}
+		return
+	}
 }
 
 func (o *SchoolYearCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
