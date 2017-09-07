@@ -597,9 +597,10 @@ components:
           type: string
         disabled:          
           type: boolean
-        lastLoginAt:          
-          type: string
-          format: date-time
+        roles:          
+          type: array
+          items:
+            type: string
         profile:          
           $ref: "#/components/schemas/Profile"
         id:          

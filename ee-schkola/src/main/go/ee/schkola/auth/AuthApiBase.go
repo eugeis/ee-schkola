@@ -4,7 +4,6 @@ import (
     "ee/schkola"
     "ee/schkola/person"
     "github.com/looplab/eventhorizon"
-    "time"
 )
 type Account struct {
     Name *schkola.PersonName
@@ -12,7 +11,7 @@ type Account struct {
     Password string`eh:"optional"`
     Email string`eh:"optional"`
     Disabled bool
-    LastLoginAt *time.Time
+    Roles []string
     Profile *person.Profile
     Id eventhorizon.UUID
 }
@@ -20,6 +19,11 @@ type Account struct {
 func NewAccount() (ret *Account) {
     ret = &Account{}
     return
+}
+
+func (o *Account) AddToRoles(item string) string {
+    o.Roles = append(o.Roles, item)
+    return item
 }
 
 

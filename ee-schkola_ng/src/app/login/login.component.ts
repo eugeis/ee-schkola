@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {routerTransition} from '../router.animations';
 import {AuthenticationService} from "../shared/services/authentication.service";
 import {AlertService} from "../shared/services/alert.service";
+import {Account} from "../shared/ee/schkola/auth/AuthApiBase";
 
 @Component({
     selector: 'app-login',
@@ -33,17 +34,16 @@ export class LoginComponent implements OnInit {
     login() {
         this.loading = true;
         this.authenticationService.login(this.model.username, this.model.password)
-            .subscribe(function (data) {
-                    this.onLoggedin()
+            .subscribe(function (account) {
+                    if (account) {
+                        // store account details and jwt token in local storage to keep account logged in between page refreshes
+                        localStorage.setItem('currentAccount', JSON.stringify(account));
+                    }
                     this.router.navigate([this.returnUrl]);
                 }.bind(this), function (error) {
                     this.alertService.error(JSON.stringify(error.json()));
                     this.loading = false;
                 }.bind(this)
             );
-    }
-
-    onLoggedin() {
-        localStorage.setItem('isLoggedin', 'true');
     }
 }

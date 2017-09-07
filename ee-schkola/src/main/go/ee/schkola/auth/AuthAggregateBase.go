@@ -115,6 +115,7 @@ func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
                 Password: command.Password,
                 Email: command.Email,
                 Disabled: command.Disabled,
+                Roles: command.Roles,
                 Profile: command.Profile,
                 Id: command.Id,}, time.Now())
         }
@@ -149,6 +150,7 @@ func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
                 Password: command.Password,
                 Email: command.Email,
                 Disabled: command.Disabled,
+                Roles: command.Roles,
                 Profile: command.Profile,
                 Id: command.Id,}, time.Now())
         }
@@ -202,6 +204,7 @@ func (o *AccountEventHandler) SetupEventHandler() (err error) {
             entity.Password = event.Password
             entity.Email = event.Email
             entity.Disabled = event.Disabled
+            entity.Roles = event.Roles
             entity.Profile = event.Profile
             entity.Id = event.Id
         }
@@ -245,6 +248,7 @@ func (o *AccountEventHandler) SetupEventHandler() (err error) {
             entity.Password = event.Password
             entity.Email = event.Email
             entity.Disabled = event.Disabled
+            entity.Roles = event.Roles
             entity.Profile = event.Profile
         }
         return

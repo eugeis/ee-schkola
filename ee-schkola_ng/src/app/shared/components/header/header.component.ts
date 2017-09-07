@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import {Component, OnInit} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import {AuthenticationService} from "../../services/authentication.service";
+import {Account} from "../../ee/schkola/auth/AuthApiBase";
 
 @Component({
     selector: 'app-header',
@@ -8,8 +10,10 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+    account: Account
 
-    constructor(private translate: TranslateService, public router: Router) {
+    constructor(private translate: TranslateService, public router: Router,
+                private authenticationService: AuthenticationService) {
         this.router.events.subscribe((val) => {
             if (val instanceof NavigationEnd && window.innerWidth <= 992) {
                 this.toggleSidebar();
@@ -17,15 +21,18 @@ export class HeaderComponent implements OnInit {
         });
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+
+    }
 
     toggleSidebar() {
         const dom: any = document.querySelector('body');
         dom.classList.toggle('push-right');
     }
 
-    onLoggedout() {
-        localStorage.removeItem('isLoggedin');
+    logout() {
+        this.authenticationService.logout()
+        this.router.navigate(["/login"]);
     }
 
     changeLang(language: string) {

@@ -38,8 +38,14 @@ type CreateAccount struct {
     Password string`eh:"optional"`
     Email string`eh:"optional"`
     Disabled bool`eh:"optional"`
+    Roles []string`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Id eventhorizon.UUID
+}
+
+func (o *CreateAccount) AddToRoles(item string) string {
+    o.Roles = append(o.Roles, item)
+    return item
 }
 func (o *CreateAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *CreateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -84,8 +90,14 @@ type UpdateAccount struct {
     Password string`eh:"optional"`
     Email string`eh:"optional"`
     Disabled bool`eh:"optional"`
+    Roles []string`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Id eventhorizon.UUID
+}
+
+func (o *UpdateAccount) AddToRoles(item string) string {
+    o.Roles = append(o.Roles, item)
+    return item
 }
 func (o *UpdateAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *UpdateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }

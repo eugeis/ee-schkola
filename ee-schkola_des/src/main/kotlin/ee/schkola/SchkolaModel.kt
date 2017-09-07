@@ -20,11 +20,11 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
         object Account : Entity() {
             val name = prop(Shared.PersonName)
-            val username = propS({ unique(true) })
-            val password = propS()
-            val email = propS({ unique(true) })
+            val username = propS { unique(true) }
+            val password = propS { hidden(true) }
+            val email = propS { unique(true) }
             val disabled = propB()
-            val lastLoginAt = propDT({ meta(true) })
+            val roles = propListT(n.String)
             val profile = prop { type(Person.Profile) }
 
             val login = command(username, email, password)

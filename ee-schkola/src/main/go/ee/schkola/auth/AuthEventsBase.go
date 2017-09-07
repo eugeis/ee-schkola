@@ -24,8 +24,14 @@ type AccountCreated struct {
     Password string`eh:"optional"`
     Email string`eh:"optional"`
     Disabled bool`eh:"optional"`
+    Roles []string`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Id eventhorizon.UUID
+}
+
+func (o *AccountCreated) AddToRoles(item string) string {
+    o.Roles = append(o.Roles, item)
+    return item
 }
 
 
@@ -48,8 +54,14 @@ type AccountUpdated struct {
     Password string`eh:"optional"`
     Email string`eh:"optional"`
     Disabled bool`eh:"optional"`
+    Roles []string`eh:"optional"`
     Profile *person.Profile`eh:"optional"`
     Id eventhorizon.UUID
+}
+
+func (o *AccountUpdated) AddToRoles(item string) string {
+    o.Roles = append(o.Roles, item)
+    return item
 }
 
 
