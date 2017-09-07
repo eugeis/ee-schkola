@@ -10,6 +10,13 @@ import (
 	"github.com/yvasiyarov/php_session_decoder/php_serialize"
 	"sort"
 	"strings"
+	"net/http"
+	"time"
+	"log"
+	"ee/schkola/person"
+	"bytes"
+	"github.com/looplab/eventhorizon"
+	"ee/schkola"
 )
 
 var work = "/Users/ee/Documents/BSS-Verwaltung/BSS-2017-2018"
@@ -87,6 +94,8 @@ func parseJson() {
 		}
 	}
 
+	println(keys)
+
 	users := make(map[string]map[string]interface{})
 	users1 := make([]string, 0)
 	users2 := make([]string, 0)
@@ -115,6 +124,76 @@ func parseJson() {
 	writeInsertInto(users1, users2, users3, users4, users5, users)
 	writeCsvEmailContacts(users1, users2, users3, users4, users5, users)
 	writeHtmlReport(users1, users2, users3, users4, users5, users)
+	restImport(users1, users2, users3, users4, users5, users)
+}
+
+func restImport(users1 []string, users2 []string, users3 []string,
+	users4 []string, users5 []string, users map[string]map[string]interface{}) {
+
+	client := http.Client{
+		Timeout: time.Second * 2, // Maximum of 2 secs
+	}
+
+	restImportForGroup(users, "2017 Klasse 1", &client)
+	restImportForGroup(users, "2016 1. Klasse", &client)
+	restImportForGroup(users, "2016 2. Klasse", &client)
+	restImportForGroup(users, "2016 3. Klasse", &client)
+	restImportForGroup(users, "2016 4. Klasse", &client)
+}
+
+func restImportForGroup(users map[string]map[string]interface{}, group string, client *http.Client) {
+
+	profilesUrl := "http://localhost:8080/person/profiles/"
+
+	for _, user := range users {
+		profile := person.NewProfile()
+
+		profile.Id, _ = user["username"].(eventhorizon.UUID)
+		profile.Name = schkola.NewPersonName()
+		profile.Name.First, _ = user["first_name"].(string)
+		profile.Name.Last, _ = user["last_name"].(string)
+		profile.Contact = person.NewContact()
+		profile.Contact.Email, _ = user["user_email"].(string)
+		profile.Contact.Phone, _ = user["phone_number"].(string)
+		profile.Birthday, _ = user["birth_date"].(*time.Time)
+
+		/*
+		profile.Gender, _ = user["gender"].(string)
+
+		"scool_year":         "Klasse",
+			"biblikum_1":         "Biblikum 1 geschrieben?",
+			"biblikum_2":         "Biblikum 2 geschrieben?",
+			"paided_last_years":  "Gebühr der Vorjahren bezahlt?",
+			"church":             "Gemeinde",
+			"church_commitment":  "Gemeinde einverstanden?",
+			"church_member":      "Mitglied welcher Gemeinde?",
+			"church_services":    "Gemeindedienste",
+			"church_responsible": "Pastor / Leitungskreis",
+			"church_contact":     "Telefon von Pastor / Leitungskreis",
+			"address":            "Adresse",
+			"plz":                "PLZ",
+			"city":               "Ort",
+			"job":                "Beruf",
+			"education":          "Bildung",
+			"marital_state":      "Familienstand",
+			"spirit":             "Geistlicher_Werdegang___
+
+*/
+		json, _ := json.Marshal(profile)
+		req, err := http.NewRequest(http.MethodPost, profilesUrl, bytes.NewBuffer(json))
+		if err != nil {
+			log.Fatal(err)
+		}
+		req.Header.Set("Content-Type", "application/json")
+
+		res, getErr := client.Do(req)
+		if getErr != nil {
+			log.Fatal(getErr)
+		}
+		if res.StatusCode != http.StatusOK {
+			log.Fatal("Status not ok", res.StatusCode)
+		}
+	}
 }
 
 func writeInsertInto(users1 []string, users2 []string, users3 []string,
@@ -171,7 +250,7 @@ func writeCsvEmailContacts(users1 []string, users2 []string, users3 []string,
 	f, _ := os.Create(fmt.Sprintf("%v/googleContacts.csv", work))
 	defer f.Close()
 	w := bufio.NewWriter(f)
-	w.WriteString("Last Name;First Name;Birthday;Gender;Mobile Phone:Company;E-mail Address;Categories\n")
+	w.WriteString("Last Name;First Name;Birthday;Gender;Mobile Phone;Company;E-mail Address;Categories\n")
 	writeCsvEmailContactsForGroup(users1, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
 		"church", "user_email", "17 Klasse 1"}, w)
 	writeCsvEmailContactsForGroup(users2, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",

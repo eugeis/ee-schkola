@@ -134,36 +134,36 @@ func NewBookRouter(pathPrefix string, context context.Context, commandBus eventh
 }
 
 func (o *BookRouter) Setup(router *mux.Router) (err error) {
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountBookById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("CountBookAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("ExistBookById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("ExistBookAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindBookByTitle").HandlerFunc(o.QueryHandler.FindByTitle).
     Queries("title", "{title}")
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindBookByPattern").HandlerFunc(o.QueryHandler.FindByPattern).
     Queries("pattern", "{pattern}")
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("FindBookById").HandlerFunc(o.QueryHandler.FindById)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindBookAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateBook").HandlerFunc(o.CommandHandler.Create)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "changeLocation").
         Name("ChangeBookLocation").HandlerFunc(o.CommandHandler.ChangeLocation)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateBook").HandlerFunc(o.CommandHandler.Update)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteBook").HandlerFunc(o.CommandHandler.Delete)
     return
 }

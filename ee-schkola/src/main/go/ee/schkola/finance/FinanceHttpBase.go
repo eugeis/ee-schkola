@@ -114,27 +114,27 @@ func NewExpenseRouter(pathPrefix string, context context.Context, commandBus eve
 }
 
 func (o *ExpenseRouter) Setup(router *mux.Router) (err error) {
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountExpenseById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("CountExpenseAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("ExistExpenseById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("ExistExpenseAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("FindExpenseById").HandlerFunc(o.QueryHandler.FindById)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindExpenseAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateExpense").HandlerFunc(o.CommandHandler.Create)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateExpense").HandlerFunc(o.CommandHandler.Update)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteExpense").HandlerFunc(o.CommandHandler.Delete)
     return
 }
@@ -246,27 +246,27 @@ func NewExpensePurposeRouter(pathPrefix string, context context.Context, command
 }
 
 func (o *ExpensePurposeRouter) Setup(router *mux.Router) (err error) {
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountExpensePurposeById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("CountExpensePurposeAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("ExistExpensePurposeById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("ExistExpensePurposeAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("FindExpensePurposeById").HandlerFunc(o.QueryHandler.FindById)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindExpensePurposeAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateExpensePurpose").HandlerFunc(o.CommandHandler.Create)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateExpensePurpose").HandlerFunc(o.CommandHandler.Update)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteExpensePurpose").HandlerFunc(o.CommandHandler.Delete)
     return
 }
@@ -378,27 +378,27 @@ func NewFeeRouter(pathPrefix string, context context.Context, commandBus eventho
 }
 
 func (o *FeeRouter) Setup(router *mux.Router) (err error) {
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountFeeById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("CountFeeAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("ExistFeeById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("ExistFeeAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("FindFeeById").HandlerFunc(o.QueryHandler.FindById)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindFeeAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateFee").HandlerFunc(o.CommandHandler.Create)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateFee").HandlerFunc(o.CommandHandler.Update)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteFee").HandlerFunc(o.CommandHandler.Delete)
     return
 }
@@ -510,27 +510,27 @@ func NewFeeKindRouter(pathPrefix string, context context.Context, commandBus eve
 }
 
 func (o *FeeKindRouter) Setup(router *mux.Router) (err error) {
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountFeeKindById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("CountFeeKindAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("ExistFeeKindById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("ExistFeeKindAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("FindFeeKindById").HandlerFunc(o.QueryHandler.FindById)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindFeeKindAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateFeeKind").HandlerFunc(o.CommandHandler.Create)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateFeeKind").HandlerFunc(o.CommandHandler.Update)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteFeeKind").HandlerFunc(o.CommandHandler.Delete)
     return
 }

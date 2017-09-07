@@ -132,36 +132,36 @@ func NewAttendanceRouter(pathPrefix string, context context.Context, commandBus 
 }
 
 func (o *AttendanceRouter) Setup(router *mux.Router) (err error) {
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountAttendanceById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("CountAttendanceAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("ExistAttendanceById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("ExistAttendanceAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("FindAttendanceById").HandlerFunc(o.QueryHandler.FindById)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindAttendanceAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "register").
         Name("RegisterAttendance").HandlerFunc(o.CommandHandler.Register)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateAttendance").HandlerFunc(o.CommandHandler.Create)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "confirm").
         Name("ConfirmAttendance").HandlerFunc(o.CommandHandler.Confirm)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "cancel").
         Name("CancelAttendance").HandlerFunc(o.CommandHandler.Cancel)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateAttendance").HandlerFunc(o.CommandHandler.Update)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteAttendance").HandlerFunc(o.CommandHandler.Delete)
     return
 }
@@ -273,27 +273,27 @@ func NewCourseRouter(pathPrefix string, context context.Context, commandBus even
 }
 
 func (o *CourseRouter) Setup(router *mux.Router) (err error) {
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountCourseById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("CountCourseAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("ExistCourseById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("ExistCourseAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("FindCourseById").HandlerFunc(o.QueryHandler.FindById)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindCourseAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateCourse").HandlerFunc(o.CommandHandler.Create)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateCourse").HandlerFunc(o.CommandHandler.Update)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteCourse").HandlerFunc(o.CommandHandler.Delete)
     return
 }
@@ -405,27 +405,27 @@ func NewGradeRouter(pathPrefix string, context context.Context, commandBus event
 }
 
 func (o *GradeRouter) Setup(router *mux.Router) (err error) {
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountGradeById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("CountGradeAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("ExistGradeById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("ExistGradeAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("FindGradeById").HandlerFunc(o.QueryHandler.FindById)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindGradeAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateGrade").HandlerFunc(o.CommandHandler.Create)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateGrade").HandlerFunc(o.CommandHandler.Update)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteGrade").HandlerFunc(o.CommandHandler.Delete)
     return
 }
@@ -537,27 +537,27 @@ func NewGroupRouter(pathPrefix string, context context.Context, commandBus event
 }
 
 func (o *GroupRouter) Setup(router *mux.Router) (err error) {
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountGroupById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("CountGroupAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("ExistGroupById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("ExistGroupAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("FindGroupById").HandlerFunc(o.QueryHandler.FindById)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindGroupAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateGroup").HandlerFunc(o.CommandHandler.Create)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateGroup").HandlerFunc(o.CommandHandler.Update)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteGroup").HandlerFunc(o.CommandHandler.Delete)
     return
 }
@@ -669,27 +669,27 @@ func NewSchoolApplicationRouter(pathPrefix string, context context.Context, comm
 }
 
 func (o *SchoolApplicationRouter) Setup(router *mux.Router) (err error) {
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountSchoolApplicationById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("CountSchoolApplicationAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("ExistSchoolApplicationById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("ExistSchoolApplicationAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("FindSchoolApplicationById").HandlerFunc(o.QueryHandler.FindById)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindSchoolApplicationAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateSchoolApplication").HandlerFunc(o.CommandHandler.Create)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateSchoolApplication").HandlerFunc(o.CommandHandler.Update)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteSchoolApplication").HandlerFunc(o.CommandHandler.Delete)
     return
 }
@@ -801,27 +801,27 @@ func NewSchoolYearRouter(pathPrefix string, context context.Context, commandBus 
 }
 
 func (o *SchoolYearRouter) Setup(router *mux.Router) (err error) {
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountSchoolYearById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("CountSchoolYearAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("ExistSchoolYearById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("ExistSchoolYearAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("FindSchoolYearById").HandlerFunc(o.QueryHandler.FindById)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindSchoolYearAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateSchoolYear").HandlerFunc(o.CommandHandler.Create)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateSchoolYear").HandlerFunc(o.CommandHandler.Update)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteSchoolYear").HandlerFunc(o.CommandHandler.Delete)
     return
 }

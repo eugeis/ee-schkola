@@ -132,36 +132,36 @@ func NewAccountRouter(pathPrefix string, context context.Context, commandBus eve
 }
 
 func (o *AccountRouter) Setup(router *mux.Router) (err error) {
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountAccountById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("CountAccountAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("ExistAccountById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("ExistAccountAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("FindAccountById").HandlerFunc(o.QueryHandler.FindById)
-    router.Methods(net.GET).PathPrefix(o.PathPrefix).
+    router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
         Name("FindAccountAll").HandlerFunc(o.QueryHandler.FindAll)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "login").
         Name("LoginAccount").HandlerFunc(o.CommandHandler.Login)
-    router.Methods(net.POST).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CreateAccount").HandlerFunc(o.CommandHandler.Create)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "enable").
         Name("EnableAccount").HandlerFunc(o.CommandHandler.Enable)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "disable").
         Name("DisableAccount").HandlerFunc(o.CommandHandler.Disable)
-    router.Methods(net.PUT).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("UpdateAccount").HandlerFunc(o.CommandHandler.Update)
-    router.Methods(net.DELETE).PathPrefix(o.PathPrefix).Path("/{id}").
+    router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("DeleteAccount").HandlerFunc(o.CommandHandler.Delete)
     return
 }
