@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {routerTransition} from '../router.animations';
-import {AuthService} from "../shared/services/authentication.service";
+import {AuthService} from "../shared/services/auth.service";
 import {AlertService} from "../shared/services/alert.service";
 import {AppSettings} from "../shared/services/common.service";
 
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         // reset login status
-        this.authService.logout();
+        this.authService.onLogout();
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';

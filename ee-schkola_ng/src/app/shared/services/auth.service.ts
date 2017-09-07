@@ -24,8 +24,13 @@ export class AuthService {
     }
 
     logout() {
+        this.onLogout()
         // remove account from local storage to log account out
         localStorage.removeItem(AppSettings.CURRENT_ACCOUNT);
-        return this.http.post(this.logoutUrl, {}).subscribe();
+    }
+
+    onLogout() {
+        // remove account from local storage to log account out
+        localStorage.removeItem(AppSettings.CURRENT_ACCOUNT);
     }
 }

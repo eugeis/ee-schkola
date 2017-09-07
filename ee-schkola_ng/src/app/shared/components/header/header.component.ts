@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
-import {AuthService} from "../../services/authentication.service";
+import {AuthService} from "../../services/auth.service";
 import {Account} from "../../ee/schkola/auth/AuthApiBase";
 
 @Component({
