@@ -6,8 +6,8 @@ import (
     "github.com/looplab/eventhorizon"
 )
 type BookQueryRepository struct {
-    repo eventhorizon.ReadRepo
-    context context.Context
+    repo eventhorizon.ReadRepo `json:"repo" eh:"optional"`
+    context context.Context `json:"context" eh:"optional"`
 }
 
 func NewBookQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *BookQueryRepository) {

@@ -8,10 +8,10 @@ import (
     "time"
 )
 type BookCommandHandler struct {
-    CreateHandler func (*CreateBook, *Book, eh.AggregateStoreEvent) (err error) 
-    DeleteHandler func (*DeleteBook, *Book, eh.AggregateStoreEvent) (err error) 
-    ChangeLocationHandler func (*ChangeBookLocation, *Book, eh.AggregateStoreEvent) (err error) 
-    UpdateHandler func (*UpdateBook, *Book, eh.AggregateStoreEvent) (err error) 
+    CreateHandler func (*CreateBook, *Book, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteBook, *Book, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    ChangeLocationHandler func (*ChangeBookLocation, *Book, eh.AggregateStoreEvent) (err error)  `json:"changeLocationHandler" eh:"optional"`
+    UpdateHandler func (*UpdateBook, *Book, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
 func (o *BookCommandHandler) AddCreatePreparer(preparer func (*CreateBook, *Book) (err error) ) {
@@ -121,10 +121,10 @@ func (o *BookCommandHandler) SetupCommandHandler() (err error) {
 
 
 type BookEventHandler struct {
-    CreatedHandler func (*BookCreated, *Book) (err error) 
-    DeletedHandler func (*BookDeleted, *Book) (err error) 
-    UpdatedHandler func (*BookUpdated, *Book) (err error) 
-    ChangeLocationedHandler func (*ChangeLocationedBook, *Book) (err error) 
+    CreatedHandler func (*BookCreated, *Book) (err error)  `json:"createdHandler" eh:"optional"`
+    DeletedHandler func (*BookDeleted, *Book) (err error)  `json:"deletedHandler" eh:"optional"`
+    UpdatedHandler func (*BookUpdated, *Book) (err error)  `json:"updatedHandler" eh:"optional"`
+    ChangeLocationedHandler func (*ChangeLocationedBook, *Book) (err error)  `json:"changeLocationedHandler" eh:"optional"`
 }
 
 func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -221,7 +221,7 @@ type BookAggregateInitializer struct {
     *eh.AggregateInitializer
     *BookCommandHandler
     *BookEventHandler
-    ProjectorHandler *BookEventHandler
+    ProjectorHandler *BookEventHandler `json:"projectorHandler" eh:"optional"`
 }
 
 
@@ -247,11 +247,11 @@ func NewBookAggregateInitializer(eventStore eventhorizon.EventStore, eventBus ev
 
 
 type LibraryEventhorizonInitializer struct {
-    eventStore eventhorizon.EventStore
-    eventBus eventhorizon.EventBus
-    eventPublisher eventhorizon.EventPublisher
-    commandBus eventhorizon.CommandBus
-    BookAggregateInitializer *BookAggregateInitializer
+    eventStore eventhorizon.EventStore `json:"eventStore" eh:"optional"`
+    eventBus eventhorizon.EventBus `json:"eventBus" eh:"optional"`
+    eventPublisher eventhorizon.EventPublisher `json:"eventPublisher" eh:"optional"`
+    commandBus eventhorizon.CommandBus `json:"commandBus" eh:"optional"`
+    BookAggregateInitializer *BookAggregateInitializer `json:"bookAggregateInitializer" eh:"optional"`
 }
 
 func NewLibraryEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 

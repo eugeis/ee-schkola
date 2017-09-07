@@ -19,14 +19,14 @@ const (
 
 
 type AccountCreated struct {
-    Name *schkola.PersonName`eh:"optional"`
-    Username string`eh:"optional"`
-    Password string`eh:"optional"`
-    Email string`eh:"optional"`
-    Disabled bool`eh:"optional"`
-    Roles []string`eh:"optional"`
-    Profile *person.Profile`eh:"optional"`
-    Id eventhorizon.UUID
+    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Username string `json:"username" eh:"optional"`
+    Password string `json:"password" eh:"optional"`
+    Email string `json:"email" eh:"optional"`
+    Disabled bool `json:"disabled" eh:"optional"`
+    Roles []string `json:"roles" eh:"optional"`
+    Profile *person.Profile `json:"profile" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func (o *AccountCreated) AddToRoles(item string) string {
@@ -36,27 +36,27 @@ func (o *AccountCreated) AddToRoles(item string) string {
 
 
 type AccountDeleted struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type AccountLogged struct {
-    Username string`eh:"optional"`
-    Email string`eh:"optional"`
-    Password string`eh:"optional"`
-    Id eventhorizon.UUID
+    Username string `json:"username" eh:"optional"`
+    Email string `json:"email" eh:"optional"`
+    Password string `json:"password" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type AccountUpdated struct {
-    Name *schkola.PersonName`eh:"optional"`
-    Username string`eh:"optional"`
-    Password string`eh:"optional"`
-    Email string`eh:"optional"`
-    Disabled bool`eh:"optional"`
-    Roles []string`eh:"optional"`
-    Profile *person.Profile`eh:"optional"`
-    Id eventhorizon.UUID
+    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Username string `json:"username" eh:"optional"`
+    Password string `json:"password" eh:"optional"`
+    Email string `json:"email" eh:"optional"`
+    Disabled bool `json:"disabled" eh:"optional"`
+    Roles []string `json:"roles" eh:"optional"`
+    Profile *person.Profile `json:"profile" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func (o *AccountUpdated) AddToRoles(item string) string {
@@ -66,12 +66,12 @@ func (o *AccountUpdated) AddToRoles(item string) string {
 
 
 type AccountEnabled struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type AccountDisabled struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 

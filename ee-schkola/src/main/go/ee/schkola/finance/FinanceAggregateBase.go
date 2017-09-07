@@ -8,9 +8,9 @@ import (
     "time"
 )
 type ExpenseCommandHandler struct {
-    CreateHandler func (*CreateExpense, *Expense, eh.AggregateStoreEvent) (err error) 
-    DeleteHandler func (*DeleteExpense, *Expense, eh.AggregateStoreEvent) (err error) 
-    UpdateHandler func (*UpdateExpense, *Expense, eh.AggregateStoreEvent) (err error) 
+    CreateHandler func (*CreateExpense, *Expense, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteExpense, *Expense, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    UpdateHandler func (*UpdateExpense, *Expense, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
 func (o *ExpenseCommandHandler) AddCreatePreparer(preparer func (*CreateExpense, *Expense) (err error) ) {
@@ -92,9 +92,9 @@ func (o *ExpenseCommandHandler) SetupCommandHandler() (err error) {
 
 
 type ExpenseEventHandler struct {
-    CreatedHandler func (*ExpenseCreated, *Expense) (err error) 
-    DeletedHandler func (*ExpenseDeleted, *Expense) (err error) 
-    UpdatedHandler func (*ExpenseUpdated, *Expense) (err error) 
+    CreatedHandler func (*ExpenseCreated, *Expense) (err error)  `json:"createdHandler" eh:"optional"`
+    DeletedHandler func (*ExpenseDeleted, *Expense) (err error)  `json:"deletedHandler" eh:"optional"`
+    UpdatedHandler func (*ExpenseUpdated, *Expense) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
 func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -168,7 +168,7 @@ type ExpenseAggregateInitializer struct {
     *eh.AggregateInitializer
     *ExpenseCommandHandler
     *ExpenseEventHandler
-    ProjectorHandler *ExpenseEventHandler
+    ProjectorHandler *ExpenseEventHandler `json:"projectorHandler" eh:"optional"`
 }
 
 
@@ -194,9 +194,9 @@ func NewExpenseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
 
 
 type ExpensePurposeCommandHandler struct {
-    CreateHandler func (*CreateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) (err error) 
-    DeleteHandler func (*DeleteExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) (err error) 
-    UpdateHandler func (*UpdateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) (err error) 
+    CreateHandler func (*CreateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    UpdateHandler func (*UpdateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
 func (o *ExpensePurposeCommandHandler) AddCreatePreparer(preparer func (*CreateExpensePurpose, *ExpensePurpose) (err error) ) {
@@ -274,9 +274,9 @@ func (o *ExpensePurposeCommandHandler) SetupCommandHandler() (err error) {
 
 
 type ExpensePurposeEventHandler struct {
-    CreatedHandler func (*ExpensePurposeCreated, *ExpensePurpose) (err error) 
-    DeletedHandler func (*ExpensePurposeDeleted, *ExpensePurpose) (err error) 
-    UpdatedHandler func (*ExpensePurposeUpdated, *ExpensePurpose) (err error) 
+    CreatedHandler func (*ExpensePurposeCreated, *ExpensePurpose) (err error)  `json:"createdHandler" eh:"optional"`
+    DeletedHandler func (*ExpensePurposeDeleted, *ExpensePurpose) (err error)  `json:"deletedHandler" eh:"optional"`
+    UpdatedHandler func (*ExpensePurposeUpdated, *ExpensePurpose) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
 func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -346,7 +346,7 @@ type ExpensePurposeAggregateInitializer struct {
     *eh.AggregateInitializer
     *ExpensePurposeCommandHandler
     *ExpensePurposeEventHandler
-    ProjectorHandler *ExpensePurposeEventHandler
+    ProjectorHandler *ExpensePurposeEventHandler `json:"projectorHandler" eh:"optional"`
 }
 
 
@@ -372,9 +372,9 @@ func NewExpensePurposeAggregateInitializer(eventStore eventhorizon.EventStore, e
 
 
 type FeeCommandHandler struct {
-    CreateHandler func (*CreateFee, *Fee, eh.AggregateStoreEvent) (err error) 
-    DeleteHandler func (*DeleteFee, *Fee, eh.AggregateStoreEvent) (err error) 
-    UpdateHandler func (*UpdateFee, *Fee, eh.AggregateStoreEvent) (err error) 
+    CreateHandler func (*CreateFee, *Fee, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteFee, *Fee, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    UpdateHandler func (*UpdateFee, *Fee, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
 func (o *FeeCommandHandler) AddCreatePreparer(preparer func (*CreateFee, *Fee) (err error) ) {
@@ -456,9 +456,9 @@ func (o *FeeCommandHandler) SetupCommandHandler() (err error) {
 
 
 type FeeEventHandler struct {
-    CreatedHandler func (*FeeCreated, *Fee) (err error) 
-    DeletedHandler func (*FeeDeleted, *Fee) (err error) 
-    UpdatedHandler func (*FeeUpdated, *Fee) (err error) 
+    CreatedHandler func (*FeeCreated, *Fee) (err error)  `json:"createdHandler" eh:"optional"`
+    DeletedHandler func (*FeeDeleted, *Fee) (err error)  `json:"deletedHandler" eh:"optional"`
+    UpdatedHandler func (*FeeUpdated, *Fee) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
 func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -532,7 +532,7 @@ type FeeAggregateInitializer struct {
     *eh.AggregateInitializer
     *FeeCommandHandler
     *FeeEventHandler
-    ProjectorHandler *FeeEventHandler
+    ProjectorHandler *FeeEventHandler `json:"projectorHandler" eh:"optional"`
 }
 
 
@@ -558,9 +558,9 @@ func NewFeeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eve
 
 
 type FeeKindCommandHandler struct {
-    CreateHandler func (*CreateFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error) 
-    DeleteHandler func (*DeleteFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error) 
-    UpdateHandler func (*UpdateFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error) 
+    CreateHandler func (*CreateFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    UpdateHandler func (*UpdateFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
 func (o *FeeKindCommandHandler) AddCreatePreparer(preparer func (*CreateFeeKind, *FeeKind) (err error) ) {
@@ -640,9 +640,9 @@ func (o *FeeKindCommandHandler) SetupCommandHandler() (err error) {
 
 
 type FeeKindEventHandler struct {
-    CreatedHandler func (*FeeKindCreated, *FeeKind) (err error) 
-    DeletedHandler func (*FeeKindDeleted, *FeeKind) (err error) 
-    UpdatedHandler func (*FeeKindUpdated, *FeeKind) (err error) 
+    CreatedHandler func (*FeeKindCreated, *FeeKind) (err error)  `json:"createdHandler" eh:"optional"`
+    DeletedHandler func (*FeeKindDeleted, *FeeKind) (err error)  `json:"deletedHandler" eh:"optional"`
+    UpdatedHandler func (*FeeKindUpdated, *FeeKind) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
 func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -714,7 +714,7 @@ type FeeKindAggregateInitializer struct {
     *eh.AggregateInitializer
     *FeeKindCommandHandler
     *FeeKindEventHandler
-    ProjectorHandler *FeeKindEventHandler
+    ProjectorHandler *FeeKindEventHandler `json:"projectorHandler" eh:"optional"`
 }
 
 
@@ -740,14 +740,14 @@ func NewFeeKindAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
 
 
 type FinanceEventhorizonInitializer struct {
-    eventStore eventhorizon.EventStore
-    eventBus eventhorizon.EventBus
-    eventPublisher eventhorizon.EventPublisher
-    commandBus eventhorizon.CommandBus
-    ExpenseAggregateInitializer *ExpenseAggregateInitializer
-    ExpensePurposeAggregateInitializer *ExpensePurposeAggregateInitializer
-    FeeAggregateInitializer *FeeAggregateInitializer
-    FeeKindAggregateInitializer *FeeKindAggregateInitializer
+    eventStore eventhorizon.EventStore `json:"eventStore" eh:"optional"`
+    eventBus eventhorizon.EventBus `json:"eventBus" eh:"optional"`
+    eventPublisher eventhorizon.EventPublisher `json:"eventPublisher" eh:"optional"`
+    commandBus eventhorizon.CommandBus `json:"commandBus" eh:"optional"`
+    ExpenseAggregateInitializer *ExpenseAggregateInitializer `json:"expenseAggregateInitializer" eh:"optional"`
+    ExpensePurposeAggregateInitializer *ExpensePurposeAggregateInitializer `json:"expensePurposeAggregateInitializer" eh:"optional"`
+    FeeAggregateInitializer *FeeAggregateInitializer `json:"feeAggregateInitializer" eh:"optional"`
+    FeeKindAggregateInitializer *FeeKindAggregateInitializer `json:"feeKindAggregateInitializer" eh:"optional"`
 }
 
 func NewFinanceEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 

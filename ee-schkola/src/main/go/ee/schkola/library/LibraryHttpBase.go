@@ -10,7 +10,7 @@ import (
 )
 type BookHttpQueryHandler struct {
     *eh.HttpQueryHandler
-    QueryRepository *BookQueryRepository
+    QueryRepository *BookQueryRepository `json:"queryRepository" eh:"optional"`
 }
 
 func NewBookHttpQueryHandler(queryRepository *BookQueryRepository) (ret *BookHttpQueryHandler) {
@@ -111,10 +111,10 @@ func (o *BookHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) 
 
 
 type BookRouter struct {
-    PathPrefix string
-    QueryHandler *BookHttpQueryHandler
-    CommandHandler *BookHttpCommandHandler
-    Router *mux.Router
+    PathPrefix string `json:"pathPrefix" eh:"optional"`
+    QueryHandler *BookHttpQueryHandler `json:"queryHandler" eh:"optional"`
+    CommandHandler *BookHttpCommandHandler `json:"commandHandler" eh:"optional"`
+    Router *mux.Router `json:"router" eh:"optional"`
 }
 
 func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -170,9 +170,9 @@ func (o *BookRouter) Setup(router *mux.Router) (err error) {
 
 
 type LibraryRouter struct {
-    PathPrefix string
-    BookRouter *BookRouter
-    Router *mux.Router
+    PathPrefix string `json:"pathPrefix" eh:"optional"`
+    BookRouter *BookRouter `json:"bookRouter" eh:"optional"`
+    Router *mux.Router `json:"router" eh:"optional"`
 }
 
 func NewLibraryRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 

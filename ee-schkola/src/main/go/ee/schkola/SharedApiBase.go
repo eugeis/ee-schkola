@@ -6,8 +6,8 @@ package schkola
 
 
 type PersonName struct {
-    First string
-    Last string
+    First string `json:"first" eh:"optional"`
+    Last string `json:"last" eh:"optional"`
 }
 
 func NewPersonName() (ret *PersonName) {

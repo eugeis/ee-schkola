@@ -34,10 +34,10 @@ export class LoginComponent implements OnInit {
     login() {
         this.loading = true;
         this.authenticationService.login(this.model.username, this.model.password)
-            .subscribe(function (account) {
-                    if (account) {
+            .subscribe(function (accountToken) {
+                    if (accountToken && accountToken.token) {
                         // store account details and jwt token in local storage to keep account logged in between page refreshes
-                        localStorage.setItem('currentAccount', JSON.stringify(account));
+                        localStorage.setItem('accountToken', JSON.stringify(accountToken));
                     }
                     this.router.navigate([this.returnUrl]);
                 }.bind(this), function (error) {

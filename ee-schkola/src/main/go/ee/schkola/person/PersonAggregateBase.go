@@ -8,9 +8,9 @@ import (
     "time"
 )
 type ChurchCommandHandler struct {
-    CreateHandler func (*CreateChurch, *Church, eh.AggregateStoreEvent) (err error) 
-    DeleteHandler func (*DeleteChurch, *Church, eh.AggregateStoreEvent) (err error) 
-    UpdateHandler func (*UpdateChurch, *Church, eh.AggregateStoreEvent) (err error) 
+    CreateHandler func (*CreateChurch, *Church, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteChurch, *Church, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    UpdateHandler func (*UpdateChurch, *Church, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
 func (o *ChurchCommandHandler) AddCreatePreparer(preparer func (*CreateChurch, *Church) (err error) ) {
@@ -92,9 +92,9 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (err error) {
 
 
 type ChurchEventHandler struct {
-    CreatedHandler func (*ChurchCreated, *Church) (err error) 
-    DeletedHandler func (*ChurchDeleted, *Church) (err error) 
-    UpdatedHandler func (*ChurchUpdated, *Church) (err error) 
+    CreatedHandler func (*ChurchCreated, *Church) (err error)  `json:"createdHandler" eh:"optional"`
+    DeletedHandler func (*ChurchDeleted, *Church) (err error)  `json:"deletedHandler" eh:"optional"`
+    UpdatedHandler func (*ChurchUpdated, *Church) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
 func (o *ChurchEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -168,7 +168,7 @@ type ChurchAggregateInitializer struct {
     *eh.AggregateInitializer
     *ChurchCommandHandler
     *ChurchEventHandler
-    ProjectorHandler *ChurchEventHandler
+    ProjectorHandler *ChurchEventHandler `json:"projectorHandler" eh:"optional"`
 }
 
 
@@ -194,9 +194,9 @@ func NewChurchAggregateInitializer(eventStore eventhorizon.EventStore, eventBus 
 
 
 type GraduationCommandHandler struct {
-    CreateHandler func (*CreateGraduation, *Graduation, eh.AggregateStoreEvent) (err error) 
-    DeleteHandler func (*DeleteGraduation, *Graduation, eh.AggregateStoreEvent) (err error) 
-    UpdateHandler func (*UpdateGraduation, *Graduation, eh.AggregateStoreEvent) (err error) 
+    CreateHandler func (*CreateGraduation, *Graduation, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteGraduation, *Graduation, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    UpdateHandler func (*UpdateGraduation, *Graduation, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
 func (o *GraduationCommandHandler) AddCreatePreparer(preparer func (*CreateGraduation, *Graduation) (err error) ) {
@@ -274,9 +274,9 @@ func (o *GraduationCommandHandler) SetupCommandHandler() (err error) {
 
 
 type GraduationEventHandler struct {
-    CreatedHandler func (*GraduationCreated, *Graduation) (err error) 
-    DeletedHandler func (*GraduationDeleted, *Graduation) (err error) 
-    UpdatedHandler func (*GraduationUpdated, *Graduation) (err error) 
+    CreatedHandler func (*GraduationCreated, *Graduation) (err error)  `json:"createdHandler" eh:"optional"`
+    DeletedHandler func (*GraduationDeleted, *Graduation) (err error)  `json:"deletedHandler" eh:"optional"`
+    UpdatedHandler func (*GraduationUpdated, *Graduation) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
 func (o *GraduationEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -346,7 +346,7 @@ type GraduationAggregateInitializer struct {
     *eh.AggregateInitializer
     *GraduationCommandHandler
     *GraduationEventHandler
-    ProjectorHandler *GraduationEventHandler
+    ProjectorHandler *GraduationEventHandler `json:"projectorHandler" eh:"optional"`
 }
 
 
@@ -372,9 +372,9 @@ func NewGraduationAggregateInitializer(eventStore eventhorizon.EventStore, event
 
 
 type ProfileCommandHandler struct {
-    CreateHandler func (*CreateProfile, *Profile, eh.AggregateStoreEvent) (err error) 
-    DeleteHandler func (*DeleteProfile, *Profile, eh.AggregateStoreEvent) (err error) 
-    UpdateHandler func (*UpdateProfile, *Profile, eh.AggregateStoreEvent) (err error) 
+    CreateHandler func (*CreateProfile, *Profile, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteProfile, *Profile, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    UpdateHandler func (*UpdateProfile, *Profile, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
 func (o *ProfileCommandHandler) AddCreatePreparer(preparer func (*CreateProfile, *Profile) (err error) ) {
@@ -470,9 +470,9 @@ func (o *ProfileCommandHandler) SetupCommandHandler() (err error) {
 
 
 type ProfileEventHandler struct {
-    CreatedHandler func (*ProfileCreated, *Profile) (err error) 
-    DeletedHandler func (*ProfileDeleted, *Profile) (err error) 
-    UpdatedHandler func (*ProfileUpdated, *Profile) (err error) 
+    CreatedHandler func (*ProfileCreated, *Profile) (err error)  `json:"createdHandler" eh:"optional"`
+    DeletedHandler func (*ProfileDeleted, *Profile) (err error)  `json:"deletedHandler" eh:"optional"`
+    UpdatedHandler func (*ProfileUpdated, *Profile) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
 func (o *ProfileEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -560,7 +560,7 @@ type ProfileAggregateInitializer struct {
     *eh.AggregateInitializer
     *ProfileCommandHandler
     *ProfileEventHandler
-    ProjectorHandler *ProfileEventHandler
+    ProjectorHandler *ProfileEventHandler `json:"projectorHandler" eh:"optional"`
 }
 
 
@@ -586,13 +586,13 @@ func NewProfileAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
 
 
 type PersonEventhorizonInitializer struct {
-    eventStore eventhorizon.EventStore
-    eventBus eventhorizon.EventBus
-    eventPublisher eventhorizon.EventPublisher
-    commandBus eventhorizon.CommandBus
-    ChurchAggregateInitializer *ChurchAggregateInitializer
-    GraduationAggregateInitializer *GraduationAggregateInitializer
-    ProfileAggregateInitializer *ProfileAggregateInitializer
+    eventStore eventhorizon.EventStore `json:"eventStore" eh:"optional"`
+    eventBus eventhorizon.EventBus `json:"eventBus" eh:"optional"`
+    eventPublisher eventhorizon.EventPublisher `json:"eventPublisher" eh:"optional"`
+    commandBus eventhorizon.CommandBus `json:"commandBus" eh:"optional"`
+    ChurchAggregateInitializer *ChurchAggregateInitializer `json:"churchAggregateInitializer" eh:"optional"`
+    GraduationAggregateInitializer *GraduationAggregateInitializer `json:"graduationAggregateInitializer" eh:"optional"`
+    ProfileAggregateInitializer *ProfileAggregateInitializer `json:"profileAggregateInitializer" eh:"optional"`
 }
 
 func NewPersonEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 

@@ -30,81 +30,81 @@ const (
 
 
 type ChurchCreated struct {
-    Name string`eh:"optional"`
-    Address *Address`eh:"optional"`
-    Pastor *schkola.PersonName`eh:"optional"`
-    Contact *Contact`eh:"optional"`
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Address *Address `json:"address" eh:"optional"`
+    Pastor *schkola.PersonName `json:"pastor" eh:"optional"`
+    Contact *Contact `json:"contact" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type ChurchDeleted struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type ChurchUpdated struct {
-    Name string`eh:"optional"`
-    Address *Address`eh:"optional"`
-    Pastor *schkola.PersonName`eh:"optional"`
-    Contact *Contact`eh:"optional"`
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Address *Address `json:"address" eh:"optional"`
+    Pastor *schkola.PersonName `json:"pastor" eh:"optional"`
+    Contact *Contact `json:"contact" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type GraduationCreated struct {
-    Name string`eh:"optional"`
-    Level *GraduationLevel`eh:"optional"`
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Level *GraduationLevel `json:"level" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type GraduationDeleted struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type GraduationUpdated struct {
-    Name string`eh:"optional"`
-    Level *GraduationLevel`eh:"optional"`
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Level *GraduationLevel `json:"level" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type ProfileCreated struct {
-    Gender *Gender`eh:"optional"`
-    Name *schkola.PersonName`eh:"optional"`
-    BirthName string`eh:"optional"`
-    Birthday *time.Time`eh:"optional"`
-    Address *Address`eh:"optional"`
-    Contact *Contact`eh:"optional"`
-    PhotoData []byte`eh:"optional"`
-    Photo string`eh:"optional"`
-    Family *Family`eh:"optional"`
-    Church *ChurchInfo`eh:"optional"`
-    Education *Education`eh:"optional"`
-    Id eventhorizon.UUID
+    Gender *Gender `json:"gender" eh:"optional"`
+    Name *schkola.PersonName `json:"name" eh:"optional"`
+    BirthName string `json:"birthName" eh:"optional"`
+    Birthday *time.Time `json:"birthday" eh:"optional"`
+    Address *Address `json:"address" eh:"optional"`
+    Contact *Contact `json:"contact" eh:"optional"`
+    PhotoData []byte `json:"photoData" eh:"optional"`
+    Photo string `json:"photo" eh:"optional"`
+    Family *Family `json:"family" eh:"optional"`
+    Church *ChurchInfo `json:"church" eh:"optional"`
+    Education *Education `json:"education" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type ProfileDeleted struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type ProfileUpdated struct {
-    Gender *Gender`eh:"optional"`
-    Name *schkola.PersonName`eh:"optional"`
-    BirthName string`eh:"optional"`
-    Birthday *time.Time`eh:"optional"`
-    Address *Address`eh:"optional"`
-    Contact *Contact`eh:"optional"`
-    PhotoData []byte`eh:"optional"`
-    Photo string`eh:"optional"`
-    Family *Family`eh:"optional"`
-    Church *ChurchInfo`eh:"optional"`
-    Education *Education`eh:"optional"`
-    Id eventhorizon.UUID
+    Gender *Gender `json:"gender" eh:"optional"`
+    Name *schkola.PersonName `json:"name" eh:"optional"`
+    BirthName string `json:"birthName" eh:"optional"`
+    Birthday *time.Time `json:"birthday" eh:"optional"`
+    Address *Address `json:"address" eh:"optional"`
+    Contact *Contact `json:"contact" eh:"optional"`
+    PhotoData []byte `json:"photoData" eh:"optional"`
+    Photo string `json:"photo" eh:"optional"`
+    Family *Family `json:"family" eh:"optional"`
+    Church *ChurchInfo `json:"church" eh:"optional"`
+    Education *Education `json:"education" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 

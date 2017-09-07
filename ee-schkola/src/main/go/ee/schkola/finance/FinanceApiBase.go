@@ -6,11 +6,11 @@ import (
     "time"
 )
 type Expense struct {
-    Purpose *ExpensePurpose
-    Amount float64
-    Profile *person.Profile
-    Date *time.Time
-    Id eventhorizon.UUID
+    Purpose *ExpensePurpose `json:"purpose" eh:"optional"`
+    Amount float64 `json:"amount" eh:"optional"`
+    Profile *person.Profile `json:"profile" eh:"optional"`
+    Date *time.Time `json:"date" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewExpense() (ret *Expense) {
@@ -20,9 +20,9 @@ func NewExpense() (ret *Expense) {
 
 
 type ExpensePurpose struct {
-    Name string
-    Description string
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Description string `json:"description" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewExpensePurpose() (ret *ExpensePurpose) {
@@ -32,11 +32,11 @@ func NewExpensePurpose() (ret *ExpensePurpose) {
 
 
 type Fee struct {
-    Student *person.Profile
-    Amount float64
-    Kind *FeeKind
-    Date *time.Time
-    Id eventhorizon.UUID
+    Student *person.Profile `json:"student" eh:"optional"`
+    Amount float64 `json:"amount" eh:"optional"`
+    Kind *FeeKind `json:"kind" eh:"optional"`
+    Date *time.Time `json:"date" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewFee() (ret *Fee) {
@@ -46,10 +46,10 @@ func NewFee() (ret *Fee) {
 
 
 type FeeKind struct {
-    Name string
-    Amount float64
-    Description string
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Amount float64 `json:"amount" eh:"optional"`
+    Description string `json:"description" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewFeeKind() (ret *FeeKind) {

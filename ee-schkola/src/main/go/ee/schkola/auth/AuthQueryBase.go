@@ -5,8 +5,8 @@ import (
     "github.com/looplab/eventhorizon"
 )
 type AccountQueryRepository struct {
-    repo eventhorizon.ReadRepo
-    context context.Context
+    repo eventhorizon.ReadRepo `json:"repo" eh:"optional"`
+    context context.Context `json:"context" eh:"optional"`
 }
 
 func NewAccountQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *AccountQueryRepository) {

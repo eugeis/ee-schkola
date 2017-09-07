@@ -65,11 +65,13 @@ func (o *Schkola) Start() {
 func (o *Schkola) initJwtController(accounts *auth.AccountQueryRepository) (ret *net.JwtController) {
 	//TODO use appName , provide help how to generate RSA files first
 	return net.NewJwtControllerApp("app",
-		func(credentials net.UserCredentials) (err error) {
+		func(credentials net.UserCredentials) (ret interface{}, err error) {
 			var account *auth.Account
 			if account, err = accounts.FindById(eventhorizon.UUID(credentials.Username)); err == nil {
 				if !crypt.HashAndEquals(credentials.Password, account.Password) {
 					err = errors.New("password mismatch")
+				} else {
+					ret = account
 				}
 			}
 			return

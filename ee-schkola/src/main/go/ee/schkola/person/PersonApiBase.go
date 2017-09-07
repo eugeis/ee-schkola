@@ -8,11 +8,11 @@ import (
     "time"
 )
 type Church struct {
-    Name string
-    Address *Address
-    Pastor *schkola.PersonName
-    Contact *Contact
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Address *Address `json:"address" eh:"optional"`
+    Pastor *schkola.PersonName `json:"pastor" eh:"optional"`
+    Contact *Contact `json:"contact" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewChurch() (ret *Church) {
@@ -22,9 +22,9 @@ func NewChurch() (ret *Church) {
 
 
 type Graduation struct {
-    Name string
-    Level *GraduationLevel
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Level *GraduationLevel `json:"level" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewGraduation() (ret *Graduation) {
@@ -34,18 +34,18 @@ func NewGraduation() (ret *Graduation) {
 
 
 type Profile struct {
-    Gender *Gender
-    Name *schkola.PersonName
-    BirthName string
-    Birthday *time.Time
-    Address *Address
-    Contact *Contact
-    PhotoData []byte
-    Photo string
-    Family *Family
-    Church *ChurchInfo
-    Education *Education
-    Id eventhorizon.UUID
+    Gender *Gender `json:"gender" eh:"optional"`
+    Name *schkola.PersonName `json:"name" eh:"optional"`
+    BirthName string `json:"birthName" eh:"optional"`
+    Birthday *time.Time `json:"birthday" eh:"optional"`
+    Address *Address `json:"address" eh:"optional"`
+    Contact *Contact `json:"contact" eh:"optional"`
+    PhotoData []byte `json:"photoData" eh:"optional"`
+    Photo string `json:"photo" eh:"optional"`
+    Family *Family `json:"family" eh:"optional"`
+    Church *ChurchInfo `json:"church" eh:"optional"`
+    Education *Education `json:"education" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewProfile() (ret *Profile) {
@@ -69,11 +69,11 @@ func (o *Profile) FindByPhone(phone string) (ret *Profile, err error) {
 
 
 type Address struct {
-    Street string
-    Suite string
-    City string
-    Code string
-    Country string
+    Street string `json:"street" eh:"optional"`
+    Suite string `json:"suite" eh:"optional"`
+    City string `json:"city" eh:"optional"`
+    Code string `json:"code" eh:"optional"`
+    Country string `json:"country" eh:"optional"`
 }
 
 func NewAddress() (ret *Address) {
@@ -83,10 +83,10 @@ func NewAddress() (ret *Address) {
 
 
 type ChurchInfo struct {
-    Church string
-    Association string
-    Member bool
-    Services string
+    Church string `json:"church" eh:"optional"`
+    Association string `json:"association" eh:"optional"`
+    Member bool `json:"member" eh:"optional"`
+    Services string `json:"services" eh:"optional"`
 }
 
 func NewChurchInfo() (ret *ChurchInfo) {
@@ -96,9 +96,9 @@ func NewChurchInfo() (ret *ChurchInfo) {
 
 
 type Contact struct {
-    Phone string
-    Email string
-    Cellphone string
+    Phone string `json:"phone" eh:"optional"`
+    Email string `json:"email" eh:"optional"`
+    Cellphone string `json:"cellphone" eh:"optional"`
 }
 
 func NewContact() (ret *Contact) {
@@ -108,8 +108,8 @@ func NewContact() (ret *Contact) {
 
 
 type Education struct {
-    Graduation *Graduation
-    Profession string
+    Graduation *Graduation `json:"graduation" eh:"optional"`
+    Profession string `json:"profession" eh:"optional"`
 }
 
 func NewEducation() (ret *Education) {
@@ -119,9 +119,9 @@ func NewEducation() (ret *Education) {
 
 
 type Family struct {
-    MaritalState *MaritalState
-    ChildrenCount int
-    Partner *schkola.PersonName
+    MaritalState *MaritalState `json:"maritalState" eh:"optional"`
+    ChildrenCount int `json:"childrenCount" eh:"optional"`
+    Partner *schkola.PersonName `json:"partner" eh:"optional"`
 }
 
 func NewFamily() (ret *Family) {

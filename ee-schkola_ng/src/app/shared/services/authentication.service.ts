@@ -1,7 +1,6 @@
 ﻿import {Injectable} from '@angular/core';
 import {Http, RequestOptions, Response} from '@angular/http';
 import 'rxjs/add/operator/map'
-import {printLine} from "tslint/lib/test/lines";
 
 @Injectable()
 export class AuthenticationService {
@@ -22,7 +21,7 @@ export class AuthenticationService {
 
     logout() {
         // remove account from local storage to log account out
-        localStorage.removeItem('currentAccount');
+        localStorage.removeItem('account');
         return this.http.post("http://localhost:8080/logout", {}).subscribe();
     }
 }

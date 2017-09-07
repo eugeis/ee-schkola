@@ -6,8 +6,8 @@ import (
     "github.com/looplab/eventhorizon"
 )
 type ChurchQueryRepository struct {
-    repo eventhorizon.ReadRepo
-    context context.Context
+    repo eventhorizon.ReadRepo `json:"repo" eh:"optional"`
+    context context.Context `json:"context" eh:"optional"`
 }
 
 func NewChurchQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *ChurchQueryRepository) {
@@ -71,8 +71,8 @@ func (o *ChurchQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err e
 
 
 type GraduationQueryRepository struct {
-    repo eventhorizon.ReadRepo
-    context context.Context
+    repo eventhorizon.ReadRepo `json:"repo" eh:"optional"`
+    context context.Context `json:"context" eh:"optional"`
 }
 
 func NewGraduationQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *GraduationQueryRepository) {
@@ -136,8 +136,8 @@ func (o *GraduationQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, e
 
 
 type ProfileQueryRepository struct {
-    repo eventhorizon.ReadRepo
-    context context.Context
+    repo eventhorizon.ReadRepo `json:"repo" eh:"optional"`
+    context context.Context `json:"context" eh:"optional"`
 }
 
 func NewProfileQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *ProfileQueryRepository) {

@@ -7,15 +7,15 @@ import (
     "time"
 )
 type Book struct {
-    Title string
-    Description string
-    Language string
-    ReleaseDate *time.Time
-    Edition string
-    Category string
-    Author *schkola.PersonName
-    Location *Location`eh:"optional"`
-    Id eventhorizon.UUID
+    Title string `json:"title" eh:"optional"`
+    Description string `json:"description" eh:"optional"`
+    Language string `json:"language" eh:"optional"`
+    ReleaseDate *time.Time `json:"releaseDate" eh:"optional"`
+    Edition string `json:"edition" eh:"optional"`
+    Category string `json:"category" eh:"optional"`
+    Author *schkola.PersonName `json:"author" eh:"optional"`
+    Location *Location `json:"location" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewBook() (ret *Book) {
@@ -39,8 +39,8 @@ func (o *Book) FindByTitle(title string) (ret *Book, err error) {
 
 
 type Location struct {
-    Shelf string
-    Fold string
+    Shelf string `json:"shelf" eh:"optional"`
+    Fold string `json:"fold" eh:"optional"`
 }
 
 func NewLocation() (ret *Location) {

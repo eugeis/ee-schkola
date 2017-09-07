@@ -10,7 +10,7 @@ import (
 )
 type AccountHttpQueryHandler struct {
     *eh.HttpQueryHandler
-    QueryRepository *AccountQueryRepository
+    QueryRepository *AccountQueryRepository `json:"queryRepository" eh:"optional"`
 }
 
 func NewAccountHttpQueryHandler(queryRepository *AccountQueryRepository) (ret *AccountHttpQueryHandler) {
@@ -109,10 +109,10 @@ func (o *AccountHttpCommandHandler) Login(w http.ResponseWriter, r *http.Request
 
 
 type AccountRouter struct {
-    PathPrefix string
-    QueryHandler *AccountHttpQueryHandler
-    CommandHandler *AccountHttpCommandHandler
-    Router *mux.Router
+    PathPrefix string `json:"pathPrefix" eh:"optional"`
+    QueryHandler *AccountHttpQueryHandler `json:"queryHandler" eh:"optional"`
+    CommandHandler *AccountHttpCommandHandler `json:"commandHandler" eh:"optional"`
+    Router *mux.Router `json:"router" eh:"optional"`
 }
 
 func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -168,9 +168,9 @@ func (o *AccountRouter) Setup(router *mux.Router) (err error) {
 
 
 type AuthRouter struct {
-    PathPrefix string
-    AccountRouter *AccountRouter
-    Router *mux.Router
+    PathPrefix string `json:"pathPrefix" eh:"optional"`
+    AccountRouter *AccountRouter `json:"accountRouter" eh:"optional"`
+    Router *mux.Router `json:"router" eh:"optional"`
 }
 
 func NewAuthRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 

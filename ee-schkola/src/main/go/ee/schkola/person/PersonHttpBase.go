@@ -10,7 +10,7 @@ import (
 )
 type ChurchHttpQueryHandler struct {
     *eh.HttpQueryHandler
-    QueryRepository *ChurchQueryRepository
+    QueryRepository *ChurchQueryRepository `json:"queryRepository" eh:"optional"`
 }
 
 func NewChurchHttpQueryHandler(queryRepository *ChurchQueryRepository) (ret *ChurchHttpQueryHandler) {
@@ -91,10 +91,10 @@ func (o *ChurchHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request
 
 
 type ChurchRouter struct {
-    PathPrefix string
-    QueryHandler *ChurchHttpQueryHandler
-    CommandHandler *ChurchHttpCommandHandler
-    Router *mux.Router
+    PathPrefix string `json:"pathPrefix" eh:"optional"`
+    QueryHandler *ChurchHttpQueryHandler `json:"queryHandler" eh:"optional"`
+    CommandHandler *ChurchHttpCommandHandler `json:"commandHandler" eh:"optional"`
+    Router *mux.Router `json:"router" eh:"optional"`
 }
 
 func NewChurchRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -142,7 +142,7 @@ func (o *ChurchRouter) Setup(router *mux.Router) (err error) {
 
 type GraduationHttpQueryHandler struct {
     *eh.HttpQueryHandler
-    QueryRepository *GraduationQueryRepository
+    QueryRepository *GraduationQueryRepository `json:"queryRepository" eh:"optional"`
 }
 
 func NewGraduationHttpQueryHandler(queryRepository *GraduationQueryRepository) (ret *GraduationHttpQueryHandler) {
@@ -223,10 +223,10 @@ func (o *GraduationHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Req
 
 
 type GraduationRouter struct {
-    PathPrefix string
-    QueryHandler *GraduationHttpQueryHandler
-    CommandHandler *GraduationHttpCommandHandler
-    Router *mux.Router
+    PathPrefix string `json:"pathPrefix" eh:"optional"`
+    QueryHandler *GraduationHttpQueryHandler `json:"queryHandler" eh:"optional"`
+    CommandHandler *GraduationHttpCommandHandler `json:"commandHandler" eh:"optional"`
+    Router *mux.Router `json:"router" eh:"optional"`
 }
 
 func NewGraduationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -274,7 +274,7 @@ func (o *GraduationRouter) Setup(router *mux.Router) (err error) {
 
 type ProfileHttpQueryHandler struct {
     *eh.HttpQueryHandler
-    QueryRepository *ProfileQueryRepository
+    QueryRepository *ProfileQueryRepository `json:"queryRepository" eh:"optional"`
 }
 
 func NewProfileHttpQueryHandler(queryRepository *ProfileQueryRepository) (ret *ProfileHttpQueryHandler) {
@@ -369,10 +369,10 @@ func (o *ProfileHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Reques
 
 
 type ProfileRouter struct {
-    PathPrefix string
-    QueryHandler *ProfileHttpQueryHandler
-    CommandHandler *ProfileHttpCommandHandler
-    Router *mux.Router
+    PathPrefix string `json:"pathPrefix" eh:"optional"`
+    QueryHandler *ProfileHttpQueryHandler `json:"queryHandler" eh:"optional"`
+    CommandHandler *ProfileHttpCommandHandler `json:"commandHandler" eh:"optional"`
+    Router *mux.Router `json:"router" eh:"optional"`
 }
 
 func NewProfileRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -425,11 +425,11 @@ func (o *ProfileRouter) Setup(router *mux.Router) (err error) {
 
 
 type PersonRouter struct {
-    PathPrefix string
-    ChurchRouter *ChurchRouter
-    GraduationRouter *GraduationRouter
-    ProfileRouter *ProfileRouter
-    Router *mux.Router
+    PathPrefix string `json:"pathPrefix" eh:"optional"`
+    ChurchRouter *ChurchRouter `json:"churchRouter" eh:"optional"`
+    GraduationRouter *GraduationRouter `json:"graduationRouter" eh:"optional"`
+    ProfileRouter *ProfileRouter `json:"profileRouter" eh:"optional"`
+    Router *mux.Router `json:"router" eh:"optional"`
 }
 
 func NewPersonRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 

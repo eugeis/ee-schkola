@@ -6,14 +6,14 @@ import (
     "github.com/looplab/eventhorizon"
 )
 type Account struct {
-    Name *schkola.PersonName
-    Username string`eh:"optional"`
-    Password string`eh:"optional"`
-    Email string`eh:"optional"`
-    Disabled bool
-    Roles []string
-    Profile *person.Profile
-    Id eventhorizon.UUID
+    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Username string `json:"username" eh:"optional"`
+    Password string `json:"password" eh:"optional"`
+    Email string `json:"email" eh:"optional"`
+    Disabled bool `json:"disabled" eh:"optional"`
+    Roles []string `json:"roles" eh:"optional"`
+    Profile *person.Profile `json:"profile" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewAccount() (ret *Account) {
@@ -30,8 +30,8 @@ func (o *Account) AddToRoles(item string) string {
 
 
 type UserCredentials struct {
-    Username string
-    Password string
+    Username string `json:"username" eh:"optional"`
+    Password string `json:"password" eh:"optional"`
 }
 
 func NewUserCredentials() (ret *UserCredentials) {

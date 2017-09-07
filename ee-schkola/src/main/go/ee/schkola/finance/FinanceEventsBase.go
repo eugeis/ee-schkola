@@ -37,88 +37,88 @@ const (
 
 
 type ExpenseCreated struct {
-    Purpose *ExpensePurpose`eh:"optional"`
-    Amount float64`eh:"optional"`
-    Profile *person.Profile`eh:"optional"`
-    Date *time.Time`eh:"optional"`
-    Id eventhorizon.UUID
+    Purpose *ExpensePurpose `json:"purpose" eh:"optional"`
+    Amount float64 `json:"amount" eh:"optional"`
+    Profile *person.Profile `json:"profile" eh:"optional"`
+    Date *time.Time `json:"date" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type ExpenseDeleted struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type ExpenseUpdated struct {
-    Purpose *ExpensePurpose`eh:"optional"`
-    Amount float64`eh:"optional"`
-    Profile *person.Profile`eh:"optional"`
-    Date *time.Time`eh:"optional"`
-    Id eventhorizon.UUID
+    Purpose *ExpensePurpose `json:"purpose" eh:"optional"`
+    Amount float64 `json:"amount" eh:"optional"`
+    Profile *person.Profile `json:"profile" eh:"optional"`
+    Date *time.Time `json:"date" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type ExpensePurposeCreated struct {
-    Name string`eh:"optional"`
-    Description string`eh:"optional"`
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Description string `json:"description" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type ExpensePurposeDeleted struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type ExpensePurposeUpdated struct {
-    Name string`eh:"optional"`
-    Description string`eh:"optional"`
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Description string `json:"description" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type FeeCreated struct {
-    Student *person.Profile`eh:"optional"`
-    Amount float64`eh:"optional"`
-    Kind *FeeKind`eh:"optional"`
-    Date *time.Time`eh:"optional"`
-    Id eventhorizon.UUID
+    Student *person.Profile `json:"student" eh:"optional"`
+    Amount float64 `json:"amount" eh:"optional"`
+    Kind *FeeKind `json:"kind" eh:"optional"`
+    Date *time.Time `json:"date" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type FeeDeleted struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type FeeUpdated struct {
-    Student *person.Profile`eh:"optional"`
-    Amount float64`eh:"optional"`
-    Kind *FeeKind`eh:"optional"`
-    Date *time.Time`eh:"optional"`
-    Id eventhorizon.UUID
+    Student *person.Profile `json:"student" eh:"optional"`
+    Amount float64 `json:"amount" eh:"optional"`
+    Kind *FeeKind `json:"kind" eh:"optional"`
+    Date *time.Time `json:"date" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type FeeKindCreated struct {
-    Name string`eh:"optional"`
-    Amount float64`eh:"optional"`
-    Description string`eh:"optional"`
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Amount float64 `json:"amount" eh:"optional"`
+    Description string `json:"description" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type FeeKindDeleted struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type FeeKindUpdated struct {
-    Name string`eh:"optional"`
-    Amount float64`eh:"optional"`
-    Description string`eh:"optional"`
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Amount float64 `json:"amount" eh:"optional"`
+    Description string `json:"description" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 

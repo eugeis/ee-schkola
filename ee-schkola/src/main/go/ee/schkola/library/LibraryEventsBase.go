@@ -17,39 +17,39 @@ const (
 
 
 type BookCreated struct {
-    Title string`eh:"optional"`
-    Description string`eh:"optional"`
-    Language string`eh:"optional"`
-    ReleaseDate *time.Time`eh:"optional"`
-    Edition string`eh:"optional"`
-    Category string`eh:"optional"`
-    Author *schkola.PersonName`eh:"optional"`
-    Location *Location`eh:"optional"`
-    Id eventhorizon.UUID
+    Title string `json:"title" eh:"optional"`
+    Description string `json:"description" eh:"optional"`
+    Language string `json:"language" eh:"optional"`
+    ReleaseDate *time.Time `json:"releaseDate" eh:"optional"`
+    Edition string `json:"edition" eh:"optional"`
+    Category string `json:"category" eh:"optional"`
+    Author *schkola.PersonName `json:"author" eh:"optional"`
+    Location *Location `json:"location" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type BookDeleted struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type BookUpdated struct {
-    Title string`eh:"optional"`
-    Description string`eh:"optional"`
-    Language string`eh:"optional"`
-    ReleaseDate *time.Time`eh:"optional"`
-    Edition string`eh:"optional"`
-    Category string`eh:"optional"`
-    Author *schkola.PersonName`eh:"optional"`
-    Location *Location`eh:"optional"`
-    Id eventhorizon.UUID
+    Title string `json:"title" eh:"optional"`
+    Description string `json:"description" eh:"optional"`
+    Language string `json:"language" eh:"optional"`
+    ReleaseDate *time.Time `json:"releaseDate" eh:"optional"`
+    Edition string `json:"edition" eh:"optional"`
+    Category string `json:"category" eh:"optional"`
+    Author *schkola.PersonName `json:"author" eh:"optional"`
+    Location *Location `json:"location" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type ChangeLocationedBook struct {
-    Location *Location`eh:"optional"`
-    Id eventhorizon.UUID
+    Location *Location `json:"location" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 

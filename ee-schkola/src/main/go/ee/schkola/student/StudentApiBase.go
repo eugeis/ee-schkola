@@ -8,13 +8,13 @@ import (
     "time"
 )
 type Attendance struct {
-    Student *person.Profile`eh:"optional"`
-    Date *time.Time
-    Course *Course`eh:"optional"`
-    Hours int
-    State *AttendanceState
-    Token string
-    Id eventhorizon.UUID
+    Student *person.Profile `json:"student" eh:"optional"`
+    Date *time.Time `json:"date" eh:"optional"`
+    Course *Course `json:"course" eh:"optional"`
+    Hours int `json:"hours" eh:"optional"`
+    State *AttendanceState `json:"state" eh:"optional"`
+    Token string `json:"token" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewAttendance() (ret *Attendance) {
@@ -24,14 +24,14 @@ func NewAttendance() (ret *Attendance) {
 
 
 type Course struct {
-    Name string
-    Begin *time.Time
-    End *time.Time
-    Teacher *schkola.PersonName
-    SchoolYear *SchoolYear
-    Fee float64
-    Description string
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Begin *time.Time `json:"begin" eh:"optional"`
+    End *time.Time `json:"end" eh:"optional"`
+    Teacher *schkola.PersonName `json:"teacher" eh:"optional"`
+    SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
+    Fee float64 `json:"fee" eh:"optional"`
+    Description string `json:"description" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewCourse() (ret *Course) {
@@ -41,11 +41,11 @@ func NewCourse() (ret *Course) {
 
 
 type Grade struct {
-    Student *person.Profile
-    Course *Course
-    Grade float64
-    Comment string
-    Id eventhorizon.UUID
+    Student *person.Profile `json:"student" eh:"optional"`
+    Course *Course `json:"course" eh:"optional"`
+    Grade float64 `json:"grade" eh:"optional"`
+    Comment string `json:"comment" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewGrade() (ret *Grade) {
@@ -55,13 +55,13 @@ func NewGrade() (ret *Grade) {
 
 
 type Group struct {
-    Name string
-    Category *GroupCategory
-    SchoolYear *SchoolYear
-    Representative *person.Profile
-    Students []*person.Profile
-    Courses []*Course
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Category *GroupCategory `json:"category" eh:"optional"`
+    SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
+    Representative *person.Profile `json:"representative" eh:"optional"`
+    Students []*person.Profile `json:"students" eh:"optional"`
+    Courses []*Course `json:"courses" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewGroup() (ret *Group) {
@@ -81,13 +81,13 @@ func (o *Group) AddToCourses(item *Course) *Course {
 
 
 type SchoolApplication struct {
-    Profile *person.Profile
-    RecommendationOf *schkola.PersonName
-    ChurchContactPerson *schkola.PersonName
-    ChurchContact *person.Contact
-    SchoolYear *SchoolYear
-    Group string
-    Id eventhorizon.UUID
+    Profile *person.Profile `json:"profile" eh:"optional"`
+    RecommendationOf *schkola.PersonName `json:"recommendationOf" eh:"optional"`
+    ChurchContactPerson *schkola.PersonName `json:"churchContactPerson" eh:"optional"`
+    ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
+    SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
+    Group string `json:"group" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewSchoolApplication() (ret *SchoolApplication) {
@@ -97,11 +97,11 @@ func NewSchoolApplication() (ret *SchoolApplication) {
 
 
 type SchoolYear struct {
-    Name string
-    Start *time.Time
-    End *time.Time
-    Dates []*time.Time
-    Id eventhorizon.UUID
+    Name string `json:"name" eh:"optional"`
+    Start *time.Time `json:"start" eh:"optional"`
+    End *time.Time `json:"end" eh:"optional"`
+    Dates []*time.Time `json:"dates" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func NewSchoolYear() (ret *SchoolYear) {

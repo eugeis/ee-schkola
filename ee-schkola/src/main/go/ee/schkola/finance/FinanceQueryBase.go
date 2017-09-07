@@ -5,8 +5,8 @@ import (
     "github.com/looplab/eventhorizon"
 )
 type ExpenseQueryRepository struct {
-    repo eventhorizon.ReadRepo
-    context context.Context
+    repo eventhorizon.ReadRepo `json:"repo" eh:"optional"`
+    context context.Context `json:"context" eh:"optional"`
 }
 
 func NewExpenseQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *ExpenseQueryRepository) {
@@ -70,8 +70,8 @@ func (o *ExpenseQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err 
 
 
 type ExpensePurposeQueryRepository struct {
-    repo eventhorizon.ReadRepo
-    context context.Context
+    repo eventhorizon.ReadRepo `json:"repo" eh:"optional"`
+    context context.Context `json:"context" eh:"optional"`
 }
 
 func NewExpensePurposeQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *ExpensePurposeQueryRepository) {
@@ -135,8 +135,8 @@ func (o *ExpensePurposeQueryRepository) ExistById(id eventhorizon.UUID) (ret boo
 
 
 type FeeQueryRepository struct {
-    repo eventhorizon.ReadRepo
-    context context.Context
+    repo eventhorizon.ReadRepo `json:"repo" eh:"optional"`
+    context context.Context `json:"context" eh:"optional"`
 }
 
 func NewFeeQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *FeeQueryRepository) {
@@ -200,8 +200,8 @@ func (o *FeeQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err erro
 
 
 type FeeKindQueryRepository struct {
-    repo eventhorizon.ReadRepo
-    context context.Context
+    repo eventhorizon.ReadRepo `json:"repo" eh:"optional"`
+    context context.Context `json:"context" eh:"optional"`
 }
 
 func NewFeeKindQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *FeeKindQueryRepository) {

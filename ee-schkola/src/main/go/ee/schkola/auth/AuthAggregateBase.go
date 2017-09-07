@@ -8,12 +8,12 @@ import (
     "time"
 )
 type AccountCommandHandler struct {
-    LoginHandler func (*LoginAccount, *Account, eh.AggregateStoreEvent) (err error) 
-    CreateHandler func (*CreateAccount, *Account, eh.AggregateStoreEvent) (err error) 
-    DeleteHandler func (*DeleteAccount, *Account, eh.AggregateStoreEvent) (err error) 
-    EnableHandler func (*EnableAccount, *Account, eh.AggregateStoreEvent) (err error) 
-    DisableHandler func (*DisableAccount, *Account, eh.AggregateStoreEvent) (err error) 
-    UpdateHandler func (*UpdateAccount, *Account, eh.AggregateStoreEvent) (err error) 
+    LoginHandler func (*LoginAccount, *Account, eh.AggregateStoreEvent) (err error)  `json:"loginHandler" eh:"optional"`
+    CreateHandler func (*CreateAccount, *Account, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteAccount, *Account, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    EnableHandler func (*EnableAccount, *Account, eh.AggregateStoreEvent) (err error)  `json:"enableHandler" eh:"optional"`
+    DisableHandler func (*DisableAccount, *Account, eh.AggregateStoreEvent) (err error)  `json:"disableHandler" eh:"optional"`
+    UpdateHandler func (*UpdateAccount, *Account, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
 func (o *AccountCommandHandler) AddLoginPreparer(preparer func (*LoginAccount, *Account) (err error) ) {
@@ -161,12 +161,12 @@ func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
 
 
 type AccountEventHandler struct {
-    CreatedHandler func (*AccountCreated, *Account) (err error) 
-    DeletedHandler func (*AccountDeleted, *Account) (err error) 
-    LoggedHandler func (*AccountLogged, *Account) (err error) 
-    UpdatedHandler func (*AccountUpdated, *Account) (err error) 
-    EnabledHandler func (*AccountEnabled, *Account) (err error) 
-    DisabledHandler func (*AccountDisabled, *Account) (err error) 
+    CreatedHandler func (*AccountCreated, *Account) (err error)  `json:"createdHandler" eh:"optional"`
+    DeletedHandler func (*AccountDeleted, *Account) (err error)  `json:"deletedHandler" eh:"optional"`
+    LoggedHandler func (*AccountLogged, *Account) (err error)  `json:"loggedHandler" eh:"optional"`
+    UpdatedHandler func (*AccountUpdated, *Account) (err error)  `json:"updatedHandler" eh:"optional"`
+    EnabledHandler func (*AccountEnabled, *Account) (err error)  `json:"enabledHandler" eh:"optional"`
+    DisabledHandler func (*AccountDisabled, *Account) (err error)  `json:"disabledHandler" eh:"optional"`
 }
 
 func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
@@ -289,7 +289,7 @@ type AccountAggregateInitializer struct {
     *eh.AggregateInitializer
     *AccountCommandHandler
     *AccountEventHandler
-    ProjectorHandler *AccountEventHandler
+    ProjectorHandler *AccountEventHandler `json:"projectorHandler" eh:"optional"`
 }
 
 
@@ -319,11 +319,11 @@ func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
 
 
 type AuthEventhorizonInitializer struct {
-    eventStore eventhorizon.EventStore
-    eventBus eventhorizon.EventBus
-    eventPublisher eventhorizon.EventPublisher
-    commandBus eventhorizon.CommandBus
-    AccountAggregateInitializer *AccountAggregateInitializer
+    eventStore eventhorizon.EventStore `json:"eventStore" eh:"optional"`
+    eventBus eventhorizon.EventBus `json:"eventBus" eh:"optional"`
+    eventPublisher eventhorizon.EventPublisher `json:"eventPublisher" eh:"optional"`
+    commandBus eventhorizon.CommandBus `json:"commandBus" eh:"optional"`
+    AccountAggregateInitializer *AccountAggregateInitializer `json:"accountAggregateInitializer" eh:"optional"`
 }
 
 func NewAuthEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 

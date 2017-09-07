@@ -10,7 +10,7 @@ import (
 )
 type ExpenseHttpQueryHandler struct {
     *eh.HttpQueryHandler
-    QueryRepository *ExpenseQueryRepository
+    QueryRepository *ExpenseQueryRepository `json:"queryRepository" eh:"optional"`
 }
 
 func NewExpenseHttpQueryHandler(queryRepository *ExpenseQueryRepository) (ret *ExpenseHttpQueryHandler) {
@@ -91,10 +91,10 @@ func (o *ExpenseHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Reques
 
 
 type ExpenseRouter struct {
-    PathPrefix string
-    QueryHandler *ExpenseHttpQueryHandler
-    CommandHandler *ExpenseHttpCommandHandler
-    Router *mux.Router
+    PathPrefix string `json:"pathPrefix" eh:"optional"`
+    QueryHandler *ExpenseHttpQueryHandler `json:"queryHandler" eh:"optional"`
+    CommandHandler *ExpenseHttpCommandHandler `json:"commandHandler" eh:"optional"`
+    Router *mux.Router `json:"router" eh:"optional"`
 }
 
 func NewExpenseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -142,7 +142,7 @@ func (o *ExpenseRouter) Setup(router *mux.Router) (err error) {
 
 type ExpensePurposeHttpQueryHandler struct {
     *eh.HttpQueryHandler
-    QueryRepository *ExpensePurposeQueryRepository
+    QueryRepository *ExpensePurposeQueryRepository `json:"queryRepository" eh:"optional"`
 }
 
 func NewExpensePurposeHttpQueryHandler(queryRepository *ExpensePurposeQueryRepository) (ret *ExpensePurposeHttpQueryHandler) {
@@ -223,10 +223,10 @@ func (o *ExpensePurposeHttpCommandHandler) Delete(w http.ResponseWriter, r *http
 
 
 type ExpensePurposeRouter struct {
-    PathPrefix string
-    QueryHandler *ExpensePurposeHttpQueryHandler
-    CommandHandler *ExpensePurposeHttpCommandHandler
-    Router *mux.Router
+    PathPrefix string `json:"pathPrefix" eh:"optional"`
+    QueryHandler *ExpensePurposeHttpQueryHandler `json:"queryHandler" eh:"optional"`
+    CommandHandler *ExpensePurposeHttpCommandHandler `json:"commandHandler" eh:"optional"`
+    Router *mux.Router `json:"router" eh:"optional"`
 }
 
 func NewExpensePurposeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -274,7 +274,7 @@ func (o *ExpensePurposeRouter) Setup(router *mux.Router) (err error) {
 
 type FeeHttpQueryHandler struct {
     *eh.HttpQueryHandler
-    QueryRepository *FeeQueryRepository
+    QueryRepository *FeeQueryRepository `json:"queryRepository" eh:"optional"`
 }
 
 func NewFeeHttpQueryHandler(queryRepository *FeeQueryRepository) (ret *FeeHttpQueryHandler) {
@@ -355,10 +355,10 @@ func (o *FeeHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
 
 
 type FeeRouter struct {
-    PathPrefix string
-    QueryHandler *FeeHttpQueryHandler
-    CommandHandler *FeeHttpCommandHandler
-    Router *mux.Router
+    PathPrefix string `json:"pathPrefix" eh:"optional"`
+    QueryHandler *FeeHttpQueryHandler `json:"queryHandler" eh:"optional"`
+    CommandHandler *FeeHttpCommandHandler `json:"commandHandler" eh:"optional"`
+    Router *mux.Router `json:"router" eh:"optional"`
 }
 
 func NewFeeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -406,7 +406,7 @@ func (o *FeeRouter) Setup(router *mux.Router) (err error) {
 
 type FeeKindHttpQueryHandler struct {
     *eh.HttpQueryHandler
-    QueryRepository *FeeKindQueryRepository
+    QueryRepository *FeeKindQueryRepository `json:"queryRepository" eh:"optional"`
 }
 
 func NewFeeKindHttpQueryHandler(queryRepository *FeeKindQueryRepository) (ret *FeeKindHttpQueryHandler) {
@@ -487,10 +487,10 @@ func (o *FeeKindHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Reques
 
 
 type FeeKindRouter struct {
-    PathPrefix string
-    QueryHandler *FeeKindHttpQueryHandler
-    CommandHandler *FeeKindHttpCommandHandler
-    Router *mux.Router
+    PathPrefix string `json:"pathPrefix" eh:"optional"`
+    QueryHandler *FeeKindHttpQueryHandler `json:"queryHandler" eh:"optional"`
+    CommandHandler *FeeKindHttpCommandHandler `json:"commandHandler" eh:"optional"`
+    Router *mux.Router `json:"router" eh:"optional"`
 }
 
 func NewFeeKindRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
@@ -537,12 +537,12 @@ func (o *FeeKindRouter) Setup(router *mux.Router) (err error) {
 
 
 type FinanceRouter struct {
-    PathPrefix string
-    ExpenseRouter *ExpenseRouter
-    ExpensePurposeRouter *ExpensePurposeRouter
-    FeeRouter *FeeRouter
-    FeeKindRouter *FeeKindRouter
-    Router *mux.Router
+    PathPrefix string `json:"pathPrefix" eh:"optional"`
+    ExpenseRouter *ExpenseRouter `json:"expenseRouter" eh:"optional"`
+    ExpensePurposeRouter *ExpensePurposeRouter `json:"expensePurposeRouter" eh:"optional"`
+    FeeRouter *FeeRouter `json:"feeRouter" eh:"optional"`
+    FeeKindRouter *FeeKindRouter `json:"feeKindRouter" eh:"optional"`
+    Router *mux.Router `json:"router" eh:"optional"`
 }
 
 func NewFinanceRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 

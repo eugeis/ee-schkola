@@ -20,10 +20,10 @@ const (
 
         
 type LoginAccount struct {
-    Username string`eh:"optional"`
-    Email string`eh:"optional"`
-    Password string`eh:"optional"`
-    Id eventhorizon.UUID
+    Username string `json:"username" eh:"optional"`
+    Email string `json:"email" eh:"optional"`
+    Password string `json:"password" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 func (o *LoginAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *LoginAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -33,14 +33,14 @@ func (o *LoginAccount) CommandType() eventhorizon.CommandType      { return Logi
 
         
 type CreateAccount struct {
-    Name *schkola.PersonName`eh:"optional"`
-    Username string`eh:"optional"`
-    Password string`eh:"optional"`
-    Email string`eh:"optional"`
-    Disabled bool`eh:"optional"`
-    Roles []string`eh:"optional"`
-    Profile *person.Profile`eh:"optional"`
-    Id eventhorizon.UUID
+    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Username string `json:"username" eh:"optional"`
+    Password string `json:"password" eh:"optional"`
+    Email string `json:"email" eh:"optional"`
+    Disabled bool `json:"disabled" eh:"optional"`
+    Roles []string `json:"roles" eh:"optional"`
+    Profile *person.Profile `json:"profile" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func (o *CreateAccount) AddToRoles(item string) string {
@@ -55,7 +55,7 @@ func (o *CreateAccount) CommandType() eventhorizon.CommandType      { return Cre
 
         
 type DeleteAccount struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 func (o *DeleteAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *DeleteAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -65,7 +65,7 @@ func (o *DeleteAccount) CommandType() eventhorizon.CommandType      { return Del
 
         
 type EnableAccount struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 func (o *EnableAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *EnableAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -75,7 +75,7 @@ func (o *EnableAccount) CommandType() eventhorizon.CommandType      { return Ena
 
         
 type DisableAccount struct {
-    Id eventhorizon.UUID
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 func (o *DisableAccount) AggregateID() eventhorizon.UUID            { return o.Id }
 func (o *DisableAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
@@ -85,14 +85,14 @@ func (o *DisableAccount) CommandType() eventhorizon.CommandType      { return Di
 
         
 type UpdateAccount struct {
-    Name *schkola.PersonName`eh:"optional"`
-    Username string`eh:"optional"`
-    Password string`eh:"optional"`
-    Email string`eh:"optional"`
-    Disabled bool`eh:"optional"`
-    Roles []string`eh:"optional"`
-    Profile *person.Profile`eh:"optional"`
-    Id eventhorizon.UUID
+    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Username string `json:"username" eh:"optional"`
+    Password string `json:"password" eh:"optional"`
+    Email string `json:"email" eh:"optional"`
+    Disabled bool `json:"disabled" eh:"optional"`
+    Roles []string `json:"roles" eh:"optional"`
+    Profile *person.Profile `json:"profile" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 func (o *UpdateAccount) AddToRoles(item string) string {

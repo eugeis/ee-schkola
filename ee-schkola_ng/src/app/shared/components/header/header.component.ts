@@ -22,7 +22,8 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
-
+        let accountToken = JSON.parse(localStorage.getItem('accountToken'));
+        this.account = accountToken.Account
     }
 
     toggleSidebar() {
