@@ -6,7 +6,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {LayoutRoutingModule} from './layout-routing.module';
 import {LayoutComponent} from './layout.component';
 import {HeaderComponent, SidebarComponent} from '../shared';
-import {AuthenticationService} from "../shared/services/authentication.service";
+import {AuthService} from "../shared/services/authentication.service";
 
 @NgModule({
     imports: [
@@ -20,7 +20,7 @@ import {AuthenticationService} from "../shared/services/authentication.service";
         HeaderComponent,
         SidebarComponent,
     ],
-    providers: [AuthenticationService]
+    providers: [AuthService]
 })
 export class LayoutModule {
 }

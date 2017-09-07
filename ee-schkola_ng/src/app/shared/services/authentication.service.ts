@@ -1,9 +1,13 @@
 ﻿import {Injectable} from '@angular/core';
 import {Http, RequestOptions, Response} from '@angular/http';
 import 'rxjs/add/operator/map'
+import {AppSettings} from "./common.service";
 
 @Injectable()
-export class AuthenticationService {
+export class AuthService {
+    loginUrl = AppSettings.HOST_API + "/login"
+    logoutUrl = AppSettings.HOST_API + "/logout"
+
     constructor(private http: Http) {
     }
 
@@ -12,7 +16,7 @@ export class AuthenticationService {
         let options = new RequestOptions({params: myParams});
         options.params.set("username", username)
         options.params.set("password", password)
-        return this.http.post("http://localhost:8080/login",
+        return this.http.post(this.loginUrl,
             {}, options).map(
             (response: Response) => {
                 return response.json();
@@ -21,7 +25,7 @@ export class AuthenticationService {
 
     logout() {
         // remove account from local storage to log account out
-        localStorage.removeItem('account');
-        return this.http.post("http://localhost:8080/logout", {}).subscribe();
+        localStorage.removeItem(AppSettings.CURRENT_ACCOUNT);
+        return this.http.post(this.logoutUrl, {}).subscribe();
     }
 }

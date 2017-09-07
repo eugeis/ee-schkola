@@ -63,7 +63,7 @@ func (o *Schkola) Start() {
 }
 
 func (o *Schkola) initJwtController(accounts *auth.AccountQueryRepository) (ret *net.JwtController) {
-	//TODO use appName , provide help how to generate RSA files first
+	//TODO use appName, provide help how to generate RSA files first
 	return net.NewJwtControllerApp("app",
 		func(credentials net.UserCredentials) (ret interface{}, err error) {
 			var account *auth.Account
