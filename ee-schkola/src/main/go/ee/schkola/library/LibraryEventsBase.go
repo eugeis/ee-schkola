@@ -6,6 +6,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
+    "gopkg.in/mgo.v2/bson"
     "time"
 )
 const (
@@ -70,7 +71,7 @@ func (o *BookEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *BookEventType) MarshalJSON() (ret []byte, err error) {
+func (o BookEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -84,6 +85,22 @@ func (o *BookEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o BookEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *BookEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := BookEventTypes().ParseBookEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid BookEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *BookEventType) IsBookCreated() bool {

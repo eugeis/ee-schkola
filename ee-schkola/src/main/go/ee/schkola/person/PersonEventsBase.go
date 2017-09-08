@@ -6,6 +6,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
+    "gopkg.in/mgo.v2/bson"
     "time"
 )
 const (
@@ -127,7 +128,7 @@ func (o *ChurchEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ChurchEventType) MarshalJSON() (ret []byte, err error) {
+func (o ChurchEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -141,6 +142,22 @@ func (o *ChurchEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o ChurchEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *ChurchEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := ChurchEventTypes().ParseChurchEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ChurchEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *ChurchEventType) IsChurchCreated() bool {
@@ -217,7 +234,7 @@ func (o *GraduationEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GraduationEventType) MarshalJSON() (ret []byte, err error) {
+func (o GraduationEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -231,6 +248,22 @@ func (o *GraduationEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o GraduationEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *GraduationEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := GraduationEventTypes().ParseGraduationEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GraduationEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *GraduationEventType) IsGraduationCreated() bool {
@@ -307,7 +340,7 @@ func (o *ProfileEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ProfileEventType) MarshalJSON() (ret []byte, err error) {
+func (o ProfileEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -321,6 +354,22 @@ func (o *ProfileEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o ProfileEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *ProfileEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := ProfileEventTypes().ParseProfileEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ProfileEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *ProfileEventType) IsProfileCreated() bool {

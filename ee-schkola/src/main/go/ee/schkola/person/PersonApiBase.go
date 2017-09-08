@@ -7,6 +7,7 @@ import (
     "github.com/eugeis/gee/eh"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
+    "gopkg.in/mgo.v2/bson"
     "time"
 )
 type Church struct {
@@ -148,7 +149,7 @@ func (o *Gender) Ordinal() int {
     return o.ordinal
 }
 
-func (o *Gender) MarshalJSON() (ret []byte, err error) {
+func (o Gender) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -162,6 +163,22 @@ func (o *Gender) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o Gender) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *Gender) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := Genders().ParseGender(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid Gender %q", lit)
+        }
+    }
+    return
 }
 
 func (o *Gender) IsUnknown() bool {
@@ -238,7 +255,7 @@ func (o *GraduationLevel) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GraduationLevel) MarshalJSON() (ret []byte, err error) {
+func (o GraduationLevel) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -252,6 +269,22 @@ func (o *GraduationLevel) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o GraduationLevel) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *GraduationLevel) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := GraduationLevels().ParseGraduationLevel(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GraduationLevel %q", lit)
+        }
+    }
+    return
 }
 
 func (o *GraduationLevel) IsUnknown() bool {
@@ -355,7 +388,7 @@ func (o *MaritalState) Ordinal() int {
     return o.ordinal
 }
 
-func (o *MaritalState) MarshalJSON() (ret []byte, err error) {
+func (o MaritalState) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -369,6 +402,22 @@ func (o *MaritalState) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o MaritalState) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *MaritalState) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := MaritalStates().ParseMaritalState(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid MaritalState %q", lit)
+        }
+    }
+    return
 }
 
 func (o *MaritalState) IsUnknown() bool {

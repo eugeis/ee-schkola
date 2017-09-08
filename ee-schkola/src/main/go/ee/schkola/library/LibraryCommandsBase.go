@@ -6,6 +6,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
+    "gopkg.in/mgo.v2/bson"
     "time"
 )
 const (
@@ -90,7 +91,7 @@ func (o *BookCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *BookCommandType) MarshalJSON() (ret []byte, err error) {
+func (o BookCommandType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -104,6 +105,22 @@ func (o *BookCommandType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o BookCommandType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *BookCommandType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := BookCommandTypes().ParseBookCommandType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid BookCommandType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *BookCommandType) IsCreateBook() bool {

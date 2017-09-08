@@ -7,6 +7,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
+    "gopkg.in/mgo.v2/bson"
 )
 const (
      AccountCreatedEvent eventhorizon.EventType = "AccountCreated"
@@ -92,7 +93,7 @@ func (o *AccountEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *AccountEventType) MarshalJSON() (ret []byte, err error) {
+func (o AccountEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -106,6 +107,22 @@ func (o *AccountEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o AccountEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *AccountEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := AccountEventTypes().ParseAccountEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid AccountEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *AccountEventType) IsAccountCreated() bool {

@@ -7,6 +7,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
+    "gopkg.in/mgo.v2/bson"
     "time"
 )
 const (
@@ -381,7 +382,7 @@ func (o *AttendanceCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *AttendanceCommandType) MarshalJSON() (ret []byte, err error) {
+func (o AttendanceCommandType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -395,6 +396,22 @@ func (o *AttendanceCommandType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o AttendanceCommandType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *AttendanceCommandType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := AttendanceCommandTypes().ParseAttendanceCommandType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid AttendanceCommandType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *AttendanceCommandType) IsRegisterAttendance() bool {
@@ -498,7 +515,7 @@ func (o *CourseCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *CourseCommandType) MarshalJSON() (ret []byte, err error) {
+func (o CourseCommandType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -512,6 +529,22 @@ func (o *CourseCommandType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o CourseCommandType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *CourseCommandType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := CourseCommandTypes().ParseCourseCommandType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid CourseCommandType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *CourseCommandType) IsCreateCourse() bool {
@@ -588,7 +621,7 @@ func (o *GradeCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GradeCommandType) MarshalJSON() (ret []byte, err error) {
+func (o GradeCommandType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -602,6 +635,22 @@ func (o *GradeCommandType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o GradeCommandType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *GradeCommandType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := GradeCommandTypes().ParseGradeCommandType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GradeCommandType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *GradeCommandType) IsCreateGrade() bool {
@@ -678,7 +727,7 @@ func (o *GroupCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GroupCommandType) MarshalJSON() (ret []byte, err error) {
+func (o GroupCommandType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -692,6 +741,22 @@ func (o *GroupCommandType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o GroupCommandType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *GroupCommandType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := GroupCommandTypes().ParseGroupCommandType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GroupCommandType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *GroupCommandType) IsCreateGroup() bool {
@@ -768,7 +833,7 @@ func (o *SchoolApplicationCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *SchoolApplicationCommandType) MarshalJSON() (ret []byte, err error) {
+func (o SchoolApplicationCommandType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -782,6 +847,22 @@ func (o *SchoolApplicationCommandType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o SchoolApplicationCommandType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *SchoolApplicationCommandType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := SchoolApplicationCommandTypes().ParseSchoolApplicationCommandType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid SchoolApplicationCommandType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *SchoolApplicationCommandType) IsCreateSchoolApplication() bool {
@@ -858,7 +939,7 @@ func (o *SchoolYearCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *SchoolYearCommandType) MarshalJSON() (ret []byte, err error) {
+func (o SchoolYearCommandType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -872,6 +953,22 @@ func (o *SchoolYearCommandType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o SchoolYearCommandType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *SchoolYearCommandType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := SchoolYearCommandTypes().ParseSchoolYearCommandType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid SchoolYearCommandType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *SchoolYearCommandType) IsCreateSchoolYear() bool {

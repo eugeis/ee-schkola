@@ -260,7 +260,7 @@ func str(value interface{}) string {
 }
 
 func UUID(value interface{}) eventhorizon.UUID {
-	return eventhorizon.UUID(str(value))
+	return eventhorizon.UUID(strings.ToLower(str(value)))
 }
 
 func writeInsertInto(users1 []string, users2 []string, users3 []string,

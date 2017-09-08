@@ -7,6 +7,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
+    "gopkg.in/mgo.v2/bson"
     "time"
 )
 type Attendance struct {
@@ -137,7 +138,7 @@ func (o *AttendanceState) Ordinal() int {
     return o.ordinal
 }
 
-func (o *AttendanceState) MarshalJSON() (ret []byte, err error) {
+func (o AttendanceState) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -151,6 +152,22 @@ func (o *AttendanceState) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o AttendanceState) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *AttendanceState) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := AttendanceStates().ParseAttendanceState(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid AttendanceState %q", lit)
+        }
+    }
+    return
 }
 
 func (o *AttendanceState) IsRegistered() bool {
@@ -236,7 +253,7 @@ func (o *GroupCategory) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GroupCategory) MarshalJSON() (ret []byte, err error) {
+func (o GroupCategory) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -250,6 +267,22 @@ func (o *GroupCategory) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o GroupCategory) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *GroupCategory) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := GroupCategorys().ParseGroupCategory(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GroupCategory %q", lit)
+        }
+    }
+    return
 }
 
 func (o *GroupCategory) IsCourseGroup() bool {

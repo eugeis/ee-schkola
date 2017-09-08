@@ -7,6 +7,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
+    "gopkg.in/mgo.v2/bson"
     "time"
 )
 const (
@@ -276,7 +277,7 @@ func (o *AttendanceEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *AttendanceEventType) MarshalJSON() (ret []byte, err error) {
+func (o AttendanceEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -290,6 +291,22 @@ func (o *AttendanceEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o AttendanceEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *AttendanceEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := AttendanceEventTypes().ParseAttendanceEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid AttendanceEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *AttendanceEventType) IsAttendanceCreated() bool {
@@ -393,7 +410,7 @@ func (o *CourseEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *CourseEventType) MarshalJSON() (ret []byte, err error) {
+func (o CourseEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -407,6 +424,22 @@ func (o *CourseEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o CourseEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *CourseEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := CourseEventTypes().ParseCourseEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid CourseEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *CourseEventType) IsCourseCreated() bool {
@@ -483,7 +516,7 @@ func (o *GradeEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GradeEventType) MarshalJSON() (ret []byte, err error) {
+func (o GradeEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -497,6 +530,22 @@ func (o *GradeEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o GradeEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *GradeEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := GradeEventTypes().ParseGradeEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GradeEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *GradeEventType) IsGradeCreated() bool {
@@ -573,7 +622,7 @@ func (o *GroupEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GroupEventType) MarshalJSON() (ret []byte, err error) {
+func (o GroupEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -587,6 +636,22 @@ func (o *GroupEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o GroupEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *GroupEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := GroupEventTypes().ParseGroupEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GroupEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *GroupEventType) IsGroupCreated() bool {
@@ -663,7 +728,7 @@ func (o *SchoolApplicationEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *SchoolApplicationEventType) MarshalJSON() (ret []byte, err error) {
+func (o SchoolApplicationEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -677,6 +742,22 @@ func (o *SchoolApplicationEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o SchoolApplicationEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *SchoolApplicationEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := SchoolApplicationEventTypes().ParseSchoolApplicationEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid SchoolApplicationEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *SchoolApplicationEventType) IsSchoolApplicationCreated() bool {
@@ -753,7 +834,7 @@ func (o *SchoolYearEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *SchoolYearEventType) MarshalJSON() (ret []byte, err error) {
+func (o SchoolYearEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -767,6 +848,22 @@ func (o *SchoolYearEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o SchoolYearEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *SchoolYearEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := SchoolYearEventTypes().ParseSchoolYearEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid SchoolYearEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *SchoolYearEventType) IsSchoolYearCreated() bool {

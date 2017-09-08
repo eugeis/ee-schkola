@@ -7,6 +7,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
+    "gopkg.in/mgo.v2/bson"
 )
 const (
      LoginAccountCommand eventhorizon.CommandType = "LoginAccount"
@@ -122,7 +123,7 @@ func (o *AccountCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *AccountCommandType) MarshalJSON() (ret []byte, err error) {
+func (o AccountCommandType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -136,6 +137,22 @@ func (o *AccountCommandType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o AccountCommandType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *AccountCommandType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := AccountCommandTypes().ParseAccountCommandType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid AccountCommandType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *AccountCommandType) IsLoginAccount() bool {

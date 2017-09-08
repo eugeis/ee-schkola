@@ -6,6 +6,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
+    "gopkg.in/mgo.v2/bson"
     "time"
 )
 const (
@@ -139,7 +140,7 @@ func (o *ExpenseEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ExpenseEventType) MarshalJSON() (ret []byte, err error) {
+func (o ExpenseEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -153,6 +154,22 @@ func (o *ExpenseEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o ExpenseEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *ExpenseEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := ExpenseEventTypes().ParseExpenseEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ExpenseEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *ExpenseEventType) IsExpenseCreated() bool {
@@ -229,7 +246,7 @@ func (o *ExpensePurposeEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ExpensePurposeEventType) MarshalJSON() (ret []byte, err error) {
+func (o ExpensePurposeEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -243,6 +260,22 @@ func (o *ExpensePurposeEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o ExpensePurposeEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *ExpensePurposeEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := ExpensePurposeEventTypes().ParseExpensePurposeEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ExpensePurposeEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *ExpensePurposeEventType) IsExpensePurposeCreated() bool {
@@ -319,7 +352,7 @@ func (o *FeeEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *FeeEventType) MarshalJSON() (ret []byte, err error) {
+func (o FeeEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -333,6 +366,22 @@ func (o *FeeEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o FeeEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *FeeEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := FeeEventTypes().ParseFeeEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid FeeEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *FeeEventType) IsFeeCreated() bool {
@@ -409,7 +458,7 @@ func (o *FeeKindEventType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *FeeKindEventType) MarshalJSON() (ret []byte, err error) {
+func (o FeeKindEventType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -423,6 +472,22 @@ func (o *FeeKindEventType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o FeeKindEventType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *FeeKindEventType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := FeeKindEventTypes().ParseFeeKindEventType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid FeeKindEventType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *FeeKindEventType) IsFeeKindCreated() bool {

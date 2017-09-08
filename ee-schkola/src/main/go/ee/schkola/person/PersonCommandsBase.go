@@ -6,6 +6,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
+    "gopkg.in/mgo.v2/bson"
     "time"
 )
 const (
@@ -172,7 +173,7 @@ func (o *ChurchCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ChurchCommandType) MarshalJSON() (ret []byte, err error) {
+func (o ChurchCommandType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -186,6 +187,22 @@ func (o *ChurchCommandType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o ChurchCommandType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *ChurchCommandType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := ChurchCommandTypes().ParseChurchCommandType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ChurchCommandType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *ChurchCommandType) IsCreateChurch() bool {
@@ -262,7 +279,7 @@ func (o *GraduationCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *GraduationCommandType) MarshalJSON() (ret []byte, err error) {
+func (o GraduationCommandType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -276,6 +293,22 @@ func (o *GraduationCommandType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o GraduationCommandType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *GraduationCommandType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := GraduationCommandTypes().ParseGraduationCommandType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GraduationCommandType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *GraduationCommandType) IsCreateGraduation() bool {
@@ -352,7 +385,7 @@ func (o *ProfileCommandType) Ordinal() int {
     return o.ordinal
 }
 
-func (o *ProfileCommandType) MarshalJSON() (ret []byte, err error) {
+func (o ProfileCommandType) MarshalJSON() (ret []byte, err error) {
 	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
 }
 
@@ -366,6 +399,22 @@ func (o *ProfileCommandType) UnmarshalJSON(data []byte) (err error) {
         }
 	}
 	return
+}
+
+func (o ProfileCommandType) GetBSON() (ret interface{}, err error) {
+	return o.name, nil
+}
+
+func (o *ProfileCommandType) SetBSON(raw bson.Raw) (err error) {
+	var lit string
+    if err = raw.Unmarshal(&lit); err == nil {
+		if v, ok := ProfileCommandTypes().ParseProfileCommandType(lit); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ProfileCommandType %q", lit)
+        }
+    }
+    return
 }
 
 func (o *ProfileCommandType) IsCreateProfile() bool {
