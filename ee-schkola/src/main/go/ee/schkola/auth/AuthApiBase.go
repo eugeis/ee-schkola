@@ -1,12 +1,12 @@
 package auth
 
 import (
-    "ee/schkola"
     "ee/schkola/person"
+    "ee/schkola/shared"
     "github.com/looplab/eventhorizon"
 )
 type Account struct {
-    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
     Email string `json:"email" eh:"optional"`

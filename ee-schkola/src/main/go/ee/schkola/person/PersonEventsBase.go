@@ -1,7 +1,9 @@
 package person
 
 import (
-    "ee/schkola"
+    "ee/schkola/shared"
+    "encoding/json"
+    "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "time"
@@ -32,8 +34,9 @@ const (
 type ChurchCreated struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
-    Pastor *schkola.PersonName `json:"pastor" eh:"optional"`
+    Pastor *shared.PersonName `json:"pastor" eh:"optional"`
     Contact *Contact `json:"contact" eh:"optional"`
+    Association string `json:"association" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -46,8 +49,9 @@ type ChurchDeleted struct {
 type ChurchUpdated struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
-    Pastor *schkola.PersonName `json:"pastor" eh:"optional"`
+    Pastor *shared.PersonName `json:"pastor" eh:"optional"`
     Contact *Contact `json:"contact" eh:"optional"`
+    Association string `json:"association" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -73,7 +77,7 @@ type GraduationUpdated struct {
 
 type ProfileCreated struct {
     Gender *Gender `json:"gender" eh:"optional"`
-    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Name *shared.PersonName `json:"name" eh:"optional"`
     BirthName string `json:"birthName" eh:"optional"`
     Birthday *time.Time `json:"birthday" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
@@ -94,7 +98,7 @@ type ProfileDeleted struct {
 
 type ProfileUpdated struct {
     Gender *Gender `json:"gender" eh:"optional"`
-    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Name *shared.PersonName `json:"name" eh:"optional"`
     BirthName string `json:"birthName" eh:"optional"`
     Birthday *time.Time `json:"birthday" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
@@ -121,6 +125,22 @@ func (o *ChurchEventType) Name() string {
 
 func (o *ChurchEventType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *ChurchEventType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *ChurchEventType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := ChurchEventTypes().ParseChurchEventType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ChurchEventType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *ChurchEventType) IsChurchCreated() bool {
@@ -177,7 +197,7 @@ func (o *churchEventTypes) ChurchUpdated() *ChurchEventType {
 }
 
 func (o *churchEventTypes) ParseChurchEventType(name string) (ret *ChurchEventType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*ChurchEventType), ok
 	}
 	return
@@ -195,6 +215,22 @@ func (o *GraduationEventType) Name() string {
 
 func (o *GraduationEventType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *GraduationEventType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *GraduationEventType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := GraduationEventTypes().ParseGraduationEventType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GraduationEventType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *GraduationEventType) IsGraduationCreated() bool {
@@ -251,7 +287,7 @@ func (o *graduationEventTypes) GraduationUpdated() *GraduationEventType {
 }
 
 func (o *graduationEventTypes) ParseGraduationEventType(name string) (ret *GraduationEventType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*GraduationEventType), ok
 	}
 	return
@@ -269,6 +305,22 @@ func (o *ProfileEventType) Name() string {
 
 func (o *ProfileEventType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *ProfileEventType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *ProfileEventType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := ProfileEventTypes().ParseProfileEventType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ProfileEventType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *ProfileEventType) IsProfileCreated() bool {
@@ -325,7 +377,7 @@ func (o *profileEventTypes) ProfileUpdated() *ProfileEventType {
 }
 
 func (o *profileEventTypes) ParseProfileEventType(name string) (ret *ProfileEventType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*ProfileEventType), ok
 	}
 	return

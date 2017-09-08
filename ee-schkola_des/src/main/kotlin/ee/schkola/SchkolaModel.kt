@@ -58,16 +58,17 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val address = prop(Address)
             val pastor = prop(Shared.PersonName)
             val contact = prop(Contact)
+            val association = propS()
         }
 
         object Education : Basic() {
             val graduation = prop(Graduation)
+            val other = propS()
             val profession = propS()
         }
 
         object ChurchInfo : Basic() {
             val church = propS()
-            val association = propS()
             val member = propB()
             val services = prop(n.String)
         }
@@ -156,6 +157,8 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val recommendationOf = prop(Shared.PersonName)
             val churchContactPerson = prop(Shared.PersonName)
             val churchContact = prop(Person.Contact)
+            val churchCommitment = propB { doc("Do the responsible parties agree?") }
+
             val schoolYear = prop(SchoolYear)
             val group = propS()
         }

@@ -1,8 +1,10 @@
 package student
 
 import (
-    "ee/schkola"
     "ee/schkola/person"
+    "ee/schkola/shared"
+    "encoding/json"
+    "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "time"
@@ -133,7 +135,7 @@ type CreateCourse struct {
     Name string `json:"name" eh:"optional"`
     Begin *time.Time `json:"begin" eh:"optional"`
     End *time.Time `json:"end" eh:"optional"`
-    Teacher *schkola.PersonName `json:"teacher" eh:"optional"`
+    Teacher *shared.PersonName `json:"teacher" eh:"optional"`
     SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
     Fee float64 `json:"fee" eh:"optional"`
     Description string `json:"description" eh:"optional"`
@@ -160,7 +162,7 @@ type UpdateCourse struct {
     Name string `json:"name" eh:"optional"`
     Begin *time.Time `json:"begin" eh:"optional"`
     End *time.Time `json:"end" eh:"optional"`
-    Teacher *schkola.PersonName `json:"teacher" eh:"optional"`
+    Teacher *shared.PersonName `json:"teacher" eh:"optional"`
     SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
     Fee float64 `json:"fee" eh:"optional"`
     Description string `json:"description" eh:"optional"`
@@ -275,9 +277,10 @@ func (o *UpdateGroup) CommandType() eventhorizon.CommandType      { return Updat
         
 type CreateSchoolApplication struct {
     Profile *person.Profile `json:"profile" eh:"optional"`
-    RecommendationOf *schkola.PersonName `json:"recommendationOf" eh:"optional"`
-    ChurchContactPerson *schkola.PersonName `json:"churchContactPerson" eh:"optional"`
+    RecommendationOf *shared.PersonName `json:"recommendationOf" eh:"optional"`
+    ChurchContactPerson *shared.PersonName `json:"churchContactPerson" eh:"optional"`
     ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
+    ChurchCommitment bool `json:"churchCommitment" eh:"optional"`
     SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
     Group string `json:"group" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
@@ -301,9 +304,10 @@ func (o *DeleteSchoolApplication) CommandType() eventhorizon.CommandType      { 
         
 type UpdateSchoolApplication struct {
     Profile *person.Profile `json:"profile" eh:"optional"`
-    RecommendationOf *schkola.PersonName `json:"recommendationOf" eh:"optional"`
-    ChurchContactPerson *schkola.PersonName `json:"churchContactPerson" eh:"optional"`
+    RecommendationOf *shared.PersonName `json:"recommendationOf" eh:"optional"`
+    ChurchContactPerson *shared.PersonName `json:"churchContactPerson" eh:"optional"`
     ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
+    ChurchCommitment bool `json:"churchCommitment" eh:"optional"`
     SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
     Group string `json:"group" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
@@ -375,6 +379,22 @@ func (o *AttendanceCommandType) Name() string {
 
 func (o *AttendanceCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *AttendanceCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *AttendanceCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := AttendanceCommandTypes().ParseAttendanceCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid AttendanceCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *AttendanceCommandType) IsRegisterAttendance() bool {
@@ -458,7 +478,7 @@ func (o *attendanceCommandTypes) UpdateAttendance() *AttendanceCommandType {
 }
 
 func (o *attendanceCommandTypes) ParseAttendanceCommandType(name string) (ret *AttendanceCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*AttendanceCommandType), ok
 	}
 	return
@@ -476,6 +496,22 @@ func (o *CourseCommandType) Name() string {
 
 func (o *CourseCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *CourseCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *CourseCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := CourseCommandTypes().ParseCourseCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid CourseCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *CourseCommandType) IsCreateCourse() bool {
@@ -532,7 +568,7 @@ func (o *courseCommandTypes) UpdateCourse() *CourseCommandType {
 }
 
 func (o *courseCommandTypes) ParseCourseCommandType(name string) (ret *CourseCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*CourseCommandType), ok
 	}
 	return
@@ -550,6 +586,22 @@ func (o *GradeCommandType) Name() string {
 
 func (o *GradeCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *GradeCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *GradeCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := GradeCommandTypes().ParseGradeCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GradeCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *GradeCommandType) IsCreateGrade() bool {
@@ -606,7 +658,7 @@ func (o *gradeCommandTypes) UpdateGrade() *GradeCommandType {
 }
 
 func (o *gradeCommandTypes) ParseGradeCommandType(name string) (ret *GradeCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*GradeCommandType), ok
 	}
 	return
@@ -624,6 +676,22 @@ func (o *GroupCommandType) Name() string {
 
 func (o *GroupCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *GroupCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *GroupCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := GroupCommandTypes().ParseGroupCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GroupCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *GroupCommandType) IsCreateGroup() bool {
@@ -680,7 +748,7 @@ func (o *groupCommandTypes) UpdateGroup() *GroupCommandType {
 }
 
 func (o *groupCommandTypes) ParseGroupCommandType(name string) (ret *GroupCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*GroupCommandType), ok
 	}
 	return
@@ -698,6 +766,22 @@ func (o *SchoolApplicationCommandType) Name() string {
 
 func (o *SchoolApplicationCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *SchoolApplicationCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *SchoolApplicationCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := SchoolApplicationCommandTypes().ParseSchoolApplicationCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid SchoolApplicationCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *SchoolApplicationCommandType) IsCreateSchoolApplication() bool {
@@ -754,7 +838,7 @@ func (o *schoolApplicationCommandTypes) UpdateSchoolApplication() *SchoolApplica
 }
 
 func (o *schoolApplicationCommandTypes) ParseSchoolApplicationCommandType(name string) (ret *SchoolApplicationCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*SchoolApplicationCommandType), ok
 	}
 	return
@@ -772,6 +856,22 @@ func (o *SchoolYearCommandType) Name() string {
 
 func (o *SchoolYearCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *SchoolYearCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *SchoolYearCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := SchoolYearCommandTypes().ParseSchoolYearCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid SchoolYearCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *SchoolYearCommandType) IsCreateSchoolYear() bool {
@@ -828,7 +928,7 @@ func (o *schoolYearCommandTypes) UpdateSchoolYear() *SchoolYearCommandType {
 }
 
 func (o *schoolYearCommandTypes) ParseSchoolYearCommandType(name string) (ret *SchoolYearCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*SchoolYearCommandType), ok
 	}
 	return

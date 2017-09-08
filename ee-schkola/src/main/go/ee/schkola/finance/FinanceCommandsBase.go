@@ -2,6 +2,8 @@ package finance
 
 import (
     "ee/schkola/person"
+    "encoding/json"
+    "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "time"
@@ -197,6 +199,22 @@ func (o *ExpenseCommandType) Ordinal() int {
     return o.ordinal
 }
 
+func (o *ExpenseCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *ExpenseCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := ExpenseCommandTypes().ParseExpenseCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ExpenseCommandType %q", lit.Name)
+        }
+	}
+	return
+}
+
 func (o *ExpenseCommandType) IsCreateExpense() bool {
     return o == _expenseCommandTypes.CreateExpense()
 }
@@ -251,7 +269,7 @@ func (o *expenseCommandTypes) UpdateExpense() *ExpenseCommandType {
 }
 
 func (o *expenseCommandTypes) ParseExpenseCommandType(name string) (ret *ExpenseCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*ExpenseCommandType), ok
 	}
 	return
@@ -269,6 +287,22 @@ func (o *ExpensePurposeCommandType) Name() string {
 
 func (o *ExpensePurposeCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *ExpensePurposeCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *ExpensePurposeCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := ExpensePurposeCommandTypes().ParseExpensePurposeCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ExpensePurposeCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *ExpensePurposeCommandType) IsCreateExpensePurpose() bool {
@@ -325,7 +359,7 @@ func (o *expensePurposeCommandTypes) UpdateExpensePurpose() *ExpensePurposeComma
 }
 
 func (o *expensePurposeCommandTypes) ParseExpensePurposeCommandType(name string) (ret *ExpensePurposeCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*ExpensePurposeCommandType), ok
 	}
 	return
@@ -343,6 +377,22 @@ func (o *FeeCommandType) Name() string {
 
 func (o *FeeCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *FeeCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *FeeCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := FeeCommandTypes().ParseFeeCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid FeeCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *FeeCommandType) IsCreateFee() bool {
@@ -399,7 +449,7 @@ func (o *feeCommandTypes) UpdateFee() *FeeCommandType {
 }
 
 func (o *feeCommandTypes) ParseFeeCommandType(name string) (ret *FeeCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*FeeCommandType), ok
 	}
 	return
@@ -417,6 +467,22 @@ func (o *FeeKindCommandType) Name() string {
 
 func (o *FeeKindCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *FeeKindCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *FeeKindCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := FeeKindCommandTypes().ParseFeeKindCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid FeeKindCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *FeeKindCommandType) IsCreateFeeKind() bool {
@@ -473,7 +539,7 @@ func (o *feeKindCommandTypes) UpdateFeeKind() *FeeKindCommandType {
 }
 
 func (o *feeKindCommandTypes) ParseFeeKindCommandType(name string) (ret *FeeKindCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*FeeKindCommandType), ok
 	}
 	return

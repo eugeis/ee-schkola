@@ -2,6 +2,8 @@ package finance
 
 import (
     "ee/schkola/person"
+    "encoding/json"
+    "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "time"
@@ -137,6 +139,22 @@ func (o *ExpenseEventType) Ordinal() int {
     return o.ordinal
 }
 
+func (o *ExpenseEventType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *ExpenseEventType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := ExpenseEventTypes().ParseExpenseEventType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ExpenseEventType %q", lit.Name)
+        }
+	}
+	return
+}
+
 func (o *ExpenseEventType) IsExpenseCreated() bool {
     return o == _expenseEventTypes.ExpenseCreated()
 }
@@ -191,7 +209,7 @@ func (o *expenseEventTypes) ExpenseUpdated() *ExpenseEventType {
 }
 
 func (o *expenseEventTypes) ParseExpenseEventType(name string) (ret *ExpenseEventType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*ExpenseEventType), ok
 	}
 	return
@@ -209,6 +227,22 @@ func (o *ExpensePurposeEventType) Name() string {
 
 func (o *ExpensePurposeEventType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *ExpensePurposeEventType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *ExpensePurposeEventType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := ExpensePurposeEventTypes().ParseExpensePurposeEventType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ExpensePurposeEventType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *ExpensePurposeEventType) IsExpensePurposeCreated() bool {
@@ -265,7 +299,7 @@ func (o *expensePurposeEventTypes) ExpensePurposeUpdated() *ExpensePurposeEventT
 }
 
 func (o *expensePurposeEventTypes) ParseExpensePurposeEventType(name string) (ret *ExpensePurposeEventType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*ExpensePurposeEventType), ok
 	}
 	return
@@ -283,6 +317,22 @@ func (o *FeeEventType) Name() string {
 
 func (o *FeeEventType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *FeeEventType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *FeeEventType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := FeeEventTypes().ParseFeeEventType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid FeeEventType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *FeeEventType) IsFeeCreated() bool {
@@ -339,7 +389,7 @@ func (o *feeEventTypes) FeeUpdated() *FeeEventType {
 }
 
 func (o *feeEventTypes) ParseFeeEventType(name string) (ret *FeeEventType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*FeeEventType), ok
 	}
 	return
@@ -357,6 +407,22 @@ func (o *FeeKindEventType) Name() string {
 
 func (o *FeeKindEventType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *FeeKindEventType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *FeeKindEventType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := FeeKindEventTypes().ParseFeeKindEventType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid FeeKindEventType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *FeeKindEventType) IsFeeKindCreated() bool {
@@ -413,7 +479,7 @@ func (o *feeKindEventTypes) FeeKindUpdated() *FeeKindEventType {
 }
 
 func (o *feeKindEventTypes) ParseFeeKindEventType(name string) (ret *FeeKindEventType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*FeeKindEventType), ok
 	}
 	return

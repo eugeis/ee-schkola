@@ -1,8 +1,10 @@
 package auth
 
 import (
-    "ee/schkola"
     "ee/schkola/person"
+    "ee/schkola/shared"
+    "encoding/json"
+    "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
 )
@@ -33,7 +35,7 @@ func (o *LoginAccount) CommandType() eventhorizon.CommandType      { return Logi
 
         
 type CreateAccount struct {
-    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
     Email string `json:"email" eh:"optional"`
@@ -85,7 +87,7 @@ func (o *DisableAccount) CommandType() eventhorizon.CommandType      { return Di
 
         
 type UpdateAccount struct {
-    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
     Email string `json:"email" eh:"optional"`
@@ -118,6 +120,22 @@ func (o *AccountCommandType) Name() string {
 
 func (o *AccountCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *AccountCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *AccountCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := AccountCommandTypes().ParseAccountCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid AccountCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *AccountCommandType) IsLoginAccount() bool {
@@ -201,7 +219,7 @@ func (o *accountCommandTypes) UpdateAccount() *AccountCommandType {
 }
 
 func (o *accountCommandTypes) ParseAccountCommandType(name string) (ret *AccountCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*AccountCommandType), ok
 	}
 	return

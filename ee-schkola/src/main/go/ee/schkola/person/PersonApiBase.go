@@ -1,7 +1,9 @@
 package person
 
 import (
-    "ee/schkola"
+    "ee/schkola/shared"
+    "encoding/json"
+    "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
@@ -10,8 +12,9 @@ import (
 type Church struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
-    Pastor *schkola.PersonName `json:"pastor" eh:"optional"`
+    Pastor *shared.PersonName `json:"pastor" eh:"optional"`
     Contact *Contact `json:"contact" eh:"optional"`
+    Association string `json:"association" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -35,7 +38,7 @@ func NewGraduation() (ret *Graduation) {
 
 type Profile struct {
     Gender *Gender `json:"gender" eh:"optional"`
-    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Name *shared.PersonName `json:"name" eh:"optional"`
     BirthName string `json:"birthName" eh:"optional"`
     Birthday *time.Time `json:"birthday" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
@@ -84,7 +87,6 @@ func NewAddress() (ret *Address) {
 
 type ChurchInfo struct {
     Church string `json:"church" eh:"optional"`
-    Association string `json:"association" eh:"optional"`
     Member bool `json:"member" eh:"optional"`
     Services string `json:"services" eh:"optional"`
 }
@@ -109,6 +111,7 @@ func NewContact() (ret *Contact) {
 
 type Education struct {
     Graduation *Graduation `json:"graduation" eh:"optional"`
+    Other string `json:"other" eh:"optional"`
     Profession string `json:"profession" eh:"optional"`
 }
 
@@ -121,7 +124,7 @@ func NewEducation() (ret *Education) {
 type Family struct {
     MaritalState *MaritalState `json:"maritalState" eh:"optional"`
     ChildrenCount int `json:"childrenCount" eh:"optional"`
-    Partner *schkola.PersonName `json:"partner" eh:"optional"`
+    Partner *shared.PersonName `json:"partner" eh:"optional"`
 }
 
 func NewFamily() (ret *Family) {
@@ -143,6 +146,22 @@ func (o *Gender) Name() string {
 
 func (o *Gender) Ordinal() int {
     return o.ordinal
+}
+
+func (o *Gender) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *Gender) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := Genders().ParseGender(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid Gender %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *Gender) IsUnknown() bool {
@@ -199,7 +218,7 @@ func (o *genders) Female() *Gender {
 }
 
 func (o *genders) ParseGender(name string) (ret *Gender, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*Gender), ok
 	}
 	return
@@ -217,6 +236,22 @@ func (o *GraduationLevel) Name() string {
 
 func (o *GraduationLevel) Ordinal() int {
     return o.ordinal
+}
+
+func (o *GraduationLevel) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *GraduationLevel) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := GraduationLevels().ParseGraduationLevel(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GraduationLevel %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *GraduationLevel) IsUnknown() bool {
@@ -300,7 +335,7 @@ func (o *graduationLevels) College() *GraduationLevel {
 }
 
 func (o *graduationLevels) ParseGraduationLevel(name string) (ret *GraduationLevel, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*GraduationLevel), ok
 	}
 	return
@@ -318,6 +353,22 @@ func (o *MaritalState) Name() string {
 
 func (o *MaritalState) Ordinal() int {
     return o.ordinal
+}
+
+func (o *MaritalState) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *MaritalState) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := MaritalStates().ParseMaritalState(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid MaritalState %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *MaritalState) IsUnknown() bool {
@@ -401,7 +452,7 @@ func (o *maritalStates) Widowed() *MaritalState {
 }
 
 func (o *maritalStates) ParseMaritalState(name string) (ret *MaritalState, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*MaritalState), ok
 	}
 	return

@@ -1,8 +1,10 @@
 package auth
 
 import (
-    "ee/schkola"
     "ee/schkola/person"
+    "ee/schkola/shared"
+    "encoding/json"
+    "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
 )
@@ -19,7 +21,7 @@ const (
 
 
 type AccountCreated struct {
-    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
     Email string `json:"email" eh:"optional"`
@@ -49,7 +51,7 @@ type AccountLogged struct {
 
 
 type AccountUpdated struct {
-    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
     Email string `json:"email" eh:"optional"`
@@ -88,6 +90,22 @@ func (o *AccountEventType) Name() string {
 
 func (o *AccountEventType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *AccountEventType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *AccountEventType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := AccountEventTypes().ParseAccountEventType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid AccountEventType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *AccountEventType) IsAccountCreated() bool {
@@ -171,7 +189,7 @@ func (o *accountEventTypes) AccountDisabled() *AccountEventType {
 }
 
 func (o *accountEventTypes) ParseAccountEventType(name string) (ret *AccountEventType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*AccountEventType), ok
 	}
 	return

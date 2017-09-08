@@ -1,8 +1,10 @@
 package student
 
 import (
-    "ee/schkola"
     "ee/schkola/person"
+    "ee/schkola/shared"
+    "encoding/json"
+    "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "time"
@@ -27,7 +29,7 @@ type Course struct {
     Name string `json:"name" eh:"optional"`
     Begin *time.Time `json:"begin" eh:"optional"`
     End *time.Time `json:"end" eh:"optional"`
-    Teacher *schkola.PersonName `json:"teacher" eh:"optional"`
+    Teacher *shared.PersonName `json:"teacher" eh:"optional"`
     SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
     Fee float64 `json:"fee" eh:"optional"`
     Description string `json:"description" eh:"optional"`
@@ -82,9 +84,10 @@ func (o *Group) AddToCourses(item *Course) *Course {
 
 type SchoolApplication struct {
     Profile *person.Profile `json:"profile" eh:"optional"`
-    RecommendationOf *schkola.PersonName `json:"recommendationOf" eh:"optional"`
-    ChurchContactPerson *schkola.PersonName `json:"churchContactPerson" eh:"optional"`
+    RecommendationOf *shared.PersonName `json:"recommendationOf" eh:"optional"`
+    ChurchContactPerson *shared.PersonName `json:"churchContactPerson" eh:"optional"`
     ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
+    ChurchCommitment bool `json:"churchCommitment" eh:"optional"`
     SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
     Group string `json:"group" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
@@ -132,6 +135,22 @@ func (o *AttendanceState) Name() string {
 
 func (o *AttendanceState) Ordinal() int {
     return o.ordinal
+}
+
+func (o *AttendanceState) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *AttendanceState) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := AttendanceStates().ParseAttendanceState(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid AttendanceState %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *AttendanceState) IsRegistered() bool {
@@ -197,7 +216,7 @@ func (o *attendanceStates) Present() *AttendanceState {
 }
 
 func (o *attendanceStates) ParseAttendanceState(name string) (ret *AttendanceState, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*AttendanceState), ok
 	}
 	return
@@ -215,6 +234,22 @@ func (o *GroupCategory) Name() string {
 
 func (o *GroupCategory) Ordinal() int {
     return o.ordinal
+}
+
+func (o *GroupCategory) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *GroupCategory) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := GroupCategorys().ParseGroupCategory(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GroupCategory %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *GroupCategory) IsCourseGroup() bool {
@@ -262,7 +297,7 @@ func (o *groupCategorys) YearGroup() *GroupCategory {
 }
 
 func (o *groupCategorys) ParseGroupCategory(name string) (ret *GroupCategory, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*GroupCategory), ok
 	}
 	return

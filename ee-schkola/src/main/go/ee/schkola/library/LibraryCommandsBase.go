@@ -1,7 +1,9 @@
 package library
 
 import (
-    "ee/schkola"
+    "ee/schkola/shared"
+    "encoding/json"
+    "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "time"
@@ -24,7 +26,7 @@ type CreateBook struct {
     ReleaseDate *time.Time `json:"releaseDate" eh:"optional"`
     Edition string `json:"edition" eh:"optional"`
     Category string `json:"category" eh:"optional"`
-    Author *schkola.PersonName `json:"author" eh:"optional"`
+    Author *shared.PersonName `json:"author" eh:"optional"`
     Location *Location `json:"location" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
@@ -63,7 +65,7 @@ type UpdateBook struct {
     ReleaseDate *time.Time `json:"releaseDate" eh:"optional"`
     Edition string `json:"edition" eh:"optional"`
     Category string `json:"category" eh:"optional"`
-    Author *schkola.PersonName `json:"author" eh:"optional"`
+    Author *shared.PersonName `json:"author" eh:"optional"`
     Location *Location `json:"location" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
@@ -86,6 +88,22 @@ func (o *BookCommandType) Name() string {
 
 func (o *BookCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *BookCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *BookCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := BookCommandTypes().ParseBookCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid BookCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *BookCommandType) IsCreateBook() bool {
@@ -151,7 +169,7 @@ func (o *bookCommandTypes) UpdateBook() *BookCommandType {
 }
 
 func (o *bookCommandTypes) ParseBookCommandType(name string) (ret *BookCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*BookCommandType), ok
 	}
 	return

@@ -1,4 +1,4 @@
-package schkola
+package shared
 
 
 

@@ -1,7 +1,9 @@
 package person
 
 import (
-    "ee/schkola"
+    "ee/schkola/shared"
+    "encoding/json"
+    "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "time"
@@ -33,8 +35,9 @@ const (
 type CreateChurch struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
-    Pastor *schkola.PersonName `json:"pastor" eh:"optional"`
+    Pastor *shared.PersonName `json:"pastor" eh:"optional"`
     Contact *Contact `json:"contact" eh:"optional"`
+    Association string `json:"association" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 func (o *CreateChurch) AggregateID() eventhorizon.UUID            { return o.Id }
@@ -57,8 +60,9 @@ func (o *DeleteChurch) CommandType() eventhorizon.CommandType      { return Dele
 type UpdateChurch struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
-    Pastor *schkola.PersonName `json:"pastor" eh:"optional"`
+    Pastor *shared.PersonName `json:"pastor" eh:"optional"`
     Contact *Contact `json:"contact" eh:"optional"`
+    Association string `json:"association" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 func (o *UpdateChurch) AggregateID() eventhorizon.UUID            { return o.Id }
@@ -104,7 +108,7 @@ func (o *UpdateGraduation) CommandType() eventhorizon.CommandType      { return 
         
 type CreateProfile struct {
     Gender *Gender `json:"gender" eh:"optional"`
-    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Name *shared.PersonName `json:"name" eh:"optional"`
     BirthName string `json:"birthName" eh:"optional"`
     Birthday *time.Time `json:"birthday" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
@@ -135,7 +139,7 @@ func (o *DeleteProfile) CommandType() eventhorizon.CommandType      { return Del
         
 type UpdateProfile struct {
     Gender *Gender `json:"gender" eh:"optional"`
-    Name *schkola.PersonName `json:"name" eh:"optional"`
+    Name *shared.PersonName `json:"name" eh:"optional"`
     BirthName string `json:"birthName" eh:"optional"`
     Birthday *time.Time `json:"birthday" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
@@ -166,6 +170,22 @@ func (o *ChurchCommandType) Name() string {
 
 func (o *ChurchCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *ChurchCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *ChurchCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := ChurchCommandTypes().ParseChurchCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ChurchCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *ChurchCommandType) IsCreateChurch() bool {
@@ -222,7 +242,7 @@ func (o *churchCommandTypes) UpdateChurch() *ChurchCommandType {
 }
 
 func (o *churchCommandTypes) ParseChurchCommandType(name string) (ret *ChurchCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*ChurchCommandType), ok
 	}
 	return
@@ -240,6 +260,22 @@ func (o *GraduationCommandType) Name() string {
 
 func (o *GraduationCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *GraduationCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *GraduationCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := GraduationCommandTypes().ParseGraduationCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid GraduationCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *GraduationCommandType) IsCreateGraduation() bool {
@@ -296,7 +332,7 @@ func (o *graduationCommandTypes) UpdateGraduation() *GraduationCommandType {
 }
 
 func (o *graduationCommandTypes) ParseGraduationCommandType(name string) (ret *GraduationCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*GraduationCommandType), ok
 	}
 	return
@@ -314,6 +350,22 @@ func (o *ProfileCommandType) Name() string {
 
 func (o *ProfileCommandType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *ProfileCommandType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *ProfileCommandType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := ProfileCommandTypes().ParseProfileCommandType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid ProfileCommandType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *ProfileCommandType) IsCreateProfile() bool {
@@ -370,7 +422,7 @@ func (o *profileCommandTypes) UpdateProfile() *ProfileCommandType {
 }
 
 func (o *profileCommandTypes) ParseProfileCommandType(name string) (ret *ProfileCommandType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*ProfileCommandType), ok
 	}
 	return

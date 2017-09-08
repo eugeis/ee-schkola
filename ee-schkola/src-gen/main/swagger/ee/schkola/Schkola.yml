@@ -716,14 +716,14 @@ components:
           $ref: "#/components/schemas/PersonName"
         contact:          
           $ref: "#/components/schemas/Contact"
+        association:          
+          type: string
         id:          
           type: string
     ChurchInfo:
       type: object
       properties:
         church:          
-          type: string
-        association:          
           type: string
         member:          
           type: boolean
@@ -743,6 +743,8 @@ components:
       properties:
         graduation:          
           $ref: "#/components/schemas/Graduation"
+        other:          
+          type: string
         profession:          
           type: string
     Family:
@@ -938,6 +940,8 @@ components:
           $ref: "#/components/schemas/PersonName"
         churchContact:          
           $ref: "#/components/schemas/Contact"
+        churchCommitment:          
+          type: boolean
         schoolYear:          
           $ref: "#/components/schemas/SchoolYear"
         group:          

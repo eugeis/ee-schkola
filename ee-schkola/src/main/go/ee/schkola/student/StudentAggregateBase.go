@@ -950,6 +950,7 @@ func (o *SchoolApplicationCommandHandler) SetupCommandHandler() (err error) {
                 RecommendationOf: command.RecommendationOf,
                 ChurchContactPerson: command.ChurchContactPerson,
                 ChurchContact: command.ChurchContact,
+                ChurchCommitment: command.ChurchCommitment,
                 SchoolYear: command.SchoolYear,
                 Group: command.Group,
                 Id: command.Id,}, time.Now())
@@ -970,6 +971,7 @@ func (o *SchoolApplicationCommandHandler) SetupCommandHandler() (err error) {
                 RecommendationOf: command.RecommendationOf,
                 ChurchContactPerson: command.ChurchContactPerson,
                 ChurchContact: command.ChurchContact,
+                ChurchCommitment: command.ChurchCommitment,
                 SchoolYear: command.SchoolYear,
                 Group: command.Group,
                 Id: command.Id,}, time.Now())
@@ -1014,6 +1016,7 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (err error) {
             entity.RecommendationOf = event.RecommendationOf
             entity.ChurchContactPerson = event.ChurchContactPerson
             entity.ChurchContact = event.ChurchContact
+            entity.ChurchCommitment = event.ChurchCommitment
             entity.SchoolYear = event.SchoolYear
             entity.Group = event.Group
             entity.Id = event.Id
@@ -1046,6 +1049,7 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (err error) {
             entity.RecommendationOf = event.RecommendationOf
             entity.ChurchContactPerson = event.ChurchContactPerson
             entity.ChurchContact = event.ChurchContact
+            entity.ChurchCommitment = event.ChurchCommitment
             entity.SchoolYear = event.SchoolYear
             entity.Group = event.Group
         }

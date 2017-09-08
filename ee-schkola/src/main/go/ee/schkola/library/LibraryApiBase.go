@@ -1,7 +1,7 @@
 package library
 
 import (
-    "ee/schkola"
+    "ee/schkola/shared"
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
     "time"
@@ -13,7 +13,7 @@ type Book struct {
     ReleaseDate *time.Time `json:"releaseDate" eh:"optional"`
     Edition string `json:"edition" eh:"optional"`
     Category string `json:"category" eh:"optional"`
-    Author *schkola.PersonName `json:"author" eh:"optional"`
+    Author *shared.PersonName `json:"author" eh:"optional"`
     Location *Location `json:"location" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }

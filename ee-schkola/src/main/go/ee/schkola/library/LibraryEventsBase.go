@@ -1,7 +1,9 @@
 package library
 
 import (
-    "ee/schkola"
+    "ee/schkola/shared"
+    "encoding/json"
+    "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "time"
@@ -23,7 +25,7 @@ type BookCreated struct {
     ReleaseDate *time.Time `json:"releaseDate" eh:"optional"`
     Edition string `json:"edition" eh:"optional"`
     Category string `json:"category" eh:"optional"`
-    Author *schkola.PersonName `json:"author" eh:"optional"`
+    Author *shared.PersonName `json:"author" eh:"optional"`
     Location *Location `json:"location" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
@@ -41,7 +43,7 @@ type BookUpdated struct {
     ReleaseDate *time.Time `json:"releaseDate" eh:"optional"`
     Edition string `json:"edition" eh:"optional"`
     Category string `json:"category" eh:"optional"`
-    Author *schkola.PersonName `json:"author" eh:"optional"`
+    Author *shared.PersonName `json:"author" eh:"optional"`
     Location *Location `json:"location" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
@@ -66,6 +68,22 @@ func (o *BookEventType) Name() string {
 
 func (o *BookEventType) Ordinal() int {
     return o.ordinal
+}
+
+func (o *BookEventType) MarshalJSON() (ret []byte, err error) {
+	return json.Marshal(&enum.EnumBaseJson{Name: o.name})
+}
+
+func (o *BookEventType) UnmarshalJSON(data []byte) (err error) {
+	lit := enum.EnumBaseJson{}
+	if err = json.Unmarshal(data, &lit); err == nil {
+		if v, ok := BookEventTypes().ParseBookEventType(lit.Name); ok {
+            *o = *v
+        } else {
+            err = fmt.Errorf("invalid BookEventType %q", lit.Name)
+        }
+	}
+	return
 }
 
 func (o *BookEventType) IsBookCreated() bool {
@@ -131,7 +149,7 @@ func (o *bookEventTypes) ChangeLocationedBook() *BookEventType {
 }
 
 func (o *bookEventTypes) ParseBookEventType(name string) (ret *BookEventType, ok bool) {
-	if item, ok := enum.Parse(name, o.literals); ok {
+	if item, ok := enum.Parse(name, o.Literals()); ok {
 		return item.(*BookEventType), ok
 	}
 	return

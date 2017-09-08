@@ -16,7 +16,7 @@ import (
 	"ee/schkola/person"
 	"bytes"
 	"github.com/looplab/eventhorizon"
-	"ee/schkola"
+	"ee/schkola/shared"
 )
 
 var work = "/Users/ee/Documents/BSS-Verwaltung/BSS-2017-2018"
@@ -52,17 +52,18 @@ func main() {
 }
 
 func parseJson() {
-	file, e := ioutil.ReadFile(fmt.Sprintf("%v/wp_usermeta.json", work))
-	if e != nil {
-		fmt.Printf("File error: %v\n", e)
-		os.Exit(1)
+
+	file, err := ioutil.ReadFile(fmt.Sprintf("%v/wp_usermeta.json", work))
+	if err != nil {
+		fmt.Printf("File error: %v\n", err)
+		panic(err)
 	}
 
 	var data []map[string]interface{}
-	e = json.Unmarshal(file, &data)
-	if e != nil {
-		fmt.Printf("JSON unmarshal error: %v\n", e)
-		os.Exit(1)
+	err = json.Unmarshal(file, &data)
+	if err != nil {
+		fmt.Printf("JSON unmarshal error: %v\n", err)
+		panic(err)
 	}
 
 	keys := make(map[string]string)
@@ -94,7 +95,34 @@ func parseJson() {
 		}
 	}
 
-	println(keys)
+	var wpUsers []map[string]interface{}
+	file, err = ioutil.ReadFile(fmt.Sprintf("%v/wp_users.json", work))
+	if err != nil {
+		fmt.Printf("File error: %v\n", err)
+		panic(err)
+	}
+	err = json.Unmarshal(file, &wpUsers)
+	if err != nil {
+		fmt.Printf("JSON unmarshal error: %v\n", err)
+		panic(err)
+	}
+
+	for _, wpU := range wpUsers {
+		id := wpU["ID"].(string)
+		userMap := u[id]
+
+		for k, v := range wpU {
+			keys[k] = k
+			userMap[string(k)] = v
+		}
+
+	}
+	//println(fmt.Sprintf("%v", keys))
+
+	var allKeys []string
+	for key, _ := range keys {
+		allKeys = append(allKeys, key)
+	}
 
 	users := make(map[string]map[string]interface{})
 	users1 := make([]string, 0)
@@ -120,10 +148,10 @@ func parseJson() {
 		}
 	}
 
-	writeCsvEmailGroup(users1, users2, users3, users4, users5, users)
-	writeInsertInto(users1, users2, users3, users4, users5, users)
-	writeCsvEmailContacts(users1, users2, users3, users4, users5, users)
-	writeHtmlReport(users1, users2, users3, users4, users5, users)
+	//writeCsvEmailGroup(users1, users2, users3, users4, users5, users)
+	//writeInsertInto(users1, users2, users3, users4, users5, users)
+	//writeCsvEmailContacts(users1, users2, users3, users4, users5, users)
+	//writeHtmlReport(users1, users2, users3, users4, users5, allKeys, users)
 	restImport(users1, users2, users3, users4, users5, users)
 }
 
@@ -131,34 +159,55 @@ func restImport(users1 []string, users2 []string, users3 []string,
 	users4 []string, users5 []string, users map[string]map[string]interface{}) {
 
 	client := http.Client{
-		Timeout: time.Second * 2, // Maximum of 2 secs
+		Timeout: time.Second * 10, // Maximum of 2 secs
 	}
 
-	restImportForGroup(users, "2017 Klasse 1", &client)
-	restImportForGroup(users, "2016 1. Klasse", &client)
-	restImportForGroup(users, "2016 2. Klasse", &client)
-	restImportForGroup(users, "2016 3. Klasse", &client)
-	restImportForGroup(users, "2016 4. Klasse", &client)
+	restImportForGroup(users1, users, "2017 Klasse 1", &client)
+	restImportForGroup(users2, users, "2016 1. Klasse", &client)
+	restImportForGroup(users3, users, "2016 2. Klasse", &client)
+	restImportForGroup(users4, users, "2016 3. Klasse", &client)
+	restImportForGroup(users5, users, "2016 4. Klasse", &client)
 }
 
-func restImportForGroup(users map[string]map[string]interface{}, group string, client *http.Client) {
+func restImportForGroup(userKeys []string, users map[string]map[string]interface{}, group string, client *http.Client) {
 
-	profilesUrl := "http://localhost:8080/person/profiles/"
+	profilesUrl := "http://127.0.0.1:8080/person/profiles/"
 
-	for _, user := range users {
+	for _, userKey := range userKeys {
+		user := users[userKey]
 		profile := person.NewProfile()
 
-		profile.Id, _ = user["username"].(eventhorizon.UUID)
-		profile.Name = schkola.NewPersonName()
-		profile.Name.First, _ = user["first_name"].(string)
-		profile.Name.Last, _ = user["last_name"].(string)
+		profile.Id = UUID(user["user_login"])
+		profile.Gender, _ = person.Genders().ParseGenderGerman(str(user["gender"]), person.Genders().Unknown())
+		profile.Name = shared.NewPersonName()
+		profile.Name.First = str(user["first_name"])
+		profile.Name.Last = str(user["last_name"])
+		profile.BirthName = str(user["birthname"])
+		profile.Birthday = timeValue(user["birth_date"])
+		profile.Address = person.NewAddress()
+		profile.Address.City = str(user["city"])
+		profile.Address.Code = str(user["plz"])
+		profile.Address.Country = "Deutschland"
+		profile.Address.Street = str(user["address"])
 		profile.Contact = person.NewContact()
-		profile.Contact.Email, _ = user["user_email"].(string)
-		profile.Contact.Phone, _ = user["phone_number"].(string)
-		profile.Birthday, _ = user["birth_date"].(*time.Time)
+		profile.Contact.Email = str(user["user_email"])
+		profile.Contact.Phone = str(user["phone_number"])
+		//profile.PhotoData = blob(str(user["photo"]))
+		profile.Family = person.NewFamily()
+		profile.Family.MaritalState, _ = person.MaritalStates().ParseMaritalStateGerman(str(user["marital_state"]),
+			person.MaritalStates().Unknown())
+		profile.Family.Partner, _ = person.PersonNameParse(str(user["partner"]))
+		profile.Church = person.NewChurchInfo()
+		profile.Church.Church = str(user["church"])
+		profile.Church.Member = !strings.EqualFold(str(user["church_member"]), "Keine Mitgliedschaft")
+		profile.Church.Services = str(user["church_services"])
+		profile.Education = person.NewEducation()
+		profile.Education.Other = str(user["education"])
+		profile.Education.Profession = str(user["job"])
+
+		//profile.Church.Association = str(user["church_member"])
 
 		/*
-		profile.Gender, _ = user["gender"].(string)
 
 		"scool_year":         "Klasse",
 			"biblikum_1":         "Biblikum 1 geschrieben?",
@@ -180,7 +229,10 @@ func restImportForGroup(users map[string]map[string]interface{}, group string, c
 
 */
 		json, _ := json.Marshal(profile)
-		req, err := http.NewRequest(http.MethodPost, profilesUrl, bytes.NewBuffer(json))
+		jsonStr := string(json)
+		println(jsonStr)
+		createProfile := profilesUrl + string(profile.Id)
+		req, err := http.NewRequest(http.MethodPost, createProfile, bytes.NewBuffer(json))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -194,6 +246,21 @@ func restImportForGroup(users map[string]map[string]interface{}, group string, c
 			log.Fatal("Status not ok", res.StatusCode)
 		}
 	}
+}
+
+func timeValue(value interface{}) (ret *time.Time) {
+	layout := "2006/02/06"
+	t, _ := time.Parse(layout, str(value))
+	ret = &t
+	return
+}
+
+func str(value interface{}) string {
+	return fmt.Sprintf("%v", value)
+}
+
+func UUID(value interface{}) eventhorizon.UUID {
+	return eventhorizon.UUID(str(value))
 }
 
 func writeInsertInto(users1 []string, users2 []string, users3 []string,
@@ -283,9 +350,10 @@ func writeCsvEmailContactsForGroup(userKeys []string, users map[string]map[strin
 }
 
 func writeHtmlReport(users1 []string, users2 []string, users3 []string,
-	users4 []string, users5 []string, users map[string]map[string]interface{}) {
+	users4 []string, users5 []string, allKeys []string, users map[string]map[string]interface{}) {
 	f, _ := os.Create(fmt.Sprintf("%v/bewerbungen.html", work))
 	defer f.Close()
+
 	w := bufio.NewWriter(f)
 	w.WriteString(`<html>
 		<head>
@@ -324,46 +392,40 @@ func writeHtmlReport(users1 []string, users2 []string, users3 []string,
 		</head>`)
 	w.WriteString("<body>")
 	w.WriteString("<h2>1. Klasse</h2>")
-	writeHtmlReportForGroup(users1, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+	user1Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
 		"church", "church_commitment", "church_member", "church_services", "church_responsible",
 		"church_contact", "user_email",
 		"address", "plz", "city",
 		"job", "education",
-		"marital_state", "photo", "spirit"}, w)
+		"marital_state", "photo", "spirit"}
+	writeHtmlReportForGroup(users1, users, user1Keys, allKeys, w)
 	w.WriteString("<h2>2. Klasse</h2>")
-	writeHtmlReportForGroup(users2, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+	user2_3Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
 		"church", "church_commitment", "church_member", "church_services", "church_responsible",
 		"church_contact", "user_email",
 		"address", "plz", "city",
 		"job", "education",
-		"marital_state", "biblikum_1", "paided_last_years", "photo", "spirit"}, w)
+		"marital_state", "biblikum_1", "paided_last_years", "photo", "spirit"}
+	writeHtmlReportForGroup(users2, users, user2_3Keys, allKeys, w)
 	w.WriteString("<h2>3. Klasse</h2>")
-	writeHtmlReportForGroup(users3, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
-		"church", "church_commitment", "church_member", "church_services", "church_responsible",
-		"church_contact", "user_email",
-		"address", "plz", "city",
-		"job", "education",
-		"marital_state", "biblikum_1", "paided_last_years", "photo", "spirit"}, w)
+	writeHtmlReportForGroup(users3, users, user2_3Keys, allKeys, w)
 	w.WriteString("<h2>4. Klasse</h2>")
-	writeHtmlReportForGroup(users4, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+	user4_5Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
 		"church", "church_commitment", "church_member", "church_services", "church_responsible",
 		"church_contact", "user_email",
 		"address", "plz", "city",
 		"job", "education",
-		"marital_state", "biblikum_1", "biblikum_2", "paided_last_years", "photo", "spirit"}, w)
+		"marital_state", "biblikum_1", "biblikum_2", "paided_last_years", "photo", "spirit"}
+	writeHtmlReportForGroup(users4, users, user4_5Keys, allKeys, w)
 	w.WriteString("<h2>Zusatzjahr</h2>")
-	writeHtmlReportForGroup(users5, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
-		"church", "church_commitment", "church_member", "church_services", "church_responsible",
-		"church_contact", "user_email",
-		"address", "plz", "city",
-		"job", "education",
-		"marital_state", "biblikum_1", "biblikum_2", "paided_last_years", "photo", "spirit"}, w)
+	writeHtmlReportForGroup(users5, users, user4_5Keys, allKeys, w)
 	w.WriteString("</body>")
 	w.WriteString("</html>")
 	w.Flush()
 }
 
-func writeHtmlReportForGroup(userKeys []string, users map[string]map[string]interface{}, columns []string, w *bufio.Writer) {
+func writeHtmlReportForGroup(userKeys []string, users map[string]map[string]interface{}, columns []string,
+	allKeys []string, w *bufio.Writer) {
 
 	sort.Strings(userKeys)
 
@@ -371,8 +433,13 @@ func writeHtmlReportForGroup(userKeys []string, users map[string]map[string]inte
 	w.WriteString("<thead>")
 	//write header
 	w.WriteString("<th>Nr.</th>")
+
+	//TEST
+	//columns = allKeys
+
 	for _, column := range columns {
 		w.WriteString(fmt.Sprintf("<th class=\"%v\">%v</th>", column, de[column]))
+		//w.WriteString(fmt.Sprintf("<th class=\"%v\">%v</th>", column, column))
 	}
 	w.WriteString("</thead>")
 

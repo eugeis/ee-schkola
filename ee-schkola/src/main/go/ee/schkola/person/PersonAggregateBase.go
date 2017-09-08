@@ -65,6 +65,7 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (err error) {
                 Address: command.Address,
                 Pastor: command.Pastor,
                 Contact: command.Contact,
+                Association: command.Association,
                 Id: command.Id,}, time.Now())
         }
         return
@@ -83,6 +84,7 @@ func (o *ChurchCommandHandler) SetupCommandHandler() (err error) {
                 Address: command.Address,
                 Pastor: command.Pastor,
                 Contact: command.Contact,
+                Association: command.Association,
                 Id: command.Id,}, time.Now())
         }
         return
@@ -125,6 +127,7 @@ func (o *ChurchEventHandler) SetupEventHandler() (err error) {
             entity.Address = event.Address
             entity.Pastor = event.Pastor
             entity.Contact = event.Contact
+            entity.Association = event.Association
             entity.Id = event.Id
         }
         return
@@ -155,6 +158,7 @@ func (o *ChurchEventHandler) SetupEventHandler() (err error) {
             entity.Address = event.Address
             entity.Pastor = event.Pastor
             entity.Contact = event.Contact
+            entity.Association = event.Association
         }
         return
     }
