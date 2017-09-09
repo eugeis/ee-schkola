@@ -154,7 +154,6 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
     object Student : Module() {
         object SchoolApplication : Entity() {
             val profile = prop(Person.Profile)
-            val recommendationOf = prop(Shared.PersonName)
             val churchContactPerson = prop(Shared.PersonName)
             val churchContact = prop(Person.Contact)
             val churchCommitment = propB { doc("Do the responsible parties agree?") }

@@ -17,6 +17,7 @@ import (
 	"bytes"
 	"github.com/looplab/eventhorizon"
 	"ee/schkola/shared"
+	"ee/schkola/student"
 )
 
 var work = "/Users/ee/Documents/BSS-Verwaltung/BSS-2017-2018"
@@ -172,6 +173,8 @@ func restImport(users1 []string, users2 []string, users3 []string,
 func restImportForGroup(userKeys []string, users map[string]map[string]interface{}, group string, client *http.Client) {
 
 	profilesUrl := "http://127.0.0.1:8080/person/profiles/"
+	profiles := make(map[eventhorizon.UUID]*person.Profile)
+	applications := make(map[eventhorizon.UUID]*student.SchoolApplication)
 
 	for _, userKey := range userKeys {
 		user := users[userKey]
@@ -207,27 +210,52 @@ func restImportForGroup(userKeys []string, users map[string]map[string]interface
 
 		//profile.Church.Association = str(user["church_member"])
 
+		profiles[profile.Id] = profile
+
 		/*
 
-		"scool_year":         "Klasse",
-			"biblikum_1":         "Biblikum 1 geschrieben?",
-			"biblikum_2":         "Biblikum 2 geschrieben?",
-			"paided_last_years":  "Gebühr der Vorjahren bezahlt?",
-			"church":             "Gemeinde",
-			"church_commitment":  "Gemeinde einverstanden?",
-			"church_member":      "Mitglied welcher Gemeinde?",
-			"church_services":    "Gemeindedienste",
-			"church_responsible": "Pastor / Leitungskreis",
-			"church_contact":     "Telefon von Pastor / Leitungskreis",
-			"address":            "Adresse",
-			"plz":                "PLZ",
-			"city":               "Ort",
-			"job":                "Beruf",
-			"education":          "Bildung",
-			"marital_state":      "Familienstand",
-			"spirit":             "Geistlicher_Werdegang___
+		type SchoolApplication struct {
+			Profile *person.Profile `json:"profile" eh:"optional"`
+			RecommendationOf *shared.PersonName `json:"recommendationOf" eh:"optional"`
+			ChurchContactPerson *shared.PersonName `json:"churchContactPerson" eh:"optional"`
+			ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
+			ChurchCommitment bool `json:"churchCommitment" eh:"optional"`
+			SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
+			Group string `json:"group" eh:"optional"`
+			Id eventhorizon.UUID `json:"id" eh:"optional"`
+		}
+		 */
+		application := student.NewSchoolApplication()
+		application.Id = eventhorizon.NewUUID()
+		application.ChurchContactPerson, _ = shared.PersonNameParse(str(user["church_responsible"]))
+		application.ChurchContact = person.NewContact()
+		application.ChurchContact.Phone = str(user["church_contact"])
+		application.ChurchCommitment = boolGerman(user["church_commitment"])
+		application.Group=str(user["scool_year"])
+	}
+
+	/*
+
+	"scool_year":         "Klasse",
+		"biblikum_1":         "Biblikum 1 geschrieben?",
+		"biblikum_2":         "Biblikum 2 geschrieben?",
+		"paided_last_years":  "Gebühr der Vorjahren bezahlt?",
+		"church":             "Gemeinde",
+		"church_commitment":  "Gemeinde einverstanden?",
+		"church_member":      "Mitglied welcher Gemeinde?",
+		"church_services":    "Gemeindedienste",
+		"church_responsible": "Pastor / Leitungskreis",
+		"church_contact":     "Telefon von Pastor / Leitungskreis",
+		"address":            "Adresse",
+		"plz":                "PLZ",
+		"city":               "Ort",
+		"job":                "Beruf",
+		"education":          "Bildung",
+		"marital_state":      "Familienstand",
+		"spirit":             "Geistlicher_Werdegang___
 
 */
+	for _, profile := range profiles {
 		json, _ := json.Marshal(profile)
 		jsonStr := string(json)
 		println(jsonStr)
@@ -257,6 +285,15 @@ func timeValue(value interface{}) (ret *time.Time) {
 
 func str(value interface{}) string {
 	return fmt.Sprintf("%v", value)
+}
+
+func boolGerman(value interface{}) bool {
+	str := str(value)
+	if str == "Ja" {
+		return true
+	} else {
+		return false
+	}
 }
 
 func UUID(value interface{}) eventhorizon.UUID {
