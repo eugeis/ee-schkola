@@ -18,7 +18,7 @@ func NewAccountQueryRepository(repo eventhorizon.ReadRepo, context context.Conte
 }
 
 func (o *AccountQueryRepository) FindAll() (ret []*Account, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*Account, len(result))
 		for i, e := range result {
@@ -29,7 +29,7 @@ func (o *AccountQueryRepository) FindAll() (ret []*Account, err error) {
 }
 
 func (o *AccountQueryRepository) FindById(id eventhorizon.UUID) (ret *Account, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*Account)
     }

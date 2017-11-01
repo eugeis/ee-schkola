@@ -5,6 +5,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
+    "github.com/looplab/eventhorizon/commandhandler/bus"
     "time"
 )
 type AttendanceCommandHandler struct {
@@ -76,7 +77,7 @@ func (o *AttendanceCommandHandler) AddUpdatePreparer(preparer func (*UpdateAtten
 	}
 }
 
-func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
+func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case RegisterAttendanceCommand:
         err = o.RegisterHandler(cmd.(*RegisterAttendance), entity.(*Attendance), store)
@@ -166,7 +167,7 @@ type AttendanceEventHandler struct {
     CanceledHandler func (*AttendanceCanceled, *Attendance) (err error)  `json:"canceledHandler" eh:"optional"`
 }
 
-func (o *AttendanceEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
+func (o *AttendanceEventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
     case AttendanceCreatedEvent:
         err = o.CreatedHandler(event.Data().(*AttendanceCreated), entity.(*Attendance))
@@ -295,16 +296,16 @@ type AttendanceAggregateInitializer struct {
 
 
 func NewAttendanceAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AttendanceAggregateInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AttendanceAggregateInitializer) {
     
     commandHandler := &AttendanceCommandHandler{}
     eventHandler := &AttendanceEventHandler{}
-    modelFactory := func() interface{} { return NewAttendance() }
+    entityFactory := func() eventhorizon.Entity { return NewAttendance() }
     ret = &AttendanceAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(AttendanceAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(AttendanceAggregateType, id, commandHandler, eventHandler, modelFactory())
-        }, modelFactory,
+            return eh.NewAggregateBase(AttendanceAggregateType, id, commandHandler, eventHandler, entityFactory())
+        }, entityFactory,
         AttendanceCommandTypes().Literals(), AttendanceEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus, readRepos), AttendanceCommandHandler: commandHandler, AttendanceEventHandler: eventHandler, ProjectorHandler: eventHandler,
@@ -350,7 +351,7 @@ func (o *CourseCommandHandler) AddUpdatePreparer(preparer func (*UpdateCourse, *
 	}
 }
 
-func (o *CourseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
+func (o *CourseCommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateCourseCommand:
         err = o.CreateHandler(cmd.(*CreateCourse), entity.(*Course), store)
@@ -410,7 +411,7 @@ type CourseEventHandler struct {
     UpdatedHandler func (*CourseUpdated, *Course) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
-func (o *CourseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
+func (o *CourseEventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
     case CourseCreatedEvent:
         err = o.CreatedHandler(event.Data().(*CourseCreated), entity.(*Course))
@@ -493,16 +494,16 @@ type CourseAggregateInitializer struct {
 
 
 func NewCourseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *CourseAggregateInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *CourseAggregateInitializer) {
     
     commandHandler := &CourseCommandHandler{}
     eventHandler := &CourseEventHandler{}
-    modelFactory := func() interface{} { return NewCourse() }
+    entityFactory := func() eventhorizon.Entity { return NewCourse() }
     ret = &CourseAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(CourseAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(CourseAggregateType, id, commandHandler, eventHandler, modelFactory())
-        }, modelFactory,
+            return eh.NewAggregateBase(CourseAggregateType, id, commandHandler, eventHandler, entityFactory())
+        }, entityFactory,
         CourseCommandTypes().Literals(), CourseEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus, readRepos), CourseCommandHandler: commandHandler, CourseEventHandler: eventHandler, ProjectorHandler: eventHandler,
@@ -548,7 +549,7 @@ func (o *GradeCommandHandler) AddUpdatePreparer(preparer func (*UpdateGrade, *Gr
 	}
 }
 
-func (o *GradeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
+func (o *GradeCommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateGradeCommand:
         err = o.CreateHandler(cmd.(*CreateGrade), entity.(*Grade), store)
@@ -602,7 +603,7 @@ type GradeEventHandler struct {
     UpdatedHandler func (*GradeUpdated, *Grade) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
-func (o *GradeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
+func (o *GradeEventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
     case GradeCreatedEvent:
         err = o.CreatedHandler(event.Data().(*GradeCreated), entity.(*Grade))
@@ -679,16 +680,16 @@ type GradeAggregateInitializer struct {
 
 
 func NewGradeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *GradeAggregateInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *GradeAggregateInitializer) {
     
     commandHandler := &GradeCommandHandler{}
     eventHandler := &GradeEventHandler{}
-    modelFactory := func() interface{} { return NewGrade() }
+    entityFactory := func() eventhorizon.Entity { return NewGrade() }
     ret = &GradeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(GradeAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(GradeAggregateType, id, commandHandler, eventHandler, modelFactory())
-        }, modelFactory,
+            return eh.NewAggregateBase(GradeAggregateType, id, commandHandler, eventHandler, entityFactory())
+        }, entityFactory,
         GradeCommandTypes().Literals(), GradeEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus, readRepos), GradeCommandHandler: commandHandler, GradeEventHandler: eventHandler, ProjectorHandler: eventHandler,
@@ -734,7 +735,7 @@ func (o *GroupCommandHandler) AddUpdatePreparer(preparer func (*UpdateGroup, *Gr
 	}
 }
 
-func (o *GroupCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
+func (o *GroupCommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateGroupCommand:
         err = o.CreateHandler(cmd.(*CreateGroup), entity.(*Group), store)
@@ -792,7 +793,7 @@ type GroupEventHandler struct {
     UpdatedHandler func (*GroupUpdated, *Group) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
-func (o *GroupEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
+func (o *GroupEventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
     case GroupCreatedEvent:
         err = o.CreatedHandler(event.Data().(*GroupCreated), entity.(*Group))
@@ -873,16 +874,16 @@ type GroupAggregateInitializer struct {
 
 
 func NewGroupAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *GroupAggregateInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *GroupAggregateInitializer) {
     
     commandHandler := &GroupCommandHandler{}
     eventHandler := &GroupEventHandler{}
-    modelFactory := func() interface{} { return NewGroup() }
+    entityFactory := func() eventhorizon.Entity { return NewGroup() }
     ret = &GroupAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(GroupAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(GroupAggregateType, id, commandHandler, eventHandler, modelFactory())
-        }, modelFactory,
+            return eh.NewAggregateBase(GroupAggregateType, id, commandHandler, eventHandler, entityFactory())
+        }, entityFactory,
         GroupCommandTypes().Literals(), GroupEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus, readRepos), GroupCommandHandler: commandHandler, GroupEventHandler: eventHandler, ProjectorHandler: eventHandler,
@@ -928,7 +929,7 @@ func (o *SchoolApplicationCommandHandler) AddUpdatePreparer(preparer func (*Upda
 	}
 }
 
-func (o *SchoolApplicationCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
+func (o *SchoolApplicationCommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateSchoolApplicationCommand:
         err = o.CreateHandler(cmd.(*CreateSchoolApplication), entity.(*SchoolApplication), store)
@@ -947,7 +948,6 @@ func (o *SchoolApplicationCommandHandler) SetupCommandHandler() (err error) {
         if err = eh.ValidateNewId(entity.Id, command.Id, SchoolApplicationAggregateType); err == nil {
             store.StoreEvent(SchoolApplicationCreatedEvent, &SchoolApplicationCreated{
                 Profile: command.Profile,
-                RecommendationOf: command.RecommendationOf,
                 ChurchContactPerson: command.ChurchContactPerson,
                 ChurchContact: command.ChurchContact,
                 ChurchCommitment: command.ChurchCommitment,
@@ -968,7 +968,6 @@ func (o *SchoolApplicationCommandHandler) SetupCommandHandler() (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, SchoolApplicationAggregateType); err == nil {
             store.StoreEvent(SchoolApplicationUpdatedEvent, &SchoolApplicationUpdated{
                 Profile: command.Profile,
-                RecommendationOf: command.RecommendationOf,
                 ChurchContactPerson: command.ChurchContactPerson,
                 ChurchContact: command.ChurchContact,
                 ChurchCommitment: command.ChurchCommitment,
@@ -988,7 +987,7 @@ type SchoolApplicationEventHandler struct {
     UpdatedHandler func (*SchoolApplicationUpdated, *SchoolApplication) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
-func (o *SchoolApplicationEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
+func (o *SchoolApplicationEventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
     case SchoolApplicationCreatedEvent:
         err = o.CreatedHandler(event.Data().(*SchoolApplicationCreated), entity.(*SchoolApplication))
@@ -1013,7 +1012,6 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (err error) {
     o.CreatedHandler = func(event *SchoolApplicationCreated, entity *SchoolApplication) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, SchoolApplicationAggregateType); err == nil {
             entity.Profile = event.Profile
-            entity.RecommendationOf = event.RecommendationOf
             entity.ChurchContactPerson = event.ChurchContactPerson
             entity.ChurchContact = event.ChurchContact
             entity.ChurchCommitment = event.ChurchCommitment
@@ -1046,7 +1044,6 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (err error) {
     o.UpdatedHandler = func(event *SchoolApplicationUpdated, entity *SchoolApplication) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, SchoolApplicationAggregateType); err == nil {
             entity.Profile = event.Profile
-            entity.RecommendationOf = event.RecommendationOf
             entity.ChurchContactPerson = event.ChurchContactPerson
             entity.ChurchContact = event.ChurchContact
             entity.ChurchCommitment = event.ChurchCommitment
@@ -1071,16 +1068,16 @@ type SchoolApplicationAggregateInitializer struct {
 
 
 func NewSchoolApplicationAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *SchoolApplicationAggregateInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *SchoolApplicationAggregateInitializer) {
     
     commandHandler := &SchoolApplicationCommandHandler{}
     eventHandler := &SchoolApplicationEventHandler{}
-    modelFactory := func() interface{} { return NewSchoolApplication() }
+    entityFactory := func() eventhorizon.Entity { return NewSchoolApplication() }
     ret = &SchoolApplicationAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(SchoolApplicationAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(SchoolApplicationAggregateType, id, commandHandler, eventHandler, modelFactory())
-        }, modelFactory,
+            return eh.NewAggregateBase(SchoolApplicationAggregateType, id, commandHandler, eventHandler, entityFactory())
+        }, entityFactory,
         SchoolApplicationCommandTypes().Literals(), SchoolApplicationEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus, readRepos), SchoolApplicationCommandHandler: commandHandler, SchoolApplicationEventHandler: eventHandler, ProjectorHandler: eventHandler,
@@ -1126,7 +1123,7 @@ func (o *SchoolYearCommandHandler) AddUpdatePreparer(preparer func (*UpdateSchoo
 	}
 }
 
-func (o *SchoolYearCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
+func (o *SchoolYearCommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateSchoolYearCommand:
         err = o.CreateHandler(cmd.(*CreateSchoolYear), entity.(*SchoolYear), store)
@@ -1180,7 +1177,7 @@ type SchoolYearEventHandler struct {
     UpdatedHandler func (*SchoolYearUpdated, *SchoolYear) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
-func (o *SchoolYearEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
+func (o *SchoolYearEventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
     case SchoolYearCreatedEvent:
         err = o.CreatedHandler(event.Data().(*SchoolYearCreated), entity.(*SchoolYear))
@@ -1257,16 +1254,16 @@ type SchoolYearAggregateInitializer struct {
 
 
 func NewSchoolYearAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *SchoolYearAggregateInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *SchoolYearAggregateInitializer) {
     
     commandHandler := &SchoolYearCommandHandler{}
     eventHandler := &SchoolYearEventHandler{}
-    modelFactory := func() interface{} { return NewSchoolYear() }
+    entityFactory := func() eventhorizon.Entity { return NewSchoolYear() }
     ret = &SchoolYearAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(SchoolYearAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(SchoolYearAggregateType, id, commandHandler, eventHandler, modelFactory())
-        }, modelFactory,
+            return eh.NewAggregateBase(SchoolYearAggregateType, id, commandHandler, eventHandler, entityFactory())
+        }, entityFactory,
         SchoolYearCommandTypes().Literals(), SchoolYearEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus, readRepos), SchoolYearCommandHandler: commandHandler, SchoolYearEventHandler: eventHandler, ProjectorHandler: eventHandler,
@@ -1280,7 +1277,7 @@ type StudentEventhorizonInitializer struct {
     eventStore eventhorizon.EventStore `json:"eventStore" eh:"optional"`
     eventBus eventhorizon.EventBus `json:"eventBus" eh:"optional"`
     eventPublisher eventhorizon.EventPublisher `json:"eventPublisher" eh:"optional"`
-    commandBus eventhorizon.CommandBus `json:"commandBus" eh:"optional"`
+    commandBus *bus.CommandHandler `json:"commandBus" eh:"optional"`
     AttendanceAggregateInitializer *AttendanceAggregateInitializer `json:"attendanceAggregateInitializer" eh:"optional"`
     CourseAggregateInitializer *CourseAggregateInitializer `json:"courseAggregateInitializer" eh:"optional"`
     GradeAggregateInitializer *GradeAggregateInitializer `json:"gradeAggregateInitializer" eh:"optional"`
@@ -1290,8 +1287,8 @@ type StudentEventhorizonInitializer struct {
 }
 
 func NewStudentEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *StudentEventhorizonInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *StudentEventhorizonInitializer) {
     attendanceAggregateInitializer := NewAttendanceAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     courseAggregateInitializer := NewCourseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     gradeAggregateInitializer := NewGradeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)

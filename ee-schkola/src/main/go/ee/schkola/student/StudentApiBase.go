@@ -10,6 +10,7 @@ import (
     "gopkg.in/mgo.v2/bson"
     "time"
 )
+        
 type Attendance struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Date *time.Time `json:"date" eh:"optional"`
@@ -24,8 +25,11 @@ func NewAttendance() (ret *Attendance) {
     ret = &Attendance{}
     return
 }
+func (o *Attendance) EntityID() eventhorizon.UUID { return o.Id }
 
 
+
+        
 type Course struct {
     Name string `json:"name" eh:"optional"`
     Begin *time.Time `json:"begin" eh:"optional"`
@@ -41,8 +45,11 @@ func NewCourse() (ret *Course) {
     ret = &Course{}
     return
 }
+func (o *Course) EntityID() eventhorizon.UUID { return o.Id }
 
 
+
+        
 type Grade struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Course *Course `json:"course" eh:"optional"`
@@ -55,8 +62,11 @@ func NewGrade() (ret *Grade) {
     ret = &Grade{}
     return
 }
+func (o *Grade) EntityID() eventhorizon.UUID { return o.Id }
 
 
+
+        
 type Group struct {
     Name string `json:"name" eh:"optional"`
     Category *GroupCategory `json:"category" eh:"optional"`
@@ -81,11 +91,13 @@ func (o *Group) AddToCourses(item *Course) *Course {
     o.Courses = append(o.Courses, item)
     return item
 }
+func (o *Group) EntityID() eventhorizon.UUID { return o.Id }
 
 
+
+        
 type SchoolApplication struct {
     Profile *person.Profile `json:"profile" eh:"optional"`
-    RecommendationOf *shared.PersonName `json:"recommendationOf" eh:"optional"`
     ChurchContactPerson *shared.PersonName `json:"churchContactPerson" eh:"optional"`
     ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
     ChurchCommitment bool `json:"churchCommitment" eh:"optional"`
@@ -98,8 +110,11 @@ func NewSchoolApplication() (ret *SchoolApplication) {
     ret = &SchoolApplication{}
     return
 }
+func (o *SchoolApplication) EntityID() eventhorizon.UUID { return o.Id }
 
 
+
+        
 type SchoolYear struct {
     Name string `json:"name" eh:"optional"`
     Start *time.Time `json:"start" eh:"optional"`
@@ -117,6 +132,8 @@ func (o *SchoolYear) AddToDates(item *time.Time) *time.Time {
     o.Dates = append(o.Dates, item)
     return item
 }
+func (o *SchoolYear) EntityID() eventhorizon.UUID { return o.Id }
+
 
 
 

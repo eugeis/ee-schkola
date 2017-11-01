@@ -18,7 +18,7 @@ func NewExpenseQueryRepository(repo eventhorizon.ReadRepo, context context.Conte
 }
 
 func (o *ExpenseQueryRepository) FindAll() (ret []*Expense, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*Expense, len(result))
 		for i, e := range result {
@@ -29,7 +29,7 @@ func (o *ExpenseQueryRepository) FindAll() (ret []*Expense, err error) {
 }
 
 func (o *ExpenseQueryRepository) FindById(id eventhorizon.UUID) (ret *Expense, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*Expense)
     }
@@ -83,7 +83,7 @@ func NewExpensePurposeQueryRepository(repo eventhorizon.ReadRepo, context contex
 }
 
 func (o *ExpensePurposeQueryRepository) FindAll() (ret []*ExpensePurpose, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*ExpensePurpose, len(result))
 		for i, e := range result {
@@ -94,7 +94,7 @@ func (o *ExpensePurposeQueryRepository) FindAll() (ret []*ExpensePurpose, err er
 }
 
 func (o *ExpensePurposeQueryRepository) FindById(id eventhorizon.UUID) (ret *ExpensePurpose, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*ExpensePurpose)
     }
@@ -148,7 +148,7 @@ func NewFeeQueryRepository(repo eventhorizon.ReadRepo, context context.Context) 
 }
 
 func (o *FeeQueryRepository) FindAll() (ret []*Fee, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*Fee, len(result))
 		for i, e := range result {
@@ -159,7 +159,7 @@ func (o *FeeQueryRepository) FindAll() (ret []*Fee, err error) {
 }
 
 func (o *FeeQueryRepository) FindById(id eventhorizon.UUID) (ret *Fee, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*Fee)
     }
@@ -213,7 +213,7 @@ func NewFeeKindQueryRepository(repo eventhorizon.ReadRepo, context context.Conte
 }
 
 func (o *FeeKindQueryRepository) FindAll() (ret []*FeeKind, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*FeeKind, len(result))
 		for i, e := range result {
@@ -224,7 +224,7 @@ func (o *FeeKindQueryRepository) FindAll() (ret []*FeeKind, err error) {
 }
 
 func (o *FeeKindQueryRepository) FindById(id eventhorizon.UUID) (ret *FeeKind, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*FeeKind)
     }

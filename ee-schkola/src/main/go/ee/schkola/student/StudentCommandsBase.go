@@ -278,7 +278,6 @@ func (o *UpdateGroup) CommandType() eventhorizon.CommandType      { return Updat
         
 type CreateSchoolApplication struct {
     Profile *person.Profile `json:"profile" eh:"optional"`
-    RecommendationOf *shared.PersonName `json:"recommendationOf" eh:"optional"`
     ChurchContactPerson *shared.PersonName `json:"churchContactPerson" eh:"optional"`
     ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
     ChurchCommitment bool `json:"churchCommitment" eh:"optional"`
@@ -305,7 +304,6 @@ func (o *DeleteSchoolApplication) CommandType() eventhorizon.CommandType      { 
         
 type UpdateSchoolApplication struct {
     Profile *person.Profile `json:"profile" eh:"optional"`
-    RecommendationOf *shared.PersonName `json:"recommendationOf" eh:"optional"`
     ChurchContactPerson *shared.PersonName `json:"churchContactPerson" eh:"optional"`
     ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
     ChurchCommitment bool `json:"churchCommitment" eh:"optional"`

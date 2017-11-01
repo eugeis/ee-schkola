@@ -6,6 +6,7 @@ import (
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "github.com/looplab/eventhorizon"
+    "github.com/looplab/eventhorizon/commandhandler/bus"
     "net/http"
 )
 type ExpenseHttpQueryHandler struct {
@@ -63,7 +64,7 @@ type ExpenseHttpCommandHandler struct {
     *eh.HttpCommandHandler
 }
 
-func NewExpenseHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ExpenseHttpCommandHandler) {
+func NewExpenseHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *ExpenseHttpCommandHandler) {
     httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
     ret = &ExpenseHttpCommandHandler{
         HttpCommandHandler: httpCommandHandler,
@@ -97,11 +98,11 @@ type ExpenseRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewExpenseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ExpenseRouter) {
+func NewExpenseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ExpenseRouter) {
     pathPrefix = pathPrefix + "/" + "expenses"
-    modelFactory := func() interface{} { return NewExpense() }
-    repo := readRepos(string(ExpenseAggregateType), modelFactory)
+    entityFactory := func() eventhorizon.Entity { return NewExpense() }
+    repo := readRepos(string(ExpenseAggregateType), entityFactory)
     queryRepository := NewExpenseQueryRepository(repo, context)
     queryHandler := NewExpenseHttpQueryHandler(queryRepository)
     commandHandler := NewExpenseHttpCommandHandler(context, commandBus)
@@ -195,7 +196,7 @@ type ExpensePurposeHttpCommandHandler struct {
     *eh.HttpCommandHandler
 }
 
-func NewExpensePurposeHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ExpensePurposeHttpCommandHandler) {
+func NewExpensePurposeHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *ExpensePurposeHttpCommandHandler) {
     httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
     ret = &ExpensePurposeHttpCommandHandler{
         HttpCommandHandler: httpCommandHandler,
@@ -229,11 +230,11 @@ type ExpensePurposeRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewExpensePurposeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ExpensePurposeRouter) {
+func NewExpensePurposeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ExpensePurposeRouter) {
     pathPrefix = pathPrefix + "/" + "expensePurposes"
-    modelFactory := func() interface{} { return NewExpensePurpose() }
-    repo := readRepos(string(ExpensePurposeAggregateType), modelFactory)
+    entityFactory := func() eventhorizon.Entity { return NewExpensePurpose() }
+    repo := readRepos(string(ExpensePurposeAggregateType), entityFactory)
     queryRepository := NewExpensePurposeQueryRepository(repo, context)
     queryHandler := NewExpensePurposeHttpQueryHandler(queryRepository)
     commandHandler := NewExpensePurposeHttpCommandHandler(context, commandBus)
@@ -327,7 +328,7 @@ type FeeHttpCommandHandler struct {
     *eh.HttpCommandHandler
 }
 
-func NewFeeHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *FeeHttpCommandHandler) {
+func NewFeeHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *FeeHttpCommandHandler) {
     httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
     ret = &FeeHttpCommandHandler{
         HttpCommandHandler: httpCommandHandler,
@@ -361,11 +362,11 @@ type FeeRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewFeeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FeeRouter) {
+func NewFeeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FeeRouter) {
     pathPrefix = pathPrefix + "/" + "fees"
-    modelFactory := func() interface{} { return NewFee() }
-    repo := readRepos(string(FeeAggregateType), modelFactory)
+    entityFactory := func() eventhorizon.Entity { return NewFee() }
+    repo := readRepos(string(FeeAggregateType), entityFactory)
     queryRepository := NewFeeQueryRepository(repo, context)
     queryHandler := NewFeeHttpQueryHandler(queryRepository)
     commandHandler := NewFeeHttpCommandHandler(context, commandBus)
@@ -459,7 +460,7 @@ type FeeKindHttpCommandHandler struct {
     *eh.HttpCommandHandler
 }
 
-func NewFeeKindHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *FeeKindHttpCommandHandler) {
+func NewFeeKindHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *FeeKindHttpCommandHandler) {
     httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
     ret = &FeeKindHttpCommandHandler{
         HttpCommandHandler: httpCommandHandler,
@@ -493,11 +494,11 @@ type FeeKindRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewFeeKindRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FeeKindRouter) {
+func NewFeeKindRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FeeKindRouter) {
     pathPrefix = pathPrefix + "/" + "feeKinds"
-    modelFactory := func() interface{} { return NewFeeKind() }
-    repo := readRepos(string(FeeKindAggregateType), modelFactory)
+    entityFactory := func() eventhorizon.Entity { return NewFeeKind() }
+    repo := readRepos(string(FeeKindAggregateType), entityFactory)
     queryRepository := NewFeeKindQueryRepository(repo, context)
     queryHandler := NewFeeKindHttpQueryHandler(queryRepository)
     commandHandler := NewFeeKindHttpCommandHandler(context, commandBus)
@@ -545,8 +546,8 @@ type FinanceRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewFinanceRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FinanceRouter) {
+func NewFinanceRouter(pathPrefix string, context context.Context, commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FinanceRouter) {
     pathPrefix = pathPrefix + "/" + "finance"
     expenseRouter := NewExpenseRouter(pathPrefix, context, commandBus, readRepos)
     expensePurposeRouter := NewExpensePurposeRouter(pathPrefix, context, commandBus, readRepos)

@@ -13,8 +13,8 @@ var Log = lg.NewLogger("CGT ")
 
 func main() {
 
-	var flag_secure string = "secure"
-	var flag_name string = "name"
+	var flag_secure = "secure"
+	var flag_name = "name"
 
 	name := "Schkola"
 

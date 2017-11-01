@@ -18,7 +18,7 @@ func NewAttendanceQueryRepository(repo eventhorizon.ReadRepo, context context.Co
 }
 
 func (o *AttendanceQueryRepository) FindAll() (ret []*Attendance, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*Attendance, len(result))
 		for i, e := range result {
@@ -29,7 +29,7 @@ func (o *AttendanceQueryRepository) FindAll() (ret []*Attendance, err error) {
 }
 
 func (o *AttendanceQueryRepository) FindById(id eventhorizon.UUID) (ret *Attendance, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*Attendance)
     }
@@ -83,7 +83,7 @@ func NewCourseQueryRepository(repo eventhorizon.ReadRepo, context context.Contex
 }
 
 func (o *CourseQueryRepository) FindAll() (ret []*Course, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*Course, len(result))
 		for i, e := range result {
@@ -94,7 +94,7 @@ func (o *CourseQueryRepository) FindAll() (ret []*Course, err error) {
 }
 
 func (o *CourseQueryRepository) FindById(id eventhorizon.UUID) (ret *Course, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*Course)
     }
@@ -148,7 +148,7 @@ func NewGradeQueryRepository(repo eventhorizon.ReadRepo, context context.Context
 }
 
 func (o *GradeQueryRepository) FindAll() (ret []*Grade, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*Grade, len(result))
 		for i, e := range result {
@@ -159,7 +159,7 @@ func (o *GradeQueryRepository) FindAll() (ret []*Grade, err error) {
 }
 
 func (o *GradeQueryRepository) FindById(id eventhorizon.UUID) (ret *Grade, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*Grade)
     }
@@ -213,7 +213,7 @@ func NewGroupQueryRepository(repo eventhorizon.ReadRepo, context context.Context
 }
 
 func (o *GroupQueryRepository) FindAll() (ret []*Group, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*Group, len(result))
 		for i, e := range result {
@@ -224,7 +224,7 @@ func (o *GroupQueryRepository) FindAll() (ret []*Group, err error) {
 }
 
 func (o *GroupQueryRepository) FindById(id eventhorizon.UUID) (ret *Group, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*Group)
     }
@@ -278,7 +278,7 @@ func NewSchoolApplicationQueryRepository(repo eventhorizon.ReadRepo, context con
 }
 
 func (o *SchoolApplicationQueryRepository) FindAll() (ret []*SchoolApplication, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*SchoolApplication, len(result))
 		for i, e := range result {
@@ -289,7 +289,7 @@ func (o *SchoolApplicationQueryRepository) FindAll() (ret []*SchoolApplication, 
 }
 
 func (o *SchoolApplicationQueryRepository) FindById(id eventhorizon.UUID) (ret *SchoolApplication, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*SchoolApplication)
     }
@@ -343,7 +343,7 @@ func NewSchoolYearQueryRepository(repo eventhorizon.ReadRepo, context context.Co
 }
 
 func (o *SchoolYearQueryRepository) FindAll() (ret []*SchoolYear, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*SchoolYear, len(result))
 		for i, e := range result {
@@ -354,7 +354,7 @@ func (o *SchoolYearQueryRepository) FindAll() (ret []*SchoolYear, err error) {
 }
 
 func (o *SchoolYearQueryRepository) FindById(id eventhorizon.UUID) (ret *SchoolYear, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*SchoolYear)
     }

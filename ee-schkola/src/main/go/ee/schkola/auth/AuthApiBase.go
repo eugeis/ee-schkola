@@ -5,6 +5,7 @@ import (
     "ee/schkola/shared"
     "github.com/looplab/eventhorizon"
 )
+        
 type Account struct {
     Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
@@ -25,6 +26,8 @@ func (o *Account) AddToRoles(item string) string {
     o.Roles = append(o.Roles, item)
     return item
 }
+func (o *Account) EntityID() eventhorizon.UUID { return o.Id }
+
 
 
 

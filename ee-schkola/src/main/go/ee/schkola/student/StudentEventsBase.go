@@ -202,7 +202,6 @@ func (o *GroupUpdated) AddToCourses(item *Course) *Course {
 
 type SchoolApplicationCreated struct {
     Profile *person.Profile `json:"profile" eh:"optional"`
-    RecommendationOf *shared.PersonName `json:"recommendationOf" eh:"optional"`
     ChurchContactPerson *shared.PersonName `json:"churchContactPerson" eh:"optional"`
     ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
     ChurchCommitment bool `json:"churchCommitment" eh:"optional"`
@@ -219,7 +218,6 @@ type SchoolApplicationDeleted struct {
 
 type SchoolApplicationUpdated struct {
     Profile *person.Profile `json:"profile" eh:"optional"`
-    RecommendationOf *shared.PersonName `json:"recommendationOf" eh:"optional"`
     ChurchContactPerson *shared.PersonName `json:"churchContactPerson" eh:"optional"`
     ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
     ChurchCommitment bool `json:"churchCommitment" eh:"optional"`

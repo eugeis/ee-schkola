@@ -6,6 +6,7 @@ import (
     "github.com/looplab/eventhorizon"
     "time"
 )
+        
 type Book struct {
     Title string `json:"title" eh:"optional"`
     Description string `json:"description" eh:"optional"`
@@ -32,6 +33,8 @@ func (o *Book) FindByTitle(title string) (ret *Book, err error) {
     err = eh.QueryNotImplemented("findBookByTitle")
     return
 }
+func (o *Book) EntityID() eventhorizon.UUID { return o.Id }
+
 
 
 

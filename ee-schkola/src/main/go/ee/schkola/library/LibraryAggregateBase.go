@@ -5,6 +5,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
+    "github.com/looplab/eventhorizon/commandhandler/bus"
     "time"
 )
 type BookCommandHandler struct {
@@ -54,7 +55,7 @@ func (o *BookCommandHandler) AddUpdatePreparer(preparer func (*UpdateBook, *Book
 	}
 }
 
-func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
+func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateBookCommand:
         err = o.CreateHandler(cmd.(*CreateBook), entity.(*Book), store)
@@ -127,7 +128,7 @@ type BookEventHandler struct {
     ChangeLocationedHandler func (*ChangeLocationedBook, *Book) (err error)  `json:"changeLocationedHandler" eh:"optional"`
 }
 
-func (o *BookEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
+func (o *BookEventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
     case BookCreatedEvent:
         err = o.CreatedHandler(event.Data().(*BookCreated), entity.(*Book))
@@ -227,16 +228,16 @@ type BookAggregateInitializer struct {
 
 
 func NewBookAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *BookAggregateInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *BookAggregateInitializer) {
     
     commandHandler := &BookCommandHandler{}
     eventHandler := &BookEventHandler{}
-    modelFactory := func() interface{} { return NewBook() }
+    entityFactory := func() eventhorizon.Entity { return NewBook() }
     ret = &BookAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(BookAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(BookAggregateType, id, commandHandler, eventHandler, modelFactory())
-        }, modelFactory,
+            return eh.NewAggregateBase(BookAggregateType, id, commandHandler, eventHandler, entityFactory())
+        }, entityFactory,
         BookCommandTypes().Literals(), BookEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus, readRepos), BookCommandHandler: commandHandler, BookEventHandler: eventHandler, ProjectorHandler: eventHandler,
@@ -250,13 +251,13 @@ type LibraryEventhorizonInitializer struct {
     eventStore eventhorizon.EventStore `json:"eventStore" eh:"optional"`
     eventBus eventhorizon.EventBus `json:"eventBus" eh:"optional"`
     eventPublisher eventhorizon.EventPublisher `json:"eventPublisher" eh:"optional"`
-    commandBus eventhorizon.CommandBus `json:"commandBus" eh:"optional"`
+    commandBus *bus.CommandHandler `json:"commandBus" eh:"optional"`
     BookAggregateInitializer *BookAggregateInitializer `json:"bookAggregateInitializer" eh:"optional"`
 }
 
 func NewLibraryEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *LibraryEventhorizonInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *LibraryEventhorizonInitializer) {
     bookAggregateInitializer := NewBookAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     ret = &LibraryEventhorizonInitializer{
         eventStore: eventStore,

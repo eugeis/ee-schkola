@@ -6,6 +6,7 @@ import (
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "github.com/looplab/eventhorizon"
+    "github.com/looplab/eventhorizon/commandhandler/bus"
     "net/http"
 )
 type AccountHttpQueryHandler struct {
@@ -63,7 +64,7 @@ type AccountHttpCommandHandler struct {
     *eh.HttpCommandHandler
 }
 
-func NewAccountHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *AccountHttpCommandHandler) {
+func NewAccountHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *AccountHttpCommandHandler) {
     httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
     ret = &AccountHttpCommandHandler{
         HttpCommandHandler: httpCommandHandler,
@@ -115,11 +116,11 @@ type AccountRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AccountRouter) {
+func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AccountRouter) {
     pathPrefix = pathPrefix + "/" + "accounts"
-    modelFactory := func() interface{} { return NewAccount() }
-    repo := readRepos(string(AccountAggregateType), modelFactory)
+    entityFactory := func() eventhorizon.Entity { return NewAccount() }
+    repo := readRepos(string(AccountAggregateType), entityFactory)
     queryRepository := NewAccountQueryRepository(repo, context)
     queryHandler := NewAccountHttpQueryHandler(queryRepository)
     commandHandler := NewAccountHttpCommandHandler(context, commandBus)
@@ -173,8 +174,8 @@ type AuthRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewAuthRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AuthRouter) {
+func NewAuthRouter(pathPrefix string, context context.Context, commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AuthRouter) {
     pathPrefix = pathPrefix + "/" + "auth"
     accountRouter := NewAccountRouter(pathPrefix, context, commandBus, readRepos)
     ret = &AuthRouter{

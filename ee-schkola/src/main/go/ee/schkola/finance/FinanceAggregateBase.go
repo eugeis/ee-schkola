@@ -5,6 +5,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
+    "github.com/looplab/eventhorizon/commandhandler/bus"
     "time"
 )
 type ExpenseCommandHandler struct {
@@ -43,7 +44,7 @@ func (o *ExpenseCommandHandler) AddUpdatePreparer(preparer func (*UpdateExpense,
 	}
 }
 
-func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
+func (o *ExpenseCommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateExpenseCommand:
         err = o.CreateHandler(cmd.(*CreateExpense), entity.(*Expense), store)
@@ -97,7 +98,7 @@ type ExpenseEventHandler struct {
     UpdatedHandler func (*ExpenseUpdated, *Expense) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
-func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
+func (o *ExpenseEventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
     case ExpenseCreatedEvent:
         err = o.CreatedHandler(event.Data().(*ExpenseCreated), entity.(*Expense))
@@ -174,16 +175,16 @@ type ExpenseAggregateInitializer struct {
 
 
 func NewExpenseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ExpenseAggregateInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ExpenseAggregateInitializer) {
     
     commandHandler := &ExpenseCommandHandler{}
     eventHandler := &ExpenseEventHandler{}
-    modelFactory := func() interface{} { return NewExpense() }
+    entityFactory := func() eventhorizon.Entity { return NewExpense() }
     ret = &ExpenseAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ExpenseAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(ExpenseAggregateType, id, commandHandler, eventHandler, modelFactory())
-        }, modelFactory,
+            return eh.NewAggregateBase(ExpenseAggregateType, id, commandHandler, eventHandler, entityFactory())
+        }, entityFactory,
         ExpenseCommandTypes().Literals(), ExpenseEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus, readRepos), ExpenseCommandHandler: commandHandler, ExpenseEventHandler: eventHandler, ProjectorHandler: eventHandler,
@@ -229,7 +230,7 @@ func (o *ExpensePurposeCommandHandler) AddUpdatePreparer(preparer func (*UpdateE
 	}
 }
 
-func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
+func (o *ExpensePurposeCommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateExpensePurposeCommand:
         err = o.CreateHandler(cmd.(*CreateExpensePurpose), entity.(*ExpensePurpose), store)
@@ -279,7 +280,7 @@ type ExpensePurposeEventHandler struct {
     UpdatedHandler func (*ExpensePurposeUpdated, *ExpensePurpose) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
-func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
+func (o *ExpensePurposeEventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
     case ExpensePurposeCreatedEvent:
         err = o.CreatedHandler(event.Data().(*ExpensePurposeCreated), entity.(*ExpensePurpose))
@@ -352,16 +353,16 @@ type ExpensePurposeAggregateInitializer struct {
 
 
 func NewExpensePurposeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ExpensePurposeAggregateInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ExpensePurposeAggregateInitializer) {
     
     commandHandler := &ExpensePurposeCommandHandler{}
     eventHandler := &ExpensePurposeEventHandler{}
-    modelFactory := func() interface{} { return NewExpensePurpose() }
+    entityFactory := func() eventhorizon.Entity { return NewExpensePurpose() }
     ret = &ExpensePurposeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(ExpensePurposeAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(ExpensePurposeAggregateType, id, commandHandler, eventHandler, modelFactory())
-        }, modelFactory,
+            return eh.NewAggregateBase(ExpensePurposeAggregateType, id, commandHandler, eventHandler, entityFactory())
+        }, entityFactory,
         ExpensePurposeCommandTypes().Literals(), ExpensePurposeEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus, readRepos), ExpensePurposeCommandHandler: commandHandler, ExpensePurposeEventHandler: eventHandler, ProjectorHandler: eventHandler,
@@ -407,7 +408,7 @@ func (o *FeeCommandHandler) AddUpdatePreparer(preparer func (*UpdateFee, *Fee) (
 	}
 }
 
-func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
+func (o *FeeCommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateFeeCommand:
         err = o.CreateHandler(cmd.(*CreateFee), entity.(*Fee), store)
@@ -461,7 +462,7 @@ type FeeEventHandler struct {
     UpdatedHandler func (*FeeUpdated, *Fee) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
-func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
+func (o *FeeEventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
     case FeeCreatedEvent:
         err = o.CreatedHandler(event.Data().(*FeeCreated), entity.(*Fee))
@@ -538,16 +539,16 @@ type FeeAggregateInitializer struct {
 
 
 func NewFeeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FeeAggregateInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FeeAggregateInitializer) {
     
     commandHandler := &FeeCommandHandler{}
     eventHandler := &FeeEventHandler{}
-    modelFactory := func() interface{} { return NewFee() }
+    entityFactory := func() eventhorizon.Entity { return NewFee() }
     ret = &FeeAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(FeeAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(FeeAggregateType, id, commandHandler, eventHandler, modelFactory())
-        }, modelFactory,
+            return eh.NewAggregateBase(FeeAggregateType, id, commandHandler, eventHandler, entityFactory())
+        }, entityFactory,
         FeeCommandTypes().Literals(), FeeEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus, readRepos), FeeCommandHandler: commandHandler, FeeEventHandler: eventHandler, ProjectorHandler: eventHandler,
@@ -593,7 +594,7 @@ func (o *FeeKindCommandHandler) AddUpdatePreparer(preparer func (*UpdateFeeKind,
 	}
 }
 
-func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
+func (o *FeeKindCommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case CreateFeeKindCommand:
         err = o.CreateHandler(cmd.(*CreateFeeKind), entity.(*FeeKind), store)
@@ -645,7 +646,7 @@ type FeeKindEventHandler struct {
     UpdatedHandler func (*FeeKindUpdated, *FeeKind) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
-func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
+func (o *FeeKindEventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
     case FeeKindCreatedEvent:
         err = o.CreatedHandler(event.Data().(*FeeKindCreated), entity.(*FeeKind))
@@ -720,16 +721,16 @@ type FeeKindAggregateInitializer struct {
 
 
 func NewFeeKindAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FeeKindAggregateInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FeeKindAggregateInitializer) {
     
     commandHandler := &FeeKindCommandHandler{}
     eventHandler := &FeeKindEventHandler{}
-    modelFactory := func() interface{} { return NewFeeKind() }
+    entityFactory := func() eventhorizon.Entity { return NewFeeKind() }
     ret = &FeeKindAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(FeeKindAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(FeeKindAggregateType, id, commandHandler, eventHandler, modelFactory())
-        }, modelFactory,
+            return eh.NewAggregateBase(FeeKindAggregateType, id, commandHandler, eventHandler, entityFactory())
+        }, entityFactory,
         FeeKindCommandTypes().Literals(), FeeKindEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus, readRepos), FeeKindCommandHandler: commandHandler, FeeKindEventHandler: eventHandler, ProjectorHandler: eventHandler,
@@ -743,7 +744,7 @@ type FinanceEventhorizonInitializer struct {
     eventStore eventhorizon.EventStore `json:"eventStore" eh:"optional"`
     eventBus eventhorizon.EventBus `json:"eventBus" eh:"optional"`
     eventPublisher eventhorizon.EventPublisher `json:"eventPublisher" eh:"optional"`
-    commandBus eventhorizon.CommandBus `json:"commandBus" eh:"optional"`
+    commandBus *bus.CommandHandler `json:"commandBus" eh:"optional"`
     ExpenseAggregateInitializer *ExpenseAggregateInitializer `json:"expenseAggregateInitializer" eh:"optional"`
     ExpensePurposeAggregateInitializer *ExpensePurposeAggregateInitializer `json:"expensePurposeAggregateInitializer" eh:"optional"`
     FeeAggregateInitializer *FeeAggregateInitializer `json:"feeAggregateInitializer" eh:"optional"`
@@ -751,8 +752,8 @@ type FinanceEventhorizonInitializer struct {
 }
 
 func NewFinanceEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FinanceEventhorizonInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FinanceEventhorizonInitializer) {
     expenseAggregateInitializer := NewExpenseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     expensePurposeAggregateInitializer := NewExpensePurposeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     feeAggregateInitializer := NewFeeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)

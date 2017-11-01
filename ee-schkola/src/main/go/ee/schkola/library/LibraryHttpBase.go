@@ -6,6 +6,7 @@ import (
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "github.com/looplab/eventhorizon"
+    "github.com/looplab/eventhorizon/commandhandler/bus"
     "net/http"
 )
 type BookHttpQueryHandler struct {
@@ -77,7 +78,7 @@ type BookHttpCommandHandler struct {
     *eh.HttpCommandHandler
 }
 
-func NewBookHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *BookHttpCommandHandler) {
+func NewBookHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *BookHttpCommandHandler) {
     httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
     ret = &BookHttpCommandHandler{
         HttpCommandHandler: httpCommandHandler,
@@ -117,11 +118,11 @@ type BookRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *BookRouter) {
+func NewBookRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *BookRouter) {
     pathPrefix = pathPrefix + "/" + "books"
-    modelFactory := func() interface{} { return NewBook() }
-    repo := readRepos(string(BookAggregateType), modelFactory)
+    entityFactory := func() eventhorizon.Entity { return NewBook() }
+    repo := readRepos(string(BookAggregateType), entityFactory)
     queryRepository := NewBookQueryRepository(repo, context)
     queryHandler := NewBookHttpQueryHandler(queryRepository)
     commandHandler := NewBookHttpCommandHandler(context, commandBus)
@@ -175,8 +176,8 @@ type LibraryRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewLibraryRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *LibraryRouter) {
+func NewLibraryRouter(pathPrefix string, context context.Context, commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *LibraryRouter) {
     pathPrefix = pathPrefix + "/" + "library"
     bookRouter := NewBookRouter(pathPrefix, context, commandBus, readRepos)
     ret = &LibraryRouter{

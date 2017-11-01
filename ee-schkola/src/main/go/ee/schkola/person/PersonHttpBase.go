@@ -6,6 +6,7 @@ import (
     "github.com/eugeis/gee/net"
     "github.com/gorilla/mux"
     "github.com/looplab/eventhorizon"
+    "github.com/looplab/eventhorizon/commandhandler/bus"
     "net/http"
 )
 type ChurchHttpQueryHandler struct {
@@ -63,7 +64,7 @@ type ChurchHttpCommandHandler struct {
     *eh.HttpCommandHandler
 }
 
-func NewChurchHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ChurchHttpCommandHandler) {
+func NewChurchHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *ChurchHttpCommandHandler) {
     httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
     ret = &ChurchHttpCommandHandler{
         HttpCommandHandler: httpCommandHandler,
@@ -97,11 +98,11 @@ type ChurchRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewChurchRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ChurchRouter) {
+func NewChurchRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ChurchRouter) {
     pathPrefix = pathPrefix + "/" + "churches"
-    modelFactory := func() interface{} { return NewChurch() }
-    repo := readRepos(string(ChurchAggregateType), modelFactory)
+    entityFactory := func() eventhorizon.Entity { return NewChurch() }
+    repo := readRepos(string(ChurchAggregateType), entityFactory)
     queryRepository := NewChurchQueryRepository(repo, context)
     queryHandler := NewChurchHttpQueryHandler(queryRepository)
     commandHandler := NewChurchHttpCommandHandler(context, commandBus)
@@ -195,7 +196,7 @@ type GraduationHttpCommandHandler struct {
     *eh.HttpCommandHandler
 }
 
-func NewGraduationHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *GraduationHttpCommandHandler) {
+func NewGraduationHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *GraduationHttpCommandHandler) {
     httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
     ret = &GraduationHttpCommandHandler{
         HttpCommandHandler: httpCommandHandler,
@@ -229,11 +230,11 @@ type GraduationRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewGraduationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *GraduationRouter) {
+func NewGraduationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *GraduationRouter) {
     pathPrefix = pathPrefix + "/" + "graduations"
-    modelFactory := func() interface{} { return NewGraduation() }
-    repo := readRepos(string(GraduationAggregateType), modelFactory)
+    entityFactory := func() eventhorizon.Entity { return NewGraduation() }
+    repo := readRepos(string(GraduationAggregateType), entityFactory)
     queryRepository := NewGraduationQueryRepository(repo, context)
     queryHandler := NewGraduationHttpQueryHandler(queryRepository)
     commandHandler := NewGraduationHttpCommandHandler(context, commandBus)
@@ -341,7 +342,7 @@ type ProfileHttpCommandHandler struct {
     *eh.HttpCommandHandler
 }
 
-func NewProfileHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandBus) (ret *ProfileHttpCommandHandler) {
+func NewProfileHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *ProfileHttpCommandHandler) {
     httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
     ret = &ProfileHttpCommandHandler{
         HttpCommandHandler: httpCommandHandler,
@@ -375,11 +376,11 @@ type ProfileRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewProfileRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ProfileRouter) {
+func NewProfileRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ProfileRouter) {
     pathPrefix = pathPrefix + "/" + "profiles"
-    modelFactory := func() interface{} { return NewProfile() }
-    repo := readRepos(string(ProfileAggregateType), modelFactory)
+    entityFactory := func() eventhorizon.Entity { return NewProfile() }
+    repo := readRepos(string(ProfileAggregateType), entityFactory)
     queryRepository := NewProfileQueryRepository(repo, context)
     queryHandler := NewProfileHttpQueryHandler(queryRepository)
     commandHandler := NewProfileHttpCommandHandler(context, commandBus)
@@ -432,8 +433,8 @@ type PersonRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewPersonRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *PersonRouter) {
+func NewPersonRouter(pathPrefix string, context context.Context, commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *PersonRouter) {
     pathPrefix = pathPrefix + "/" + "person"
     churchRouter := NewChurchRouter(pathPrefix, context, commandBus, readRepos)
     graduationRouter := NewGraduationRouter(pathPrefix, context, commandBus, readRepos)

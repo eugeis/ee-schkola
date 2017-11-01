@@ -112,6 +112,11 @@ func parseJson() {
 		id := wpU["ID"].(string)
 		userMap := u[id]
 
+		if userMap == nil {
+			userMap = make(map[string]interface{})
+			u[id] = userMap
+		}
+
 		for k, v := range wpU {
 			keys[k] = k
 			userMap[string(k)] = v
@@ -131,6 +136,7 @@ func parseJson() {
 	users3 := make([]string, 0)
 	users4 := make([]string, 0)
 	users5 := make([]string, 0)
+	besucher := make([]string, 0)
 
 	for _, v := range u {
 		key := fmt.Sprintf("%v.%v.%v.%v", v["scool_year"], v["last_name"], v["first_name"], v["birth_date"])
@@ -146,18 +152,21 @@ func parseJson() {
 			users4 = append(users4, key)
 		case "Zusatzjahr (B1,B2)":
 			users5 = append(users5, key)
+		case "Besucher":
+			besucher = append(besucher, key)
 		}
 	}
 
-	//writeCsvEmailGroup(users1, users2, users3, users4, users5, users)
+	writeCsvEmailGroup(users1, users2, users3, users4, users5, besucher, users)
 	//writeInsertInto(users1, users2, users3, users4, users5, users)
-	//writeCsvEmailContacts(users1, users2, users3, users4, users5, users)
-	//writeHtmlReport(users1, users2, users3, users4, users5, allKeys, users)
-	restImport(users1, users2, users3, users4, users5, users)
+	//writeUpdateRole(users1, users2, users3, users4, users5, users)
+	writeCsvEmailContacts(users1, users2, users3, users4, users5, besucher, users)
+	writeHtmlReport(users1, users2, users3, users4, users5, besucher, allKeys, users)
+	//restImport(users1, users2, users3, users4, users5, users)
 }
 
 func restImport(users1 []string, users2 []string, users3 []string,
-	users4 []string, users5 []string, users map[string]map[string]interface{}) {
+	users4 []string, users5 []string, besucher []string, users map[string]map[string]interface{}) {
 
 	client := http.Client{
 		Timeout: time.Second * 10, // Maximum of 2 secs
@@ -174,7 +183,7 @@ func restImportForGroup(userKeys []string, users map[string]map[string]interface
 
 	profilesUrl := "http://127.0.0.1:8080/person/profiles/"
 	profiles := make(map[eventhorizon.UUID]*person.Profile)
-	applications := make(map[eventhorizon.UUID]*student.SchoolApplication)
+	//applications := make(map[eventhorizon.UUID]*student.SchoolApplication)
 
 	for _, userKey := range userKeys {
 		user := users[userKey]
@@ -231,7 +240,7 @@ func restImportForGroup(userKeys []string, users map[string]map[string]interface
 		application.ChurchContact = person.NewContact()
 		application.ChurchContact.Phone = str(user["church_contact"])
 		application.ChurchCommitment = boolGerman(user["church_commitment"])
-		application.Group=str(user["scool_year"])
+		application.Group = str(user["scool_year"])
 	}
 
 	/*
@@ -301,7 +310,7 @@ func UUID(value interface{}) eventhorizon.UUID {
 }
 
 func writeInsertInto(users1 []string, users2 []string, users3 []string,
-	users4 []string, users5 []string, users map[string]map[string]interface{}) {
+	users4 []string, users5 []string, besucher []string, users map[string]map[string]interface{}) {
 	f, _ := os.Create(fmt.Sprintf("%v/users.sql", work))
 	defer f.Close()
 	w := bufio.NewWriter(f)
@@ -324,8 +333,44 @@ func writeInsertIntoForGroup(userKeys []string, users map[string]map[string]inte
 	w.WriteString(";\n")
 }
 
+func writeUpdateRole(users1 []string, users2 []string, users3 []string,
+	users4 []string, users5 []string, besucher []string, users map[string]map[string]interface{}) {
+	f, _ := os.Create(fmt.Sprintf("%v/update_role.sql", work))
+	defer f.Close()
+	w := bufio.NewWriter(f)
+	fmt.Fprintf(w, "update wp_usermeta set meta_value='1-klasse-2017' where meta_key='role' and user_id in (%v);\n",
+		ids(users1, users))
+	fmt.Fprintf(w, "update wp_usermeta set meta_value='2-klasse-2017-b1' where meta_key='role' and user_id in (%v);\n",
+		ids(users2, users))
+	fmt.Fprintf(w, "update wp_usermeta set meta_value='3-klasse-2071-b1' where meta_key='role' and user_id in (%v);\n",
+		ids(users3, users))
+	fmt.Fprintf(w, "update wp_usermeta set meta_value='4-klasse-2017-b2' where meta_key='role' and user_id in (%v);\n",
+		ids(users4, users))
+	fmt.Fprintf(w, "update wp_usermeta set meta_value='zusatzjahr-b2' where meta_key='role' and user_id in (%v);\n",
+		ids(users5, users))
+	fmt.Fprintf(w, "update wp_usermeta set meta_value='besucher' where meta_key='role' and user_id in (%v);\n",
+		ids(besucher, users))
+	w.Flush()
+}
+
+func ids(userKeys []string, users map[string]map[string]interface{}) string {
+	w := bytes.NewBufferString("")
+	for i, userKey := range userKeys {
+		user := users[userKey]
+		if i > 0 {
+			w.WriteString(",")
+		}
+		id := str(user["ID"])
+		if len(id) == 0 || id == "<nil>" {
+			println(userKey)
+		}
+		w.WriteString(id)
+	}
+	return w.String()
+}
+
 func writeCsvEmailGroup(users1 []string, users2 []string, users3 []string,
-	users4 []string, users5 []string, users map[string]map[string]interface{}) {
+	users4 []string, users5 []string, besucher []string, users map[string]map[string]interface{}) {
 	f, _ := os.Create(fmt.Sprintf("%v/emails.txt", work))
 	defer f.Close()
 	w := bufio.NewWriter(f)
@@ -334,6 +379,7 @@ func writeCsvEmailGroup(users1 []string, users2 []string, users3 []string,
 	writeCsvEmailsForGroup(users3, users, "2017 Klasse 3", w)
 	writeCsvEmailsForGroup(users4, users, "2017 Klasse 4", w)
 	writeCsvEmailsForGroup(users5, users, "2017 Zusatzklasse", w)
+	writeCsvEmailsForGroup(besucher, users, "2017 Besucher", w)
 	w.Flush()
 }
 
@@ -350,7 +396,7 @@ func writeCsvEmailsForGroup(userKeys []string, users map[string]map[string]inter
 }
 
 func writeCsvEmailContacts(users1 []string, users2 []string, users3 []string,
-	users4 []string, users5 []string, users map[string]map[string]interface{}) {
+	users4 []string, users5 []string, besucher []string, users map[string]map[string]interface{}) {
 	f, _ := os.Create(fmt.Sprintf("%v/googleContacts.csv", work))
 	defer f.Close()
 	w := bufio.NewWriter(f)
@@ -365,6 +411,8 @@ func writeCsvEmailContacts(users1 []string, users2 []string, users3 []string,
 		"church", "user_email", "17 Klasse 4"}, w)
 	writeCsvEmailContactsForGroup(users5, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
 		"church", "user_email", "17 Zusatzklasse"}, w)
+	writeCsvEmailContactsForGroup(besucher, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+		"church", "user_email", "17 Besucher"}, w)
 	w.Flush()
 }
 
@@ -387,8 +435,8 @@ func writeCsvEmailContactsForGroup(userKeys []string, users map[string]map[strin
 }
 
 func writeHtmlReport(users1 []string, users2 []string, users3 []string,
-	users4 []string, users5 []string, allKeys []string, users map[string]map[string]interface{}) {
-	f, _ := os.Create(fmt.Sprintf("%v/bewerbungen.html", work))
+	users4 []string, users5 []string, besucher []string, allKeys []string, users map[string]map[string]interface{}) {
+	f, _ := os.Create(fmt.Sprintf("%v/bewerbungen_small.html", work))
 	defer f.Close()
 
 	w := bufio.NewWriter(f)
@@ -427,35 +475,45 @@ func writeHtmlReport(users1 []string, users2 []string, users3 []string,
 				}
 			</style>
 		</head>`)
+
+	/*
+		user1Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+			"church", "church_commitment", "church_member", "church_services", "church_responsible",
+			"church_contact", "user_email",
+			"address", "plz", "city",
+			"job", "education",
+			"marital_state", "photo", "spirit"}
+		user2_3Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+			"church", "church_commitment", "church_member", "church_services", "church_responsible",
+			"church_contact", "user_email",
+			"address", "plz", "city",
+			"job", "education",
+			"marital_state", "biblikum_1", "paided_last_years", "photo", "spirit"}
+		user4_5Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+			"church", "church_commitment", "church_member", "church_services", "church_responsible",
+			"church_contact", "user_email",
+			"address", "plz", "city",
+			"job", "education",
+			"marital_state", "biblikum_1", "biblikum_2", "paided_last_years", "photo", "spirit"}
+	*/
+
+	user1Keys := []string{"last_name", "first_name", "church", "phone_number", "user_email", "photo"}
+	user2_3Keys := user1Keys
+	user4_5Keys := user1Keys
+
 	w.WriteString("<body>")
 	w.WriteString("<h2>1. Klasse</h2>")
-	user1Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
-		"church", "church_commitment", "church_member", "church_services", "church_responsible",
-		"church_contact", "user_email",
-		"address", "plz", "city",
-		"job", "education",
-		"marital_state", "photo", "spirit"}
 	writeHtmlReportForGroup(users1, users, user1Keys, allKeys, w)
 	w.WriteString("<h2>2. Klasse</h2>")
-	user2_3Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
-		"church", "church_commitment", "church_member", "church_services", "church_responsible",
-		"church_contact", "user_email",
-		"address", "plz", "city",
-		"job", "education",
-		"marital_state", "biblikum_1", "paided_last_years", "photo", "spirit"}
 	writeHtmlReportForGroup(users2, users, user2_3Keys, allKeys, w)
 	w.WriteString("<h2>3. Klasse</h2>")
 	writeHtmlReportForGroup(users3, users, user2_3Keys, allKeys, w)
 	w.WriteString("<h2>4. Klasse</h2>")
-	user4_5Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
-		"church", "church_commitment", "church_member", "church_services", "church_responsible",
-		"church_contact", "user_email",
-		"address", "plz", "city",
-		"job", "education",
-		"marital_state", "biblikum_1", "biblikum_2", "paided_last_years", "photo", "spirit"}
 	writeHtmlReportForGroup(users4, users, user4_5Keys, allKeys, w)
 	w.WriteString("<h2>Zusatzjahr</h2>")
 	writeHtmlReportForGroup(users5, users, user4_5Keys, allKeys, w)
+	w.WriteString("<h2>Besucher</h2>")
+	writeHtmlReportForGroup(besucher, users, user4_5Keys, allKeys, w)
 	w.WriteString("</body>")
 	w.WriteString("</html>")
 	w.Flush()

@@ -10,6 +10,7 @@ import (
     "gopkg.in/mgo.v2/bson"
     "time"
 )
+        
 type Church struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
@@ -23,8 +24,11 @@ func NewChurch() (ret *Church) {
     ret = &Church{}
     return
 }
+func (o *Church) EntityID() eventhorizon.UUID { return o.Id }
 
 
+
+        
 type Graduation struct {
     Name string `json:"name" eh:"optional"`
     Level *GraduationLevel `json:"level" eh:"optional"`
@@ -35,8 +39,11 @@ func NewGraduation() (ret *Graduation) {
     ret = &Graduation{}
     return
 }
+func (o *Graduation) EntityID() eventhorizon.UUID { return o.Id }
 
 
+
+        
 type Profile struct {
     Gender *Gender `json:"gender" eh:"optional"`
     Name *shared.PersonName `json:"name" eh:"optional"`
@@ -66,6 +73,8 @@ func (o *Profile) FindByPhone(phone string) (ret *Profile, err error) {
     err = eh.QueryNotImplemented("findProfileByPhone")
     return
 }
+func (o *Profile) EntityID() eventhorizon.UUID { return o.Id }
+
 
 
 

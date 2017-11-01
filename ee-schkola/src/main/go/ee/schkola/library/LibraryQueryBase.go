@@ -29,7 +29,7 @@ func (o *BookQueryRepository) FindByPattern(pattern string) (ret *Book, err erro
 }
 
 func (o *BookQueryRepository) FindAll() (ret []*Book, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*Book, len(result))
 		for i, e := range result {
@@ -40,7 +40,7 @@ func (o *BookQueryRepository) FindAll() (ret []*Book, err error) {
 }
 
 func (o *BookQueryRepository) FindById(id eventhorizon.UUID) (ret *Book, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*Book)
     }

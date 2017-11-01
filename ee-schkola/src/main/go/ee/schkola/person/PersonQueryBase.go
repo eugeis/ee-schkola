@@ -19,7 +19,7 @@ func NewChurchQueryRepository(repo eventhorizon.ReadRepo, context context.Contex
 }
 
 func (o *ChurchQueryRepository) FindAll() (ret []*Church, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*Church, len(result))
 		for i, e := range result {
@@ -30,7 +30,7 @@ func (o *ChurchQueryRepository) FindAll() (ret []*Church, err error) {
 }
 
 func (o *ChurchQueryRepository) FindById(id eventhorizon.UUID) (ret *Church, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*Church)
     }
@@ -84,7 +84,7 @@ func NewGraduationQueryRepository(repo eventhorizon.ReadRepo, context context.Co
 }
 
 func (o *GraduationQueryRepository) FindAll() (ret []*Graduation, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*Graduation, len(result))
 		for i, e := range result {
@@ -95,7 +95,7 @@ func (o *GraduationQueryRepository) FindAll() (ret []*Graduation, err error) {
 }
 
 func (o *GraduationQueryRepository) FindById(id eventhorizon.UUID) (ret *Graduation, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*Graduation)
     }
@@ -159,7 +159,7 @@ func (o *ProfileQueryRepository) FindByPhone(phone string) (ret *Profile, err er
 }
 
 func (o *ProfileQueryRepository) FindAll() (ret []*Profile, err error) {
-    var result []interface{}
+    var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*Profile, len(result))
 		for i, e := range result {
@@ -170,7 +170,7 @@ func (o *ProfileQueryRepository) FindAll() (ret []*Profile, err error) {
 }
 
 func (o *ProfileQueryRepository) FindById(id eventhorizon.UUID) (ret *Profile, err error) {
-    var result interface{}
+    var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*Profile)
     }

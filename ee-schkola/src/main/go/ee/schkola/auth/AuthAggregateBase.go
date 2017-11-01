@@ -5,6 +5,7 @@ import (
     "fmt"
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
+    "github.com/looplab/eventhorizon/commandhandler/bus"
     "time"
 )
 type AccountCommandHandler struct {
@@ -76,7 +77,7 @@ func (o *AccountCommandHandler) AddUpdatePreparer(preparer func (*UpdateAccount,
 	}
 }
 
-func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity interface{}, store eh.AggregateStoreEvent) (err error) {
+func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
     case LoginAccountCommand:
         err = o.LoginHandler(cmd.(*LoginAccount), entity.(*Account), store)
@@ -169,7 +170,7 @@ type AccountEventHandler struct {
     DisabledHandler func (*AccountDisabled, *Account) (err error)  `json:"disabledHandler" eh:"optional"`
 }
 
-func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity interface{}) (err error) {
+func (o *AccountEventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
     case AccountCreatedEvent:
         err = o.CreatedHandler(event.Data().(*AccountCreated), entity.(*Account))
@@ -299,16 +300,16 @@ func (o *AccountAggregateInitializer) RegisterForLogged(handler eventhorizon.Eve
 
 
 func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AccountAggregateInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AccountAggregateInitializer) {
     
     commandHandler := &AccountCommandHandler{}
     eventHandler := &AccountEventHandler{}
-    modelFactory := func() interface{} { return NewAccount() }
+    entityFactory := func() eventhorizon.Entity { return NewAccount() }
     ret = &AccountAggregateInitializer{AggregateInitializer: eh.NewAggregateInitializer(AccountAggregateType,
         func(id eventhorizon.UUID) eventhorizon.Aggregate {
-            return eh.NewAggregateBase(AccountAggregateType, id, commandHandler, eventHandler, modelFactory())
-        }, modelFactory,
+            return eh.NewAggregateBase(AccountAggregateType, id, commandHandler, eventHandler, entityFactory())
+        }, entityFactory,
         AccountCommandTypes().Literals(), AccountEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
         eventStore, eventBus, eventPublisher, commandBus, readRepos), AccountCommandHandler: commandHandler, AccountEventHandler: eventHandler, ProjectorHandler: eventHandler,
@@ -322,13 +323,13 @@ type AuthEventhorizonInitializer struct {
     eventStore eventhorizon.EventStore `json:"eventStore" eh:"optional"`
     eventBus eventhorizon.EventBus `json:"eventBus" eh:"optional"`
     eventPublisher eventhorizon.EventPublisher `json:"eventPublisher" eh:"optional"`
-    commandBus eventhorizon.CommandBus `json:"commandBus" eh:"optional"`
+    commandBus *bus.CommandHandler `json:"commandBus" eh:"optional"`
     AccountAggregateInitializer *AccountAggregateInitializer `json:"accountAggregateInitializer" eh:"optional"`
 }
 
 func NewAuthEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus eventhorizon.CommandBus, 
-                readRepos func (string, func () (ret interface{}) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AuthEventhorizonInitializer) {
+                commandBus *bus.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AuthEventhorizonInitializer) {
     accountAggregateInitializer := NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     ret = &AuthEventhorizonInitializer{
         eventStore: eventStore,
