@@ -75,6 +75,30 @@
     "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/shared/SharedApiBase.ts" : {
       "path" : "ee-schkola/ee-schkola_ng/src/app/shared/ee/schkola/shared/SharedApiBase.ts",
       "date" : 1504885150000
+    },
+    "ee-schkola\\ee-schkola_ng\\src\\app\\shared\\ee\\schkola\\auth\\AuthApiBase.ts" : {
+      "path" : "ee-schkola\\ee-schkola_ng\\src\\app\\shared\\ee\\schkola\\auth\\AuthApiBase.ts",
+      "date" : 1507218010103
+    },
+    "ee-schkola\\ee-schkola_ng\\src\\app\\shared\\ee\\schkola\\finance\\FinanceApiBase.ts" : {
+      "path" : "ee-schkola\\ee-schkola_ng\\src\\app\\shared\\ee\\schkola\\finance\\FinanceApiBase.ts",
+      "date" : 1507218010141
+    },
+    "ee-schkola\\ee-schkola_ng\\src\\app\\shared\\ee\\schkola\\library\\LibraryApiBase.ts" : {
+      "path" : "ee-schkola\\ee-schkola_ng\\src\\app\\shared\\ee\\schkola\\library\\LibraryApiBase.ts",
+      "date" : 1507218010151
+    },
+    "ee-schkola\\ee-schkola_ng\\src\\app\\shared\\ee\\schkola\\person\\PersonApiBase.ts" : {
+      "path" : "ee-schkola\\ee-schkola_ng\\src\\app\\shared\\ee\\schkola\\person\\PersonApiBase.ts",
+      "date" : 1507218010164
+    },
+    "ee-schkola\\ee-schkola_ng\\src\\app\\shared\\ee\\schkola\\shared\\SharedApiBase.ts" : {
+      "path" : "ee-schkola\\ee-schkola_ng\\src\\app\\shared\\ee\\schkola\\shared\\SharedApiBase.ts",
+      "date" : 1507218010173
+    },
+    "ee-schkola\\ee-schkola_ng\\src\\app\\shared\\ee\\schkola\\student\\StudentApiBase.ts" : {
+      "path" : "ee-schkola\\ee-schkola_ng\\src\\app\\shared\\ee\\schkola\\student\\StudentApiBase.ts",
+      "date" : 1507218010201
     }
   }
 }

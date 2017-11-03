@@ -51,9 +51,9 @@ export class Group {
 
 export class SchoolApplication {
     profile: Profile
-    recommendationOf: PersonName
     churchContactPerson: PersonName
     churchContact: Contact
+    churchCommitment: boolean
     schoolYear: SchoolYear
     group: string
     id: string

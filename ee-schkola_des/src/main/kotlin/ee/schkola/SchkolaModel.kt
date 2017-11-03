@@ -30,6 +30,24 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val login = command(username, email, password)
             val enable = updateBy(p(disabled, { value(false) }))
             val disable = updateBy(p(disabled, { value(true) }))
+
+            val sendEnabledConfirmation = command()
+
+            val state = prop { type(AccountConfirmation) }
+        }
+
+        object AccountConfirmation : StateMachine() {
+            object created : State() {
+                val enable = on(Account.enable).to(enabled).action(Account.sendEnabledConfirmation)
+                val disable = on()
+            }
+
+            object enabled : State() {
+                val enable = on { event(Account.enable) }
+                val disable = on()
+            }
+
+
         }
     }
 

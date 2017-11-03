@@ -6,6 +6,7 @@ export class Church {
     address: Address
     pastor: PersonName
     contact: Contact
+    association: string
     id: string
 
 }
@@ -61,7 +62,6 @@ export class Address {
 
 export class ChurchInfo {
     church: string
-    association: string
     member: boolean
     services: string
 
@@ -78,6 +78,7 @@ export class Contact {
 
 export class Education {
     graduation: Graduation
+    other: string
     profession: string
 
 }
