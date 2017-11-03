@@ -934,8 +934,6 @@ components:
       properties:
         profile:          
           $ref: "#/components/schemas/Profile"
-        recommendationOf:          
-          $ref: "#/components/schemas/PersonName"
         churchContactPerson:          
           $ref: "#/components/schemas/PersonName"
         churchContact:          
