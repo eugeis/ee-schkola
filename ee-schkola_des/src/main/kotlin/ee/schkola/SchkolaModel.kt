@@ -33,21 +33,16 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
             val sendEnabledConfirmation = command()
 
-            val state = prop { type(AccountConfirmation) }
-        }
 
-        object AccountConfirmation : StateMachine() {
-            object created : State() {
-                val enable = on(Account.enable).to(enabled).action(Account.sendEnabledConfirmation)
-                val disable = on()
+            object AccountConfirmation : ProcessManager() {
+                object Created : State({
+                    apply(enable).to(Enabled).produce(sendEnabledConfirmation)
+                })
+
+                object Enabled : State() {
+
+                }
             }
-
-            object enabled : State() {
-                val enable = on { event(Account.enable) }
-                val disable = on()
-            }
-
-
         }
     }
 
