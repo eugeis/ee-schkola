@@ -15,7 +15,7 @@ import java.nio.file.Paths
 
 open class SchkolaDesignApp() : ModelApp(ExplorerModel("SchkolaDesign",
         listOf("Component" to Schkola.initObjectTrees())) {
-    it is MultiHolder<*>
+    it is MultiHolder<*, *>
 }, taskRepository())
 /*
 {

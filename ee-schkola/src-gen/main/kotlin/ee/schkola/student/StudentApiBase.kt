@@ -5,7 +5,7 @@ import ee.schkola.Trace
 import ee.schkola.person.Contact
 import ee.schkola.person.PersonName
 import ee.schkola.person.Profile
-import java.util.Date
+import java.util.*
 
 
 enum class AttendanceState {

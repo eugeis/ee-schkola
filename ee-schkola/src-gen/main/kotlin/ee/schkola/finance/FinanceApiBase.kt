@@ -2,9 +2,7 @@ package ee.schkola.finance
 
 import ee.schkola.SchkolaBase
 import ee.schkola.person.Profile
-import java.util.Date
-
-
+import java.util.*
 
 
 open class Expense : SchkolaBase {

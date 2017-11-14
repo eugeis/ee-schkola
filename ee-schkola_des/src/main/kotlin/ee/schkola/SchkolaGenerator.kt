@@ -1,6 +1,5 @@
 package ee.schkola
 
-import ee.design.gen.go.DesignGoGenerator
 import ee.design.gen.ts.DesignTypeScriptGenerator
 import ee.lang.integ.dPath
 

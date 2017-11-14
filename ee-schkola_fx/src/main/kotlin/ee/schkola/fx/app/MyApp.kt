@@ -1,6 +1,6 @@
 package ee.schkola.fx.app
 
 import ee.schkola.fx.view.MainView
-import tornadofx.App
+import tornadofx.*
 
 class MyApp: App(MainView::class, Styles::class)

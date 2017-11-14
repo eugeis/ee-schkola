@@ -1,8 +1,6 @@
 package ee.schkola
 
-import java.util.Date
-
-
+import java.util.*
 
 
 open class SchkolaBase {

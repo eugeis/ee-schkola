@@ -1,7 +1,7 @@
 package ee.schkola
 
-import ee.lang.*
 import ee.design.*
+import ee.lang.*
 
 
 object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
