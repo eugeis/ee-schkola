@@ -36,7 +36,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
             object AccountConfirmation : ProcessManager() {
                 object Created : State({
-                    handle(enable).to(Enabled).actions(ApplyAction()).produce(sendEnabledConfirmation)
+                    handle(enable).to(Enabled).produce(sendEnabledConfirmation)
                 })
 
                 object Enabled : State() {
