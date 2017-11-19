@@ -31,21 +31,28 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val enable = updateBy(p(disabled, { value(false) }))
             val disable = updateBy(p(disabled, { value(true) }))
 
+            val sendCreatedConfirmation = command()
             val sendEnabledConfirmation = command()
+            val sendDisableConfirmation = command()
 
 
             object AccountConfirmation : ProcessManager() {
-                object Created : State({
-                    handle(enable).to(Enabled).produce(sendEnabledConfirmation)
+                object Initial : State({
+                    //handle(created()).to(Enabled).produce(sendCreatedConfirmation)
                 })
 
-                object Enabled : State() {
+                object Created : State({
+                    handle(enable).to(Enabled).produce(sendEnabledConfirmation)
+                    handle(disable).to(Disabled)
+                })
 
-                }
+                object Enabled : State( {
+                    handle(disable).to(Disabled).produce(sendDisableConfirmation)
+                })
 
-                object Disabled : State() {
-
-                }
+                object Disabled : State( {
+                    handle(enable).to(Enabled).produce(sendEnabledConfirmation)
+                })
             }
         }
     }
