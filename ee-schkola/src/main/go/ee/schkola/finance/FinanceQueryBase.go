@@ -4,20 +4,28 @@ import (
     "context"
     "github.com/looplab/eventhorizon"
 )
-type ExpenseQueryRepository struct {
+type QueryRepository struct {
     repo eventhorizon.ReadRepo `json:"repo" eh:"optional"`
     context context.Context `json:"context" eh:"optional"`
 }
 
-func NewExpenseQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *ExpenseQueryRepository) {
-    ret = &ExpenseQueryRepository{
+func NewExpenseQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *QueryRepository) {
+    ret = &QueryRepository{
         repo: repo,
         context: context,
     }
     return
 }
 
-func (o *ExpenseQueryRepository) FindAll() (ret []*Expense, err error) {
+func (o *QueryRepository) FindAll() (ret []*Expense, err error) {
+    var result []eventhorizon.Entity
+	if result, err = o.repo.FindAll(o.context); err == nil {
+        ret = make([]*Expense, len(result))
+		for i, e := range result {
+            ret[i] = e.(*Expense)
+		}
+    }
+        
     var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*Expense, len(result))
@@ -28,7 +36,12 @@ func (o *ExpenseQueryRepository) FindAll() (ret []*Expense, err error) {
     return
 }
 
-func (o *ExpenseQueryRepository) FindById(id eventhorizon.UUID) (ret *Expense, err error) {
+func (o *QueryRepository) FindById(id eventhorizon.UUID) (ret *Expense, err error) {
+    var result eventhorizon.Entity
+	if result, err = o.repo.Find(o.context, id); err == nil {
+        ret = result.(*Expense)
+    }
+        
     var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*Expense)
@@ -36,7 +49,12 @@ func (o *ExpenseQueryRepository) FindById(id eventhorizon.UUID) (ret *Expense, e
     return
 }
 
-func (o *ExpenseQueryRepository) CountAll() (ret int, err error) {
+func (o *QueryRepository) CountAll() (ret int, err error) {
+    var result []*Expense
+	if result, err = o.FindAll(); err == nil {
+        ret = len(result)
+    }
+        
     var result []*Expense
 	if result, err = o.FindAll(); err == nil {
         ret = len(result)
@@ -44,7 +62,12 @@ func (o *ExpenseQueryRepository) CountAll() (ret int, err error) {
     return
 }
 
-func (o *ExpenseQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
+func (o *QueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
+    var result *Expense
+	if result, err = o.FindById(id); err == nil && result != nil {
+        ret = 1
+    }
+        
     var result *Expense
 	if result, err = o.FindById(id); err == nil && result != nil {
         ret = 1
@@ -52,7 +75,12 @@ func (o *ExpenseQueryRepository) CountById(id eventhorizon.UUID) (ret int, err e
     return
 }
 
-func (o *ExpenseQueryRepository) ExistAll() (ret bool, err error) {
+func (o *QueryRepository) ExistAll() (ret bool, err error) {
+    var result int
+	if result, err = o.CountAll(); err == nil {
+        ret = result > 0
+    }
+        
     var result int
 	if result, err = o.CountAll(); err == nil {
         ret = result > 0
@@ -60,7 +88,12 @@ func (o *ExpenseQueryRepository) ExistAll() (ret bool, err error) {
     return
 }
 
-func (o *ExpenseQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
+func (o *QueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
+    var result int
+	if result, err = o.CountById(id); err == nil {
+        ret = result > 0
+    }
+        
     var result int
 	if result, err = o.CountById(id); err == nil {
         ret = result > 0
@@ -69,20 +102,28 @@ func (o *ExpenseQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err 
 }
 
 
-type ExpensePurposeQueryRepository struct {
+type QueryRepository struct {
     repo eventhorizon.ReadRepo `json:"repo" eh:"optional"`
     context context.Context `json:"context" eh:"optional"`
 }
 
-func NewExpensePurposeQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *ExpensePurposeQueryRepository) {
-    ret = &ExpensePurposeQueryRepository{
+func NewExpensePurposeQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *QueryRepository) {
+    ret = &QueryRepository{
         repo: repo,
         context: context,
     }
     return
 }
 
-func (o *ExpensePurposeQueryRepository) FindAll() (ret []*ExpensePurpose, err error) {
+func (o *QueryRepository) FindAll() (ret []*ExpensePurpose, err error) {
+    var result []eventhorizon.Entity
+	if result, err = o.repo.FindAll(o.context); err == nil {
+        ret = make([]*ExpensePurpose, len(result))
+		for i, e := range result {
+            ret[i] = e.(*ExpensePurpose)
+		}
+    }
+        
     var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*ExpensePurpose, len(result))
@@ -93,7 +134,12 @@ func (o *ExpensePurposeQueryRepository) FindAll() (ret []*ExpensePurpose, err er
     return
 }
 
-func (o *ExpensePurposeQueryRepository) FindById(id eventhorizon.UUID) (ret *ExpensePurpose, err error) {
+func (o *QueryRepository) FindById(id eventhorizon.UUID) (ret *ExpensePurpose, err error) {
+    var result eventhorizon.Entity
+	if result, err = o.repo.Find(o.context, id); err == nil {
+        ret = result.(*ExpensePurpose)
+    }
+        
     var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*ExpensePurpose)
@@ -101,7 +147,12 @@ func (o *ExpensePurposeQueryRepository) FindById(id eventhorizon.UUID) (ret *Exp
     return
 }
 
-func (o *ExpensePurposeQueryRepository) CountAll() (ret int, err error) {
+func (o *QueryRepository) CountAll() (ret int, err error) {
+    var result []*ExpensePurpose
+	if result, err = o.FindAll(); err == nil {
+        ret = len(result)
+    }
+        
     var result []*ExpensePurpose
 	if result, err = o.FindAll(); err == nil {
         ret = len(result)
@@ -109,7 +160,12 @@ func (o *ExpensePurposeQueryRepository) CountAll() (ret int, err error) {
     return
 }
 
-func (o *ExpensePurposeQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
+func (o *QueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
+    var result *ExpensePurpose
+	if result, err = o.FindById(id); err == nil && result != nil {
+        ret = 1
+    }
+        
     var result *ExpensePurpose
 	if result, err = o.FindById(id); err == nil && result != nil {
         ret = 1
@@ -117,7 +173,12 @@ func (o *ExpensePurposeQueryRepository) CountById(id eventhorizon.UUID) (ret int
     return
 }
 
-func (o *ExpensePurposeQueryRepository) ExistAll() (ret bool, err error) {
+func (o *QueryRepository) ExistAll() (ret bool, err error) {
+    var result int
+	if result, err = o.CountAll(); err == nil {
+        ret = result > 0
+    }
+        
     var result int
 	if result, err = o.CountAll(); err == nil {
         ret = result > 0
@@ -125,7 +186,12 @@ func (o *ExpensePurposeQueryRepository) ExistAll() (ret bool, err error) {
     return
 }
 
-func (o *ExpensePurposeQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
+func (o *QueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
+    var result int
+	if result, err = o.CountById(id); err == nil {
+        ret = result > 0
+    }
+        
     var result int
 	if result, err = o.CountById(id); err == nil {
         ret = result > 0
@@ -134,20 +200,28 @@ func (o *ExpensePurposeQueryRepository) ExistById(id eventhorizon.UUID) (ret boo
 }
 
 
-type FeeQueryRepository struct {
+type QueryRepository struct {
     repo eventhorizon.ReadRepo `json:"repo" eh:"optional"`
     context context.Context `json:"context" eh:"optional"`
 }
 
-func NewFeeQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *FeeQueryRepository) {
-    ret = &FeeQueryRepository{
+func NewFeeQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *QueryRepository) {
+    ret = &QueryRepository{
         repo: repo,
         context: context,
     }
     return
 }
 
-func (o *FeeQueryRepository) FindAll() (ret []*Fee, err error) {
+func (o *QueryRepository) FindAll() (ret []*Fee, err error) {
+    var result []eventhorizon.Entity
+	if result, err = o.repo.FindAll(o.context); err == nil {
+        ret = make([]*Fee, len(result))
+		for i, e := range result {
+            ret[i] = e.(*Fee)
+		}
+    }
+        
     var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*Fee, len(result))
@@ -158,7 +232,12 @@ func (o *FeeQueryRepository) FindAll() (ret []*Fee, err error) {
     return
 }
 
-func (o *FeeQueryRepository) FindById(id eventhorizon.UUID) (ret *Fee, err error) {
+func (o *QueryRepository) FindById(id eventhorizon.UUID) (ret *Fee, err error) {
+    var result eventhorizon.Entity
+	if result, err = o.repo.Find(o.context, id); err == nil {
+        ret = result.(*Fee)
+    }
+        
     var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*Fee)
@@ -166,7 +245,12 @@ func (o *FeeQueryRepository) FindById(id eventhorizon.UUID) (ret *Fee, err error
     return
 }
 
-func (o *FeeQueryRepository) CountAll() (ret int, err error) {
+func (o *QueryRepository) CountAll() (ret int, err error) {
+    var result []*Fee
+	if result, err = o.FindAll(); err == nil {
+        ret = len(result)
+    }
+        
     var result []*Fee
 	if result, err = o.FindAll(); err == nil {
         ret = len(result)
@@ -174,7 +258,12 @@ func (o *FeeQueryRepository) CountAll() (ret int, err error) {
     return
 }
 
-func (o *FeeQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
+func (o *QueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
+    var result *Fee
+	if result, err = o.FindById(id); err == nil && result != nil {
+        ret = 1
+    }
+        
     var result *Fee
 	if result, err = o.FindById(id); err == nil && result != nil {
         ret = 1
@@ -182,7 +271,12 @@ func (o *FeeQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error
     return
 }
 
-func (o *FeeQueryRepository) ExistAll() (ret bool, err error) {
+func (o *QueryRepository) ExistAll() (ret bool, err error) {
+    var result int
+	if result, err = o.CountAll(); err == nil {
+        ret = result > 0
+    }
+        
     var result int
 	if result, err = o.CountAll(); err == nil {
         ret = result > 0
@@ -190,7 +284,12 @@ func (o *FeeQueryRepository) ExistAll() (ret bool, err error) {
     return
 }
 
-func (o *FeeQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
+func (o *QueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
+    var result int
+	if result, err = o.CountById(id); err == nil {
+        ret = result > 0
+    }
+        
     var result int
 	if result, err = o.CountById(id); err == nil {
         ret = result > 0
@@ -199,20 +298,28 @@ func (o *FeeQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err erro
 }
 
 
-type FeeKindQueryRepository struct {
+type QueryRepository struct {
     repo eventhorizon.ReadRepo `json:"repo" eh:"optional"`
     context context.Context `json:"context" eh:"optional"`
 }
 
-func NewFeeKindQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *FeeKindQueryRepository) {
-    ret = &FeeKindQueryRepository{
+func NewFeeKindQueryRepository(repo eventhorizon.ReadRepo, context context.Context) (ret *QueryRepository) {
+    ret = &QueryRepository{
         repo: repo,
         context: context,
     }
     return
 }
 
-func (o *FeeKindQueryRepository) FindAll() (ret []*FeeKind, err error) {
+func (o *QueryRepository) FindAll() (ret []*FeeKind, err error) {
+    var result []eventhorizon.Entity
+	if result, err = o.repo.FindAll(o.context); err == nil {
+        ret = make([]*FeeKind, len(result))
+		for i, e := range result {
+            ret[i] = e.(*FeeKind)
+		}
+    }
+        
     var result []eventhorizon.Entity
 	if result, err = o.repo.FindAll(o.context); err == nil {
         ret = make([]*FeeKind, len(result))
@@ -223,7 +330,12 @@ func (o *FeeKindQueryRepository) FindAll() (ret []*FeeKind, err error) {
     return
 }
 
-func (o *FeeKindQueryRepository) FindById(id eventhorizon.UUID) (ret *FeeKind, err error) {
+func (o *QueryRepository) FindById(id eventhorizon.UUID) (ret *FeeKind, err error) {
+    var result eventhorizon.Entity
+	if result, err = o.repo.Find(o.context, id); err == nil {
+        ret = result.(*FeeKind)
+    }
+        
     var result eventhorizon.Entity
 	if result, err = o.repo.Find(o.context, id); err == nil {
         ret = result.(*FeeKind)
@@ -231,7 +343,12 @@ func (o *FeeKindQueryRepository) FindById(id eventhorizon.UUID) (ret *FeeKind, e
     return
 }
 
-func (o *FeeKindQueryRepository) CountAll() (ret int, err error) {
+func (o *QueryRepository) CountAll() (ret int, err error) {
+    var result []*FeeKind
+	if result, err = o.FindAll(); err == nil {
+        ret = len(result)
+    }
+        
     var result []*FeeKind
 	if result, err = o.FindAll(); err == nil {
         ret = len(result)
@@ -239,7 +356,12 @@ func (o *FeeKindQueryRepository) CountAll() (ret int, err error) {
     return
 }
 
-func (o *FeeKindQueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
+func (o *QueryRepository) CountById(id eventhorizon.UUID) (ret int, err error) {
+    var result *FeeKind
+	if result, err = o.FindById(id); err == nil && result != nil {
+        ret = 1
+    }
+        
     var result *FeeKind
 	if result, err = o.FindById(id); err == nil && result != nil {
         ret = 1
@@ -247,7 +369,12 @@ func (o *FeeKindQueryRepository) CountById(id eventhorizon.UUID) (ret int, err e
     return
 }
 
-func (o *FeeKindQueryRepository) ExistAll() (ret bool, err error) {
+func (o *QueryRepository) ExistAll() (ret bool, err error) {
+    var result int
+	if result, err = o.CountAll(); err == nil {
+        ret = result > 0
+    }
+        
     var result int
 	if result, err = o.CountAll(); err == nil {
         ret = result > 0
@@ -255,7 +382,12 @@ func (o *FeeKindQueryRepository) ExistAll() (ret bool, err error) {
     return
 }
 
-func (o *FeeKindQueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
+func (o *QueryRepository) ExistById(id eventhorizon.UUID) (ret bool, err error) {
+    var result int
+	if result, err = o.CountById(id); err == nil {
+        ret = result > 0
+    }
+        
     var result int
 	if result, err = o.CountById(id); err == nil {
         ret = result > 0

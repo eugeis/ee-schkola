@@ -605,6 +605,8 @@ components:
           $ref: "#/components/schemas/Profile"
         id:          
           type: string
+        accountAccountConfirmation:          
+          $ref: "#/components/schemas/AccountAccountConfirmation"
     UserCredentials:
       type: object
       properties:
@@ -685,6 +687,8 @@ components:
           $ref: "#/components/schemas/Location"
         id:          
           type: string
+        changeLocation:          
+          $ref: "#/components/schemas/changeLocation"
     Location:
       type: object
       properties:
@@ -854,6 +858,8 @@ components:
           type: string
         id:          
           type: string
+        cancel:          
+          $ref: "#/components/schemas/cancel"
     AttendanceState:
       type: object
       properties:

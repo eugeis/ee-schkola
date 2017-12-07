@@ -2,7 +2,7 @@ import {PersonName} from "../SharedApiBase"
 import {Profile} from "../person/PersonApiBase"
 
 
-export class Account {
+export class Account extends AccountConfirmation {
     name: PersonName
     username: string
     password: string

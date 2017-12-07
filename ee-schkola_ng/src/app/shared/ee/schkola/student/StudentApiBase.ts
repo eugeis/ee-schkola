@@ -2,7 +2,7 @@ import {Contact, Profile} from "../person/PersonApiBase"
 import {PersonName} from "../SharedApiBase"
 
 
-export class Attendance {
+export class Attendance extends Cancel {
     student: Profile
     date: Date
     course: Course

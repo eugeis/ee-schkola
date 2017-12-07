@@ -65,12 +65,12 @@ func NewProfile() (ret *Profile) {
 }
 
 func (o *Profile) FindByEmail(email string) (ret *Profile, err error) {
-    err = eh.QueryNotImplemented("findProfileByEmail")
+    err = eh.QueryNotImplemented("findByEmail")
     return
 }
 
 func (o *Profile) FindByPhone(phone string) (ret *Profile, err error) {
-    err = eh.QueryNotImplemented("findProfileByPhone")
+    err = eh.QueryNotImplemented("findByPhone")
     return
 }
 func (o *Profile) EntityID() eventhorizon.UUID { return o.Id }
