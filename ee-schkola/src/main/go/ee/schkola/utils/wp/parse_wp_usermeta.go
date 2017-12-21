@@ -92,7 +92,7 @@ func parseJson() {
 			}
 		} else {
 			keys[key] = key
-			userMap[key] = prepareString(key, str)
+			userMap[key] = prepareString(str)
 		}
 	}
 
@@ -138,6 +138,7 @@ func parseJson() {
 	users5 := make([]string, 0)
 	besucher := make([]string, 0)
 
+	/*
 	for _, v := range u {
 		key := fmt.Sprintf("%v.%v.%v.%v", v["scool_year"], v["last_name"], v["first_name"], v["birth_date"])
 		users[key] = v
@@ -155,11 +156,30 @@ func parseJson() {
 		case "Besucher":
 			besucher = append(besucher, key)
 		}
+	}*/
+
+	for _, v := range u {
+		key := fmt.Sprintf("%v.%v.%v.%v", v["wp_capabilities"], v["last_name"], v["first_name"], v["birth_date"])
+		users[key] = v
+		if _, ok := v["group1"]; ok {
+			users1 = append(users1, key)
+		} else if _, ok := v["group2"]; ok {
+			users2 = append(users2, key)
+		} else if _, ok := v["group3"]; ok {
+			users3 = append(users3, key)
+		} else if _, ok := v["group4"]; ok {
+			users4 = append(users4, key)
+		} else if _, ok := v["group5"]; ok {
+			users5 = append(users5, key)
+		} else if _, ok := v["guest"]; ok {
+			besucher = append(besucher, key)
+		}
 	}
 
 	writeCsvEmailGroup(users1, users2, users3, users4, users5, besucher, users)
 	//writeInsertInto(users1, users2, users3, users4, users5, users)
 	//writeUpdateRole(users1, users2, users3, users4, users5, users)
+	writeCsvData(users1, users2, users3, users4, users5, besucher, users)
 	writeCsvEmailContacts(users1, users2, users3, users4, users5, besucher, users)
 	writeHtmlReport(users1, users2, users3, users4, users5, besucher, allKeys, users)
 	//restImport(users1, users2, users3, users4, users5, users)
@@ -395,23 +415,38 @@ func writeCsvEmailsForGroup(userKeys []string, users map[string]map[string]inter
 	w.WriteString("\n\n\n\n")
 }
 
+func writeCsvData(users1 []string, users2 []string, users3 []string,
+	users4 []string, users5 []string, besucher []string, users map[string]map[string]interface{}) {
+	f, _ := os.Create(fmt.Sprintf("%v/user_data.csv", work))
+	defer f.Close()
+	w := bufio.NewWriter(f)
+	w.WriteString("Nachname;Vorname;Strasse;Plz;Ort;Geburtstag;Gender;E-Mail;Klasse\n")
+	writeCsvEmailContactsForGroup(users1, users, []string{"last_name", "first_name", "address", "plz", "city", "birth_date", "gender", "user_email", "17 Klasse 1"}, w)
+	writeCsvEmailContactsForGroup(users2, users, []string{"last_name", "first_name", "address", "plz", "city", "birth_date", "gender", "user_email", "17 Klasse 2"}, w)
+	writeCsvEmailContactsForGroup(users3, users, []string{"last_name", "first_name", "address", "plz", "city", "birth_date", "gender", "user_email", "17 Klasse 3"}, w)
+	writeCsvEmailContactsForGroup(users4, users, []string{"last_name", "first_name", "address", "plz", "city", "birth_date", "gender", "user_email", "17 Klasse 4"}, w)
+	writeCsvEmailContactsForGroup(users5, users, []string{"last_name", "first_name", "address", "plz", "city", "birth_date", "gender", "user_email", "17 Zusatzklasse"}, w)
+	writeCsvEmailContactsForGroup(besucher, users, []string{"last_name", "first_name", "address", "plz", "city", "birth_date", "gender", "user_email", "17 Besucher"}, w)
+	w.Flush()
+}
+
 func writeCsvEmailContacts(users1 []string, users2 []string, users3 []string,
 	users4 []string, users5 []string, besucher []string, users map[string]map[string]interface{}) {
 	f, _ := os.Create(fmt.Sprintf("%v/googleContacts.csv", work))
 	defer f.Close()
 	w := bufio.NewWriter(f)
 	w.WriteString("Last Name;First Name;Birthday;Gender;Mobile Phone;Company;E-mail Address;Categories\n")
-	writeCsvEmailContactsForGroup(users1, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+	writeCsvEmailContactsForGroup(users1, users, []string{"last_name", "first_name", "address", "plz", "city", "birth_date", "gender", "phone_number",
 		"church", "user_email", "17 Klasse 1"}, w)
-	writeCsvEmailContactsForGroup(users2, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+	writeCsvEmailContactsForGroup(users2, users, []string{"last_name", "first_name", "address", "plz", "city", "birth_date", "gender", "phone_number",
 		"church", "user_email", "17 Klasse 2"}, w)
-	writeCsvEmailContactsForGroup(users3, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+	writeCsvEmailContactsForGroup(users3, users, []string{"last_name", "first_name", "address", "plz", "city", "birth_date", "gender", "phone_number",
 		"church", "user_email", "17 Klasse 3"}, w)
-	writeCsvEmailContactsForGroup(users4, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+	writeCsvEmailContactsForGroup(users4, users, []string{"last_name", "first_name", "address", "plz", "city", "birth_date", "gender", "phone_number",
 		"church", "user_email", "17 Klasse 4"}, w)
-	writeCsvEmailContactsForGroup(users5, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+	writeCsvEmailContactsForGroup(users5, users, []string{"last_name", "first_name", "address", "plz", "city", "birth_date", "gender", "phone_number",
 		"church", "user_email", "17 Zusatzklasse"}, w)
-	writeCsvEmailContactsForGroup(besucher, users, []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+	writeCsvEmailContactsForGroup(besucher, users, []string{"last_name", "first_name", "address", "plz", "city", "birth_date", "gender", "phone_number",
 		"church", "user_email", "17 Besucher"}, w)
 	w.Flush()
 }
@@ -566,7 +601,7 @@ func toString(value interface{}) string {
 	return fmt.Sprint(value)
 }
 
-func prepareString(key, str string) (ret string) {
+func prepareString(str string) (ret string) {
 	ret = strings.Replace(strings.Replace(str, "\r\n", "<br>", -1), "\n", "<br>", -1)
 	return
 }
@@ -581,7 +616,9 @@ func fill(mainKey string, m php_serialize.PhpValue, user map[string]interface{},
 				if kv == "0" {
 					kv = mainKey
 				}
-				user[kv] = prepareString(kv, toString(vv))
+				if user[kv] == nil {
+					user[kv] = prepareString(toString(vv))
+				}
 			}
 		}
 	} else {
