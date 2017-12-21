@@ -33,7 +33,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
             val sendCreatedConfirmation = command()
             val sendEnabledConfirmation = command()
-            val sendDisableConfirmation = command()
+            val sendDisabledConfirmation = command()
 
 
             object AccountConfirmation : ProcessManager() {
@@ -46,8 +46,9 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
                     handle(disable).to(Disabled)
                 })
 
+
                 object Enabled : State( {
-                    handle(disable).to(Disabled).produce(sendDisableConfirmation)
+                    handle(disable).to(Disabled).produce(sendDisabledConfirmation)
                 })
 
                 object Disabled : State( {

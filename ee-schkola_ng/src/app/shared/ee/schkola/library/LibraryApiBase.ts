@@ -1,7 +1,7 @@
 import {PersonName} from "../SharedApiBase"
 
 
-export class Book {
+export class Book extends ChangeLocation {
     title: string
     description: string
     language: string

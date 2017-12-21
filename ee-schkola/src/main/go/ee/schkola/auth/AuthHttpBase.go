@@ -9,122 +9,140 @@ import (
     "github.com/looplab/eventhorizon/commandhandler/bus"
     "net/http"
 )
-type AccountHttpQueryHandler struct {
+type HttpQueryHandler struct {
     *eh.HttpQueryHandler
-    QueryRepository *AccountQueryRepository `json:"queryRepository" eh:"optional"`
+    QueryRepository *QueryRepository `json:"queryRepository" eh:"optional"`
 }
 
-func NewAccountHttpQueryHandler(queryRepository *AccountQueryRepository) (ret *AccountHttpQueryHandler) {
+func NewAccountHttpQueryHandler(queryRepository *QueryRepository) (ret *HttpQueryHandler) {
     httpQueryHandler := &eh.HttpQueryHandler{}
-    ret = &AccountHttpQueryHandler{
+    ret = &HttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
     }
     return
 }
 
-func (o *AccountHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
+func (o *HttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
-    o.HandleResult(ret, err, "FindAllAccount", w, r)
+    o.HandleResult(ret, err, "FindAll", w, r)
 }
 
-func (o *AccountHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
+func (o *HttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
-    o.HandleResult(ret, err, "FindByAccountId", w, r)
+    o.HandleResult(ret, err, "FindById", w, r)
 }
 
-func (o *AccountHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
+func (o *HttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
-    o.HandleResult(ret, err, "CountAllAccount", w, r)
+    o.HandleResult(ret, err, "CountAll", w, r)
 }
 
-func (o *AccountHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
+func (o *HttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
-    o.HandleResult(ret, err, "CountByAccountId", w, r)
+    o.HandleResult(ret, err, "CountById", w, r)
 }
 
-func (o *AccountHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
+func (o *HttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
-    o.HandleResult(ret, err, "ExistAllAccount", w, r)
+    o.HandleResult(ret, err, "ExistAll", w, r)
 }
 
-func (o *AccountHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
+func (o *HttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
-    o.HandleResult(ret, err, "ExistByAccountId", w, r)
+    o.HandleResult(ret, err, "ExistById", w, r)
 }
 
 
-type AccountHttpCommandHandler struct {
+type HttpCommandHandler struct {
     *eh.HttpCommandHandler
 }
 
-func NewAccountHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *AccountHttpCommandHandler) {
+func NewAccountHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *HttpCommandHandler) {
     httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
-    ret = &AccountHttpCommandHandler{
+    ret = &HttpCommandHandler{
         HttpCommandHandler: httpCommandHandler,
     }
     return
 }
 
-func (o *AccountHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
+func (o *HttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&CreateAccount{Id: id}, w, r)
+    o.HandleCommand(&Create{Id: id}, w, r)
 }
 
-func (o *AccountHttpCommandHandler) Enable(w http.ResponseWriter, r *http.Request) {
+func (o *HttpCommandHandler) Disable(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&EnableAccount{Id: id}, w, r)
+    o.HandleCommand(&Disable{Id: id}, w, r)
 }
 
-func (o *AccountHttpCommandHandler) Disable(w http.ResponseWriter, r *http.Request) {
+func (o *HttpCommandHandler) Enable(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&DisableAccount{Id: id}, w, r)
+    o.HandleCommand(&Enable{Id: id}, w, r)
 }
 
-func (o *AccountHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
+func (o *HttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&UpdateAccount{Id: id}, w, r)
+    o.HandleCommand(&Update{Id: id}, w, r)
 }
 
-func (o *AccountHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
+func (o *HttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&DeleteAccount{Id: id}, w, r)
+    o.HandleCommand(&Delete{Id: id}, w, r)
 }
 
-func (o *AccountHttpCommandHandler) Login(w http.ResponseWriter, r *http.Request) {
+func (o *HttpCommandHandler) SendEnabledConfirmation(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&LoginAccount{Id: id}, w, r)
+    o.HandleCommand(&SendEnabledConfirmation{Id: id}, w, r)
+}
+
+func (o *HttpCommandHandler) SendDisabledConfirmation(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&SendDisabledConfirmation{Id: id}, w, r)
+}
+
+func (o *HttpCommandHandler) Login(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&Login{Id: id}, w, r)
+}
+
+func (o *HttpCommandHandler) SendCreatedConfirmation(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id := eventhorizon.UUID(vars["id"])
+    o.HandleCommand(&SendCreatedConfirmation{Id: id}, w, r)
 }
 
 
-type AccountRouter struct {
+type Router struct {
     PathPrefix string `json:"pathPrefix" eh:"optional"`
-    QueryHandler *AccountHttpQueryHandler `json:"queryHandler" eh:"optional"`
-    CommandHandler *AccountHttpCommandHandler `json:"commandHandler" eh:"optional"`
+    QueryHandler *HttpQueryHandler `json:"queryHandler" eh:"optional"`
+    CommandHandler *HttpCommandHandler `json:"commandHandler" eh:"optional"`
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
-                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AccountRouter) {
+func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *Router) {
     pathPrefix = pathPrefix + "/" + "accounts"
     entityFactory := func() eventhorizon.Entity { return NewAccount() }
     repo := readRepos(string(AccountAggregateType), entityFactory)
     queryRepository := NewAccountQueryRepository(repo, context)
     queryHandler := NewAccountHttpQueryHandler(queryRepository)
     commandHandler := NewAccountHttpCommandHandler(context, commandBus)
-    ret = &AccountRouter{
+    ret = &Router{
         PathPrefix: pathPrefix,
         QueryHandler: queryHandler,
         CommandHandler: commandHandler,
@@ -132,52 +150,61 @@ func NewAccountRouter(pathPrefix string, context context.Context, commandBus eve
     return
 }
 
-func (o *AccountRouter) Setup(router *mux.Router) (err error) {
+func (o *Router) Setup(router *mux.Router) (err error) {
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("CountAccountById").HandlerFunc(o.QueryHandler.CountById).
+        Name("CountById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("CountAccountAll").HandlerFunc(o.QueryHandler.CountAll).
+        Name("CountAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("ExistAccountById").HandlerFunc(o.QueryHandler.ExistById).
+        Name("ExistById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("ExistAccountAll").HandlerFunc(o.QueryHandler.ExistAll).
+        Name("ExistAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("FindAccountById").HandlerFunc(o.QueryHandler.FindById)
+        Name("FindById").HandlerFunc(o.QueryHandler.FindById)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("FindAccountAll").HandlerFunc(o.QueryHandler.FindAll)
+        Name("FindAll").HandlerFunc(o.QueryHandler.FindAll)
     router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "login").
-        Name("LoginAccount").HandlerFunc(o.CommandHandler.Login)
+        Name("Login").HandlerFunc(o.CommandHandler.Login)
     router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("CreateAccount").HandlerFunc(o.CommandHandler.Create)
+        Queries(net.Command, "sendCreatedConfirmation").
+        Name("SendCreatedConfirmation").HandlerFunc(o.CommandHandler.SendCreatedConfirmation)
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "sendEnabledConfirmation").
+        Name("SendEnabledConfirmation").HandlerFunc(o.CommandHandler.SendEnabledConfirmation)
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
+        Queries(net.Command, "sendDisabledConfirmation").
+        Name("SendDisabledConfirmation").HandlerFunc(o.CommandHandler.SendDisabledConfirmation)
+    router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
+        Name("Create").HandlerFunc(o.CommandHandler.Create)
     router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "enable").
-        Name("EnableAccount").HandlerFunc(o.CommandHandler.Enable)
+        Name("Enable").HandlerFunc(o.CommandHandler.Enable)
     router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "disable").
-        Name("DisableAccount").HandlerFunc(o.CommandHandler.Disable)
+        Name("Disable").HandlerFunc(o.CommandHandler.Disable)
     router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("UpdateAccount").HandlerFunc(o.CommandHandler.Update)
+        Name("Update").HandlerFunc(o.CommandHandler.Update)
     router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("DeleteAccount").HandlerFunc(o.CommandHandler.Delete)
+        Name("Delete").HandlerFunc(o.CommandHandler.Delete)
     return
 }
 
 
 type AuthRouter struct {
     PathPrefix string `json:"pathPrefix" eh:"optional"`
-    AccountRouter *AccountRouter `json:"accountRouter" eh:"optional"`
+    AccountRouter *Router `json:"accountRouter" eh:"optional"`
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewAuthRouter(pathPrefix string, context context.Context, commandBus *bus.CommandHandler, 
+func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AuthRouter) {
     pathPrefix = pathPrefix + "/" + "auth"
-    accountRouter := NewAccountRouter(pathPrefix, context, commandBus, readRepos)
+    accountRouter := New@@EMPTY@@(pathPrefix, context, commandBus, readRepos)
     ret = &AuthRouter{
         PathPrefix: pathPrefix,
         AccountRouter: accountRouter,

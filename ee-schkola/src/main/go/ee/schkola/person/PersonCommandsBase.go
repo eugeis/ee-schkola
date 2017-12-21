@@ -10,30 +10,30 @@ import (
     "time"
 )
 const (
-     CreateChurchCommand eventhorizon.CommandType = "CreateChurch"
-     DeleteChurchCommand eventhorizon.CommandType = "DeleteChurch"
-     UpdateChurchCommand eventhorizon.CommandType = "UpdateChurch"
+     CreateCommand eventhorizon.CommandType = "Create"
+     DeleteCommand eventhorizon.CommandType = "Delete"
+     UpdateCommand eventhorizon.CommandType = "Update"
 )
 
 
 const (
-     CreateGraduationCommand eventhorizon.CommandType = "CreateGraduation"
-     DeleteGraduationCommand eventhorizon.CommandType = "DeleteGraduation"
-     UpdateGraduationCommand eventhorizon.CommandType = "UpdateGraduation"
+     CreateCommand eventhorizon.CommandType = "Create"
+     DeleteCommand eventhorizon.CommandType = "Delete"
+     UpdateCommand eventhorizon.CommandType = "Update"
 )
 
 
 const (
-     CreateProfileCommand eventhorizon.CommandType = "CreateProfile"
-     DeleteProfileCommand eventhorizon.CommandType = "DeleteProfile"
-     UpdateProfileCommand eventhorizon.CommandType = "UpdateProfile"
+     CreateCommand eventhorizon.CommandType = "Create"
+     DeleteCommand eventhorizon.CommandType = "Delete"
+     UpdateCommand eventhorizon.CommandType = "Update"
 )
 
 
 
 
         
-type CreateChurch struct {
+type Create struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
     Pastor *shared.PersonName `json:"pastor" eh:"optional"`
@@ -41,24 +41,24 @@ type CreateChurch struct {
     Association string `json:"association" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *CreateChurch) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *CreateChurch) AggregateType() eventhorizon.AggregateType  { return ChurchAggregateType }
-func (o *CreateChurch) CommandType() eventhorizon.CommandType      { return CreateChurchCommand }
+func (o *Create) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Create) AggregateType() eventhorizon.AggregateType  { return ChurchAggregateType }
+func (o *Create) CommandType() eventhorizon.CommandType      { return CreateCommand }
 
 
 
         
-type DeleteChurch struct {
+type Delete struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *DeleteChurch) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *DeleteChurch) AggregateType() eventhorizon.AggregateType  { return ChurchAggregateType }
-func (o *DeleteChurch) CommandType() eventhorizon.CommandType      { return DeleteChurchCommand }
+func (o *Delete) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Delete) AggregateType() eventhorizon.AggregateType  { return ChurchAggregateType }
+func (o *Delete) CommandType() eventhorizon.CommandType      { return DeleteCommand }
 
 
 
         
-type UpdateChurch struct {
+type Update struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
     Pastor *shared.PersonName `json:"pastor" eh:"optional"`
@@ -66,48 +66,48 @@ type UpdateChurch struct {
     Association string `json:"association" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *UpdateChurch) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *UpdateChurch) AggregateType() eventhorizon.AggregateType  { return ChurchAggregateType }
-func (o *UpdateChurch) CommandType() eventhorizon.CommandType      { return UpdateChurchCommand }
+func (o *Update) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Update) AggregateType() eventhorizon.AggregateType  { return ChurchAggregateType }
+func (o *Update) CommandType() eventhorizon.CommandType      { return UpdateCommand }
 
 
 
         
-type CreateGraduation struct {
+type Create struct {
     Name string `json:"name" eh:"optional"`
     Level *GraduationLevel `json:"level" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *CreateGraduation) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *CreateGraduation) AggregateType() eventhorizon.AggregateType  { return GraduationAggregateType }
-func (o *CreateGraduation) CommandType() eventhorizon.CommandType      { return CreateGraduationCommand }
+func (o *Create) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Create) AggregateType() eventhorizon.AggregateType  { return GraduationAggregateType }
+func (o *Create) CommandType() eventhorizon.CommandType      { return CreateCommand }
 
 
 
         
-type DeleteGraduation struct {
+type Delete struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *DeleteGraduation) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *DeleteGraduation) AggregateType() eventhorizon.AggregateType  { return GraduationAggregateType }
-func (o *DeleteGraduation) CommandType() eventhorizon.CommandType      { return DeleteGraduationCommand }
+func (o *Delete) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Delete) AggregateType() eventhorizon.AggregateType  { return GraduationAggregateType }
+func (o *Delete) CommandType() eventhorizon.CommandType      { return DeleteCommand }
 
 
 
         
-type UpdateGraduation struct {
+type Update struct {
     Name string `json:"name" eh:"optional"`
     Level *GraduationLevel `json:"level" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *UpdateGraduation) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *UpdateGraduation) AggregateType() eventhorizon.AggregateType  { return GraduationAggregateType }
-func (o *UpdateGraduation) CommandType() eventhorizon.CommandType      { return UpdateGraduationCommand }
+func (o *Update) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Update) AggregateType() eventhorizon.AggregateType  { return GraduationAggregateType }
+func (o *Update) CommandType() eventhorizon.CommandType      { return UpdateCommand }
 
 
 
         
-type CreateProfile struct {
+type Create struct {
     Gender *Gender `json:"gender" eh:"optional"`
     Name *shared.PersonName `json:"name" eh:"optional"`
     BirthName string `json:"birthName" eh:"optional"`
@@ -121,24 +121,24 @@ type CreateProfile struct {
     Education *Education `json:"education" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *CreateProfile) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *CreateProfile) AggregateType() eventhorizon.AggregateType  { return ProfileAggregateType }
-func (o *CreateProfile) CommandType() eventhorizon.CommandType      { return CreateProfileCommand }
+func (o *Create) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Create) AggregateType() eventhorizon.AggregateType  { return ProfileAggregateType }
+func (o *Create) CommandType() eventhorizon.CommandType      { return CreateCommand }
 
 
 
         
-type DeleteProfile struct {
+type Delete struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *DeleteProfile) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *DeleteProfile) AggregateType() eventhorizon.AggregateType  { return ProfileAggregateType }
-func (o *DeleteProfile) CommandType() eventhorizon.CommandType      { return DeleteProfileCommand }
+func (o *Delete) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Delete) AggregateType() eventhorizon.AggregateType  { return ProfileAggregateType }
+func (o *Delete) CommandType() eventhorizon.CommandType      { return DeleteCommand }
 
 
 
         
-type UpdateProfile struct {
+type Update struct {
     Gender *Gender `json:"gender" eh:"optional"`
     Name *shared.PersonName `json:"name" eh:"optional"`
     BirthName string `json:"birthName" eh:"optional"`
@@ -152,9 +152,9 @@ type UpdateProfile struct {
     Education *Education `json:"education" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *UpdateProfile) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *UpdateProfile) AggregateType() eventhorizon.AggregateType  { return ProfileAggregateType }
-func (o *UpdateProfile) CommandType() eventhorizon.CommandType      { return UpdateProfileCommand }
+func (o *Update) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Update) AggregateType() eventhorizon.AggregateType  { return ProfileAggregateType }
+func (o *Update) CommandType() eventhorizon.CommandType      { return UpdateCommand }
 
 
 
@@ -205,16 +205,16 @@ func (o *ChurchCommandType) SetBSON(raw bson.Raw) (err error) {
     return
 }
 
-func (o *ChurchCommandType) IsCreateChurch() bool {
-    return o == _churchCommandTypes.CreateChurch()
+func (o *ChurchCommandType) IsCreate() bool {
+    return o == _churchCommandTypes.Create()
 }
 
-func (o *ChurchCommandType) IsDeleteChurch() bool {
-    return o == _churchCommandTypes.DeleteChurch()
+func (o *ChurchCommandType) IsDelete() bool {
+    return o == _churchCommandTypes.Delete()
 }
 
-func (o *ChurchCommandType) IsUpdateChurch() bool {
-    return o == _churchCommandTypes.UpdateChurch()
+func (o *ChurchCommandType) IsUpdate() bool {
+    return o == _churchCommandTypes.Update()
 }
 
 type churchCommandTypes struct {
@@ -223,9 +223,9 @@ type churchCommandTypes struct {
 }
 
 var _churchCommandTypes = &churchCommandTypes{values: []*ChurchCommandType{
-    {name: "CreateChurch", ordinal: 0},
-    {name: "DeleteChurch", ordinal: 1},
-    {name: "UpdateChurch", ordinal: 2}},
+    {name: "Create", ordinal: 0},
+    {name: "Delete", ordinal: 1},
+    {name: "Update", ordinal: 2}},
 }
 
 func ChurchCommandTypes() *churchCommandTypes {
@@ -246,15 +246,15 @@ func (o *churchCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *churchCommandTypes) CreateChurch() *ChurchCommandType {
+func (o *churchCommandTypes) Create() *ChurchCommandType {
     return _churchCommandTypes.values[0]
 }
 
-func (o *churchCommandTypes) DeleteChurch() *ChurchCommandType {
+func (o *churchCommandTypes) Delete() *ChurchCommandType {
     return _churchCommandTypes.values[1]
 }
 
-func (o *churchCommandTypes) UpdateChurch() *ChurchCommandType {
+func (o *churchCommandTypes) Update() *ChurchCommandType {
     return _churchCommandTypes.values[2]
 }
 
@@ -311,16 +311,16 @@ func (o *GraduationCommandType) SetBSON(raw bson.Raw) (err error) {
     return
 }
 
-func (o *GraduationCommandType) IsCreateGraduation() bool {
-    return o == _graduationCommandTypes.CreateGraduation()
+func (o *GraduationCommandType) IsCreate() bool {
+    return o == _graduationCommandTypes.Create()
 }
 
-func (o *GraduationCommandType) IsDeleteGraduation() bool {
-    return o == _graduationCommandTypes.DeleteGraduation()
+func (o *GraduationCommandType) IsDelete() bool {
+    return o == _graduationCommandTypes.Delete()
 }
 
-func (o *GraduationCommandType) IsUpdateGraduation() bool {
-    return o == _graduationCommandTypes.UpdateGraduation()
+func (o *GraduationCommandType) IsUpdate() bool {
+    return o == _graduationCommandTypes.Update()
 }
 
 type graduationCommandTypes struct {
@@ -329,9 +329,9 @@ type graduationCommandTypes struct {
 }
 
 var _graduationCommandTypes = &graduationCommandTypes{values: []*GraduationCommandType{
-    {name: "CreateGraduation", ordinal: 0},
-    {name: "DeleteGraduation", ordinal: 1},
-    {name: "UpdateGraduation", ordinal: 2}},
+    {name: "Create", ordinal: 0},
+    {name: "Delete", ordinal: 1},
+    {name: "Update", ordinal: 2}},
 }
 
 func GraduationCommandTypes() *graduationCommandTypes {
@@ -352,15 +352,15 @@ func (o *graduationCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *graduationCommandTypes) CreateGraduation() *GraduationCommandType {
+func (o *graduationCommandTypes) Create() *GraduationCommandType {
     return _graduationCommandTypes.values[0]
 }
 
-func (o *graduationCommandTypes) DeleteGraduation() *GraduationCommandType {
+func (o *graduationCommandTypes) Delete() *GraduationCommandType {
     return _graduationCommandTypes.values[1]
 }
 
-func (o *graduationCommandTypes) UpdateGraduation() *GraduationCommandType {
+func (o *graduationCommandTypes) Update() *GraduationCommandType {
     return _graduationCommandTypes.values[2]
 }
 
@@ -417,16 +417,16 @@ func (o *ProfileCommandType) SetBSON(raw bson.Raw) (err error) {
     return
 }
 
-func (o *ProfileCommandType) IsCreateProfile() bool {
-    return o == _profileCommandTypes.CreateProfile()
+func (o *ProfileCommandType) IsCreate() bool {
+    return o == _profileCommandTypes.Create()
 }
 
-func (o *ProfileCommandType) IsDeleteProfile() bool {
-    return o == _profileCommandTypes.DeleteProfile()
+func (o *ProfileCommandType) IsDelete() bool {
+    return o == _profileCommandTypes.Delete()
 }
 
-func (o *ProfileCommandType) IsUpdateProfile() bool {
-    return o == _profileCommandTypes.UpdateProfile()
+func (o *ProfileCommandType) IsUpdate() bool {
+    return o == _profileCommandTypes.Update()
 }
 
 type profileCommandTypes struct {
@@ -435,9 +435,9 @@ type profileCommandTypes struct {
 }
 
 var _profileCommandTypes = &profileCommandTypes{values: []*ProfileCommandType{
-    {name: "CreateProfile", ordinal: 0},
-    {name: "DeleteProfile", ordinal: 1},
-    {name: "UpdateProfile", ordinal: 2}},
+    {name: "Create", ordinal: 0},
+    {name: "Delete", ordinal: 1},
+    {name: "Update", ordinal: 2}},
 }
 
 func ProfileCommandTypes() *profileCommandTypes {
@@ -458,15 +458,15 @@ func (o *profileCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *profileCommandTypes) CreateProfile() *ProfileCommandType {
+func (o *profileCommandTypes) Create() *ProfileCommandType {
     return _profileCommandTypes.values[0]
 }
 
-func (o *profileCommandTypes) DeleteProfile() *ProfileCommandType {
+func (o *profileCommandTypes) Delete() *ProfileCommandType {
     return _profileCommandTypes.values[1]
 }
 
-func (o *profileCommandTypes) UpdateProfile() *ProfileCommandType {
+func (o *profileCommandTypes) Update() *ProfileCommandType {
     return _profileCommandTypes.values[2]
 }
 

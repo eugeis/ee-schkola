@@ -19,10 +19,14 @@ type Attendance struct {
     State *AttendanceState `json:"state" eh:"optional"`
     Token string `json:"token" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
+    *Cancel
 }
 
 func NewAttendance() (ret *Attendance) {
-    ret = &Attendance{}
+    cancel := &Cancel{}
+    ret = &Attendance{
+        Cancel: cancel,
+    }
     return
 }
 func (o *Attendance) EntityID() eventhorizon.UUID { return o.Id }
