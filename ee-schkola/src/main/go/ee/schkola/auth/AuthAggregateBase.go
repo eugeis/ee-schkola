@@ -9,20 +9,20 @@ import (
     "time"
 )
 type CommandHandler struct {
-    SendEnabledConfirmationHandler func (*SendEnabledConfirmation, *Account, eh.AggregateStoreEvent) (err error)  `json:"sendEnabledConfirmationHandler" eh:"optional"`
-    SendDisabledConfirmationHandler func (*SendDisabledConfirmation, *Account, eh.AggregateStoreEvent) (err error)  `json:"sendDisabledConfirmationHandler" eh:"optional"`
-    LoginHandler func (*Login, *Account, eh.AggregateStoreEvent) (err error)  `json:"loginHandler" eh:"optional"`
-    SendCreatedConfirmationHandler func (*SendCreatedConfirmation, *Account, eh.AggregateStoreEvent) (err error)  `json:"sendCreatedConfirmationHandler" eh:"optional"`
-    CreateHandler func (*Create, *Account, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
-    DeleteHandler func (*Delete, *Account, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
-    DisableHandler func (*Disable, *Account, eh.AggregateStoreEvent) (err error)  `json:"disableHandler" eh:"optional"`
-    EnableHandler func (*Enable, *Account, eh.AggregateStoreEvent) (err error)  `json:"enableHandler" eh:"optional"`
-    UpdateHandler func (*Update, *Account, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
+    SendEnabledConfirmationHandler func (*SendAccountEnabledConfirmation, *Account, eh.AggregateStoreEvent) (err error)  `json:"sendEnabledConfirmationHandler" eh:"optional"`
+    SendDisabledConfirmationHandler func (*SendAccountDisabledConfirmation, *Account, eh.AggregateStoreEvent) (err error)  `json:"sendDisabledConfirmationHandler" eh:"optional"`
+    LoginHandler func (*LoginAccount, *Account, eh.AggregateStoreEvent) (err error)  `json:"loginHandler" eh:"optional"`
+    SendCreatedConfirmationHandler func (*SendAccountCreatedConfirmation, *Account, eh.AggregateStoreEvent) (err error)  `json:"sendCreatedConfirmationHandler" eh:"optional"`
+    CreateHandler func (*CreateAccount, *Account, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteAccount, *Account, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    DisableHandler func (*DisableAccount, *Account, eh.AggregateStoreEvent) (err error)  `json:"disableHandler" eh:"optional"`
+    EnableHandler func (*EnableAccount, *Account, eh.AggregateStoreEvent) (err error)  `json:"enableHandler" eh:"optional"`
+    UpdateHandler func (*UpdateAccount, *Account, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
-func (o *CommandHandler) AddSendEnabledConfirmationPreparer(preparer func (*SendEnabledConfirmation, *Account) (err error) ) {
+func (o *CommandHandler) AddSendEnabledConfirmationPreparer(preparer func (*SendAccountEnabledConfirmation, *Account) (err error) ) {
     prevHandler := o.SendEnabledConfirmationHandler
-	o.SendEnabledConfirmationHandler = func(command *SendEnabledConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
+	o.SendEnabledConfirmationHandler = func(command *SendAccountEnabledConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -30,9 +30,9 @@ func (o *CommandHandler) AddSendEnabledConfirmationPreparer(preparer func (*Send
 	}
 }
 
-func (o *CommandHandler) AddSendDisabledConfirmationPreparer(preparer func (*SendDisabledConfirmation, *Account) (err error) ) {
+func (o *CommandHandler) AddSendDisabledConfirmationPreparer(preparer func (*SendAccountDisabledConfirmation, *Account) (err error) ) {
     prevHandler := o.SendDisabledConfirmationHandler
-	o.SendDisabledConfirmationHandler = func(command *SendDisabledConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
+	o.SendDisabledConfirmationHandler = func(command *SendAccountDisabledConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -40,9 +40,9 @@ func (o *CommandHandler) AddSendDisabledConfirmationPreparer(preparer func (*Sen
 	}
 }
 
-func (o *CommandHandler) AddLoginPreparer(preparer func (*Login, *Account) (err error) ) {
+func (o *CommandHandler) AddLoginPreparer(preparer func (*LoginAccount, *Account) (err error) ) {
     prevHandler := o.LoginHandler
-	o.LoginHandler = func(command *Login, entity *Account, store eh.AggregateStoreEvent) (err error) {
+	o.LoginHandler = func(command *LoginAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -50,9 +50,9 @@ func (o *CommandHandler) AddLoginPreparer(preparer func (*Login, *Account) (err 
 	}
 }
 
-func (o *CommandHandler) AddSendCreatedConfirmationPreparer(preparer func (*SendCreatedConfirmation, *Account) (err error) ) {
+func (o *CommandHandler) AddSendCreatedConfirmationPreparer(preparer func (*SendAccountCreatedConfirmation, *Account) (err error) ) {
     prevHandler := o.SendCreatedConfirmationHandler
-	o.SendCreatedConfirmationHandler = func(command *SendCreatedConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
+	o.SendCreatedConfirmationHandler = func(command *SendAccountCreatedConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -60,9 +60,9 @@ func (o *CommandHandler) AddSendCreatedConfirmationPreparer(preparer func (*Send
 	}
 }
 
-func (o *CommandHandler) AddCreatePreparer(preparer func (*Create, *Account) (err error) ) {
+func (o *CommandHandler) AddCreatePreparer(preparer func (*CreateAccount, *Account) (err error) ) {
     prevHandler := o.CreateHandler
-	o.CreateHandler = func(command *Create, entity *Account, store eh.AggregateStoreEvent) (err error) {
+	o.CreateHandler = func(command *CreateAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -70,9 +70,9 @@ func (o *CommandHandler) AddCreatePreparer(preparer func (*Create, *Account) (er
 	}
 }
 
-func (o *CommandHandler) AddDeletePreparer(preparer func (*Delete, *Account) (err error) ) {
+func (o *CommandHandler) AddDeletePreparer(preparer func (*DeleteAccount, *Account) (err error) ) {
     prevHandler := o.DeleteHandler
-	o.DeleteHandler = func(command *Delete, entity *Account, store eh.AggregateStoreEvent) (err error) {
+	o.DeleteHandler = func(command *DeleteAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -80,9 +80,9 @@ func (o *CommandHandler) AddDeletePreparer(preparer func (*Delete, *Account) (er
 	}
 }
 
-func (o *CommandHandler) AddDisablePreparer(preparer func (*Disable, *Account) (err error) ) {
+func (o *CommandHandler) AddDisablePreparer(preparer func (*DisableAccount, *Account) (err error) ) {
     prevHandler := o.DisableHandler
-	o.DisableHandler = func(command *Disable, entity *Account, store eh.AggregateStoreEvent) (err error) {
+	o.DisableHandler = func(command *DisableAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -90,9 +90,9 @@ func (o *CommandHandler) AddDisablePreparer(preparer func (*Disable, *Account) (
 	}
 }
 
-func (o *CommandHandler) AddEnablePreparer(preparer func (*Enable, *Account) (err error) ) {
+func (o *CommandHandler) AddEnablePreparer(preparer func (*EnableAccount, *Account) (err error) ) {
     prevHandler := o.EnableHandler
-	o.EnableHandler = func(command *Enable, entity *Account, store eh.AggregateStoreEvent) (err error) {
+	o.EnableHandler = func(command *EnableAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -100,9 +100,9 @@ func (o *CommandHandler) AddEnablePreparer(preparer func (*Enable, *Account) (er
 	}
 }
 
-func (o *CommandHandler) AddUpdatePreparer(preparer func (*Update, *Account) (err error) ) {
+func (o *CommandHandler) AddUpdatePreparer(preparer func (*UpdateAccount, *Account) (err error) ) {
     prevHandler := o.UpdateHandler
-	o.UpdateHandler = func(command *Update, entity *Account, store eh.AggregateStoreEvent) (err error) {
+	o.UpdateHandler = func(command *UpdateAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -112,24 +112,24 @@ func (o *CommandHandler) AddUpdatePreparer(preparer func (*Update, *Account) (er
 
 func (o *CommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
-    case SendEnabledConfirmationCommand:
-        err = o.SendEnabledConfirmationHandler(cmd.(*SendEnabledConfirmation), entity.(*Account), store)
-    case SendDisabledConfirmationCommand:
-        err = o.SendDisabledConfirmationHandler(cmd.(*SendDisabledConfirmation), entity.(*Account), store)
-    case LoginCommand:
-        err = o.LoginHandler(cmd.(*Login), entity.(*Account), store)
-    case SendCreatedConfirmationCommand:
-        err = o.SendCreatedConfirmationHandler(cmd.(*SendCreatedConfirmation), entity.(*Account), store)
-    case CreateCommand:
-        err = o.CreateHandler(cmd.(*Create), entity.(*Account), store)
-    case DeleteCommand:
-        err = o.DeleteHandler(cmd.(*Delete), entity.(*Account), store)
-    case DisableCommand:
-        err = o.DisableHandler(cmd.(*Disable), entity.(*Account), store)
-    case EnableCommand:
-        err = o.EnableHandler(cmd.(*Enable), entity.(*Account), store)
-    case UpdateCommand:
-        err = o.UpdateHandler(cmd.(*Update), entity.(*Account), store)
+    case SendAccountEnabledConfirmationCommand:
+        err = o.SendEnabledConfirmationHandler(cmd.(*SendAccountEnabledConfirmation), entity.(*Account), store)
+    case SendAccountDisabledConfirmationCommand:
+        err = o.SendDisabledConfirmationHandler(cmd.(*SendAccountDisabledConfirmation), entity.(*Account), store)
+    case LoginAccountCommand:
+        err = o.LoginHandler(cmd.(*LoginAccount), entity.(*Account), store)
+    case SendAccountCreatedConfirmationCommand:
+        err = o.SendCreatedConfirmationHandler(cmd.(*SendAccountCreatedConfirmation), entity.(*Account), store)
+    case CreateAccountCommand:
+        err = o.CreateHandler(cmd.(*CreateAccount), entity.(*Account), store)
+    case DeleteAccountCommand:
+        err = o.DeleteHandler(cmd.(*DeleteAccount), entity.(*Account), store)
+    case DisableAccountCommand:
+        err = o.DisableHandler(cmd.(*DisableAccount), entity.(*Account), store)
+    case EnableAccountCommand:
+        err = o.EnableHandler(cmd.(*EnableAccount), entity.(*Account), store)
+    case UpdateAccountCommand:
+        err = o.UpdateHandler(cmd.(*UpdateAccount), entity.(*Account), store)
     default:
 		err = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
@@ -137,23 +137,23 @@ func (o *CommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.E
 }
 
 func (o *CommandHandler) SetupCommandHandler() (err error) {
-    o.SendEnabledConfirmationHandler = func(command *SendEnabledConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
+    o.SendEnabledConfirmationHandler = func(command *SendAccountEnabledConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
-            store.StoreEvent(SendEnabledConfirmationedEvent, &SendEnabledConfirmationed{
+            store.StoreEvent(SendEnabledAccountConfirmationedEvent, &SendEnabledAccountConfirmationed{
                 Id: command.Id,}, time.Now())
         }
         return
     }
-    o.SendDisabledConfirmationHandler = func(command *SendDisabledConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
+    o.SendDisabledConfirmationHandler = func(command *SendAccountDisabledConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
-            store.StoreEvent(SendDisabledConfirmationedEvent, &SendDisabledConfirmationed{
+            store.StoreEvent(SendDisabledAccountConfirmationedEvent, &SendDisabledAccountConfirmationed{
                 Id: command.Id,}, time.Now())
         }
         return
     }
-    o.LoginHandler = func(command *Login, entity *Account, store eh.AggregateStoreEvent) (err error) {
+    o.LoginHandler = func(command *LoginAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
-            store.StoreEvent(LoggedEvent, &Logged{
+            store.StoreEvent(AccountLoggedEvent, &AccountLogged{
                 Username: command.Username,
                 Email: command.Email,
                 Password: command.Password,
@@ -161,16 +161,16 @@ func (o *CommandHandler) SetupCommandHandler() (err error) {
         }
         return
     }
-    o.SendCreatedConfirmationHandler = func(command *SendCreatedConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
+    o.SendCreatedConfirmationHandler = func(command *SendAccountCreatedConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
-            store.StoreEvent(SendCreatedConfirmationedEvent, &SendCreatedConfirmationed{
+            store.StoreEvent(SendCreatedAccountConfirmationedEvent, &SendCreatedAccountConfirmationed{
                 Id: command.Id,}, time.Now())
         }
         return
     }
-    o.CreateHandler = func(command *Create, entity *Account, store eh.AggregateStoreEvent) (err error) {
+    o.CreateHandler = func(command *CreateAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateNewId(entity.Id, command.Id, AccountAggregateType); err == nil {
-            store.StoreEvent(createdEvent, &Created{
+            store.StoreEvent(AccountCreatedEvent, &AccountCreated{
                 Name: command.Name,
                 Username: command.Username,
                 Password: command.Password,
@@ -182,30 +182,30 @@ func (o *CommandHandler) SetupCommandHandler() (err error) {
         }
         return
     }
-    o.DeleteHandler = func(command *Delete, entity *Account, store eh.AggregateStoreEvent) (err error) {
+    o.DeleteHandler = func(command *DeleteAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
-            store.StoreEvent(deletedEvent, &Deleted{
+            store.StoreEvent(AccountDeletedEvent, &AccountDeleted{
                 Id: command.Id,}, time.Now())
         }
         return
     }
-    o.DisableHandler = func(command *Disable, entity *Account, store eh.AggregateStoreEvent) (err error) {
+    o.DisableHandler = func(command *DisableAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
-            store.StoreEvent(DisabledEvent, &Disabled{
+            store.StoreEvent(AccountDisabledEvent, &AccountDisabled{
                 Id: command.Id,}, time.Now())
         }
         return
     }
-    o.EnableHandler = func(command *Enable, entity *Account, store eh.AggregateStoreEvent) (err error) {
+    o.EnableHandler = func(command *EnableAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
-            store.StoreEvent(EnabledEvent, &Enabled{
+            store.StoreEvent(AccountEnabledEvent, &AccountEnabled{
                 Id: command.Id,}, time.Now())
         }
         return
     }
-    o.UpdateHandler = func(command *Update, entity *Account, store eh.AggregateStoreEvent) (err error) {
+    o.UpdateHandler = func(command *UpdateAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
-            store.StoreEvent(updatedEvent, &Updated{
+            store.StoreEvent(AccountUpdatedEvent, &AccountUpdated{
                 Name: command.Name,
                 Username: command.Username,
                 Password: command.Password,
@@ -222,64 +222,64 @@ func (o *CommandHandler) SetupCommandHandler() (err error) {
 
 
 type EventHandler struct {
-    SendEnabledConfirmationHandler func (*SendEnabledConfirmation, *Account) (err error)  `json:"sendEnabledConfirmationHandler" eh:"optional"`
-    SendDisabledConfirmationHandler func (*SendDisabledConfirmation, *Account) (err error)  `json:"sendDisabledConfirmationHandler" eh:"optional"`
-    LoginHandler func (*Login, *Account) (err error)  `json:"loginHandler" eh:"optional"`
-    SendCreatedConfirmationHandler func (*SendCreatedConfirmation, *Account) (err error)  `json:"sendCreatedConfirmationHandler" eh:"optional"`
-    CreateHandler func (*Create, *Account) (err error)  `json:"createHandler" eh:"optional"`
-    CreatedHandler func (*Created, *Account) (err error)  `json:"createdHandler" eh:"optional"`
-    DeleteHandler func (*Delete, *Account) (err error)  `json:"deleteHandler" eh:"optional"`
-    DeletedHandler func (*Deleted, *Account) (err error)  `json:"deletedHandler" eh:"optional"`
-    LoggedHandler func (*Logged, *Account) (err error)  `json:"loggedHandler" eh:"optional"`
-    SendCreatedConfirmationedHandler func (*SendCreatedConfirmationed, *Account) (err error)  `json:"sendCreatedConfirmationedHandler" eh:"optional"`
-    SendEnabledConfirmationedHandler func (*SendEnabledConfirmationed, *Account) (err error)  `json:"sendEnabledConfirmationedHandler" eh:"optional"`
-    SendDisabledConfirmationedHandler func (*SendDisabledConfirmationed, *Account) (err error)  `json:"sendDisabledConfirmationedHandler" eh:"optional"`
-    DisableHandler func (*Disable, *Account) (err error)  `json:"disableHandler" eh:"optional"`
-    EnableHandler func (*Enable, *Account) (err error)  `json:"enableHandler" eh:"optional"`
-    UpdateHandler func (*Update, *Account) (err error)  `json:"updateHandler" eh:"optional"`
-    UpdatedHandler func (*Updated, *Account) (err error)  `json:"updatedHandler" eh:"optional"`
-    EnabledHandler func (*Enabled, *Account) (err error)  `json:"enabledHandler" eh:"optional"`
-    DisabledHandler func (*Disabled, *Account) (err error)  `json:"disabledHandler" eh:"optional"`
+    SendEnabledConfirmationHandler func (*SendAccountEnabledConfirmation, *Account) (err error)  `json:"sendEnabledConfirmationHandler" eh:"optional"`
+    SendDisabledConfirmationHandler func (*SendAccountDisabledConfirmation, *Account) (err error)  `json:"sendDisabledConfirmationHandler" eh:"optional"`
+    LoginHandler func (*LoginAccount, *Account) (err error)  `json:"loginHandler" eh:"optional"`
+    SendCreatedConfirmationHandler func (*SendAccountCreatedConfirmation, *Account) (err error)  `json:"sendCreatedConfirmationHandler" eh:"optional"`
+    CreateHandler func (*CreateAccount, *Account) (err error)  `json:"createHandler" eh:"optional"`
+    CreatedHandler func (*AccountCreated, *Account) (err error)  `json:"createdHandler" eh:"optional"`
+    DeleteHandler func (*DeleteAccount, *Account) (err error)  `json:"deleteHandler" eh:"optional"`
+    DeletedHandler func (*AccountDeleted, *Account) (err error)  `json:"deletedHandler" eh:"optional"`
+    LoggedHandler func (*AccountLogged, *Account) (err error)  `json:"loggedHandler" eh:"optional"`
+    SendCreatedConfirmationedHandler func (*SendCreatedAccountConfirmationed, *Account) (err error)  `json:"sendCreatedConfirmationedHandler" eh:"optional"`
+    SendEnabledConfirmationedHandler func (*SendEnabledAccountConfirmationed, *Account) (err error)  `json:"sendEnabledConfirmationedHandler" eh:"optional"`
+    SendDisabledConfirmationedHandler func (*SendDisabledAccountConfirmationed, *Account) (err error)  `json:"sendDisabledConfirmationedHandler" eh:"optional"`
+    DisableHandler func (*DisableAccount, *Account) (err error)  `json:"disableHandler" eh:"optional"`
+    EnableHandler func (*EnableAccount, *Account) (err error)  `json:"enableHandler" eh:"optional"`
+    UpdateHandler func (*UpdateAccount, *Account) (err error)  `json:"updateHandler" eh:"optional"`
+    UpdatedHandler func (*AccountUpdated, *Account) (err error)  `json:"updatedHandler" eh:"optional"`
+    EnabledHandler func (*AccountEnabled, *Account) (err error)  `json:"enabledHandler" eh:"optional"`
+    DisabledHandler func (*AccountDisabled, *Account) (err error)  `json:"disabledHandler" eh:"optional"`
 }
 
 func (o *EventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
-    case SendEnabledConfirmationEvent:
-        err = o.SendEnabledConfirmationHandler(event.Data().(*SendEnabledConfirmation), entity.(*Account))
-    case SendDisabledConfirmationEvent:
-        err = o.SendDisabledConfirmationHandler(event.Data().(*SendDisabledConfirmation), entity.(*Account))
-    case LoginEvent:
-        err = o.LoginHandler(event.Data().(*Login), entity.(*Account))
-    case SendCreatedConfirmationEvent:
-        err = o.SendCreatedConfirmationHandler(event.Data().(*SendCreatedConfirmation), entity.(*Account))
-    case CreateEvent:
-        err = o.CreateHandler(event.Data().(*Create), entity.(*Account))
-    case CreatedEvent:
-        err = o.CreatedHandler(event.Data().(*Created), entity.(*Account))
-    case DeleteEvent:
-        err = o.DeleteHandler(event.Data().(*Delete), entity.(*Account))
-    case DeletedEvent:
-        err = o.DeletedHandler(event.Data().(*Deleted), entity.(*Account))
-    case LoggedEvent:
-        err = o.LoggedHandler(event.Data().(*Logged), entity.(*Account))
-    case SendCreatedConfirmationedEvent:
-        err = o.SendCreatedConfirmationedHandler(event.Data().(*SendCreatedConfirmationed), entity.(*Account))
-    case SendEnabledConfirmationedEvent:
-        err = o.SendEnabledConfirmationedHandler(event.Data().(*SendEnabledConfirmationed), entity.(*Account))
-    case SendDisabledConfirmationedEvent:
-        err = o.SendDisabledConfirmationedHandler(event.Data().(*SendDisabledConfirmationed), entity.(*Account))
-    case DisableEvent:
-        err = o.DisableHandler(event.Data().(*Disable), entity.(*Account))
-    case EnableEvent:
-        err = o.EnableHandler(event.Data().(*Enable), entity.(*Account))
-    case UpdateEvent:
-        err = o.UpdateHandler(event.Data().(*Update), entity.(*Account))
-    case UpdatedEvent:
-        err = o.UpdatedHandler(event.Data().(*Updated), entity.(*Account))
-    case EnabledEvent:
-        err = o.EnabledHandler(event.Data().(*Enabled), entity.(*Account))
-    case DisabledEvent:
-        err = o.DisabledHandler(event.Data().(*Disabled), entity.(*Account))
+    case SendEnabledAccountConfirmationEvent:
+        err = o.SendEnabledConfirmationHandler(event.Data().(*SendAccountEnabledConfirmation), entity.(*Account))
+    case SendDisabledAccountConfirmationEvent:
+        err = o.SendDisabledConfirmationHandler(event.Data().(*SendAccountDisabledConfirmation), entity.(*Account))
+    case AccountLoginEvent:
+        err = o.LoginHandler(event.Data().(*LoginAccount), entity.(*Account))
+    case SendCreatedAccountConfirmationEvent:
+        err = o.SendCreatedConfirmationHandler(event.Data().(*SendAccountCreatedConfirmation), entity.(*Account))
+    case AccountCreateEvent:
+        err = o.CreateHandler(event.Data().(*CreateAccount), entity.(*Account))
+    case AccountCreatedEvent:
+        err = o.CreatedHandler(event.Data().(*AccountCreated), entity.(*Account))
+    case AccountDeleteEvent:
+        err = o.DeleteHandler(event.Data().(*DeleteAccount), entity.(*Account))
+    case AccountDeletedEvent:
+        err = o.DeletedHandler(event.Data().(*AccountDeleted), entity.(*Account))
+    case AccountLoggedEvent:
+        err = o.LoggedHandler(event.Data().(*AccountLogged), entity.(*Account))
+    case SendCreatedAccountConfirmationedEvent:
+        err = o.SendCreatedConfirmationedHandler(event.Data().(*SendCreatedAccountConfirmationed), entity.(*Account))
+    case SendEnabledAccountConfirmationedEvent:
+        err = o.SendEnabledConfirmationedHandler(event.Data().(*SendEnabledAccountConfirmationed), entity.(*Account))
+    case SendDisabledAccountConfirmationedEvent:
+        err = o.SendDisabledConfirmationedHandler(event.Data().(*SendDisabledAccountConfirmationed), entity.(*Account))
+    case AccountDisableEvent:
+        err = o.DisableHandler(event.Data().(*DisableAccount), entity.(*Account))
+    case AccountEnableEvent:
+        err = o.EnableHandler(event.Data().(*EnableAccount), entity.(*Account))
+    case AccountUpdateEvent:
+        err = o.UpdateHandler(event.Data().(*UpdateAccount), entity.(*Account))
+    case AccountUpdatedEvent:
+        err = o.UpdatedHandler(event.Data().(*AccountUpdated), entity.(*Account))
+    case AccountEnabledEvent:
+        err = o.EnabledHandler(event.Data().(*AccountEnabled), entity.(*Account))
+    case AccountDisabledEvent:
+        err = o.DisabledHandler(event.Data().(*AccountDisabled), entity.(*Account))
     default:
 		err = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
@@ -289,67 +289,67 @@ func (o *EventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entit
 func (o *EventHandler) SetupEventHandler() (err error) {
 
     //register event object factory
-    eventhorizon.RegisterEventData(SendEnabledConfirmationEvent, func() eventhorizon.EventData {
-		return &SendEnabledConfirmation{}
+    eventhorizon.RegisterEventData(SendAccountEnabledConfirmationEvent, func() eventhorizon.EventData {
+		return &SendAccountEnabledConfirmation{}
 	})
 
     //default handler implementation
-    o.SendEnabledConfirmationHandler = func(event *SendEnabledConfirmation, entity *Account) (err error) {
-        //err = eh.EventHandlerNotImplemented(SendEnabledConfirmationEvent)
+    o.SendEnabledConfirmationHandler = func(event *SendAccountEnabledConfirmation, entity *Account) (err error) {
+        //err = eh.EventHandlerNotImplemented(SendAccountEnabledConfirmationEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(SendDisabledConfirmationEvent, func() eventhorizon.EventData {
-		return &SendDisabledConfirmation{}
+    eventhorizon.RegisterEventData(SendAccountDisabledConfirmationEvent, func() eventhorizon.EventData {
+		return &SendAccountDisabledConfirmation{}
 	})
 
     //default handler implementation
-    o.SendDisabledConfirmationHandler = func(event *SendDisabledConfirmation, entity *Account) (err error) {
-        //err = eh.EventHandlerNotImplemented(SendDisabledConfirmationEvent)
+    o.SendDisabledConfirmationHandler = func(event *SendAccountDisabledConfirmation, entity *Account) (err error) {
+        //err = eh.EventHandlerNotImplemented(SendAccountDisabledConfirmationEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(LoginEvent, func() eventhorizon.EventData {
-		return &Login{}
+    eventhorizon.RegisterEventData(LoginAccountEvent, func() eventhorizon.EventData {
+		return &LoginAccount{}
 	})
 
     //default handler implementation
-    o.LoginHandler = func(event *Login, entity *Account) (err error) {
-        //err = eh.EventHandlerNotImplemented(LoginEvent)
+    o.LoginHandler = func(event *LoginAccount, entity *Account) (err error) {
+        //err = eh.EventHandlerNotImplemented(LoginAccountEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(SendCreatedConfirmationEvent, func() eventhorizon.EventData {
-		return &SendCreatedConfirmation{}
+    eventhorizon.RegisterEventData(SendAccountCreatedConfirmationEvent, func() eventhorizon.EventData {
+		return &SendAccountCreatedConfirmation{}
 	})
 
     //default handler implementation
-    o.SendCreatedConfirmationHandler = func(event *SendCreatedConfirmation, entity *Account) (err error) {
-        //err = eh.EventHandlerNotImplemented(SendCreatedConfirmationEvent)
+    o.SendCreatedConfirmationHandler = func(event *SendAccountCreatedConfirmation, entity *Account) (err error) {
+        //err = eh.EventHandlerNotImplemented(SendAccountCreatedConfirmationEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(CreateEvent, func() eventhorizon.EventData {
-		return &Create{}
+    eventhorizon.RegisterEventData(CreateAccountEvent, func() eventhorizon.EventData {
+		return &CreateAccount{}
 	})
 
     //default handler implementation
-    o.CreateHandler = func(event *Create, entity *Account) (err error) {
-        //err = eh.EventHandlerNotImplemented(CreateEvent)
+    o.CreateHandler = func(event *CreateAccount, entity *Account) (err error) {
+        //err = eh.EventHandlerNotImplemented(CreateAccountEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(CreatedEvent, func() eventhorizon.EventData {
-		return &Created{}
+    eventhorizon.RegisterEventData(AccountCreatedEvent, func() eventhorizon.EventData {
+		return &AccountCreated{}
 	})
 
     //default handler implementation
-    o.CreatedHandler = func(event *Created, entity *Account) (err error) {
+    o.CreatedHandler = func(event *AccountCreated, entity *Account) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, AccountAggregateType); err == nil {
             entity.Name = event.Name
             entity.Username = event.Username
@@ -364,23 +364,23 @@ func (o *EventHandler) SetupEventHandler() (err error) {
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(DeleteEvent, func() eventhorizon.EventData {
-		return &Delete{}
+    eventhorizon.RegisterEventData(DeleteAccountEvent, func() eventhorizon.EventData {
+		return &DeleteAccount{}
 	})
 
     //default handler implementation
-    o.DeleteHandler = func(event *Delete, entity *Account) (err error) {
-        //err = eh.EventHandlerNotImplemented(DeleteEvent)
+    o.DeleteHandler = func(event *DeleteAccount, entity *Account) (err error) {
+        //err = eh.EventHandlerNotImplemented(DeleteAccountEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(DeletedEvent, func() eventhorizon.EventData {
-		return &Deleted{}
+    eventhorizon.RegisterEventData(AccountDeletedEvent, func() eventhorizon.EventData {
+		return &AccountDeleted{}
 	})
 
     //default handler implementation
-    o.DeletedHandler = func(event *Deleted, entity *Account) (err error) {
+    o.DeletedHandler = func(event *AccountDeleted, entity *Account) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, AccountAggregateType); err == nil {
             *entity = *NewAccount()
         }
@@ -388,89 +388,89 @@ func (o *EventHandler) SetupEventHandler() (err error) {
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(LoggedEvent, func() eventhorizon.EventData {
-		return &Logged{}
+    eventhorizon.RegisterEventData(AccountLoggedEvent, func() eventhorizon.EventData {
+		return &AccountLogged{}
 	})
 
     //default handler implementation
-    o.LoggedHandler = func(event *Logged, entity *Account) (err error) {
-        //err = eh.EventHandlerNotImplemented(LoggedEvent)
+    o.LoggedHandler = func(event *AccountLogged, entity *Account) (err error) {
+        //err = eh.EventHandlerNotImplemented(AccountLoggedEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(SendCreatedConfirmationedEvent, func() eventhorizon.EventData {
-		return &SendCreatedConfirmationed{}
+    eventhorizon.RegisterEventData(SendCreatedAccountConfirmationedEvent, func() eventhorizon.EventData {
+		return &SendCreatedAccountConfirmationed{}
 	})
 
     //default handler implementation
-    o.SendCreatedConfirmationedHandler = func(event *SendCreatedConfirmationed, entity *Account) (err error) {
-        //err = eh.EventHandlerNotImplemented(SendCreatedConfirmationedEvent)
+    o.SendCreatedConfirmationedHandler = func(event *SendCreatedAccountConfirmationed, entity *Account) (err error) {
+        //err = eh.EventHandlerNotImplemented(SendCreatedAccountConfirmationedEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(SendEnabledConfirmationedEvent, func() eventhorizon.EventData {
-		return &SendEnabledConfirmationed{}
+    eventhorizon.RegisterEventData(SendEnabledAccountConfirmationedEvent, func() eventhorizon.EventData {
+		return &SendEnabledAccountConfirmationed{}
 	})
 
     //default handler implementation
-    o.SendEnabledConfirmationedHandler = func(event *SendEnabledConfirmationed, entity *Account) (err error) {
-        //err = eh.EventHandlerNotImplemented(SendEnabledConfirmationedEvent)
+    o.SendEnabledConfirmationedHandler = func(event *SendEnabledAccountConfirmationed, entity *Account) (err error) {
+        //err = eh.EventHandlerNotImplemented(SendEnabledAccountConfirmationedEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(SendDisabledConfirmationedEvent, func() eventhorizon.EventData {
-		return &SendDisabledConfirmationed{}
+    eventhorizon.RegisterEventData(SendDisabledAccountConfirmationedEvent, func() eventhorizon.EventData {
+		return &SendDisabledAccountConfirmationed{}
 	})
 
     //default handler implementation
-    o.SendDisabledConfirmationedHandler = func(event *SendDisabledConfirmationed, entity *Account) (err error) {
-        //err = eh.EventHandlerNotImplemented(SendDisabledConfirmationedEvent)
+    o.SendDisabledConfirmationedHandler = func(event *SendDisabledAccountConfirmationed, entity *Account) (err error) {
+        //err = eh.EventHandlerNotImplemented(SendDisabledAccountConfirmationedEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(DisableEvent, func() eventhorizon.EventData {
-		return &Disable{}
+    eventhorizon.RegisterEventData(DisableAccountEvent, func() eventhorizon.EventData {
+		return &DisableAccount{}
 	})
 
     //default handler implementation
-    o.DisableHandler = func(event *Disable, entity *Account) (err error) {
-        //err = eh.EventHandlerNotImplemented(DisableEvent)
+    o.DisableHandler = func(event *DisableAccount, entity *Account) (err error) {
+        //err = eh.EventHandlerNotImplemented(DisableAccountEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(EnableEvent, func() eventhorizon.EventData {
-		return &Enable{}
+    eventhorizon.RegisterEventData(EnableAccountEvent, func() eventhorizon.EventData {
+		return &EnableAccount{}
 	})
 
     //default handler implementation
-    o.EnableHandler = func(event *Enable, entity *Account) (err error) {
-        //err = eh.EventHandlerNotImplemented(EnableEvent)
+    o.EnableHandler = func(event *EnableAccount, entity *Account) (err error) {
+        //err = eh.EventHandlerNotImplemented(EnableAccountEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(UpdateEvent, func() eventhorizon.EventData {
-		return &Update{}
+    eventhorizon.RegisterEventData(UpdateAccountEvent, func() eventhorizon.EventData {
+		return &UpdateAccount{}
 	})
 
     //default handler implementation
-    o.UpdateHandler = func(event *Update, entity *Account) (err error) {
-        //err = eh.EventHandlerNotImplemented(UpdateEvent)
+    o.UpdateHandler = func(event *UpdateAccount, entity *Account) (err error) {
+        //err = eh.EventHandlerNotImplemented(UpdateAccountEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(UpdatedEvent, func() eventhorizon.EventData {
-		return &Updated{}
+    eventhorizon.RegisterEventData(AccountUpdatedEvent, func() eventhorizon.EventData {
+		return &AccountUpdated{}
 	})
 
     //default handler implementation
-    o.UpdatedHandler = func(event *Updated, entity *Account) (err error) {
+    o.UpdatedHandler = func(event *AccountUpdated, entity *Account) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, AccountAggregateType); err == nil {
             entity.Name = event.Name
             entity.Username = event.Username
@@ -484,12 +484,12 @@ func (o *EventHandler) SetupEventHandler() (err error) {
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(EnabledEvent, func() eventhorizon.EventData {
-		return &Enabled{}
+    eventhorizon.RegisterEventData(AccountEnabledEvent, func() eventhorizon.EventData {
+		return &AccountEnabled{}
 	})
 
     //default handler implementation
-    o.EnabledHandler = func(event *Enabled, entity *Account) (err error) {
+    o.EnabledHandler = func(event *AccountEnabled, entity *Account) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, AccountAggregateType); err == nil {
             entity.Disabled = false
         }
@@ -497,12 +497,12 @@ func (o *EventHandler) SetupEventHandler() (err error) {
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(DisabledEvent, func() eventhorizon.EventData {
-		return &Disabled{}
+    eventhorizon.RegisterEventData(AccountDisabledEvent, func() eventhorizon.EventData {
+		return &AccountDisabled{}
 	})
 
     //default handler implementation
-    o.DisabledHandler = func(event *Disabled, entity *Account) (err error) {
+    o.DisabledHandler = func(event *AccountDisabled, entity *Account) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, AccountAggregateType); err == nil {
             entity.Disabled = true
         }
@@ -523,23 +523,23 @@ type AggregateInitializer struct {
 
 
 func (o *AggregateInitializer) RegisterForLogged(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().Logged())
+    o.RegisterForEvent(handler, AccountEventTypes().AccountLogged())
 }
 
 func (o *AggregateInitializer) RegisterForSendCreatedConfirmationed(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().SendCreatedConfirmationed())
+    o.RegisterForEvent(handler, AccountEventTypes().SendCreatedAccountConfirmationed())
 }
 
 func (o *AggregateInitializer) RegisterForSendEnabledConfirmationed(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().SendEnabledConfirmationed())
+    o.RegisterForEvent(handler, AccountEventTypes().SendEnabledAccountConfirmationed())
 }
 
 func (o *AggregateInitializer) RegisterForSendDisabledConfirmationed(handler eventhorizon.EventHandler){
-    o.RegisterForEvent(handler, AccountEventTypes().SendDisabledConfirmationed())
+    o.RegisterForEvent(handler, AccountEventTypes().SendDisabledAccountConfirmationed())
 }
 
 
-func New@@EMPTY@@(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
+func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AggregateInitializer) {
     
@@ -567,10 +567,10 @@ type AuthEventhorizonInitializer struct {
     AccountAggregateInitializer *AggregateInitializer `json:"accountAggregateInitializer" eh:"optional"`
 }
 
-func New@@EMPTY@@(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
+func NewAuthEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AuthEventhorizonInitializer) {
-    accountAggregateInitializer := New@@EMPTY@@(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    accountAggregateInitializer := NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     ret = &AuthEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,

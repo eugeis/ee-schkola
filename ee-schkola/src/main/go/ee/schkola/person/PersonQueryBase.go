@@ -215,16 +215,16 @@ func NewProfileQueryRepository(repo eventhorizon.ReadRepo, context context.Conte
 }
 
 func (o *QueryRepository) FindByEmail(email string) (ret *Profile, err error) {
-    err = eh.QueryNotImplemented("findByEmail")
+    err = eh.QueryNotImplemented("findProfileByEmail")
         
-    err = eh.QueryNotImplemented("findByEmail")
+    err = eh.QueryNotImplemented("findProfileByEmail")
     return
 }
 
 func (o *QueryRepository) FindByPhone(phone string) (ret *Profile, err error) {
-    err = eh.QueryNotImplemented("findByPhone")
+    err = eh.QueryNotImplemented("findProfileByPhone")
         
-    err = eh.QueryNotImplemented("findByPhone")
+    err = eh.QueryNotImplemented("findProfileByPhone")
     return
 }
 

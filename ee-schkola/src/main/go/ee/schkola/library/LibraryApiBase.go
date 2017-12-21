@@ -17,24 +17,24 @@ type Book struct {
     Author *shared.PersonName `json:"author" eh:"optional"`
     Location *Location `json:"location" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
-    *ChangeLocation
+    *ChangeBookLocation
 }
 
 func NewBook() (ret *Book) {
-    changeLocation := &ChangeLocation{}
+    changeLocation := &ChangeBookLocation{}
     ret = &Book{
-        ChangeLocation: changeLocation,
+        ChangeBookLocation: changeLocation,
     }
     return
 }
 
 func (o *Book) FindByPattern(pattern string) (ret *Book, err error) {
-    err = eh.QueryNotImplemented("findByPattern")
+    err = eh.QueryNotImplemented("findBookByPattern")
     return
 }
 
 func (o *Book) FindByTitle(title string) (ret *Book, err error) {
-    err = eh.QueryNotImplemented("findByTitle")
+    err = eh.QueryNotImplemented("findBookByTitle")
     return
 }
 func (o *Book) EntityID() eventhorizon.UUID { return o.Id }

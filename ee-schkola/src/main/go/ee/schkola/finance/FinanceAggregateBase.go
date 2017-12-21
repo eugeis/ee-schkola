@@ -9,14 +9,14 @@ import (
     "time"
 )
 type CommandHandler struct {
-    CreateHandler func (*Create, *Expense, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
-    DeleteHandler func (*Delete, *Expense, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
-    UpdateHandler func (*Update, *Expense, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
+    CreateHandler func (*CreateExpense, *Expense, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteExpense, *Expense, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    UpdateHandler func (*UpdateExpense, *Expense, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
-func (o *CommandHandler) AddCreatePreparer(preparer func (*Create, *Expense) (err error) ) {
+func (o *CommandHandler) AddCreatePreparer(preparer func (*CreateExpense, *Expense) (err error) ) {
     prevHandler := o.CreateHandler
-	o.CreateHandler = func(command *Create, entity *Expense, store eh.AggregateStoreEvent) (err error) {
+	o.CreateHandler = func(command *CreateExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -24,9 +24,9 @@ func (o *CommandHandler) AddCreatePreparer(preparer func (*Create, *Expense) (er
 	}
 }
 
-func (o *CommandHandler) AddDeletePreparer(preparer func (*Delete, *Expense) (err error) ) {
+func (o *CommandHandler) AddDeletePreparer(preparer func (*DeleteExpense, *Expense) (err error) ) {
     prevHandler := o.DeleteHandler
-	o.DeleteHandler = func(command *Delete, entity *Expense, store eh.AggregateStoreEvent) (err error) {
+	o.DeleteHandler = func(command *DeleteExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -34,9 +34,9 @@ func (o *CommandHandler) AddDeletePreparer(preparer func (*Delete, *Expense) (er
 	}
 }
 
-func (o *CommandHandler) AddUpdatePreparer(preparer func (*Update, *Expense) (err error) ) {
+func (o *CommandHandler) AddUpdatePreparer(preparer func (*UpdateExpense, *Expense) (err error) ) {
     prevHandler := o.UpdateHandler
-	o.UpdateHandler = func(command *Update, entity *Expense, store eh.AggregateStoreEvent) (err error) {
+	o.UpdateHandler = func(command *UpdateExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -46,12 +46,12 @@ func (o *CommandHandler) AddUpdatePreparer(preparer func (*Update, *Expense) (er
 
 func (o *CommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
-    case CreateCommand:
-        err = o.CreateHandler(cmd.(*Create), entity.(*Expense), store)
-    case DeleteCommand:
-        err = o.DeleteHandler(cmd.(*Delete), entity.(*Expense), store)
-    case UpdateCommand:
-        err = o.UpdateHandler(cmd.(*Update), entity.(*Expense), store)
+    case CreateExpenseCommand:
+        err = o.CreateHandler(cmd.(*CreateExpense), entity.(*Expense), store)
+    case DeleteExpenseCommand:
+        err = o.DeleteHandler(cmd.(*DeleteExpense), entity.(*Expense), store)
+    case UpdateExpenseCommand:
+        err = o.UpdateHandler(cmd.(*UpdateExpense), entity.(*Expense), store)
     default:
 		err = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
@@ -59,9 +59,9 @@ func (o *CommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.E
 }
 
 func (o *CommandHandler) SetupCommandHandler() (err error) {
-    o.CreateHandler = func(command *Create, entity *Expense, store eh.AggregateStoreEvent) (err error) {
+    o.CreateHandler = func(command *CreateExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateNewId(entity.Id, command.Id, ExpenseAggregateType); err == nil {
-            store.StoreEvent(createdEvent, &Created{
+            store.StoreEvent(ExpenseCreatedEvent, &ExpenseCreated{
                 Purpose: command.Purpose,
                 Amount: command.Amount,
                 Profile: command.Profile,
@@ -70,16 +70,16 @@ func (o *CommandHandler) SetupCommandHandler() (err error) {
         }
         return
     }
-    o.DeleteHandler = func(command *Delete, entity *Expense, store eh.AggregateStoreEvent) (err error) {
+    o.DeleteHandler = func(command *DeleteExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, ExpenseAggregateType); err == nil {
-            store.StoreEvent(deletedEvent, &Deleted{
+            store.StoreEvent(ExpenseDeletedEvent, &ExpenseDeleted{
                 Id: command.Id,}, time.Now())
         }
         return
     }
-    o.UpdateHandler = func(command *Update, entity *Expense, store eh.AggregateStoreEvent) (err error) {
+    o.UpdateHandler = func(command *UpdateExpense, entity *Expense, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, ExpenseAggregateType); err == nil {
-            store.StoreEvent(updatedEvent, &Updated{
+            store.StoreEvent(ExpenseUpdatedEvent, &ExpenseUpdated{
                 Purpose: command.Purpose,
                 Amount: command.Amount,
                 Profile: command.Profile,
@@ -93,28 +93,28 @@ func (o *CommandHandler) SetupCommandHandler() (err error) {
 
 
 type EventHandler struct {
-    CreateHandler func (*Create, *Expense) (err error)  `json:"createHandler" eh:"optional"`
-    CreatedHandler func (*Created, *Expense) (err error)  `json:"createdHandler" eh:"optional"`
-    DeleteHandler func (*Delete, *Expense) (err error)  `json:"deleteHandler" eh:"optional"`
-    DeletedHandler func (*Deleted, *Expense) (err error)  `json:"deletedHandler" eh:"optional"`
-    UpdateHandler func (*Update, *Expense) (err error)  `json:"updateHandler" eh:"optional"`
-    UpdatedHandler func (*Updated, *Expense) (err error)  `json:"updatedHandler" eh:"optional"`
+    CreateHandler func (*CreateExpense, *Expense) (err error)  `json:"createHandler" eh:"optional"`
+    CreatedHandler func (*ExpenseCreated, *Expense) (err error)  `json:"createdHandler" eh:"optional"`
+    DeleteHandler func (*DeleteExpense, *Expense) (err error)  `json:"deleteHandler" eh:"optional"`
+    DeletedHandler func (*ExpenseDeleted, *Expense) (err error)  `json:"deletedHandler" eh:"optional"`
+    UpdateHandler func (*UpdateExpense, *Expense) (err error)  `json:"updateHandler" eh:"optional"`
+    UpdatedHandler func (*ExpenseUpdated, *Expense) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
 func (o *EventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
-    case CreateEvent:
-        err = o.CreateHandler(event.Data().(*Create), entity.(*Expense))
-    case CreatedEvent:
-        err = o.CreatedHandler(event.Data().(*Created), entity.(*Expense))
-    case DeleteEvent:
-        err = o.DeleteHandler(event.Data().(*Delete), entity.(*Expense))
-    case DeletedEvent:
-        err = o.DeletedHandler(event.Data().(*Deleted), entity.(*Expense))
-    case UpdateEvent:
-        err = o.UpdateHandler(event.Data().(*Update), entity.(*Expense))
-    case UpdatedEvent:
-        err = o.UpdatedHandler(event.Data().(*Updated), entity.(*Expense))
+    case ExpenseCreateEvent:
+        err = o.CreateHandler(event.Data().(*CreateExpense), entity.(*Expense))
+    case ExpenseCreatedEvent:
+        err = o.CreatedHandler(event.Data().(*ExpenseCreated), entity.(*Expense))
+    case ExpenseDeleteEvent:
+        err = o.DeleteHandler(event.Data().(*DeleteExpense), entity.(*Expense))
+    case ExpenseDeletedEvent:
+        err = o.DeletedHandler(event.Data().(*ExpenseDeleted), entity.(*Expense))
+    case ExpenseUpdateEvent:
+        err = o.UpdateHandler(event.Data().(*UpdateExpense), entity.(*Expense))
+    case ExpenseUpdatedEvent:
+        err = o.UpdatedHandler(event.Data().(*ExpenseUpdated), entity.(*Expense))
     default:
 		err = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
@@ -124,23 +124,23 @@ func (o *EventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entit
 func (o *EventHandler) SetupEventHandler() (err error) {
 
     //register event object factory
-    eventhorizon.RegisterEventData(CreateEvent, func() eventhorizon.EventData {
-		return &Create{}
+    eventhorizon.RegisterEventData(CreateExpenseEvent, func() eventhorizon.EventData {
+		return &CreateExpense{}
 	})
 
     //default handler implementation
-    o.CreateHandler = func(event *Create, entity *Expense) (err error) {
-        //err = eh.EventHandlerNotImplemented(CreateEvent)
+    o.CreateHandler = func(event *CreateExpense, entity *Expense) (err error) {
+        //err = eh.EventHandlerNotImplemented(CreateExpenseEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(CreatedEvent, func() eventhorizon.EventData {
-		return &Created{}
+    eventhorizon.RegisterEventData(ExpenseCreatedEvent, func() eventhorizon.EventData {
+		return &ExpenseCreated{}
 	})
 
     //default handler implementation
-    o.CreatedHandler = func(event *Created, entity *Expense) (err error) {
+    o.CreatedHandler = func(event *ExpenseCreated, entity *Expense) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, ExpenseAggregateType); err == nil {
             entity.Purpose = event.Purpose
             entity.Amount = event.Amount
@@ -152,23 +152,23 @@ func (o *EventHandler) SetupEventHandler() (err error) {
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(DeleteEvent, func() eventhorizon.EventData {
-		return &Delete{}
+    eventhorizon.RegisterEventData(DeleteExpenseEvent, func() eventhorizon.EventData {
+		return &DeleteExpense{}
 	})
 
     //default handler implementation
-    o.DeleteHandler = func(event *Delete, entity *Expense) (err error) {
-        //err = eh.EventHandlerNotImplemented(DeleteEvent)
+    o.DeleteHandler = func(event *DeleteExpense, entity *Expense) (err error) {
+        //err = eh.EventHandlerNotImplemented(DeleteExpenseEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(DeletedEvent, func() eventhorizon.EventData {
-		return &Deleted{}
+    eventhorizon.RegisterEventData(ExpenseDeletedEvent, func() eventhorizon.EventData {
+		return &ExpenseDeleted{}
 	})
 
     //default handler implementation
-    o.DeletedHandler = func(event *Deleted, entity *Expense) (err error) {
+    o.DeletedHandler = func(event *ExpenseDeleted, entity *Expense) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpenseAggregateType); err == nil {
             *entity = *NewExpense()
         }
@@ -176,23 +176,23 @@ func (o *EventHandler) SetupEventHandler() (err error) {
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(UpdateEvent, func() eventhorizon.EventData {
-		return &Update{}
+    eventhorizon.RegisterEventData(UpdateExpenseEvent, func() eventhorizon.EventData {
+		return &UpdateExpense{}
 	})
 
     //default handler implementation
-    o.UpdateHandler = func(event *Update, entity *Expense) (err error) {
-        //err = eh.EventHandlerNotImplemented(UpdateEvent)
+    o.UpdateHandler = func(event *UpdateExpense, entity *Expense) (err error) {
+        //err = eh.EventHandlerNotImplemented(UpdateExpenseEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(UpdatedEvent, func() eventhorizon.EventData {
-		return &Updated{}
+    eventhorizon.RegisterEventData(ExpenseUpdatedEvent, func() eventhorizon.EventData {
+		return &ExpenseUpdated{}
 	})
 
     //default handler implementation
-    o.UpdatedHandler = func(event *Updated, entity *Expense) (err error) {
+    o.UpdatedHandler = func(event *ExpenseUpdated, entity *Expense) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpenseAggregateType); err == nil {
             entity.Purpose = event.Purpose
             entity.Amount = event.Amount
@@ -216,7 +216,7 @@ type AggregateInitializer struct {
 
 
 
-func New@@EMPTY@@(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
+func NewExpenseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AggregateInitializer) {
     
@@ -237,14 +237,14 @@ func New@@EMPTY@@(eventStore eventhorizon.EventStore, eventBus eventhorizon.Even
 
 
 type CommandHandler struct {
-    CreateHandler func (*Create, *ExpensePurpose, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
-    DeleteHandler func (*Delete, *ExpensePurpose, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
-    UpdateHandler func (*Update, *ExpensePurpose, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
+    CreateHandler func (*CreateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    UpdateHandler func (*UpdateExpensePurpose, *ExpensePurpose, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
-func (o *CommandHandler) AddCreatePreparer(preparer func (*Create, *ExpensePurpose) (err error) ) {
+func (o *CommandHandler) AddCreatePreparer(preparer func (*CreateExpensePurpose, *ExpensePurpose) (err error) ) {
     prevHandler := o.CreateHandler
-	o.CreateHandler = func(command *Create, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
+	o.CreateHandler = func(command *CreateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -252,9 +252,9 @@ func (o *CommandHandler) AddCreatePreparer(preparer func (*Create, *ExpensePurpo
 	}
 }
 
-func (o *CommandHandler) AddDeletePreparer(preparer func (*Delete, *ExpensePurpose) (err error) ) {
+func (o *CommandHandler) AddDeletePreparer(preparer func (*DeleteExpensePurpose, *ExpensePurpose) (err error) ) {
     prevHandler := o.DeleteHandler
-	o.DeleteHandler = func(command *Delete, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
+	o.DeleteHandler = func(command *DeleteExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -262,9 +262,9 @@ func (o *CommandHandler) AddDeletePreparer(preparer func (*Delete, *ExpensePurpo
 	}
 }
 
-func (o *CommandHandler) AddUpdatePreparer(preparer func (*Update, *ExpensePurpose) (err error) ) {
+func (o *CommandHandler) AddUpdatePreparer(preparer func (*UpdateExpensePurpose, *ExpensePurpose) (err error) ) {
     prevHandler := o.UpdateHandler
-	o.UpdateHandler = func(command *Update, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
+	o.UpdateHandler = func(command *UpdateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -274,12 +274,12 @@ func (o *CommandHandler) AddUpdatePreparer(preparer func (*Update, *ExpensePurpo
 
 func (o *CommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
-    case CreateCommand:
-        err = o.CreateHandler(cmd.(*Create), entity.(*ExpensePurpose), store)
-    case DeleteCommand:
-        err = o.DeleteHandler(cmd.(*Delete), entity.(*ExpensePurpose), store)
-    case UpdateCommand:
-        err = o.UpdateHandler(cmd.(*Update), entity.(*ExpensePurpose), store)
+    case CreateExpensePurposeCommand:
+        err = o.CreateHandler(cmd.(*CreateExpensePurpose), entity.(*ExpensePurpose), store)
+    case DeleteExpensePurposeCommand:
+        err = o.DeleteHandler(cmd.(*DeleteExpensePurpose), entity.(*ExpensePurpose), store)
+    case UpdateExpensePurposeCommand:
+        err = o.UpdateHandler(cmd.(*UpdateExpensePurpose), entity.(*ExpensePurpose), store)
     default:
 		err = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
@@ -287,25 +287,25 @@ func (o *CommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.E
 }
 
 func (o *CommandHandler) SetupCommandHandler() (err error) {
-    o.CreateHandler = func(command *Create, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
+    o.CreateHandler = func(command *CreateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateNewId(entity.Id, command.Id, ExpensePurposeAggregateType); err == nil {
-            store.StoreEvent(createdEvent, &Created{
+            store.StoreEvent(ExpensePurposeCreatedEvent, &ExpensePurposeCreated{
                 Name: command.Name,
                 Description: command.Description,
                 Id: command.Id,}, time.Now())
         }
         return
     }
-    o.DeleteHandler = func(command *Delete, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
+    o.DeleteHandler = func(command *DeleteExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, ExpensePurposeAggregateType); err == nil {
-            store.StoreEvent(deletedEvent, &Deleted{
+            store.StoreEvent(ExpensePurposeDeletedEvent, &ExpensePurposeDeleted{
                 Id: command.Id,}, time.Now())
         }
         return
     }
-    o.UpdateHandler = func(command *Update, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
+    o.UpdateHandler = func(command *UpdateExpensePurpose, entity *ExpensePurpose, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, ExpensePurposeAggregateType); err == nil {
-            store.StoreEvent(updatedEvent, &Updated{
+            store.StoreEvent(ExpensePurposeUpdatedEvent, &ExpensePurposeUpdated{
                 Name: command.Name,
                 Description: command.Description,
                 Id: command.Id,}, time.Now())
@@ -317,28 +317,28 @@ func (o *CommandHandler) SetupCommandHandler() (err error) {
 
 
 type EventHandler struct {
-    CreateHandler func (*Create, *ExpensePurpose) (err error)  `json:"createHandler" eh:"optional"`
-    CreatedHandler func (*Created, *ExpensePurpose) (err error)  `json:"createdHandler" eh:"optional"`
-    DeleteHandler func (*Delete, *ExpensePurpose) (err error)  `json:"deleteHandler" eh:"optional"`
-    DeletedHandler func (*Deleted, *ExpensePurpose) (err error)  `json:"deletedHandler" eh:"optional"`
-    UpdateHandler func (*Update, *ExpensePurpose) (err error)  `json:"updateHandler" eh:"optional"`
-    UpdatedHandler func (*Updated, *ExpensePurpose) (err error)  `json:"updatedHandler" eh:"optional"`
+    CreateHandler func (*CreateExpensePurpose, *ExpensePurpose) (err error)  `json:"createHandler" eh:"optional"`
+    CreatedHandler func (*ExpensePurposeCreated, *ExpensePurpose) (err error)  `json:"createdHandler" eh:"optional"`
+    DeleteHandler func (*DeleteExpensePurpose, *ExpensePurpose) (err error)  `json:"deleteHandler" eh:"optional"`
+    DeletedHandler func (*ExpensePurposeDeleted, *ExpensePurpose) (err error)  `json:"deletedHandler" eh:"optional"`
+    UpdateHandler func (*UpdateExpensePurpose, *ExpensePurpose) (err error)  `json:"updateHandler" eh:"optional"`
+    UpdatedHandler func (*ExpensePurposeUpdated, *ExpensePurpose) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
 func (o *EventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
-    case CreateEvent:
-        err = o.CreateHandler(event.Data().(*Create), entity.(*ExpensePurpose))
-    case CreatedEvent:
-        err = o.CreatedHandler(event.Data().(*Created), entity.(*ExpensePurpose))
-    case DeleteEvent:
-        err = o.DeleteHandler(event.Data().(*Delete), entity.(*ExpensePurpose))
-    case DeletedEvent:
-        err = o.DeletedHandler(event.Data().(*Deleted), entity.(*ExpensePurpose))
-    case UpdateEvent:
-        err = o.UpdateHandler(event.Data().(*Update), entity.(*ExpensePurpose))
-    case UpdatedEvent:
-        err = o.UpdatedHandler(event.Data().(*Updated), entity.(*ExpensePurpose))
+    case ExpensePurposeCreateEvent:
+        err = o.CreateHandler(event.Data().(*CreateExpensePurpose), entity.(*ExpensePurpose))
+    case ExpensePurposeCreatedEvent:
+        err = o.CreatedHandler(event.Data().(*ExpensePurposeCreated), entity.(*ExpensePurpose))
+    case ExpensePurposeDeleteEvent:
+        err = o.DeleteHandler(event.Data().(*DeleteExpensePurpose), entity.(*ExpensePurpose))
+    case ExpensePurposeDeletedEvent:
+        err = o.DeletedHandler(event.Data().(*ExpensePurposeDeleted), entity.(*ExpensePurpose))
+    case ExpensePurposeUpdateEvent:
+        err = o.UpdateHandler(event.Data().(*UpdateExpensePurpose), entity.(*ExpensePurpose))
+    case ExpensePurposeUpdatedEvent:
+        err = o.UpdatedHandler(event.Data().(*ExpensePurposeUpdated), entity.(*ExpensePurpose))
     default:
 		err = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
@@ -348,23 +348,23 @@ func (o *EventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entit
 func (o *EventHandler) SetupEventHandler() (err error) {
 
     //register event object factory
-    eventhorizon.RegisterEventData(CreateEvent, func() eventhorizon.EventData {
-		return &Create{}
+    eventhorizon.RegisterEventData(CreateExpensePurposeEvent, func() eventhorizon.EventData {
+		return &CreateExpensePurpose{}
 	})
 
     //default handler implementation
-    o.CreateHandler = func(event *Create, entity *ExpensePurpose) (err error) {
-        //err = eh.EventHandlerNotImplemented(CreateEvent)
+    o.CreateHandler = func(event *CreateExpensePurpose, entity *ExpensePurpose) (err error) {
+        //err = eh.EventHandlerNotImplemented(CreateExpensePurposeEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(CreatedEvent, func() eventhorizon.EventData {
-		return &Created{}
+    eventhorizon.RegisterEventData(ExpensePurposeCreatedEvent, func() eventhorizon.EventData {
+		return &ExpensePurposeCreated{}
 	})
 
     //default handler implementation
-    o.CreatedHandler = func(event *Created, entity *ExpensePurpose) (err error) {
+    o.CreatedHandler = func(event *ExpensePurposeCreated, entity *ExpensePurpose) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, ExpensePurposeAggregateType); err == nil {
             entity.Name = event.Name
             entity.Description = event.Description
@@ -374,23 +374,23 @@ func (o *EventHandler) SetupEventHandler() (err error) {
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(DeleteEvent, func() eventhorizon.EventData {
-		return &Delete{}
+    eventhorizon.RegisterEventData(DeleteExpensePurposeEvent, func() eventhorizon.EventData {
+		return &DeleteExpensePurpose{}
 	})
 
     //default handler implementation
-    o.DeleteHandler = func(event *Delete, entity *ExpensePurpose) (err error) {
-        //err = eh.EventHandlerNotImplemented(DeleteEvent)
+    o.DeleteHandler = func(event *DeleteExpensePurpose, entity *ExpensePurpose) (err error) {
+        //err = eh.EventHandlerNotImplemented(DeleteExpensePurposeEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(DeletedEvent, func() eventhorizon.EventData {
-		return &Deleted{}
+    eventhorizon.RegisterEventData(ExpensePurposeDeletedEvent, func() eventhorizon.EventData {
+		return &ExpensePurposeDeleted{}
 	})
 
     //default handler implementation
-    o.DeletedHandler = func(event *Deleted, entity *ExpensePurpose) (err error) {
+    o.DeletedHandler = func(event *ExpensePurposeDeleted, entity *ExpensePurpose) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpensePurposeAggregateType); err == nil {
             *entity = *NewExpensePurpose()
         }
@@ -398,23 +398,23 @@ func (o *EventHandler) SetupEventHandler() (err error) {
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(UpdateEvent, func() eventhorizon.EventData {
-		return &Update{}
+    eventhorizon.RegisterEventData(UpdateExpensePurposeEvent, func() eventhorizon.EventData {
+		return &UpdateExpensePurpose{}
 	})
 
     //default handler implementation
-    o.UpdateHandler = func(event *Update, entity *ExpensePurpose) (err error) {
-        //err = eh.EventHandlerNotImplemented(UpdateEvent)
+    o.UpdateHandler = func(event *UpdateExpensePurpose, entity *ExpensePurpose) (err error) {
+        //err = eh.EventHandlerNotImplemented(UpdateExpensePurposeEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(UpdatedEvent, func() eventhorizon.EventData {
-		return &Updated{}
+    eventhorizon.RegisterEventData(ExpensePurposeUpdatedEvent, func() eventhorizon.EventData {
+		return &ExpensePurposeUpdated{}
 	})
 
     //default handler implementation
-    o.UpdatedHandler = func(event *Updated, entity *ExpensePurpose) (err error) {
+    o.UpdatedHandler = func(event *ExpensePurposeUpdated, entity *ExpensePurpose) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpensePurposeAggregateType); err == nil {
             entity.Name = event.Name
             entity.Description = event.Description
@@ -436,7 +436,7 @@ type AggregateInitializer struct {
 
 
 
-func New@@EMPTY@@(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
+func NewExpensePurposeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AggregateInitializer) {
     
@@ -457,14 +457,14 @@ func New@@EMPTY@@(eventStore eventhorizon.EventStore, eventBus eventhorizon.Even
 
 
 type CommandHandler struct {
-    CreateHandler func (*Create, *Fee, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
-    DeleteHandler func (*Delete, *Fee, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
-    UpdateHandler func (*Update, *Fee, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
+    CreateHandler func (*CreateFee, *Fee, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteFee, *Fee, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    UpdateHandler func (*UpdateFee, *Fee, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
-func (o *CommandHandler) AddCreatePreparer(preparer func (*Create, *Fee) (err error) ) {
+func (o *CommandHandler) AddCreatePreparer(preparer func (*CreateFee, *Fee) (err error) ) {
     prevHandler := o.CreateHandler
-	o.CreateHandler = func(command *Create, entity *Fee, store eh.AggregateStoreEvent) (err error) {
+	o.CreateHandler = func(command *CreateFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -472,9 +472,9 @@ func (o *CommandHandler) AddCreatePreparer(preparer func (*Create, *Fee) (err er
 	}
 }
 
-func (o *CommandHandler) AddDeletePreparer(preparer func (*Delete, *Fee) (err error) ) {
+func (o *CommandHandler) AddDeletePreparer(preparer func (*DeleteFee, *Fee) (err error) ) {
     prevHandler := o.DeleteHandler
-	o.DeleteHandler = func(command *Delete, entity *Fee, store eh.AggregateStoreEvent) (err error) {
+	o.DeleteHandler = func(command *DeleteFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -482,9 +482,9 @@ func (o *CommandHandler) AddDeletePreparer(preparer func (*Delete, *Fee) (err er
 	}
 }
 
-func (o *CommandHandler) AddUpdatePreparer(preparer func (*Update, *Fee) (err error) ) {
+func (o *CommandHandler) AddUpdatePreparer(preparer func (*UpdateFee, *Fee) (err error) ) {
     prevHandler := o.UpdateHandler
-	o.UpdateHandler = func(command *Update, entity *Fee, store eh.AggregateStoreEvent) (err error) {
+	o.UpdateHandler = func(command *UpdateFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -494,12 +494,12 @@ func (o *CommandHandler) AddUpdatePreparer(preparer func (*Update, *Fee) (err er
 
 func (o *CommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
-    case CreateCommand:
-        err = o.CreateHandler(cmd.(*Create), entity.(*Fee), store)
-    case DeleteCommand:
-        err = o.DeleteHandler(cmd.(*Delete), entity.(*Fee), store)
-    case UpdateCommand:
-        err = o.UpdateHandler(cmd.(*Update), entity.(*Fee), store)
+    case CreateFeeCommand:
+        err = o.CreateHandler(cmd.(*CreateFee), entity.(*Fee), store)
+    case DeleteFeeCommand:
+        err = o.DeleteHandler(cmd.(*DeleteFee), entity.(*Fee), store)
+    case UpdateFeeCommand:
+        err = o.UpdateHandler(cmd.(*UpdateFee), entity.(*Fee), store)
     default:
 		err = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
@@ -507,9 +507,9 @@ func (o *CommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.E
 }
 
 func (o *CommandHandler) SetupCommandHandler() (err error) {
-    o.CreateHandler = func(command *Create, entity *Fee, store eh.AggregateStoreEvent) (err error) {
+    o.CreateHandler = func(command *CreateFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateNewId(entity.Id, command.Id, FeeAggregateType); err == nil {
-            store.StoreEvent(createdEvent, &Created{
+            store.StoreEvent(FeeCreatedEvent, &FeeCreated{
                 Student: command.Student,
                 Amount: command.Amount,
                 Kind: command.Kind,
@@ -518,16 +518,16 @@ func (o *CommandHandler) SetupCommandHandler() (err error) {
         }
         return
     }
-    o.DeleteHandler = func(command *Delete, entity *Fee, store eh.AggregateStoreEvent) (err error) {
+    o.DeleteHandler = func(command *DeleteFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, FeeAggregateType); err == nil {
-            store.StoreEvent(deletedEvent, &Deleted{
+            store.StoreEvent(FeeDeletedEvent, &FeeDeleted{
                 Id: command.Id,}, time.Now())
         }
         return
     }
-    o.UpdateHandler = func(command *Update, entity *Fee, store eh.AggregateStoreEvent) (err error) {
+    o.UpdateHandler = func(command *UpdateFee, entity *Fee, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, FeeAggregateType); err == nil {
-            store.StoreEvent(updatedEvent, &Updated{
+            store.StoreEvent(FeeUpdatedEvent, &FeeUpdated{
                 Student: command.Student,
                 Amount: command.Amount,
                 Kind: command.Kind,
@@ -541,28 +541,28 @@ func (o *CommandHandler) SetupCommandHandler() (err error) {
 
 
 type EventHandler struct {
-    CreateHandler func (*Create, *Fee) (err error)  `json:"createHandler" eh:"optional"`
-    CreatedHandler func (*Created, *Fee) (err error)  `json:"createdHandler" eh:"optional"`
-    DeleteHandler func (*Delete, *Fee) (err error)  `json:"deleteHandler" eh:"optional"`
-    DeletedHandler func (*Deleted, *Fee) (err error)  `json:"deletedHandler" eh:"optional"`
-    UpdateHandler func (*Update, *Fee) (err error)  `json:"updateHandler" eh:"optional"`
-    UpdatedHandler func (*Updated, *Fee) (err error)  `json:"updatedHandler" eh:"optional"`
+    CreateHandler func (*CreateFee, *Fee) (err error)  `json:"createHandler" eh:"optional"`
+    CreatedHandler func (*FeeCreated, *Fee) (err error)  `json:"createdHandler" eh:"optional"`
+    DeleteHandler func (*DeleteFee, *Fee) (err error)  `json:"deleteHandler" eh:"optional"`
+    DeletedHandler func (*FeeDeleted, *Fee) (err error)  `json:"deletedHandler" eh:"optional"`
+    UpdateHandler func (*UpdateFee, *Fee) (err error)  `json:"updateHandler" eh:"optional"`
+    UpdatedHandler func (*FeeUpdated, *Fee) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
 func (o *EventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
-    case CreateEvent:
-        err = o.CreateHandler(event.Data().(*Create), entity.(*Fee))
-    case CreatedEvent:
-        err = o.CreatedHandler(event.Data().(*Created), entity.(*Fee))
-    case DeleteEvent:
-        err = o.DeleteHandler(event.Data().(*Delete), entity.(*Fee))
-    case DeletedEvent:
-        err = o.DeletedHandler(event.Data().(*Deleted), entity.(*Fee))
-    case UpdateEvent:
-        err = o.UpdateHandler(event.Data().(*Update), entity.(*Fee))
-    case UpdatedEvent:
-        err = o.UpdatedHandler(event.Data().(*Updated), entity.(*Fee))
+    case FeeCreateEvent:
+        err = o.CreateHandler(event.Data().(*CreateFee), entity.(*Fee))
+    case FeeCreatedEvent:
+        err = o.CreatedHandler(event.Data().(*FeeCreated), entity.(*Fee))
+    case FeeDeleteEvent:
+        err = o.DeleteHandler(event.Data().(*DeleteFee), entity.(*Fee))
+    case FeeDeletedEvent:
+        err = o.DeletedHandler(event.Data().(*FeeDeleted), entity.(*Fee))
+    case FeeUpdateEvent:
+        err = o.UpdateHandler(event.Data().(*UpdateFee), entity.(*Fee))
+    case FeeUpdatedEvent:
+        err = o.UpdatedHandler(event.Data().(*FeeUpdated), entity.(*Fee))
     default:
 		err = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
@@ -572,23 +572,23 @@ func (o *EventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entit
 func (o *EventHandler) SetupEventHandler() (err error) {
 
     //register event object factory
-    eventhorizon.RegisterEventData(CreateEvent, func() eventhorizon.EventData {
-		return &Create{}
+    eventhorizon.RegisterEventData(CreateFeeEvent, func() eventhorizon.EventData {
+		return &CreateFee{}
 	})
 
     //default handler implementation
-    o.CreateHandler = func(event *Create, entity *Fee) (err error) {
-        //err = eh.EventHandlerNotImplemented(CreateEvent)
+    o.CreateHandler = func(event *CreateFee, entity *Fee) (err error) {
+        //err = eh.EventHandlerNotImplemented(CreateFeeEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(CreatedEvent, func() eventhorizon.EventData {
-		return &Created{}
+    eventhorizon.RegisterEventData(FeeCreatedEvent, func() eventhorizon.EventData {
+		return &FeeCreated{}
 	})
 
     //default handler implementation
-    o.CreatedHandler = func(event *Created, entity *Fee) (err error) {
+    o.CreatedHandler = func(event *FeeCreated, entity *Fee) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, FeeAggregateType); err == nil {
             entity.Student = event.Student
             entity.Amount = event.Amount
@@ -600,23 +600,23 @@ func (o *EventHandler) SetupEventHandler() (err error) {
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(DeleteEvent, func() eventhorizon.EventData {
-		return &Delete{}
+    eventhorizon.RegisterEventData(DeleteFeeEvent, func() eventhorizon.EventData {
+		return &DeleteFee{}
 	})
 
     //default handler implementation
-    o.DeleteHandler = func(event *Delete, entity *Fee) (err error) {
-        //err = eh.EventHandlerNotImplemented(DeleteEvent)
+    o.DeleteHandler = func(event *DeleteFee, entity *Fee) (err error) {
+        //err = eh.EventHandlerNotImplemented(DeleteFeeEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(DeletedEvent, func() eventhorizon.EventData {
-		return &Deleted{}
+    eventhorizon.RegisterEventData(FeeDeletedEvent, func() eventhorizon.EventData {
+		return &FeeDeleted{}
 	})
 
     //default handler implementation
-    o.DeletedHandler = func(event *Deleted, entity *Fee) (err error) {
+    o.DeletedHandler = func(event *FeeDeleted, entity *Fee) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeAggregateType); err == nil {
             *entity = *NewFee()
         }
@@ -624,23 +624,23 @@ func (o *EventHandler) SetupEventHandler() (err error) {
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(UpdateEvent, func() eventhorizon.EventData {
-		return &Update{}
+    eventhorizon.RegisterEventData(UpdateFeeEvent, func() eventhorizon.EventData {
+		return &UpdateFee{}
 	})
 
     //default handler implementation
-    o.UpdateHandler = func(event *Update, entity *Fee) (err error) {
-        //err = eh.EventHandlerNotImplemented(UpdateEvent)
+    o.UpdateHandler = func(event *UpdateFee, entity *Fee) (err error) {
+        //err = eh.EventHandlerNotImplemented(UpdateFeeEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(UpdatedEvent, func() eventhorizon.EventData {
-		return &Updated{}
+    eventhorizon.RegisterEventData(FeeUpdatedEvent, func() eventhorizon.EventData {
+		return &FeeUpdated{}
 	})
 
     //default handler implementation
-    o.UpdatedHandler = func(event *Updated, entity *Fee) (err error) {
+    o.UpdatedHandler = func(event *FeeUpdated, entity *Fee) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeAggregateType); err == nil {
             entity.Student = event.Student
             entity.Amount = event.Amount
@@ -664,7 +664,7 @@ type AggregateInitializer struct {
 
 
 
-func New@@EMPTY@@(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
+func NewFeeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AggregateInitializer) {
     
@@ -685,14 +685,14 @@ func New@@EMPTY@@(eventStore eventhorizon.EventStore, eventBus eventhorizon.Even
 
 
 type CommandHandler struct {
-    CreateHandler func (*Create, *FeeKind, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
-    DeleteHandler func (*Delete, *FeeKind, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
-    UpdateHandler func (*Update, *FeeKind, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
+    CreateHandler func (*CreateFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
+    DeleteHandler func (*DeleteFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error)  `json:"deleteHandler" eh:"optional"`
+    UpdateHandler func (*UpdateFeeKind, *FeeKind, eh.AggregateStoreEvent) (err error)  `json:"updateHandler" eh:"optional"`
 }
 
-func (o *CommandHandler) AddCreatePreparer(preparer func (*Create, *FeeKind) (err error) ) {
+func (o *CommandHandler) AddCreatePreparer(preparer func (*CreateFeeKind, *FeeKind) (err error) ) {
     prevHandler := o.CreateHandler
-	o.CreateHandler = func(command *Create, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
+	o.CreateHandler = func(command *CreateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -700,9 +700,9 @@ func (o *CommandHandler) AddCreatePreparer(preparer func (*Create, *FeeKind) (er
 	}
 }
 
-func (o *CommandHandler) AddDeletePreparer(preparer func (*Delete, *FeeKind) (err error) ) {
+func (o *CommandHandler) AddDeletePreparer(preparer func (*DeleteFeeKind, *FeeKind) (err error) ) {
     prevHandler := o.DeleteHandler
-	o.DeleteHandler = func(command *Delete, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
+	o.DeleteHandler = func(command *DeleteFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -710,9 +710,9 @@ func (o *CommandHandler) AddDeletePreparer(preparer func (*Delete, *FeeKind) (er
 	}
 }
 
-func (o *CommandHandler) AddUpdatePreparer(preparer func (*Update, *FeeKind) (err error) ) {
+func (o *CommandHandler) AddUpdatePreparer(preparer func (*UpdateFeeKind, *FeeKind) (err error) ) {
     prevHandler := o.UpdateHandler
-	o.UpdateHandler = func(command *Update, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
+	o.UpdateHandler = func(command *UpdateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
 		if err = preparer(command, entity); err == nil {
 			err = prevHandler(command, entity, store)
 		}
@@ -722,12 +722,12 @@ func (o *CommandHandler) AddUpdatePreparer(preparer func (*Update, *FeeKind) (er
 
 func (o *CommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.Entity, store eh.AggregateStoreEvent) (err error) {
     switch cmd.CommandType() {
-    case CreateCommand:
-        err = o.CreateHandler(cmd.(*Create), entity.(*FeeKind), store)
-    case DeleteCommand:
-        err = o.DeleteHandler(cmd.(*Delete), entity.(*FeeKind), store)
-    case UpdateCommand:
-        err = o.UpdateHandler(cmd.(*Update), entity.(*FeeKind), store)
+    case CreateFeeKindCommand:
+        err = o.CreateHandler(cmd.(*CreateFeeKind), entity.(*FeeKind), store)
+    case DeleteFeeKindCommand:
+        err = o.DeleteHandler(cmd.(*DeleteFeeKind), entity.(*FeeKind), store)
+    case UpdateFeeKindCommand:
+        err = o.UpdateHandler(cmd.(*UpdateFeeKind), entity.(*FeeKind), store)
     default:
 		err = errors.New(fmt.Sprintf("Not supported command type '%v' for entity '%v", cmd.CommandType(), entity))
 	}
@@ -735,9 +735,9 @@ func (o *CommandHandler) Execute(cmd eventhorizon.Command, entity eventhorizon.E
 }
 
 func (o *CommandHandler) SetupCommandHandler() (err error) {
-    o.CreateHandler = func(command *Create, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
+    o.CreateHandler = func(command *CreateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateNewId(entity.Id, command.Id, FeeKindAggregateType); err == nil {
-            store.StoreEvent(createdEvent, &Created{
+            store.StoreEvent(FeeKindCreatedEvent, &FeeKindCreated{
                 Name: command.Name,
                 Amount: command.Amount,
                 Description: command.Description,
@@ -745,16 +745,16 @@ func (o *CommandHandler) SetupCommandHandler() (err error) {
         }
         return
     }
-    o.DeleteHandler = func(command *Delete, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
+    o.DeleteHandler = func(command *DeleteFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, FeeKindAggregateType); err == nil {
-            store.StoreEvent(deletedEvent, &Deleted{
+            store.StoreEvent(FeeKindDeletedEvent, &FeeKindDeleted{
                 Id: command.Id,}, time.Now())
         }
         return
     }
-    o.UpdateHandler = func(command *Update, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
+    o.UpdateHandler = func(command *UpdateFeeKind, entity *FeeKind, store eh.AggregateStoreEvent) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, command.Id, FeeKindAggregateType); err == nil {
-            store.StoreEvent(updatedEvent, &Updated{
+            store.StoreEvent(FeeKindUpdatedEvent, &FeeKindUpdated{
                 Name: command.Name,
                 Amount: command.Amount,
                 Description: command.Description,
@@ -767,28 +767,28 @@ func (o *CommandHandler) SetupCommandHandler() (err error) {
 
 
 type EventHandler struct {
-    CreateHandler func (*Create, *FeeKind) (err error)  `json:"createHandler" eh:"optional"`
-    CreatedHandler func (*Created, *FeeKind) (err error)  `json:"createdHandler" eh:"optional"`
-    DeleteHandler func (*Delete, *FeeKind) (err error)  `json:"deleteHandler" eh:"optional"`
-    DeletedHandler func (*Deleted, *FeeKind) (err error)  `json:"deletedHandler" eh:"optional"`
-    UpdateHandler func (*Update, *FeeKind) (err error)  `json:"updateHandler" eh:"optional"`
-    UpdatedHandler func (*Updated, *FeeKind) (err error)  `json:"updatedHandler" eh:"optional"`
+    CreateHandler func (*CreateFeeKind, *FeeKind) (err error)  `json:"createHandler" eh:"optional"`
+    CreatedHandler func (*FeeKindCreated, *FeeKind) (err error)  `json:"createdHandler" eh:"optional"`
+    DeleteHandler func (*DeleteFeeKind, *FeeKind) (err error)  `json:"deleteHandler" eh:"optional"`
+    DeletedHandler func (*FeeKindDeleted, *FeeKind) (err error)  `json:"deletedHandler" eh:"optional"`
+    UpdateHandler func (*UpdateFeeKind, *FeeKind) (err error)  `json:"updateHandler" eh:"optional"`
+    UpdatedHandler func (*FeeKindUpdated, *FeeKind) (err error)  `json:"updatedHandler" eh:"optional"`
 }
 
 func (o *EventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entity) (err error) {
     switch event.EventType() {
-    case CreateEvent:
-        err = o.CreateHandler(event.Data().(*Create), entity.(*FeeKind))
-    case CreatedEvent:
-        err = o.CreatedHandler(event.Data().(*Created), entity.(*FeeKind))
-    case DeleteEvent:
-        err = o.DeleteHandler(event.Data().(*Delete), entity.(*FeeKind))
-    case DeletedEvent:
-        err = o.DeletedHandler(event.Data().(*Deleted), entity.(*FeeKind))
-    case UpdateEvent:
-        err = o.UpdateHandler(event.Data().(*Update), entity.(*FeeKind))
-    case UpdatedEvent:
-        err = o.UpdatedHandler(event.Data().(*Updated), entity.(*FeeKind))
+    case FeeKindCreateEvent:
+        err = o.CreateHandler(event.Data().(*CreateFeeKind), entity.(*FeeKind))
+    case FeeKindCreatedEvent:
+        err = o.CreatedHandler(event.Data().(*FeeKindCreated), entity.(*FeeKind))
+    case FeeKindDeleteEvent:
+        err = o.DeleteHandler(event.Data().(*DeleteFeeKind), entity.(*FeeKind))
+    case FeeKindDeletedEvent:
+        err = o.DeletedHandler(event.Data().(*FeeKindDeleted), entity.(*FeeKind))
+    case FeeKindUpdateEvent:
+        err = o.UpdateHandler(event.Data().(*UpdateFeeKind), entity.(*FeeKind))
+    case FeeKindUpdatedEvent:
+        err = o.UpdatedHandler(event.Data().(*FeeKindUpdated), entity.(*FeeKind))
     default:
 		err = errors.New(fmt.Sprintf("Not supported event type '%v' for entity '%v", event.EventType(), entity))
 	}
@@ -798,23 +798,23 @@ func (o *EventHandler) Apply(event eventhorizon.Event, entity eventhorizon.Entit
 func (o *EventHandler) SetupEventHandler() (err error) {
 
     //register event object factory
-    eventhorizon.RegisterEventData(CreateEvent, func() eventhorizon.EventData {
-		return &Create{}
+    eventhorizon.RegisterEventData(CreateFeeKindEvent, func() eventhorizon.EventData {
+		return &CreateFeeKind{}
 	})
 
     //default handler implementation
-    o.CreateHandler = func(event *Create, entity *FeeKind) (err error) {
-        //err = eh.EventHandlerNotImplemented(CreateEvent)
+    o.CreateHandler = func(event *CreateFeeKind, entity *FeeKind) (err error) {
+        //err = eh.EventHandlerNotImplemented(CreateFeeKindEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(CreatedEvent, func() eventhorizon.EventData {
-		return &Created{}
+    eventhorizon.RegisterEventData(FeeKindCreatedEvent, func() eventhorizon.EventData {
+		return &FeeKindCreated{}
 	})
 
     //default handler implementation
-    o.CreatedHandler = func(event *Created, entity *FeeKind) (err error) {
+    o.CreatedHandler = func(event *FeeKindCreated, entity *FeeKind) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, FeeKindAggregateType); err == nil {
             entity.Name = event.Name
             entity.Amount = event.Amount
@@ -825,23 +825,23 @@ func (o *EventHandler) SetupEventHandler() (err error) {
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(DeleteEvent, func() eventhorizon.EventData {
-		return &Delete{}
+    eventhorizon.RegisterEventData(DeleteFeeKindEvent, func() eventhorizon.EventData {
+		return &DeleteFeeKind{}
 	})
 
     //default handler implementation
-    o.DeleteHandler = func(event *Delete, entity *FeeKind) (err error) {
-        //err = eh.EventHandlerNotImplemented(DeleteEvent)
+    o.DeleteHandler = func(event *DeleteFeeKind, entity *FeeKind) (err error) {
+        //err = eh.EventHandlerNotImplemented(DeleteFeeKindEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(DeletedEvent, func() eventhorizon.EventData {
-		return &Deleted{}
+    eventhorizon.RegisterEventData(FeeKindDeletedEvent, func() eventhorizon.EventData {
+		return &FeeKindDeleted{}
 	})
 
     //default handler implementation
-    o.DeletedHandler = func(event *Deleted, entity *FeeKind) (err error) {
+    o.DeletedHandler = func(event *FeeKindDeleted, entity *FeeKind) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeKindAggregateType); err == nil {
             *entity = *NewFeeKind()
         }
@@ -849,23 +849,23 @@ func (o *EventHandler) SetupEventHandler() (err error) {
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(UpdateEvent, func() eventhorizon.EventData {
-		return &Update{}
+    eventhorizon.RegisterEventData(UpdateFeeKindEvent, func() eventhorizon.EventData {
+		return &UpdateFeeKind{}
 	})
 
     //default handler implementation
-    o.UpdateHandler = func(event *Update, entity *FeeKind) (err error) {
-        //err = eh.EventHandlerNotImplemented(UpdateEvent)
+    o.UpdateHandler = func(event *UpdateFeeKind, entity *FeeKind) (err error) {
+        //err = eh.EventHandlerNotImplemented(UpdateFeeKindEvent)
         return
     }
 
     //register event object factory
-    eventhorizon.RegisterEventData(UpdatedEvent, func() eventhorizon.EventData {
-		return &Updated{}
+    eventhorizon.RegisterEventData(FeeKindUpdatedEvent, func() eventhorizon.EventData {
+		return &FeeKindUpdated{}
 	})
 
     //default handler implementation
-    o.UpdatedHandler = func(event *Updated, entity *FeeKind) (err error) {
+    o.UpdatedHandler = func(event *FeeKindUpdated, entity *FeeKind) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeKindAggregateType); err == nil {
             entity.Name = event.Name
             entity.Amount = event.Amount
@@ -888,7 +888,7 @@ type AggregateInitializer struct {
 
 
 
-func New@@EMPTY@@(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
+func NewFeeKindAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AggregateInitializer) {
     
@@ -919,13 +919,13 @@ type FinanceEventhorizonInitializer struct {
     FeeKindAggregateInitializer *AggregateInitializer `json:"feeKindAggregateInitializer" eh:"optional"`
 }
 
-func New@@EMPTY@@(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
+func NewFinanceEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
                 commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FinanceEventhorizonInitializer) {
-    expenseAggregateInitializer := New@@EMPTY@@(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    expensePurposeAggregateInitializer := New@@EMPTY@@(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    feeAggregateInitializer := New@@EMPTY@@(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    feeKindAggregateInitializer := New@@EMPTY@@(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    expenseAggregateInitializer := NewExpenseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    expensePurposeAggregateInitializer := NewExpensePurposeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    feeAggregateInitializer := NewFeeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    feeKindAggregateInitializer := NewFeeKindAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
     ret = &FinanceEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,

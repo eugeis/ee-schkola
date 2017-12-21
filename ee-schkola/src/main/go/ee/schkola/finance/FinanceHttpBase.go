@@ -25,38 +25,38 @@ func NewExpenseHttpQueryHandler(queryRepository *QueryRepository) (ret *HttpQuer
 
 func (o *HttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
-    o.HandleResult(ret, err, "FindAll", w, r)
+    o.HandleResult(ret, err, "FindAllExpense", w, r)
 }
 
 func (o *HttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
-    o.HandleResult(ret, err, "FindById", w, r)
+    o.HandleResult(ret, err, "FindByExpenseId", w, r)
 }
 
 func (o *HttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
-    o.HandleResult(ret, err, "CountAll", w, r)
+    o.HandleResult(ret, err, "CountAllExpense", w, r)
 }
 
 func (o *HttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
-    o.HandleResult(ret, err, "CountById", w, r)
+    o.HandleResult(ret, err, "CountByExpenseId", w, r)
 }
 
 func (o *HttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
-    o.HandleResult(ret, err, "ExistAll", w, r)
+    o.HandleResult(ret, err, "ExistAllExpense", w, r)
 }
 
 func (o *HttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
-    o.HandleResult(ret, err, "ExistById", w, r)
+    o.HandleResult(ret, err, "ExistByExpenseId", w, r)
 }
 
 
@@ -75,19 +75,19 @@ func NewExpenseHttpCommandHandler(context context.Context, commandBus eventhoriz
 func (o *HttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Create{Id: id}, w, r)
+    o.HandleCommand(&CreateExpense{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Update{Id: id}, w, r)
+    o.HandleCommand(&UpdateExpense{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Delete{Id: id}, w, r)
+    o.HandleCommand(&DeleteExpense{Id: id}, w, r)
 }
 
 
@@ -98,7 +98,7 @@ type Router struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+func NewExpenseRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *Router) {
     pathPrefix = pathPrefix + "/" + "expenses"
     entityFactory := func() eventhorizon.Entity { return NewExpense() }
@@ -116,27 +116,27 @@ func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventho
 
 func (o *Router) Setup(router *mux.Router) (err error) {
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("CountById").HandlerFunc(o.QueryHandler.CountById).
+        Name("CountExpenseById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("CountAll").HandlerFunc(o.QueryHandler.CountAll).
+        Name("CountExpenseAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("ExistById").HandlerFunc(o.QueryHandler.ExistById).
+        Name("ExistExpenseById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("ExistAll").HandlerFunc(o.QueryHandler.ExistAll).
+        Name("ExistExpenseAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("FindById").HandlerFunc(o.QueryHandler.FindById)
+        Name("FindExpenseById").HandlerFunc(o.QueryHandler.FindById)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("FindAll").HandlerFunc(o.QueryHandler.FindAll)
+        Name("FindExpenseAll").HandlerFunc(o.QueryHandler.FindAll)
     router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Create").HandlerFunc(o.CommandHandler.Create)
+        Name("CreateExpense").HandlerFunc(o.CommandHandler.Create)
     router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Update").HandlerFunc(o.CommandHandler.Update)
+        Name("UpdateExpense").HandlerFunc(o.CommandHandler.Update)
     router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+        Name("DeleteExpense").HandlerFunc(o.CommandHandler.Delete)
     return
 }
 
@@ -157,38 +157,38 @@ func NewExpensePurposeHttpQueryHandler(queryRepository *QueryRepository) (ret *H
 
 func (o *HttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
-    o.HandleResult(ret, err, "FindAll", w, r)
+    o.HandleResult(ret, err, "FindAllExpensePurpose", w, r)
 }
 
 func (o *HttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
-    o.HandleResult(ret, err, "FindById", w, r)
+    o.HandleResult(ret, err, "FindByExpensePurposeId", w, r)
 }
 
 func (o *HttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
-    o.HandleResult(ret, err, "CountAll", w, r)
+    o.HandleResult(ret, err, "CountAllExpensePurpose", w, r)
 }
 
 func (o *HttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
-    o.HandleResult(ret, err, "CountById", w, r)
+    o.HandleResult(ret, err, "CountByExpensePurposeId", w, r)
 }
 
 func (o *HttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
-    o.HandleResult(ret, err, "ExistAll", w, r)
+    o.HandleResult(ret, err, "ExistAllExpensePurpose", w, r)
 }
 
 func (o *HttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
-    o.HandleResult(ret, err, "ExistById", w, r)
+    o.HandleResult(ret, err, "ExistByExpensePurposeId", w, r)
 }
 
 
@@ -207,19 +207,19 @@ func NewExpensePurposeHttpCommandHandler(context context.Context, commandBus eve
 func (o *HttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Create{Id: id}, w, r)
+    o.HandleCommand(&CreateExpensePurpose{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Update{Id: id}, w, r)
+    o.HandleCommand(&UpdateExpensePurpose{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Delete{Id: id}, w, r)
+    o.HandleCommand(&DeleteExpensePurpose{Id: id}, w, r)
 }
 
 
@@ -230,7 +230,7 @@ type Router struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+func NewExpensePurposeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *Router) {
     pathPrefix = pathPrefix + "/" + "expensePurposes"
     entityFactory := func() eventhorizon.Entity { return NewExpensePurpose() }
@@ -248,27 +248,27 @@ func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventho
 
 func (o *Router) Setup(router *mux.Router) (err error) {
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("CountById").HandlerFunc(o.QueryHandler.CountById).
+        Name("CountExpensePurposeById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("CountAll").HandlerFunc(o.QueryHandler.CountAll).
+        Name("CountExpensePurposeAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("ExistById").HandlerFunc(o.QueryHandler.ExistById).
+        Name("ExistExpensePurposeById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("ExistAll").HandlerFunc(o.QueryHandler.ExistAll).
+        Name("ExistExpensePurposeAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("FindById").HandlerFunc(o.QueryHandler.FindById)
+        Name("FindExpensePurposeById").HandlerFunc(o.QueryHandler.FindById)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("FindAll").HandlerFunc(o.QueryHandler.FindAll)
+        Name("FindExpensePurposeAll").HandlerFunc(o.QueryHandler.FindAll)
     router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Create").HandlerFunc(o.CommandHandler.Create)
+        Name("CreateExpensePurpose").HandlerFunc(o.CommandHandler.Create)
     router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Update").HandlerFunc(o.CommandHandler.Update)
+        Name("UpdateExpensePurpose").HandlerFunc(o.CommandHandler.Update)
     router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+        Name("DeleteExpensePurpose").HandlerFunc(o.CommandHandler.Delete)
     return
 }
 
@@ -289,38 +289,38 @@ func NewFeeHttpQueryHandler(queryRepository *QueryRepository) (ret *HttpQueryHan
 
 func (o *HttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
-    o.HandleResult(ret, err, "FindAll", w, r)
+    o.HandleResult(ret, err, "FindAllFee", w, r)
 }
 
 func (o *HttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
-    o.HandleResult(ret, err, "FindById", w, r)
+    o.HandleResult(ret, err, "FindByFeeId", w, r)
 }
 
 func (o *HttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
-    o.HandleResult(ret, err, "CountAll", w, r)
+    o.HandleResult(ret, err, "CountAllFee", w, r)
 }
 
 func (o *HttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
-    o.HandleResult(ret, err, "CountById", w, r)
+    o.HandleResult(ret, err, "CountByFeeId", w, r)
 }
 
 func (o *HttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
-    o.HandleResult(ret, err, "ExistAll", w, r)
+    o.HandleResult(ret, err, "ExistAllFee", w, r)
 }
 
 func (o *HttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
-    o.HandleResult(ret, err, "ExistById", w, r)
+    o.HandleResult(ret, err, "ExistByFeeId", w, r)
 }
 
 
@@ -339,19 +339,19 @@ func NewFeeHttpCommandHandler(context context.Context, commandBus eventhorizon.C
 func (o *HttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Create{Id: id}, w, r)
+    o.HandleCommand(&CreateFee{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Update{Id: id}, w, r)
+    o.HandleCommand(&UpdateFee{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Delete{Id: id}, w, r)
+    o.HandleCommand(&DeleteFee{Id: id}, w, r)
 }
 
 
@@ -362,7 +362,7 @@ type Router struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+func NewFeeRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *Router) {
     pathPrefix = pathPrefix + "/" + "fees"
     entityFactory := func() eventhorizon.Entity { return NewFee() }
@@ -380,27 +380,27 @@ func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventho
 
 func (o *Router) Setup(router *mux.Router) (err error) {
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("CountById").HandlerFunc(o.QueryHandler.CountById).
+        Name("CountFeeById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("CountAll").HandlerFunc(o.QueryHandler.CountAll).
+        Name("CountFeeAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("ExistById").HandlerFunc(o.QueryHandler.ExistById).
+        Name("ExistFeeById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("ExistAll").HandlerFunc(o.QueryHandler.ExistAll).
+        Name("ExistFeeAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("FindById").HandlerFunc(o.QueryHandler.FindById)
+        Name("FindFeeById").HandlerFunc(o.QueryHandler.FindById)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("FindAll").HandlerFunc(o.QueryHandler.FindAll)
+        Name("FindFeeAll").HandlerFunc(o.QueryHandler.FindAll)
     router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Create").HandlerFunc(o.CommandHandler.Create)
+        Name("CreateFee").HandlerFunc(o.CommandHandler.Create)
     router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Update").HandlerFunc(o.CommandHandler.Update)
+        Name("UpdateFee").HandlerFunc(o.CommandHandler.Update)
     router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+        Name("DeleteFee").HandlerFunc(o.CommandHandler.Delete)
     return
 }
 
@@ -421,38 +421,38 @@ func NewFeeKindHttpQueryHandler(queryRepository *QueryRepository) (ret *HttpQuer
 
 func (o *HttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
-    o.HandleResult(ret, err, "FindAll", w, r)
+    o.HandleResult(ret, err, "FindAllFeeKind", w, r)
 }
 
 func (o *HttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
-    o.HandleResult(ret, err, "FindById", w, r)
+    o.HandleResult(ret, err, "FindByFeeKindId", w, r)
 }
 
 func (o *HttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
-    o.HandleResult(ret, err, "CountAll", w, r)
+    o.HandleResult(ret, err, "CountAllFeeKind", w, r)
 }
 
 func (o *HttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
-    o.HandleResult(ret, err, "CountById", w, r)
+    o.HandleResult(ret, err, "CountByFeeKindId", w, r)
 }
 
 func (o *HttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
-    o.HandleResult(ret, err, "ExistAll", w, r)
+    o.HandleResult(ret, err, "ExistAllFeeKind", w, r)
 }
 
 func (o *HttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
-    o.HandleResult(ret, err, "ExistById", w, r)
+    o.HandleResult(ret, err, "ExistByFeeKindId", w, r)
 }
 
 
@@ -471,19 +471,19 @@ func NewFeeKindHttpCommandHandler(context context.Context, commandBus eventhoriz
 func (o *HttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Create{Id: id}, w, r)
+    o.HandleCommand(&CreateFeeKind{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Update{Id: id}, w, r)
+    o.HandleCommand(&UpdateFeeKind{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Delete{Id: id}, w, r)
+    o.HandleCommand(&DeleteFeeKind{Id: id}, w, r)
 }
 
 
@@ -494,7 +494,7 @@ type Router struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+func NewFeeKindRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *Router) {
     pathPrefix = pathPrefix + "/" + "feeKinds"
     entityFactory := func() eventhorizon.Entity { return NewFeeKind() }
@@ -512,27 +512,27 @@ func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventho
 
 func (o *Router) Setup(router *mux.Router) (err error) {
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("CountById").HandlerFunc(o.QueryHandler.CountById).
+        Name("CountFeeKindById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("CountAll").HandlerFunc(o.QueryHandler.CountAll).
+        Name("CountFeeKindAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("ExistById").HandlerFunc(o.QueryHandler.ExistById).
+        Name("ExistFeeKindById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("ExistAll").HandlerFunc(o.QueryHandler.ExistAll).
+        Name("ExistFeeKindAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("FindById").HandlerFunc(o.QueryHandler.FindById)
+        Name("FindFeeKindById").HandlerFunc(o.QueryHandler.FindById)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("FindAll").HandlerFunc(o.QueryHandler.FindAll)
+        Name("FindFeeKindAll").HandlerFunc(o.QueryHandler.FindAll)
     router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Create").HandlerFunc(o.CommandHandler.Create)
+        Name("CreateFeeKind").HandlerFunc(o.CommandHandler.Create)
     router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Update").HandlerFunc(o.CommandHandler.Update)
+        Name("UpdateFeeKind").HandlerFunc(o.CommandHandler.Update)
     router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+        Name("DeleteFeeKind").HandlerFunc(o.CommandHandler.Delete)
     return
 }
 
@@ -546,13 +546,13 @@ type FinanceRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus *bus.CommandHandler, 
+func NewFinanceRouter(pathPrefix string, context context.Context, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *FinanceRouter) {
     pathPrefix = pathPrefix + "/" + "finance"
-    expenseRouter := New@@EMPTY@@(pathPrefix, context, commandBus, readRepos)
-    expensePurposeRouter := New@@EMPTY@@(pathPrefix, context, commandBus, readRepos)
-    feeRouter := New@@EMPTY@@(pathPrefix, context, commandBus, readRepos)
-    feeKindRouter := New@@EMPTY@@(pathPrefix, context, commandBus, readRepos)
+    expenseRouter := NewExpenseRouter(pathPrefix, context, commandBus, readRepos)
+    expensePurposeRouter := NewExpensePurposeRouter(pathPrefix, context, commandBus, readRepos)
+    feeRouter := NewFeeRouter(pathPrefix, context, commandBus, readRepos)
+    feeKindRouter := NewFeeKindRouter(pathPrefix, context, commandBus, readRepos)
     ret = &FinanceRouter{
         PathPrefix: pathPrefix,
         ExpenseRouter: expenseRouter,

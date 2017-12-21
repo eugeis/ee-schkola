@@ -10,65 +10,65 @@ import (
     "gopkg.in/mgo.v2/bson"
 )
 const (
-     SendEnabledConfirmationCommand eventhorizon.CommandType = "SendEnabledConfirmation"
-     SendDisabledConfirmationCommand eventhorizon.CommandType = "SendDisabledConfirmation"
-     LoginCommand eventhorizon.CommandType = "Login"
-     SendCreatedConfirmationCommand eventhorizon.CommandType = "SendCreatedConfirmation"
-     CreateCommand eventhorizon.CommandType = "Create"
-     DeleteCommand eventhorizon.CommandType = "Delete"
-     DisableCommand eventhorizon.CommandType = "Disable"
-     EnableCommand eventhorizon.CommandType = "Enable"
-     UpdateCommand eventhorizon.CommandType = "Update"
+     SendAccountEnabledConfirmationCommand eventhorizon.CommandType = "SendAccountEnabledConfirmation"
+     SendAccountDisabledConfirmationCommand eventhorizon.CommandType = "SendAccountDisabledConfirmation"
+     LoginAccountCommand eventhorizon.CommandType = "LoginAccount"
+     SendAccountCreatedConfirmationCommand eventhorizon.CommandType = "SendAccountCreatedConfirmation"
+     CreateAccountCommand eventhorizon.CommandType = "CreateAccount"
+     DeleteAccountCommand eventhorizon.CommandType = "DeleteAccount"
+     DisableAccountCommand eventhorizon.CommandType = "DisableAccount"
+     EnableAccountCommand eventhorizon.CommandType = "EnableAccount"
+     UpdateAccountCommand eventhorizon.CommandType = "UpdateAccount"
 )
 
 
 
 
         
-type SendEnabledConfirmation struct {
+type SendAccountEnabledConfirmation struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *SendEnabledConfirmation) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *SendEnabledConfirmation) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
-func (o *SendEnabledConfirmation) CommandType() eventhorizon.CommandType      { return SendEnabledConfirmationCommand }
+func (o *SendAccountEnabledConfirmation) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *SendAccountEnabledConfirmation) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
+func (o *SendAccountEnabledConfirmation) CommandType() eventhorizon.CommandType      { return SendAccountEnabledConfirmationCommand }
 
 
 
         
-type SendDisabledConfirmation struct {
+type SendAccountDisabledConfirmation struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *SendDisabledConfirmation) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *SendDisabledConfirmation) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
-func (o *SendDisabledConfirmation) CommandType() eventhorizon.CommandType      { return SendDisabledConfirmationCommand }
+func (o *SendAccountDisabledConfirmation) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *SendAccountDisabledConfirmation) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
+func (o *SendAccountDisabledConfirmation) CommandType() eventhorizon.CommandType      { return SendAccountDisabledConfirmationCommand }
 
 
 
         
-type Login struct {
+type LoginAccount struct {
     Username string `json:"username" eh:"optional"`
     Email string `json:"email" eh:"optional"`
     Password string `json:"password" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *Login) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *Login) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
-func (o *Login) CommandType() eventhorizon.CommandType      { return LoginCommand }
+func (o *LoginAccount) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *LoginAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
+func (o *LoginAccount) CommandType() eventhorizon.CommandType      { return LoginAccountCommand }
 
 
 
         
-type SendCreatedConfirmation struct {
+type SendAccountCreatedConfirmation struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *SendCreatedConfirmation) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *SendCreatedConfirmation) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
-func (o *SendCreatedConfirmation) CommandType() eventhorizon.CommandType      { return SendCreatedConfirmationCommand }
+func (o *SendAccountCreatedConfirmation) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *SendAccountCreatedConfirmation) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
+func (o *SendAccountCreatedConfirmation) CommandType() eventhorizon.CommandType      { return SendAccountCreatedConfirmationCommand }
 
 
 
         
-type Create struct {
+type CreateAccount struct {
     Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -79,48 +79,48 @@ type Create struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *Create) AddToRoles(item string) string {
+func (o *CreateAccount) AddToRoles(item string) string {
     o.Roles = append(o.Roles, item)
     return item
 }
-func (o *Create) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *Create) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
-func (o *Create) CommandType() eventhorizon.CommandType      { return CreateCommand }
+func (o *CreateAccount) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *CreateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
+func (o *CreateAccount) CommandType() eventhorizon.CommandType      { return CreateAccountCommand }
 
 
 
         
-type Delete struct {
+type DeleteAccount struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *Delete) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *Delete) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
-func (o *Delete) CommandType() eventhorizon.CommandType      { return DeleteCommand }
+func (o *DeleteAccount) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *DeleteAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
+func (o *DeleteAccount) CommandType() eventhorizon.CommandType      { return DeleteAccountCommand }
 
 
 
         
-type Disable struct {
+type DisableAccount struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *Disable) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *Disable) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
-func (o *Disable) CommandType() eventhorizon.CommandType      { return DisableCommand }
+func (o *DisableAccount) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *DisableAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
+func (o *DisableAccount) CommandType() eventhorizon.CommandType      { return DisableAccountCommand }
 
 
 
         
-type Enable struct {
+type EnableAccount struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *Enable) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *Enable) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
-func (o *Enable) CommandType() eventhorizon.CommandType      { return EnableCommand }
+func (o *EnableAccount) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *EnableAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
+func (o *EnableAccount) CommandType() eventhorizon.CommandType      { return EnableAccountCommand }
 
 
 
         
-type Update struct {
+type UpdateAccount struct {
     Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -131,13 +131,13 @@ type Update struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *Update) AddToRoles(item string) string {
+func (o *UpdateAccount) AddToRoles(item string) string {
     o.Roles = append(o.Roles, item)
     return item
 }
-func (o *Update) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *Update) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
-func (o *Update) CommandType() eventhorizon.CommandType      { return UpdateCommand }
+func (o *UpdateAccount) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *UpdateAccount) AggregateType() eventhorizon.AggregateType  { return AccountAggregateType }
+func (o *UpdateAccount) CommandType() eventhorizon.CommandType      { return UpdateAccountCommand }
 
 
 
@@ -188,40 +188,40 @@ func (o *AccountCommandType) SetBSON(raw bson.Raw) (err error) {
     return
 }
 
-func (o *AccountCommandType) IsSendEnabledConfirmation() bool {
-    return o == _accountCommandTypes.SendEnabledConfirmation()
+func (o *AccountCommandType) IsSendAccountEnabledConfirmation() bool {
+    return o == _accountCommandTypes.SendAccountEnabledConfirmation()
 }
 
-func (o *AccountCommandType) IsSendDisabledConfirmation() bool {
-    return o == _accountCommandTypes.SendDisabledConfirmation()
+func (o *AccountCommandType) IsSendAccountDisabledConfirmation() bool {
+    return o == _accountCommandTypes.SendAccountDisabledConfirmation()
 }
 
-func (o *AccountCommandType) IsLogin() bool {
-    return o == _accountCommandTypes.Login()
+func (o *AccountCommandType) IsLoginAccount() bool {
+    return o == _accountCommandTypes.LoginAccount()
 }
 
-func (o *AccountCommandType) IsSendCreatedConfirmation() bool {
-    return o == _accountCommandTypes.SendCreatedConfirmation()
+func (o *AccountCommandType) IsSendAccountCreatedConfirmation() bool {
+    return o == _accountCommandTypes.SendAccountCreatedConfirmation()
 }
 
-func (o *AccountCommandType) IsCreate() bool {
-    return o == _accountCommandTypes.Create()
+func (o *AccountCommandType) IsCreateAccount() bool {
+    return o == _accountCommandTypes.CreateAccount()
 }
 
-func (o *AccountCommandType) IsDelete() bool {
-    return o == _accountCommandTypes.Delete()
+func (o *AccountCommandType) IsDeleteAccount() bool {
+    return o == _accountCommandTypes.DeleteAccount()
 }
 
-func (o *AccountCommandType) IsDisable() bool {
-    return o == _accountCommandTypes.Disable()
+func (o *AccountCommandType) IsDisableAccount() bool {
+    return o == _accountCommandTypes.DisableAccount()
 }
 
-func (o *AccountCommandType) IsEnable() bool {
-    return o == _accountCommandTypes.Enable()
+func (o *AccountCommandType) IsEnableAccount() bool {
+    return o == _accountCommandTypes.EnableAccount()
 }
 
-func (o *AccountCommandType) IsUpdate() bool {
-    return o == _accountCommandTypes.Update()
+func (o *AccountCommandType) IsUpdateAccount() bool {
+    return o == _accountCommandTypes.UpdateAccount()
 }
 
 type accountCommandTypes struct {
@@ -230,15 +230,15 @@ type accountCommandTypes struct {
 }
 
 var _accountCommandTypes = &accountCommandTypes{values: []*AccountCommandType{
-    {name: "SendEnabledConfirmation", ordinal: 0},
-    {name: "SendDisabledConfirmation", ordinal: 1},
-    {name: "Login", ordinal: 2},
-    {name: "SendCreatedConfirmation", ordinal: 3},
-    {name: "Create", ordinal: 4},
-    {name: "Delete", ordinal: 5},
-    {name: "Disable", ordinal: 6},
-    {name: "Enable", ordinal: 7},
-    {name: "Update", ordinal: 8}},
+    {name: "SendAccountEnabledConfirmation", ordinal: 0},
+    {name: "SendAccountDisabledConfirmation", ordinal: 1},
+    {name: "LoginAccount", ordinal: 2},
+    {name: "SendAccountCreatedConfirmation", ordinal: 3},
+    {name: "CreateAccount", ordinal: 4},
+    {name: "DeleteAccount", ordinal: 5},
+    {name: "DisableAccount", ordinal: 6},
+    {name: "EnableAccount", ordinal: 7},
+    {name: "UpdateAccount", ordinal: 8}},
 }
 
 func AccountCommandTypes() *accountCommandTypes {
@@ -259,39 +259,39 @@ func (o *accountCommandTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *accountCommandTypes) SendEnabledConfirmation() *AccountCommandType {
+func (o *accountCommandTypes) SendAccountEnabledConfirmation() *AccountCommandType {
     return _accountCommandTypes.values[0]
 }
 
-func (o *accountCommandTypes) SendDisabledConfirmation() *AccountCommandType {
+func (o *accountCommandTypes) SendAccountDisabledConfirmation() *AccountCommandType {
     return _accountCommandTypes.values[1]
 }
 
-func (o *accountCommandTypes) Login() *AccountCommandType {
+func (o *accountCommandTypes) LoginAccount() *AccountCommandType {
     return _accountCommandTypes.values[2]
 }
 
-func (o *accountCommandTypes) SendCreatedConfirmation() *AccountCommandType {
+func (o *accountCommandTypes) SendAccountCreatedConfirmation() *AccountCommandType {
     return _accountCommandTypes.values[3]
 }
 
-func (o *accountCommandTypes) Create() *AccountCommandType {
+func (o *accountCommandTypes) CreateAccount() *AccountCommandType {
     return _accountCommandTypes.values[4]
 }
 
-func (o *accountCommandTypes) Delete() *AccountCommandType {
+func (o *accountCommandTypes) DeleteAccount() *AccountCommandType {
     return _accountCommandTypes.values[5]
 }
 
-func (o *accountCommandTypes) Disable() *AccountCommandType {
+func (o *accountCommandTypes) DisableAccount() *AccountCommandType {
     return _accountCommandTypes.values[6]
 }
 
-func (o *accountCommandTypes) Enable() *AccountCommandType {
+func (o *accountCommandTypes) EnableAccount() *AccountCommandType {
     return _accountCommandTypes.values[7]
 }
 
-func (o *accountCommandTypes) Update() *AccountCommandType {
+func (o *accountCommandTypes) UpdateAccount() *AccountCommandType {
     return _accountCommandTypes.values[8]
 }
 

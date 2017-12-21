@@ -19,16 +19,16 @@ func NewBookQueryRepository(repo eventhorizon.ReadRepo, context context.Context)
 }
 
 func (o *QueryRepository) FindByTitle(title string) (ret *Book, err error) {
-    err = eh.QueryNotImplemented("findByTitle")
+    err = eh.QueryNotImplemented("findBookByTitle")
         
-    err = eh.QueryNotImplemented("findByTitle")
+    err = eh.QueryNotImplemented("findBookByTitle")
     return
 }
 
 func (o *QueryRepository) FindByPattern(pattern string) (ret *Book, err error) {
-    err = eh.QueryNotImplemented("findByPattern")
+    err = eh.QueryNotImplemented("findBookByPattern")
         
-    err = eh.QueryNotImplemented("findByPattern")
+    err = eh.QueryNotImplemented("findBookByPattern")
     return
 }
 

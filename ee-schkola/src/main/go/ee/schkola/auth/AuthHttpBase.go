@@ -25,38 +25,38 @@ func NewAccountHttpQueryHandler(queryRepository *QueryRepository) (ret *HttpQuer
 
 func (o *HttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
-    o.HandleResult(ret, err, "FindAll", w, r)
+    o.HandleResult(ret, err, "FindAllAccount", w, r)
 }
 
 func (o *HttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
-    o.HandleResult(ret, err, "FindById", w, r)
+    o.HandleResult(ret, err, "FindByAccountId", w, r)
 }
 
 func (o *HttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
-    o.HandleResult(ret, err, "CountAll", w, r)
+    o.HandleResult(ret, err, "CountAllAccount", w, r)
 }
 
 func (o *HttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
-    o.HandleResult(ret, err, "CountById", w, r)
+    o.HandleResult(ret, err, "CountByAccountId", w, r)
 }
 
 func (o *HttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
-    o.HandleResult(ret, err, "ExistAll", w, r)
+    o.HandleResult(ret, err, "ExistAllAccount", w, r)
 }
 
 func (o *HttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
-    o.HandleResult(ret, err, "ExistById", w, r)
+    o.HandleResult(ret, err, "ExistByAccountId", w, r)
 }
 
 
@@ -75,55 +75,55 @@ func NewAccountHttpCommandHandler(context context.Context, commandBus eventhoriz
 func (o *HttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Create{Id: id}, w, r)
+    o.HandleCommand(&CreateAccount{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) Disable(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Disable{Id: id}, w, r)
+    o.HandleCommand(&DisableAccount{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) Enable(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Enable{Id: id}, w, r)
+    o.HandleCommand(&EnableAccount{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Update{Id: id}, w, r)
+    o.HandleCommand(&UpdateAccount{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Delete{Id: id}, w, r)
+    o.HandleCommand(&DeleteAccount{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) SendEnabledConfirmation(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&SendEnabledConfirmation{Id: id}, w, r)
+    o.HandleCommand(&SendAccountEnabledConfirmation{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) SendDisabledConfirmation(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&SendDisabledConfirmation{Id: id}, w, r)
+    o.HandleCommand(&SendAccountDisabledConfirmation{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) Login(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&Login{Id: id}, w, r)
+    o.HandleCommand(&LoginAccount{Id: id}, w, r)
 }
 
 func (o *HttpCommandHandler) SendCreatedConfirmation(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
-    o.HandleCommand(&SendCreatedConfirmation{Id: id}, w, r)
+    o.HandleCommand(&SendAccountCreatedConfirmation{Id: id}, w, r)
 }
 
 
@@ -134,7 +134,7 @@ type Router struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+func NewAccountRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *Router) {
     pathPrefix = pathPrefix + "/" + "accounts"
     entityFactory := func() eventhorizon.Entity { return NewAccount() }
@@ -152,45 +152,45 @@ func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventho
 
 func (o *Router) Setup(router *mux.Router) (err error) {
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("CountById").HandlerFunc(o.QueryHandler.CountById).
+        Name("CountAccountById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("CountAll").HandlerFunc(o.QueryHandler.CountAll).
+        Name("CountAccountAll").HandlerFunc(o.QueryHandler.CountAll).
         Queries(net.QueryType, net.QueryTypeCount)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("ExistById").HandlerFunc(o.QueryHandler.ExistById).
+        Name("ExistAccountById").HandlerFunc(o.QueryHandler.ExistById).
         Queries(net.QueryType, net.QueryTypeExist)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("ExistAll").HandlerFunc(o.QueryHandler.ExistAll).
+        Name("ExistAccountAll").HandlerFunc(o.QueryHandler.ExistAll).
         Queries(net.QueryType, net.QueryTypeExist)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("FindById").HandlerFunc(o.QueryHandler.FindById)
+        Name("FindAccountById").HandlerFunc(o.QueryHandler.FindById)
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).
-        Name("FindAll").HandlerFunc(o.QueryHandler.FindAll)
+        Name("FindAccountAll").HandlerFunc(o.QueryHandler.FindAll)
     router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "login").
-        Name("Login").HandlerFunc(o.CommandHandler.Login)
+        Name("LoginAccount").HandlerFunc(o.CommandHandler.Login)
     router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "sendCreatedConfirmation").
-        Name("SendCreatedConfirmation").HandlerFunc(o.CommandHandler.SendCreatedConfirmation)
+        Name("SendAccountCreatedConfirmation").HandlerFunc(o.CommandHandler.SendCreatedConfirmation)
     router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "sendEnabledConfirmation").
-        Name("SendEnabledConfirmation").HandlerFunc(o.CommandHandler.SendEnabledConfirmation)
+        Name("SendAccountEnabledConfirmation").HandlerFunc(o.CommandHandler.SendEnabledConfirmation)
     router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "sendDisabledConfirmation").
-        Name("SendDisabledConfirmation").HandlerFunc(o.CommandHandler.SendDisabledConfirmation)
+        Name("SendAccountDisabledConfirmation").HandlerFunc(o.CommandHandler.SendDisabledConfirmation)
     router.Methods(http.MethodPost).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Create").HandlerFunc(o.CommandHandler.Create)
+        Name("CreateAccount").HandlerFunc(o.CommandHandler.Create)
     router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "enable").
-        Name("Enable").HandlerFunc(o.CommandHandler.Enable)
+        Name("EnableAccount").HandlerFunc(o.CommandHandler.Enable)
     router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
         Queries(net.Command, "disable").
-        Name("Disable").HandlerFunc(o.CommandHandler.Disable)
+        Name("DisableAccount").HandlerFunc(o.CommandHandler.Disable)
     router.Methods(http.MethodPut).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Update").HandlerFunc(o.CommandHandler.Update)
+        Name("UpdateAccount").HandlerFunc(o.CommandHandler.Update)
     router.Methods(http.MethodDelete).PathPrefix(o.PathPrefix).Path("/{id}").
-        Name("Delete").HandlerFunc(o.CommandHandler.Delete)
+        Name("DeleteAccount").HandlerFunc(o.CommandHandler.Delete)
     return
 }
 
@@ -201,10 +201,10 @@ type AuthRouter struct {
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus *bus.CommandHandler, 
+func NewAuthRouter(pathPrefix string, context context.Context, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AuthRouter) {
     pathPrefix = pathPrefix + "/" + "auth"
-    accountRouter := New@@EMPTY@@(pathPrefix, context, commandBus, readRepos)
+    accountRouter := NewAccountRouter(pathPrefix, context, commandBus, readRepos)
     ret = &AuthRouter{
         PathPrefix: pathPrefix,
         AccountRouter: accountRouter,

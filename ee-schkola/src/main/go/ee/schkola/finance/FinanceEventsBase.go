@@ -10,48 +10,48 @@ import (
     "time"
 )
 const (
-     CreateEvent eventhorizon.EventType = "Create"
-     CreatedEvent eventhorizon.EventType = "Created"
-     DeleteEvent eventhorizon.EventType = "Delete"
-     DeletedEvent eventhorizon.EventType = "Deleted"
-     UpdateEvent eventhorizon.EventType = "Update"
-     UpdatedEvent eventhorizon.EventType = "Updated"
+     ExpenseCreateEvent eventhorizon.EventType = "ExpenseCreate"
+     ExpenseCreatedEvent eventhorizon.EventType = "ExpenseCreated"
+     ExpenseDeleteEvent eventhorizon.EventType = "ExpenseDelete"
+     ExpenseDeletedEvent eventhorizon.EventType = "ExpenseDeleted"
+     ExpenseUpdateEvent eventhorizon.EventType = "ExpenseUpdate"
+     ExpenseUpdatedEvent eventhorizon.EventType = "ExpenseUpdated"
 )
 
 
 const (
-     CreateEvent eventhorizon.EventType = "Create"
-     CreatedEvent eventhorizon.EventType = "Created"
-     DeleteEvent eventhorizon.EventType = "Delete"
-     DeletedEvent eventhorizon.EventType = "Deleted"
-     UpdateEvent eventhorizon.EventType = "Update"
-     UpdatedEvent eventhorizon.EventType = "Updated"
+     ExpensePurposeCreateEvent eventhorizon.EventType = "ExpensePurposeCreate"
+     ExpensePurposeCreatedEvent eventhorizon.EventType = "ExpensePurposeCreated"
+     ExpensePurposeDeleteEvent eventhorizon.EventType = "ExpensePurposeDelete"
+     ExpensePurposeDeletedEvent eventhorizon.EventType = "ExpensePurposeDeleted"
+     ExpensePurposeUpdateEvent eventhorizon.EventType = "ExpensePurposeUpdate"
+     ExpensePurposeUpdatedEvent eventhorizon.EventType = "ExpensePurposeUpdated"
 )
 
 
 const (
-     CreateEvent eventhorizon.EventType = "Create"
-     CreatedEvent eventhorizon.EventType = "Created"
-     DeleteEvent eventhorizon.EventType = "Delete"
-     DeletedEvent eventhorizon.EventType = "Deleted"
-     UpdateEvent eventhorizon.EventType = "Update"
-     UpdatedEvent eventhorizon.EventType = "Updated"
+     FeeCreateEvent eventhorizon.EventType = "FeeCreate"
+     FeeCreatedEvent eventhorizon.EventType = "FeeCreated"
+     FeeDeleteEvent eventhorizon.EventType = "FeeDelete"
+     FeeDeletedEvent eventhorizon.EventType = "FeeDeleted"
+     FeeUpdateEvent eventhorizon.EventType = "FeeUpdate"
+     FeeUpdatedEvent eventhorizon.EventType = "FeeUpdated"
 )
 
 
 const (
-     CreateEvent eventhorizon.EventType = "Create"
-     CreatedEvent eventhorizon.EventType = "Created"
-     DeleteEvent eventhorizon.EventType = "Delete"
-     DeletedEvent eventhorizon.EventType = "Deleted"
-     UpdateEvent eventhorizon.EventType = "Update"
-     UpdatedEvent eventhorizon.EventType = "Updated"
+     FeeKindCreateEvent eventhorizon.EventType = "FeeKindCreate"
+     FeeKindCreatedEvent eventhorizon.EventType = "FeeKindCreated"
+     FeeKindDeleteEvent eventhorizon.EventType = "FeeKindDelete"
+     FeeKindDeletedEvent eventhorizon.EventType = "FeeKindDeleted"
+     FeeKindUpdateEvent eventhorizon.EventType = "FeeKindUpdate"
+     FeeKindUpdatedEvent eventhorizon.EventType = "FeeKindUpdated"
 )
 
 
 
 
-type Create struct {
+type CreateExpense struct {
     Purpose *ExpensePurpose `json:"purpose" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Profile *person.Profile `json:"profile" eh:"optional"`
@@ -60,7 +60,7 @@ type Create struct {
 }
 
 
-type Created struct {
+type ExpenseCreated struct {
     Purpose *ExpensePurpose `json:"purpose" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Profile *person.Profile `json:"profile" eh:"optional"`
@@ -69,17 +69,17 @@ type Created struct {
 }
 
 
-type Delete struct {
+type DeleteExpense struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Deleted struct {
+type ExpenseDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Update struct {
+type UpdateExpense struct {
     Purpose *ExpensePurpose `json:"purpose" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Profile *person.Profile `json:"profile" eh:"optional"`
@@ -88,7 +88,7 @@ type Update struct {
 }
 
 
-type Updated struct {
+type ExpenseUpdated struct {
     Purpose *ExpensePurpose `json:"purpose" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Profile *person.Profile `json:"profile" eh:"optional"`
@@ -97,45 +97,45 @@ type Updated struct {
 }
 
 
-type Create struct {
+type CreateExpensePurpose struct {
     Name string `json:"name" eh:"optional"`
     Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Created struct {
+type ExpensePurposeCreated struct {
     Name string `json:"name" eh:"optional"`
     Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Delete struct {
+type DeleteExpensePurpose struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Deleted struct {
+type ExpensePurposeDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Update struct {
+type UpdateExpensePurpose struct {
     Name string `json:"name" eh:"optional"`
     Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Updated struct {
+type ExpensePurposeUpdated struct {
     Name string `json:"name" eh:"optional"`
     Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Create struct {
+type CreateFee struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Kind *FeeKind `json:"kind" eh:"optional"`
@@ -144,7 +144,7 @@ type Create struct {
 }
 
 
-type Created struct {
+type FeeCreated struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Kind *FeeKind `json:"kind" eh:"optional"`
@@ -153,17 +153,17 @@ type Created struct {
 }
 
 
-type Delete struct {
+type DeleteFee struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Deleted struct {
+type FeeDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Update struct {
+type UpdateFee struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Kind *FeeKind `json:"kind" eh:"optional"`
@@ -172,7 +172,7 @@ type Update struct {
 }
 
 
-type Updated struct {
+type FeeUpdated struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Kind *FeeKind `json:"kind" eh:"optional"`
@@ -181,7 +181,7 @@ type Updated struct {
 }
 
 
-type Create struct {
+type CreateFeeKind struct {
     Name string `json:"name" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Description string `json:"description" eh:"optional"`
@@ -189,7 +189,7 @@ type Create struct {
 }
 
 
-type Created struct {
+type FeeKindCreated struct {
     Name string `json:"name" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Description string `json:"description" eh:"optional"`
@@ -197,17 +197,17 @@ type Created struct {
 }
 
 
-type Delete struct {
+type DeleteFeeKind struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Deleted struct {
+type FeeKindDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Update struct {
+type UpdateFeeKind struct {
     Name string `json:"name" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Description string `json:"description" eh:"optional"`
@@ -215,7 +215,7 @@ type Update struct {
 }
 
 
-type Updated struct {
+type FeeKindUpdated struct {
     Name string `json:"name" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Description string `json:"description" eh:"optional"`
@@ -270,28 +270,28 @@ func (o *ExpenseEventType) SetBSON(raw bson.Raw) (err error) {
     return
 }
 
-func (o *ExpenseEventType) IsCreate() bool {
-    return o == _expenseEventTypes.Create()
+func (o *ExpenseEventType) IsExpenseCreate() bool {
+    return o == _expenseEventTypes.ExpenseCreate()
 }
 
-func (o *ExpenseEventType) IsCreated() bool {
-    return o == _expenseEventTypes.Created()
+func (o *ExpenseEventType) IsExpenseCreated() bool {
+    return o == _expenseEventTypes.ExpenseCreated()
 }
 
-func (o *ExpenseEventType) IsDelete() bool {
-    return o == _expenseEventTypes.Delete()
+func (o *ExpenseEventType) IsExpenseDelete() bool {
+    return o == _expenseEventTypes.ExpenseDelete()
 }
 
-func (o *ExpenseEventType) IsDeleted() bool {
-    return o == _expenseEventTypes.Deleted()
+func (o *ExpenseEventType) IsExpenseDeleted() bool {
+    return o == _expenseEventTypes.ExpenseDeleted()
 }
 
-func (o *ExpenseEventType) IsUpdate() bool {
-    return o == _expenseEventTypes.Update()
+func (o *ExpenseEventType) IsExpenseUpdate() bool {
+    return o == _expenseEventTypes.ExpenseUpdate()
 }
 
-func (o *ExpenseEventType) IsUpdated() bool {
-    return o == _expenseEventTypes.Updated()
+func (o *ExpenseEventType) IsExpenseUpdated() bool {
+    return o == _expenseEventTypes.ExpenseUpdated()
 }
 
 type expenseEventTypes struct {
@@ -300,12 +300,12 @@ type expenseEventTypes struct {
 }
 
 var _expenseEventTypes = &expenseEventTypes{values: []*ExpenseEventType{
-    {name: "Create", ordinal: 0},
-    {name: "Created", ordinal: 1},
-    {name: "Delete", ordinal: 2},
-    {name: "Deleted", ordinal: 3},
-    {name: "Update", ordinal: 4},
-    {name: "Updated", ordinal: 5}},
+    {name: "ExpenseCreate", ordinal: 0},
+    {name: "ExpenseCreated", ordinal: 1},
+    {name: "ExpenseDelete", ordinal: 2},
+    {name: "ExpenseDeleted", ordinal: 3},
+    {name: "ExpenseUpdate", ordinal: 4},
+    {name: "ExpenseUpdated", ordinal: 5}},
 }
 
 func ExpenseEventTypes() *expenseEventTypes {
@@ -326,27 +326,27 @@ func (o *expenseEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *expenseEventTypes) Create() *ExpenseEventType {
+func (o *expenseEventTypes) ExpenseCreate() *ExpenseEventType {
     return _expenseEventTypes.values[0]
 }
 
-func (o *expenseEventTypes) Created() *ExpenseEventType {
+func (o *expenseEventTypes) ExpenseCreated() *ExpenseEventType {
     return _expenseEventTypes.values[1]
 }
 
-func (o *expenseEventTypes) Delete() *ExpenseEventType {
+func (o *expenseEventTypes) ExpenseDelete() *ExpenseEventType {
     return _expenseEventTypes.values[2]
 }
 
-func (o *expenseEventTypes) Deleted() *ExpenseEventType {
+func (o *expenseEventTypes) ExpenseDeleted() *ExpenseEventType {
     return _expenseEventTypes.values[3]
 }
 
-func (o *expenseEventTypes) Update() *ExpenseEventType {
+func (o *expenseEventTypes) ExpenseUpdate() *ExpenseEventType {
     return _expenseEventTypes.values[4]
 }
 
-func (o *expenseEventTypes) Updated() *ExpenseEventType {
+func (o *expenseEventTypes) ExpenseUpdated() *ExpenseEventType {
     return _expenseEventTypes.values[5]
 }
 
@@ -403,28 +403,28 @@ func (o *ExpensePurposeEventType) SetBSON(raw bson.Raw) (err error) {
     return
 }
 
-func (o *ExpensePurposeEventType) IsCreate() bool {
-    return o == _expensePurposeEventTypes.Create()
+func (o *ExpensePurposeEventType) IsExpensePurposeCreate() bool {
+    return o == _expensePurposeEventTypes.ExpensePurposeCreate()
 }
 
-func (o *ExpensePurposeEventType) IsCreated() bool {
-    return o == _expensePurposeEventTypes.Created()
+func (o *ExpensePurposeEventType) IsExpensePurposeCreated() bool {
+    return o == _expensePurposeEventTypes.ExpensePurposeCreated()
 }
 
-func (o *ExpensePurposeEventType) IsDelete() bool {
-    return o == _expensePurposeEventTypes.Delete()
+func (o *ExpensePurposeEventType) IsExpensePurposeDelete() bool {
+    return o == _expensePurposeEventTypes.ExpensePurposeDelete()
 }
 
-func (o *ExpensePurposeEventType) IsDeleted() bool {
-    return o == _expensePurposeEventTypes.Deleted()
+func (o *ExpensePurposeEventType) IsExpensePurposeDeleted() bool {
+    return o == _expensePurposeEventTypes.ExpensePurposeDeleted()
 }
 
-func (o *ExpensePurposeEventType) IsUpdate() bool {
-    return o == _expensePurposeEventTypes.Update()
+func (o *ExpensePurposeEventType) IsExpensePurposeUpdate() bool {
+    return o == _expensePurposeEventTypes.ExpensePurposeUpdate()
 }
 
-func (o *ExpensePurposeEventType) IsUpdated() bool {
-    return o == _expensePurposeEventTypes.Updated()
+func (o *ExpensePurposeEventType) IsExpensePurposeUpdated() bool {
+    return o == _expensePurposeEventTypes.ExpensePurposeUpdated()
 }
 
 type expensePurposeEventTypes struct {
@@ -433,12 +433,12 @@ type expensePurposeEventTypes struct {
 }
 
 var _expensePurposeEventTypes = &expensePurposeEventTypes{values: []*ExpensePurposeEventType{
-    {name: "Create", ordinal: 0},
-    {name: "Created", ordinal: 1},
-    {name: "Delete", ordinal: 2},
-    {name: "Deleted", ordinal: 3},
-    {name: "Update", ordinal: 4},
-    {name: "Updated", ordinal: 5}},
+    {name: "ExpensePurposeCreate", ordinal: 0},
+    {name: "ExpensePurposeCreated", ordinal: 1},
+    {name: "ExpensePurposeDelete", ordinal: 2},
+    {name: "ExpensePurposeDeleted", ordinal: 3},
+    {name: "ExpensePurposeUpdate", ordinal: 4},
+    {name: "ExpensePurposeUpdated", ordinal: 5}},
 }
 
 func ExpensePurposeEventTypes() *expensePurposeEventTypes {
@@ -459,27 +459,27 @@ func (o *expensePurposeEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *expensePurposeEventTypes) Create() *ExpensePurposeEventType {
+func (o *expensePurposeEventTypes) ExpensePurposeCreate() *ExpensePurposeEventType {
     return _expensePurposeEventTypes.values[0]
 }
 
-func (o *expensePurposeEventTypes) Created() *ExpensePurposeEventType {
+func (o *expensePurposeEventTypes) ExpensePurposeCreated() *ExpensePurposeEventType {
     return _expensePurposeEventTypes.values[1]
 }
 
-func (o *expensePurposeEventTypes) Delete() *ExpensePurposeEventType {
+func (o *expensePurposeEventTypes) ExpensePurposeDelete() *ExpensePurposeEventType {
     return _expensePurposeEventTypes.values[2]
 }
 
-func (o *expensePurposeEventTypes) Deleted() *ExpensePurposeEventType {
+func (o *expensePurposeEventTypes) ExpensePurposeDeleted() *ExpensePurposeEventType {
     return _expensePurposeEventTypes.values[3]
 }
 
-func (o *expensePurposeEventTypes) Update() *ExpensePurposeEventType {
+func (o *expensePurposeEventTypes) ExpensePurposeUpdate() *ExpensePurposeEventType {
     return _expensePurposeEventTypes.values[4]
 }
 
-func (o *expensePurposeEventTypes) Updated() *ExpensePurposeEventType {
+func (o *expensePurposeEventTypes) ExpensePurposeUpdated() *ExpensePurposeEventType {
     return _expensePurposeEventTypes.values[5]
 }
 
@@ -536,28 +536,28 @@ func (o *FeeEventType) SetBSON(raw bson.Raw) (err error) {
     return
 }
 
-func (o *FeeEventType) IsCreate() bool {
-    return o == _feeEventTypes.Create()
+func (o *FeeEventType) IsFeeCreate() bool {
+    return o == _feeEventTypes.FeeCreate()
 }
 
-func (o *FeeEventType) IsCreated() bool {
-    return o == _feeEventTypes.Created()
+func (o *FeeEventType) IsFeeCreated() bool {
+    return o == _feeEventTypes.FeeCreated()
 }
 
-func (o *FeeEventType) IsDelete() bool {
-    return o == _feeEventTypes.Delete()
+func (o *FeeEventType) IsFeeDelete() bool {
+    return o == _feeEventTypes.FeeDelete()
 }
 
-func (o *FeeEventType) IsDeleted() bool {
-    return o == _feeEventTypes.Deleted()
+func (o *FeeEventType) IsFeeDeleted() bool {
+    return o == _feeEventTypes.FeeDeleted()
 }
 
-func (o *FeeEventType) IsUpdate() bool {
-    return o == _feeEventTypes.Update()
+func (o *FeeEventType) IsFeeUpdate() bool {
+    return o == _feeEventTypes.FeeUpdate()
 }
 
-func (o *FeeEventType) IsUpdated() bool {
-    return o == _feeEventTypes.Updated()
+func (o *FeeEventType) IsFeeUpdated() bool {
+    return o == _feeEventTypes.FeeUpdated()
 }
 
 type feeEventTypes struct {
@@ -566,12 +566,12 @@ type feeEventTypes struct {
 }
 
 var _feeEventTypes = &feeEventTypes{values: []*FeeEventType{
-    {name: "Create", ordinal: 0},
-    {name: "Created", ordinal: 1},
-    {name: "Delete", ordinal: 2},
-    {name: "Deleted", ordinal: 3},
-    {name: "Update", ordinal: 4},
-    {name: "Updated", ordinal: 5}},
+    {name: "FeeCreate", ordinal: 0},
+    {name: "FeeCreated", ordinal: 1},
+    {name: "FeeDelete", ordinal: 2},
+    {name: "FeeDeleted", ordinal: 3},
+    {name: "FeeUpdate", ordinal: 4},
+    {name: "FeeUpdated", ordinal: 5}},
 }
 
 func FeeEventTypes() *feeEventTypes {
@@ -592,27 +592,27 @@ func (o *feeEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *feeEventTypes) Create() *FeeEventType {
+func (o *feeEventTypes) FeeCreate() *FeeEventType {
     return _feeEventTypes.values[0]
 }
 
-func (o *feeEventTypes) Created() *FeeEventType {
+func (o *feeEventTypes) FeeCreated() *FeeEventType {
     return _feeEventTypes.values[1]
 }
 
-func (o *feeEventTypes) Delete() *FeeEventType {
+func (o *feeEventTypes) FeeDelete() *FeeEventType {
     return _feeEventTypes.values[2]
 }
 
-func (o *feeEventTypes) Deleted() *FeeEventType {
+func (o *feeEventTypes) FeeDeleted() *FeeEventType {
     return _feeEventTypes.values[3]
 }
 
-func (o *feeEventTypes) Update() *FeeEventType {
+func (o *feeEventTypes) FeeUpdate() *FeeEventType {
     return _feeEventTypes.values[4]
 }
 
-func (o *feeEventTypes) Updated() *FeeEventType {
+func (o *feeEventTypes) FeeUpdated() *FeeEventType {
     return _feeEventTypes.values[5]
 }
 
@@ -669,28 +669,28 @@ func (o *FeeKindEventType) SetBSON(raw bson.Raw) (err error) {
     return
 }
 
-func (o *FeeKindEventType) IsCreate() bool {
-    return o == _feeKindEventTypes.Create()
+func (o *FeeKindEventType) IsFeeKindCreate() bool {
+    return o == _feeKindEventTypes.FeeKindCreate()
 }
 
-func (o *FeeKindEventType) IsCreated() bool {
-    return o == _feeKindEventTypes.Created()
+func (o *FeeKindEventType) IsFeeKindCreated() bool {
+    return o == _feeKindEventTypes.FeeKindCreated()
 }
 
-func (o *FeeKindEventType) IsDelete() bool {
-    return o == _feeKindEventTypes.Delete()
+func (o *FeeKindEventType) IsFeeKindDelete() bool {
+    return o == _feeKindEventTypes.FeeKindDelete()
 }
 
-func (o *FeeKindEventType) IsDeleted() bool {
-    return o == _feeKindEventTypes.Deleted()
+func (o *FeeKindEventType) IsFeeKindDeleted() bool {
+    return o == _feeKindEventTypes.FeeKindDeleted()
 }
 
-func (o *FeeKindEventType) IsUpdate() bool {
-    return o == _feeKindEventTypes.Update()
+func (o *FeeKindEventType) IsFeeKindUpdate() bool {
+    return o == _feeKindEventTypes.FeeKindUpdate()
 }
 
-func (o *FeeKindEventType) IsUpdated() bool {
-    return o == _feeKindEventTypes.Updated()
+func (o *FeeKindEventType) IsFeeKindUpdated() bool {
+    return o == _feeKindEventTypes.FeeKindUpdated()
 }
 
 type feeKindEventTypes struct {
@@ -699,12 +699,12 @@ type feeKindEventTypes struct {
 }
 
 var _feeKindEventTypes = &feeKindEventTypes{values: []*FeeKindEventType{
-    {name: "Create", ordinal: 0},
-    {name: "Created", ordinal: 1},
-    {name: "Delete", ordinal: 2},
-    {name: "Deleted", ordinal: 3},
-    {name: "Update", ordinal: 4},
-    {name: "Updated", ordinal: 5}},
+    {name: "FeeKindCreate", ordinal: 0},
+    {name: "FeeKindCreated", ordinal: 1},
+    {name: "FeeKindDelete", ordinal: 2},
+    {name: "FeeKindDeleted", ordinal: 3},
+    {name: "FeeKindUpdate", ordinal: 4},
+    {name: "FeeKindUpdated", ordinal: 5}},
 }
 
 func FeeKindEventTypes() *feeKindEventTypes {
@@ -725,27 +725,27 @@ func (o *feeKindEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *feeKindEventTypes) Create() *FeeKindEventType {
+func (o *feeKindEventTypes) FeeKindCreate() *FeeKindEventType {
     return _feeKindEventTypes.values[0]
 }
 
-func (o *feeKindEventTypes) Created() *FeeKindEventType {
+func (o *feeKindEventTypes) FeeKindCreated() *FeeKindEventType {
     return _feeKindEventTypes.values[1]
 }
 
-func (o *feeKindEventTypes) Delete() *FeeKindEventType {
+func (o *feeKindEventTypes) FeeKindDelete() *FeeKindEventType {
     return _feeKindEventTypes.values[2]
 }
 
-func (o *feeKindEventTypes) Deleted() *FeeKindEventType {
+func (o *feeKindEventTypes) FeeKindDeleted() *FeeKindEventType {
     return _feeKindEventTypes.values[3]
 }
 
-func (o *feeKindEventTypes) Update() *FeeKindEventType {
+func (o *feeKindEventTypes) FeeKindUpdate() *FeeKindEventType {
     return _feeKindEventTypes.values[4]
 }
 
-func (o *feeKindEventTypes) Updated() *FeeKindEventType {
+func (o *feeKindEventTypes) FeeKindUpdated() *FeeKindEventType {
     return _feeKindEventTypes.values[5]
 }
 

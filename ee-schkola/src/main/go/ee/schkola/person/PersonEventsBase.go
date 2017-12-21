@@ -10,38 +10,38 @@ import (
     "time"
 )
 const (
-     CreateEvent eventhorizon.EventType = "Create"
-     CreatedEvent eventhorizon.EventType = "Created"
-     DeleteEvent eventhorizon.EventType = "Delete"
-     DeletedEvent eventhorizon.EventType = "Deleted"
-     UpdateEvent eventhorizon.EventType = "Update"
-     UpdatedEvent eventhorizon.EventType = "Updated"
+     ChurchCreateEvent eventhorizon.EventType = "ChurchCreate"
+     ChurchCreatedEvent eventhorizon.EventType = "ChurchCreated"
+     ChurchDeleteEvent eventhorizon.EventType = "ChurchDelete"
+     ChurchDeletedEvent eventhorizon.EventType = "ChurchDeleted"
+     ChurchUpdateEvent eventhorizon.EventType = "ChurchUpdate"
+     ChurchUpdatedEvent eventhorizon.EventType = "ChurchUpdated"
 )
 
 
 const (
-     CreateEvent eventhorizon.EventType = "Create"
-     CreatedEvent eventhorizon.EventType = "Created"
-     DeleteEvent eventhorizon.EventType = "Delete"
-     DeletedEvent eventhorizon.EventType = "Deleted"
-     UpdateEvent eventhorizon.EventType = "Update"
-     UpdatedEvent eventhorizon.EventType = "Updated"
+     GraduationCreateEvent eventhorizon.EventType = "GraduationCreate"
+     GraduationCreatedEvent eventhorizon.EventType = "GraduationCreated"
+     GraduationDeleteEvent eventhorizon.EventType = "GraduationDelete"
+     GraduationDeletedEvent eventhorizon.EventType = "GraduationDeleted"
+     GraduationUpdateEvent eventhorizon.EventType = "GraduationUpdate"
+     GraduationUpdatedEvent eventhorizon.EventType = "GraduationUpdated"
 )
 
 
 const (
-     CreateEvent eventhorizon.EventType = "Create"
-     CreatedEvent eventhorizon.EventType = "Created"
-     DeleteEvent eventhorizon.EventType = "Delete"
-     DeletedEvent eventhorizon.EventType = "Deleted"
-     UpdateEvent eventhorizon.EventType = "Update"
-     UpdatedEvent eventhorizon.EventType = "Updated"
+     ProfileCreateEvent eventhorizon.EventType = "ProfileCreate"
+     ProfileCreatedEvent eventhorizon.EventType = "ProfileCreated"
+     ProfileDeleteEvent eventhorizon.EventType = "ProfileDelete"
+     ProfileDeletedEvent eventhorizon.EventType = "ProfileDeleted"
+     ProfileUpdateEvent eventhorizon.EventType = "ProfileUpdate"
+     ProfileUpdatedEvent eventhorizon.EventType = "ProfileUpdated"
 )
 
 
 
 
-type Create struct {
+type CreateChurch struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
     Pastor *shared.PersonName `json:"pastor" eh:"optional"`
@@ -51,7 +51,7 @@ type Create struct {
 }
 
 
-type Created struct {
+type ChurchCreated struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
     Pastor *shared.PersonName `json:"pastor" eh:"optional"`
@@ -61,17 +61,17 @@ type Created struct {
 }
 
 
-type Delete struct {
+type DeleteChurch struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Deleted struct {
+type ChurchDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Update struct {
+type UpdateChurch struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
     Pastor *shared.PersonName `json:"pastor" eh:"optional"`
@@ -81,7 +81,7 @@ type Update struct {
 }
 
 
-type Updated struct {
+type ChurchUpdated struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
     Pastor *shared.PersonName `json:"pastor" eh:"optional"`
@@ -91,45 +91,45 @@ type Updated struct {
 }
 
 
-type Create struct {
+type CreateGraduation struct {
     Name string `json:"name" eh:"optional"`
     Level *GraduationLevel `json:"level" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Created struct {
+type GraduationCreated struct {
     Name string `json:"name" eh:"optional"`
     Level *GraduationLevel `json:"level" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Delete struct {
+type DeleteGraduation struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Deleted struct {
+type GraduationDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Update struct {
+type UpdateGraduation struct {
     Name string `json:"name" eh:"optional"`
     Level *GraduationLevel `json:"level" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Updated struct {
+type GraduationUpdated struct {
     Name string `json:"name" eh:"optional"`
     Level *GraduationLevel `json:"level" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Create struct {
+type CreateProfile struct {
     Gender *Gender `json:"gender" eh:"optional"`
     Name *shared.PersonName `json:"name" eh:"optional"`
     BirthName string `json:"birthName" eh:"optional"`
@@ -145,7 +145,7 @@ type Create struct {
 }
 
 
-type Created struct {
+type ProfileCreated struct {
     Gender *Gender `json:"gender" eh:"optional"`
     Name *shared.PersonName `json:"name" eh:"optional"`
     BirthName string `json:"birthName" eh:"optional"`
@@ -161,17 +161,17 @@ type Created struct {
 }
 
 
-type Delete struct {
+type DeleteProfile struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Deleted struct {
+type ProfileDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Update struct {
+type UpdateProfile struct {
     Gender *Gender `json:"gender" eh:"optional"`
     Name *shared.PersonName `json:"name" eh:"optional"`
     BirthName string `json:"birthName" eh:"optional"`
@@ -187,7 +187,7 @@ type Update struct {
 }
 
 
-type Updated struct {
+type ProfileUpdated struct {
     Gender *Gender `json:"gender" eh:"optional"`
     Name *shared.PersonName `json:"name" eh:"optional"`
     BirthName string `json:"birthName" eh:"optional"`
@@ -250,28 +250,28 @@ func (o *ChurchEventType) SetBSON(raw bson.Raw) (err error) {
     return
 }
 
-func (o *ChurchEventType) IsCreate() bool {
-    return o == _churchEventTypes.Create()
+func (o *ChurchEventType) IsChurchCreate() bool {
+    return o == _churchEventTypes.ChurchCreate()
 }
 
-func (o *ChurchEventType) IsCreated() bool {
-    return o == _churchEventTypes.Created()
+func (o *ChurchEventType) IsChurchCreated() bool {
+    return o == _churchEventTypes.ChurchCreated()
 }
 
-func (o *ChurchEventType) IsDelete() bool {
-    return o == _churchEventTypes.Delete()
+func (o *ChurchEventType) IsChurchDelete() bool {
+    return o == _churchEventTypes.ChurchDelete()
 }
 
-func (o *ChurchEventType) IsDeleted() bool {
-    return o == _churchEventTypes.Deleted()
+func (o *ChurchEventType) IsChurchDeleted() bool {
+    return o == _churchEventTypes.ChurchDeleted()
 }
 
-func (o *ChurchEventType) IsUpdate() bool {
-    return o == _churchEventTypes.Update()
+func (o *ChurchEventType) IsChurchUpdate() bool {
+    return o == _churchEventTypes.ChurchUpdate()
 }
 
-func (o *ChurchEventType) IsUpdated() bool {
-    return o == _churchEventTypes.Updated()
+func (o *ChurchEventType) IsChurchUpdated() bool {
+    return o == _churchEventTypes.ChurchUpdated()
 }
 
 type churchEventTypes struct {
@@ -280,12 +280,12 @@ type churchEventTypes struct {
 }
 
 var _churchEventTypes = &churchEventTypes{values: []*ChurchEventType{
-    {name: "Create", ordinal: 0},
-    {name: "Created", ordinal: 1},
-    {name: "Delete", ordinal: 2},
-    {name: "Deleted", ordinal: 3},
-    {name: "Update", ordinal: 4},
-    {name: "Updated", ordinal: 5}},
+    {name: "ChurchCreate", ordinal: 0},
+    {name: "ChurchCreated", ordinal: 1},
+    {name: "ChurchDelete", ordinal: 2},
+    {name: "ChurchDeleted", ordinal: 3},
+    {name: "ChurchUpdate", ordinal: 4},
+    {name: "ChurchUpdated", ordinal: 5}},
 }
 
 func ChurchEventTypes() *churchEventTypes {
@@ -306,27 +306,27 @@ func (o *churchEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *churchEventTypes) Create() *ChurchEventType {
+func (o *churchEventTypes) ChurchCreate() *ChurchEventType {
     return _churchEventTypes.values[0]
 }
 
-func (o *churchEventTypes) Created() *ChurchEventType {
+func (o *churchEventTypes) ChurchCreated() *ChurchEventType {
     return _churchEventTypes.values[1]
 }
 
-func (o *churchEventTypes) Delete() *ChurchEventType {
+func (o *churchEventTypes) ChurchDelete() *ChurchEventType {
     return _churchEventTypes.values[2]
 }
 
-func (o *churchEventTypes) Deleted() *ChurchEventType {
+func (o *churchEventTypes) ChurchDeleted() *ChurchEventType {
     return _churchEventTypes.values[3]
 }
 
-func (o *churchEventTypes) Update() *ChurchEventType {
+func (o *churchEventTypes) ChurchUpdate() *ChurchEventType {
     return _churchEventTypes.values[4]
 }
 
-func (o *churchEventTypes) Updated() *ChurchEventType {
+func (o *churchEventTypes) ChurchUpdated() *ChurchEventType {
     return _churchEventTypes.values[5]
 }
 
@@ -383,28 +383,28 @@ func (o *GraduationEventType) SetBSON(raw bson.Raw) (err error) {
     return
 }
 
-func (o *GraduationEventType) IsCreate() bool {
-    return o == _graduationEventTypes.Create()
+func (o *GraduationEventType) IsGraduationCreate() bool {
+    return o == _graduationEventTypes.GraduationCreate()
 }
 
-func (o *GraduationEventType) IsCreated() bool {
-    return o == _graduationEventTypes.Created()
+func (o *GraduationEventType) IsGraduationCreated() bool {
+    return o == _graduationEventTypes.GraduationCreated()
 }
 
-func (o *GraduationEventType) IsDelete() bool {
-    return o == _graduationEventTypes.Delete()
+func (o *GraduationEventType) IsGraduationDelete() bool {
+    return o == _graduationEventTypes.GraduationDelete()
 }
 
-func (o *GraduationEventType) IsDeleted() bool {
-    return o == _graduationEventTypes.Deleted()
+func (o *GraduationEventType) IsGraduationDeleted() bool {
+    return o == _graduationEventTypes.GraduationDeleted()
 }
 
-func (o *GraduationEventType) IsUpdate() bool {
-    return o == _graduationEventTypes.Update()
+func (o *GraduationEventType) IsGraduationUpdate() bool {
+    return o == _graduationEventTypes.GraduationUpdate()
 }
 
-func (o *GraduationEventType) IsUpdated() bool {
-    return o == _graduationEventTypes.Updated()
+func (o *GraduationEventType) IsGraduationUpdated() bool {
+    return o == _graduationEventTypes.GraduationUpdated()
 }
 
 type graduationEventTypes struct {
@@ -413,12 +413,12 @@ type graduationEventTypes struct {
 }
 
 var _graduationEventTypes = &graduationEventTypes{values: []*GraduationEventType{
-    {name: "Create", ordinal: 0},
-    {name: "Created", ordinal: 1},
-    {name: "Delete", ordinal: 2},
-    {name: "Deleted", ordinal: 3},
-    {name: "Update", ordinal: 4},
-    {name: "Updated", ordinal: 5}},
+    {name: "GraduationCreate", ordinal: 0},
+    {name: "GraduationCreated", ordinal: 1},
+    {name: "GraduationDelete", ordinal: 2},
+    {name: "GraduationDeleted", ordinal: 3},
+    {name: "GraduationUpdate", ordinal: 4},
+    {name: "GraduationUpdated", ordinal: 5}},
 }
 
 func GraduationEventTypes() *graduationEventTypes {
@@ -439,27 +439,27 @@ func (o *graduationEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *graduationEventTypes) Create() *GraduationEventType {
+func (o *graduationEventTypes) GraduationCreate() *GraduationEventType {
     return _graduationEventTypes.values[0]
 }
 
-func (o *graduationEventTypes) Created() *GraduationEventType {
+func (o *graduationEventTypes) GraduationCreated() *GraduationEventType {
     return _graduationEventTypes.values[1]
 }
 
-func (o *graduationEventTypes) Delete() *GraduationEventType {
+func (o *graduationEventTypes) GraduationDelete() *GraduationEventType {
     return _graduationEventTypes.values[2]
 }
 
-func (o *graduationEventTypes) Deleted() *GraduationEventType {
+func (o *graduationEventTypes) GraduationDeleted() *GraduationEventType {
     return _graduationEventTypes.values[3]
 }
 
-func (o *graduationEventTypes) Update() *GraduationEventType {
+func (o *graduationEventTypes) GraduationUpdate() *GraduationEventType {
     return _graduationEventTypes.values[4]
 }
 
-func (o *graduationEventTypes) Updated() *GraduationEventType {
+func (o *graduationEventTypes) GraduationUpdated() *GraduationEventType {
     return _graduationEventTypes.values[5]
 }
 
@@ -516,28 +516,28 @@ func (o *ProfileEventType) SetBSON(raw bson.Raw) (err error) {
     return
 }
 
-func (o *ProfileEventType) IsCreate() bool {
-    return o == _profileEventTypes.Create()
+func (o *ProfileEventType) IsProfileCreate() bool {
+    return o == _profileEventTypes.ProfileCreate()
 }
 
-func (o *ProfileEventType) IsCreated() bool {
-    return o == _profileEventTypes.Created()
+func (o *ProfileEventType) IsProfileCreated() bool {
+    return o == _profileEventTypes.ProfileCreated()
 }
 
-func (o *ProfileEventType) IsDelete() bool {
-    return o == _profileEventTypes.Delete()
+func (o *ProfileEventType) IsProfileDelete() bool {
+    return o == _profileEventTypes.ProfileDelete()
 }
 
-func (o *ProfileEventType) IsDeleted() bool {
-    return o == _profileEventTypes.Deleted()
+func (o *ProfileEventType) IsProfileDeleted() bool {
+    return o == _profileEventTypes.ProfileDeleted()
 }
 
-func (o *ProfileEventType) IsUpdate() bool {
-    return o == _profileEventTypes.Update()
+func (o *ProfileEventType) IsProfileUpdate() bool {
+    return o == _profileEventTypes.ProfileUpdate()
 }
 
-func (o *ProfileEventType) IsUpdated() bool {
-    return o == _profileEventTypes.Updated()
+func (o *ProfileEventType) IsProfileUpdated() bool {
+    return o == _profileEventTypes.ProfileUpdated()
 }
 
 type profileEventTypes struct {
@@ -546,12 +546,12 @@ type profileEventTypes struct {
 }
 
 var _profileEventTypes = &profileEventTypes{values: []*ProfileEventType{
-    {name: "Create", ordinal: 0},
-    {name: "Created", ordinal: 1},
-    {name: "Delete", ordinal: 2},
-    {name: "Deleted", ordinal: 3},
-    {name: "Update", ordinal: 4},
-    {name: "Updated", ordinal: 5}},
+    {name: "ProfileCreate", ordinal: 0},
+    {name: "ProfileCreated", ordinal: 1},
+    {name: "ProfileDelete", ordinal: 2},
+    {name: "ProfileDeleted", ordinal: 3},
+    {name: "ProfileUpdate", ordinal: 4},
+    {name: "ProfileUpdated", ordinal: 5}},
 }
 
 func ProfileEventTypes() *profileEventTypes {
@@ -572,27 +572,27 @@ func (o *profileEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *profileEventTypes) Create() *ProfileEventType {
+func (o *profileEventTypes) ProfileCreate() *ProfileEventType {
     return _profileEventTypes.values[0]
 }
 
-func (o *profileEventTypes) Created() *ProfileEventType {
+func (o *profileEventTypes) ProfileCreated() *ProfileEventType {
     return _profileEventTypes.values[1]
 }
 
-func (o *profileEventTypes) Delete() *ProfileEventType {
+func (o *profileEventTypes) ProfileDelete() *ProfileEventType {
     return _profileEventTypes.values[2]
 }
 
-func (o *profileEventTypes) Deleted() *ProfileEventType {
+func (o *profileEventTypes) ProfileDeleted() *ProfileEventType {
     return _profileEventTypes.values[3]
 }
 
-func (o *profileEventTypes) Update() *ProfileEventType {
+func (o *profileEventTypes) ProfileUpdate() *ProfileEventType {
     return _profileEventTypes.values[4]
 }
 
-func (o *profileEventTypes) Updated() *ProfileEventType {
+func (o *profileEventTypes) ProfileUpdated() *ProfileEventType {
     return _profileEventTypes.values[5]
 }
 

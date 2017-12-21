@@ -10,40 +10,40 @@ import (
     "gopkg.in/mgo.v2/bson"
 )
 const (
-     SendEnabledConfirmationEvent eventhorizon.EventType = "SendEnabledConfirmation"
-     SendDisabledConfirmationEvent eventhorizon.EventType = "SendDisabledConfirmation"
-     LoginEvent eventhorizon.EventType = "Login"
-     SendCreatedConfirmationEvent eventhorizon.EventType = "SendCreatedConfirmation"
-     CreateEvent eventhorizon.EventType = "Create"
-     CreatedEvent eventhorizon.EventType = "Created"
-     DeleteEvent eventhorizon.EventType = "Delete"
-     DeletedEvent eventhorizon.EventType = "Deleted"
-     LoggedEvent eventhorizon.EventType = "Logged"
-     SendCreatedConfirmationedEvent eventhorizon.EventType = "SendCreatedConfirmationed"
-     SendEnabledConfirmationedEvent eventhorizon.EventType = "SendEnabledConfirmationed"
-     SendDisabledConfirmationedEvent eventhorizon.EventType = "SendDisabledConfirmationed"
-     DisableEvent eventhorizon.EventType = "Disable"
-     EnableEvent eventhorizon.EventType = "Enable"
-     UpdateEvent eventhorizon.EventType = "Update"
-     UpdatedEvent eventhorizon.EventType = "Updated"
-     EnabledEvent eventhorizon.EventType = "Enabled"
-     DisabledEvent eventhorizon.EventType = "Disabled"
+     SendEnabledAccountConfirmationEvent eventhorizon.EventType = "SendEnabledAccountConfirmation"
+     SendDisabledAccountConfirmationEvent eventhorizon.EventType = "SendDisabledAccountConfirmation"
+     AccountLoginEvent eventhorizon.EventType = "AccountLogin"
+     SendCreatedAccountConfirmationEvent eventhorizon.EventType = "SendCreatedAccountConfirmation"
+     AccountCreateEvent eventhorizon.EventType = "AccountCreate"
+     AccountCreatedEvent eventhorizon.EventType = "AccountCreated"
+     AccountDeleteEvent eventhorizon.EventType = "AccountDelete"
+     AccountDeletedEvent eventhorizon.EventType = "AccountDeleted"
+     AccountLoggedEvent eventhorizon.EventType = "AccountLogged"
+     SendCreatedAccountConfirmationedEvent eventhorizon.EventType = "SendCreatedAccountConfirmationed"
+     SendEnabledAccountConfirmationedEvent eventhorizon.EventType = "SendEnabledAccountConfirmationed"
+     SendDisabledAccountConfirmationedEvent eventhorizon.EventType = "SendDisabledAccountConfirmationed"
+     AccountDisableEvent eventhorizon.EventType = "AccountDisable"
+     AccountEnableEvent eventhorizon.EventType = "AccountEnable"
+     AccountUpdateEvent eventhorizon.EventType = "AccountUpdate"
+     AccountUpdatedEvent eventhorizon.EventType = "AccountUpdated"
+     AccountEnabledEvent eventhorizon.EventType = "AccountEnabled"
+     AccountDisabledEvent eventhorizon.EventType = "AccountDisabled"
 )
 
 
 
 
-type SendEnabledConfirmation struct {
+type SendAccountEnabledConfirmation struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type SendDisabledConfirmation struct {
+type SendAccountDisabledConfirmation struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Login struct {
+type LoginAccount struct {
     Username string `json:"username" eh:"optional"`
     Email string `json:"email" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -51,12 +51,12 @@ type Login struct {
 }
 
 
-type SendCreatedConfirmation struct {
+type SendAccountCreatedConfirmation struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Create struct {
+type CreateAccount struct {
     Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -67,13 +67,13 @@ type Create struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *Create) AddToRoles(item string) string {
+func (o *CreateAccount) AddToRoles(item string) string {
     o.Roles = append(o.Roles, item)
     return item
 }
 
 
-type Created struct {
+type AccountCreated struct {
     Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -84,23 +84,23 @@ type Created struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *Created) AddToRoles(item string) string {
+func (o *AccountCreated) AddToRoles(item string) string {
     o.Roles = append(o.Roles, item)
     return item
 }
 
 
-type Delete struct {
+type DeleteAccount struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Deleted struct {
+type AccountDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Logged struct {
+type AccountLogged struct {
     Username string `json:"username" eh:"optional"`
     Email string `json:"email" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -108,32 +108,32 @@ type Logged struct {
 }
 
 
-type SendCreatedConfirmationed struct {
+type SendCreatedAccountConfirmationed struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type SendEnabledConfirmationed struct {
+type SendEnabledAccountConfirmationed struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type SendDisabledConfirmationed struct {
+type SendDisabledAccountConfirmationed struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Disable struct {
+type DisableAccount struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Enable struct {
+type EnableAccount struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Update struct {
+type UpdateAccount struct {
     Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -144,13 +144,13 @@ type Update struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *Update) AddToRoles(item string) string {
+func (o *UpdateAccount) AddToRoles(item string) string {
     o.Roles = append(o.Roles, item)
     return item
 }
 
 
-type Updated struct {
+type AccountUpdated struct {
     Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -161,18 +161,18 @@ type Updated struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *Updated) AddToRoles(item string) string {
+func (o *AccountUpdated) AddToRoles(item string) string {
     o.Roles = append(o.Roles, item)
     return item
 }
 
 
-type Enabled struct {
+type AccountEnabled struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Disabled struct {
+type AccountDisabled struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -224,76 +224,76 @@ func (o *AccountEventType) SetBSON(raw bson.Raw) (err error) {
     return
 }
 
-func (o *AccountEventType) IsSendEnabledConfirmation() bool {
-    return o == _accountEventTypes.SendEnabledConfirmation()
+func (o *AccountEventType) IsSendEnabledAccountConfirmation() bool {
+    return o == _accountEventTypes.SendEnabledAccountConfirmation()
 }
 
-func (o *AccountEventType) IsSendDisabledConfirmation() bool {
-    return o == _accountEventTypes.SendDisabledConfirmation()
+func (o *AccountEventType) IsSendDisabledAccountConfirmation() bool {
+    return o == _accountEventTypes.SendDisabledAccountConfirmation()
 }
 
-func (o *AccountEventType) IsLogin() bool {
-    return o == _accountEventTypes.Login()
+func (o *AccountEventType) IsAccountLogin() bool {
+    return o == _accountEventTypes.AccountLogin()
 }
 
-func (o *AccountEventType) IsSendCreatedConfirmation() bool {
-    return o == _accountEventTypes.SendCreatedConfirmation()
+func (o *AccountEventType) IsSendCreatedAccountConfirmation() bool {
+    return o == _accountEventTypes.SendCreatedAccountConfirmation()
 }
 
-func (o *AccountEventType) IsCreate() bool {
-    return o == _accountEventTypes.Create()
+func (o *AccountEventType) IsAccountCreate() bool {
+    return o == _accountEventTypes.AccountCreate()
 }
 
-func (o *AccountEventType) IsCreated() bool {
-    return o == _accountEventTypes.Created()
+func (o *AccountEventType) IsAccountCreated() bool {
+    return o == _accountEventTypes.AccountCreated()
 }
 
-func (o *AccountEventType) IsDelete() bool {
-    return o == _accountEventTypes.Delete()
+func (o *AccountEventType) IsAccountDelete() bool {
+    return o == _accountEventTypes.AccountDelete()
 }
 
-func (o *AccountEventType) IsDeleted() bool {
-    return o == _accountEventTypes.Deleted()
+func (o *AccountEventType) IsAccountDeleted() bool {
+    return o == _accountEventTypes.AccountDeleted()
 }
 
-func (o *AccountEventType) IsLogged() bool {
-    return o == _accountEventTypes.Logged()
+func (o *AccountEventType) IsAccountLogged() bool {
+    return o == _accountEventTypes.AccountLogged()
 }
 
-func (o *AccountEventType) IsSendCreatedConfirmationed() bool {
-    return o == _accountEventTypes.SendCreatedConfirmationed()
+func (o *AccountEventType) IsSendCreatedAccountConfirmationed() bool {
+    return o == _accountEventTypes.SendCreatedAccountConfirmationed()
 }
 
-func (o *AccountEventType) IsSendEnabledConfirmationed() bool {
-    return o == _accountEventTypes.SendEnabledConfirmationed()
+func (o *AccountEventType) IsSendEnabledAccountConfirmationed() bool {
+    return o == _accountEventTypes.SendEnabledAccountConfirmationed()
 }
 
-func (o *AccountEventType) IsSendDisabledConfirmationed() bool {
-    return o == _accountEventTypes.SendDisabledConfirmationed()
+func (o *AccountEventType) IsSendDisabledAccountConfirmationed() bool {
+    return o == _accountEventTypes.SendDisabledAccountConfirmationed()
 }
 
-func (o *AccountEventType) IsDisable() bool {
-    return o == _accountEventTypes.Disable()
+func (o *AccountEventType) IsAccountDisable() bool {
+    return o == _accountEventTypes.AccountDisable()
 }
 
-func (o *AccountEventType) IsEnable() bool {
-    return o == _accountEventTypes.Enable()
+func (o *AccountEventType) IsAccountEnable() bool {
+    return o == _accountEventTypes.AccountEnable()
 }
 
-func (o *AccountEventType) IsUpdate() bool {
-    return o == _accountEventTypes.Update()
+func (o *AccountEventType) IsAccountUpdate() bool {
+    return o == _accountEventTypes.AccountUpdate()
 }
 
-func (o *AccountEventType) IsUpdated() bool {
-    return o == _accountEventTypes.Updated()
+func (o *AccountEventType) IsAccountUpdated() bool {
+    return o == _accountEventTypes.AccountUpdated()
 }
 
-func (o *AccountEventType) IsEnabled() bool {
-    return o == _accountEventTypes.Enabled()
+func (o *AccountEventType) IsAccountEnabled() bool {
+    return o == _accountEventTypes.AccountEnabled()
 }
 
-func (o *AccountEventType) IsDisabled() bool {
-    return o == _accountEventTypes.Disabled()
+func (o *AccountEventType) IsAccountDisabled() bool {
+    return o == _accountEventTypes.AccountDisabled()
 }
 
 type accountEventTypes struct {
@@ -302,24 +302,24 @@ type accountEventTypes struct {
 }
 
 var _accountEventTypes = &accountEventTypes{values: []*AccountEventType{
-    {name: "SendEnabledConfirmation", ordinal: 0},
-    {name: "SendDisabledConfirmation", ordinal: 1},
-    {name: "Login", ordinal: 2},
-    {name: "SendCreatedConfirmation", ordinal: 3},
-    {name: "Create", ordinal: 4},
-    {name: "Created", ordinal: 5},
-    {name: "Delete", ordinal: 6},
-    {name: "Deleted", ordinal: 7},
-    {name: "Logged", ordinal: 8},
-    {name: "SendCreatedConfirmationed", ordinal: 9},
-    {name: "SendEnabledConfirmationed", ordinal: 10},
-    {name: "SendDisabledConfirmationed", ordinal: 11},
-    {name: "Disable", ordinal: 12},
-    {name: "Enable", ordinal: 13},
-    {name: "Update", ordinal: 14},
-    {name: "Updated", ordinal: 15},
-    {name: "Enabled", ordinal: 16},
-    {name: "Disabled", ordinal: 17}},
+    {name: "SendEnabledAccountConfirmation", ordinal: 0},
+    {name: "SendDisabledAccountConfirmation", ordinal: 1},
+    {name: "AccountLogin", ordinal: 2},
+    {name: "SendCreatedAccountConfirmation", ordinal: 3},
+    {name: "AccountCreate", ordinal: 4},
+    {name: "AccountCreated", ordinal: 5},
+    {name: "AccountDelete", ordinal: 6},
+    {name: "AccountDeleted", ordinal: 7},
+    {name: "AccountLogged", ordinal: 8},
+    {name: "SendCreatedAccountConfirmationed", ordinal: 9},
+    {name: "SendEnabledAccountConfirmationed", ordinal: 10},
+    {name: "SendDisabledAccountConfirmationed", ordinal: 11},
+    {name: "AccountDisable", ordinal: 12},
+    {name: "AccountEnable", ordinal: 13},
+    {name: "AccountUpdate", ordinal: 14},
+    {name: "AccountUpdated", ordinal: 15},
+    {name: "AccountEnabled", ordinal: 16},
+    {name: "AccountDisabled", ordinal: 17}},
 }
 
 func AccountEventTypes() *accountEventTypes {
@@ -340,75 +340,75 @@ func (o *accountEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *accountEventTypes) SendEnabledConfirmation() *AccountEventType {
+func (o *accountEventTypes) SendEnabledAccountConfirmation() *AccountEventType {
     return _accountEventTypes.values[0]
 }
 
-func (o *accountEventTypes) SendDisabledConfirmation() *AccountEventType {
+func (o *accountEventTypes) SendDisabledAccountConfirmation() *AccountEventType {
     return _accountEventTypes.values[1]
 }
 
-func (o *accountEventTypes) Login() *AccountEventType {
+func (o *accountEventTypes) AccountLogin() *AccountEventType {
     return _accountEventTypes.values[2]
 }
 
-func (o *accountEventTypes) SendCreatedConfirmation() *AccountEventType {
+func (o *accountEventTypes) SendCreatedAccountConfirmation() *AccountEventType {
     return _accountEventTypes.values[3]
 }
 
-func (o *accountEventTypes) Create() *AccountEventType {
+func (o *accountEventTypes) AccountCreate() *AccountEventType {
     return _accountEventTypes.values[4]
 }
 
-func (o *accountEventTypes) Created() *AccountEventType {
+func (o *accountEventTypes) AccountCreated() *AccountEventType {
     return _accountEventTypes.values[5]
 }
 
-func (o *accountEventTypes) Delete() *AccountEventType {
+func (o *accountEventTypes) AccountDelete() *AccountEventType {
     return _accountEventTypes.values[6]
 }
 
-func (o *accountEventTypes) Deleted() *AccountEventType {
+func (o *accountEventTypes) AccountDeleted() *AccountEventType {
     return _accountEventTypes.values[7]
 }
 
-func (o *accountEventTypes) Logged() *AccountEventType {
+func (o *accountEventTypes) AccountLogged() *AccountEventType {
     return _accountEventTypes.values[8]
 }
 
-func (o *accountEventTypes) SendCreatedConfirmationed() *AccountEventType {
+func (o *accountEventTypes) SendCreatedAccountConfirmationed() *AccountEventType {
     return _accountEventTypes.values[9]
 }
 
-func (o *accountEventTypes) SendEnabledConfirmationed() *AccountEventType {
+func (o *accountEventTypes) SendEnabledAccountConfirmationed() *AccountEventType {
     return _accountEventTypes.values[10]
 }
 
-func (o *accountEventTypes) SendDisabledConfirmationed() *AccountEventType {
+func (o *accountEventTypes) SendDisabledAccountConfirmationed() *AccountEventType {
     return _accountEventTypes.values[11]
 }
 
-func (o *accountEventTypes) Disable() *AccountEventType {
+func (o *accountEventTypes) AccountDisable() *AccountEventType {
     return _accountEventTypes.values[12]
 }
 
-func (o *accountEventTypes) Enable() *AccountEventType {
+func (o *accountEventTypes) AccountEnable() *AccountEventType {
     return _accountEventTypes.values[13]
 }
 
-func (o *accountEventTypes) Update() *AccountEventType {
+func (o *accountEventTypes) AccountUpdate() *AccountEventType {
     return _accountEventTypes.values[14]
 }
 
-func (o *accountEventTypes) Updated() *AccountEventType {
+func (o *accountEventTypes) AccountUpdated() *AccountEventType {
     return _accountEventTypes.values[15]
 }
 
-func (o *accountEventTypes) Enabled() *AccountEventType {
+func (o *accountEventTypes) AccountEnabled() *AccountEventType {
     return _accountEventTypes.values[16]
 }
 
-func (o *accountEventTypes) Disabled() *AccountEventType {
+func (o *accountEventTypes) AccountDisabled() *AccountEventType {
     return _accountEventTypes.values[17]
 }
 
