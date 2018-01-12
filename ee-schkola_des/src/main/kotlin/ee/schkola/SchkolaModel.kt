@@ -42,17 +42,17 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
                 })
 
                 object Created : State({
-                    handle(enable).to(Enabled).produce(sendEnabledConfirmation)
-                    handle(disable).to(Disabled)
+                    handleEventOf(enable).to(Enabled).produce(sendEnabledConfirmation)
+                    handleEventOf(disable).to(Disabled)
                 })
 
 
                 object Enabled : State( {
-                    handle(disable).to(Disabled).produce(sendDisabledConfirmation)
+                    handleEventOf(disable).to(Disabled).produce(sendDisabledConfirmation)
                 })
 
                 object Disabled : State( {
-                    handle(enable).to(Enabled).produce(sendEnabledConfirmation)
+                    handleEventOf(enable).to(Enabled).produce(sendEnabledConfirmation)
                 })
             }
         }
