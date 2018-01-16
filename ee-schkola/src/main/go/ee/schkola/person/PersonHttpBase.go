@@ -9,50 +9,50 @@ import (
     "github.com/looplab/eventhorizon/commandhandler/bus"
     "net/http"
 )
-type HttpQueryHandler struct {
+type ChurchHttpQueryHandler struct {
     *eh.HttpQueryHandler
-    QueryRepository *QueryRepository `json:"queryRepository" eh:"optional"`
+    QueryRepository *ChurchQueryRepository `json:"queryRepository" eh:"optional"`
 }
 
-func NewChurchHttpQueryHandler(queryRepository *QueryRepository) (ret *HttpQueryHandler) {
+func New@@EMPTY@@(queryRepository *ChurchQueryRepository) (ret *ChurchHttpQueryHandler) {
     httpQueryHandler := &eh.HttpQueryHandler{}
-    ret = &HttpQueryHandler{
+    ret = &ChurchHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
     }
     return
 }
 
-func (o *HttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
+func (o *ChurchHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
     o.HandleResult(ret, err, "FindAllChurch", w, r)
 }
 
-func (o *HttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
+func (o *ChurchHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
     o.HandleResult(ret, err, "FindByChurchId", w, r)
 }
 
-func (o *HttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
+func (o *ChurchHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
     o.HandleResult(ret, err, "CountAllChurch", w, r)
 }
 
-func (o *HttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
+func (o *ChurchHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
     o.HandleResult(ret, err, "CountByChurchId", w, r)
 }
 
-func (o *HttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
+func (o *ChurchHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
     o.HandleResult(ret, err, "ExistAllChurch", w, r)
 }
 
-func (o *HttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
+func (o *ChurchHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
@@ -60,53 +60,53 @@ func (o *HttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
 }
 
 
-type HttpCommandHandler struct {
+type ChurchHttpCommandHandler struct {
     *eh.HttpCommandHandler
 }
 
-func NewChurchHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *HttpCommandHandler) {
-    httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
-    ret = &HttpCommandHandler{
+func New@@EMPTY@@(context context.Context, commandBus eventhorizon.CommandHandler) (ret *ChurchHttpCommandHandler) {
+    httpCommandHandler := eh.New@@EMPTY@@HttpCommandHandler(context, commandBus)
+    ret = &ChurchHttpCommandHandler{
         HttpCommandHandler: httpCommandHandler,
     }
     return
 }
 
-func (o *HttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
+func (o *ChurchHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&CreateChurch{Id: id}, w, r)
 }
 
-func (o *HttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
+func (o *ChurchHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&UpdateChurch{Id: id}, w, r)
 }
 
-func (o *HttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
+func (o *ChurchHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&DeleteChurch{Id: id}, w, r)
 }
 
 
-type Router struct {
+type ChurchRouter struct {
     PathPrefix string `json:"pathPrefix" eh:"optional"`
-    QueryHandler *HttpQueryHandler `json:"queryHandler" eh:"optional"`
-    CommandHandler *HttpCommandHandler `json:"commandHandler" eh:"optional"`
+    QueryHandler *ChurchHttpQueryHandler `json:"queryHandler" eh:"optional"`
+    CommandHandler *ChurchHttpCommandHandler `json:"commandHandler" eh:"optional"`
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewChurchRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
-                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *Router) {
+func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ChurchRouter) {
     pathPrefix = pathPrefix + "/" + "churches"
-    entityFactory := func() eventhorizon.Entity { return NewChurch() }
+    entityFactory := func() eventhorizon.Entity { return New@@EMPTY@@() }
     repo := readRepos(string(ChurchAggregateType), entityFactory)
-    queryRepository := NewChurchQueryRepository(repo, context)
-    queryHandler := NewChurchHttpQueryHandler(queryRepository)
-    commandHandler := NewChurchHttpCommandHandler(context, commandBus)
-    ret = &Router{
+    queryRepository := New@@EMPTY@@(repo, context)
+    queryHandler := New@@EMPTY@@(queryRepository)
+    commandHandler := New@@EMPTY@@(context, commandBus)
+    ret = &ChurchRouter{
         PathPrefix: pathPrefix,
         QueryHandler: queryHandler,
         CommandHandler: commandHandler,
@@ -114,7 +114,7 @@ func NewChurchRouter(pathPrefix string, context context.Context, commandBus even
     return
 }
 
-func (o *Router) Setup(router *mux.Router) (err error) {
+func (o *ChurchRouter) Setup(router *mux.Router) (err error) {
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountChurchById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -141,50 +141,50 @@ func (o *Router) Setup(router *mux.Router) (err error) {
 }
 
 
-type HttpQueryHandler struct {
+type GraduationHttpQueryHandler struct {
     *eh.HttpQueryHandler
-    QueryRepository *QueryRepository `json:"queryRepository" eh:"optional"`
+    QueryRepository *GraduationQueryRepository `json:"queryRepository" eh:"optional"`
 }
 
-func NewGraduationHttpQueryHandler(queryRepository *QueryRepository) (ret *HttpQueryHandler) {
+func New@@EMPTY@@(queryRepository *GraduationQueryRepository) (ret *GraduationHttpQueryHandler) {
     httpQueryHandler := &eh.HttpQueryHandler{}
-    ret = &HttpQueryHandler{
+    ret = &GraduationHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
     }
     return
 }
 
-func (o *HttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
+func (o *GraduationHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
     o.HandleResult(ret, err, "FindAllGraduation", w, r)
 }
 
-func (o *HttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
+func (o *GraduationHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
     o.HandleResult(ret, err, "FindByGraduationId", w, r)
 }
 
-func (o *HttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
+func (o *GraduationHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
     o.HandleResult(ret, err, "CountAllGraduation", w, r)
 }
 
-func (o *HttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
+func (o *GraduationHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
     o.HandleResult(ret, err, "CountByGraduationId", w, r)
 }
 
-func (o *HttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
+func (o *GraduationHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
     o.HandleResult(ret, err, "ExistAllGraduation", w, r)
 }
 
-func (o *HttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
+func (o *GraduationHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
@@ -192,53 +192,53 @@ func (o *HttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
 }
 
 
-type HttpCommandHandler struct {
+type GraduationHttpCommandHandler struct {
     *eh.HttpCommandHandler
 }
 
-func NewGraduationHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *HttpCommandHandler) {
-    httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
-    ret = &HttpCommandHandler{
+func New@@EMPTY@@(context context.Context, commandBus eventhorizon.CommandHandler) (ret *GraduationHttpCommandHandler) {
+    httpCommandHandler := eh.New@@EMPTY@@HttpCommandHandler(context, commandBus)
+    ret = &GraduationHttpCommandHandler{
         HttpCommandHandler: httpCommandHandler,
     }
     return
 }
 
-func (o *HttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
+func (o *GraduationHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&CreateGraduation{Id: id}, w, r)
 }
 
-func (o *HttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
+func (o *GraduationHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&UpdateGraduation{Id: id}, w, r)
 }
 
-func (o *HttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
+func (o *GraduationHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&DeleteGraduation{Id: id}, w, r)
 }
 
 
-type Router struct {
+type GraduationRouter struct {
     PathPrefix string `json:"pathPrefix" eh:"optional"`
-    QueryHandler *HttpQueryHandler `json:"queryHandler" eh:"optional"`
-    CommandHandler *HttpCommandHandler `json:"commandHandler" eh:"optional"`
+    QueryHandler *GraduationHttpQueryHandler `json:"queryHandler" eh:"optional"`
+    CommandHandler *GraduationHttpCommandHandler `json:"commandHandler" eh:"optional"`
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewGraduationRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
-                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *Router) {
+func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *GraduationRouter) {
     pathPrefix = pathPrefix + "/" + "graduations"
-    entityFactory := func() eventhorizon.Entity { return NewGraduation() }
+    entityFactory := func() eventhorizon.Entity { return New@@EMPTY@@() }
     repo := readRepos(string(GraduationAggregateType), entityFactory)
-    queryRepository := NewGraduationQueryRepository(repo, context)
-    queryHandler := NewGraduationHttpQueryHandler(queryRepository)
-    commandHandler := NewGraduationHttpCommandHandler(context, commandBus)
-    ret = &Router{
+    queryRepository := New@@EMPTY@@(repo, context)
+    queryHandler := New@@EMPTY@@(queryRepository)
+    commandHandler := New@@EMPTY@@(context, commandBus)
+    ret = &GraduationRouter{
         PathPrefix: pathPrefix,
         QueryHandler: queryHandler,
         CommandHandler: commandHandler,
@@ -246,7 +246,7 @@ func NewGraduationRouter(pathPrefix string, context context.Context, commandBus 
     return
 }
 
-func (o *Router) Setup(router *mux.Router) (err error) {
+func (o *GraduationRouter) Setup(router *mux.Router) (err error) {
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountGraduationById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -273,64 +273,64 @@ func (o *Router) Setup(router *mux.Router) (err error) {
 }
 
 
-type HttpQueryHandler struct {
+type ProfileHttpQueryHandler struct {
     *eh.HttpQueryHandler
-    QueryRepository *QueryRepository `json:"queryRepository" eh:"optional"`
+    QueryRepository *ProfileQueryRepository `json:"queryRepository" eh:"optional"`
 }
 
-func NewProfileHttpQueryHandler(queryRepository *QueryRepository) (ret *HttpQueryHandler) {
+func New@@EMPTY@@(queryRepository *ProfileQueryRepository) (ret *ProfileHttpQueryHandler) {
     httpQueryHandler := &eh.HttpQueryHandler{}
-    ret = &HttpQueryHandler{
+    ret = &ProfileHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
     }
     return
 }
 
-func (o *HttpQueryHandler) FindByEmail(w http.ResponseWriter, r *http.Request) {
+func (o *ProfileHttpQueryHandler) FindByEmail(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     email := vars["email"]
     ret, err := o.QueryRepository.FindByEmail(email)
     o.HandleResult(ret, err, "FindByProfileEmail", w, r)
 }
 
-func (o *HttpQueryHandler) FindByPhone(w http.ResponseWriter, r *http.Request) {
+func (o *ProfileHttpQueryHandler) FindByPhone(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     phone := vars["phone"]
     ret, err := o.QueryRepository.FindByPhone(phone)
     o.HandleResult(ret, err, "FindByProfilePhone", w, r)
 }
 
-func (o *HttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
+func (o *ProfileHttpQueryHandler) FindAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.FindAll()
     o.HandleResult(ret, err, "FindAllProfile", w, r)
 }
 
-func (o *HttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
+func (o *ProfileHttpQueryHandler) FindById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.FindById(id)
     o.HandleResult(ret, err, "FindByProfileId", w, r)
 }
 
-func (o *HttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
+func (o *ProfileHttpQueryHandler) CountAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.CountAll()
     o.HandleResult(ret, err, "CountAllProfile", w, r)
 }
 
-func (o *HttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
+func (o *ProfileHttpQueryHandler) CountById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.CountById(id)
     o.HandleResult(ret, err, "CountByProfileId", w, r)
 }
 
-func (o *HttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
+func (o *ProfileHttpQueryHandler) ExistAll(w http.ResponseWriter, r *http.Request) {
     ret, err := o.QueryRepository.ExistAll()
     o.HandleResult(ret, err, "ExistAllProfile", w, r)
 }
 
-func (o *HttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
+func (o *ProfileHttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     ret, err := o.QueryRepository.ExistById(id)
@@ -338,53 +338,53 @@ func (o *HttpQueryHandler) ExistById(w http.ResponseWriter, r *http.Request) {
 }
 
 
-type HttpCommandHandler struct {
+type ProfileHttpCommandHandler struct {
     *eh.HttpCommandHandler
 }
 
-func NewProfileHttpCommandHandler(context context.Context, commandBus eventhorizon.CommandHandler) (ret *HttpCommandHandler) {
-    httpCommandHandler := eh.NewHttpCommandHandler(context, commandBus)
-    ret = &HttpCommandHandler{
+func New@@EMPTY@@(context context.Context, commandBus eventhorizon.CommandHandler) (ret *ProfileHttpCommandHandler) {
+    httpCommandHandler := eh.New@@EMPTY@@HttpCommandHandler(context, commandBus)
+    ret = &ProfileHttpCommandHandler{
         HttpCommandHandler: httpCommandHandler,
     }
     return
 }
 
-func (o *HttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
+func (o *ProfileHttpCommandHandler) Create(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&CreateProfile{Id: id}, w, r)
 }
 
-func (o *HttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
+func (o *ProfileHttpCommandHandler) Update(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&UpdateProfile{Id: id}, w, r)
 }
 
-func (o *HttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
+func (o *ProfileHttpCommandHandler) Delete(w http.ResponseWriter, r *http.Request) {
     vars := mux.Vars(r)
     id := eventhorizon.UUID(vars["id"])
     o.HandleCommand(&DeleteProfile{Id: id}, w, r)
 }
 
 
-type Router struct {
+type ProfileRouter struct {
     PathPrefix string `json:"pathPrefix" eh:"optional"`
-    QueryHandler *HttpQueryHandler `json:"queryHandler" eh:"optional"`
-    CommandHandler *HttpCommandHandler `json:"commandHandler" eh:"optional"`
+    QueryHandler *ProfileHttpQueryHandler `json:"queryHandler" eh:"optional"`
+    CommandHandler *ProfileHttpCommandHandler `json:"commandHandler" eh:"optional"`
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewProfileRouter(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
-                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *Router) {
+func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus eventhorizon.CommandHandler, 
+                readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ProfileRouter) {
     pathPrefix = pathPrefix + "/" + "profiles"
-    entityFactory := func() eventhorizon.Entity { return NewProfile() }
+    entityFactory := func() eventhorizon.Entity { return New@@EMPTY@@() }
     repo := readRepos(string(ProfileAggregateType), entityFactory)
-    queryRepository := NewProfileQueryRepository(repo, context)
-    queryHandler := NewProfileHttpQueryHandler(queryRepository)
-    commandHandler := NewProfileHttpCommandHandler(context, commandBus)
-    ret = &Router{
+    queryRepository := New@@EMPTY@@(repo, context)
+    queryHandler := New@@EMPTY@@(queryRepository)
+    commandHandler := New@@EMPTY@@(context, commandBus)
+    ret = &ProfileRouter{
         PathPrefix: pathPrefix,
         QueryHandler: queryHandler,
         CommandHandler: commandHandler,
@@ -392,7 +392,7 @@ func NewProfileRouter(pathPrefix string, context context.Context, commandBus eve
     return
 }
 
-func (o *Router) Setup(router *mux.Router) (err error) {
+func (o *ProfileRouter) Setup(router *mux.Router) (err error) {
     router.Methods(http.MethodGet).PathPrefix(o.PathPrefix).Path("/{id}").
         Name("CountProfileById").HandlerFunc(o.QueryHandler.CountById).
         Queries(net.QueryType, net.QueryTypeCount)
@@ -427,18 +427,18 @@ func (o *Router) Setup(router *mux.Router) (err error) {
 
 type PersonRouter struct {
     PathPrefix string `json:"pathPrefix" eh:"optional"`
-    ChurchRouter *Router `json:"churchRouter" eh:"optional"`
-    GraduationRouter *Router `json:"graduationRouter" eh:"optional"`
-    ProfileRouter *Router `json:"profileRouter" eh:"optional"`
+    ChurchRouter *ChurchRouter `json:"churchRouter" eh:"optional"`
+    GraduationRouter *GraduationRouter `json:"graduationRouter" eh:"optional"`
+    ProfileRouter *ProfileRouter `json:"profileRouter" eh:"optional"`
     Router *mux.Router `json:"router" eh:"optional"`
 }
 
-func NewPersonRouter(pathPrefix string, context context.Context, commandBus *bus.CommandHandler, 
+func New@@EMPTY@@(pathPrefix string, context context.Context, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *PersonRouter) {
     pathPrefix = pathPrefix + "/" + "person"
-    churchRouter := NewChurchRouter(pathPrefix, context, commandBus, readRepos)
-    graduationRouter := NewGraduationRouter(pathPrefix, context, commandBus, readRepos)
-    profileRouter := NewProfileRouter(pathPrefix, context, commandBus, readRepos)
+    churchRouter := New@@EMPTY@@(pathPrefix, context, commandBus, readRepos)
+    graduationRouter := New@@EMPTY@@(pathPrefix, context, commandBus, readRepos)
+    profileRouter := New@@EMPTY@@(pathPrefix, context, commandBus, readRepos)
     ret = &PersonRouter{
         PathPrefix: pathPrefix,
         ChurchRouter: churchRouter,

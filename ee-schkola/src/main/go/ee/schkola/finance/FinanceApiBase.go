@@ -14,7 +14,7 @@ type Expense struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func NewExpense() (ret *Expense) {
+func New@@EMPTY@@() (ret *Expense) {
     ret = &Expense{}
     return
 }
@@ -29,7 +29,7 @@ type ExpensePurpose struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func NewExpensePurpose() (ret *ExpensePurpose) {
+func New@@EMPTY@@() (ret *ExpensePurpose) {
     ret = &ExpensePurpose{}
     return
 }
@@ -46,7 +46,7 @@ type Fee struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func NewFee() (ret *Fee) {
+func New@@EMPTY@@() (ret *Fee) {
     ret = &Fee{}
     return
 }
@@ -62,7 +62,7 @@ type FeeKind struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func NewFeeKind() (ret *FeeKind) {
+func New@@EMPTY@@() (ret *FeeKind) {
     ret = &FeeKind{}
     return
 }

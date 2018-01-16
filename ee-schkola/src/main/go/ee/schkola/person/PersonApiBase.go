@@ -20,7 +20,7 @@ type Church struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func NewChurch() (ret *Church) {
+func New@@EMPTY@@() (ret *Church) {
     ret = &Church{}
     return
 }
@@ -35,7 +35,7 @@ type Graduation struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func NewGraduation() (ret *Graduation) {
+func New@@EMPTY@@() (ret *Graduation) {
     ret = &Graduation{}
     return
 }
@@ -59,7 +59,7 @@ type Profile struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func NewProfile() (ret *Profile) {
+func New@@EMPTY@@() (ret *Profile) {
     ret = &Profile{}
     return
 }
@@ -89,7 +89,7 @@ type Address struct {
     Country string `json:"country" eh:"optional"`
 }
 
-func NewAddress() (ret *Address) {
+func New@@EMPTY@@() (ret *Address) {
     ret = &Address{}
     return
 }
@@ -101,7 +101,7 @@ type ChurchInfo struct {
     Services string `json:"services" eh:"optional"`
 }
 
-func NewChurchInfo() (ret *ChurchInfo) {
+func New@@EMPTY@@() (ret *ChurchInfo) {
     ret = &ChurchInfo{}
     return
 }
@@ -113,7 +113,7 @@ type Contact struct {
     Cellphone string `json:"cellphone" eh:"optional"`
 }
 
-func NewContact() (ret *Contact) {
+func New@@EMPTY@@() (ret *Contact) {
     ret = &Contact{}
     return
 }
@@ -125,7 +125,7 @@ type Education struct {
     Profession string `json:"profession" eh:"optional"`
 }
 
-func NewEducation() (ret *Education) {
+func New@@EMPTY@@() (ret *Education) {
     ret = &Education{}
     return
 }
@@ -137,7 +137,7 @@ type Family struct {
     Partner *shared.PersonName `json:"partner" eh:"optional"`
 }
 
-func NewFamily() (ret *Family) {
+func New@@EMPTY@@() (ret *Family) {
     ret = &Family{}
     return
 }

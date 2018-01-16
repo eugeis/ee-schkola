@@ -24,7 +24,7 @@ const (
 
 
 
-type AccountCreated struct {
+type Created struct {
     Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -35,18 +35,18 @@ type AccountCreated struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *AccountCreated) AddToRoles(item string) string {
+func (o *Created) AddToRoles(item string) string {
     o.Roles = append(o.Roles, item)
     return item
 }
 
 
-type AccountDeleted struct {
+type Deleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type AccountLogged struct {
+type Logged struct {
     Username string `json:"username" eh:"optional"`
     Email string `json:"email" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -54,22 +54,22 @@ type AccountLogged struct {
 }
 
 
-type SendCreatedAccountConfirmationed struct {
+type SendCreatedConfirmationed struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type SendEnabledAccountConfirmationed struct {
+type SendEnabledConfirmationed struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type SendDisabledAccountConfirmationed struct {
+type SendDisabledConfirmationed struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type AccountUpdated struct {
+type Updated struct {
     Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -80,18 +80,18 @@ type AccountUpdated struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *AccountUpdated) AddToRoles(item string) string {
+func (o *Updated) AddToRoles(item string) string {
     o.Roles = append(o.Roles, item)
     return item
 }
 
 
-type AccountEnabled struct {
+type Enabled struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type AccountDisabled struct {
+type Disabled struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 

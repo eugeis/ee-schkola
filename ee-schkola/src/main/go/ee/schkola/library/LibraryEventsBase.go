@@ -19,7 +19,7 @@ const (
 
 
 
-type BookCreated struct {
+type Created struct {
     Location *Location `json:"location" eh:"optional"`
     Title string `json:"title" eh:"optional"`
     Description string `json:"description" eh:"optional"`
@@ -33,12 +33,12 @@ type BookCreated struct {
 }
 
 
-type BookDeleted struct {
+type Deleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type BookUpdated struct {
+type Updated struct {
     Location *Location `json:"location" eh:"optional"`
     Title string `json:"title" eh:"optional"`
     Description string `json:"description" eh:"optional"`
@@ -52,7 +52,7 @@ type BookUpdated struct {
 }
 
 
-type ChangeLocationedBook struct {
+type ChangeLocationed struct {
     Location *Location `json:"location" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }

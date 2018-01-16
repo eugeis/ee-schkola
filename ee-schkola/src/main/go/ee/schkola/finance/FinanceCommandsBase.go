@@ -40,148 +40,148 @@ const (
 
 
         
-type CreateExpense struct {
+type Create struct {
     Purpose *ExpensePurpose `json:"purpose" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Profile *person.Profile `json:"profile" eh:"optional"`
     Date *time.Time `json:"date" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *CreateExpense) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *CreateExpense) AggregateType() eventhorizon.AggregateType  { return ExpenseAggregateType }
-func (o *CreateExpense) CommandType() eventhorizon.CommandType      { return CreateExpenseCommand }
+func (o *Create) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Create) AggregateType() eventhorizon.AggregateType  { return ExpenseAggregateType }
+func (o *Create) CommandType() eventhorizon.CommandType      { return CreateExpenseCommand }
 
 
 
         
-type DeleteExpense struct {
+type Delete struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *DeleteExpense) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *DeleteExpense) AggregateType() eventhorizon.AggregateType  { return ExpenseAggregateType }
-func (o *DeleteExpense) CommandType() eventhorizon.CommandType      { return DeleteExpenseCommand }
+func (o *Delete) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Delete) AggregateType() eventhorizon.AggregateType  { return ExpenseAggregateType }
+func (o *Delete) CommandType() eventhorizon.CommandType      { return DeleteExpenseCommand }
 
 
 
         
-type UpdateExpense struct {
+type Update struct {
     Purpose *ExpensePurpose `json:"purpose" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Profile *person.Profile `json:"profile" eh:"optional"`
     Date *time.Time `json:"date" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *UpdateExpense) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *UpdateExpense) AggregateType() eventhorizon.AggregateType  { return ExpenseAggregateType }
-func (o *UpdateExpense) CommandType() eventhorizon.CommandType      { return UpdateExpenseCommand }
+func (o *Update) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Update) AggregateType() eventhorizon.AggregateType  { return ExpenseAggregateType }
+func (o *Update) CommandType() eventhorizon.CommandType      { return UpdateExpenseCommand }
 
 
 
         
-type CreateExpensePurpose struct {
+type Create struct {
     Name string `json:"name" eh:"optional"`
     Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *CreateExpensePurpose) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *CreateExpensePurpose) AggregateType() eventhorizon.AggregateType  { return ExpensePurposeAggregateType }
-func (o *CreateExpensePurpose) CommandType() eventhorizon.CommandType      { return CreateExpensePurposeCommand }
+func (o *Create) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Create) AggregateType() eventhorizon.AggregateType  { return ExpensePurposeAggregateType }
+func (o *Create) CommandType() eventhorizon.CommandType      { return CreateExpensePurposeCommand }
 
 
 
         
-type DeleteExpensePurpose struct {
+type Delete struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *DeleteExpensePurpose) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *DeleteExpensePurpose) AggregateType() eventhorizon.AggregateType  { return ExpensePurposeAggregateType }
-func (o *DeleteExpensePurpose) CommandType() eventhorizon.CommandType      { return DeleteExpensePurposeCommand }
+func (o *Delete) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Delete) AggregateType() eventhorizon.AggregateType  { return ExpensePurposeAggregateType }
+func (o *Delete) CommandType() eventhorizon.CommandType      { return DeleteExpensePurposeCommand }
 
 
 
         
-type UpdateExpensePurpose struct {
+type Update struct {
     Name string `json:"name" eh:"optional"`
     Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *UpdateExpensePurpose) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *UpdateExpensePurpose) AggregateType() eventhorizon.AggregateType  { return ExpensePurposeAggregateType }
-func (o *UpdateExpensePurpose) CommandType() eventhorizon.CommandType      { return UpdateExpensePurposeCommand }
+func (o *Update) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Update) AggregateType() eventhorizon.AggregateType  { return ExpensePurposeAggregateType }
+func (o *Update) CommandType() eventhorizon.CommandType      { return UpdateExpensePurposeCommand }
 
 
 
         
-type CreateFee struct {
+type Create struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Kind *FeeKind `json:"kind" eh:"optional"`
     Date *time.Time `json:"date" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *CreateFee) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *CreateFee) AggregateType() eventhorizon.AggregateType  { return FeeAggregateType }
-func (o *CreateFee) CommandType() eventhorizon.CommandType      { return CreateFeeCommand }
+func (o *Create) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Create) AggregateType() eventhorizon.AggregateType  { return FeeAggregateType }
+func (o *Create) CommandType() eventhorizon.CommandType      { return CreateFeeCommand }
 
 
 
         
-type DeleteFee struct {
+type Delete struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *DeleteFee) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *DeleteFee) AggregateType() eventhorizon.AggregateType  { return FeeAggregateType }
-func (o *DeleteFee) CommandType() eventhorizon.CommandType      { return DeleteFeeCommand }
+func (o *Delete) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Delete) AggregateType() eventhorizon.AggregateType  { return FeeAggregateType }
+func (o *Delete) CommandType() eventhorizon.CommandType      { return DeleteFeeCommand }
 
 
 
         
-type UpdateFee struct {
+type Update struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Kind *FeeKind `json:"kind" eh:"optional"`
     Date *time.Time `json:"date" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *UpdateFee) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *UpdateFee) AggregateType() eventhorizon.AggregateType  { return FeeAggregateType }
-func (o *UpdateFee) CommandType() eventhorizon.CommandType      { return UpdateFeeCommand }
+func (o *Update) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Update) AggregateType() eventhorizon.AggregateType  { return FeeAggregateType }
+func (o *Update) CommandType() eventhorizon.CommandType      { return UpdateFeeCommand }
 
 
 
         
-type CreateFeeKind struct {
+type Create struct {
     Name string `json:"name" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *CreateFeeKind) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *CreateFeeKind) AggregateType() eventhorizon.AggregateType  { return FeeKindAggregateType }
-func (o *CreateFeeKind) CommandType() eventhorizon.CommandType      { return CreateFeeKindCommand }
+func (o *Create) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Create) AggregateType() eventhorizon.AggregateType  { return FeeKindAggregateType }
+func (o *Create) CommandType() eventhorizon.CommandType      { return CreateFeeKindCommand }
 
 
 
         
-type DeleteFeeKind struct {
+type Delete struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *DeleteFeeKind) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *DeleteFeeKind) AggregateType() eventhorizon.AggregateType  { return FeeKindAggregateType }
-func (o *DeleteFeeKind) CommandType() eventhorizon.CommandType      { return DeleteFeeKindCommand }
+func (o *Delete) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Delete) AggregateType() eventhorizon.AggregateType  { return FeeKindAggregateType }
+func (o *Delete) CommandType() eventhorizon.CommandType      { return DeleteFeeKindCommand }
 
 
 
         
-type UpdateFeeKind struct {
+type Update struct {
     Name string `json:"name" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *UpdateFeeKind) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *UpdateFeeKind) AggregateType() eventhorizon.AggregateType  { return FeeKindAggregateType }
-func (o *UpdateFeeKind) CommandType() eventhorizon.CommandType      { return UpdateFeeKindCommand }
+func (o *Update) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *Update) AggregateType() eventhorizon.AggregateType  { return FeeKindAggregateType }
+func (o *Update) CommandType() eventhorizon.CommandType      { return UpdateFeeKindCommand }
 
 
 

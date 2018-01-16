@@ -15,13 +15,13 @@ type Account struct {
     Roles []string `json:"roles" eh:"optional"`
     Profile *person.Profile `json:"profile" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
-    *AccountAccountConfirmation
+    *AccountConfirmation
 }
 
-func NewAccount() (ret *Account) {
-    accountAccountConfirmation := NewAccountAccountConfirmation()
+func New@@EMPTY@@() (ret *Account) {
+    accountConfirmation := New@@EMPTY@@()
     ret = &Account{
-        AccountAccountConfirmation: accountAccountConfirmation,
+        AccountConfirmation: accountConfirmation,
     }
     return
 }
@@ -41,7 +41,7 @@ type UserCredentials struct {
     Password string `json:"password" eh:"optional"`
 }
 
-func NewUserCredentials() (ret *UserCredentials) {
+func New@@EMPTY@@() (ret *UserCredentials) {
     ret = &UserCredentials{}
     return
 }

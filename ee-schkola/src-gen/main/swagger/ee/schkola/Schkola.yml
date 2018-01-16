@@ -605,8 +605,8 @@ components:
           $ref: "#/components/schemas/Profile"
         id:          
           type: string
-        accountAccountConfirmation:          
-          $ref: "#/components/schemas/AccountAccountConfirmation"
+        accountConfirmation:          
+          $ref: "#/components/schemas/AccountConfirmation"
     UserCredentials:
       type: object
       properties:

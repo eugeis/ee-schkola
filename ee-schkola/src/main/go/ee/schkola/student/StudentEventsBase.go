@@ -57,7 +57,7 @@ const (
 
 
 
-type AttendanceCreated struct {
+type Created struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Date *time.Time `json:"date" eh:"optional"`
     Course *Course `json:"course" eh:"optional"`
@@ -68,19 +68,19 @@ type AttendanceCreated struct {
 }
 
 
-type AttendanceRegistered struct {
+type Registered struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Course *Course `json:"course" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type AttendanceDeleted struct {
+type Deleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type AttendanceUpdated struct {
+type Updated struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Date *time.Time `json:"date" eh:"optional"`
     Course *Course `json:"course" eh:"optional"`
@@ -91,17 +91,17 @@ type AttendanceUpdated struct {
 }
 
 
-type AttendanceConfirmed struct {
+type Confirmed struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type AttendanceCanceled struct {
+type Canceled struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type CourseCreated struct {
+type Created struct {
     Name string `json:"name" eh:"optional"`
     Begin *time.Time `json:"begin" eh:"optional"`
     End *time.Time `json:"end" eh:"optional"`
@@ -113,12 +113,12 @@ type CourseCreated struct {
 }
 
 
-type CourseDeleted struct {
+type Deleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type CourseUpdated struct {
+type Updated struct {
     Name string `json:"name" eh:"optional"`
     Begin *time.Time `json:"begin" eh:"optional"`
     End *time.Time `json:"end" eh:"optional"`
@@ -130,7 +130,7 @@ type CourseUpdated struct {
 }
 
 
-type GradeCreated struct {
+type Created struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Course *Course `json:"course" eh:"optional"`
     Grade float64 `json:"grade" eh:"optional"`
@@ -139,12 +139,12 @@ type GradeCreated struct {
 }
 
 
-type GradeDeleted struct {
+type Deleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type GradeUpdated struct {
+type Updated struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Course *Course `json:"course" eh:"optional"`
     Grade float64 `json:"grade" eh:"optional"`
@@ -153,7 +153,7 @@ type GradeUpdated struct {
 }
 
 
-type GroupCreated struct {
+type Created struct {
     Name string `json:"name" eh:"optional"`
     Category *GroupCategory `json:"category" eh:"optional"`
     SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
@@ -163,23 +163,23 @@ type GroupCreated struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *GroupCreated) AddToStudents(item *person.Profile) *person.Profile {
+func (o *Created) AddToStudents(item *person.Profile) *person.Profile {
     o.Students = append(o.Students, item)
     return item
 }
 
-func (o *GroupCreated) AddToCourses(item *Course) *Course {
+func (o *Created) AddToCourses(item *Course) *Course {
     o.Courses = append(o.Courses, item)
     return item
 }
 
 
-type GroupDeleted struct {
+type Deleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type GroupUpdated struct {
+type Updated struct {
     Name string `json:"name" eh:"optional"`
     Category *GroupCategory `json:"category" eh:"optional"`
     SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
@@ -189,18 +189,18 @@ type GroupUpdated struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *GroupUpdated) AddToStudents(item *person.Profile) *person.Profile {
+func (o *Updated) AddToStudents(item *person.Profile) *person.Profile {
     o.Students = append(o.Students, item)
     return item
 }
 
-func (o *GroupUpdated) AddToCourses(item *Course) *Course {
+func (o *Updated) AddToCourses(item *Course) *Course {
     o.Courses = append(o.Courses, item)
     return item
 }
 
 
-type SchoolApplicationCreated struct {
+type Created struct {
     Profile *person.Profile `json:"profile" eh:"optional"`
     ChurchContactPerson *shared.PersonName `json:"churchContactPerson" eh:"optional"`
     ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
@@ -211,12 +211,12 @@ type SchoolApplicationCreated struct {
 }
 
 
-type SchoolApplicationDeleted struct {
+type Deleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type SchoolApplicationUpdated struct {
+type Updated struct {
     Profile *person.Profile `json:"profile" eh:"optional"`
     ChurchContactPerson *shared.PersonName `json:"churchContactPerson" eh:"optional"`
     ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
@@ -227,7 +227,7 @@ type SchoolApplicationUpdated struct {
 }
 
 
-type SchoolYearCreated struct {
+type Created struct {
     Name string `json:"name" eh:"optional"`
     Start *time.Time `json:"start" eh:"optional"`
     End *time.Time `json:"end" eh:"optional"`
@@ -235,18 +235,18 @@ type SchoolYearCreated struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *SchoolYearCreated) AddToDates(item *time.Time) *time.Time {
+func (o *Created) AddToDates(item *time.Time) *time.Time {
     o.Dates = append(o.Dates, item)
     return item
 }
 
 
-type SchoolYearDeleted struct {
+type Deleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type SchoolYearUpdated struct {
+type Updated struct {
     Name string `json:"name" eh:"optional"`
     Start *time.Time `json:"start" eh:"optional"`
     End *time.Time `json:"end" eh:"optional"`
@@ -254,7 +254,7 @@ type SchoolYearUpdated struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *SchoolYearUpdated) AddToDates(item *time.Time) *time.Time {
+func (o *Updated) AddToDates(item *time.Time) *time.Time {
     o.Dates = append(o.Dates, item)
     return item
 }

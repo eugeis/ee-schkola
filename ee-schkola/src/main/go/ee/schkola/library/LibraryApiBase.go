@@ -17,13 +17,13 @@ type Book struct {
     Author *shared.PersonName `json:"author" eh:"optional"`
     Location *Location `json:"location" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
-    *ChangeBookLocation
+    *ChangeLocation
 }
 
-func NewBook() (ret *Book) {
-    changeLocation := &ChangeBookLocation{}
+func New@@EMPTY@@() (ret *Book) {
+    changeLocation := &ChangeLocation{}
     ret = &Book{
-        ChangeBookLocation: changeLocation,
+        ChangeLocation: changeLocation,
     }
     return
 }
@@ -50,7 +50,7 @@ type Location struct {
     Fold string `json:"fold" eh:"optional"`
 }
 
-func NewLocation() (ret *Location) {
+func New@@EMPTY@@() (ret *Location) {
     ret = &Location{}
     return
 }

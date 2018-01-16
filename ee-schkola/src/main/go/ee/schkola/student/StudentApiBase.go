@@ -19,13 +19,13 @@ type Attendance struct {
     State *AttendanceState `json:"state" eh:"optional"`
     Token string `json:"token" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
-    *CancelAttendance
+    *Cancel
 }
 
-func NewAttendance() (ret *Attendance) {
-    cancel := &CancelAttendance{}
+func New@@EMPTY@@() (ret *Attendance) {
+    cancel := &Cancel{}
     ret = &Attendance{
-        CancelAttendance: cancel,
+        Cancel: cancel,
     }
     return
 }
@@ -45,7 +45,7 @@ type Course struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func NewCourse() (ret *Course) {
+func New@@EMPTY@@() (ret *Course) {
     ret = &Course{}
     return
 }
@@ -62,7 +62,7 @@ type Grade struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func NewGrade() (ret *Grade) {
+func New@@EMPTY@@() (ret *Grade) {
     ret = &Grade{}
     return
 }
@@ -81,7 +81,7 @@ type Group struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func NewGroup() (ret *Group) {
+func New@@EMPTY@@() (ret *Group) {
     ret = &Group{}
     return
 }
@@ -110,7 +110,7 @@ type SchoolApplication struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func NewSchoolApplication() (ret *SchoolApplication) {
+func New@@EMPTY@@() (ret *SchoolApplication) {
     ret = &SchoolApplication{}
     return
 }
@@ -127,7 +127,7 @@ type SchoolYear struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func NewSchoolYear() (ret *SchoolYear) {
+func New@@EMPTY@@() (ret *SchoolYear) {
     ret = &SchoolYear{}
     return
 }
