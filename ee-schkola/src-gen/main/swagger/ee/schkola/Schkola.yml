@@ -1,0 +1,965 @@
+openapi: "3.0.0"
+info:
+  title: Schkola
+  version: "1.0.0"
+paths:
+  /auth/accounts:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+  /finance/expenses:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Expense"
+  /finance/expense-purposes:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExpensePurpose"
+  /finance/fees:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Fee"
+  /finance/fee-kinds:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeeKind"
+  /library/books:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findByTitle
+              - findByPattern
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+        - name: pattern
+          in: query
+          required: false
+          schema:            
+            type: string
+        - name: title
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+  /person/churchs:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Church"
+  /person/graduations:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Graduation"
+  /person/profiles:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - findByEmail
+              - findByPhone
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: email
+          in: query
+          required: false
+          schema:            
+            type: string
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+        - name: phone
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+  /student/attendances:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Attendance"
+  /student/courses:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Course"
+  /student/grades:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Grade"
+  /student/groups:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Group"
+  /student/school-applications:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SchoolApplication"
+  /student/school-years:
+    get:
+      parameters:
+        - name: operationId
+          in: query
+          description: id of the operation, e.g. findByName
+          required: false
+          schema:
+            type: string
+            enum: 
+              - FindAll
+              - FindById
+            - CountAll
+            - CountById
+            - ExistAll
+            - ExistById
+        - name: operationType
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: 
+              - find
+              - count
+              - exists
+        - name: id
+          in: query
+          required: false
+          schema:            
+            type: string
+      responses:
+        '200':
+          description: fsdfsdf
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SchoolYear"
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        name:          
+          $ref: "#/components/schemas/PersonName"
+        username:          
+          type: string
+        password:          
+          type: string
+        email:          
+          type: string
+        disabled:          
+          type: boolean
+        roles:          
+          type: array
+          items:
+            type: string
+        profile:          
+          $ref: "#/components/schemas/Profile"
+        id:          
+          type: string
+    UserCredentials:
+      type: object
+      properties:
+        username:          
+          type: string
+        password:          
+          type: string
+    Expense:
+      type: object
+      properties:
+        purpose:          
+          $ref: "#/components/schemas/ExpensePurpose"
+        amount:          
+          type: number
+          format: float
+        profile:          
+          $ref: "#/components/schemas/Profile"
+        date:          
+          type: string
+          format: date-time
+        id:          
+          type: string
+    ExpensePurpose:
+      type: object
+      properties:
+        name:          
+          type: string
+        description:          
+          type: string
+        id:          
+          type: string
+    Fee:
+      type: object
+      properties:
+        student:          
+          $ref: "#/components/schemas/Profile"
+        amount:          
+          type: number
+          format: float
+        kind:          
+          $ref: "#/components/schemas/FeeKind"
+        date:          
+          type: string
+          format: date-time
+        id:          
+          type: string
+    FeeKind:
+      type: object
+      properties:
+        name:          
+          type: string
+        amount:          
+          type: number
+          format: float
+        description:          
+          type: string
+        id:          
+          type: string
+    Book:
+      type: object
+      properties:
+        title:          
+          type: string
+        description:          
+          type: string
+        language:          
+          type: string
+        releaseDate:          
+          type: string
+          format: date-time
+        edition:          
+          type: string
+        category:          
+          type: string
+        author:          
+          $ref: "#/components/schemas/PersonName"
+        location:          
+          $ref: "#/components/schemas/Location"
+        id:          
+          type: string
+    Location:
+      type: object
+      properties:
+        shelf:          
+          type: string
+        fold:          
+          type: string
+    Address:
+      type: object
+      properties:
+        street:          
+          type: string
+        suite:          
+          type: string
+        city:          
+          type: string
+        code:          
+          type: string
+        country:          
+          type: string
+    Church:
+      type: object
+      properties:
+        name:          
+          type: string
+        address:          
+          $ref: "#/components/schemas/Address"
+        pastor:          
+          $ref: "#/components/schemas/PersonName"
+        contact:          
+          $ref: "#/components/schemas/Contact"
+        association:          
+          type: string
+        id:          
+          type: string
+    ChurchInfo:
+      type: object
+      properties:
+        church:          
+          type: string
+        member:          
+          type: boolean
+        services:          
+          type: string
+    Contact:
+      type: object
+      properties:
+        phone:          
+          type: string
+        email:          
+          type: string
+        cellphone:          
+          type: string
+    Education:
+      type: object
+      properties:
+        graduation:          
+          $ref: "#/components/schemas/Graduation"
+        other:          
+          type: string
+        profession:          
+          type: string
+    Family:
+      type: object
+      properties:
+        maritalState:          
+          $ref: "#/components/schemas/MaritalState"
+        childrenCount:          
+          type: integer
+          format: int32
+        partner:          
+          $ref: "#/components/schemas/PersonName"
+    Gender:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - Unknown
+            - Male
+            - Female
+    Graduation:
+      type: object
+      properties:
+        name:          
+          type: string
+        level:          
+          $ref: "#/components/schemas/GraduationLevel"
+        id:          
+          type: string
+    GraduationLevel:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - Unknown
+            - MiddleSchool
+            - SecondarySchool
+            - HighSchool
+            - TechnicalCollege
+            - College
+    MaritalState:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - Unknown
+            - Single
+            - Married
+            - Separated
+            - Divorced
+            - Widowed
+    Profile:
+      type: object
+      properties:
+        gender:          
+          $ref: "#/components/schemas/Gender"
+        name:          
+          $ref: "#/components/schemas/PersonName"
+        birthName:          
+          type: string
+        birthday:          
+          type: string
+          format: date-time
+        address:          
+          $ref: "#/components/schemas/Address"
+        contact:          
+          $ref: "#/components/schemas/Contact"
+        photoData:          
+          type: string
+          format: binary
+        photo:          
+          type: string
+        family:          
+          $ref: "#/components/schemas/Family"
+        church:          
+          $ref: "#/components/schemas/ChurchInfo"
+        education:          
+          $ref: "#/components/schemas/Education"
+        id:          
+          type: string
+    PersonName:
+      type: object
+      properties:
+        first:          
+          type: string
+        last:          
+          type: string
+    Attendance:
+      type: object
+      properties:
+        student:          
+          $ref: "#/components/schemas/Profile"
+        date:          
+          type: string
+          format: date-time
+        course:          
+          $ref: "#/components/schemas/Course"
+        hours:          
+          type: integer
+          format: int32
+        state:          
+          $ref: "#/components/schemas/AttendanceState"
+        token:          
+          type: string
+        id:          
+          type: string
+    AttendanceState:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - Registered
+            - Confirmed
+            - Canceled
+            - Present
+    Course:
+      type: object
+      properties:
+        name:          
+          type: string
+        begin:          
+          type: string
+          format: date-time
+        end:          
+          type: string
+          format: date-time
+        teacher:          
+          $ref: "#/components/schemas/PersonName"
+        schoolYear:          
+          $ref: "#/components/schemas/SchoolYear"
+        fee:          
+          type: number
+          format: float
+        description:          
+          type: string
+        id:          
+          type: string
+    Grade:
+      type: object
+      properties:
+        student:          
+          $ref: "#/components/schemas/Profile"
+        course:          
+          $ref: "#/components/schemas/Course"
+        grade:          
+          type: number
+          format: float
+        comment:          
+          type: string
+        id:          
+          type: string
+    Group:
+      type: object
+      properties:
+        name:          
+          type: string
+        category:          
+          $ref: "#/components/schemas/GroupCategory"
+        schoolYear:          
+          $ref: "#/components/schemas/SchoolYear"
+        representative:          
+          $ref: "#/components/schemas/Profile"
+        students:          
+          type: array
+          items:
+            $ref: "#/components/schemas/Profile"
+        courses:          
+          type: array
+          items:
+            $ref: "#/components/schemas/Course"
+        id:          
+          type: string
+    GroupCategory:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+            - CourseGroup
+            - YearGroup
+    SchoolApplication:
+      type: object
+      properties:
+        profile:          
+          $ref: "#/components/schemas/Profile"
+        churchContactPerson:          
+          $ref: "#/components/schemas/PersonName"
+        churchContact:          
+          $ref: "#/components/schemas/Contact"
+        churchCommitment:          
+          type: boolean
+        schoolYear:          
+          $ref: "#/components/schemas/SchoolYear"
+        group:          
+          type: string
+        id:          
+          type: string
+    SchoolYear:
+      type: object
+      properties:
+        name:          
+          type: string
+        start:          
+          type: string
+          format: date-time
+        end:          
+          type: string
+          format: date-time
+        dates:          
+          type: array
+          items:
+            type: string
+        id:          
+          type: string
