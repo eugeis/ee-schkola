@@ -19,13 +19,13 @@ type Attendance struct {
     State *AttendanceState `json:"state" eh:"optional"`
     Token string `json:"token" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
-    *Cancel
+    *CancelAttendance
 }
 
-func New@@EMPTY@@() (ret *Attendance) {
-    cancel := &Cancel{}
+func NewAttendance() (ret *Attendance) {
+    cancel := &CancelAttendance{}
     ret = &Attendance{
-        Cancel: cancel,
+        CancelAttendance: cancel,
     }
     return
 }
@@ -45,7 +45,7 @@ type Course struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func New@@EMPTY@@() (ret *Course) {
+func NewCourse() (ret *Course) {
     ret = &Course{}
     return
 }
@@ -62,7 +62,7 @@ type Grade struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func New@@EMPTY@@() (ret *Grade) {
+func NewGrade() (ret *Grade) {
     ret = &Grade{}
     return
 }
@@ -76,22 +76,22 @@ type Group struct {
     Category *GroupCategory `json:"category" eh:"optional"`
     SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
     Representative *person.Profile `json:"representative" eh:"optional"`
-    Students []*person.Profile `json:"students" eh:"optional"`
-    Courses []*Course `json:"courses" eh:"optional"`
+    Students []string `json:"students" eh:"optional"`
+    Courses []string `json:"courses" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func New@@EMPTY@@() (ret *Group) {
+func NewGroup() (ret *Group) {
     ret = &Group{}
     return
 }
 
-func (o *Group) AddToStudents(item *person.Profile) *person.Profile {
+func (o *Group) AddToStudents(item string) string {
     o.Students = append(o.Students, item)
     return item
 }
 
-func (o *Group) AddToCourses(item *Course) *Course {
+func (o *Group) AddToCourses(item string) string {
     o.Courses = append(o.Courses, item)
     return item
 }
@@ -110,7 +110,7 @@ type SchoolApplication struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func New@@EMPTY@@() (ret *SchoolApplication) {
+func NewSchoolApplication() (ret *SchoolApplication) {
     ret = &SchoolApplication{}
     return
 }
@@ -123,16 +123,16 @@ type SchoolYear struct {
     Name string `json:"name" eh:"optional"`
     Start *time.Time `json:"start" eh:"optional"`
     End *time.Time `json:"end" eh:"optional"`
-    Dates []*time.Time `json:"dates" eh:"optional"`
+    Dates []string `json:"dates" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func New@@EMPTY@@() (ret *SchoolYear) {
+func NewSchoolYear() (ret *SchoolYear) {
     ret = &SchoolYear{}
     return
 }
 
-func (o *SchoolYear) AddToDates(item *time.Time) *time.Time {
+func (o *SchoolYear) AddToDates(item string) string {
     o.Dates = append(o.Dates, item)
     return item
 }

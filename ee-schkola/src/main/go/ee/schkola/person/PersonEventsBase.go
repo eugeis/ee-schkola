@@ -32,7 +32,7 @@ const (
 
 
 
-type Created struct {
+type ChurchCreated struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
     Pastor *shared.PersonName `json:"pastor" eh:"optional"`
@@ -42,12 +42,12 @@ type Created struct {
 }
 
 
-type Deleted struct {
+type ChurchDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Updated struct {
+type ChurchUpdated struct {
     Name string `json:"name" eh:"optional"`
     Address *Address `json:"address" eh:"optional"`
     Pastor *shared.PersonName `json:"pastor" eh:"optional"`
@@ -57,26 +57,26 @@ type Updated struct {
 }
 
 
-type Created struct {
+type GraduationCreated struct {
     Name string `json:"name" eh:"optional"`
     Level *GraduationLevel `json:"level" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Deleted struct {
+type GraduationDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Updated struct {
+type GraduationUpdated struct {
     Name string `json:"name" eh:"optional"`
     Level *GraduationLevel `json:"level" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Created struct {
+type ProfileCreated struct {
     Gender *Gender `json:"gender" eh:"optional"`
     Name *shared.PersonName `json:"name" eh:"optional"`
     BirthName string `json:"birthName" eh:"optional"`
@@ -92,12 +92,12 @@ type Created struct {
 }
 
 
-type Deleted struct {
+type ProfileDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Updated struct {
+type ProfileUpdated struct {
     Gender *Gender `json:"gender" eh:"optional"`
     Name *shared.PersonName `json:"name" eh:"optional"`
     BirthName string `json:"birthName" eh:"optional"`

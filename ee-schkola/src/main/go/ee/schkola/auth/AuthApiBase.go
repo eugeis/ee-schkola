@@ -18,8 +18,8 @@ type Account struct {
     *AccountConfirmation
 }
 
-func New@@EMPTY@@() (ret *Account) {
-    accountConfirmation := New@@EMPTY@@()
+func NewAccount() (ret *Account) {
+    accountConfirmation := NewAccountConfirmation()
     ret = &Account{
         AccountConfirmation: accountConfirmation,
     }
@@ -41,7 +41,7 @@ type UserCredentials struct {
     Password string `json:"password" eh:"optional"`
 }
 
-func New@@EMPTY@@() (ret *UserCredentials) {
+func NewUserCredentials() (ret *UserCredentials) {
     ret = &UserCredentials{}
     return
 }

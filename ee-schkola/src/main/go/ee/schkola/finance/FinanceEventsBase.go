@@ -39,7 +39,7 @@ const (
 
 
 
-type Created struct {
+type ExpenseCreated struct {
     Purpose *ExpensePurpose `json:"purpose" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Profile *person.Profile `json:"profile" eh:"optional"`
@@ -48,12 +48,12 @@ type Created struct {
 }
 
 
-type Deleted struct {
+type ExpenseDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Updated struct {
+type ExpenseUpdated struct {
     Purpose *ExpensePurpose `json:"purpose" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Profile *person.Profile `json:"profile" eh:"optional"`
@@ -62,26 +62,26 @@ type Updated struct {
 }
 
 
-type Created struct {
+type ExpensePurposeCreated struct {
     Name string `json:"name" eh:"optional"`
     Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Deleted struct {
+type ExpensePurposeDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Updated struct {
+type ExpensePurposeUpdated struct {
     Name string `json:"name" eh:"optional"`
     Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Created struct {
+type FeeCreated struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Kind *FeeKind `json:"kind" eh:"optional"`
@@ -90,12 +90,12 @@ type Created struct {
 }
 
 
-type Deleted struct {
+type FeeDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Updated struct {
+type FeeUpdated struct {
     Student *person.Profile `json:"student" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Kind *FeeKind `json:"kind" eh:"optional"`
@@ -104,7 +104,7 @@ type Updated struct {
 }
 
 
-type Created struct {
+type FeeKindCreated struct {
     Name string `json:"name" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Description string `json:"description" eh:"optional"`
@@ -112,12 +112,12 @@ type Created struct {
 }
 
 
-type Deleted struct {
+type FeeKindDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Updated struct {
+type FeeKindUpdated struct {
     Name string `json:"name" eh:"optional"`
     Amount float64 `json:"amount" eh:"optional"`
     Description string `json:"description" eh:"optional"`

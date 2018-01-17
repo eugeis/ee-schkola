@@ -10,7 +10,7 @@ type PersonName struct {
     Last string `json:"last" eh:"optional"`
 }
 
-func New@@EMPTY@@() (ret *PersonName) {
+func NewPersonName() (ret *PersonName) {
     ret = &PersonName{}
     return
 }

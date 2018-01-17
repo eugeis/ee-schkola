@@ -24,7 +24,7 @@ const (
 
 
 
-type Created struct {
+type AccountCreated struct {
     Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -35,18 +35,18 @@ type Created struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *Created) AddToRoles(item string) string {
+func (o *AccountCreated) AddToRoles(item string) string {
     o.Roles = append(o.Roles, item)
     return item
 }
 
 
-type Deleted struct {
+type AccountDeleted struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Logged struct {
+type AccountLogged struct {
     Username string `json:"username" eh:"optional"`
     Email string `json:"email" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -54,22 +54,22 @@ type Logged struct {
 }
 
 
-type SendCreatedConfirmationed struct {
+type SendCreatedAccountConfirmationed struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type SendEnabledConfirmationed struct {
+type SendEnabledAccountConfirmationed struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type SendDisabledConfirmationed struct {
+type SendDisabledAccountConfirmationed struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Updated struct {
+type AccountUpdated struct {
     Name *shared.PersonName `json:"name" eh:"optional"`
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
@@ -80,18 +80,18 @@ type Updated struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
-func (o *Updated) AddToRoles(item string) string {
+func (o *AccountUpdated) AddToRoles(item string) string {
     o.Roles = append(o.Roles, item)
     return item
 }
 
 
-type Enabled struct {
+type AccountEnabled struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
-type Disabled struct {
+type AccountDisabled struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 

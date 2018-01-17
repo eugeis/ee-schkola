@@ -20,7 +20,7 @@ const (
 
 
         
-type Create struct {
+type CreateBook struct {
     Location *Location `json:"location" eh:"optional"`
     Title string `json:"title" eh:"optional"`
     Description string `json:"description" eh:"optional"`
@@ -32,35 +32,35 @@ type Create struct {
     Location *Location `json:"location" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *Create) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *Create) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
-func (o *Create) CommandType() eventhorizon.CommandType      { return CreateBookCommand }
+func (o *CreateBook) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *CreateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
+func (o *CreateBook) CommandType() eventhorizon.CommandType      { return CreateBookCommand }
 
 
 
         
-type Delete struct {
+type DeleteBook struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *Delete) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *Delete) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
-func (o *Delete) CommandType() eventhorizon.CommandType      { return DeleteBookCommand }
+func (o *DeleteBook) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *DeleteBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
+func (o *DeleteBook) CommandType() eventhorizon.CommandType      { return DeleteBookCommand }
 
 
 
         
-type ChangeLocation struct {
+type ChangeBookLocation struct {
     Location *Location `json:"location" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *ChangeLocation) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *ChangeLocation) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
-func (o *ChangeLocation) CommandType() eventhorizon.CommandType      { return ChangeBookLocationCommand }
+func (o *ChangeBookLocation) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *ChangeBookLocation) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
+func (o *ChangeBookLocation) CommandType() eventhorizon.CommandType      { return ChangeBookLocationCommand }
 
 
 
         
-type Update struct {
+type UpdateBook struct {
     Location *Location `json:"location" eh:"optional"`
     Title string `json:"title" eh:"optional"`
     Description string `json:"description" eh:"optional"`
@@ -72,9 +72,9 @@ type Update struct {
     Location *Location `json:"location" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
-func (o *Update) AggregateID() eventhorizon.UUID            { return o.Id }
-func (o *Update) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
-func (o *Update) CommandType() eventhorizon.CommandType      { return UpdateBookCommand }
+func (o *UpdateBook) AggregateID() eventhorizon.UUID            { return o.Id }
+func (o *UpdateBook) AggregateType() eventhorizon.AggregateType  { return BookAggregateType }
+func (o *UpdateBook) CommandType() eventhorizon.CommandType      { return UpdateBookCommand }
 
 
 

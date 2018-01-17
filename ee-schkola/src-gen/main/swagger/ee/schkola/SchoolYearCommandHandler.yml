@@ -920,11 +920,11 @@ components:
         students:          
           type: array
           items:
-            $ref: "#/components/schemas/Profile"
+            type: string
         courses:          
           type: array
           items:
-            $ref: "#/components/schemas/Course"
+            type: string
         id:          
           type: string
     GroupCategory:
