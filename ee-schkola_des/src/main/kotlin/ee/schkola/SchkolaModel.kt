@@ -266,7 +266,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             //val findByAuthor = findBy(author)
             val findByPattern = findBy(p("pattern"))
 
-            val changeLocation = updateBy(location)
+            //val changeLocation = updateBy(location)
         }
     }
 }

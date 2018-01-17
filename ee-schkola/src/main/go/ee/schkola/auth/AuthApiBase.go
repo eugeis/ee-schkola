@@ -15,13 +15,13 @@ type Account struct {
     Roles []string `json:"roles" eh:"optional"`
     Profile *person.Profile `json:"profile" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
-    *Account
+    *AccountConfirmation
 }
 
 func NewAccount() (ret *Account) {
     accountConfirmation := NewAccountConfirmation()
     ret = &Account{
-        Account: accountConfirmation,
+        AccountConfirmation: accountConfirmation,
     }
     return
 }
