@@ -35,6 +35,9 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val sendEnabledConfirmation = command()
             val sendDisabledConfirmation = command()
 
+            object Handler : AggregateHandler() {
+
+            }
 
             object AccountConfirmation : ProcessManager() {
                 object Initial : State({
@@ -42,17 +45,19 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
                 })
 
                 object Created : State({
-                    handleEventOf(enable).to(Enabled).produce(sendEnabledConfirmation)
-                    handleEventOf(disable).to(Disabled)
+                    execute(enable).produce(eventOf(enable))
+
+                    handle(eventOf(enable)).to(Enabled).produce(sendEnabledConfirmation)
+                    handle(eventOf(disable)).to(Disabled)
                 })
 
 
-                object Enabled : State( {
-                    handleEventOf(disable).to(Disabled).produce(sendDisabledConfirmation)
+                object Enabled : State({
+                    handle(eventOf(disable)).to(Disabled).produce(sendDisabledConfirmation)
                 })
 
-                object Disabled : State( {
-                    handleEventOf(enable).to(Enabled).produce(sendEnabledConfirmation)
+                object Disabled : State({
+                    handle(eventOf(enable)).to(Enabled).produce(sendEnabledConfirmation)
                 })
             }
         }

@@ -1,13 +1,11 @@
 package finance
 
 import (
-    "ee/schkola/person"
     "encoding/json"
     "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "gopkg.in/mgo.v2/bson"
-    "time"
 )
 const (
      ExpenseCreatedEvent eventhorizon.EventType = "ExpenseCreated"
@@ -40,10 +38,6 @@ const (
 
 
 type ExpenseCreated struct {
-    Purpose *ExpensePurpose `json:"purpose" eh:"optional"`
-    Amount float64 `json:"amount" eh:"optional"`
-    Profile *person.Profile `json:"profile" eh:"optional"`
-    Date *time.Time `json:"date" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -54,17 +48,11 @@ type ExpenseDeleted struct {
 
 
 type ExpenseUpdated struct {
-    Purpose *ExpensePurpose `json:"purpose" eh:"optional"`
-    Amount float64 `json:"amount" eh:"optional"`
-    Profile *person.Profile `json:"profile" eh:"optional"`
-    Date *time.Time `json:"date" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type ExpensePurposeCreated struct {
-    Name string `json:"name" eh:"optional"`
-    Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -75,17 +63,11 @@ type ExpensePurposeDeleted struct {
 
 
 type ExpensePurposeUpdated struct {
-    Name string `json:"name" eh:"optional"`
-    Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type FeeCreated struct {
-    Student *person.Profile `json:"student" eh:"optional"`
-    Amount float64 `json:"amount" eh:"optional"`
-    Kind *FeeKind `json:"kind" eh:"optional"`
-    Date *time.Time `json:"date" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -96,18 +78,11 @@ type FeeDeleted struct {
 
 
 type FeeUpdated struct {
-    Student *person.Profile `json:"student" eh:"optional"`
-    Amount float64 `json:"amount" eh:"optional"`
-    Kind *FeeKind `json:"kind" eh:"optional"`
-    Date *time.Time `json:"date" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type FeeKindCreated struct {
-    Name string `json:"name" eh:"optional"`
-    Amount float64 `json:"amount" eh:"optional"`
-    Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -118,9 +93,6 @@ type FeeKindDeleted struct {
 
 
 type FeeKindUpdated struct {
-    Name string `json:"name" eh:"optional"`
-    Amount float64 `json:"amount" eh:"optional"`
-    Description string `json:"description" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 

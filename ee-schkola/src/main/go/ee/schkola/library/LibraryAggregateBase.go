@@ -6,7 +6,6 @@ import (
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
     "github.com/looplab/eventhorizon/commandhandler/bus"
-    "time"
 )
 type BookCommandHandler struct {
     CreateHandler func (*CreateBook, *Book, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
@@ -60,40 +59,15 @@ func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity eventhoriz
 
 func (o *BookCommandHandler) SetupCommandHandler() (err error) {
     o.CreateHandler = func(command *CreateBook, entity *Book, store eh.AggregateStoreEvent) (err error) {
-        if err = eh.ValidateNewId(entity.Id, command.Id, BookAggregateType); err == nil {
-            store.StoreEvent(BookCreatedEvent, &BookCreated{
-                Title: command.Title,
-                Description: command.Description,
-                Language: command.Language,
-                ReleaseDate: command.ReleaseDate,
-                Edition: command.Edition,
-                Category: command.Category,
-                Author: command.Author,
-                Location: command.Location,
-                Id: command.Id,}, time.Now())
-        }
+        err = eh.CommandHandlerNotImplemented(CreateBookCommand)
         return
     }
     o.DeleteHandler = func(command *DeleteBook, entity *Book, store eh.AggregateStoreEvent) (err error) {
-        if err = eh.ValidateIdsMatch(entity.Id, command.Id, BookAggregateType); err == nil {
-            store.StoreEvent(BookDeletedEvent, &BookDeleted{
-                Id: command.Id,}, time.Now())
-        }
+        err = eh.CommandHandlerNotImplemented(DeleteBookCommand)
         return
     }
     o.UpdateHandler = func(command *UpdateBook, entity *Book, store eh.AggregateStoreEvent) (err error) {
-        if err = eh.ValidateIdsMatch(entity.Id, command.Id, BookAggregateType); err == nil {
-            store.StoreEvent(BookUpdatedEvent, &BookUpdated{
-                Title: command.Title,
-                Description: command.Description,
-                Language: command.Language,
-                ReleaseDate: command.ReleaseDate,
-                Edition: command.Edition,
-                Category: command.Category,
-                Author: command.Author,
-                Location: command.Location,
-                Id: command.Id,}, time.Now())
-        }
+        err = eh.CommandHandlerNotImplemented(UpdateBookCommand)
         return
     }
     return
@@ -130,14 +104,6 @@ func (o *BookEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.CreatedHandler = func(event *BookCreated, entity *Book) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, BookAggregateType); err == nil {
-            entity.Title = event.Title
-            entity.Description = event.Description
-            entity.Language = event.Language
-            entity.ReleaseDate = event.ReleaseDate
-            entity.Edition = event.Edition
-            entity.Category = event.Category
-            entity.Author = event.Author
-            entity.Location = event.Location
             entity.Id = event.Id
         }
         return
@@ -164,14 +130,6 @@ func (o *BookEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.UpdatedHandler = func(event *BookUpdated, entity *Book) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, BookAggregateType); err == nil {
-            entity.Title = event.Title
-            entity.Description = event.Description
-            entity.Language = event.Language
-            entity.ReleaseDate = event.ReleaseDate
-            entity.Edition = event.Edition
-            entity.Category = event.Category
-            entity.Author = event.Author
-            entity.Location = event.Location
         }
         return
     }

@@ -1,13 +1,11 @@
 package library
 
 import (
-    "ee/schkola/shared"
     "encoding/json"
     "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "gopkg.in/mgo.v2/bson"
-    "time"
 )
 const (
      BookCreatedEvent eventhorizon.EventType = "BookCreated"
@@ -19,14 +17,6 @@ const (
 
 
 type BookCreated struct {
-    Title string `json:"title" eh:"optional"`
-    Description string `json:"description" eh:"optional"`
-    Language string `json:"language" eh:"optional"`
-    ReleaseDate *time.Time `json:"releaseDate" eh:"optional"`
-    Edition string `json:"edition" eh:"optional"`
-    Category string `json:"category" eh:"optional"`
-    Author *shared.PersonName `json:"author" eh:"optional"`
-    Location *Location `json:"location" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -37,14 +27,6 @@ type BookDeleted struct {
 
 
 type BookUpdated struct {
-    Title string `json:"title" eh:"optional"`
-    Description string `json:"description" eh:"optional"`
-    Language string `json:"language" eh:"optional"`
-    ReleaseDate *time.Time `json:"releaseDate" eh:"optional"`
-    Edition string `json:"edition" eh:"optional"`
-    Category string `json:"category" eh:"optional"`
-    Author *shared.PersonName `json:"author" eh:"optional"`
-    Location *Location `json:"location" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
