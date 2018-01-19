@@ -5,13 +5,11 @@ import java.util.*
 
 
 enum class Gender {
-    UNKNOWN,
-    MALE,
-    FEMALE;
+    UNKNOWN, MALE, FEMALE;
 
-    fun isUnknown() : Boolean = this == UNKNOWN
-    fun isMale() : Boolean = this == MALE
-    fun isFemale() : Boolean = this == FEMALE
+    fun isUnknown(): Boolean = this == UNKNOWN
+    fun isMale(): Boolean = this == MALE
+    fun isFemale(): Boolean = this == FEMALE
 }
 
 
@@ -21,19 +19,14 @@ fun String?.toGender(): Gender {
 
 
 enum class GraduationLevel {
-    UNKNOWN,
-    MIDDLE_SCHOOL,
-    SECONDARY_SCHOOL,
-    HIGH_SCHOOL,
-    TECHNICAL_COLLEGE,
-    COLLEGE;
+    UNKNOWN, MIDDLE_SCHOOL, SECONDARY_SCHOOL, HIGH_SCHOOL, TECHNICAL_COLLEGE, COLLEGE;
 
-    fun isUnknown() : Boolean = this == UNKNOWN
-    fun isMiddleSchool() : Boolean = this == MIDDLE_SCHOOL
-    fun isSecondarySchool() : Boolean = this == SECONDARY_SCHOOL
-    fun isHighSchool() : Boolean = this == HIGH_SCHOOL
-    fun isTechnicalCollege() : Boolean = this == TECHNICAL_COLLEGE
-    fun isCollege() : Boolean = this == COLLEGE
+    fun isUnknown(): Boolean = this == UNKNOWN
+    fun isMiddleSchool(): Boolean = this == MIDDLE_SCHOOL
+    fun isSecondarySchool(): Boolean = this == SECONDARY_SCHOOL
+    fun isHighSchool(): Boolean = this == HIGH_SCHOOL
+    fun isTechnicalCollege(): Boolean = this == TECHNICAL_COLLEGE
+    fun isCollege(): Boolean = this == COLLEGE
 }
 
 
@@ -43,27 +36,20 @@ fun String?.toGraduationLevel(): GraduationLevel {
 
 
 enum class MaritalState {
-    UNKNOWN,
-    SINGLE,
-    MARRIED,
-    SEPARATED,
-    DIVORCED,
-    WIDOWED;
+    UNKNOWN, SINGLE, MARRIED, SEPARATED, DIVORCED, WIDOWED;
 
-    fun isUnknown() : Boolean = this == UNKNOWN
-    fun isSingle() : Boolean = this == SINGLE
-    fun isMarried() : Boolean = this == MARRIED
-    fun isSeparated() : Boolean = this == SEPARATED
-    fun isDivorced() : Boolean = this == DIVORCED
-    fun isWidowed() : Boolean = this == WIDOWED
+    fun isUnknown(): Boolean = this == UNKNOWN
+    fun isSingle(): Boolean = this == SINGLE
+    fun isMarried(): Boolean = this == MARRIED
+    fun isSeparated(): Boolean = this == SEPARATED
+    fun isDivorced(): Boolean = this == DIVORCED
+    fun isWidowed(): Boolean = this == WIDOWED
 }
 
 
 fun String?.toMaritalState(): MaritalState {
     return if (this != null) MaritalState.valueOf(this) else MaritalState.UNKNOWN
 }
-
-
 
 
 open class Address {
@@ -95,8 +81,8 @@ open class Church : SchkolaBase {
     val contact: Contact
 
 
-    constructor(id: String = "", name: String = "", address: Address = Address(), pastor: PersonName = PersonName(), 
-                contact: Contact = Contact()) : super(id) {
+    constructor(id: String = "", name: String = "", address: Address = Address(), pastor: PersonName = PersonName(),
+        contact: Contact = Contact()) : super(id) {
         this.name = name
         this.address = address
         this.pastor = pastor
@@ -116,7 +102,8 @@ open class ChurchInfo {
     val services: MutableList<String>
 
 
-    constructor(church: String = "", association: String = "", member: Boolean = false, services: MutableList<String> = arrayListOf()) {
+    constructor(church: String = "", association: String = "", member: Boolean = false,
+        services: MutableList<String> = arrayListOf()) {
         this.church = church
         this.association = association
         this.member = member
@@ -169,7 +156,8 @@ open class Family {
     val partner: PersonName
 
 
-    constructor(maritalState: MaritalState = MaritalState.UNKNOWN, childrenCount: Int = 0, partner: PersonName = PersonName()) {
+    constructor(maritalState: MaritalState = MaritalState.UNKNOWN, childrenCount: Int = 0,
+        partner: PersonName = PersonName()) {
         this.maritalState = maritalState
         this.childrenCount = childrenCount
         this.partner = partner
@@ -227,10 +215,10 @@ open class Profile : SchkolaBase {
     val education: Education
 
 
-    constructor(id: String = "", gender: Gender = Gender.UNKNOWN, name: PersonName = PersonName(), birthName: String = "", 
-                birthday: Date = Date(), address: Address = Address(), contact: Contact = Contact(), 
-                photoData: ByteArray = ByteArray(0), photo: String = "", family: Family = Family(), 
-                church: ChurchInfo = ChurchInfo(), education: Education = Education()) : super(id) {
+    constructor(id: String = "", gender: Gender = Gender.UNKNOWN, name: PersonName = PersonName(),
+        birthName: String = "", birthday: Date = Date(), address: Address = Address(), contact: Contact = Contact(),
+        photoData: ByteArray = ByteArray(0), photo: String = "", family: Family = Family(),
+        church: ChurchInfo = ChurchInfo(), education: Education = Education()) : super(id) {
         this.gender = gender
         this.name = name
         this.birthName = birthName

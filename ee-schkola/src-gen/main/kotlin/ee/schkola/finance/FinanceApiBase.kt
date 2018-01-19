@@ -12,8 +12,8 @@ open class Expense : SchkolaBase {
     val date: Date
 
 
-    constructor(id: String = "", purpose: ExpensePurpose = ExpensePurpose(), amount: Float = 0f, profile: Profile = Profile(), 
-                date: Date = Date()) : super(id) {
+    constructor(id: String = "", purpose: ExpensePurpose = ExpensePurpose(), amount: Float = 0f,
+        profile: Profile = Profile(), date: Date = Date()) : super(id) {
         this.purpose = purpose
         this.amount = amount
         this.profile = profile
@@ -49,7 +49,8 @@ open class Fee : SchkolaBase {
     val date: Date
 
 
-    constructor(id: String = "", student: Profile = Profile(), amount: Float = 0f, kind: FeeKind = FeeKind(), date: Date = Date()) : super(id) {
+    constructor(id: String = "", student: Profile = Profile(), amount: Float = 0f, kind: FeeKind = FeeKind(),
+        date: Date = Date()) : super(id) {
         this.student = student
         this.amount = amount
         this.kind = kind

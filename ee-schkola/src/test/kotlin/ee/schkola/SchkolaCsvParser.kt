@@ -20,9 +20,8 @@ enum class ImportFields(val regex: Regex) {
     Partner(Regex("Name des Ehepartners:")), ChildrenCount(Regex("Anzahl der Kinder:")),
     MemberOfChurch(Regex("Mitglied in Ortsgemeinde:")), Church(Regex("Name der Ortsgemeinde:")),
     ChurchServices(Regex("Gemeindedienste:")), Mentor(Regex("Mentor:")),
-    MentorTelefon(Regex("Telefonnummer deines Pastors oder Mentors:")),
-    Recommendation(Regex("Mündliche Empfehlung:")), RecommendationOf(Regex("Empfehlung von:")),
-    ApplicationFor(Regex("Bewerbung für:"));
+    MentorTelefon(Regex("Telefonnummer deines Pastors oder Mentors:")), Recommendation(Regex("Mündliche Empfehlung:")),
+    RecommendationOf(Regex("Empfehlung von:")), ApplicationFor(Regex("Bewerbung für:"));
 
     companion object {
         fun findByCode(code: String): ImportFields? {
@@ -81,8 +80,8 @@ class SchkolaCsvParser {
     fun String.toMaritalState(): MaritalState {
         return when (this) {
             "Verheiratet" -> MaritalState.MARRIED
-            "ledig" -> MaritalState.SINGLE
-            else -> MaritalState.SINGLE
+            "ledig"       -> MaritalState.SINGLE
+            else          -> MaritalState.SINGLE
         }
     }
 
@@ -117,21 +116,21 @@ class SchkolaCsvParser {
                     val l = s.split()
                     if (l.isNotEmpty()) {
                         val person = Profile(gender = l.f(Geschlecht).toGender(), name = l.f(Name).toPersonName(),
-                                birthday = l.f(Geburtsdatum).toDate(), address = Address(street = l.f(Adresse),
-                                code = l.f(PLZ), city = l.f(Ort)), contact = Contact(phone = l.f(TelefonHandy), email = l.f(Email)),
-                                photo = l.f(Passbild),
-                                family = Family(l.f(Familienstand).toMaritalState(), childrenCount = l.f(ChildrenCount).toIntOr0(),
-                                        partner = l.f(Partner).toPersonName()),
-                                church = ChurchInfo(church = l.f(Church), member = l.f(MemberOfChurch).toBoolean(),
-                                        services = l.f(ChurchServices).split(",").toMutableList()),
-                                education = Education(graduation = l.f(Schulabschluss).toGraduation(), profession = l.f(Beruf)),
-                                id = "2016_" + i
-                        )
+                            birthday = l.f(Geburtsdatum).toDate(),
+                            address = Address(street = l.f(Adresse), code = l.f(PLZ), city = l.f(Ort)),
+                            contact = Contact(phone = l.f(TelefonHandy), email = l.f(Email)), photo = l.f(Passbild),
+                            family = Family(l.f(Familienstand).toMaritalState(),
+                                childrenCount = l.f(ChildrenCount).toIntOr0(), partner = l.f(Partner).toPersonName()),
+                            church = ChurchInfo(church = l.f(Church), member = l.f(MemberOfChurch).toBoolean(),
+                                services = l.f(ChurchServices).split(",").toMutableList()),
+                            education = Education(graduation = l.f(Schulabschluss).toGraduation(),
+                                profession = l.f(Beruf)), id = "2016_" + i)
                         person.trace.createdAt = l.f(SubmitDate).toDateTime()
 
                         val application = SchoolApplication(recommendationOf = l.f(RecommendationOf).toPersonName(),
-                                churchContactPerson = l.f(Mentor).toPersonName(), churchContact = Contact(phone = l.f(MentorTelefon)),
-                                group = l.f(ApplicationFor), schoolYear = schoolYear, profile = person)
+                            churchContactPerson = l.f(Mentor).toPersonName(),
+                            churchContact = Contact(phone = l.f(MentorTelefon)), group = l.f(ApplicationFor),
+                            schoolYear = schoolYear, profile = person)
 
                         applications.add(application)
                     }

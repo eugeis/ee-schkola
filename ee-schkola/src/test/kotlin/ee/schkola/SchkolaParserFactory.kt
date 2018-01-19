@@ -17,11 +17,9 @@ fun main(args: Array<String>) {
 }
 
 fun parseApplicationForms(basePath: Path, importer: SchkolaCsvParser): ArrayList<List<SchoolApplication>> {
-    val applications = arrayListOf(importer.load("2014-2016",
-            basePath.resolve("BSS-2014-2015/Bewerbung2014_20160908.csv")),
-            importer.load("2015-2016",
-                    basePath.resolve("BSS-2015-2016/Bewerbung2015_20160908.csv")),
-            importer.load("2016-2017",
-                    basePath.resolve("BSS-2016-2017/Bewerbung2016_20160905.csv")))
+    val applications =
+        arrayListOf(importer.load("2014-2016", basePath.resolve("BSS-2014-2015/Bewerbung2014_20160908.csv")),
+            importer.load("2015-2016", basePath.resolve("BSS-2015-2016/Bewerbung2015_20160908.csv")),
+            importer.load("2016-2017", basePath.resolve("BSS-2016-2017/Bewerbung2016_20160905.csv")))
     return applications
 }

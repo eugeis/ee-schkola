@@ -9,15 +9,12 @@ import java.util.*
 
 
 enum class AttendanceState {
-    REGISTERED,
-    CONFIRMED,
-    CANCELED,
-    PRESENT;
+    REGISTERED, CONFIRMED, CANCELED, PRESENT;
 
-    fun isRegistered() : Boolean = this == REGISTERED
-    fun isConfirmed() : Boolean = this == CONFIRMED
-    fun isCanceled() : Boolean = this == CANCELED
-    fun isPresent() : Boolean = this == PRESENT
+    fun isRegistered(): Boolean = this == REGISTERED
+    fun isConfirmed(): Boolean = this == CONFIRMED
+    fun isCanceled(): Boolean = this == CANCELED
+    fun isPresent(): Boolean = this == PRESENT
 }
 
 
@@ -27,19 +24,16 @@ fun String?.toAttendanceState(): AttendanceState {
 
 
 enum class GroupCategory {
-    COURSE_GROUP,
-    YEAR_GROUP;
+    COURSE_GROUP, YEAR_GROUP;
 
-    fun isCourseGroup() : Boolean = this == COURSE_GROUP
-    fun isYearGroup() : Boolean = this == YEAR_GROUP
+    fun isCourseGroup(): Boolean = this == COURSE_GROUP
+    fun isYearGroup(): Boolean = this == YEAR_GROUP
 }
 
 
 fun String?.toGroupCategory(): GroupCategory {
     return if (this != null) GroupCategory.valueOf(this) else GroupCategory.COURSE_GROUP
 }
-
-
 
 
 open class Attendance : SchkolaBase {
@@ -53,9 +47,9 @@ open class Attendance : SchkolaBase {
     val tokenTrace: Trace
 
 
-    constructor(id: String = "", student: Profile = Profile(), date: Date = Date(), course: Course = Course(), hours: Int = 0, 
-                state: AttendanceState = AttendanceState.REGISTERED, stateTrace: Trace = Trace(), token: String = "", 
-                tokenTrace: Trace = Trace()) : super(id) {
+    constructor(id: String = "", student: Profile = Profile(), date: Date = Date(), course: Course = Course(),
+        hours: Int = 0, state: AttendanceState = AttendanceState.REGISTERED, stateTrace: Trace = Trace(),
+        token: String = "", tokenTrace: Trace = Trace()) : super(id) {
         this.student = student
         this.date = date
         this.course = course
@@ -82,8 +76,9 @@ open class Course : SchkolaBase {
     val description: String
 
 
-    constructor(id: String = "", name: String = "", begin: Date = Date(), end: Date = Date(), teacher: PersonName = PersonName(), 
-                schoolYear: SchoolYear = SchoolYear(), fee: Float = 0f, description: String = "") : super(id) {
+    constructor(id: String = "", name: String = "", begin: Date = Date(), end: Date = Date(),
+        teacher: PersonName = PersonName(), schoolYear: SchoolYear = SchoolYear(), fee: Float = 0f,
+        description: String = "") : super(id) {
         this.name = name
         this.begin = begin
         this.end = end
@@ -107,8 +102,8 @@ open class Grade : SchkolaBase {
     val comment: String
 
 
-    constructor(id: String = "", student: Profile = Profile(), course: Course = Course(), grade: Float = 0f, gradeTrace: Trace = Trace(), 
-                comment: String = "") : super(id) {
+    constructor(id: String = "", student: Profile = Profile(), course: Course = Course(), grade: Float = 0f,
+        gradeTrace: Trace = Trace(), comment: String = "") : super(id) {
         this.student = student
         this.course = course
         this.grade = grade
@@ -131,9 +126,9 @@ open class Group : SchkolaBase {
     val courses: MutableList<Course>
 
 
-    constructor(id: String = "", name: String = "", category: GroupCategory = GroupCategory.COURSE_GROUP, 
-                schoolYear: SchoolYear = SchoolYear(), representative: Profile = Profile(), 
-                students: MutableList<Course> = arrayListOf(), courses: MutableList<Course> = arrayListOf()) : super(id) {
+    constructor(id: String = "", name: String = "", category: GroupCategory = GroupCategory.COURSE_GROUP,
+        schoolYear: SchoolYear = SchoolYear(), representative: Profile = Profile(),
+        students: MutableList<Course> = arrayListOf(), courses: MutableList<Course> = arrayListOf()) : super(id) {
         this.name = name
         this.category = category
         this.schoolYear = schoolYear
@@ -157,9 +152,9 @@ open class SchoolApplication : SchkolaBase {
     val group: String
 
 
-    constructor(id: String = "", profile: Profile = Profile(), recommendationOf: PersonName = PersonName(), 
-                churchContactPerson: PersonName = PersonName(), churchContact: Contact = Contact(), 
-                schoolYear: SchoolYear = SchoolYear(), group: String = "") : super(id) {
+    constructor(id: String = "", profile: Profile = Profile(), recommendationOf: PersonName = PersonName(),
+        churchContactPerson: PersonName = PersonName(), churchContact: Contact = Contact(),
+        schoolYear: SchoolYear = SchoolYear(), group: String = "") : super(id) {
         this.profile = profile
         this.recommendationOf = recommendationOf
         this.churchContactPerson = churchContactPerson
@@ -181,7 +176,8 @@ open class SchoolYear : SchkolaBase {
     val dates: MutableList<Course>
 
 
-    constructor(id: String = "", name: String = "", start: Date = Date(), end: Date = Date(), dates: MutableList<Course> = arrayListOf()) : super(id) {
+    constructor(id: String = "", name: String = "", start: Date = Date(), end: Date = Date(),
+        dates: MutableList<Course> = arrayListOf()) : super(id) {
         this.name = name
         this.start = start
         this.end = end

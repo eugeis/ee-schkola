@@ -183,7 +183,7 @@ class MsAccessParser {
         ret
     }
 */
-    
+
     /*
     private readDokumenttype() {
         def ret = [:]
@@ -193,7 +193,7 @@ class MsAccessParser {
         ret
     }
 */
-    
+
     private readDienst() {
         def ret = [:]
         for (Map<String, Object> row : database.getTable("_dienst")) {

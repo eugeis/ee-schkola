@@ -16,9 +16,9 @@ open class Book : SchkolaBase {
     val location: Location
 
 
-    constructor(id: String = "", title: String = "", description: String = "", language: String = "", releaseDate: Date = Date(), 
-                edition: String = "", category: String = "", author: PersonName = PersonName(), 
-                location: Location = Location()) : super(id) {
+    constructor(id: String = "", title: String = "", description: String = "", language: String = "",
+        releaseDate: Date = Date(), edition: String = "", category: String = "", author: PersonName = PersonName(),
+        location: Location = Location()) : super(id) {
         this.title = title
         this.description = description
         this.language = language
