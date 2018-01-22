@@ -23,9 +23,10 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val username = propS { unique(true) }
             val password = propS { hidden(true) }
             val email = propS { unique(true) }
-            val disabled = propB()
             val roles = propListT(n.String)
             val profile = prop { type(Person.Profile) }
+
+            val disabled = propB { meta(true) }
 
             val login = command(username, email, password)
             val enable = updateBy(p(disabled, { value(false) }))
@@ -36,28 +37,46 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val sendDisabledConfirmation = command()
 
             object Handler : AggregateHandler() {
+                object Initial : State({
+                    execute(create()).produce(eventOf(create()))
+                    handle(eventOf(create())).to(Disabled)
+                })
 
+                object Exist : State({
+                    virtual(true)
+                    execute(update()).produce(eventOf(update()))
+                    handle(eventOf(update()))
+
+                    execute(delete()).produce(eventOf(delete()))
+                    handle(eventOf(delete())).to(Deleted)
+                })
+
+                object Disabled : State({
+                    superUnit(Exist)
+                    execute(enable).produce(eventOf(enable))
+                    handle(eventOf(enable)).to(Enabled)
+                })
+
+                object Enabled : State({
+                    superUnit(Exist)
+                    execute(disable).produce(eventOf(disable))
+                    handle(eventOf(disable)).to(Disabled)
+                })
+
+                object Deleted : State({})
             }
 
             object AccountConfirmation : ProcessManager() {
                 object Initial : State({
-                    //handle(created()).to(Enabled).produce(sendCreatedConfirmation)
-                })
-
-                object Created : State({
-                    execute(enable).produce(eventOf(enable))
-
-                    handle(eventOf(enable)).to(Enabled).produce(sendEnabledConfirmation)
-                    handle(eventOf(disable)).to(Disabled)
-                })
-
-
-                object Enabled : State({
-                    handle(eventOf(disable)).to(Disabled).produce(sendDisabledConfirmation)
+                    handle(eventOf(create())).to(Disabled)
                 })
 
                 object Disabled : State({
                     handle(eventOf(enable)).to(Enabled).produce(sendEnabledConfirmation)
+                })
+
+                object Enabled : State({
+                    handle(eventOf(disable)).to(Disabled).produce(sendDisabledConfirmation)
                 })
             }
         }
