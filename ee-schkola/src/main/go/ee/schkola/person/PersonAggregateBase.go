@@ -6,6 +6,7 @@ import (
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
     "github.com/looplab/eventhorizon/commandhandler/bus"
+    "time"
 )
 type ChurchCommandHandler struct {
     CreateHandler func (*CreateChurch, *Church, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
@@ -59,15 +60,34 @@ func (o *ChurchCommandHandler) Execute(cmd eventhorizon.Command, entity eventhor
 
 func (o *ChurchCommandHandler) SetupCommandHandler() (err error) {
     o.CreateHandler = func(command *CreateChurch, entity *Church, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(CreateChurchCommand)
+        if err = eh.ValidateNewId(entity.Id, command.Id, ChurchAggregateType); err == nil {
+            store.StoreEvent(ChurchCreatedEvent, &ChurchCreated{
+                Name: command.Name,
+                Address: command.Address,
+                Pastor: command.Pastor,
+                Contact: command.Contact,
+                Association: command.Association,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.DeleteHandler = func(command *DeleteChurch, entity *Church, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(DeleteChurchCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, ChurchAggregateType); err == nil {
+            store.StoreEvent(ChurchDeletedEvent, &ChurchDeleted{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.UpdateHandler = func(command *UpdateChurch, entity *Church, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(UpdateChurchCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, ChurchAggregateType); err == nil {
+            store.StoreEvent(ChurchUpdatedEvent, &ChurchUpdated{
+                Name: command.Name,
+                Address: command.Address,
+                Pastor: command.Pastor,
+                Contact: command.Contact,
+                Association: command.Association,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     return
@@ -220,15 +240,28 @@ func (o *GraduationCommandHandler) Execute(cmd eventhorizon.Command, entity even
 
 func (o *GraduationCommandHandler) SetupCommandHandler() (err error) {
     o.CreateHandler = func(command *CreateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(CreateGraduationCommand)
+        if err = eh.ValidateNewId(entity.Id, command.Id, GraduationAggregateType); err == nil {
+            store.StoreEvent(GraduationCreatedEvent, &GraduationCreated{
+                Name: command.Name,
+                Level: command.Level,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.DeleteHandler = func(command *DeleteGraduation, entity *Graduation, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(DeleteGraduationCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, GraduationAggregateType); err == nil {
+            store.StoreEvent(GraduationDeletedEvent, &GraduationDeleted{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.UpdateHandler = func(command *UpdateGraduation, entity *Graduation, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(UpdateGraduationCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, GraduationAggregateType); err == nil {
+            store.StoreEvent(GraduationUpdatedEvent, &GraduationUpdated{
+                Name: command.Name,
+                Level: command.Level,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     return
@@ -381,15 +414,46 @@ func (o *ProfileCommandHandler) Execute(cmd eventhorizon.Command, entity eventho
 
 func (o *ProfileCommandHandler) SetupCommandHandler() (err error) {
     o.CreateHandler = func(command *CreateProfile, entity *Profile, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(CreateProfileCommand)
+        if err = eh.ValidateNewId(entity.Id, command.Id, ProfileAggregateType); err == nil {
+            store.StoreEvent(ProfileCreatedEvent, &ProfileCreated{
+                Gender: command.Gender,
+                Name: command.Name,
+                BirthName: command.BirthName,
+                Birthday: command.Birthday,
+                Address: command.Address,
+                Contact: command.Contact,
+                PhotoData: command.PhotoData,
+                Photo: command.Photo,
+                Family: command.Family,
+                Church: command.Church,
+                Education: command.Education,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.DeleteHandler = func(command *DeleteProfile, entity *Profile, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(DeleteProfileCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, ProfileAggregateType); err == nil {
+            store.StoreEvent(ProfileDeletedEvent, &ProfileDeleted{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.UpdateHandler = func(command *UpdateProfile, entity *Profile, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(UpdateProfileCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, ProfileAggregateType); err == nil {
+            store.StoreEvent(ProfileUpdatedEvent, &ProfileUpdated{
+                Gender: command.Gender,
+                Name: command.Name,
+                BirthName: command.BirthName,
+                Birthday: command.Birthday,
+                Address: command.Address,
+                Contact: command.Contact,
+                PhotoData: command.PhotoData,
+                Photo: command.Photo,
+                Family: command.Family,
+                Church: command.Church,
+                Education: command.Education,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     return

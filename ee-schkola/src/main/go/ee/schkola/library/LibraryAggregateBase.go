@@ -6,6 +6,7 @@ import (
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
     "github.com/looplab/eventhorizon/commandhandler/bus"
+    "time"
 )
 type BookCommandHandler struct {
     CreateHandler func (*CreateBook, *Book, eh.AggregateStoreEvent) (err error)  `json:"createHandler" eh:"optional"`
@@ -59,15 +60,40 @@ func (o *BookCommandHandler) Execute(cmd eventhorizon.Command, entity eventhoriz
 
 func (o *BookCommandHandler) SetupCommandHandler() (err error) {
     o.CreateHandler = func(command *CreateBook, entity *Book, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(CreateBookCommand)
+        if err = eh.ValidateNewId(entity.Id, command.Id, BookAggregateType); err == nil {
+            store.StoreEvent(BookCreatedEvent, &BookCreated{
+                Title: command.Title,
+                Description: command.Description,
+                Language: command.Language,
+                ReleaseDate: command.ReleaseDate,
+                Edition: command.Edition,
+                Category: command.Category,
+                Author: command.Author,
+                Location: command.Location,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.DeleteHandler = func(command *DeleteBook, entity *Book, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(DeleteBookCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, BookAggregateType); err == nil {
+            store.StoreEvent(BookDeletedEvent, &BookDeleted{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.UpdateHandler = func(command *UpdateBook, entity *Book, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(UpdateBookCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, BookAggregateType); err == nil {
+            store.StoreEvent(BookUpdatedEvent, &BookUpdated{
+                Title: command.Title,
+                Description: command.Description,
+                Language: command.Language,
+                ReleaseDate: command.ReleaseDate,
+                Edition: command.Edition,
+                Category: command.Category,
+                Author: command.Author,
+                Location: command.Location,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     return

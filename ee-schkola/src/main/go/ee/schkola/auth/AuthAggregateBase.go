@@ -138,27 +138,55 @@ func (o *AccountCommandHandler) Execute(cmd eventhorizon.Command, entity eventho
 
 func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
     o.SendEnabledConfirmationHandler = func(command *SendAccountEnabledConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(SendAccountEnabledConfirmationCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
+            store.StoreEvent(SendEnabledAccountConfirmationedEvent, &SendEnabledAccountConfirmationed{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.SendDisabledConfirmationHandler = func(command *SendAccountDisabledConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(SendAccountDisabledConfirmationCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
+            store.StoreEvent(SendDisabledAccountConfirmationedEvent, &SendDisabledAccountConfirmationed{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.LoginHandler = func(command *LoginAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(LoginAccountCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
+            store.StoreEvent(AccountLoggedEvent, &AccountLogged{
+                Username: command.Username,
+                Email: command.Email,
+                Password: command.Password,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.SendCreatedConfirmationHandler = func(command *SendAccountCreatedConfirmation, entity *Account, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(SendAccountCreatedConfirmationCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
+            store.StoreEvent(SendCreatedAccountConfirmationedEvent, &SendCreatedAccountConfirmationed{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.CreateHandler = func(command *CreateAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(CreateAccountCommand)
+        if err = eh.ValidateNewId(entity.Id, command.Id, AccountAggregateType); err == nil {
+            store.StoreEvent(AccountCreatedEvent, &AccountCreated{
+                Name: command.Name,
+                Username: command.Username,
+                Password: command.Password,
+                Email: command.Email,
+                Disabled: command.Disabled,
+                Roles: command.Roles,
+                Profile: command.Profile,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.DeleteHandler = func(command *DeleteAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(DeleteAccountCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
+            store.StoreEvent(AccountDeletedEvent, &AccountDeleted{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.EnableHandler = func(command *EnableAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
@@ -176,7 +204,17 @@ func (o *AccountCommandHandler) SetupCommandHandler() (err error) {
         return
     }
     o.UpdateHandler = func(command *UpdateAccount, entity *Account, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(UpdateAccountCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AccountAggregateType); err == nil {
+            store.StoreEvent(AccountUpdatedEvent, &AccountUpdated{
+                Name: command.Name,
+                Username: command.Username,
+                Password: command.Password,
+                Email: command.Email,
+                Disabled: command.Disabled,
+                Roles: command.Roles,
+                Profile: command.Profile,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     return

@@ -6,6 +6,7 @@ import (
     "github.com/eugeis/gee/eh"
     "github.com/looplab/eventhorizon"
     "github.com/looplab/eventhorizon/commandhandler/bus"
+    "time"
 )
 type AttendanceCommandHandler struct {
     RegisterHandler func (*RegisterAttendance, *Attendance, eh.AggregateStoreEvent) (err error)  `json:"registerHandler" eh:"optional"`
@@ -98,27 +99,59 @@ func (o *AttendanceCommandHandler) Execute(cmd eventhorizon.Command, entity even
 
 func (o *AttendanceCommandHandler) SetupCommandHandler() (err error) {
     o.RegisterHandler = func(command *RegisterAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(RegisterAttendanceCommand)
+        if err = eh.ValidateNewId(entity.Id, command.Id, AttendanceAggregateType); err == nil {
+            store.StoreEvent(AttendanceRegisteredEvent, &AttendanceRegistered{
+                Student: command.Student,
+                Course: command.Course,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.CreateHandler = func(command *CreateAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(CreateAttendanceCommand)
+        if err = eh.ValidateNewId(entity.Id, command.Id, AttendanceAggregateType); err == nil {
+            store.StoreEvent(AttendanceCreatedEvent, &AttendanceCreated{
+                Student: command.Student,
+                Date: command.Date,
+                Course: command.Course,
+                Hours: command.Hours,
+                State: command.State,
+                Token: command.Token,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.DeleteHandler = func(command *DeleteAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(DeleteAttendanceCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AttendanceAggregateType); err == nil {
+            store.StoreEvent(AttendanceDeletedEvent, &AttendanceDeleted{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.ConfirmHandler = func(command *ConfirmAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(ConfirmAttendanceCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AttendanceAggregateType); err == nil {
+            store.StoreEvent(AttendanceConfirmedEvent, &AttendanceConfirmed{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.CancelHandler = func(command *CancelAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(CancelAttendanceCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AttendanceAggregateType); err == nil {
+            store.StoreEvent(AttendanceCanceledEvent, &AttendanceCanceled{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.UpdateHandler = func(command *UpdateAttendance, entity *Attendance, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(UpdateAttendanceCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, AttendanceAggregateType); err == nil {
+            store.StoreEvent(AttendanceUpdatedEvent, &AttendanceUpdated{
+                Student: command.Student,
+                Date: command.Date,
+                Course: command.Course,
+                Hours: command.Hours,
+                State: command.State,
+                Token: command.Token,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     return
@@ -317,15 +350,38 @@ func (o *CourseCommandHandler) Execute(cmd eventhorizon.Command, entity eventhor
 
 func (o *CourseCommandHandler) SetupCommandHandler() (err error) {
     o.CreateHandler = func(command *CreateCourse, entity *Course, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(CreateCourseCommand)
+        if err = eh.ValidateNewId(entity.Id, command.Id, CourseAggregateType); err == nil {
+            store.StoreEvent(CourseCreatedEvent, &CourseCreated{
+                Name: command.Name,
+                Begin: command.Begin,
+                End: command.End,
+                Teacher: command.Teacher,
+                SchoolYear: command.SchoolYear,
+                Fee: command.Fee,
+                Description: command.Description,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.DeleteHandler = func(command *DeleteCourse, entity *Course, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(DeleteCourseCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, CourseAggregateType); err == nil {
+            store.StoreEvent(CourseDeletedEvent, &CourseDeleted{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.UpdateHandler = func(command *UpdateCourse, entity *Course, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(UpdateCourseCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, CourseAggregateType); err == nil {
+            store.StoreEvent(CourseUpdatedEvent, &CourseUpdated{
+                Name: command.Name,
+                Begin: command.Begin,
+                End: command.End,
+                Teacher: command.Teacher,
+                SchoolYear: command.SchoolYear,
+                Fee: command.Fee,
+                Description: command.Description,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     return
@@ -478,15 +534,32 @@ func (o *GradeCommandHandler) Execute(cmd eventhorizon.Command, entity eventhori
 
 func (o *GradeCommandHandler) SetupCommandHandler() (err error) {
     o.CreateHandler = func(command *CreateGrade, entity *Grade, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(CreateGradeCommand)
+        if err = eh.ValidateNewId(entity.Id, command.Id, GradeAggregateType); err == nil {
+            store.StoreEvent(GradeCreatedEvent, &GradeCreated{
+                Student: command.Student,
+                Course: command.Course,
+                Grade: command.Grade,
+                Comment: command.Comment,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.DeleteHandler = func(command *DeleteGrade, entity *Grade, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(DeleteGradeCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, GradeAggregateType); err == nil {
+            store.StoreEvent(GradeDeletedEvent, &GradeDeleted{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.UpdateHandler = func(command *UpdateGrade, entity *Grade, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(UpdateGradeCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, GradeAggregateType); err == nil {
+            store.StoreEvent(GradeUpdatedEvent, &GradeUpdated{
+                Student: command.Student,
+                Course: command.Course,
+                Grade: command.Grade,
+                Comment: command.Comment,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     return
@@ -639,15 +712,36 @@ func (o *GroupCommandHandler) Execute(cmd eventhorizon.Command, entity eventhori
 
 func (o *GroupCommandHandler) SetupCommandHandler() (err error) {
     o.CreateHandler = func(command *CreateGroup, entity *Group, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(CreateGroupCommand)
+        if err = eh.ValidateNewId(entity.Id, command.Id, GroupAggregateType); err == nil {
+            store.StoreEvent(GroupCreatedEvent, &GroupCreated{
+                Name: command.Name,
+                Category: command.Category,
+                SchoolYear: command.SchoolYear,
+                Representative: command.Representative,
+                Students: command.Students,
+                Courses: command.Courses,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.DeleteHandler = func(command *DeleteGroup, entity *Group, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(DeleteGroupCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, GroupAggregateType); err == nil {
+            store.StoreEvent(GroupDeletedEvent, &GroupDeleted{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.UpdateHandler = func(command *UpdateGroup, entity *Group, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(UpdateGroupCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, GroupAggregateType); err == nil {
+            store.StoreEvent(GroupUpdatedEvent, &GroupUpdated{
+                Name: command.Name,
+                Category: command.Category,
+                SchoolYear: command.SchoolYear,
+                Representative: command.Representative,
+                Students: command.Students,
+                Courses: command.Courses,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     return
@@ -800,15 +894,36 @@ func (o *SchoolApplicationCommandHandler) Execute(cmd eventhorizon.Command, enti
 
 func (o *SchoolApplicationCommandHandler) SetupCommandHandler() (err error) {
     o.CreateHandler = func(command *CreateSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(CreateSchoolApplicationCommand)
+        if err = eh.ValidateNewId(entity.Id, command.Id, SchoolApplicationAggregateType); err == nil {
+            store.StoreEvent(SchoolApplicationCreatedEvent, &SchoolApplicationCreated{
+                Profile: command.Profile,
+                ChurchContactPerson: command.ChurchContactPerson,
+                ChurchContact: command.ChurchContact,
+                ChurchCommitment: command.ChurchCommitment,
+                SchoolYear: command.SchoolYear,
+                Group: command.Group,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.DeleteHandler = func(command *DeleteSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(DeleteSchoolApplicationCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, SchoolApplicationAggregateType); err == nil {
+            store.StoreEvent(SchoolApplicationDeletedEvent, &SchoolApplicationDeleted{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.UpdateHandler = func(command *UpdateSchoolApplication, entity *SchoolApplication, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(UpdateSchoolApplicationCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, SchoolApplicationAggregateType); err == nil {
+            store.StoreEvent(SchoolApplicationUpdatedEvent, &SchoolApplicationUpdated{
+                Profile: command.Profile,
+                ChurchContactPerson: command.ChurchContactPerson,
+                ChurchContact: command.ChurchContact,
+                ChurchCommitment: command.ChurchCommitment,
+                SchoolYear: command.SchoolYear,
+                Group: command.Group,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     return
@@ -961,15 +1076,32 @@ func (o *SchoolYearCommandHandler) Execute(cmd eventhorizon.Command, entity even
 
 func (o *SchoolYearCommandHandler) SetupCommandHandler() (err error) {
     o.CreateHandler = func(command *CreateSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(CreateSchoolYearCommand)
+        if err = eh.ValidateNewId(entity.Id, command.Id, SchoolYearAggregateType); err == nil {
+            store.StoreEvent(SchoolYearCreatedEvent, &SchoolYearCreated{
+                Name: command.Name,
+                Start: command.Start,
+                End: command.End,
+                Dates: command.Dates,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.DeleteHandler = func(command *DeleteSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(DeleteSchoolYearCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, SchoolYearAggregateType); err == nil {
+            store.StoreEvent(SchoolYearDeletedEvent, &SchoolYearDeleted{
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     o.UpdateHandler = func(command *UpdateSchoolYear, entity *SchoolYear, store eh.AggregateStoreEvent) (err error) {
-        err = eh.CommandHandlerNotImplemented(UpdateSchoolYearCommand)
+        if err = eh.ValidateIdsMatch(entity.Id, command.Id, SchoolYearAggregateType); err == nil {
+            store.StoreEvent(SchoolYearUpdatedEvent, &SchoolYearUpdated{
+                Name: command.Name,
+                Start: command.Start,
+                End: command.End,
+                Dates: command.Dates,
+                Id: command.Id,}, time.Now())
+        }
         return
     }
     return
