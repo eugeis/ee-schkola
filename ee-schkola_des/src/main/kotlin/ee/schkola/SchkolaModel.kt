@@ -38,28 +38,28 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
             object Handler : AggregateHandler() {
                 object Initial : State({
-                    execute(create()).produce(eventOf(create()))
+                    executeAndProduce(create())
                     handle(eventOf(create())).to(Disabled)
                 })
 
                 object Exist : State({
                     virtual(true)
-                    execute(update()).produce(eventOf(update()))
+                    executeAndProduce(update())
                     handle(eventOf(update()))
 
-                    execute(delete()).produce(eventOf(delete()))
+                    executeAndProduce(delete())
                     handle(eventOf(delete())).to(Deleted)
                 })
 
                 object Disabled : State({
                     superUnit(Exist)
-                    execute(enable).produce(eventOf(enable))
+                    executeAndProduce(enable)
                     handle(eventOf(enable)).to(Enabled)
                 })
 
                 object Enabled : State({
                     superUnit(Exist)
-                    execute(disable).produce(eventOf(disable))
+                    executeAndProduce(disable)
                     handle(eventOf(disable)).to(Disabled)
                 })
 
@@ -68,7 +68,8 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
             object AccountConfirmation : ProcessManager() {
                 object Initial : State({
-                    handle(eventOf(create())).to(Disabled)
+                    executeAndProduce(create())
+                    handle(eventOf(create())).ifTrue(disabled.yes()).to(Disabled)
                 })
 
                 object Disabled : State({
