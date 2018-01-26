@@ -39,7 +39,8 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             object Handler : AggregateHandler() {
                 object Initial : State({
                     executeAndProduce(create())
-                    handle(eventOf(create())).to(Disabled)
+                    handle(eventOf(create())).ifTrue(disabled.yes()).to(Disabled)
+                    handle(eventOf(create())).ifFalse(disabled.yes()).to(Enabled)
                 })
 
                 object Exist : State({
@@ -70,6 +71,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
                 object Initial : State({
                     executeAndProduce(create())
                     handle(eventOf(create())).ifTrue(disabled.yes()).to(Disabled)
+                    handle(eventOf(create())).ifFalse(disabled.yes()).to(Enabled)
                 })
 
                 object Disabled : State({
