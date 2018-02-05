@@ -73,7 +73,6 @@ type CreateAccount struct {
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
     Email string `json:"email" eh:"optional"`
-    Disabled bool `json:"disabled" eh:"optional"`
     Roles []string `json:"roles" eh:"optional"`
     Profile *person.Profile `json:"profile" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
@@ -125,7 +124,6 @@ type UpdateAccount struct {
     Username string `json:"username" eh:"optional"`
     Password string `json:"password" eh:"optional"`
     Email string `json:"email" eh:"optional"`
-    Disabled bool `json:"disabled" eh:"optional"`
     Roles []string `json:"roles" eh:"optional"`
     Profile *person.Profile `json:"profile" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`

@@ -122,6 +122,10 @@ func (o *ExpenseEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.CreatedHandler = func(event *ExpenseCreated, entity *Expense) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, ExpenseAggregateType); err == nil {
+            entity.Purpose = event.Purpose
+            entity.Amount = event.Amount
+            entity.Profile = event.Profile
+            entity.Date = event.Date
             entity.Id = event.Id
         }
         return
@@ -148,6 +152,10 @@ func (o *ExpenseEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.UpdatedHandler = func(event *ExpenseUpdated, entity *Expense) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpenseAggregateType); err == nil {
+            entity.Purpose = event.Purpose
+            entity.Amount = event.Amount
+            entity.Profile = event.Profile
+            entity.Date = event.Date
         }
         return
     }
@@ -296,6 +304,8 @@ func (o *ExpensePurposeEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.CreatedHandler = func(event *ExpensePurposeCreated, entity *ExpensePurpose) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, ExpensePurposeAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Description = event.Description
             entity.Id = event.Id
         }
         return
@@ -322,6 +332,8 @@ func (o *ExpensePurposeEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.UpdatedHandler = func(event *ExpensePurposeUpdated, entity *ExpensePurpose) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, ExpensePurposeAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Description = event.Description
         }
         return
     }
@@ -474,6 +486,10 @@ func (o *FeeEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.CreatedHandler = func(event *FeeCreated, entity *Fee) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, FeeAggregateType); err == nil {
+            entity.Student = event.Student
+            entity.Amount = event.Amount
+            entity.Kind = event.Kind
+            entity.Date = event.Date
             entity.Id = event.Id
         }
         return
@@ -500,6 +516,10 @@ func (o *FeeEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.UpdatedHandler = func(event *FeeUpdated, entity *Fee) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeAggregateType); err == nil {
+            entity.Student = event.Student
+            entity.Amount = event.Amount
+            entity.Kind = event.Kind
+            entity.Date = event.Date
         }
         return
     }
@@ -650,6 +670,9 @@ func (o *FeeKindEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.CreatedHandler = func(event *FeeKindCreated, entity *FeeKind) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, FeeKindAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Amount = event.Amount
+            entity.Description = event.Description
             entity.Id = event.Id
         }
         return
@@ -676,6 +699,9 @@ func (o *FeeKindEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.UpdatedHandler = func(event *FeeKindUpdated, entity *FeeKind) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, FeeKindAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Amount = event.Amount
+            entity.Description = event.Description
         }
         return
     }

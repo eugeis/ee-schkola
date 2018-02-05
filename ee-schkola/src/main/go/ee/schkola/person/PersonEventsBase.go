@@ -1,11 +1,13 @@
 package person
 
 import (
+    "ee/schkola/shared"
     "encoding/json"
     "fmt"
     "github.com/eugeis/gee/enum"
     "github.com/looplab/eventhorizon"
     "gopkg.in/mgo.v2/bson"
+    "time"
 )
 const (
      ChurchCreatedEvent eventhorizon.EventType = "ChurchCreated"
@@ -31,6 +33,11 @@ const (
 
 
 type ChurchCreated struct {
+    Name string `json:"name" eh:"optional"`
+    Address *Address `json:"address" eh:"optional"`
+    Pastor *shared.PersonName `json:"pastor" eh:"optional"`
+    Contact *Contact `json:"contact" eh:"optional"`
+    Association string `json:"association" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -41,11 +48,18 @@ type ChurchDeleted struct {
 
 
 type ChurchUpdated struct {
+    Name string `json:"name" eh:"optional"`
+    Address *Address `json:"address" eh:"optional"`
+    Pastor *shared.PersonName `json:"pastor" eh:"optional"`
+    Contact *Contact `json:"contact" eh:"optional"`
+    Association string `json:"association" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type GraduationCreated struct {
+    Name string `json:"name" eh:"optional"`
+    Level *GraduationLevel `json:"level" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -56,11 +70,24 @@ type GraduationDeleted struct {
 
 
 type GraduationUpdated struct {
+    Name string `json:"name" eh:"optional"`
+    Level *GraduationLevel `json:"level" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type ProfileCreated struct {
+    Gender *Gender `json:"gender" eh:"optional"`
+    Name *shared.PersonName `json:"name" eh:"optional"`
+    BirthName string `json:"birthName" eh:"optional"`
+    Birthday *time.Time `json:"birthday" eh:"optional"`
+    Address *Address `json:"address" eh:"optional"`
+    Contact *Contact `json:"contact" eh:"optional"`
+    PhotoData []byte `json:"photoData" eh:"optional"`
+    Photo string `json:"photo" eh:"optional"`
+    Family *Family `json:"family" eh:"optional"`
+    Church *ChurchInfo `json:"church" eh:"optional"`
+    Education *Education `json:"education" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -71,6 +98,17 @@ type ProfileDeleted struct {
 
 
 type ProfileUpdated struct {
+    Gender *Gender `json:"gender" eh:"optional"`
+    Name *shared.PersonName `json:"name" eh:"optional"`
+    BirthName string `json:"birthName" eh:"optional"`
+    Birthday *time.Time `json:"birthday" eh:"optional"`
+    Address *Address `json:"address" eh:"optional"`
+    Contact *Contact `json:"contact" eh:"optional"`
+    PhotoData []byte `json:"photoData" eh:"optional"`
+    Photo string `json:"photo" eh:"optional"`
+    Family *Family `json:"family" eh:"optional"`
+    Church *ChurchInfo `json:"church" eh:"optional"`
+    Education *Education `json:"education" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 

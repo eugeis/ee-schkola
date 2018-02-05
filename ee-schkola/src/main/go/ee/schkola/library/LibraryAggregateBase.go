@@ -130,6 +130,14 @@ func (o *BookEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.CreatedHandler = func(event *BookCreated, entity *Book) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, BookAggregateType); err == nil {
+            entity.Title = event.Title
+            entity.Description = event.Description
+            entity.Language = event.Language
+            entity.ReleaseDate = event.ReleaseDate
+            entity.Edition = event.Edition
+            entity.Category = event.Category
+            entity.Author = event.Author
+            entity.Location = event.Location
             entity.Id = event.Id
         }
         return
@@ -156,6 +164,14 @@ func (o *BookEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.UpdatedHandler = func(event *BookUpdated, entity *Book) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, BookAggregateType); err == nil {
+            entity.Title = event.Title
+            entity.Description = event.Description
+            entity.Language = event.Language
+            entity.ReleaseDate = event.ReleaseDate
+            entity.Edition = event.Edition
+            entity.Category = event.Category
+            entity.Author = event.Author
+            entity.Location = event.Location
         }
         return
     }

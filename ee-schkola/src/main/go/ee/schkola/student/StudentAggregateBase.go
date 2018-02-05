@@ -197,6 +197,9 @@ func (o *AttendanceEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.RegisteredHandler = func(event *AttendanceRegistered, entity *Attendance) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, AttendanceAggregateType); err == nil {
+            entity.Student = event.Student
+            entity.Course = event.Course
+            entity.State = AttendanceStates().Registered()
             entity.Id = event.Id
         }
         return
@@ -210,6 +213,12 @@ func (o *AttendanceEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.CreatedHandler = func(event *AttendanceCreated, entity *Attendance) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, AttendanceAggregateType); err == nil {
+            entity.Student = event.Student
+            entity.Date = event.Date
+            entity.Course = event.Course
+            entity.Hours = event.Hours
+            entity.State = event.State
+            entity.Token = event.Token
             entity.Id = event.Id
         }
         return
@@ -236,6 +245,7 @@ func (o *AttendanceEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.ConfirmedHandler = func(event *AttendanceConfirmed, entity *Attendance) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, AttendanceAggregateType); err == nil {
+            entity.State = AttendanceStates().Confirmed()
         }
         return
     }
@@ -248,6 +258,7 @@ func (o *AttendanceEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.CanceledHandler = func(event *AttendanceCanceled, entity *Attendance) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, AttendanceAggregateType); err == nil {
+            entity.State = AttendanceStates().Canceled()
         }
         return
     }
@@ -260,6 +271,12 @@ func (o *AttendanceEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.UpdatedHandler = func(event *AttendanceUpdated, entity *Attendance) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, AttendanceAggregateType); err == nil {
+            entity.Student = event.Student
+            entity.Date = event.Date
+            entity.Course = event.Course
+            entity.Hours = event.Hours
+            entity.State = event.State
+            entity.Token = event.Token
         }
         return
     }
@@ -418,6 +435,13 @@ func (o *CourseEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.CreatedHandler = func(event *CourseCreated, entity *Course) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, CourseAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Begin = event.Begin
+            entity.End = event.End
+            entity.Teacher = event.Teacher
+            entity.SchoolYear = event.SchoolYear
+            entity.Fee = event.Fee
+            entity.Description = event.Description
             entity.Id = event.Id
         }
         return
@@ -444,6 +468,13 @@ func (o *CourseEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.UpdatedHandler = func(event *CourseUpdated, entity *Course) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, CourseAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Begin = event.Begin
+            entity.End = event.End
+            entity.Teacher = event.Teacher
+            entity.SchoolYear = event.SchoolYear
+            entity.Fee = event.Fee
+            entity.Description = event.Description
         }
         return
     }
@@ -596,6 +627,10 @@ func (o *GradeEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.CreatedHandler = func(event *GradeCreated, entity *Grade) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, GradeAggregateType); err == nil {
+            entity.Student = event.Student
+            entity.Course = event.Course
+            entity.Grade = event.Grade
+            entity.Comment = event.Comment
             entity.Id = event.Id
         }
         return
@@ -622,6 +657,10 @@ func (o *GradeEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.UpdatedHandler = func(event *GradeUpdated, entity *Grade) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, GradeAggregateType); err == nil {
+            entity.Student = event.Student
+            entity.Course = event.Course
+            entity.Grade = event.Grade
+            entity.Comment = event.Comment
         }
         return
     }
@@ -778,6 +817,12 @@ func (o *GroupEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.CreatedHandler = func(event *GroupCreated, entity *Group) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, GroupAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Category = event.Category
+            entity.SchoolYear = event.SchoolYear
+            entity.Representative = event.Representative
+            entity.Students = event.Students
+            entity.Courses = event.Courses
             entity.Id = event.Id
         }
         return
@@ -804,6 +849,12 @@ func (o *GroupEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.UpdatedHandler = func(event *GroupUpdated, entity *Group) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, GroupAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Category = event.Category
+            entity.SchoolYear = event.SchoolYear
+            entity.Representative = event.Representative
+            entity.Students = event.Students
+            entity.Courses = event.Courses
         }
         return
     }
@@ -960,6 +1011,12 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.CreatedHandler = func(event *SchoolApplicationCreated, entity *SchoolApplication) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, SchoolApplicationAggregateType); err == nil {
+            entity.Profile = event.Profile
+            entity.ChurchContactPerson = event.ChurchContactPerson
+            entity.ChurchContact = event.ChurchContact
+            entity.ChurchCommitment = event.ChurchCommitment
+            entity.SchoolYear = event.SchoolYear
+            entity.Group = event.Group
             entity.Id = event.Id
         }
         return
@@ -986,6 +1043,12 @@ func (o *SchoolApplicationEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.UpdatedHandler = func(event *SchoolApplicationUpdated, entity *SchoolApplication) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, SchoolApplicationAggregateType); err == nil {
+            entity.Profile = event.Profile
+            entity.ChurchContactPerson = event.ChurchContactPerson
+            entity.ChurchContact = event.ChurchContact
+            entity.ChurchCommitment = event.ChurchCommitment
+            entity.SchoolYear = event.SchoolYear
+            entity.Group = event.Group
         }
         return
     }
@@ -1138,6 +1201,10 @@ func (o *SchoolYearEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.CreatedHandler = func(event *SchoolYearCreated, entity *SchoolYear) (err error) {
         if err = eh.ValidateNewId(entity.Id, event.Id, SchoolYearAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Start = event.Start
+            entity.End = event.End
+            entity.Dates = event.Dates
             entity.Id = event.Id
         }
         return
@@ -1164,6 +1231,10 @@ func (o *SchoolYearEventHandler) SetupEventHandler() (err error) {
     //default handler implementation
     o.UpdatedHandler = func(event *SchoolYearUpdated, entity *SchoolYear) (err error) {
         if err = eh.ValidateIdsMatch(entity.Id, event.Id, SchoolYearAggregateType); err == nil {
+            entity.Name = event.Name
+            entity.Start = event.Start
+            entity.End = event.End
+            entity.Dates = event.Dates
         }
         return
     }

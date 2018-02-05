@@ -1,6 +1,8 @@
 package auth
 
 import (
+    "ee/schkola/person"
+    "ee/schkola/shared"
     "encoding/json"
     "fmt"
     "github.com/eugeis/gee/enum"
@@ -8,18 +10,55 @@ import (
     "gopkg.in/mgo.v2/bson"
 )
 const (
-     AccountEnabledEvent eventhorizon.EventType = "AccountEnabled"
      AccountCreatedEvent eventhorizon.EventType = "AccountCreated"
+     AccountUpdatedEvent eventhorizon.EventType = "AccountUpdated"
      AccountDeletedEvent eventhorizon.EventType = "AccountDeleted"
+     AccountEnabledEvent eventhorizon.EventType = "AccountEnabled"
+     AccountDisabledEvent eventhorizon.EventType = "AccountDisabled"
      SendEnabledAccountConfirmationedEvent eventhorizon.EventType = "SendEnabledAccountConfirmationed"
      SendDisabledAccountConfirmationedEvent eventhorizon.EventType = "SendDisabledAccountConfirmationed"
      AccountLoggedEvent eventhorizon.EventType = "AccountLogged"
      SendCreatedAccountConfirmationedEvent eventhorizon.EventType = "SendCreatedAccountConfirmationed"
-     AccountDisabledEvent eventhorizon.EventType = "AccountDisabled"
-     AccountUpdatedEvent eventhorizon.EventType = "AccountUpdated"
 )
 
 
+
+
+type AccountCreated struct {
+    Name *shared.PersonName `json:"name" eh:"optional"`
+    Username string `json:"username" eh:"optional"`
+    Password string `json:"password" eh:"optional"`
+    Email string `json:"email" eh:"optional"`
+    Roles []string `json:"roles" eh:"optional"`
+    Profile *person.Profile `json:"profile" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
+}
+
+func (o *AccountCreated) AddToRoles(item string) string {
+    o.Roles = append(o.Roles, item)
+    return item
+}
+
+
+type AccountUpdated struct {
+    Name *shared.PersonName `json:"name" eh:"optional"`
+    Username string `json:"username" eh:"optional"`
+    Password string `json:"password" eh:"optional"`
+    Email string `json:"email" eh:"optional"`
+    Roles []string `json:"roles" eh:"optional"`
+    Profile *person.Profile `json:"profile" eh:"optional"`
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
+}
+
+func (o *AccountUpdated) AddToRoles(item string) string {
+    o.Roles = append(o.Roles, item)
+    return item
+}
+
+
+type AccountDeleted struct {
+    Id eventhorizon.UUID `json:"id" eh:"optional"`
+}
 
 
 type AccountEnabled struct {
@@ -27,12 +66,7 @@ type AccountEnabled struct {
 }
 
 
-type AccountCreated struct {
-    Id eventhorizon.UUID `json:"id" eh:"optional"`
-}
-
-
-type AccountDeleted struct {
+type AccountDisabled struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -48,21 +82,14 @@ type SendDisabledAccountConfirmationed struct {
 
 
 type AccountLogged struct {
+    Username string `json:"username" eh:"optional"`
+    Email string `json:"email" eh:"optional"`
+    Password string `json:"password" eh:"optional"`
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
 
 type SendCreatedAccountConfirmationed struct {
-    Id eventhorizon.UUID `json:"id" eh:"optional"`
-}
-
-
-type AccountDisabled struct {
-    Id eventhorizon.UUID `json:"id" eh:"optional"`
-}
-
-
-type AccountUpdated struct {
     Id eventhorizon.UUID `json:"id" eh:"optional"`
 }
 
@@ -114,16 +141,24 @@ func (o *AccountEventType) SetBSON(raw bson.Raw) (err error) {
     return
 }
 
-func (o *AccountEventType) IsAccountEnabled() bool {
-    return o == _accountEventTypes.AccountEnabled()
-}
-
 func (o *AccountEventType) IsAccountCreated() bool {
     return o == _accountEventTypes.AccountCreated()
 }
 
+func (o *AccountEventType) IsAccountUpdated() bool {
+    return o == _accountEventTypes.AccountUpdated()
+}
+
 func (o *AccountEventType) IsAccountDeleted() bool {
     return o == _accountEventTypes.AccountDeleted()
+}
+
+func (o *AccountEventType) IsAccountEnabled() bool {
+    return o == _accountEventTypes.AccountEnabled()
+}
+
+func (o *AccountEventType) IsAccountDisabled() bool {
+    return o == _accountEventTypes.AccountDisabled()
 }
 
 func (o *AccountEventType) IsSendEnabledAccountConfirmationed() bool {
@@ -142,29 +177,21 @@ func (o *AccountEventType) IsSendCreatedAccountConfirmationed() bool {
     return o == _accountEventTypes.SendCreatedAccountConfirmationed()
 }
 
-func (o *AccountEventType) IsAccountDisabled() bool {
-    return o == _accountEventTypes.AccountDisabled()
-}
-
-func (o *AccountEventType) IsAccountUpdated() bool {
-    return o == _accountEventTypes.AccountUpdated()
-}
-
 type accountEventTypes struct {
 	values []*AccountEventType
     literals []enum.Literal
 }
 
 var _accountEventTypes = &accountEventTypes{values: []*AccountEventType{
-    {name: "AccountEnabled", ordinal: 0},
-    {name: "AccountCreated", ordinal: 1},
+    {name: "AccountCreated", ordinal: 0},
+    {name: "AccountUpdated", ordinal: 1},
     {name: "AccountDeleted", ordinal: 2},
-    {name: "SendEnabledAccountConfirmationed", ordinal: 3},
-    {name: "SendDisabledAccountConfirmationed", ordinal: 4},
-    {name: "AccountLogged", ordinal: 5},
-    {name: "SendCreatedAccountConfirmationed", ordinal: 6},
-    {name: "AccountDisabled", ordinal: 7},
-    {name: "AccountUpdated", ordinal: 8}},
+    {name: "AccountEnabled", ordinal: 3},
+    {name: "AccountDisabled", ordinal: 4},
+    {name: "SendEnabledAccountConfirmationed", ordinal: 5},
+    {name: "SendDisabledAccountConfirmationed", ordinal: 6},
+    {name: "AccountLogged", ordinal: 7},
+    {name: "SendCreatedAccountConfirmationed", ordinal: 8}},
 }
 
 func AccountEventTypes() *accountEventTypes {
@@ -185,11 +212,11 @@ func (o *accountEventTypes) Literals() []enum.Literal {
 	return o.literals
 }
 
-func (o *accountEventTypes) AccountEnabled() *AccountEventType {
+func (o *accountEventTypes) AccountCreated() *AccountEventType {
     return _accountEventTypes.values[0]
 }
 
-func (o *accountEventTypes) AccountCreated() *AccountEventType {
+func (o *accountEventTypes) AccountUpdated() *AccountEventType {
     return _accountEventTypes.values[1]
 }
 
@@ -197,27 +224,27 @@ func (o *accountEventTypes) AccountDeleted() *AccountEventType {
     return _accountEventTypes.values[2]
 }
 
-func (o *accountEventTypes) SendEnabledAccountConfirmationed() *AccountEventType {
+func (o *accountEventTypes) AccountEnabled() *AccountEventType {
     return _accountEventTypes.values[3]
 }
 
-func (o *accountEventTypes) SendDisabledAccountConfirmationed() *AccountEventType {
+func (o *accountEventTypes) AccountDisabled() *AccountEventType {
     return _accountEventTypes.values[4]
 }
 
-func (o *accountEventTypes) AccountLogged() *AccountEventType {
+func (o *accountEventTypes) SendEnabledAccountConfirmationed() *AccountEventType {
     return _accountEventTypes.values[5]
 }
 
-func (o *accountEventTypes) SendCreatedAccountConfirmationed() *AccountEventType {
+func (o *accountEventTypes) SendDisabledAccountConfirmationed() *AccountEventType {
     return _accountEventTypes.values[6]
 }
 
-func (o *accountEventTypes) AccountDisabled() *AccountEventType {
+func (o *accountEventTypes) AccountLogged() *AccountEventType {
     return _accountEventTypes.values[7]
 }
 
-func (o *accountEventTypes) AccountUpdated() *AccountEventType {
+func (o *accountEventTypes) SendCreatedAccountConfirmationed() *AccountEventType {
     return _accountEventTypes.values[8]
 }
 

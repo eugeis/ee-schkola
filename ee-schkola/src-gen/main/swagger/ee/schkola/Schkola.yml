@@ -595,14 +595,14 @@ components:
           type: string
         email:          
           type: string
-        disabled:          
-          type: boolean
         roles:          
           type: array
           items:
             type: string
         profile:          
           $ref: "#/components/schemas/Profile"
+        disabled:          
+          type: boolean
         id:          
           type: string
     UserCredentials:
