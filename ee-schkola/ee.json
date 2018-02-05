@@ -102,7 +102,7 @@
     },
     "ee-schkola\\ee-schkola\\src-gen\\main\\swagger\\ee\\schkola\\Schkola.yml" : {
       "path" : "ee-schkola\\ee-schkola\\src-gen\\main\\swagger\\ee\\schkola\\Schkola.yml",
-      "date" : 1517838858872
+      "date" : 1517844218464
     },
     "ee-schkola\\ee-schkola\\src\\main\\go\\ee\\schkola\\auth\\AuthApiBase.go" : {
       "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\ee\\schkola\\auth\\AuthApiBase.go",
@@ -559,6 +559,150 @@
     "ee-schkola/ee-schkola/src-gen/main/swagger/ee/schkola/SchoolYearCommandHandler.yml" : {
       "path" : "ee-schkola/ee-schkola/src-gen/main/swagger/ee/schkola/SchoolYearCommandHandler.yml",
       "date" : 1516148327000
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\auth\\AuthApiBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\auth\\AuthApiBase.go",
+      "date" : 1517844217560
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\auth\\AuthCommandsBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\auth\\AuthCommandsBase.go",
+      "date" : 1517844217667
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\auth\\AuthEventsBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\auth\\AuthEventsBase.go",
+      "date" : 1517844217684
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\auth\\AuthAggregateBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\auth\\AuthAggregateBase.go",
+      "date" : 1517844217979
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\auth\\AuthQueryBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\auth\\AuthQueryBase.go",
+      "date" : 1517844218003
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\auth\\AuthHttpBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\auth\\AuthHttpBase.go",
+      "date" : 1517844218038
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\finance\\FinanceApiBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\finance\\FinanceApiBase.go",
+      "date" : 1517844218048
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\finance\\FinanceCommandsBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\finance\\FinanceCommandsBase.go",
+      "date" : 1517844218062
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\finance\\FinanceEventsBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\finance\\FinanceEventsBase.go",
+      "date" : 1517844218072
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\finance\\FinanceAggregateBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\finance\\FinanceAggregateBase.go",
+      "date" : 1517844218103
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\finance\\FinanceQueryBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\finance\\FinanceQueryBase.go",
+      "date" : 1517844218116
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\finance\\FinanceHttpBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\finance\\FinanceHttpBase.go",
+      "date" : 1517844218139
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\library\\LibraryApiBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\library\\LibraryApiBase.go",
+      "date" : 1517844218149
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\library\\LibraryCommandsBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\library\\LibraryCommandsBase.go",
+      "date" : 1517844218156
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\library\\LibraryEventsBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\library\\LibraryEventsBase.go",
+      "date" : 1517844218162
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\library\\LibraryAggregateBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\library\\LibraryAggregateBase.go",
+      "date" : 1517844218172
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\library\\LibraryQueryBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\library\\LibraryQueryBase.go",
+      "date" : 1517844218180
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\library\\LibraryHttpBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\library\\LibraryHttpBase.go",
+      "date" : 1517844218192
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\person\\PersonApiBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\person\\PersonApiBase.go",
+      "date" : 1517844218207
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\person\\PersonCommandsBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\person\\PersonCommandsBase.go",
+      "date" : 1517844218220
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\person\\PersonEventsBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\person\\PersonEventsBase.go",
+      "date" : 1517844218230
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\person\\PersonAggregateBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\person\\PersonAggregateBase.go",
+      "date" : 1517844218251
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\person\\PersonQueryBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\person\\PersonQueryBase.go",
+      "date" : 1517844218264
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\person\\PersonHttpBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\person\\PersonHttpBase.go",
+      "date" : 1517844218285
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\shared\\SharedApiBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\shared\\SharedApiBase.go",
+      "date" : 1517844218290
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\shared\\SharedCommandsBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\shared\\SharedCommandsBase.go",
+      "date" : 1517844218293
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\shared\\SharedEventsBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\shared\\SharedEventsBase.go",
+      "date" : 1517844218295
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\shared\\SharedAggregateBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\shared\\SharedAggregateBase.go",
+      "date" : 1517844218298
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\shared\\SharedQueryBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\shared\\SharedQueryBase.go",
+      "date" : 1517844218300
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\shared\\SharedHttpBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\shared\\SharedHttpBase.go",
+      "date" : 1517844218304
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\student\\StudentApiBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\student\\StudentApiBase.go",
+      "date" : 1517844218317
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\student\\StudentCommandsBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\student\\StudentCommandsBase.go",
+      "date" : 1517844218330
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\student\\StudentEventsBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\student\\StudentEventsBase.go",
+      "date" : 1517844218342
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\student\\StudentAggregateBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\student\\StudentAggregateBase.go",
+      "date" : 1517844218378
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\student\\StudentQueryBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\student\\StudentQueryBase.go",
+      "date" : 1517844218390
+    },
+    "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\student\\StudentHttpBase.go" : {
+      "path" : "ee-schkola\\ee-schkola\\src\\main\\go\\src\\ee\\schkola\\student\\StudentHttpBase.go",
+      "date" : 1517844218412
     }
   }
 }
