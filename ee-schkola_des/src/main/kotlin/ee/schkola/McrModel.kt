@@ -42,5 +42,18 @@ object Mcr : Comp({ artifact("mcr").namespace("com.siemens.mcr") }) {
         }
     }
 
-    object Mindsphere : Module() {}
+    object Mindsphere : Module() {
+        object Test1 : EnumType() {
+            val Numeric = lit()
+            val Guid = lit()
+        }
+
+        object Test2 : EnumType() {
+            val r = propS()
+            val Numeric = lit(r,"1")
+            val String2 = lit(r,"2")
+            val Guid = lit(r,"3")
+            val Opaque = lit(r,"4")
+        }
+    }
 }
