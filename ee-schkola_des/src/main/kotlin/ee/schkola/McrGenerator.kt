@@ -9,7 +9,7 @@ import java.nio.file.Paths
 class McrGenerator {
     private val log = LoggerFactory.getLogger(javaClass)
 
-    fun generate(target: Path = Paths.get("../MindConnectRail/mcr-gateway").toAbsolutePath()) {
+    fun generate(target: Path = Paths.get("../MindConnectRail").toAbsolutePath()) {
         val kotlinGenerator = DesignKotlinGenerator(Mcr, false)
         if (target.exists()) {
             kotlinGenerator.generate(target)

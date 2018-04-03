@@ -35,11 +35,19 @@ object Mcr : Comp({ artifact("mcr").namespace("com.siemens.mcr") }) {
         }
 
         object Node : Entity() {
-            val id = prop { type(Id) }
-            val name = propS({ replaceable(true) })
+            val id = propS()
+            val name = propS { replaceable(true) }
+            val description = propS { replaceable(true) }
             val type = prop(NodeType)
+            val dataTypeId = propS { replaceable(true) }
+            val dataType = propS { replaceable(true) }
             val nodes = prop { type(n.List.GT(Node)).mutable(true) }
         }
+
+        object Object : Entity({
+            superUnit(Node)
+            constrSuper(Node.type.asParam(NodeType.Object))
+        })
     }
 
     object Mindsphere : Module() {
@@ -50,10 +58,10 @@ object Mcr : Comp({ artifact("mcr").namespace("com.siemens.mcr") }) {
 
         object Test2 : EnumType() {
             val r = propS()
-            val Numeric = lit(r,"1")
-            val String2 = lit(r,"2")
-            val Guid = lit(r,"3")
-            val Opaque = lit(r,"4")
+            val Numeric = lit(r, "1")
+            val String2 = lit(r, "2")
+            val Guid = lit(r, "3")
+            val Opaque = lit(r, "4")
         }
     }
 }
