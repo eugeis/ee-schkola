@@ -190,8 +190,7 @@ type BookAggregateInitializer struct {
 
 
 
-func NewBookAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewBookAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *BookAggregateInitializer) {
     
     commandHandler := &BookCommandHandler{}
@@ -203,7 +202,7 @@ func NewBookAggregateInitializer(eventStore eventhorizon.EventStore, eventBus ev
         }, entityFactory,
         BookCommandTypes().Literals(), BookEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus, readRepos), BookCommandHandler: commandHandler, BookEventHandler: eventHandler, ProjectorHandler: eventHandler,
+        eventStore, eventBus, commandBus, readRepos), BookCommandHandler: commandHandler, BookEventHandler: eventHandler, ProjectorHandler: eventHandler,
     }
 
     return
@@ -213,19 +212,16 @@ func NewBookAggregateInitializer(eventStore eventhorizon.EventStore, eventBus ev
 type LibraryEventhorizonInitializer struct {
     eventStore eventhorizon.EventStore `json:"eventStore" eh:"optional"`
     eventBus eventhorizon.EventBus `json:"eventBus" eh:"optional"`
-    eventPublisher eventhorizon.EventPublisher `json:"eventPublisher" eh:"optional"`
     commandBus *bus.CommandHandler `json:"commandBus" eh:"optional"`
     BookAggregateInitializer *BookAggregateInitializer `json:"bookAggregateInitializer" eh:"optional"`
 }
 
-func NewLibraryEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewLibraryEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *LibraryEventhorizonInitializer) {
-    bookAggregateInitializer := NewBookAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    bookAggregateInitializer := NewBookAggregateInitializer(eventStore, eventBus, commandBus, readRepos)
     ret = &LibraryEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,
-        eventPublisher: eventPublisher,
         commandBus: commandBus,
         BookAggregateInitializer: bookAggregateInitializer,
     }

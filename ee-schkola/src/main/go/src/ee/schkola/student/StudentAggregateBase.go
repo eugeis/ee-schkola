@@ -295,8 +295,7 @@ type AttendanceAggregateInitializer struct {
 
 
 
-func NewAttendanceAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewAttendanceAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AttendanceAggregateInitializer) {
     
     commandHandler := &AttendanceCommandHandler{}
@@ -308,7 +307,7 @@ func NewAttendanceAggregateInitializer(eventStore eventhorizon.EventStore, event
         }, entityFactory,
         AttendanceCommandTypes().Literals(), AttendanceEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus, readRepos), AttendanceCommandHandler: commandHandler, AttendanceEventHandler: eventHandler, ProjectorHandler: eventHandler,
+        eventStore, eventBus, commandBus, readRepos), AttendanceCommandHandler: commandHandler, AttendanceEventHandler: eventHandler, ProjectorHandler: eventHandler,
     }
 
     return
@@ -493,8 +492,7 @@ type CourseAggregateInitializer struct {
 
 
 
-func NewCourseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewCourseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *CourseAggregateInitializer) {
     
     commandHandler := &CourseCommandHandler{}
@@ -506,7 +504,7 @@ func NewCourseAggregateInitializer(eventStore eventhorizon.EventStore, eventBus 
         }, entityFactory,
         CourseCommandTypes().Literals(), CourseEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus, readRepos), CourseCommandHandler: commandHandler, CourseEventHandler: eventHandler, ProjectorHandler: eventHandler,
+        eventStore, eventBus, commandBus, readRepos), CourseCommandHandler: commandHandler, CourseEventHandler: eventHandler, ProjectorHandler: eventHandler,
     }
 
     return
@@ -679,8 +677,7 @@ type GradeAggregateInitializer struct {
 
 
 
-func NewGradeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewGradeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *GradeAggregateInitializer) {
     
     commandHandler := &GradeCommandHandler{}
@@ -692,7 +689,7 @@ func NewGradeAggregateInitializer(eventStore eventhorizon.EventStore, eventBus e
         }, entityFactory,
         GradeCommandTypes().Literals(), GradeEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus, readRepos), GradeCommandHandler: commandHandler, GradeEventHandler: eventHandler, ProjectorHandler: eventHandler,
+        eventStore, eventBus, commandBus, readRepos), GradeCommandHandler: commandHandler, GradeEventHandler: eventHandler, ProjectorHandler: eventHandler,
     }
 
     return
@@ -873,8 +870,7 @@ type GroupAggregateInitializer struct {
 
 
 
-func NewGroupAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewGroupAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *GroupAggregateInitializer) {
     
     commandHandler := &GroupCommandHandler{}
@@ -886,7 +882,7 @@ func NewGroupAggregateInitializer(eventStore eventhorizon.EventStore, eventBus e
         }, entityFactory,
         GroupCommandTypes().Literals(), GroupEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus, readRepos), GroupCommandHandler: commandHandler, GroupEventHandler: eventHandler, ProjectorHandler: eventHandler,
+        eventStore, eventBus, commandBus, readRepos), GroupCommandHandler: commandHandler, GroupEventHandler: eventHandler, ProjectorHandler: eventHandler,
     }
 
     return
@@ -1067,8 +1063,7 @@ type SchoolApplicationAggregateInitializer struct {
 
 
 
-func NewSchoolApplicationAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewSchoolApplicationAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *SchoolApplicationAggregateInitializer) {
     
     commandHandler := &SchoolApplicationCommandHandler{}
@@ -1080,7 +1075,7 @@ func NewSchoolApplicationAggregateInitializer(eventStore eventhorizon.EventStore
         }, entityFactory,
         SchoolApplicationCommandTypes().Literals(), SchoolApplicationEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus, readRepos), SchoolApplicationCommandHandler: commandHandler, SchoolApplicationEventHandler: eventHandler, ProjectorHandler: eventHandler,
+        eventStore, eventBus, commandBus, readRepos), SchoolApplicationCommandHandler: commandHandler, SchoolApplicationEventHandler: eventHandler, ProjectorHandler: eventHandler,
     }
 
     return
@@ -1253,8 +1248,7 @@ type SchoolYearAggregateInitializer struct {
 
 
 
-func NewSchoolYearAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewSchoolYearAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *SchoolYearAggregateInitializer) {
     
     commandHandler := &SchoolYearCommandHandler{}
@@ -1266,7 +1260,7 @@ func NewSchoolYearAggregateInitializer(eventStore eventhorizon.EventStore, event
         }, entityFactory,
         SchoolYearCommandTypes().Literals(), SchoolYearEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus, readRepos), SchoolYearCommandHandler: commandHandler, SchoolYearEventHandler: eventHandler, ProjectorHandler: eventHandler,
+        eventStore, eventBus, commandBus, readRepos), SchoolYearCommandHandler: commandHandler, SchoolYearEventHandler: eventHandler, ProjectorHandler: eventHandler,
     }
 
     return
@@ -1276,7 +1270,6 @@ func NewSchoolYearAggregateInitializer(eventStore eventhorizon.EventStore, event
 type StudentEventhorizonInitializer struct {
     eventStore eventhorizon.EventStore `json:"eventStore" eh:"optional"`
     eventBus eventhorizon.EventBus `json:"eventBus" eh:"optional"`
-    eventPublisher eventhorizon.EventPublisher `json:"eventPublisher" eh:"optional"`
     commandBus *bus.CommandHandler `json:"commandBus" eh:"optional"`
     AttendanceAggregateInitializer *AttendanceAggregateInitializer `json:"attendanceAggregateInitializer" eh:"optional"`
     CourseAggregateInitializer *CourseAggregateInitializer `json:"courseAggregateInitializer" eh:"optional"`
@@ -1286,19 +1279,17 @@ type StudentEventhorizonInitializer struct {
     SchoolYearAggregateInitializer *SchoolYearAggregateInitializer `json:"schoolYearAggregateInitializer" eh:"optional"`
 }
 
-func NewStudentEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewStudentEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *StudentEventhorizonInitializer) {
-    attendanceAggregateInitializer := NewAttendanceAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    courseAggregateInitializer := NewCourseAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    gradeAggregateInitializer := NewGradeAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    groupAggregateInitializer := NewGroupAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    schoolApplicationAggregateInitializer := NewSchoolApplicationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    schoolYearAggregateInitializer := NewSchoolYearAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    attendanceAggregateInitializer := NewAttendanceAggregateInitializer(eventStore, eventBus, commandBus, readRepos)
+    courseAggregateInitializer := NewCourseAggregateInitializer(eventStore, eventBus, commandBus, readRepos)
+    gradeAggregateInitializer := NewGradeAggregateInitializer(eventStore, eventBus, commandBus, readRepos)
+    groupAggregateInitializer := NewGroupAggregateInitializer(eventStore, eventBus, commandBus, readRepos)
+    schoolApplicationAggregateInitializer := NewSchoolApplicationAggregateInitializer(eventStore, eventBus, commandBus, readRepos)
+    schoolYearAggregateInitializer := NewSchoolYearAggregateInitializer(eventStore, eventBus, commandBus, readRepos)
     ret = &StudentEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,
-        eventPublisher: eventPublisher,
         commandBus: commandBus,
         AttendanceAggregateInitializer: attendanceAggregateInitializer,
         CourseAggregateInitializer: courseAggregateInitializer,

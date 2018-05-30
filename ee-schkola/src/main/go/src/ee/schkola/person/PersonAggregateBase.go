@@ -178,8 +178,7 @@ type ChurchAggregateInitializer struct {
 
 
 
-func NewChurchAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewChurchAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ChurchAggregateInitializer) {
     
     commandHandler := &ChurchCommandHandler{}
@@ -191,7 +190,7 @@ func NewChurchAggregateInitializer(eventStore eventhorizon.EventStore, eventBus 
         }, entityFactory,
         ChurchCommandTypes().Literals(), ChurchEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus, readRepos), ChurchCommandHandler: commandHandler, ChurchEventHandler: eventHandler, ProjectorHandler: eventHandler,
+        eventStore, eventBus, commandBus, readRepos), ChurchCommandHandler: commandHandler, ChurchEventHandler: eventHandler, ProjectorHandler: eventHandler,
     }
 
     return
@@ -356,8 +355,7 @@ type GraduationAggregateInitializer struct {
 
 
 
-func NewGraduationAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewGraduationAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *GraduationAggregateInitializer) {
     
     commandHandler := &GraduationCommandHandler{}
@@ -369,7 +367,7 @@ func NewGraduationAggregateInitializer(eventStore eventhorizon.EventStore, event
         }, entityFactory,
         GraduationCommandTypes().Literals(), GraduationEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus, readRepos), GraduationCommandHandler: commandHandler, GraduationEventHandler: eventHandler, ProjectorHandler: eventHandler,
+        eventStore, eventBus, commandBus, readRepos), GraduationCommandHandler: commandHandler, GraduationEventHandler: eventHandler, ProjectorHandler: eventHandler,
     }
 
     return
@@ -570,8 +568,7 @@ type ProfileAggregateInitializer struct {
 
 
 
-func NewProfileAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewProfileAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *ProfileAggregateInitializer) {
     
     commandHandler := &ProfileCommandHandler{}
@@ -583,7 +580,7 @@ func NewProfileAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
         }, entityFactory,
         ProfileCommandTypes().Literals(), ProfileEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus, readRepos), ProfileCommandHandler: commandHandler, ProfileEventHandler: eventHandler, ProjectorHandler: eventHandler,
+        eventStore, eventBus, commandBus, readRepos), ProfileCommandHandler: commandHandler, ProfileEventHandler: eventHandler, ProjectorHandler: eventHandler,
     }
 
     return
@@ -593,23 +590,20 @@ func NewProfileAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
 type PersonEventhorizonInitializer struct {
     eventStore eventhorizon.EventStore `json:"eventStore" eh:"optional"`
     eventBus eventhorizon.EventBus `json:"eventBus" eh:"optional"`
-    eventPublisher eventhorizon.EventPublisher `json:"eventPublisher" eh:"optional"`
     commandBus *bus.CommandHandler `json:"commandBus" eh:"optional"`
     ChurchAggregateInitializer *ChurchAggregateInitializer `json:"churchAggregateInitializer" eh:"optional"`
     GraduationAggregateInitializer *GraduationAggregateInitializer `json:"graduationAggregateInitializer" eh:"optional"`
     ProfileAggregateInitializer *ProfileAggregateInitializer `json:"profileAggregateInitializer" eh:"optional"`
 }
 
-func NewPersonEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewPersonEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *PersonEventhorizonInitializer) {
-    churchAggregateInitializer := NewChurchAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    graduationAggregateInitializer := NewGraduationAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
-    profileAggregateInitializer := NewProfileAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    churchAggregateInitializer := NewChurchAggregateInitializer(eventStore, eventBus, commandBus, readRepos)
+    graduationAggregateInitializer := NewGraduationAggregateInitializer(eventStore, eventBus, commandBus, readRepos)
+    profileAggregateInitializer := NewProfileAggregateInitializer(eventStore, eventBus, commandBus, readRepos)
     ret = &PersonEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,
-        eventPublisher: eventPublisher,
         commandBus: commandBus,
         ChurchAggregateInitializer: churchAggregateInitializer,
         GraduationAggregateInitializer: graduationAggregateInitializer,

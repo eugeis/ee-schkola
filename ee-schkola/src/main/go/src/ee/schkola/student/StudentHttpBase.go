@@ -15,7 +15,7 @@ type AttendanceHttpQueryHandler struct {
 }
 
 func NewAttendanceHttpQueryHandler(queryRepository *AttendanceQueryRepository) (ret *AttendanceHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &AttendanceHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
@@ -174,7 +174,7 @@ type CourseHttpQueryHandler struct {
 }
 
 func NewCourseHttpQueryHandler(queryRepository *CourseQueryRepository) (ret *CourseHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &CourseHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
@@ -306,7 +306,7 @@ type GradeHttpQueryHandler struct {
 }
 
 func NewGradeHttpQueryHandler(queryRepository *GradeQueryRepository) (ret *GradeHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &GradeHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
@@ -438,7 +438,7 @@ type GroupHttpQueryHandler struct {
 }
 
 func NewGroupHttpQueryHandler(queryRepository *GroupQueryRepository) (ret *GroupHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &GroupHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
@@ -570,7 +570,7 @@ type SchoolApplicationHttpQueryHandler struct {
 }
 
 func NewSchoolApplicationHttpQueryHandler(queryRepository *SchoolApplicationQueryRepository) (ret *SchoolApplicationHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &SchoolApplicationHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
@@ -702,7 +702,7 @@ type SchoolYearHttpQueryHandler struct {
 }
 
 func NewSchoolYearHttpQueryHandler(queryRepository *SchoolYearQueryRepository) (ret *SchoolYearHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &SchoolYearHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,

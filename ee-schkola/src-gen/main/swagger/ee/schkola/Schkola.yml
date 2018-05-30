@@ -77,7 +77,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Expense"
-  /finance/expense-purposes:
+  /finance/expensepurposes:
     get:
       parameters:
         - name: operationId
@@ -151,7 +151,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Fee"
-  /finance/fee-kinds:
+  /finance/feekinds:
     get:
       parameters:
         - name: operationId
@@ -508,7 +508,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Group"
-  /student/school-applications:
+  /student/schoolapplications:
     get:
       parameters:
         - name: operationId
@@ -545,7 +545,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SchoolApplication"
-  /student/school-years:
+  /student/schoolyears:
     get:
       parameters:
         - name: operationId

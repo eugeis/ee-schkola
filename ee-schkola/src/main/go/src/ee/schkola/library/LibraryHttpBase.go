@@ -15,7 +15,7 @@ type BookHttpQueryHandler struct {
 }
 
 func NewBookHttpQueryHandler(queryRepository *BookQueryRepository) (ret *BookHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &BookHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,

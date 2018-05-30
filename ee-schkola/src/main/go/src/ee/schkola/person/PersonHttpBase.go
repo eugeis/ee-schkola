@@ -15,7 +15,7 @@ type ChurchHttpQueryHandler struct {
 }
 
 func NewChurchHttpQueryHandler(queryRepository *ChurchQueryRepository) (ret *ChurchHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &ChurchHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
@@ -147,7 +147,7 @@ type GraduationHttpQueryHandler struct {
 }
 
 func NewGraduationHttpQueryHandler(queryRepository *GraduationQueryRepository) (ret *GraduationHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &GraduationHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
@@ -279,7 +279,7 @@ type ProfileHttpQueryHandler struct {
 }
 
 func NewProfileHttpQueryHandler(queryRepository *ProfileQueryRepository) (ret *ProfileHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &ProfileHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,

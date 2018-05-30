@@ -407,8 +407,7 @@ func (o *AccountAggregateInitializer) RegisterForSendCreatedConfirmationed(handl
 }
 
 
-func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AccountAggregateInitializer) {
     
     commandHandler := &AccountCommandHandler{}
@@ -420,7 +419,7 @@ func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
         }, entityFactory,
         AccountCommandTypes().Literals(), AccountEventTypes().Literals(), eventHandler,
         []func() error{commandHandler.SetupCommandHandler, eventHandler.SetupEventHandler},
-        eventStore, eventBus, eventPublisher, commandBus, readRepos), AccountCommandHandler: commandHandler, AccountEventHandler: eventHandler, ProjectorHandler: eventHandler,
+        eventStore, eventBus, commandBus, readRepos), AccountCommandHandler: commandHandler, AccountEventHandler: eventHandler, ProjectorHandler: eventHandler,
     }
 
     return
@@ -430,19 +429,16 @@ func NewAccountAggregateInitializer(eventStore eventhorizon.EventStore, eventBus
 type AuthEventhorizonInitializer struct {
     eventStore eventhorizon.EventStore `json:"eventStore" eh:"optional"`
     eventBus eventhorizon.EventBus `json:"eventBus" eh:"optional"`
-    eventPublisher eventhorizon.EventPublisher `json:"eventPublisher" eh:"optional"`
     commandBus *bus.CommandHandler `json:"commandBus" eh:"optional"`
     AccountAggregateInitializer *AccountAggregateInitializer `json:"accountAggregateInitializer" eh:"optional"`
 }
 
-func NewAuthEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, eventPublisher eventhorizon.EventPublisher, 
-                commandBus *bus.CommandHandler, 
+func NewAuthEventhorizonInitializer(eventStore eventhorizon.EventStore, eventBus eventhorizon.EventBus, commandBus *bus.CommandHandler, 
                 readRepos func (string, func () (ret eventhorizon.Entity) ) (ret eventhorizon.ReadWriteRepo) ) (ret *AuthEventhorizonInitializer) {
-    accountAggregateInitializer := NewAccountAggregateInitializer(eventStore, eventBus, eventPublisher, commandBus, readRepos)
+    accountAggregateInitializer := NewAccountAggregateInitializer(eventStore, eventBus, commandBus, readRepos)
     ret = &AuthEventhorizonInitializer{
         eventStore: eventStore,
         eventBus: eventBus,
-        eventPublisher: eventPublisher,
         commandBus: commandBus,
         AccountAggregateInitializer: accountAggregateInitializer,
     }

@@ -15,7 +15,7 @@ type ExpenseHttpQueryHandler struct {
 }
 
 func NewExpenseHttpQueryHandler(queryRepository *ExpenseQueryRepository) (ret *ExpenseHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &ExpenseHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
@@ -147,7 +147,7 @@ type ExpensePurposeHttpQueryHandler struct {
 }
 
 func NewExpensePurposeHttpQueryHandler(queryRepository *ExpensePurposeQueryRepository) (ret *ExpensePurposeHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &ExpensePurposeHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
@@ -279,7 +279,7 @@ type FeeHttpQueryHandler struct {
 }
 
 func NewFeeHttpQueryHandler(queryRepository *FeeQueryRepository) (ret *FeeHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &FeeHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,
@@ -411,7 +411,7 @@ type FeeKindHttpQueryHandler struct {
 }
 
 func NewFeeKindHttpQueryHandler(queryRepository *FeeKindQueryRepository) (ret *FeeKindHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &FeeKindHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,

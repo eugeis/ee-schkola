@@ -15,7 +15,7 @@ type AccountHttpQueryHandler struct {
 }
 
 func NewAccountHttpQueryHandler(queryRepository *AccountQueryRepository) (ret *AccountHttpQueryHandler) {
-    httpQueryHandler := &eh.HttpQueryHandler{}
+    httpQueryHandler := eh.NewHttpQueryHandler()
     ret = &AccountHttpQueryHandler{
         HttpQueryHandler: httpQueryHandler,
         QueryRepository: queryRepository,

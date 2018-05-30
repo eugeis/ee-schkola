@@ -1,16 +1,17 @@
 package app
 
 import (
-	"ee/schkola/person"
-	"github.com/looplab/eventhorizon"
-	"ee/schkola/student"
-	"ee/schkola/library"
-	"ee/schkola/finance"
 	"ee/schkola/auth"
+	"ee/schkola/finance"
+	"ee/schkola/library"
+	"ee/schkola/person"
+	"ee/schkola/student"
+	"errors"
+
+	"github.com/eugeis/gee/crypt"
 	"github.com/eugeis/gee/eh/app"
 	"github.com/eugeis/gee/net"
-	"errors"
-	"github.com/eugeis/gee/crypt"
+	"github.com/looplab/eventhorizon"
 )
 
 type Schkola struct {
@@ -24,20 +25,20 @@ func NewSchkola(appBase *app.AppBase) *Schkola {
 
 func (o *Schkola) Start() {
 
-	authEngine := auth.NewAuthEventhorizonInitializer(o.EventStore, o.EventBus, o.EventPublisher, o.CommandBus, o.ReadRepos)
+	authEngine := auth.NewAuthEventhorizonInitializer(o.EventStore, o.EventBus, o.CommandBus, o.ReadRepos)
 	authEngine.Setup()
 	authEngine.ActivatePasswordEncryption()
 
-	financeEngine := finance.NewFinanceEventhorizonInitializer(o.EventStore, o.EventBus, o.EventPublisher, o.CommandBus, o.ReadRepos)
+	financeEngine := finance.NewFinanceEventhorizonInitializer(o.EventStore, o.EventBus, o.CommandBus, o.ReadRepos)
 	financeEngine.Setup()
 
-	libraryEngine := library.NewLibraryEventhorizonInitializer(o.EventStore, o.EventBus, o.EventPublisher, o.CommandBus, o.ReadRepos)
+	libraryEngine := library.NewLibraryEventhorizonInitializer(o.EventStore, o.EventBus, o.CommandBus, o.ReadRepos)
 	libraryEngine.Setup()
 
-	personEngine := person.NewPersonEventhorizonInitializer(o.EventStore, o.EventBus, o.EventPublisher, o.CommandBus, o.ReadRepos)
+	personEngine := person.NewPersonEventhorizonInitializer(o.EventStore, o.EventBus, o.CommandBus, o.ReadRepos)
 	personEngine.Setup()
 
-	studentEngine := student.NewStudentEventhorizonInitializer(o.EventStore, o.EventBus, o.EventPublisher, o.CommandBus, o.ReadRepos)
+	studentEngine := student.NewStudentEventhorizonInitializer(o.EventStore, o.EventBus, o.CommandBus, o.ReadRepos)
 	studentEngine.Setup()
 
 	authRouter := auth.NewAuthRouter("", o.Ctx, o.CommandBus, o.ReadRepos)
