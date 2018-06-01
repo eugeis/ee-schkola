@@ -20,13 +20,13 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
 
         object Account : Entity() {
             val name = prop(Shared.PersonName)
-            val username = propS { unique(true) }
-            val password = propS { hidden(true) }
-            val email = propS { unique(true) }
+            val username = propS().unique()
+            val password = propS().hidden()
+            val email = propS().unique()
             val roles = propListT(n.String)
             val profile = prop { type(Person.Profile) }
 
-            val disabled = propB { meta(true) }
+            val disabled = propB().meta()
 
             val login = command(username, email, password)
             val enable = updateBy(p(disabled, { value(false) }))
@@ -44,7 +44,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
                 })
 
                 object Exist : State({
-                    virtual(true)
+                    virtual()
                     executeAndProduce(update())
                     handle(eventOf(update()))
 

@@ -1,6 +1,7 @@
 package com.siemens.mcr
 
 import ee.common.ext.exists
+import ee.design.ModuleI
 import ee.design.gen.kt.DesignKotlinGenerator
 import org.slf4j.LoggerFactory
 import java.nio.file.Path
@@ -12,7 +13,11 @@ class McrGenerator {
     fun generate(target: Path = Paths.get("../MindConnectRail").toAbsolutePath()) {
         val kotlinGenerator = DesignKotlinGenerator(Mcr, false)
         if (target.exists()) {
-            kotlinGenerator.generate(target)
+            val generator = kotlinGenerator.generatorFactory.pojoAndBuildersKt()
+            val builders = setOf("BuilderIfcBase", "BuilderApiBase")
+            kotlinGenerator.generate(target, generator) { model ->
+                builders.contains(name()) && model is ModuleI<*> && model.name() == "Mindsphere"
+            }
         } else {
             log.warn("can't generate, because target not found: {}", target)
         }
