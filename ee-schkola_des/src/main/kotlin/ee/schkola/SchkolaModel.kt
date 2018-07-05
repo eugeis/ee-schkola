@@ -29,8 +29,8 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val disabled = propB().meta()
 
             val login = command(username, email, password)
-            val enable = updateBy(p(disabled, { value(false) }))
-            val disable = updateBy(p(disabled, { value(true) }))
+            val enable = updateBy(p(disabled) { value(false) })
+            val disable = updateBy(p(disabled) { value(true) })
 
             val sendCreatedConfirmation = command()
             val sendEnabledConfirmation = command()
@@ -64,7 +64,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
                     handle(eventOf(disable)).to(Disabled)
                 })
 
-                object Deleted : State({})
+                object Deleted : State()
             }
 
             object AccountConfirmation : ProcessManager() {

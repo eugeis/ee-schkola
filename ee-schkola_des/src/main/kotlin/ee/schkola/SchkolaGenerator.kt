@@ -7,7 +7,7 @@ import ee.lang.integ.dPath
 fun main(args: Array<String>) {
     //val generator = DesignKotlinGenerator(Schkola)
     val generator = DesignGoGenerator(Schkola)
-    generator.generate(dPath)
+    generator.generate(dPath.toRealPath())
     //val typeScriptGenerator = DesignTypeScriptGenerator(Schkola)
     //typeScriptGenerator.generate(dPath)
 }
