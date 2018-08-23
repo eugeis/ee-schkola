@@ -1,26 +1,27 @@
 package main
 
 import (
-	"fmt"
-	"bufio"
-	"os"
-	"io/ioutil"
-	"encoding/json"
-	"regexp"
-	"github.com/yvasiyarov/php_session_decoder/php_serialize"
-	"sort"
-	"strings"
-	"net/http"
-	"time"
-	"log"
-	"ee/schkola/person"
+^	"bufio"
 	"bytes"
-	"github.com/looplab/eventhorizon"
+	"ee/schkola/person"
 	"ee/schkola/shared"
 	"ee/schkola/student"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"os"
+	"regexp"
+	"sort"
+	"strings"
+	"time"
+
+	"github.com/looplab/eventhorizon"
+	"github.com/yvasiyarov/php_session_decoder/php_serialize"
 )
 
-var work = "/Users/ee/Documents/BSS-Verwaltung/BSS-2017-2018"
+var work = "/Users/ee/Google Drive/Bibelschule/Stephanus/Verwaltung/BSS-2017-2018"
 
 var de = map[string]string{
 	"scool_year":         "Klasse",
@@ -139,40 +140,47 @@ func parseJson() {
 	besucher := make([]string, 0)
 
 	/*
-	for _, v := range u {
-		key := fmt.Sprintf("%v.%v.%v.%v", v["scool_year"], v["last_name"], v["first_name"], v["birth_date"])
-		users[key] = v
-		switch v["scool_year"] {
-		case "1. Klasse":
-			users1 = append(users1, key)
-		case "2. Klasse (B1)":
-			users2 = append(users2, key)
-		case "3. Klasse (B1)":
-			users3 = append(users3, key)
-		case "4. Klasse (B1,B2)":
-			users4 = append(users4, key)
-		case "Zusatzjahr (B1,B2)":
-			users5 = append(users5, key)
-		case "Besucher":
-			besucher = append(besucher, key)
-		}
-	}*/
+		for _, v := range u {
+			key := fmt.Sprintf("%v.%v.%v.%v", v["scool_year"], v["last_name"], v["first_name"], v["birth_date"])
+			users[key] = v
+			switch v["scool_year"] {
+			case "1. Klasse":
+				users1 = append(users1, key)
+			case "2. Klasse (B1)":
+				users2 = append(users2, key)
+			case "3. Klasse (B1)":
+				users3 = append(users3, key)
+			case "4. Klasse (B1,B2)":
+				users4 = append(users4, key)
+			case "Zusatzjahr (B1,B2)":
+				users5 = append(users5, key)
+			case "Besucher":
+				besucher = append(besucher, key)
+			}
+		}*/
 
 	for _, v := range u {
-		key := fmt.Sprintf("%v.%v.%v.%v", v["wp_capabilities"], v["last_name"], v["first_name"], v["birth_date"])
-		users[key] = v
-		if _, ok := v["group1"]; ok {
-			users1 = append(users1, key)
-		} else if _, ok := v["group2"]; ok {
-			users2 = append(users2, key)
-		} else if _, ok := v["group3"]; ok {
-			users3 = append(users3, key)
-		} else if _, ok := v["group4"]; ok {
-			users4 = append(users4, key)
-		} else if _, ok := v["group5"]; ok {
-			users5 = append(users5, key)
-		} else if _, ok := v["guest"]; ok {
-			besucher = append(besucher, key)
+		status, ok := v["account_status"]
+		if ok && status == "awaiting_admin_review" {
+			key := fmt.Sprintf("%v.%v.%v.%v", v["wp_capabilities"], v["last_name"], v["first_name"], v["birth_date"])
+			users[key] = v
+			yearObj, ok := v["scool_year"]
+			year := yearObj.(string)
+			if ok {
+				if strings.Contains(year, "1. Klasse") {
+					users1 = append(users1, key)
+				} else if strings.Contains(year, "2. Klasse") {
+					users2 = append(users2, key)
+				} else if strings.Contains(year, "3. Klasse") {
+					users3 = append(users3, key)
+				} else if strings.Contains(year, "4. Klasse") {
+					users4 = append(users4, key)
+				} else if strings.Contains(year, "Zusatzjahr") {
+					users5 = append(users5, key)
+				}
+			} else if _, ok := v["guest"]; ok {
+				besucher = append(besucher, key)
+			}
 		}
 	}
 
@@ -243,17 +251,17 @@ func restImportForGroup(userKeys []string, users map[string]map[string]interface
 
 		/*
 
-		type SchoolApplication struct {
-			Profile *person.Profile `json:"profile" eh:"optional"`
-			RecommendationOf *shared.PersonName `json:"recommendationOf" eh:"optional"`
-			ChurchContactPerson *shared.PersonName `json:"churchContactPerson" eh:"optional"`
-			ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
-			ChurchCommitment bool `json:"churchCommitment" eh:"optional"`
-			SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
-			Group string `json:"group" eh:"optional"`
-			Id eventhorizon.UUID `json:"id" eh:"optional"`
-		}
-		 */
+			type SchoolApplication struct {
+				Profile *person.Profile `json:"profile" eh:"optional"`
+				RecommendationOf *shared.PersonName `json:"recommendationOf" eh:"optional"`
+				ChurchContactPerson *shared.PersonName `json:"churchContactPerson" eh:"optional"`
+				ChurchContact *person.Contact `json:"churchContact" eh:"optional"`
+				ChurchCommitment bool `json:"churchCommitment" eh:"optional"`
+				SchoolYear *SchoolYear `json:"schoolYear" eh:"optional"`
+				Group string `json:"group" eh:"optional"`
+				Id eventhorizon.UUID `json:"id" eh:"optional"`
+			}
+		*/
 		application := student.NewSchoolApplication()
 		application.Id = eventhorizon.NewUUID()
 		application.ChurchContactPerson, _ = shared.PersonNameParse(str(user["church_responsible"]))
@@ -265,25 +273,25 @@ func restImportForGroup(userKeys []string, users map[string]map[string]interface
 
 	/*
 
-	"scool_year":         "Klasse",
-		"biblikum_1":         "Biblikum 1 geschrieben?",
-		"biblikum_2":         "Biblikum 2 geschrieben?",
-		"paided_last_years":  "Gebühr der Vorjahren bezahlt?",
-		"church":             "Gemeinde",
-		"church_commitment":  "Gemeinde einverstanden?",
-		"church_member":      "Mitglied welcher Gemeinde?",
-		"church_services":    "Gemeindedienste",
-		"church_responsible": "Pastor / Leitungskreis",
-		"church_contact":     "Telefon von Pastor / Leitungskreis",
-		"address":            "Adresse",
-		"plz":                "PLZ",
-		"city":               "Ort",
-		"job":                "Beruf",
-		"education":          "Bildung",
-		"marital_state":      "Familienstand",
-		"spirit":             "Geistlicher_Werdegang___
+		"scool_year":         "Klasse",
+			"biblikum_1":         "Biblikum 1 geschrieben?",
+			"biblikum_2":         "Biblikum 2 geschrieben?",
+			"paided_last_years":  "Gebühr der Vorjahren bezahlt?",
+			"church":             "Gemeinde",
+			"church_commitment":  "Gemeinde einverstanden?",
+			"church_member":      "Mitglied welcher Gemeinde?",
+			"church_services":    "Gemeindedienste",
+			"church_responsible": "Pastor / Leitungskreis",
+			"church_contact":     "Telefon von Pastor / Leitungskreis",
+			"address":            "Adresse",
+			"plz":                "PLZ",
+			"city":               "Ort",
+			"job":                "Beruf",
+			"education":          "Bildung",
+			"marital_state":      "Familienstand",
+			"spirit":             "Geistlicher_Werdegang___
 
-*/
+	*/
 	for _, profile := range profiles {
 		json, _ := json.Marshal(profile)
 		jsonStr := string(json)
@@ -471,7 +479,7 @@ func writeCsvEmailContactsForGroup(userKeys []string, users map[string]map[strin
 
 func writeHtmlReport(users1 []string, users2 []string, users3 []string,
 	users4 []string, users5 []string, besucher []string, allKeys []string, users map[string]map[string]interface{}) {
-	f, _ := os.Create(fmt.Sprintf("%v/bewerbungen_small.html", work))
+	f, _ := os.Create(fmt.Sprintf("%v/bewerbungen.html", work))
 	defer f.Close()
 
 	w := bufio.NewWriter(f)
@@ -511,34 +519,42 @@ func writeHtmlReport(users1 []string, users2 []string, users3 []string,
 			</style>
 		</head>`)
 
-	/*
-		user1Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
-			"church", "church_commitment", "church_member", "church_services", "church_responsible",
-			"church_contact", "user_email",
-			"address", "plz", "city",
-			"job", "education",
-			"marital_state", "photo", "spirit"}
-		user2_3Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
-			"church", "church_commitment", "church_member", "church_services", "church_responsible",
-			"church_contact", "user_email",
-			"address", "plz", "city",
-			"job", "education",
-			"marital_state", "biblikum_1", "paided_last_years", "photo", "spirit"}
-		user4_5Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
-			"church", "church_commitment", "church_member", "church_services", "church_responsible",
-			"church_contact", "user_email",
-			"address", "plz", "city",
-			"job", "education",
-			"marital_state", "biblikum_1", "biblikum_2", "paided_last_years", "photo", "spirit"}
-	*/
+	user1Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+		"church", "church_commitment", "church_member", "church_services", "church_responsible",
+		"church_contact", "user_email",
+		"address", "plz", "city",
+		"job", "education",
+		"marital_state",
+		//"photo",
+		"spirit"}
 
-	user1Keys := []string{"last_name", "first_name", "church", "phone_number", "user_email", "photo"}
-	user2_3Keys := user1Keys
-	user4_5Keys := user1Keys
+	user2_3Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+		"church", "church_commitment", "church_member", "church_services", "church_responsible",
+		"church_contact", "user_email",
+		"address", "plz", "city",
+		"job", "education",
+		"marital_state", "biblikum_1", "paided_last_years",
+		//"photo",
+		"spirit"}
+	user4_5Keys := []string{"last_name", "first_name", "birth_date", "gender", "phone_number",
+		"church", "church_commitment", "church_member", "church_services", "church_responsible",
+		"church_contact", "user_email",
+		"address", "plz", "city",
+		"job", "education",
+		"marital_state", "biblikum_1", "biblikum_2", "paided_last_years",
+		//"photo",
+		"spirit"}
+
+	/*
+		user1Keys := []string{"last_name", "first_name", "church", "phone_number", "user_email", "photo"}
+		user2_3Keys := user1Keys
+		user4_5Keys := user1Keys
+	*/
 
 	w.WriteString("<body>")
 	w.WriteString("<h2>1. Klasse</h2>")
 	writeHtmlReportForGroup(users1, users, user1Keys, allKeys, w)
+
 	w.WriteString("<h2>2. Klasse</h2>")
 	writeHtmlReportForGroup(users2, users, user2_3Keys, allKeys, w)
 	w.WriteString("<h2>3. Klasse</h2>")
@@ -549,6 +565,7 @@ func writeHtmlReport(users1 []string, users2 []string, users3 []string,
 	writeHtmlReportForGroup(users5, users, user4_5Keys, allKeys, w)
 	w.WriteString("<h2>Besucher</h2>")
 	writeHtmlReportForGroup(besucher, users, user4_5Keys, allKeys, w)
+
 	w.WriteString("</body>")
 	w.WriteString("</html>")
 	w.Flush()
