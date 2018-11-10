@@ -1,7 +1,7 @@
 package main
 
 import (
-^	"bufio"
+	"bufio"
 	"bytes"
 	"ee/schkola/person"
 	"ee/schkola/shared"
@@ -160,8 +160,9 @@ func parseJson() {
 		}*/
 
 	for _, v := range u {
+		email, _ := v["user_email"]
 		status, ok := v["account_status"]
-		if ok && status == "awaiting_admin_review" {
+		if email == "viktor.itermann@gmx.de" || (ok && status == "awaiting_admin_review") {
 			key := fmt.Sprintf("%v.%v.%v.%v", v["wp_capabilities"], v["last_name"], v["first_name"], v["birth_date"])
 			users[key] = v
 			yearObj, ok := v["scool_year"]
