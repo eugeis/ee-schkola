@@ -3,43 +3,6 @@ info:
   title: Schkola
   version: "1.0.0"
 paths:
-  /auth/accounts:
-    get:
-      parameters:
-        - name: operationId
-          in: query
-          description: id of the operation, e.g. findByName
-          required: false
-          schema:
-            type: string
-            enum: 
-              - FindAll
-              - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
-        - name: operationType
-          in: query
-          required: false
-          schema:
-            type: string
-            enum: 
-              - find
-              - count
-              - exists
-        - name: id
-          in: query
-          required: false
-          schema:            
-            type: string
-      responses:
-        '200':
-          description: fsdfsdf
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Account"
   /finance/expenses:
     get:
       parameters:
@@ -584,34 +547,6 @@ paths:
                 $ref: "#/components/schemas/SchoolYear"
 components:
   schemas:
-    Account:
-      type: object
-      properties:
-        name:          
-          $ref: "#/components/schemas/PersonName"
-        username:          
-          type: string
-        password:          
-          type: string
-        email:          
-          type: string
-        roles:          
-          type: array
-          items:
-            type: string
-        profile:          
-          $ref: "#/components/schemas/Profile"
-        disabled:          
-          type: boolean
-        id:          
-          type: string
-    UserCredentials:
-      type: object
-      properties:
-        username:          
-          type: string
-        password:          
-          type: string
     Expense:
       type: object
       properties:
@@ -799,6 +734,13 @@ components:
             - Separated
             - Divorced
             - Widowed
+    PersonName:
+      type: object
+      properties:
+        first:          
+          type: string
+        last:          
+          type: string
     Profile:
       type: object
       properties:
@@ -827,13 +769,6 @@ components:
         education:          
           $ref: "#/components/schemas/Education"
         id:          
-          type: string
-    PersonName:
-      type: object
-      properties:
-        first:          
-          type: string
-        last:          
           type: string
     Attendance:
       type: object

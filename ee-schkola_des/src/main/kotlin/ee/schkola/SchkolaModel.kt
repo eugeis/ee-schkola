@@ -5,91 +5,17 @@ import ee.lang.*
 
 
 object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
-    object Shared : Module() {
+
+    object Person : Module() {
+
         object PersonName : Basic() {
             val first = propS()
             val last = propS()
         }
-    }
-
-    object Auth : Module() {
-        object UserCredentials : Values() {
-            val username = propS()
-            val password = propS()
-        }
-
-        object Account : Entity() {
-            val name = prop(Shared.PersonName)
-            val username = propS().unique()
-            val password = propS().hidden()
-            val email = propS().unique()
-            val roles = propListT(n.String)
-            val profile = prop { type(Person.Profile) }
-
-            val disabled = propB().meta()
-
-            val login = command(username, email, password)
-            val enable = updateBy(p(disabled) { value(false) })
-            val disable = updateBy(p(disabled) { value(true) })
-
-            val sendCreatedConfirmation = command()
-            val sendEnabledConfirmation = command()
-            val sendDisabledConfirmation = command()
-
-            object Handler : AggregateHandler() {
-                object Initial : State({
-                    executeAndProduce(create())
-                    handle(eventOf(create())).ifTrue(disabled.yes()).to(Disabled)
-                    handle(eventOf(create())).ifFalse(disabled.yes()).to(Enabled)
-                })
-
-                object Exist : State({
-                    virtual()
-                    executeAndProduce(update())
-                    handle(eventOf(update()))
-
-                    executeAndProduce(delete())
-                    handle(eventOf(delete())).to(Deleted)
-                })
-
-                object Disabled : State({
-                    superUnit(Exist)
-                    executeAndProduce(enable)
-                    handle(eventOf(enable)).to(Enabled)
-                })
-
-                object Enabled : State({
-                    superUnit(Exist)
-                    executeAndProduce(disable)
-                    handle(eventOf(disable)).to(Disabled)
-                })
-
-                object Deleted : State()
-            }
-
-            object AccountConfirmation : ProcessManager() {
-                object Initial : State({
-                    executeAndProduce(create())
-                    handle(eventOf(create())).ifTrue(disabled.yes()).to(Disabled)
-                    handle(eventOf(create())).ifFalse(disabled.yes()).to(Enabled)
-                })
-
-                object Disabled : State({
-                    handle(eventOf(enable)).to(Enabled).produce(sendEnabledConfirmation)
-                })
-
-                object Enabled : State({
-                    handle(eventOf(disable)).to(Disabled).produce(sendDisabledConfirmation)
-                })
-            }
-        }
-    }
-
-    object Person : Module() {
 
         object Profile : Entity() {
             val gender = prop(Gender)
-            val name = prop(Shared.PersonName)
+            val name = prop(PersonName)
             val birthName = propS()
             val birthday = propDT()
             val address = prop(Address)
@@ -108,7 +34,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         object Church : Entity() {
             val name = propS()
             val address = prop(Address)
-            val pastor = prop(Shared.PersonName)
+            val pastor = prop(PersonName)
             val contact = prop(Contact)
             val association = propS()
         }
@@ -128,7 +54,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
         object Family : Basic() {
             val maritalState = prop(MaritalState)
             val childrenCount = propI()
-            val partner = prop(Shared.PersonName)
+            val partner = prop(PersonName)
         }
 
         object Address : Basic() {
@@ -206,7 +132,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
     object Student : Module() {
         object SchoolApplication : Entity() {
             val profile = prop(Person.Profile)
-            val churchContactPerson = prop(Shared.PersonName)
+            val churchContactPerson = prop(Person.PersonName)
             val churchContact = prop(Person.Contact)
             val churchCommitment = propB { doc("Do the responsible parties agree?") }
 
@@ -225,7 +151,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val name = propS()
             val begin = propDT()
             val end = propDT()
-            val teacher = prop(Shared.PersonName)
+            val teacher = prop(Person.PersonName)
             val schoolYear = prop(SchoolYear)
             val fee = propF()
             val description = prop(n.Text)
@@ -286,7 +212,7 @@ object Schkola : Comp({ artifact("ee-schkola").namespace("ee.schkola") }) {
             val releaseDate = propDT()
             val edition = propS()
             val category = propS()
-            val author = prop(Shared.PersonName)
+            val author = prop(Person.PersonName)
             val location = prop(Location)
 
             val findByTitle = findBy(title)
