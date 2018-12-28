@@ -1,0 +1,3 @@
+[submodule "ee-schkola/src/main/go/src/ee/schkola"]
+	path = ee-schkola/src/main/go/src/ee/schkola
+	url = https://github.com/go-ee/schkola
