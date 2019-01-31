@@ -15,10 +15,10 @@ paths:
             enum: 
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
@@ -52,10 +52,10 @@ paths:
             enum: 
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
@@ -89,10 +89,10 @@ paths:
             enum: 
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
@@ -126,10 +126,10 @@ paths:
             enum: 
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
@@ -165,10 +165,10 @@ paths:
               - findByPattern
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
@@ -212,10 +212,10 @@ paths:
             enum: 
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
@@ -249,10 +249,10 @@ paths:
             enum: 
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
@@ -288,10 +288,10 @@ paths:
               - findByPhone
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
@@ -335,10 +335,10 @@ paths:
             enum: 
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
@@ -372,10 +372,10 @@ paths:
             enum: 
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
@@ -409,10 +409,10 @@ paths:
             enum: 
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
@@ -446,10 +446,10 @@ paths:
             enum: 
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
@@ -483,10 +483,10 @@ paths:
             enum: 
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
@@ -520,10 +520,10 @@ paths:
             enum: 
               - FindAll
               - FindById
-            - CountAll
-            - CountById
-            - ExistAll
-            - ExistById
+              - CountAll
+              - CountById
+              - ExistAll
+              - ExistById
         - name: operationType
           in: query
           required: false
