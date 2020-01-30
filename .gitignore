@@ -17,3 +17,9 @@ gradle-app.setting
 /.idea/
 /**/*.iml
 /build.gradle
+/ee-schkola/out/
+/ee-schkola/.idea/
+/ee-schkola_des/out/
+/ee-schkola_des_fx/out/production/classes/
+/ee-schkola_fx/out/production/classes/
+/ee-schkola_groovy/out/production/classes/ee/schkola/
