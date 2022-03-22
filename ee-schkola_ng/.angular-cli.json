@@ -1,6 +1,6 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-    "project": {
+    "projects": {
         "name": "sb-admin-angular4-bootstrap4"
     },
     "apps": [
