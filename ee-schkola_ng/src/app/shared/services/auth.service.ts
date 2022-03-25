@@ -1,26 +1,26 @@
 ﻿import {Injectable} from '@angular/core';
 import {Http, RequestOptions, Response} from '@angular/http';
-import 'rxjs/add/operator/map'
-import {AppSettings} from "./common.service";
+import {AppSettings} from './common.service';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
-    loginUrl = AppSettings.HOST_API + "/login"
-    logoutUrl = AppSettings.HOST_API + "/logout"
+    loginUrl = AppSettings.HOST_API + '/login'
+    logoutUrl = AppSettings.HOST_API + '/logout'
 
     constructor(private http: Http) {
     }
 
     login(username: string, password: string) {
-        let myParams = new URLSearchParams()
-        let options = new RequestOptions({params: myParams});
-        options.params.set("username", username)
-        options.params.set("password", password)
+        const myParams = new URLSearchParams()
+        const options = new RequestOptions({params: myParams});
+        options.params.set('username', username)
+        options.params.set('password', password)
         return this.http.post(this.loginUrl,
-            {}, options).map(
+            {}, options).pipe(map(
             (response: Response) => {
                 return response.json();
-            });
+            }));
     }
 
     logout() {

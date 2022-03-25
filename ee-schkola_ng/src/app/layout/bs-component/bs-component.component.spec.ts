@@ -30,7 +30,7 @@ describe('BsComponentComponent', () => {
         RouterTestingModule,
         FormsModule,
         ReactiveFormsModule,
-        NgbModule.forRoot(),
+        NgbModule,
         PageHeaderModule
       ],
       declarations: [

@@ -1,8 +1,6 @@
-import {Contact, Profile} from "../person/PersonApiBase"
-import {PersonName} from "../SharedApiBase"
+import {Contact, PersonName, Profile} from '../person/PersonApiBase'
 
-
-export class Attendance extends Cancel {
+export class Attendance {
     student: Profile
     date: Date
     course: Course
@@ -10,9 +8,7 @@ export class Attendance extends Cancel {
     state: AttendanceState
     token: string
     id: string
-
 }
-
 
 export class Course {
     name: string
@@ -23,9 +19,7 @@ export class Course {
     fee: number
     description: string
     id: string
-
 }
-
 
 export class Grade {
     student: Profile
@@ -33,9 +27,7 @@ export class Grade {
     grade: number
     comment: string
     id: string
-
 }
-
 
 export class Group {
     name: string
@@ -45,9 +37,7 @@ export class Group {
     students: Array<Profile>
     courses: Array<Course>
     id: string
-
 }
-
 
 export class SchoolApplication {
     profile: Profile
@@ -57,9 +47,7 @@ export class SchoolApplication {
     schoolYear: SchoolYear
     group: string
     id: string
-
 }
-
 
 export class SchoolYear {
     name: string
@@ -67,9 +55,7 @@ export class SchoolYear {
     end: Date
     dates: Array<Date>
     id: string
-
 }
-
 
 
 
@@ -83,7 +69,6 @@ enum AttendanceState {
     CANCELED,
     PRESENT
 }
-
 
 enum GroupCategory {
     COURSE_GROUP,

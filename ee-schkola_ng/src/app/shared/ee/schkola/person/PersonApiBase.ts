@@ -1,6 +1,3 @@
-import {PersonName} from "../SharedApiBase"
-
-
 export class Church {
     name: string
     address: Address
@@ -8,17 +5,13 @@ export class Church {
     contact: Contact
     association: string
     id: string
-
 }
-
 
 export class Graduation {
     name: string
     level: GraduationLevel
     id: string
-
 }
-
 
 export class Profile {
     gender: Gender
@@ -34,17 +27,14 @@ export class Profile {
     education: Education
     id: string
 
-
-    findByEmail(email: string = "") : Profile {
-        throw new ReferenceError("Not implemented yet.");
+    findByEmail(email: string = ''): Profile {
+        throw new ReferenceError('Not implemented yet.');
     }
 
-    findByPhone(phone: string = "") : Profile {
-        throw new ReferenceError("Not implemented yet.");
+    findByPhone(phone: string = ''): Profile {
+        throw new ReferenceError('Not implemented yet.');
     }
-
 }
-
 
 
 
@@ -56,41 +46,36 @@ export class Address {
     city: string
     code: string
     country: string
-
 }
-
 
 export class ChurchInfo {
     church: string
     member: boolean
     services: string
-
 }
-
 
 export class Contact {
     phone: string
     email: string
     cellphone: string
-
 }
-
 
 export class Education {
     graduation: Graduation
     other: string
     profession: string
-
 }
-
 
 export class Family {
     maritalState: MaritalState
     childrenCount: number
     partner: PersonName
-
 }
 
+export class PersonName {
+    first: string
+    last: string
+}
 
 
 
@@ -100,7 +85,6 @@ enum Gender {
     FEMALE
 }
 
-
 enum GraduationLevel {
     UNKNOWN,
     MIDDLE_SCHOOL,
@@ -109,7 +93,6 @@ enum GraduationLevel {
     TECHNICAL_COLLEGE,
     COLLEGE
 }
-
 
 enum MaritalState {
     UNKNOWN,

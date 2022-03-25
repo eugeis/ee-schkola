@@ -1,11 +1,11 @@
 ﻿import {Component, OnDestroy} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
-import {AlertService} from "../../services/alert.service";
+import {Subscription} from 'rxjs';
+import {AlertService} from '../../services/alert.service';
 
 
 @Component({
     moduleId: module.id,
-    selector: 'alert',
+    selector: 'app-alert',
     templateUrl: 'alert.component.html',
     styleUrls: ['./alert.component.scss']
 })

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {routerTransition} from '../router.animations';
-import {AuthService} from "../shared/services/auth.service";
-import {AlertService} from "../shared/services/alert.service";
-import {AppSettings} from "../shared/services/common.service";
+import {AuthService} from '../shared/services/auth.service';
+import {AlertService} from '../shared/services/alert.service';
+import {AppSettings} from '../shared/services/common.service';
 
 @Component({
     selector: 'app-login',

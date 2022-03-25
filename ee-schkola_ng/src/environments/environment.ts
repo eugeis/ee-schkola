@@ -5,6 +5,6 @@
 
 export const environment = {
     production: false,
-    hostApi: "http://localhost:8080",
+    hostApi: 'http://localhost:8080',
     httpCookie: true
 };

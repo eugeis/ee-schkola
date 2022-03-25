@@ -1,7 +1,6 @@
-import {PersonName} from "../SharedApiBase"
+import {PersonName} from '../person/PersonApiBase'
 
-
-export class Book extends ChangeLocation {
+export class Book {
     title: string
     description: string
     language: string
@@ -12,17 +11,14 @@ export class Book extends ChangeLocation {
     location: Location
     id: string
 
-
-    findByPattern(pattern: string = "") : Book {
-        throw new ReferenceError("Not implemented yet.");
+    findByPattern(pattern: string = ''): Book {
+        throw new ReferenceError('Not implemented yet.');
     }
 
-    findByTitle(title: string = "") : Book {
-        throw new ReferenceError("Not implemented yet.");
+    findByTitle(title: string = ''): Book {
+        throw new ReferenceError('Not implemented yet.');
     }
-
 }
-
 
 
 
@@ -31,7 +27,6 @@ export class Book extends ChangeLocation {
 export class Location {
     shelf: string
     fold: string
-
 }
 
 

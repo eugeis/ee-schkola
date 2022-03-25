@@ -1,5 +1,4 @@
-import {Profile} from "../person/PersonApiBase"
-
+import {Profile} from '../person/PersonApiBase'
 
 export class Expense {
     purpose: ExpensePurpose
@@ -7,17 +6,13 @@ export class Expense {
     profile: Profile
     date: Date
     id: string
-
 }
-
 
 export class ExpensePurpose {
     name: string
     description: string
     id: string
-
 }
-
 
 export class Fee {
     student: Profile
@@ -25,16 +20,13 @@ export class Fee {
     kind: FeeKind
     date: Date
     id: string
-
 }
-
 
 export class FeeKind {
     name: string
     amount: number
     description: string
     id: string
-
 }
 
 

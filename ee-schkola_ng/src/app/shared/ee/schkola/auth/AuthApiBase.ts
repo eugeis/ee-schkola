@@ -1,8 +1,8 @@
-import {PersonName} from "../SharedApiBase"
-import {Profile} from "../person/PersonApiBase"
+import {PersonName} from '../shared/SharedApiBase'
+import {Profile} from '../person/PersonApiBase'
 
 
-export class Account extends AccountConfirmation {
+export class Account {
     name: PersonName
     username: string
     password: string
@@ -22,10 +22,3 @@ export class UserCredentials {
     password: string
 
 }
-
-
-
-
-
-
-

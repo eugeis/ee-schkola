@@ -64,7 +64,7 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "simon-frontend:build"
+                        "browserTarget": "sb-admin-cli-update:build"
                     }
                 },
                 "e2e": {

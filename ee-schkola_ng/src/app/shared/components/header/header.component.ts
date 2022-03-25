@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
-import {AuthService} from "../../services/auth.service";
-import {Account} from "../../ee/schkola/auth/AuthApiBase";
+import {AuthService} from '../../services/auth.service';
+import {Account} from '../../ee/schkola/auth/AuthApiBase';
 
 @Component({
     selector: 'app-header',
@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
-        let accountToken = JSON.parse(localStorage.getItem('accountToken'));
+        const accountToken = JSON.parse(localStorage.getItem('accountToken'));
         this.account = accountToken.Account
     }
 
@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
 
     logout() {
         this.authenticationService.logout()
-        this.router.navigate(["/login"]);
+        this.router.navigate(['/login']);
     }
 
     changeLang(language: string) {

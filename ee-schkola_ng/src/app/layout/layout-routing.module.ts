@@ -6,14 +6,14 @@ const routes: Routes = [
     {
         path: '', component: LayoutComponent,
         children: [
-            { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
-            { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
-            { path: 'tables', loadChildren: './tables/tables.module#TablesModule' },
-            { path: 'forms', loadChildren: './form/form.module#FormModule' },
-            { path: 'bs-element', loadChildren: './bs-element/bs-element.module#BsElementModule' },
-            { path: 'grid', loadChildren: './grid/grid.module#GridModule' },
-            { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
-            { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
+            { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(x => x.DashboardModule) },
+            { path: 'charts', loadChildren: () => import('./charts/charts.module').then(x => x.ChartsModule) },
+            { path: 'tables', loadChildren: () => import('./tables/tables.module').then(x => x.TablesModule) },
+            { path: 'forms', loadChildren: () => import('./form/form.module').then(x => x.FormModule) },
+            { path: 'bs-element', loadChildren: () => import('./bs-element/bs-element.module').then(x => x.BsElementModule) },
+            { path: 'grid', loadChildren: () => import('./grid/grid.module').then(x => x.GridModule) },
+            { path: 'components', loadChildren: () => import('./bs-component/bs-component.module').then(x => x.BsComponentModule) },
+            { path: 'blank-page', loadChildren: () => import('./blank-page/blank-page.module').then(x => x.BlankPageModule) },
         ]
     }
 ];

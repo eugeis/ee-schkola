@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {routerTransition} from '../router.animations';
-import {Router} from "@angular/router";
-import {AccountService} from "../shared/services/account.service";
-import {AlertService} from "../shared/services/alert.service";
-import {Account} from "../shared/ee/schkola/auth/AuthApiBase";
-import {PersonName} from "../shared/ee/schkola/SharedApiBase";
+import {Router} from '@angular/router';
+import {AccountService} from '../shared/services/account.service';
+import {AlertService} from '../shared/services/alert.service';
+import {Account} from '../shared/ee/schkola/auth/AuthApiBase';
+// Commented Out because file not found
+// import {PersonName} from '../shared/ee/schkola/SharedApiBase';
 
 @Component({
     selector: 'app-signup',
@@ -19,7 +20,7 @@ export class SignupComponent implements OnInit {
     loading = false;
 
     ngOnInit() {
-        this.model.name = new PersonName
+        this.model.name = new Account().name
     }
 
     constructor(private router: Router,

@@ -1,4 +1,5 @@
 import { SbAdminCliUpdatePage } from './app.po';
+import '@types/jest';
 
 describe('sb-admin-cli-update App', () => {
   let page: SbAdminCliUpdatePage;
@@ -7,8 +8,8 @@ describe('sb-admin-cli-update App', () => {
     page = new SbAdminCliUpdatePage();
   });
 
-  it('should display welcome message', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!!');
+  it('should display welcome message', async () => {
+    await page.navigateTo();
+    await expect(page.getParagraphText().getText).toEqual('Welcome to app!!');
   });
 });

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbTimepickerModule} from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // relative import
@@ -27,9 +27,13 @@ import { PageHeaderModule } from '../../shared';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        NgbModule.forRoot(),
+        NgbModule,
         PageHeaderModule,
         BsComponentRoutingModule,
+        NgbTimepickerModule,
+    ],
+    exports: [
+        NgbTimepickerModule,
     ],
     declarations: [
         BsComponentComponent,
