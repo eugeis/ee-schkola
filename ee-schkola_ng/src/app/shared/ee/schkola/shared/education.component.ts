@@ -6,6 +6,7 @@ import { Graduation } from '../person/PersonApiBase';
   templateUrl: './education.component.html',
   styleUrls: ['./education.component.css']
 })
+
 export class EducationComponent implements OnInit {
 
   graduation: Graduation

@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.css']
 })
+
 export class LocationComponent implements OnInit {
 
   shelf: string

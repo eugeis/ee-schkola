@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './churchinfo.component.html',
   styleUrls: ['./churchinfo.component.css']
 })
+
 export class ChurchInfoComponent implements OnInit {
 
   church: string

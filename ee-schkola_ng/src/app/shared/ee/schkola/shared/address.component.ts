@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.css']
 })
+
 export class AddressComponent implements OnInit {
 
   street: string
