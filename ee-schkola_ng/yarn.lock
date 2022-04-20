@@ -135,6 +135,15 @@
   dependencies:
     tslib "^2.3.0"
 
+"@angular/cdk@^13.3.3":
+  version "13.3.3"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-13.3.3.tgz#f98d9d67744bf7fa7ee5a8aeb756c6546b88793e"
+  integrity sha512-dzd31mta2VwffxbeO4CelMqb7WswLnkC/r2QZXySnc0CTmj44HqXkqdZuEvVgxaKRVpxsYeuBuhhhy8U00YMOw==
+  dependencies:
+    tslib "^2.3.0"
+  optionalDependencies:
+    parse5 "^5.0.0"
+
 "@angular/cli@13.3.0":
   version "13.3.0"
   resolved "https://registry.npmjs.org/@angular/cli/-/cli-13.3.0.tgz"
@@ -225,6 +234,13 @@
   version "13.3.0"
   resolved "https://registry.npmjs.org/@angular/language-service/-/language-service-13.3.0.tgz"
   integrity sha512-XzfamYk39h+ASxb2ycZKfn9nITmns+jTV+DPrFAY1BoW+4x3tAoqt3/CkdJn8UaCePswKXckDQ6y9i109TfddQ==
+
+"@angular/material@^13.3.0":
+  version "13.3.3"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-13.3.3.tgz#efeb63f01529ecbee7dd41f4eb34aaf28b778588"
+  integrity sha512-PkZ7VW3/7tqdBHSOOmq7com7Ir147OEe1+kfgF/G3y8WUutI9jY2cHKARXGWB+5WgcqKr7ol43u239UGkPfFHg==
+  dependencies:
+    tslib "^2.3.0"
 
 "@angular/platform-browser-dynamic@^13.3.0":
   version "13.3.0"
@@ -1997,9 +2013,9 @@ ast-types-flow@0.0.7:
   integrity sha1-9wtzXGvKGlycItmCw+Oef+ujva0=
 
 async@^2.6.2:
-  version "2.6.3"
-  resolved "https://registry.npmjs.org/async/-/async-2.6.3.tgz"
-  integrity sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/async/-/async-2.6.4.tgz#706b7ff6084664cd7eae713f6f965433b5504221"
+  integrity sha512-mzo5dfJYwAn29PeiJ0zvwTo04zj8HDJj0Mn8TD7sno7q12prdbnasKJHhkm2c1LgrhlJ0teaea8860oxi51mGA==
   dependencies:
     lodash "^4.17.14"
 
@@ -5337,6 +5353,11 @@ parse5-sax-parser@^6.0.1:
   integrity sha512-kXX+5S81lgESA0LsDuGjAlBybImAChYRMT+/uKCEXFBFOeEhS52qUCydGhU3qLRD8D9DVjaUo821WK7DM4iCeg==
   dependencies:
     parse5 "^6.0.1"
+
+parse5@^5.0.0:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/parse5/-/parse5-5.1.1.tgz#f68e4e5ba1852ac2cadc00f4555fff6c2abb6178"
+  integrity sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug==
 
 parse5@^6.0.1:
   version "6.0.1"
