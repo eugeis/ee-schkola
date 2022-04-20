@@ -11,6 +11,12 @@ import {AppComponent} from './app.component';
 import {AuthGuard} from './shared';
 import {AlertService} from './shared/services/alert.service';
 import {AlertComponent} from './shared';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {MatOptionModule} from '@angular/material/core';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -22,7 +28,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
     declarations: [
         AppComponent,
-        AlertComponent,
+        AlertComponent
     ],
     imports: [
         BrowserModule,
@@ -36,7 +42,13 @@ export function HttpLoaderFactory(http: HttpClient) {
                 useFactory: HttpLoaderFactory,
                 deps: [Http]
             }
-        })
+        }),
+        MatInputModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatIconModule,
+        MatButtonModule
     ],
     providers: [AuthGuard, AlertService],
     bootstrap: [AppComponent, AlertComponent]
