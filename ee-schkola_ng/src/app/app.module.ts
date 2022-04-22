@@ -10,13 +10,21 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {AuthGuard} from './shared';
 import {AlertService} from './shared/services/alert.service';
-import {AlertComponent} from './shared';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatOptionModule} from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {FamilyComponent} from './shared/ee/component/family/family.component';
+import {EducationComponent} from './shared/ee/component/education/education.component';
+import {LocationComponent} from './shared/ee/component/location/location.component';
+import {PersonNameComponent} from './shared/ee/component/personname/personname.component';
+import {ContactComponent} from './shared/ee/component/contact/contact.component';
+import {ChurchInfoComponent} from './shared/ee/component/churchinfo/churchinfo.component';
+import {AddressComponent} from './shared/ee/component/address/address.component';
+import {TemplateComponent} from './shared/ee/template/template.component';
+import {AlertComponent} from './layout/bs-component/components';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -28,7 +36,14 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
     declarations: [
         AppComponent,
-        AlertComponent
+        FamilyComponent,
+        EducationComponent,
+        LocationComponent,
+        PersonNameComponent,
+        ContactComponent,
+        ChurchInfoComponent,
+        AddressComponent,
+        TemplateComponent,
     ],
     imports: [
         BrowserModule,
@@ -51,7 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatButtonModule
     ],
     providers: [AuthGuard, AlertService],
-    bootstrap: [AppComponent, AlertComponent]
+    bootstrap: [AppComponent, FamilyComponent]
 })
 export class AppModule {
 }

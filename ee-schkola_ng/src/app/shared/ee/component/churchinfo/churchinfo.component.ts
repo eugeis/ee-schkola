@@ -3,14 +3,14 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-churchinfo',
   templateUrl: './churchinfo.component.html',
-  styleUrls: ['./churchinfo.component.css']
+  styleUrls: ['./churchinfo.component.scss']
 })
 
 export class ChurchInfoComponent implements OnInit {
 
-  church: string
-  member: boolean
-  services: string
+  church: String
+  member: Boolean
+  services: String
 
   constructor() { }
 
