@@ -21,6 +21,16 @@
 </mat-form-field>
 <div>
     <button mat-raised-button (click)="inputElement()">Input</button>
-    <button mat-raised-button (click)="deleteElement()">Delete</button>
-    <button mat-raised-button (click)="printElement()">Check Value</button>
+    <mat-form-field appearance="fill">
+        <mat-label>Select</mat-label>
+        <mat-select (valueChange)="changeIndex($event)">
+            <div *ngFor="let item of dataElement; let i = index">
+                <mat-option [value]="i">{{i}}</mat-option>
+            </div>
+        </mat-select>
+    </mat-form-field>
+    <button mat-raised-button (click)="loadElement(index)">Load Value</button>
+    <button mat-raised-button (click)="printElement(index)">Check Value</button>
+    <button mat-raised-button (click)="editElement(index)">Edit Value</button>
+    <button mat-raised-button (click)="deleteElement(index)">Delete</button>
 </div>
