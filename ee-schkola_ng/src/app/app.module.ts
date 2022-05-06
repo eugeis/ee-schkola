@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Http, HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
@@ -16,6 +16,7 @@ import {MatOptionModule} from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {FamilyComponent} from './shared/ee/component/family/family.component';
 import {EducationComponent} from './shared/ee/component/education/education.component';
 import {LocationComponent} from './shared/ee/component/location/location.component';
@@ -23,7 +24,7 @@ import {PersonNameComponent} from './shared/ee/component/personname/personname.c
 import {ContactComponent} from './shared/ee/component/contact/contact.component';
 import {ChurchInfoComponent} from './shared/ee/component/churchinfo/churchinfo.component';
 import {AddressComponent} from './shared/ee/component/address/address.component';
-import {TemplateComponent} from './shared/ee/template/template.component';
+import {TemplateComponent} from './shared/ee/template/components/example/template.component';
 import {AlertComponent} from './layout/bs-component/components';
 
 // AoT requires an exported function for factories
@@ -63,7 +64,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatSelectModule,
         MatOptionModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        ReactiveFormsModule,
+        MatExpansionModule,
     ],
     providers: [AuthGuard, AlertService],
     bootstrap: [AppComponent, FamilyComponent]
