@@ -1,5 +1,5 @@
-<mat-action-row [formGroup]="form">
-    <mat-form-field *ngFor="let controlName of formArrayName;">
+<mat-action-row [formGroup]="templateService.form">
+    <mat-form-field *ngFor="let controlName of templateService.formArrayName;">
         <mat-label>{{controlName.toUpperCase()}}</mat-label>
         <input matInput
                [id] = controlName
@@ -8,17 +8,18 @@
 </mat-action-row>
 
 <div>
-    <button mat-raised-button (click)="inputElement()">Input</button>
+    <button mat-raised-button (click)="templateService.inputElement()">Input</button>
     <mat-form-field appearance="fill">
         <mat-label>Select</mat-label>
-        <mat-select (valueChange)="changeIndex($event)">
-            <div *ngFor="let item of formValue; let i = index">
+        <mat-select (valueChange)="templateService.changeIndex($event)">
+            <div *ngFor="let item of templateService.formValue; let i = index">
                 <mat-option [value]="i">{{i}}</mat-option>
             </div>
         </mat-select>
     </mat-form-field>
-    <button mat-raised-button (click)="loadElement(index)">Load Value</button>
-    <button mat-raised-button (click)="printElement(index)">Check Value</button>
-    <button mat-raised-button (click)="editElement(index)">Edit Value</button>
-    <button mat-raised-button (click)="deleteElement(index)">Delete</button>
+    <button mat-raised-button (click)="templateService.loadElement(templateService.index)">Load Value</button>
+    <button mat-raised-button (click)="templateService.printElement(templateService.index)">Check Value</button>
+    <button mat-raised-button (click)="templateService.editElement(templateService.index)">Edit Value</button>
+    <button mat-raised-button (click)="templateService.deleteElement(templateService.index)">Delete</button>
 </div>
+

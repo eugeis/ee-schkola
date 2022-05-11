@@ -69,7 +69,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatExpansionModule,
     ],
     providers: [AuthGuard, AlertService],
-    bootstrap: [AppComponent, FamilyComponent]
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
