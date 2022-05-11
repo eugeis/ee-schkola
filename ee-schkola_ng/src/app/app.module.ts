@@ -25,6 +25,7 @@ import {ContactComponent} from './shared/ee/component/contact/contact.component'
 import {ChurchInfoComponent} from './shared/ee/component/churchinfo/churchinfo.component';
 import {AddressComponent} from './shared/ee/component/address/address.component';
 import {TemplateComponent} from './shared/ee/template/components/example/template.component';
+import {ButtonComponent} from './shared/ee/template/components/button/button.component';
 import {AlertComponent} from './layout/bs-component/components';
 
 // AoT requires an exported function for factories
@@ -45,6 +46,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         ChurchInfoComponent,
         AddressComponent,
         TemplateComponent,
+        ButtonComponent
     ],
     imports: [
         BrowserModule,

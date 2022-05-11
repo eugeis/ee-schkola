@@ -7,19 +7,5 @@
     </mat-form-field>
 </mat-action-row>
 
-<div>
-    <button mat-raised-button (click)="templateService.inputElement()">Input</button>
-    <mat-form-field appearance="fill">
-        <mat-label>Select</mat-label>
-        <mat-select (valueChange)="templateService.changeIndex($event)">
-            <div *ngFor="let item of templateService.formValue; let i = index">
-                <mat-option [value]="i">{{i}}</mat-option>
-            </div>
-        </mat-select>
-    </mat-form-field>
-    <button mat-raised-button (click)="templateService.loadElement(templateService.index)">Load Value</button>
-    <button mat-raised-button (click)="templateService.printElement(templateService.index)">Check Value</button>
-    <button mat-raised-button (click)="templateService.editElement(templateService.index)">Edit Value</button>
-    <button mat-raised-button (click)="templateService.deleteElement(templateService.index)">Delete</button>
-</div>
+<app-button></app-button>
 
