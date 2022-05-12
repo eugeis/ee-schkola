@@ -1,3 +1,4 @@
+import {ChildTemplate} from './child-template';
 
 export class Template {
     street: string
@@ -5,4 +6,5 @@ export class Template {
     city: string
     code: string
     country: string
+    name: ChildTemplate
 }

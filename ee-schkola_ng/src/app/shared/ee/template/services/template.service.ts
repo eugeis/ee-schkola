@@ -19,8 +19,8 @@ export class TemplateService {
 
     initElement(elements: any[][]) {
         elements.forEach(el => {
-            const elementType = el.pop();
-            const elementName = el.pop();
+            const elementType = el.at(1);
+            const elementName = el.at(0);
             if (elementType === 'string') {
                 this.form.addControl(elementName, new FormControl('', [Validators.required]))
             } else if (elementType === 'number') {
@@ -31,6 +31,6 @@ export class TemplateService {
                 this.form.addControl(elementName, new FormControl('', [Validators.required]))
             }
             this.formArrayName.push(elementName);
-        })
+        });
     }
 }

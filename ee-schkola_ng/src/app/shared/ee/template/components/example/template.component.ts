@@ -5,13 +5,14 @@ import {TemplateService} from '../../services/template.service';
     selector: 'app-template',
     templateUrl: './template.component.html',
     styleUrls: ['./template.component.scss'],
-    providers: [TemplateService]
+    providers: [TemplateService],
 })
 
 export class TemplateComponent implements OnInit {
 
-    elementNameWithValue = [['street', 'string'], ['suite', 'string'], ['city', 'string'], ['code', 'string'], ['country', 'string']];
-
+    elementNameWithValue = [['street', 'string'], ['suite', 'string'],
+        ['city', 'string'], ['code', 'string'], ['country', 'string']];
+    childIndependent = false;
     constructor(public templateService: TemplateService) { }
 
     ngOnInit(): void {

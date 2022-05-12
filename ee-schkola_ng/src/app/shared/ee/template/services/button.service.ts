@@ -7,9 +7,12 @@ export class ButtonService {
     constructor(private templateService: TemplateService) {
     }
 
+    // TODO: MAKE THIS DYNAMIC
     inputElement() {
-        const element = this.templateService.form.getRawValue() as Template;
-        this.templateService.formValue.push([element.street, element.suite, element.city, element.code, element.country]);
+        console.log(this.templateService.form.getRawValue());
+        const element = this.templateService.form.getRawValue();
+        this.templateService.formValue.push([element.street, element.suite,
+            element.city, element.code, element.country, element.firstname, element.lastname]);
     }
 
     deleteElement(index) {
