@@ -1,4 +1,3 @@
-import {Template} from '../models/template';
 import {Injectable} from '@angular/core';
 import {TemplateService} from './template.service';
 
@@ -7,28 +6,18 @@ export class ButtonService {
     constructor(private templateService: TemplateService) {
     }
 
-    // TODO: MAKE THIS DYNAMIC
     inputElement() {
-        console.log(this.templateService.form.getRawValue());
-        const element = this.templateService.form.getRawValue();
-        this.templateService.formValue.push([element.street, element.suite,
-            element.city, element.code, element.country, element.firstname, element.lastname]);
+        this.templateService.formArrayValue.value.push(this.templateService.form.getRawValue());
     }
 
     deleteElement(index) {
-        for (const i in this.templateService.formValue[index]) {
-            if (this.templateService.formValue[index].hasOwnProperty(i)) {
-                this.templateService.formValue[index][i] = ''
-            }
-        }
-        this.templateService.tempFormArray = this.templateService.formValue.filter(function(element) {return element[0] !== '' })
-        this.templateService.formValue = this.templateService.tempFormArray;
+        this.templateService.formArrayValue.removeAt(index)
     }
 
     printElement(index: number) {
-        for (const i in this.templateService.formValue[index]) {
-            if (this.templateService.formValue[index].hasOwnProperty(i)) {
-                console.log(this.templateService.formArrayName[i] + ' Value: ' + this.templateService.formValue[index][i])
+        for (const elementName in this.templateService.formArrayValue.value[index]) {
+            if (this.templateService.formArrayValue.value[index].hasOwnProperty(elementName)) {
+                console.log(elementName + ' Value: ' + this.templateService.formArrayValue.value[index][elementName])
             }
         }
     }
@@ -38,17 +27,17 @@ export class ButtonService {
     }
 
     loadElement(index: number) {
-        for (const i in this.templateService.formValue[index]) {
-            if (this.templateService.formValue[index].hasOwnProperty(i)) {
-                this.templateService.form.get(this.templateService.formArrayName[i]).setValue(this.templateService.formValue[index][i]);
+        for (const elementName in this.templateService.formArrayValue.value[index]) {
+            if (this.templateService.formArrayValue.value[index].hasOwnProperty(elementName)) {
+                this.templateService.form.get(elementName).setValue(this.templateService.formArrayValue.value[index][elementName]);
             }
         }
     }
 
     editElement(index: number) {
-        for (const i in this.templateService.formValue[index]) {
-            if (this.templateService.formValue[index].hasOwnProperty(i)) {
-                this.templateService.formValue[index][i] = this.templateService.form.get(this.templateService.formArrayName[i]).value;
+        for (const elementName in this.templateService.formArrayValue.value[index]) {
+            if (this.templateService.formArrayValue.value[index].hasOwnProperty(elementName)) {
+                this.templateService.formArrayValue.value[index][elementName] = this.templateService.form.get(elementName).value;
             }
         }
     }

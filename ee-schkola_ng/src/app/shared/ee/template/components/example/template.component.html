@@ -7,6 +7,6 @@
     </mat-form-field>
 </mat-action-row>
 
-<app-another-template [showElement]="childIndependent"></app-another-template>
+<app-another-template [showElement]="childIndependent" (childElement)="doSomething($event)"></app-another-template>
 
 <app-button></app-button>
