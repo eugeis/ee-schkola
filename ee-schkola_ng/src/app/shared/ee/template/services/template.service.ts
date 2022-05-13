@@ -28,11 +28,6 @@ export class TemplateService {
             } else if (elementType === 'boolean') {
                 this.form.addControl(elementName, new FormControl(false, [Validators.required]))
             } else {
-                console.log('HERE!');
-                console.log(this.formArrayChild.length);
-                this.formArrayChild.forEach(element => {
-                    console.log('ELEMENT: ' + element);
-                })
                 this.form.addControl(elementName, new FormControl('', [Validators.required]))
             }
             this.formArrayName.push(elementName);

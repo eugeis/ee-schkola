@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TemplateService} from '../../services/template.service';
 
 @Component({
@@ -10,7 +10,6 @@ import {TemplateService} from '../../services/template.service';
 export class ChildTemplateComponent implements OnInit {
 
     @Input() showElement: boolean;
-    @Output() childElement: EventEmitter<any> = new EventEmitter<any>();
 
     elementNameWithValue = [['firstname', 'string'], ['lastname', 'string']];
     show = true;
@@ -19,7 +18,6 @@ export class ChildTemplateComponent implements OnInit {
 
     ngOnInit(): void {
         this.show = this.showElement;
-        this.childElement.emit(this.elementNameWithValue);
         this.templateService.initElement(this.elementNameWithValue);
     }
 }
