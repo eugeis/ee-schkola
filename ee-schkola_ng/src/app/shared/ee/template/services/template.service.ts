@@ -10,8 +10,6 @@ export class TemplateService {
 
     formArrayName = [];
 
-    formArrayChild = [];
-
     index = 0;
 
     constructor(private fb: FormBuilder) {
@@ -32,9 +30,5 @@ export class TemplateService {
             }
             this.formArrayName.push(elementName);
         });
-    }
-
-    initElementInterface(elements: any[][]) {
-        this.formArrayChild = elements;
     }
 }

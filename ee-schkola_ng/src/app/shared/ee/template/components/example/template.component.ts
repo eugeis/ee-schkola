@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TemplateService} from '../../services/template.service';
 
 @Component({
@@ -10,12 +10,16 @@ import {TemplateService} from '../../services/template.service';
 
 export class TemplateComponent implements OnInit {
 
+    @Input() showElement: boolean;
+
     elementNameWithValue = [['street', 'string'], ['suite', 'string'],
         ['city', 'string'], ['code', 'string'], ['country', 'string']];
-    childIndependent = false;
+    show = false;
+
     constructor(public templateService: TemplateService) { }
 
     ngOnInit(): void {
+        this.show = this.showElement;
         this.templateService.initElement(this.elementNameWithValue);
     }
 }
