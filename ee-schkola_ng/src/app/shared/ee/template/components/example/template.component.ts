@@ -10,16 +10,11 @@ import {TemplateService} from '../../services/template.service';
 
 export class TemplateComponent implements OnInit {
 
-    @Input() showElement: boolean;
-
-    elementNameWithValue = [['street', 'string'], ['suite', 'string'],
-        ['city', 'string'], ['code', 'string'], ['country', 'string']];
-    show = false;
+    @Input() formElement: any[][];
 
     constructor(public templateService: TemplateService) { }
 
     ngOnInit(): void {
-        this.show = this.showElement;
-        this.templateService.initElement(this.elementNameWithValue);
+        this.templateService.initElement(this.formElement);
     }
 }

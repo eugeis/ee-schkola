@@ -1,14 +1,10 @@
-<div *ngIf="show">
-    <mat-action-row [formGroup]="templateService.form">
-        <mat-form-field *ngFor="let controlName of templateService.formArrayName;">
-            <mat-label>{{controlName.toUpperCase()}}</mat-label>
-            <input matInput
-                   [id] = controlName
-                   [formControlName]=controlName />
-        </mat-form-field>
-    </mat-action-row>
+<mat-action-row [formGroup]="templateService.form">
+    <mat-form-field *ngFor="let controlName of templateService.formArrayName;">
+        <mat-label>{{controlName.toUpperCase()}}</mat-label>
+        <input matInput
+               [id] = controlName
+               [formControlName]=controlName />
+    </mat-form-field>
+</mat-action-row>
 
-    <app-child-component-template [showElement]="false"></app-child-component-template>
-
-    <app-button></app-button>
-</div>
+<app-button></app-button>

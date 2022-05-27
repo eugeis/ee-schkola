@@ -4,6 +4,8 @@ import {FormBuilder, FormControl, Validators} from '@angular/forms';
 @Injectable({ providedIn: 'root' })
 export class TemplateService {
 
+    protected elementNameWithValue: any[][];
+
     form = this.fb.group({});
 
     formArrayValue = this.fb.array([])
@@ -13,6 +15,10 @@ export class TemplateService {
     index = 0;
 
     constructor(private fb: FormBuilder) {
+    }
+
+    init() {
+        this.initElement(this.elementNameWithValue);
     }
 
     initElement(elements: any[][]) {
