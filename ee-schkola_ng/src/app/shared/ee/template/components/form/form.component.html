@@ -1,0 +1,21 @@
+<mat-action-row [formGroup]="templateService.form">
+    <mat-form-field *ngFor="let controlName of templateService.formArrayName; let i = index">
+        <mat-label>{{controlName.toUpperCase()}}</mat-label>
+        <ng-container *ngIf="templateService.formArrayType[i] == 'enum'; else stringContent">
+            <mat-select (valueChange)="templateService.changeValue($event, templateService.formArrayName[i])">
+                <div *ngFor="let item of templateService.formEnumElement[i]">
+                    <mat-option [value]="item">{{item}}</mat-option>
+                </div>
+            </mat-select>
+        </ng-container>
+
+        <ng-template #stringContent>
+            <input matInput
+                   [id] = controlName
+                   [formControlName]=controlName />
+        </ng-template>
+
+    </mat-form-field>
+</mat-action-row>
+
+<app-button></app-button>

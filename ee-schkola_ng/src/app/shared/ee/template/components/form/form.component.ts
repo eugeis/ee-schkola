@@ -2,13 +2,13 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TemplateService} from '../../services/template.service';
 
 @Component({
-    selector: 'app-template',
-    templateUrl: './template.component.html',
-    styleUrls: ['./template.component.scss'],
+    selector: 'app-form',
+    templateUrl: './form.component.html',
+    styleUrls: ['./form.component.scss'],
     providers: [TemplateService],
 })
 
-export class TemplateComponent implements OnInit {
+export class FormComponent implements OnInit {
 
     @Input() formElement: any[][];
 

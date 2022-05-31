@@ -1,0 +1,51 @@
+<mat-sidenav-container>
+    <mat-sidenav #drawer
+                 [mode]="'side'" [fixedInViewport]="true">
+        <mat-nav-list>
+            <a *ngFor="let pageName of pageElement"
+               mat-list-item
+               routerLinkActive="active-link"
+               [routerLink]="'/login'"
+            >{{pageName.toUpperCase()}}</a>
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <mat-toolbar>
+            <button mat-icon-button (click)="drawer.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span>{{pageName}}</span>
+        </mat-toolbar>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!--<mat-toolbar>
+    <mat-toolbar-row>
+        <mat-sidenav-container>
+            <mat-sidenav #sidenav mode="over" [(opened)]="opened">
+                <mat-toolbar-row (click)="toggleMenu()">
+                    <mat-icon (click)="toggleMenu()">menu</mat-icon> Company Name
+                </mat-toolbar-row>
+                <mat-toolbar>
+                    <mat-toolbar-row (click)="toggleMenu()">
+                        <mat-icon>home</mat-icon> Forms
+                    </mat-toolbar-row>
+
+                    <mat-toolbar-row (click)="toggleMenu()">
+                        <mat-icon>person</mat-icon> Users
+                    </mat-toolbar-row>
+
+                    <mat-toolbar-row (click)="toggleMenu()">
+                        <mat-icon>dashboard</mat-icon> Dashboard
+                    </mat-toolbar-row>
+
+                    <mat-toolbar-row (click)="toggleMenu()">
+                        <mat-icon>settings</mat-icon> Settings
+                    </mat-toolbar-row>
+
+                </mat-toolbar>
+            </mat-sidenav>
+        </mat-sidenav-container>
+    </mat-toolbar-row>
+</mat-toolbar>-->

@@ -11,6 +11,9 @@ import { PageHeaderModule } from '../../shared';
         FormRoutingModule,
         PageHeaderModule
     ],
+    exports: [
+        FormComponent
+    ],
     declarations: [FormComponent]
 })
 export class FormModule { }
