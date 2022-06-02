@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {TemplateService} from './template.service';
+import {ELEMENT_DATA} from '../../person/profile/services/profile-view.service';
 
 @Injectable({ providedIn: 'root' })
 export class ButtonService {
@@ -8,6 +9,7 @@ export class ButtonService {
 
     inputElement() {
         this.templateService.formArrayValue.value.push(this.templateService.form.getRawValue());
+        ELEMENT_DATA.push(this.templateService.form.getRawValue());
     }
 
     deleteElement(index) {

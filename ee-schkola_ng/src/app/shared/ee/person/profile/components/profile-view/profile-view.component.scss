@@ -1,0 +1,29 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+button {
+    display: inline-block;
+}
+
+app-page {
+    width: 100% !important;
+    z-index: 0;
+}
+
+app-form {
+    position: absolute;
+    z-index: 1;
+    top: 15%;
+    left: 10%;
+}
+
+app-table {
+    position: absolute;
+    width: 80% !important;
+    z-index: 1;
+    top: 40%;
+    left: 10%;
+}

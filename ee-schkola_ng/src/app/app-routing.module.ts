@@ -10,7 +10,7 @@ const routes: Routes = [
     },
     { path: 'login', loadChildren: () => import('./login/login.module').then(x => x.LoginModule) },
     { path: 'signup', loadChildren: () => import('./signup/signup.module').then(x => x.SignupModule) },
-    { path: 'profile', loadChildren: () => import('./shared/ee/profile/profile.module').then(x => x.ProfileModule) },
+    { path: 'person', loadChildren: () => import('./shared/ee/person/person.module').then(x => x.PersonModule) },
     { path: 'template', loadChildren: () => import('./shared/ee/template/template.module').then(x => x.TemplateModule) },
     { path: 'not-found', loadChildren: () => import('./not-found/not-found.module').then(x => x.NotFoundModule) },
     { path: '**', redirectTo: 'not-found' }

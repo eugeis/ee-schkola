@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {TemplateService} from '../../template/services/template.service';
+import {TemplateService} from '../../../template/services/template.service';
 import {PersonNameModel} from '../models/basic/PersonNameModel';
 import {GenderEnumModel} from '../models/enums/GenderEnumModel';
 
@@ -11,7 +11,10 @@ export class ProfileViewService extends TemplateService {
     elementNameWithValue = [['gender', 'enum', GenderEnumModel], this.personName.firstname, this.personName.lastname,
         ['birthName', 'string'], ['birthday', 'datetime']];
 
-    pageElement = ['home'];
+    pageElement = ['Person'];
 
     pageName = 'ProfileComponent';
 }
+
+export const ELEMENT_DATA = [];
+

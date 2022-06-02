@@ -14,10 +14,13 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 import {FormComponent} from './components/form/form.component';
 import {ButtonComponent} from './components/button/button.component';
 import {PageComponent} from './components/page/page.component';
+import {TableComponent} from './components/table/table.component';
 
 import {FamilyComponent} from '../component/family/family.component';
 import {EducationComponent} from '../component/education/education.component';
@@ -28,12 +31,14 @@ import {ChurchInfoComponent} from '../component/churchinfo/churchinfo.component'
 import {AddressComponent} from '../component/address/address.component';
 
 import {TemplateRoutingModules} from './template-routing.modules';
-import {ProfileViewService} from '../profile/services/profile-view.service';
+import {ProfileViewService} from '../person/profile/services/profile-view.service';
+import {TemplateService} from './services/template.service';
 
 @NgModule({
     declarations: [FormComponent,
         ButtonComponent,
         PageComponent,
+        TableComponent,
         FamilyComponent,
         EducationComponent,
         LocationComponent,
@@ -57,15 +62,18 @@ import {ProfileViewService} from '../profile/services/profile-view.service';
         MatToolbarModule,
         MatSidenavModule,
         MatDividerModule,
-        MatListModule
+        MatListModule,
+        MatTableModule,
+        MatPaginatorModule,
     ],
     providers: [
-        ProfileViewService
+        ProfileViewService, TemplateService
     ],
     exports: [
         FormComponent,
         ButtonComponent,
-        PageComponent
+        PageComponent,
+        TableComponent
     ]
 })
 export class TemplateModule { }
