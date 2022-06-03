@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ChurchViewService} from '../../services/church-view.service';
 
 @Component({
-    selector: 'app-person-profile',
+    selector: 'app-person-church',
     templateUrl: './church-view.component.html',
     styleUrls: ['./church-view.component.scss'],
     providers: [ChurchViewService]

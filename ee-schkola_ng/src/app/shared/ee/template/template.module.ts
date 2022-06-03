@@ -16,6 +16,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import {FormComponent} from './components/form/form.component';
 import {ButtonComponent} from './components/button/button.component';
@@ -65,6 +66,7 @@ import {TemplateService} from './services/template.service';
         MatListModule,
         MatTableModule,
         MatPaginatorModule,
+        MatTabsModule,
     ],
     providers: [
         ProfileViewService, TemplateService

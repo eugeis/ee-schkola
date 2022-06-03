@@ -8,6 +8,8 @@ export class ChurchViewService extends TemplateService {
 
     pageElement = ['Person'];
 
+    tabElement = ['Profile', 'Church'];
+
     pageName = 'ChurchComponent';
 }
 

@@ -5,7 +5,7 @@
             <a *ngFor="let pageName of pageElement"
                mat-list-item
                routerLinkActive="active-link"
-               [routerLink]="pageName"
+               [routerLink]="'/' + pageName.toLowerCase()"
             >{{pageName.toUpperCase()}}</a>
         </mat-nav-list>
     </mat-sidenav>
@@ -17,5 +17,13 @@
             </button>
             <span>{{pageName}}</span>
         </mat-toolbar>
+
+        <nav mat-tab-nav-bar>
+            <a mat-tab-link
+               *ngFor="let pageTabsName of tabElement"
+               [routerLink]="'/' + pageElement[0].toLowerCase() + '/' + pageTabsName.toLowerCase()"
+               routerLinkActive="active-link"
+            >{{pageTabsName.toUpperCase()}}</a>
+        </nav>
     </mat-sidenav-content>
 </mat-sidenav-container>

@@ -13,6 +13,8 @@ export class ProfileViewService extends TemplateService {
 
     pageElement = ['Person'];
 
+    tabElement = ['Profile', 'Church'];
+
     pageName = 'ProfileComponent';
 }
 

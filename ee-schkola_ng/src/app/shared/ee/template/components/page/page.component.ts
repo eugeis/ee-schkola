@@ -9,6 +9,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class PageComponent implements OnInit {
     @Input() pageName: string;
     @Input() pageElement: any[];
+    @Input() tabElement: any[];
 
     constructor() { }
 

@@ -6,6 +6,8 @@ export class PersonViewService extends TemplateService {
 
     pageElement = ['Person'];
 
+    tabElement = ['Profile', 'Church'];
+
     pageName = 'PersonComponent';
 }
 
