@@ -1,6 +1,6 @@
 import {Component, DoCheck, Input} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {ELEMENT_DATA} from '../../../person/profile/services/profile-view.service';
+import {ELEMENT_DATA} from '../../services/template.service';
 
 @Component({
     selector: 'app-table',

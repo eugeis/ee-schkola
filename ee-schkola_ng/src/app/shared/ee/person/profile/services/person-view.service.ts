@@ -10,6 +10,3 @@ export class PersonViewService extends TemplateService {
 
     pageName = 'PersonComponent';
 }
-
-export const ELEMENT_DATA = [];
-

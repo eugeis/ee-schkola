@@ -17,6 +17,3 @@ export class ProfileViewService extends TemplateService {
 
     pageName = 'ProfileComponent';
 }
-
-export const ELEMENT_DATA = [];
-

@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
-import {MatOptionModule} from '@angular/material/core';
+import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -17,6 +17,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import {FormComponent} from './components/form/form.component';
 import {ButtonComponent} from './components/button/button.component';
@@ -67,6 +68,8 @@ import {TemplateService} from './services/template.service';
         MatTableModule,
         MatPaginatorModule,
         MatTabsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
     ],
     providers: [
         ProfileViewService, TemplateService

@@ -12,6 +12,3 @@ export class ChurchViewService extends TemplateService {
 
     pageName = 'ChurchComponent';
 }
-
-export const ELEMENT_DATA = [];
-

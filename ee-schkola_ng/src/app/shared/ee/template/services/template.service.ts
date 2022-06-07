@@ -39,6 +39,8 @@ export class TemplateService {
                 this.form.addControl(elementName, new FormControl(0, [Validators.required]))
             } else if (elementType === 'boolean') {
                 this.form.addControl(elementName, new FormControl(false, [Validators.required]))
+            } else if (elementType === 'datetime') {
+                this.form.addControl(elementName, new FormControl('1.1.1970', [Validators.required]))
             } else if (elementType === 'enum') {
                 const enumElement = el.at(2);
                 let tempArray = [];
@@ -56,3 +58,5 @@ export class TemplateService {
         });
     }
 }
+
+export const ELEMENT_DATA = [];

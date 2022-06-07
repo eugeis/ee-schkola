@@ -7,3 +7,10 @@
 button {
     display: inline-block;
 }
+
+input[type=date]:required:invalid {
+    color: transparent;
+}
+input[type=date]:focus {
+    color: black !important;
+}

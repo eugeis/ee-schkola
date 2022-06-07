@@ -1,13 +1,27 @@
 <mat-action-row [formGroup]="templateService.form">
     <mat-form-field *ngFor="let controlName of templateService.formArrayName; let i = index">
         <mat-label>{{controlName.toUpperCase()}}</mat-label>
-        <ng-container *ngIf="templateService.formArrayType[i] == 'enum'; else stringContent">
+        <ng-container *ngIf="templateService.formArrayType[i] == 'enum'; else dateContent">
             <mat-select (valueChange)="templateService.changeValue($event, templateService.formArrayName[i])">
                 <div *ngFor="let item of templateService.formEnumElement[i]">
                     <mat-option [value]="item">{{item}}</mat-option>
                 </div>
             </mat-select>
         </ng-container>
+
+        <ng-template #dateContent>
+            <ng-container *ngIf="templateService.formArrayType[i] == 'datetime'; else stringContent">
+                <input matInput type="date"
+                       [id] = controlName
+                       [formControlName]=controlName>
+                <!--<input matInput [matDatepicker]="picker"
+                       [id] = controlName
+                       [formControlName]=controlName>
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>-->
+            </ng-container>
+        </ng-template>
 
         <ng-template #stringContent>
             <input matInput

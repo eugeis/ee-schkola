@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {TemplateService} from './template.service';
-import {ELEMENT_DATA} from '../../person/profile/services/profile-view.service';
+import {ELEMENT_DATA, TemplateService} from './template.service';
+
 
 @Injectable({ providedIn: 'root' })
 export class ButtonService {
