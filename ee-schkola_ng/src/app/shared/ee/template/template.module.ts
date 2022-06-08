@@ -34,7 +34,9 @@ import {AddressComponent} from '../component/address/address.component';
 
 import {TemplateRoutingModules} from './template-routing.modules';
 import {ProfileViewService} from '../person/profile/services/profile-view.service';
-import {TemplateService} from './services/template.service';
+import {ProfileDataService} from '../person/profile/services/profile-data.service';
+import {ChurchViewService} from '../person/church/services/church-view.service';
+import {ChurchDataService} from '../person/church/services/church-data.service';
 
 @NgModule({
     declarations: [FormComponent,
@@ -72,7 +74,7 @@ import {TemplateService} from './services/template.service';
         MatNativeDateModule,
     ],
     providers: [
-        ProfileViewService, TemplateService
+        ProfileViewService, ProfileDataService, ChurchViewService, ChurchDataService
     ],
     exports: [
         FormComponent,

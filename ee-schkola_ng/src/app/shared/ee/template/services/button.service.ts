@@ -1,15 +1,16 @@
 import {Injectable} from '@angular/core';
-import {ELEMENT_DATA, TemplateService} from './template.service';
-
+import {TemplateService} from './template.service';
+import {TableDataService} from './data.service';
 
 @Injectable({ providedIn: 'root' })
 export class ButtonService {
-    constructor(private templateService: TemplateService) {
+    constructor(private templateService: TemplateService, private tableDataService: TableDataService) {
     }
 
     inputElement() {
         this.templateService.formArrayValue.value.push(this.templateService.form.getRawValue());
-        ELEMENT_DATA.push(this.templateService.form.getRawValue());
+        this.tableDataService.addToTable(this.templateService.form.getRawValue());
+        console.log(this.tableDataService.getItems());
     }
 
     deleteElement(index) {

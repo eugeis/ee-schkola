@@ -19,11 +19,14 @@
         </mat-toolbar>
 
         <nav mat-tab-nav-bar>
-            <a mat-tab-link
-               *ngFor="let pageTabsName of tabElement"
-               [routerLink]="'/' + pageElement[0].toLowerCase() + '/' + pageTabsName.toLowerCase()"
-               routerLinkActive="active-link"
-            >{{pageTabsName.toUpperCase()}}</a>
+            <div *ngFor="let pageTabsName of tabElement">
+                <a mat-tab-link
+                   [routerLink]="'/' + pageElement[0].toLowerCase() + '/' + pageTabsName.toLowerCase()"
+                   routerLinkActive="active-link"
+                >{{pageTabsName.toUpperCase()}}
+                </a>
+            </div>
         </nav>
+
     </mat-sidenav-content>
 </mat-sidenav-container>

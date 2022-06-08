@@ -58,5 +58,3 @@ export class TemplateService {
         });
     }
 }
-
-export const ELEMENT_DATA = [];

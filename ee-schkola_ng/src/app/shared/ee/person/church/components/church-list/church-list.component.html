@@ -1,0 +1,6 @@
+<app-page [pageElement]="churchViewService.pageElement" [pageName]="churchViewService.pageName" [tabElement]="churchViewService.tabElement"></app-page>
+<a class="newButton" [routerLink]="'./new'"
+   routerLinkActive="active-link">
+    <mat-icon>add_circle_outline</mat-icon> Add New Item
+</a>
+<app-table [displayedColumns]="churchViewService.formArrayName"></app-table>

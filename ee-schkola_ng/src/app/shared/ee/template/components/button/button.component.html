@@ -1,6 +1,9 @@
 <div>
-    <button mat-raised-button (click)="buttonService.inputElement()">Input</button>
-    <mat-form-field appearance="fill">
+    <button mat-raised-button [routerLink]="'../'"
+            routerLinkActive="active-link">Cancel</button>
+    <button mat-raised-button (click)="buttonService.inputElement()" [routerLink]="'../'"
+            routerLinkActive="active-link">Submit</button>
+    <!--<mat-form-field appearance="fill">
         <mat-label>Select</mat-label>
         <mat-select (valueChange)="buttonService.changeIndex($event)">
             <div *ngFor="let item of templateService.formArrayValue.value; let i = index">
@@ -11,5 +14,5 @@
     <button mat-raised-button (click)="buttonService.loadElement(templateService.index)">Load Value</button>
     <button mat-raised-button (click)="buttonService.printElement(templateService.index)">Check Value</button>
     <button mat-raised-button (click)="buttonService.editElement(templateService.index)">Edit Value</button>
-    <button mat-raised-button (click)="buttonService.deleteElement(templateService.index)">Delete</button>
+    <button mat-raised-button (click)="buttonService.deleteElement(templateService.index)">Delete</button>-->
 </div>

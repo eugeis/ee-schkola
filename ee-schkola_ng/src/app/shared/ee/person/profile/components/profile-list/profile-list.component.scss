@@ -6,6 +6,7 @@
 
 button {
     display: inline-block;
+    text-align: center;
 }
 
 app-page {
@@ -13,9 +14,20 @@ app-page {
     z-index: 0;
 }
 
-app-form {
+app-table {
     position: absolute;
+    width: 80% !important;
     z-index: 1;
-    top: 20%;
+    top: 30%;
     left: 10%;
+}
+
+.newButton {
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    text-decoration: none;
+    border: 0;
+    background: white;
+    color: black;
 }

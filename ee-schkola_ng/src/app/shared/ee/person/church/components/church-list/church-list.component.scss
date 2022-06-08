@@ -13,17 +13,20 @@ app-page {
     z-index: 0;
 }
 
-app-form {
-    position: absolute;
-    z-index: 1;
-    top: 20%;
-    left: 10%;
-}
-
 app-table {
     position: absolute;
     width: 80% !important;
     z-index: 1;
-    top: 45%;
+    top: 30%;
     left: 10%;
+}
+
+.newButton {
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    text-decoration: none;
+    border: 0;
+    background: white;
+    color: black;
 }

@@ -1,0 +1,6 @@
+<app-page [pageElement]="profileViewService.pageElement" [pageName]="profileViewService.pageName" [tabElement]="profileViewService.tabElement"></app-page>
+<a class="newButton" [routerLink]="'./new'"
+        routerLinkActive="active-link">
+    <mat-icon>add_circle_outline</mat-icon> Add New Item
+</a>
+<app-table [displayedColumns]="profileViewService.formArrayName"></app-table>

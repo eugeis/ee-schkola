@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ButtonService} from '../../services/button.service';
-import {TemplateService} from '../../services/template.service';
 
 @Component({
     selector: 'app-button',
@@ -11,7 +10,7 @@ import {TemplateService} from '../../services/template.service';
 
 export class ButtonComponent implements OnInit {
 
-    constructor(public templateService: TemplateService, public buttonService: ButtonService) { }
+    constructor(public buttonService: ButtonService) { }
 
     ngOnInit(): void {
     }
