@@ -5,8 +5,15 @@ export class TableDataService {
     itemName = '';
     items: Array<any> = [];
 
-    addToTable(items: Array<any>) {
+    addItemToTableArray(items: Array<any>) {
+        this.retrieveItemFromCache();
         this.items.push(items);
+        localStorage.setItem(this.itemName, JSON.stringify(this.items));
+    }
+
+    retrieveItemFromCache() {
+        this.items = JSON.parse(localStorage.getItem(this.itemName));
+        return this.items;
     }
 
     getItems() {
@@ -14,7 +21,7 @@ export class TableDataService {
     }
 
     clearItems() {
+        localStorage.setItem(this.itemName, JSON.stringify([]));
         this.items = [];
-        return this.items;
     }
 }

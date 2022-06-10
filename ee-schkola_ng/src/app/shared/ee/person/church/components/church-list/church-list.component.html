@@ -3,4 +3,8 @@
    routerLinkActive="active-link">
     <mat-icon>add_circle_outline</mat-icon> Add New Item
 </a>
+
+<a class="deleteButton" (click)="churchDataService.clearItems()">
+    <mat-icon>delete_outline</mat-icon> Delete All Item
+</a>
 <app-table [displayedColumns]="churchViewService.formArrayName"></app-table>

@@ -24,9 +24,21 @@ app-table {
 .newButton {
     position: absolute;
     top: 20%;
-    left: 40%;
+    left: 30%;
     text-decoration: none;
     border: 0;
     background: white;
     color: black;
+    cursor: pointer;
+}
+
+.deleteButton {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    text-decoration: none;
+    border: 0;
+    background: white;
+    color: black;
+    cursor: pointer;
 }

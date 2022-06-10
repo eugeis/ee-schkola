@@ -6,7 +6,7 @@ import {TableDataService} from '../../services/data.service';
     selector: 'app-table',
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss'],
-    providers: [TableDataService],
+    providers: [],
 })
 
 export class TableComponent implements DoCheck {
@@ -17,6 +17,6 @@ export class TableComponent implements DoCheck {
     constructor(public tableDataService: TableDataService) { }
 
     ngDoCheck(): void {
-        this.dataSources = new MatTableDataSource(this.tableDataService.getItems());
+        this.dataSources = new MatTableDataSource(this.tableDataService.retrieveItemFromCache());
     }
 }
