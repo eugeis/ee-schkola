@@ -11,4 +11,6 @@ export class ChurchViewService extends TemplateService {
     tabElement = ['Profile', 'Church'];
 
     pageName = 'ChurchComponent';
+
+    formArrayName = ['Actions'];
 }

@@ -16,4 +16,6 @@ export class ProfileViewService extends TemplateService {
     tabElement = ['Profile', 'Church'];
 
     pageName = 'ProfileComponent';
+
+    formArrayName = ['Actions'];
 }

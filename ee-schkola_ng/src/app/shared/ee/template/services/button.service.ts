@@ -9,8 +9,7 @@ export class ButtonService {
 
     inputElement() {
         this.templateService.formArrayValue.value.push(this.templateService.form.getRawValue());
-        this.tableDataService.addToTable(this.templateService.form.getRawValue());
-        console.log(this.tableDataService.getItems());
+        this.tableDataService.addItemToTableArray(this.templateService.form.getRawValue());
     }
 
     deleteElement(index) {

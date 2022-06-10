@@ -16,12 +16,14 @@ export class TableDataService {
         return this.items;
     }
 
-    getItems() {
-        return this.items;
-    }
-
     clearItems() {
         localStorage.setItem(this.itemName, JSON.stringify([]));
         this.items = [];
+    }
+
+    removeItem(index) {
+        this.retrieveItemFromCache();
+        this.items.splice(index, 1);
+        localStorage.setItem(this.itemName, JSON.stringify(this.items));
     }
 }

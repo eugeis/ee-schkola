@@ -18,6 +18,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatMenuModule} from '@angular/material/menu';
 
 import {FormComponent} from './components/form/form.component';
 import {ButtonComponent} from './components/button/button.component';
@@ -36,7 +37,7 @@ import {TemplateRoutingModules} from './template-routing.modules';
 import {ProfileViewService} from '../person/profile/services/profile-view.service';
 import {ProfileDataService} from '../person/profile/services/profile-data.service';
 import {ChurchViewService} from '../person/church/services/church-view.service';
-import {ChurchDataService} from '../person/church/services/church-data.service';
+import {ChurchDataService} from '../person/church/services/church-data.service'
 
 @NgModule({
     declarations: [FormComponent,
@@ -72,6 +73,7 @@ import {ChurchDataService} from '../person/church/services/church-data.service';
         MatTabsModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatMenuModule,
     ],
     providers: [
         ProfileViewService, ProfileDataService, ChurchViewService, ChurchDataService

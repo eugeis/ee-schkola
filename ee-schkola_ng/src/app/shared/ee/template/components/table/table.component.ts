@@ -1,4 +1,4 @@
-import {Component, DoCheck, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {TableDataService} from '../../services/data.service';
 
@@ -6,17 +6,16 @@ import {TableDataService} from '../../services/data.service';
     selector: 'app-table',
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss'],
-    providers: [],
 })
 
-export class TableComponent implements DoCheck {
+export class TableComponent implements OnInit {
     @Input() displayedColumns: any[];
 
     dataSources: MatTableDataSource<any>;
 
     constructor(public tableDataService: TableDataService) { }
 
-    ngDoCheck(): void {
+    ngOnInit() {
         this.dataSources = new MatTableDataSource(this.tableDataService.retrieveItemFromCache());
     }
 }
