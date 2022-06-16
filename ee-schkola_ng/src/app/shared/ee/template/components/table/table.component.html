@@ -7,7 +7,7 @@
                 <td mat-cell *matCellDef="let element; let i = index" [attr.data-label]="elementName">
                     <mat-menu #appMenu="matMenu">
                         <ng-template matMenuContent>
-                            <button mat-menu-item><mat-icon>edit</mat-icon>
+                            <button mat-menu-item (click)="tableDataService.editItems(i)"><mat-icon>edit</mat-icon>
                                 <span>EDIT</span></button>
                             <button mat-menu-item (click)="tableDataService.removeItem(i)"><mat-icon>delete</mat-icon>
                                 <span>DELETE</span></button>

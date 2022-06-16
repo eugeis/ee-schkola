@@ -38,6 +38,9 @@ import {ProfileViewService} from '../person/profile/services/profile-view.servic
 import {ProfileDataService} from '../person/profile/services/profile-data.service';
 import {ChurchViewService} from '../person/church/services/church-view.service';
 import {ChurchDataService} from '../person/church/services/church-data.service'
+import {TemplateService} from './services/template.service';
+import {TableDataService} from './services/data.service';
+import {ButtonService} from './services/button.service';
 
 @NgModule({
     declarations: [FormComponent,
@@ -76,7 +79,7 @@ import {ChurchDataService} from '../person/church/services/church-data.service'
         MatMenuModule,
     ],
     providers: [
-        ProfileViewService, ProfileDataService, ChurchViewService, ChurchDataService
+        ProfileViewService, ProfileDataService, ChurchViewService, ChurchDataService, TableDataService, ButtonService, TemplateService
     ],
     exports: [
         FormComponent,

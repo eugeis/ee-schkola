@@ -11,8 +11,10 @@ const routes: Routes = [
     { path: '', component: PersonViewComponent },
     { path: 'profile', component: ProfileListComponent },
     { path: 'profile/new', component: ProfileViewComponent },
+    { path: 'profile/edit/:id', component: ProfileViewComponent },
     { path: 'church', component: ChurchListComponent },
     { path: 'church/new', component: ChurchViewComponent },
+    { path: 'church/edit/:id', component: ChurchViewComponent },
 ];
 
 @NgModule({

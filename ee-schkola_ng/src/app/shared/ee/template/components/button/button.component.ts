@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ButtonService} from '../../services/button.service';
 
 @Component({
@@ -9,6 +9,9 @@ import {ButtonService} from '../../services/button.service';
 })
 
 export class ButtonComponent implements OnInit {
+
+    @Input() isEdit: boolean;
+    @Input() itemIndex: number;
 
     constructor(public buttonService: ButtonService) { }
 

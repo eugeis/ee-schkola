@@ -13,7 +13,7 @@ export class PersonViewComponent implements OnInit {
     constructor(public personViewService: PersonViewService) {
     }
 
-    ngOnInit(): void {
-        this.personViewService.init();
+    ngOnInit() {
+
     }
 }

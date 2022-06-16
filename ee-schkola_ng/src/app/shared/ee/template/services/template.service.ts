@@ -20,6 +20,8 @@ export class TemplateService {
 
     dateNow = this.formatDate(new Date());
 
+    selected = '';
+
     constructor(private fb: FormBuilder) {
     }
 
