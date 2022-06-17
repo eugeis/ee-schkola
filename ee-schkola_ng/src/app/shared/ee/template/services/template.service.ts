@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
+import {TableDataService} from './data.service';
 
 @Injectable({ providedIn: 'root' })
 export class TemplateService {
@@ -22,11 +23,11 @@ export class TemplateService {
 
     selected = '';
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, private tableDataService: TableDataService) {
     }
 
     formatDate(date: Date) {
-        return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
+        return [date.getFullYear(), '0' + (date.getMonth() + 1), date.getDate()].join('-');
     }
 
     changeValue(input: string, elementName: string) {
@@ -64,5 +65,28 @@ export class TemplateService {
             this.formArrayName.push(elementName);
             this.formArrayType.push(elementType);
         });
+    }
+
+    loadElement(indexValue: number) {
+        this.tableDataService.retrieveItemFromCache();
+        this.tableDataService.items.forEach((element) => {
+            this.formArrayValue.value.push(element);
+        });
+        let indexType = 0;
+        for (const elementName in this.formArrayValue.value[indexValue]) {
+            if (this.formArrayValue.value[indexValue].hasOwnProperty(elementName)) {
+                if (this.formArrayType[indexType] === 'datetime') {
+                    this.form.get(elementName).setValue(this.formatDate(new Date(this.formArrayValue.value[indexValue][elementName])));
+                    console.log(this.formatDate(new Date(this.formArrayValue.value[indexValue][elementName])));
+                } if (this.formArrayType[indexType] === 'enum') {
+                    this.form.get(elementName).setValue(this.formArrayValue.value[indexValue][elementName]);
+                    console.log(this.formArrayValue.value[indexValue][elementName]);
+                    this.selected = this.formArrayValue.value[indexValue][elementName]
+                } else {
+                    this.form.get(elementName).setValue(this.formArrayValue.value[indexValue][elementName]);
+                }
+                indexType++;
+            }
+        }
     }
 }

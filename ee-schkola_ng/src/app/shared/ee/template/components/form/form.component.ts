@@ -11,7 +11,6 @@ import {Router} from '@angular/router';
 
 export class FormComponent implements OnInit {
 
-    // TODO: Load Form on Edit
     @Input() formElement: any[][];
     public isEdit: boolean;
     public itemIndex: number;
@@ -23,5 +22,6 @@ export class FormComponent implements OnInit {
         const currentUrl = this._router.url;
         currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase() !== 'new' ? this.isEdit = true : this.isEdit = false;
         this.itemIndex = Number(currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase());
+        this.templateService.loadElement(this.itemIndex);
     }
 }
