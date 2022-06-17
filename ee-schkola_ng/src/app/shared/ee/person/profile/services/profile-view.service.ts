@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {TemplateService} from '../../../template/services/template.service';
 import {PersonNameModel} from '../models/basic/PersonNameModel';
 import {GenderEnumModel} from '../models/enums/GenderEnumModel';
+import {GraduationEnumModel} from '../models/enums/GraduationEnumModel';
 
 @Injectable()
 export class ProfileViewService extends TemplateService {
@@ -9,7 +10,7 @@ export class ProfileViewService extends TemplateService {
     personName: PersonNameModel = new PersonNameModel();
 
     elementNameWithValue = [['gender', 'enum', GenderEnumModel], this.personName.firstname, this.personName.lastname,
-        ['birthName', 'string'], ['birthday', 'datetime']];
+        ['birthName', 'string'], ['birthday', 'datetime'], ['graduation', 'enum', GraduationEnumModel], ['graduationDate', 'datetime']];
 
     pageElement = ['Person'];
 

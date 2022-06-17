@@ -21,7 +21,7 @@ export class TemplateService {
 
     dateNow = this.formatDate(new Date());
 
-    selected = '';
+    selected = [];
 
     constructor(private fb: FormBuilder, private tableDataService: TableDataService) {
     }
@@ -43,13 +43,17 @@ export class TemplateService {
             const elementName = el.at(0);
             const elementType = el.at(1);
             if (elementType === 'string') {
-                this.form.addControl(elementName, new FormControl('', [Validators.required]))
+                this.form.addControl(elementName, new FormControl('', [Validators.required]));
+                this.formEnumElement.push([]);
             } else if (elementType === 'number') {
-                this.form.addControl(elementName, new FormControl(0, [Validators.required]))
+                this.form.addControl(elementName, new FormControl(0, [Validators.required]));
+                this.formEnumElement.push([]);
             } else if (elementType === 'boolean') {
-                this.form.addControl(elementName, new FormControl(false, [Validators.required]))
+                this.form.addControl(elementName, new FormControl(false, [Validators.required]));
+                this.formEnumElement.push([]);
             } else if (elementType === 'datetime') {
-                this.form.addControl(elementName, new FormControl(this.dateNow, [Validators.required]))
+                this.form.addControl(elementName, new FormControl(this.dateNow, [Validators.required]));
+                this.formEnumElement.push([]);
             } else if (elementType === 'enum') {
                 const enumElement = el.at(2);
                 let tempArray = [];
@@ -58,9 +62,10 @@ export class TemplateService {
                 })
                 tempArray = tempArray.filter((item) => item);
                 this.formEnumElement.push(tempArray);
-                this.form.addControl(elementName, new FormControl(0, [Validators.required]))
+                this.form.addControl(elementName, new FormControl(0, [Validators.required]));
             } else {
-                this.form.addControl(elementName, new FormControl('', [Validators.required]))
+                this.form.addControl(elementName, new FormControl('', [Validators.required]));
+                this.formEnumElement.push([]);
             }
             this.formArrayName.push(elementName);
             this.formArrayType.push(elementType);
@@ -77,13 +82,12 @@ export class TemplateService {
             if (this.formArrayValue.value[indexValue].hasOwnProperty(elementName)) {
                 if (this.formArrayType[indexType] === 'datetime') {
                     this.form.get(elementName).setValue(this.formatDate(new Date(this.formArrayValue.value[indexValue][elementName])));
-                    console.log(this.formatDate(new Date(this.formArrayValue.value[indexValue][elementName])));
                 } if (this.formArrayType[indexType] === 'enum') {
                     this.form.get(elementName).setValue(this.formArrayValue.value[indexValue][elementName]);
-                    console.log(this.formArrayValue.value[indexValue][elementName]);
-                    this.selected = this.formArrayValue.value[indexValue][elementName]
+                    this.selected.push(this.formArrayValue.value[indexValue][elementName]);
                 } else {
                     this.form.get(elementName).setValue(this.formArrayValue.value[indexValue][elementName]);
+                    this.selected.push([]);
                 }
                 indexType++;
             }

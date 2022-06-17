@@ -2,7 +2,7 @@
     <mat-form-field *ngFor="let controlName of templateService.formArrayName; let i = index">
         <mat-label>{{controlName.toUpperCase()}}</mat-label>
         <ng-container *ngIf="templateService.formArrayType[i] == 'enum'; else dateContent">
-            <mat-select (valueChange)="templateService.changeValue($event, templateService.formArrayName[i])" [(value)]="templateService.selected">
+            <mat-select (valueChange)="templateService.changeValue($event, templateService.formArrayName[i])" [(value)]="templateService.selected[i]">
                 <div *ngFor="let item of templateService.formEnumElement[i]">
                     <mat-option [value]="item">{{item}}</mat-option>
                 </div>
