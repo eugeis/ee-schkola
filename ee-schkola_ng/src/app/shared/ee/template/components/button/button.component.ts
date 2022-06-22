@@ -10,6 +10,7 @@ import {ButtonService} from '../../services/button.service';
 
 export class ButtonComponent implements OnInit {
 
+    @Input() usedService: any;
     @Input() isEdit: boolean;
     @Input() itemIndex: number;
 

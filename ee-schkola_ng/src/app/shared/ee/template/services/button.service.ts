@@ -1,24 +1,25 @@
 import {Injectable} from '@angular/core';
-import {TemplateService} from './template.service';
 import {TableDataService} from './data.service';
 
 @Injectable({ providedIn: 'root' })
 export class ButtonService {
 
-    constructor(private templateService: TemplateService, private tableDataService: TableDataService) {
+    constructor(private tableDataService: TableDataService) {
     }
 
-    inputElement() {
-        this.templateService.formArrayValue.value.push(this.templateService.form.getRawValue());
-        this.tableDataService.addItemToTableArray(this.templateService.form.getRawValue());
+    inputElement(usedService: any) {
+        usedService.formArrayValue.value.push(usedService.form.getRawValue());
+        this.tableDataService.addItemToTableArray(usedService.form.getRawValue());
+        console.log(usedService.formArrayValue.value);
+        console.log(this.tableDataService.items);
     }
 
-    editElement(index: number) {
-        for (const elementName in this.templateService.formArrayValue.value[index]) {
-            if (this.templateService.formArrayValue.value[index].hasOwnProperty(elementName)) {
-                this.templateService.formArrayValue.value[index][elementName] = this.templateService.form.get(elementName).value;
+    editElement(index: number, usedService: any) {
+        for (const elementName in usedService.formArrayValue.value[index]) {
+            if (usedService.formArrayValue.value[index].hasOwnProperty(elementName)) {
+                usedService.formArrayValue.value[index][elementName] = usedService.form.get(elementName).value;
             }
         }
-        localStorage.setItem(this.tableDataService.itemName, JSON.stringify(this.templateService.formArrayValue.value));
+        localStorage.setItem(this.tableDataService.itemName, JSON.stringify(usedService.formArrayValue.value));
     }
 }

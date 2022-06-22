@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
 import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {TableDataService} from './data.service';
 
@@ -23,7 +24,10 @@ export class TemplateService {
 
     selected = [];
 
-    constructor(private fb: FormBuilder, private tableDataService: TableDataService) {
+    public isEdit: boolean;
+    public itemIndex: number;
+
+    constructor(private fb: FormBuilder, private tableDataService: TableDataService, private _router: Router) {
     }
 
     formatDate(date: Date) {
@@ -92,5 +96,12 @@ export class TemplateService {
                 indexType++;
             }
         }
+    }
+
+    checkRoute() {
+        const currentUrl = this._router.url;
+        currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase() !== 'new' ? this.isEdit = true : this.isEdit = false;
+        this.itemIndex = Number(currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase());
+        this.loadElement(this.itemIndex);
     }
 }

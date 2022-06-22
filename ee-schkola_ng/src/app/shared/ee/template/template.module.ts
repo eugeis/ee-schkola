@@ -25,14 +25,6 @@ import {ButtonComponent} from './components/button/button.component';
 import {PageComponent} from './components/page/page.component';
 import {TableComponent} from './components/table/table.component';
 
-import {FamilyComponent} from '../component/family/family.component';
-import {EducationComponent} from '../component/education/education.component';
-import {LocationComponent} from '../component/location/location.component';
-import {PersonNameComponent} from '../component/personname/personname.component';
-import {ContactComponent} from '../component/contact/contact.component';
-import {ChurchInfoComponent} from '../component/churchinfo/churchinfo.component';
-import {AddressComponent} from '../component/address/address.component';
-
 import {TemplateRoutingModules} from './template-routing.modules';
 import {ProfileViewService} from '../person/profile/services/profile-view.service';
 import {ProfileDataService} from '../person/profile/services/profile-data.service';
@@ -47,13 +39,6 @@ import {ButtonService} from './services/button.service';
         ButtonComponent,
         PageComponent,
         TableComponent,
-        FamilyComponent,
-        EducationComponent,
-        LocationComponent,
-        PersonNameComponent,
-        ContactComponent,
-        ChurchInfoComponent,
-        AddressComponent,
     ],
     imports: [
         TemplateRoutingModules,

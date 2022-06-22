@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TemplateService} from '../../services/template.service';
-import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-form',
@@ -15,13 +14,10 @@ export class FormComponent implements OnInit {
     public isEdit: boolean;
     public itemIndex: number;
 
-    constructor(public templateService: TemplateService, private _router: Router) { }
+    constructor(public templateService: TemplateService) { }
 
     ngOnInit(): void {
         this.templateService.initElement(this.formElement);
-        const currentUrl = this._router.url;
-        currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase() !== 'new' ? this.isEdit = true : this.isEdit = false;
-        this.itemIndex = Number(currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase());
-        this.templateService.loadElement(this.itemIndex);
+        this.templateService.checkRoute()
     }
 }
