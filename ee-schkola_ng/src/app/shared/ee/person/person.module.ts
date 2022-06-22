@@ -10,6 +10,8 @@ import {PersonViewComponent} from './components/person-view/person-view.componen
 import {ChurchViewComponent} from './church/components/church-view/church-view.component';
 import {ProfileListComponent} from './profile/components/profile-list/profile-list.component';
 import {ChurchListComponent} from './church/components/church-list/church-list.component';
+import {PersonNameComponent} from './basics/components/personname/personname.component';
+import {AddressComponent} from './basics/components/address/address.component';
 
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -23,7 +25,9 @@ import {MatInputModule} from '@angular/material/input';
         ProfileListComponent,
         PersonViewComponent,
         ChurchViewComponent,
-        ChurchListComponent
+        ChurchListComponent,
+        PersonNameComponent,
+        AddressComponent
     ],
     imports: [
         PersonRoutingModules,

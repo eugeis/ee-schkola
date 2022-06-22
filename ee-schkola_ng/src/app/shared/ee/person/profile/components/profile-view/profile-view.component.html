@@ -9,19 +9,7 @@
         </mat-select>
     </mat-form-field>
 
-    <mat-form-field>
-        <mat-label>Firstname</mat-label>
-        <input matInput
-               id = "firstname"
-               formControlName="firstname">
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Lastname</mat-label>
-        <input matInput
-               id = "lastname"
-               formControlName="lastname">
-    </mat-form-field>
+    <app-person-name [usedService]="profileViewService"></app-person-name>
 
     <mat-form-field>
         <mat-label>Birthname</mat-label>
@@ -37,40 +25,7 @@
                formControlName="birthday">
     </mat-form-field>
 
-    <mat-form-field>
-        <mat-label>Street</mat-label>
-        <input matInput
-               id = "street"
-               formControlName="street">
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Suite</mat-label>
-        <input matInput
-               id = "suite"
-               formControlName="suite">
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>City</mat-label>
-        <input matInput
-               id = "city"
-               formControlName="city">
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Code</mat-label>
-        <input matInput
-               id = "code"
-               formControlName="code">
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>Country</mat-label>
-        <input matInput
-               id = "country"
-               formControlName="country">
-    </mat-form-field>
+    <app-address [usedService]="profileViewService"></app-address>
 </mat-action-row>
 
 <app-button [usedService]="profileViewService" [isEdit]="profileViewService.isEdit" [itemIndex]="profileViewService.itemIndex"></app-button>

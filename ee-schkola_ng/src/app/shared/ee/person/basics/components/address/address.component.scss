@@ -1,0 +1,21 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+button {
+    display: inline-block;
+}
+
+app-page {
+    width: 100% !important;
+    z-index: 0;
+}
+
+app-form {
+    position: absolute;
+    z-index: 1;
+    top: 20%;
+    left: 10%;
+}

@@ -1,4 +1,4 @@
-import {PersonName} from '../../../../schkola/person/PersonApiBase';
+import {PersonName} from '../../../schkola/person/PersonApiBase';
 
 export class PersonNameModel {
 
