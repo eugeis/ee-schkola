@@ -13,9 +13,19 @@ app-page {
     z-index: 0;
 }
 
-app-form {
-    position: absolute;
-    z-index: 1;
-    top: 20%;
+app-button {
+    position: relative;
     left: 10%;
 }
+
+mat-action-row {
+    position: relative;
+    z-index: 1;
+    left: 10%;
+}
+
+mat-card {
+    width: 5%;
+}
+
+

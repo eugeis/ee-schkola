@@ -30,7 +30,7 @@ import {ProfileViewService} from '../person/profile/services/profile-view.servic
 import {ProfileDataService} from '../person/profile/services/profile-data.service';
 import {ChurchViewService} from '../person/church/services/church-view.service';
 import {ChurchDataService} from '../person/church/services/church-data.service'
-import {TemplateService} from './services/template.service';
+import {FormService} from './services/form.service';
 import {TableDataService} from './services/data.service';
 import {ButtonService} from './services/button.service';
 
@@ -64,7 +64,7 @@ import {ButtonService} from './services/button.service';
         MatMenuModule,
     ],
     providers: [
-        ProfileViewService, ProfileDataService, ChurchViewService, ChurchDataService, TableDataService, ButtonService, TemplateService
+        ProfileViewService, ProfileDataService, ChurchViewService, ChurchDataService, TableDataService, ButtonService, FormService
     ],
     exports: [
         FormComponent,

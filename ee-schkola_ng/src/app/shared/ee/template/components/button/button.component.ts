@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ButtonService} from '../../services/button.service';
+import {FormService} from '../../services/form.service';
 
 @Component({
     selector: 'app-button',
@@ -10,7 +11,7 @@ import {ButtonService} from '../../services/button.service';
 
 export class ButtonComponent implements OnInit {
 
-    @Input() usedService: any;
+    @Input() usedService: FormService;
     @Input() isEdit: boolean;
     @Input() itemIndex: number;
 

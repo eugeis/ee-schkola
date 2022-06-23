@@ -19,6 +19,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
     declarations: [ProfileViewComponent,
@@ -40,6 +41,7 @@ import {MatInputModule} from '@angular/material/input';
         MatSelectModule,
         MatInputModule,
         ReactiveFormsModule,
+        MatDatepickerModule,
     ],
     providers: [
 

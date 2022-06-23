@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {FormService} from '../../../../template/services/form.service';
 
 @Component({
     selector: 'app-person-name',
@@ -8,7 +9,7 @@ import {Component, Input, OnInit} from '@angular/core';
 
 export class PersonNameComponent implements OnInit {
 
-    @Input() usedService: any;
+    @Input() usedService: FormService;
 
     constructor() { }
 

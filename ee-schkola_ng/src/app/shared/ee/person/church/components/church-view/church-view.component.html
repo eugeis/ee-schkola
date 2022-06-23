@@ -1,21 +1,21 @@
 <app-page [pageElement]="churchViewService.pageElement" [pageName]="churchViewService.pageName" [tabElement]="churchViewService.tabElement"></app-page>
 
 <mat-action-row [formGroup]="churchViewService.form">
-    <mat-form-field>
+    <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
         <input matInput
                id = "name"
                formControlName="name">
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
         <mat-label>Address</mat-label>
         <input matInput
                id = "address"
                formControlName="address">
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
         <mat-label>Association</mat-label>
         <input matInput
                id = "association"

@@ -4,7 +4,7 @@ import {FormBuilder, FormControl, Validators} from '@angular/forms';
 import {TableDataService} from './data.service';
 
 @Injectable({ providedIn: 'root' })
-export class TemplateService {
+export class FormService {
 
     protected elementNameWithValue: any[][];
 

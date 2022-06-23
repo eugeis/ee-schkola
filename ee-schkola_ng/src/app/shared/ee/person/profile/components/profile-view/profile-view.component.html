@@ -1,6 +1,7 @@
 <app-page [pageElement]="profileViewService.pageElement" [pageName]="profileViewService.pageName" [tabElement]="profileViewService.tabElement"></app-page>
+
 <mat-action-row [formGroup]="profileViewService.form">
-    <mat-form-field>
+    <mat-form-field appearance="outline">
         <mat-label>Gender</mat-label>
         <mat-select (valueChange)="profileViewService.changeValue($event, profileViewService.formArrayName[1])" [(value)]="profileViewService.selected[0]">
             <div *ngFor="let item of profileViewService.formEnumElement[0]">
@@ -11,21 +12,24 @@
 
     <app-person-name [usedService]="profileViewService"></app-person-name>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
         <mat-label>Birthname</mat-label>
         <input matInput
                id = "birthName"
                formControlName="birthName">
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
         <mat-label>Birthday</mat-label>
-        <input matInput type="date"
-               id = "birthday"
+        <input matInput [matDatepicker]="picker" id = "birthday"
                formControlName="birthday">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <app-address [usedService]="profileViewService"></app-address>
+
 </mat-action-row>
 
 <app-button [usedService]="profileViewService" [isEdit]="profileViewService.isEdit" [itemIndex]="profileViewService.itemIndex"></app-button>

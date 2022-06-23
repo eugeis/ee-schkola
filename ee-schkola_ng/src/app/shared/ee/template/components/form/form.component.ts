@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TemplateService} from '../../services/template.service';
+import {FormService} from '../../services/form.service';
 
 @Component({
     selector: 'app-form',
     templateUrl: './form.component.html',
     styleUrls: ['./form.component.scss'],
-    providers: [TemplateService],
+    providers: [FormService],
 })
 
 export class FormComponent implements OnInit {
@@ -14,7 +14,7 @@ export class FormComponent implements OnInit {
     public isEdit: boolean;
     public itemIndex: number;
 
-    constructor(public templateService: TemplateService) { }
+    constructor(public templateService: FormService) { }
 
     ngOnInit(): void {
         this.templateService.initElement(this.formElement);

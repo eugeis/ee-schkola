@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {TemplateService} from '../../../template/services/template.service';
+import {FormService} from '../../../template/services/form.service';
 import {PersonNameModel} from '../../models/basic/PersonNameModel';
 import {GenderEnumModel} from '../../models/enums/GenderEnumModel';
 import {AddressModel} from '../../models/basic/AddressModel';
 
 @Injectable()
-export class ProfileViewService extends TemplateService {
+export class ProfileViewService extends FormService {
 
     personName: PersonNameModel = new PersonNameModel();
 

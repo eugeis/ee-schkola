@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {TemplateService} from '../../../template/services/template.service';
+import {FormService} from '../../../template/services/form.service';
 
 @Injectable()
-export class ChurchViewService extends TemplateService {
+export class ChurchViewService extends FormService {
 
     elementNameWithValue = [['name', 'string'], ['address', 'string'], ['association', 'string']];
 
