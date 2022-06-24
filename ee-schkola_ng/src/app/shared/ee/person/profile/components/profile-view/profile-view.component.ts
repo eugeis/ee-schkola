@@ -15,7 +15,6 @@ export class ProfileViewComponent implements OnInit {
     constructor(public profileViewService: ProfileViewService) { }
 
     ngOnInit(): void {
-        this.profileViewService.init();
         this.profileViewService.checkRoute();
     }
 }

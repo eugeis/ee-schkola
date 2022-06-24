@@ -15,6 +15,6 @@ export class ProfileListComponent implements OnInit {
     constructor(public profileViewService: ProfileViewService, public profileDataService: TableDataService) { }
 
     ngOnInit(): void {
-        this.profileViewService.init();
+
     }
 }

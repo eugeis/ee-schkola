@@ -15,6 +15,6 @@ export class ChurchListComponent implements OnInit {
     constructor(public churchViewService: ChurchViewService, public churchDataService: ChurchDataService) { }
 
     ngOnInit(): void {
-        this.churchViewService.init();
+
     }
 }

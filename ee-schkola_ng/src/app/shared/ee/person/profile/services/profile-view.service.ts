@@ -11,15 +11,28 @@ export class ProfileViewService extends FormService {
 
     address: AddressModel = new AddressModel();
 
-    elementNameWithValue = [['gender', 'enum', GenderEnumModel], this.personName.firstname, this.personName.lastname,
-        ['birthName', 'string'], ['birthday', 'datetime'],
-        this.address.street, this.address.suite, this.address.code, this.address.city, this.address.country];
+    form = this.fb.group({
+        gender: 'UNKNOWN',
+        firstname: '',
+        lastname: '',
+        birthName: '',
+        birthday: this.dateNow,
+        street: '',
+        suite: '',
+        code: '',
+        city: '',
+        country: '',
+    });
+
+    formArrayType = ['enum', 'string', 'string', 'string', 'datetime', 'string', 'string', 'string', 'string', 'string'];
+
+    formArrayName = ['Actions', 'gender', 'firstname', 'lastname', 'birthName', 'birthday', 'street', 'suite', 'code', 'city', 'country'];
+
+    formEnumGender = this.loadEnumElement(GenderEnumModel);
 
     pageElement = ['Person'];
 
     tabElement = ['Profile', 'Church'];
 
     pageName = 'ProfileComponent';
-
-    formArrayName = ['Actions'];
 }

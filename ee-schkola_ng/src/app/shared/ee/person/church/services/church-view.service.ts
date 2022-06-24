@@ -4,13 +4,19 @@ import {FormService} from '../../../template/services/form.service';
 @Injectable()
 export class ChurchViewService extends FormService {
 
-    elementNameWithValue = [['name', 'string'], ['address', 'string'], ['association', 'string']];
+    form = this.fb.group({
+        name: '',
+        address: '',
+        association: '',
+    });
+
+    formArrayType = ['string', 'string', 'string'];
+
+    formArrayName = ['Actions', 'name', 'address', 'association'];
 
     pageElement = ['Person'];
 
     tabElement = ['Profile', 'Church'];
 
     pageName = 'ChurchComponent';
-
-    formArrayName = ['Actions'];
 }

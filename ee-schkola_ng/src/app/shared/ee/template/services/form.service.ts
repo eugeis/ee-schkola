@@ -27,7 +27,7 @@ export class FormService {
     public isEdit: boolean;
     public itemIndex: number;
 
-    constructor(private fb: FormBuilder, private tableDataService: TableDataService, private _router: Router) {
+    constructor(public fb: FormBuilder, private tableDataService: TableDataService, private _router: Router) {
     }
 
     formatDate(date: Date) {
@@ -74,6 +74,15 @@ export class FormService {
             this.formArrayName.push(elementName);
             this.formArrayType.push(elementType);
         });
+    }
+
+    loadEnumElement(enumElement: any) {
+        let tempArray = [];
+        Object.keys(enumElement).map((element, index) => {
+            tempArray.push(enumElement[index]);
+        })
+        tempArray = tempArray.filter((item) => item);
+        return tempArray;
     }
 
     loadElement(indexValue: number) {

@@ -4,7 +4,7 @@
     <mat-form-field appearance="outline">
         <mat-label>Gender</mat-label>
         <mat-select (valueChange)="profileViewService.changeValue($event, profileViewService.formArrayName[1])" [(value)]="profileViewService.selected[0]">
-            <div *ngFor="let item of profileViewService.formEnumElement[0]">
+            <div *ngFor="let item of profileViewService.formEnumGender">
                 <mat-option [value]="item">{{item}}</mat-option>
             </div>
         </mat-select>

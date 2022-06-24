@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TemplateService} from './template.service';
+import {FormService} from './form.service';
 
 @Injectable({ providedIn: 'root' })
 export class TableDataService {
     itemName = '';
     items: Array<any> = [];
 
-    constructor(private templateService: TemplateService, private _router: Router, private _route: ActivatedRoute) {
+    constructor(private templateService: FormService, private _router: Router, private _route: ActivatedRoute) {
     }
 
     addItemToTableArray(items: Array<any>) {
