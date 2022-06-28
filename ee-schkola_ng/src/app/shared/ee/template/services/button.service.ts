@@ -10,8 +10,6 @@ export class ButtonService {
     inputElement(usedService: any) {
         usedService.formArrayValue.value.push(usedService.form.getRawValue());
         this.tableDataService.addItemToTableArray(usedService.form.getRawValue());
-        console.log(usedService.formArrayValue.value);
-        console.log(this.tableDataService.items);
     }
 
     editElement(index: number, usedService: any) {
