@@ -1,15 +1,13 @@
-<mat-action-row [formGroup]="usedService.form">
-    <mat-form-field appearance="outline">
-        <mat-label>Firstname</mat-label>
-        <input matInput
-               id = "firstname"
-               formControlName="firstname">
-    </mat-form-field>
+<div>
+    <form class="name-form">
+        <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput placeholder="Enter First Name" name="firstname" [(ngModel)]="personName.first">
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Lastname</mat-label>
-        <input matInput
-               id = "lastname"
-               formControlName="lastname">
-    </mat-form-field>
-</mat-action-row>
+        <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input matInput placeholder="Enter Last Name" name="lastname" [(ngModel)]="personName.last">
+        </mat-form-field>
+    </form>
+</div>

@@ -1,35 +1,16 @@
 import {Injectable} from '@angular/core';
 import {FormService} from '../../../template/services/form.service';
-import {PersonNameModel} from '../../models/basic/PersonNameModel';
-import {GenderEnumModel} from '../../models/enums/GenderEnumModel';
-import {AddressModel} from '../../models/basic/AddressModel';
+import {Profile} from '../../../schkola/person/PersonApiBase';
 
 @Injectable()
 export class ProfileViewService extends FormService {
 
-    personName: PersonNameModel = new PersonNameModel();
+    data: Map<String, Profile>;
 
-    address: AddressModel = new AddressModel();
+    profile: Profile = new Profile();
 
-    form = this.fb.group({
-        gender: 'UNKNOWN',
-        firstname: '',
-        lastname: '',
-        birthName: '',
-        birthday: this.dateNow,
-        street: '',
-        suite: '',
-        code: '',
-        city: '',
-        country: '',
-    });
-
-    formArrayType = ['enum', 'string', 'string', 'string', 'datetime', 'string', 'string', 'string', 'string', 'string'];
-
-    formArrayName = ['Actions', 'gender', 'firstname', 'lastname', 'birthName', 'birthday', 'street', 'suite', 'code', 'city', 'country'];
-
-    formEnumGender = this.loadEnumElement(GenderEnumModel);
-
+    /*formArrayName = ['Actions', 'gender', 'firstname', 'lastname', 'birthName', 'birthday', 'street', 'suite', 'code', 'city', 'country'];
+*/
     pageElement = ['Person'];
 
     tabElement = ['Profile', 'Church'];

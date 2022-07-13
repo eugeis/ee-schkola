@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProfileViewService} from '../../services/profile-view.service';
 import {TableDataService} from '../../../../template/services/data.service';
 import {ProfileDataService} from '../../services/profile-data.service';
+import {Gender} from '../../../../schkola/person/PersonApiBase';
 
 @Component({
     selector: 'app-person-profile-view',
@@ -11,6 +12,8 @@ import {ProfileDataService} from '../../services/profile-data.service';
 })
 
 export class ProfileViewComponent implements OnInit {
+
+    genderEnum = this.profileViewService.loadEnumElement(Gender);
 
     constructor(public profileViewService: ProfileViewService) { }
 

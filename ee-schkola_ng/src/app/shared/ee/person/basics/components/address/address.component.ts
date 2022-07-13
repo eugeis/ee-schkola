@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormService} from '../../../../template/services/form.service';
+import {Address} from '../../../../schkola/person/PersonApiBase';
 
 @Component({
     selector: 'app-address',
@@ -10,6 +11,7 @@ import {FormService} from '../../../../template/services/form.service';
 export class AddressComponent implements OnInit {
 
     @Input() usedService: FormService;
+    @Input() address: Address;
 
     constructor() { }
 

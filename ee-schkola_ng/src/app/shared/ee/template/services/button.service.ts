@@ -8,8 +8,8 @@ export class ButtonService {
     }
 
     inputElement(usedService: any) {
-        usedService.formArrayValue.value.push(usedService.form.getRawValue());
-        this.tableDataService.addItemToTableArray(usedService.form.getRawValue());
+        usedService.formArrayValue.value.push(usedService.profile);
+        this.tableDataService.addItemToTableArray(usedService.profile);
     }
 
     editElement(index: number, usedService: any) {

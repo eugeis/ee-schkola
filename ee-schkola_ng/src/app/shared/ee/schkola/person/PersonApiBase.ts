@@ -14,11 +14,11 @@ export class Graduation {
 }
 
 export class Profile {
-    gender: Gender
-    name: PersonName
+    gender: Gender = 0;
+    name: PersonName = {first: '', last: ''};
     birthName: string
     birthday: Date
-    address: Address
+    address: Address = {street: '', suite: '', city: '', code: '', country: ''};
     contact: Contact
     photoData: Blob
     photo: string
@@ -79,7 +79,7 @@ export class PersonName {
 
 
 
-enum Gender {
+export enum Gender {
     UNKNOWN,
     MALE,
     FEMALE
@@ -94,7 +94,7 @@ enum GraduationLevel {
     COLLEGE
 }
 
-enum MaritalState {
+export enum MaritalState {
     UNKNOWN,
     SINGLE,
     MARRIED,

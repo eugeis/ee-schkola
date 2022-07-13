@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {PersonRoutingModules} from './person-routing.module';
 import {CommonModule} from '@angular/common';
@@ -42,6 +42,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
         MatInputModule,
         ReactiveFormsModule,
         MatDatepickerModule,
+        FormsModule,
     ],
     providers: [
 
