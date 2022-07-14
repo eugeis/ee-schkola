@@ -16,8 +16,8 @@ export class Graduation {
 export class Profile {
     gender: Gender = 0;
     name: PersonName = {first: '', last: ''};
-    birthName: string
-    birthday: Date
+    birthName = ''
+    birthday: Date = new Date();
     address: Address = {street: '', suite: '', city: '', code: '', country: ''};
     contact: Contact
     photoData: Blob

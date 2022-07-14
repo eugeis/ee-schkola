@@ -10,7 +10,7 @@ export class TableDataService {
     constructor(private templateService: FormService, private _router: Router, private _route: ActivatedRoute) {
     }
 
-    addItemToTableArray(items: Array<any>) {
+    addItemToTableArray(items: Object) {
         this.retrieveItemFromCache();
         this.items.push(items);
         localStorage.setItem(this.itemName, JSON.stringify(this.items));
