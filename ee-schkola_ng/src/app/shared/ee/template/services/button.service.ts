@@ -7,8 +7,9 @@ export class ButtonService {
     constructor(private tableDataService: TableDataService) {
     }
 
-    inputElement(usedService: any) {
-        this.tableDataService.addItemToTableArray(this.changeObjectStructure(usedService.profile));
+    inputElement(element: any) {
+        const id = element['birthName'] + element['gender'];
+        this.tableDataService.addItemToTableArray(element, id);
     }
 
     // TODO: Implement Edit Element with Current Approach

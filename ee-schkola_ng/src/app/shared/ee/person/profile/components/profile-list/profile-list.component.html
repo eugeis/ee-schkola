@@ -1,4 +1,4 @@
-<app-page [pageElement]="profileViewService.pageElement" [pageName]="profileViewService.pageName" [tabElement]="profileViewService.tabElement"></app-page>
+<app-page [pageElement]="profileDataService.pageElement" [pageName]="profileDataService.pageName" [tabElement]="profileDataService.tabElement"></app-page>
 <a class="newButton" [routerLink]="'./new'"
         routerLinkActive="active-link">
     <mat-icon>add_circle_outline</mat-icon> Add New Item
@@ -7,4 +7,4 @@
 <a class="deleteButton" (click)="profileDataService.clearItems()">
     <mat-icon>delete_outline</mat-icon> Delete All Item
 </a>
-<app-table [displayedColumns]="profileViewService.generateTableHeader()"></app-table>
+<app-table [displayedColumns]="generateTableHeader()"></app-table>

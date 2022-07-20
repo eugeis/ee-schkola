@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormService} from '../../../../template/services/form.service';
 import {PersonName} from '../../../../schkola/person/PersonApiBase';
 
 @Component({
@@ -10,7 +9,6 @@ import {PersonName} from '../../../../schkola/person/PersonApiBase';
 
 export class PersonNameComponent implements OnInit {
 
-    @Input() usedService: FormService;
     @Input() personName: PersonName;
 
     constructor() { }

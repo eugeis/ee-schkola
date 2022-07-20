@@ -1,26 +1,20 @@
-<app-page [pageElement]="churchViewService.pageElement" [pageName]="churchViewService.pageName" [tabElement]="churchViewService.tabElement"></app-page>
+<app-page [pageElement]="churchDataService.pageElement" [pageName]="churchDataService.pageName" [tabElement]="churchDataService.tabElement"></app-page>
 
-<mat-action-row [formGroup]="churchViewService.form">
-    <mat-form-field appearance="outline">
-        <mat-label>Name</mat-label>
-        <input matInput
-               id = "name"
-               formControlName="name">
-    </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Address</mat-label>
-        <input matInput
-               id = "address"
-               formControlName="address">
-    </mat-form-field>
+<div>
+    <form class="church-form">
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput name="Name" [(ngModel)]="church.name">
+        </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Association</mat-label>
-        <input matInput
-               id = "association"
-               formControlName="association">
-    </mat-form-field>
-</mat-action-row>
+        <app-address [address]="church.address"></app-address>
 
-<app-button [usedService]="churchViewService" [isEdit]="churchViewService.isEdit" [itemIndex]="churchViewService.itemIndex"></app-button>
+        <mat-form-field appearance="outline">
+            <mat-label>Association</mat-label>
+            <input matInput name="Association" [(ngModel)]="church.association">
+        </mat-form-field>
+    </form>
+</div>
+
+<app-button [element]="church" [isEdit]="churchDataService.isEdit" [itemIndex]="churchDataService.itemIndex"></app-button>

@@ -26,9 +26,7 @@ import {PageComponent} from './components/page/page.component';
 import {TableComponent} from './components/table/table.component';
 
 import {TemplateRoutingModules} from './template-routing.modules';
-import {ProfileViewService} from '../person/profile/services/profile-view.service';
 import {ProfileDataService} from '../person/profile/services/profile-data.service';
-import {ChurchViewService} from '../person/church/services/church-view.service';
 import {ChurchDataService} from '../person/church/services/church-data.service'
 import {FormService} from './services/form.service';
 import {TableDataService} from './services/data.service';
@@ -64,7 +62,7 @@ import {ButtonService} from './services/button.service';
         MatMenuModule,
     ],
     providers: [
-        ProfileViewService, ProfileDataService, ChurchViewService, ChurchDataService, TableDataService, ButtonService, FormService
+        ProfileDataService, ChurchDataService, TableDataService, ButtonService, FormService
     ],
     exports: [
         FormComponent,

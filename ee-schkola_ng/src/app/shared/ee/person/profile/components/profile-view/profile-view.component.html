@@ -1,33 +1,33 @@
-<app-page [pageElement]="profileViewService.pageElement" [pageName]="profileViewService.pageName" [tabElement]="profileViewService.tabElement"></app-page>
+<app-page [pageElement]="profileDataService.pageElement" [pageName]="profileDataService.pageName" [tabElement]="profileDataService.tabElement"></app-page>
 
 <div>
     <form class="profile-form">
         <mat-form-field appearance="outline">
             <mat-label>Gender</mat-label>
-            <mat-select [(value)]="profileViewService.profile.gender" [(ngModel)]="profileViewService.profile.gender">
+            <mat-select [(value)]="profile.gender" [(ngModel)]="profile.gender">
                 <div *ngFor="let item of genderEnum">
                     <mat-option [value]="item">{{item}}</mat-option>
                 </div>
             </mat-select>
         </mat-form-field>
 
-        <app-person-name [usedService]="profileViewService" [personName]="profileViewService.profile.name"></app-person-name>
+        <app-person-name [personName]="profile.name"></app-person-name>
 
         <mat-form-field appearance="outline">
             <mat-label>Birthname</mat-label>
-            <input matInput name="birthname" [(ngModel)]="profileViewService.profile.birthName">
+            <input matInput name="birthname" [(ngModel)]="profile.birthName">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
             <mat-label>Birthday</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="profileViewService.profile.birthday">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="profile.birthday">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
-        <app-address [usedService]="profileViewService" [address]="profileViewService.profile.address"></app-address>
+        <app-address [address]="profile.address"></app-address>
     </form>
 </div>
 
-<app-button [usedService]="profileViewService" [isEdit]="profileViewService.isEdit" [itemIndex]="profileViewService.itemIndex"></app-button>
+<app-button [element]="profile" [isEdit]="profileDataService.isEdit" [itemIndex]="profileDataService.itemIndex"></app-button>

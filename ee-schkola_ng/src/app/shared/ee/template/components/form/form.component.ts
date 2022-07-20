@@ -18,6 +18,6 @@ export class FormComponent implements OnInit {
 
     ngOnInit(): void {
         this.templateService.initElement(this.formElement);
-        this.templateService.checkRoute()
+        // this.templateService.checkRoute()
     }
 }

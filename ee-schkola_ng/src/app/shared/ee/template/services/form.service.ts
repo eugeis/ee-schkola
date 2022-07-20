@@ -86,9 +86,13 @@ export class FormService {
     }
 
     // TODO: Implement Load Element For Edit
-    loadElement(indexValue: number) {
-        this.tableDataService.retrieveItemFromCache();
-        this.tableDataService.items.forEach((element) => {
+    loadElement(indexValue: number, element: any) {
+        Object.keys(this.tableDataService.retrieveItemFromCache()[indexValue]).map((elementIndex) => {
+            element[elementIndex] = this.tableDataService.retrieveItemFromCache()[indexValue][elementIndex];
+            // console.log(this.tableDataService.retrieveItemFromCache()[indexValue][elementIndex]);
+        });
+        console.log(element);
+        /*this.tableDataService.items.forEach((element) => {
             this.formArrayValue.value.push(element);
         });
         let indexType = 0;
@@ -105,13 +109,13 @@ export class FormService {
                 }
                 indexType++;
             }
-        }
+        }*/
     }
 
-    checkRoute() {
+    checkRoute(element: any) {
         const currentUrl = this._router.url;
         currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase() !== 'new' ? this.isEdit = true : this.isEdit = false;
         this.itemIndex = Number(currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase());
-        this.loadElement(this.itemIndex);
+        this.loadElement(this.itemIndex, element);
     }
 }
