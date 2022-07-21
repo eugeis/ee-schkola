@@ -8,6 +8,7 @@ export class ButtonService {
     }
 
     inputElement(element: any) {
+        element['birthday'] = this.formatDate(element['birthday']);
         const id = element['birthName'] + element['gender'];
         this.tableDataService.addItemToTableArray(element, id);
     }
@@ -20,19 +21,6 @@ export class ButtonService {
             }
         }
         localStorage.setItem(this.tableDataService.itemName, JSON.stringify(usedService.formArrayValue.value));
-    }
-
-    changeObjectStructure(object: Object) {
-        const newObjectWithStructure: Object = {};
-        Object.keys(object).map((objectIndex) => {
-            typeof object[objectIndex] === 'object' ?
-                object[objectIndex] instanceof Date ?
-                    newObjectWithStructure[objectIndex] = this.formatDate(object[objectIndex]) :
-                    Object.keys(object[objectIndex]).forEach((objectElementIndex) => {
-                        newObjectWithStructure[objectElementIndex] = object[objectIndex][objectElementIndex];
-                    }) : newObjectWithStructure[objectIndex] = object[objectIndex];
-        })
-        return newObjectWithStructure;
     }
 
     formatDate(date: Date) {
