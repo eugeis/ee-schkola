@@ -8,19 +8,26 @@ export class ButtonService {
     }
 
     inputElement(element: any) {
-        element['birthday'] = this.formatDate(element['birthday']);
-        const id = element['birthName'] + element['gender'];
+        this.changeDateValue(element);
+        const id = this.tableDataService.itemName + JSON.stringify(element);
         this.tableDataService.addItemToTableArray(element, id);
     }
 
-    // TODO: Implement Edit Element with Current Approach
-    editElement(index: number, usedService: any) {
-        for (const elementName in usedService.formArrayValue.value[index]) {
-            if (usedService.formArrayValue.value[index].hasOwnProperty(elementName)) {
-                usedService.formArrayValue.value[index][elementName] = usedService.form.get(elementName).value;
+    // TODO: Change Map Key After Edit
+    editElement(index: number, element: any) {
+        const items = JSON.parse(localStorage.getItem(this.tableDataService.dataName));
+        const elementWithNewDate = this.changeDateValue(element);
+        items[index] = this.tableDataService.changeObjectToArray(elementWithNewDate);
+        localStorage.setItem(this.tableDataService.dataName, JSON.stringify(items));
+    }
+
+    changeDateValue(element: any) {
+        Object.keys(element).map((elementIndex) => {
+            if (element[elementIndex] instanceof Date) {
+                element[elementIndex] = this.formatDate(element[elementIndex]);
             }
-        }
-        localStorage.setItem(this.tableDataService.itemName, JSON.stringify(usedService.formArrayValue.value));
+        });
+        return element;
     }
 
     formatDate(date: Date) {

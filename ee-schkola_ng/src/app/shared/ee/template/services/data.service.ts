@@ -7,6 +7,7 @@ export class TableDataService {
     public isEdit: boolean;
     public itemIndex: number;
     itemName = '';
+    dataName = '';
     items: Map<any, any> = new Map();
     tableItems: Array<any> = [];
 
@@ -17,30 +18,9 @@ export class TableDataService {
         this.items = this.retrieveItemFromCache();
         this.items.set(id, items);
         this.tableItems = this.retrieveItemForTable();
-        this.tableItems.push(items);
+        this.tableItems.push(this.changeObjectToArray(items));
         localStorage.map = JSON.stringify(Array.from(this.items.entries()));
-        localStorage.setItem(this.itemName + 'Data', JSON.stringify(this.tableItems));
-    }
-
-    retrieveItemForTable() {
-        let element: Object;
-        const tableArray = [];
-        this.tableItems = JSON.parse(localStorage.getItem(this.itemName + 'Data'));
-        if (this.tableItems !== null) {
-            Object.keys(this.tableItems).map((itemIndex) => {
-                element = {};
-                Object.keys(this.tableItems[itemIndex]).map((elementIndex) => {
-                    typeof this.tableItems[itemIndex][elementIndex] === 'object' ?
-                        Object.keys(this.tableItems[itemIndex][elementIndex]).map((elementOfObject) => {
-                            element[elementOfObject] = this.tableItems[itemIndex][elementIndex][elementOfObject];
-                        }) : element[elementIndex] = this.tableItems[itemIndex][elementIndex] ;
-                });
-                tableArray.push(element);
-            });
-            return tableArray;
-        } else {
-            return [];
-        }
+        localStorage.setItem(this.dataName, JSON.stringify(this.tableItems));
     }
 
     retrieveItemFromCache() {
@@ -48,9 +28,29 @@ export class TableDataService {
         return this.items;
     }
 
+    retrieveItemForTable() {
+        this.tableItems = JSON.parse(localStorage.getItem(this.dataName));
+        if (this.tableItems !== null) {
+            return this.tableItems;
+        } else {
+            return [];
+        }
+    }
+
+    changeObjectToArray(object: Object) {
+        const element: Object = {};
+        Object.keys(object).map((elementIndex) => {
+            typeof object[elementIndex] === 'object' ?
+                Object.keys(object[elementIndex]).map((elementOfObject) => {
+                    element[elementOfObject] = object[elementIndex][elementOfObject];
+                }) : element[elementIndex] = object[elementIndex];
+        });
+        return element
+    }
+
     clearItems() {
         this.items.clear();
-        localStorage.setItem(this.itemName + 'Data', JSON.stringify([]));
+        localStorage.setItem(this.dataName, JSON.stringify([]));
         localStorage.map = JSON.stringify(Array.from(this.items.entries()));
         window.location.reload();
     }
@@ -62,10 +62,6 @@ export class TableDataService {
         window.location.reload();
     }
 
-    editItems(index) {
-        this._router.navigate(['edit' , index], {relativeTo: this._route});
-    }
-
     loadEnumElement(enumElement: any) {
         let tempArray = [];
         Object.keys(enumElement).map((element, index) => {
@@ -73,5 +69,30 @@ export class TableDataService {
         })
         tempArray = tempArray.filter((item) => item);
         return tempArray;
+    }
+
+    editItems(index) {
+        this._router.navigate(['edit' , index], {relativeTo: this._route});
+    }
+
+    checkRoute(element: any) {
+        const currentUrl = this._router.url;
+        currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase() !== 'new' ? this.isEdit = true : this.isEdit = false;
+        this.itemIndex = Number(currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase());
+        if (this.isEdit) {
+            this.loadElement(this.itemIndex, element);
+        }
+    }
+
+    loadElement(indexValue: number, element: any) {
+        const item = JSON.parse(localStorage.getItem(this.dataName))[indexValue];
+        if (item !== null) {
+            Object.keys(element).map((elementIndex) => {
+                typeof element[elementIndex] === 'object' ?
+                    Object.keys(element[elementIndex]).map((elementOfObject) => {
+                        element[elementIndex][elementOfObject] = item[elementOfObject];
+                    }) : element[elementIndex] = item[elementIndex];
+            });
+        }
     }
 }

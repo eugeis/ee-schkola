@@ -6,6 +6,8 @@ import {Profile} from '../../../schkola/person/PersonApiBase';
 export class ProfileDataService extends TableDataService {
     itemName = 'profile';
 
+    dataName = 'profileData';
+
     pageElement = ['Person'];
 
     tabElement = ['Profile', 'Church'];

@@ -1,9 +1,9 @@
 export class Church {
-    name: string
-    address: Address
+    name = '';
+    address: Address = {street: '', suite: '', city: '', code: '', country: ''};
     pastor: PersonName
     contact: Contact
-    association: string
+    association = '';
     id: string
 }
 

@@ -19,6 +19,6 @@ export class ChurchViewComponent implements OnInit {
 
     ngOnInit(): void {
         this.church = this.churchDataService.getFirst();
-        // this.churchViewService.checkRoute(this.churchViewService);
+        this.churchDataService.checkRoute(this.church);
     }
 }

@@ -19,7 +19,7 @@ export class ProfileViewComponent implements OnInit {
     constructor(public profileDataService: ProfileDataService) { }
 
     ngOnInit(): void {
-        // this.profile = this.profileDataService.getFirst();
-        // this.profileViewService.checkRoute(this.profileViewService.profile);
+        this.profile = this.profileDataService.getFirst();
+        this.profileDataService.checkRoute(this.profile);
     }
 }

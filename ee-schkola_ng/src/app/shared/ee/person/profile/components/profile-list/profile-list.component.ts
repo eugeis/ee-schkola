@@ -29,7 +29,7 @@ export class ProfileListComponent implements OnInit {
                     Object.keys(this.profile[profileIndex]).forEach((element) => {
                         formArrayName.push(element);
                     }) : formArrayName.push(profileIndex);
-        })
+        });
         return formArrayName;
     }
 }

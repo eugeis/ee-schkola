@@ -75,47 +75,4 @@ export class FormService {
             this.formArrayType.push(elementType);
         });
     }
-
-    loadEnumElement(enumElement: any) {
-        let tempArray = [];
-        Object.keys(enumElement).map((element, index) => {
-            tempArray.push(enumElement[index]);
-        })
-        tempArray = tempArray.filter((item) => item);
-        return tempArray;
-    }
-
-    // TODO: Implement Load Element For Edit
-    loadElement(indexValue: number, element: any) {
-        Object.keys(this.tableDataService.retrieveItemFromCache()[indexValue]).map((elementIndex) => {
-            element[elementIndex] = this.tableDataService.retrieveItemFromCache()[indexValue][elementIndex];
-            // console.log(this.tableDataService.retrieveItemFromCache()[indexValue][elementIndex]);
-        });
-        console.log(element);
-        /*this.tableDataService.items.forEach((element) => {
-            this.formArrayValue.value.push(element);
-        });
-        let indexType = 0;
-        for (const elementName in this.formArrayValue.value[indexValue]) {
-            if (this.formArrayValue.value[indexValue].hasOwnProperty(elementName)) {
-                if (this.formArrayType[indexType] === 'datetime') {
-                    this.form.get(elementName).setValue(this.formatDate(new Date(this.formArrayValue.value[indexValue][elementName])));
-                } if (this.formArrayType[indexType] === 'enum') {
-                    this.form.get(elementName).setValue(this.formArrayValue.value[indexValue][elementName]);
-                    this.selected.push(this.formArrayValue.value[indexValue][elementName]);
-                } else {
-                    this.form.get(elementName).setValue(this.formArrayValue.value[indexValue][elementName]);
-                    this.selected.push([]);
-                }
-                indexType++;
-            }
-        }*/
-    }
-
-    checkRoute(element: any) {
-        const currentUrl = this._router.url;
-        currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase() !== 'new' ? this.isEdit = true : this.isEdit = false;
-        this.itemIndex = Number(currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase());
-        this.loadElement(this.itemIndex, element);
-    }
 }
