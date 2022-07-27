@@ -13,12 +13,20 @@ export class ButtonService {
         this.tableDataService.addItemToTableArray(element, id);
     }
 
-    // TODO: Change Map Key After Edit
     editElement(index: number, element: any) {
-        const items = JSON.parse(localStorage.getItem(this.tableDataService.dataName));
-        const elementWithNewDate = this.changeDateValue(element);
-        items[index] = this.tableDataService.changeObjectToArray(elementWithNewDate);
-        localStorage.setItem(this.tableDataService.dataName, JSON.stringify(items));
+        const mapItems = this.tableDataService.retrieveItemFromCache();
+        const arrayItems = JSON.parse(localStorage.getItem(this.tableDataService.dataName));
+        const newElement = this.changeDateValue(element);
+        mapItems.forEach((currentValue, currentKey) => {
+            const newId = this.tableDataService.itemName + JSON.stringify(newElement);
+            if (JSON.stringify(this.tableDataService.changeObjectToArray(currentValue)) === JSON.stringify(arrayItems[index])) {
+                mapItems.set(newId, newElement);
+                mapItems.delete(currentKey);
+            }
+        });
+        arrayItems[index] = this.tableDataService.changeObjectToArray(newElement);
+        localStorage.setItem(this.tableDataService.dataName, JSON.stringify(arrayItems));
+        localStorage.map = JSON.stringify(Array.from(mapItems.entries()));
     }
 
     changeDateValue(element: any) {

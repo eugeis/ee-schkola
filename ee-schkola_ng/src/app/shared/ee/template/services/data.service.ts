@@ -75,7 +75,7 @@ export class TableDataService {
         this._router.navigate(['edit' , index], {relativeTo: this._route});
     }
 
-    checkRoute(element: any) {
+    checkRoute(element: Object) {
         const currentUrl = this._router.url;
         currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase() !== 'new' ? this.isEdit = true : this.isEdit = false;
         this.itemIndex = Number(currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase());
@@ -84,7 +84,7 @@ export class TableDataService {
         }
     }
 
-    loadElement(indexValue: number, element: any) {
+    loadElement(indexValue: number, element: Object) {
         const item = JSON.parse(localStorage.getItem(this.dataName))[indexValue];
         if (item !== null) {
             Object.keys(element).map((elementIndex) => {
