@@ -37,6 +37,15 @@ export class TableDataService {
         }
     }
 
+    changeMapToArray(map: Map<any, any>) {
+        console.log(map);
+        const tableItems: Array<any> = [];
+        map.forEach((value) => {
+            tableItems.push(this.changeObjectToArray(value));
+        });
+        return tableItems
+    }
+
     changeObjectToArray(object: Object) {
         const element: Object = {};
         Object.keys(object).map((elementIndex) => {
@@ -56,8 +65,14 @@ export class TableDataService {
     }
 
     removeItem(id) {
-        this.retrieveItemFromCache();
-        this.items.delete(id);
+        this.items = this.retrieveItemFromCache();
+        this.items.forEach((value, key) => {
+            console.log(this.changeObjectToArray(value));
+            console.log(id);
+            if (JSON.stringify(this.changeObjectToArray(value)) === JSON.stringify(id)) {
+                this.items.delete(key);
+            }
+        });
         localStorage.map = JSON.stringify(Array.from(this.items.entries()));
         window.location.reload();
     }
