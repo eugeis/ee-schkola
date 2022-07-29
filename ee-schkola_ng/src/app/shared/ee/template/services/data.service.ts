@@ -7,9 +7,7 @@ export class TableDataService {
     public isEdit: boolean;
     public itemIndex: number;
     itemName = '';
-    dataName = '';
     items: Map<any, any> = new Map();
-    tableItems: Array<any> = [];
 
     constructor(private _router: Router, private _route: ActivatedRoute) {
     }
@@ -17,28 +15,17 @@ export class TableDataService {
     addItemToTableArray(items: Object, id: string) {
         this.items = this.retrieveItemFromCache();
         this.items.set(id, items);
-        this.tableItems = this.retrieveItemForTable();
-        this.tableItems.push(this.changeObjectToArray(items));
         localStorage.map = JSON.stringify(Array.from(this.items.entries()));
-        localStorage.setItem(this.dataName, JSON.stringify(this.tableItems));
+        localStorage.setItem(this.itemName, localStorage.map);
     }
 
     retrieveItemFromCache() {
-        this.items = new Map(JSON.parse(localStorage.map));
-        return this.items;
-    }
-
-    retrieveItemForTable() {
-        this.tableItems = JSON.parse(localStorage.getItem(this.dataName));
-        if (this.tableItems !== null) {
-            return this.tableItems;
-        } else {
-            return [];
-        }
+        this.items = new Map(JSON.parse(localStorage.getItem(this.itemName)));
+        console.log(this.items);
+        return this.items
     }
 
     changeMapToArray(map: Map<any, any>) {
-        console.log(map);
         const tableItems: Array<any> = [];
         map.forEach((value) => {
             tableItems.push(this.changeObjectToArray(value));
@@ -54,12 +41,12 @@ export class TableDataService {
                     element[elementOfObject] = object[elementIndex][elementOfObject];
                 }) : element[elementIndex] = object[elementIndex];
         });
-        return element
+        return element;
     }
 
     clearItems() {
         this.items.clear();
-        localStorage.setItem(this.dataName, JSON.stringify([]));
+        localStorage.setItem(this.itemName, JSON.stringify([]));
         localStorage.map = JSON.stringify(Array.from(this.items.entries()));
         window.location.reload();
     }
@@ -67,13 +54,12 @@ export class TableDataService {
     removeItem(id) {
         this.items = this.retrieveItemFromCache();
         this.items.forEach((value, key) => {
-            console.log(this.changeObjectToArray(value));
-            console.log(id);
             if (JSON.stringify(this.changeObjectToArray(value)) === JSON.stringify(id)) {
                 this.items.delete(key);
             }
         });
         localStorage.map = JSON.stringify(Array.from(this.items.entries()));
+        localStorage.setItem(this.itemName, localStorage.map);
         window.location.reload();
     }
 
@@ -86,8 +72,9 @@ export class TableDataService {
         return tempArray;
     }
 
-    editItems(index) {
+    editItems(index, element) {
         this._router.navigate(['edit' , index], {relativeTo: this._route});
+        localStorage.setItem('edit', JSON.stringify(element));
     }
 
     checkRoute(element: Object) {
@@ -100,13 +87,13 @@ export class TableDataService {
     }
 
     loadElement(indexValue: number, element: Object) {
-        const item = JSON.parse(localStorage.getItem(this.dataName))[indexValue];
-        if (item !== null) {
+        const editItem = JSON.parse(localStorage.getItem('edit'))
+        if (editItem !== null) {
             Object.keys(element).map((elementIndex) => {
                 typeof element[elementIndex] === 'object' ?
                     Object.keys(element[elementIndex]).map((elementOfObject) => {
-                        element[elementIndex][elementOfObject] = item[elementOfObject];
-                    }) : element[elementIndex] = item[elementIndex];
+                        element[elementIndex][elementOfObject] = editItem[elementOfObject];
+                    }) : element[elementIndex] = editItem[elementIndex];
             });
         }
     }

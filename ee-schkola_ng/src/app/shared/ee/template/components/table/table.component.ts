@@ -16,7 +16,6 @@ export class TableComponent implements OnInit {
     constructor(public tableDataService: TableDataService) { }
 
     ngOnInit() {
-        // TODO: Fix Problem on All Element on One Table
         this.dataSources = new MatTableDataSource(this.tableDataService.changeMapToArray(this.tableDataService.retrieveItemFromCache()));
     }
 }

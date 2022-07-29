@@ -15,7 +15,7 @@ export class ButtonService {
 
     editElement(index: number, element: any) {
         const mapItems = this.tableDataService.retrieveItemFromCache();
-        const arrayItems = JSON.parse(localStorage.getItem(this.tableDataService.dataName));
+        const arrayItems = this.tableDataService.changeMapToArray(mapItems);
         const newElement = this.changeDateValue(element);
         mapItems.forEach((currentValue, currentKey) => {
             const newId = this.tableDataService.itemName + JSON.stringify(newElement);
@@ -25,8 +25,8 @@ export class ButtonService {
             }
         });
         arrayItems[index] = this.tableDataService.changeObjectToArray(newElement);
-        localStorage.setItem(this.tableDataService.dataName, JSON.stringify(arrayItems));
         localStorage.map = JSON.stringify(Array.from(mapItems.entries()));
+        localStorage.setItem(this.tableDataService.itemName, localStorage.map);
     }
 
     changeDateValue(element: any) {
