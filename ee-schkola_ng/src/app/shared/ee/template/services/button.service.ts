@@ -25,8 +25,7 @@ export class ButtonService {
             }
         });
         arrayItems[index] = this.tableDataService.changeObjectToArray(newElement);
-        localStorage.map = JSON.stringify(Array.from(mapItems.entries()));
-        localStorage.setItem(this.tableDataService.itemName, localStorage.map);
+        this.tableDataService.saveItemToCache(mapItems);
     }
 
     changeDateValue(element: any) {

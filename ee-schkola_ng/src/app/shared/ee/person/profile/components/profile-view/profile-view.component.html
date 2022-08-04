@@ -4,10 +4,8 @@
     <form class="profile-form">
         <mat-form-field appearance="outline">
             <mat-label>Gender</mat-label>
-            <mat-select [(value)]="profile.gender" [(ngModel)]="profile.gender">
-                <div *ngFor="let item of genderEnum">
-                    <mat-option [value]="item">{{item}}</mat-option>
-                </div>
+            <mat-select [(value)]="profile.gender">
+                <mat-option *ngFor="let item of genderEnum" [value]="item">{{item}}</mat-option>
             </mat-select>
         </mat-form-field>
 

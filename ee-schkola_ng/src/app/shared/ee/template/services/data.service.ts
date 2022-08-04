@@ -15,13 +15,11 @@ export class TableDataService {
     addItemToTableArray(items: Object, id: string) {
         this.items = this.retrieveItemFromCache();
         this.items.set(id, items);
-        localStorage.map = JSON.stringify(Array.from(this.items.entries()));
-        localStorage.setItem(this.itemName, localStorage.map);
+        this.saveItemToCache(this.items);
     }
 
     retrieveItemFromCache() {
         this.items = new Map(JSON.parse(localStorage.getItem(this.itemName)));
-        console.log(this.items);
         return this.items
     }
 
@@ -37,6 +35,7 @@ export class TableDataService {
         const element: Object = {};
         Object.keys(object).map((elementIndex) => {
             typeof object[elementIndex] === 'object' ?
+                element[elementIndex] instanceof Date ? element[elementIndex] = new Date(object[elementIndex]) :
                 Object.keys(object[elementIndex]).map((elementOfObject) => {
                     element[elementOfObject] = object[elementIndex][elementOfObject];
                 }) : element[elementIndex] = object[elementIndex];
@@ -58,8 +57,7 @@ export class TableDataService {
                 this.items.delete(key);
             }
         });
-        localStorage.map = JSON.stringify(Array.from(this.items.entries()));
-        localStorage.setItem(this.itemName, localStorage.map);
+        this.saveItemToCache(this.items);
         window.location.reload();
     }
 
@@ -72,7 +70,7 @@ export class TableDataService {
         return tempArray;
     }
 
-    editItems(index, element) {
+    editItems(index: number, element: Object) {
         this._router.navigate(['edit' , index], {relativeTo: this._route});
         localStorage.setItem('edit', JSON.stringify(element));
     }
@@ -91,10 +89,16 @@ export class TableDataService {
         if (editItem !== null) {
             Object.keys(element).map((elementIndex) => {
                 typeof element[elementIndex] === 'object' ?
+                    element[elementIndex] instanceof Date ? element[elementIndex] = new Date(editItem[elementIndex]) :
                     Object.keys(element[elementIndex]).map((elementOfObject) => {
                         element[elementIndex][elementOfObject] = editItem[elementOfObject];
                     }) : element[elementIndex] = editItem[elementIndex];
             });
         }
+    }
+
+    saveItemToCache(map: Map<any, any>) {
+        localStorage.map = JSON.stringify(Array.from(map.entries()));
+        localStorage.setItem(this.itemName, localStorage.map);
     }
 }
