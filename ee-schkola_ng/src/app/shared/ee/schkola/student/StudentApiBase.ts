@@ -1,60 +1,60 @@
 import {Contact, PersonName, Profile} from '../person/PersonApiBase'
 
 export class Attendance {
-    student: Profile
-    date: Date
-    course: Course
-    hours: number
-    state: AttendanceState
-    token: string
-    id: string
+    student: Profile = new Profile()
+    date: Date = new Date()
+    course: Course = new Course()
+    hours = 0
+    state: AttendanceState = AttendanceState.REGISTERED
+    token = ''
+    id = ''
 }
 
 export class Course {
-    name: string
-    begin: Date
-    end: Date
-    teacher: PersonName
-    schoolYear: SchoolYear
-    fee: number
-    description: string
-    id: string
+    name = ''
+    begin: Date = new Date()
+    end: Date = new Date()
+    teacher: PersonName = new PersonName()
+    schoolYear: SchoolYear = new SchoolYear()
+    fee = 0f
+    description = ''
+    id = ''
 }
 
 export class Grade {
-    student: Profile
-    course: Course
-    grade: number
-    comment: string
-    id: string
+    student: Profile = new Profile()
+    course: Course = new Course()
+    grade = 0f
+    comment = ''
+    id = ''
 }
 
 export class Group {
-    name: string
-    category: GroupCategory
-    schoolYear: SchoolYear
-    representative: Profile
-    students: Array<Profile>
-    courses: Array<Course>
-    id: string
+    name = ''
+    category: GroupCategory = GroupCategory.COURSE_GROUP
+    schoolYear: SchoolYear = new SchoolYear()
+    representative: Profile = new Profile()
+    students: Array<Profile> = new Array()
+    courses: Array<Course> = new Array()
+    id = ''
 }
 
 export class SchoolApplication {
-    profile: Profile
-    churchContactPerson: PersonName
-    churchContact: Contact
-    churchCommitment: boolean
-    schoolYear: SchoolYear
-    group: string
-    id: string
+    profile: Profile = new Profile()
+    churchContactPerson: PersonName = new PersonName()
+    churchContact: Contact = new Contact()
+    churchCommitment = false
+    schoolYear: SchoolYear = new SchoolYear()
+    group = ''
+    id = ''
 }
 
 export class SchoolYear {
-    name: string
-    start: Date
-    end: Date
-    dates: Array<Date>
-    id: string
+    name = ''
+    start: Date = new Date()
+    end: Date = new Date()
+    dates: Array<Date> = new Array()
+    id = ''
 }
 
 
@@ -63,14 +63,14 @@ export class SchoolYear {
 
 
 
-enum AttendanceState {
+export enum AttendanceState {
     REGISTERED,
     CONFIRMED,
     CANCELED,
     PRESENT
 }
 
-enum GroupCategory {
+export enum GroupCategory {
     COURSE_GROUP,
     YEAR_GROUP
 }

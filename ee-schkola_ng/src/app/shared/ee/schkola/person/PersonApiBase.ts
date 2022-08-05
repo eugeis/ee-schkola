@@ -1,37 +1,37 @@
 export class Church {
-    name = '';
-    address: Address = {street: '', suite: '', city: '', code: '', country: ''};
-    pastor: PersonName
-    contact: Contact
-    association = '';
-    id: string
+    name = ''
+    address: Address = new Address()
+    pastor: PersonName = new PersonName()
+    contact: Contact = new Contact()
+    association = ''
+    id = ''
 }
 
 export class Graduation {
-    name: string
-    level: GraduationLevel
-    id: string
+    name = ''
+    level: GraduationLevel = GraduationLevel.UNKNOWN
+    id = ''
 }
 
 export class Profile {
-    gender: Gender = 0;
-    name: PersonName = {first: '', last: ''};
+    gender: Gender = Gender.UNKNOWN
+    name: PersonName = new PersonName()
     birthName = ''
-    birthday: Date = new Date();
-    address: Address = {street: '', suite: '', city: '', code: '', country: ''};
-    contact: Contact
-    photoData: Blob
-    photo: string
-    family: Family
-    church: ChurchInfo
-    education: Education
-    id: string
+    birthday: Date = new Date()
+    address: Address = new Address()
+    contact: Contact = new Contact()
+    photoData: Blob = new ByteArray(0)
+    photo = ''
+    family: Family = new Family()
+    church: ChurchInfo = new ChurchInfo()
+    education: Education = new Education()
+    id = ''
 
-    findByEmail(email: string = ''): Profile {
+    findByEmail(email = ''): Profile {
         throw new ReferenceError('Not implemented yet.');
     }
 
-    findByPhone(phone: string = ''): Profile {
+    findByPhone(phone = ''): Profile {
         throw new ReferenceError('Not implemented yet.');
     }
 }
@@ -41,40 +41,40 @@ export class Profile {
 
 
 export class Address {
-    street: string
-    suite: string
-    city: string
-    code: string
-    country: string
+    street = ''
+    suite = ''
+    city = ''
+    code = ''
+    country = ''
 }
 
 export class ChurchInfo {
-    church: string
-    member: boolean
-    services: string
+    church = ''
+    member = false
+    services = ''
 }
 
 export class Contact {
-    phone: string
-    email: string
-    cellphone: string
+    phone = ''
+    email = ''
+    cellphone = ''
 }
 
 export class Education {
-    graduation: Graduation
-    other: string
-    profession: string
+    graduation: Graduation = new Graduation()
+    other = ''
+    profession = ''
 }
 
 export class Family {
-    maritalState: MaritalState
-    childrenCount: number
-    partner: PersonName
+    maritalState: MaritalState = MaritalState.UNKNOWN
+    childrenCount = 0
+    partner: PersonName = new PersonName()
 }
 
 export class PersonName {
-    first: string
-    last: string
+    first = ''
+    last = ''
 }
 
 
@@ -85,7 +85,7 @@ export enum Gender {
     FEMALE
 }
 
-enum GraduationLevel {
+export enum GraduationLevel {
     UNKNOWN,
     MIDDLE_SCHOOL,
     SECONDARY_SCHOOL,

@@ -3,14 +3,14 @@ import {Profile} from '../person/PersonApiBase'
 
 
 export class Account {
-    name: PersonName
-    username: string
-    password: string
-    email: string
-    disabled: boolean
-    roles: Array<string>
-    profile: Profile
-    id: string
+    name: PersonName = new PersonName()
+    username = ''
+    password = ''
+    email = ''
+    disabled = false
+    roles: Array<string> = new Array()
+    profile: Profile = new Profile()
+    id = ''
 
 }
 
@@ -18,7 +18,7 @@ export class Account {
 
 
 export class UserCredentials {
-    username: string
-    password: string
+    username = ''
+    password = ''
 
 }

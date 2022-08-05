@@ -1,32 +1,32 @@
 import {Profile} from '../person/PersonApiBase'
 
 export class Expense {
-    purpose: ExpensePurpose
-    amount: number
-    profile: Profile
-    date: Date
-    id: string
+    purpose: ExpensePurpose = new ExpensePurpose()
+    amount = 0f
+    profile: Profile = new Profile()
+    date: Date = new Date()
+    id = ''
 }
 
 export class ExpensePurpose {
-    name: string
-    description: string
-    id: string
+    name = ''
+    description = ''
+    id = ''
 }
 
 export class Fee {
-    student: Profile
-    amount: number
-    kind: FeeKind
-    date: Date
-    id: string
+    student: Profile = new Profile()
+    amount = 0f
+    kind: FeeKind = new FeeKind()
+    date: Date = new Date()
+    id = ''
 }
 
 export class FeeKind {
-    name: string
-    amount: number
-    description: string
-    id: string
+    name = ''
+    amount = 0f
+    description = ''
+    id = ''
 }
 
 
