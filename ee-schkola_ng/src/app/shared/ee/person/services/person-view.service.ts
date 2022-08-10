@@ -1,8 +1,4 @@
-import {Injectable} from '@angular/core';
-import {FormService} from '../../template/services/form.service';
-
-@Injectable()
-export class PersonViewService extends FormService {
+export class PersonViewService {
 
     pageElement = ['Person'];
 

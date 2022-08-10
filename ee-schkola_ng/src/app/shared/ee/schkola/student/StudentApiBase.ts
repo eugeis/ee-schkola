@@ -16,7 +16,7 @@ export class Course {
     end: Date = new Date()
     teacher: PersonName = new PersonName()
     schoolYear: SchoolYear = new SchoolYear()
-    fee = 0f
+    fee = 0
     description = ''
     id = ''
 }
@@ -24,7 +24,7 @@ export class Course {
 export class Grade {
     student: Profile = new Profile()
     course: Course = new Course()
-    grade = 0f
+    grade = 0
     comment = ''
     id = ''
 }

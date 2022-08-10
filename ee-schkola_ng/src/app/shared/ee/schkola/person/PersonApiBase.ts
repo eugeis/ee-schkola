@@ -20,7 +20,7 @@ export class Profile {
     birthday: Date = new Date()
     address: Address = new Address()
     contact: Contact = new Contact()
-    photoData: Blob = new ByteArray(0)
+    photoData: Blob /*= new ByteArray(0)*/
     photo = ''
     family: Family = new Family()
     church: ChurchInfo = new ChurchInfo()

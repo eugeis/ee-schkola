@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {PersonViewService} from '../../services/person-view.service';
 
 @Component({
@@ -9,6 +9,8 @@ import {PersonViewService} from '../../services/person-view.service';
 })
 
 export class PersonViewComponent implements OnInit {
+
+    @Input() pageName = 'PersonComponent';
 
     constructor(public personViewService: PersonViewService) {
     }

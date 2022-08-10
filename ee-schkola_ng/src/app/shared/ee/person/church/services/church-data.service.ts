@@ -6,10 +6,6 @@ import {Church} from '../../../schkola/person/PersonApiBase';
 export class ChurchDataService extends TableDataService {
     itemName = 'church';
 
-    pageElement = ['Person'];
-
-    tabElement = ['Profile', 'Church'];
-
     pageName = 'ChurchComponent';
 
     getFirst() {
