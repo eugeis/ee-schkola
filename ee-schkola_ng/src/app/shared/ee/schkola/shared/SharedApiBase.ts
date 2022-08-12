@@ -4,7 +4,7 @@
 
 
 export class PersonName {
-    first = ''
-    last = ''
+    first: string
+    last: string
 
 }

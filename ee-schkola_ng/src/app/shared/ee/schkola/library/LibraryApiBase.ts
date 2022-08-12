@@ -1,21 +1,21 @@
 import {PersonName} from '../person/PersonApiBase'
 
 export class Book {
-    title = ''
-    description = ''
-    language = ''
-    releaseDate: Date = new Date()
-    edition = ''
-    category = ''
-    author: PersonName = new PersonName()
-    location: Location = new Location()
-    id = ''
+    title: string
+    description: string
+    language: string
+    releaseDate: Date
+    edition: string
+    category: string
+    author: PersonName
+    location: Location
+    id: string
 
-    findByPattern(pattern = ''): Book {
+    findByPattern(pattern: string = ''): Book {
         throw new ReferenceError('Not implemented yet.');
     }
 
-    findByTitle(title = ''): Book {
+    findByTitle(title: string = ''): Book {
         throw new ReferenceError('Not implemented yet.');
     }
 }
@@ -25,8 +25,8 @@ export class Book {
 
 
 export class Location {
-    shelf = ''
-    fold = ''
+    shelf: string
+    fold: string
 }
 
 

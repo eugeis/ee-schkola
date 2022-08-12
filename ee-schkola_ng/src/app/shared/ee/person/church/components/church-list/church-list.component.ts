@@ -14,22 +14,16 @@ export class ChurchListComponent implements OnInit {
 
     church: Church = new Church();
 
+    tableHeader: Array<String> = [];
+
     constructor(public churchDataService: ChurchDataService) { }
 
     ngOnInit(): void {
-
+        this.tableHeader = this.generateTableHeader()
     }
 
     generateTableHeader() {
-        const formArrayName = ['Actions'];
-        Object.keys(this.church).map((churchIndex) => {
-            typeof this.church[churchIndex] === 'object' ?
-                this.church[churchIndex] instanceof Date ?
-                    formArrayName.push(churchIndex) :
-                    Object.keys(this.church[churchIndex]).forEach((element) => {
-                        formArrayName.push(element);
-                    }) : formArrayName.push(churchIndex);
-        })
-        return formArrayName;
+        return ['Actions', 'name', 'street', 'suite', 'city', 'code', 'country', 'first', 'last',
+            'phone', 'email', 'cellphone', 'association', 'id'];
     }
 }

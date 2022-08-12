@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {PersonViewService} from '../../services/person-view.service';
 
 @Component({
@@ -8,14 +8,9 @@ import {PersonViewService} from '../../services/person-view.service';
     providers: [PersonViewService]
 })
 
-export class PersonViewComponent implements OnInit {
+export class PersonViewComponent {
 
     @Input() pageName = 'PersonComponent';
 
-    constructor(public personViewService: PersonViewService) {
-    }
-
-    ngOnInit() {
-
-    }
+    constructor(public personViewService: PersonViewService) {}
 }
