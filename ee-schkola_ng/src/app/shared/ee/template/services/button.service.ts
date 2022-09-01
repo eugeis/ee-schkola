@@ -14,7 +14,7 @@ export class ButtonService {
     }
 
     editElement(index: number, element: any) {
-        const mapItems = this.tableDataService.retrieveItemFromCache();
+        const mapItems = this.tableDataService.retrieveItemsFromCache();
         const arrayItems = this.tableDataService.changeMapToArray(mapItems);
         const newElement = this.changeDateValue(element);
         mapItems.forEach((currentValue, currentKey) => {

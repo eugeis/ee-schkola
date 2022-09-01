@@ -13,12 +13,12 @@ export class TableDataService {
     }
 
     addItemToTableArray(items: Object, id: string) {
-        this.items = this.retrieveItemFromCache();
+        this.items = this.retrieveItemsFromCache();
         this.items.set(id, items);
         this.saveItemToCache(this.items);
     }
 
-    retrieveItemFromCache() {
+    retrieveItemsFromCache() {
         this.items = new Map(JSON.parse(localStorage.getItem(this.itemName)));
         return this.items
     }
@@ -51,7 +51,7 @@ export class TableDataService {
     }
 
     removeItem(id) {
-        this.items = this.retrieveItemFromCache();
+        this.items = this.retrieveItemsFromCache();
         this.items.forEach((value, key) => {
             if (JSON.stringify(this.changeObjectToArray(value)) === JSON.stringify(id)) {
                 this.items.delete(key);
@@ -85,14 +85,13 @@ export class TableDataService {
     }
 
     loadElement(indexValue: number, element: Object) {
-        const editItem = JSON.parse(localStorage.getItem('edit'))
+        const editItem = JSON.parse(localStorage.getItem('edit'));
+        const elementAsObject = JSON.parse(localStorage.getItem(this.itemName))[indexValue][1];
         if (editItem !== null) {
-            Object.keys(element).map((elementIndex) => {
-                typeof element[elementIndex] === 'object' ?
-                    element[elementIndex] instanceof Date ? element[elementIndex] = new Date(editItem[elementIndex]) :
-                    Object.keys(element[elementIndex]).map((elementOfObject) => {
-                        element[elementIndex][elementOfObject] = editItem[elementOfObject];
-                    }) : element[elementIndex] = editItem[elementIndex];
+            Object.keys(elementAsObject).map((elementIndex) => {
+                typeof elementAsObject[elementIndex] === 'object' ?
+                    elementAsObject[elementIndex] instanceof Date ? element[elementIndex] = new Date(editItem[elementIndex]) :
+                            element[elementIndex] = elementAsObject[elementIndex] : element[elementIndex] = editItem[elementIndex];
             });
         }
     }

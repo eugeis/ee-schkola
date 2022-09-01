@@ -9,11 +9,13 @@ import {Address} from '../../../../schkola/person/PersonApiBase';
 
 export class AddressComponent implements OnInit {
 
-    @Input() address: Address;
+    @Input() address: Address = new Address();
 
     constructor() { }
 
     ngOnInit(): void {
-
+        if (this.address === undefined) {
+            this.address = {code: '', city: '', country: '', suite: '', street: ''};
+        }
     }
 }

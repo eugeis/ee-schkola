@@ -9,11 +9,13 @@ import {PersonName} from '../../../../schkola/person/PersonApiBase';
 
 export class PersonNameComponent implements OnInit {
 
-    @Input() personName: PersonName;
+    @Input() personName: PersonName = new PersonName();
 
     constructor() { }
 
     ngOnInit(): void {
-
+        if (this.personName === undefined) {
+            this.personName = {first: '', last: ''};
+        }
     }
 }

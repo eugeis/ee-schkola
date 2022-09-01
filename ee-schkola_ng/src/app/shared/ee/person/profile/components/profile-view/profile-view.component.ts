@@ -14,7 +14,7 @@ export class ProfileViewComponent implements OnInit {
 
     genderEnum = this.profileDataService.loadEnumElement(Gender);
 
-    profile: Profile = new Profile();
+    profile: Profile;
 
     constructor(public profileDataService: ProfileDataService) { }
 
