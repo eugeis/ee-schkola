@@ -16,6 +16,6 @@ export class TableComponent implements OnInit {
     constructor(public tableDataService: TableDataService) { }
 
     ngOnInit() {
-        this.dataSources = new MatTableDataSource(this.tableDataService.changeMapToArray(this.tableDataService.retrieveItemFromCache()));
+        this.dataSources = new MatTableDataSource(this.tableDataService.changeMapToArray(this.tableDataService.retrieveItemsFromCache()));
     }
 }
