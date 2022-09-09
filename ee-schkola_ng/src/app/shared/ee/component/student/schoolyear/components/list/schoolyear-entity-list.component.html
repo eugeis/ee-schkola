@@ -1,0 +1,14 @@
+<app-student [pageName]="schoolyearDataService.pageName"></app-student>
+<a class="newButton" [routerLink]="'./new'"
+        routerLinkActive="active-link">
+    <mat-icon>add_circle_outline</mat-icon> Add New Item
+</a>
+
+<a class="deleteButton" (click)="schoolyearDataService.clearItems()">
+    <mat-icon>delete_outline</mat-icon> Delete All Item
+</a>
+<app-table [displayedColumns]="tableHeader"></app-table>
+
+
+
+

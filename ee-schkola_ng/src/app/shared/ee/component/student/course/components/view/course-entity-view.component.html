@@ -1,0 +1,51 @@
+<app-student [pageName]="courseDataService.pageName"></app-student>
+<div>
+    <form class="course-form">
+        
+        <mat-form-field appearance="outline">
+            <mat-label>name</mat-label>
+            <input matInput name="name" [(ngModel)]="course.name">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>begin</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="course.begin">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>end</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="course.end">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <app-personname [personname]="course.teacher"></app-personname>
+
+        <app-schoolyear [schoolyear]="course.schoolyear"></app-schoolyear>
+
+        <mat-form-field appearance="outline">
+            <mat-label>fee</mat-label>
+            <input matInput name="fee" [(ngModel)]="course.fee">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>description</mat-label>
+            <input matInput name="description" [(ngModel)]="course.description">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>id</mat-label>
+            <input matInput name="id" [(ngModel)]="course.id">
+        </mat-form-field>
+    </form>
+</div>
+
+<app-button [element]="course" [isEdit]="courseDataService.isEdit" [itemIndex]="courseDataService.itemIndex"></app-button>
+
+
+
+

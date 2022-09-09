@@ -1,0 +1,53 @@
+<app-library [pageName]="bookDataService.pageName"></app-library>
+<div>
+    <form class="book-form">
+        
+        <mat-form-field appearance="outline">
+            <mat-label>title</mat-label>
+            <input matInput name="title" [(ngModel)]="book.title">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>description</mat-label>
+            <input matInput name="description" [(ngModel)]="book.description">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>language</mat-label>
+            <input matInput name="language" [(ngModel)]="book.language">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>releaseDate</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="book.releasedate">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>edition</mat-label>
+            <input matInput name="edition" [(ngModel)]="book.edition">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>category</mat-label>
+            <input matInput name="category" [(ngModel)]="book.category">
+        </mat-form-field>
+
+        <app-personname [personname]="book.author"></app-personname>
+
+        <app-location [location]="book.location"></app-location>
+
+        <mat-form-field appearance="outline">
+            <mat-label>id</mat-label>
+            <input matInput name="id" [(ngModel)]="book.id">
+        </mat-form-field>
+    </form>
+</div>
+
+<app-button [element]="book" [isEdit]="bookDataService.isEdit" [itemIndex]="bookDataService.itemIndex"></app-button>
+
+
+
+
