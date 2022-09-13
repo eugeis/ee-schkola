@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {PersonName} from '../../../../schkola/person/PersonApiBase';
 
 @Component({
@@ -7,15 +7,7 @@ import {PersonName} from '../../../../schkola/person/PersonApiBase';
     styleUrls: ['./personname.component.scss']
 })
 
-export class PersonNameComponent implements OnInit {
+export class PersonNameComponent {
 
-    @Input() personName: PersonName = new PersonName();
-
-    constructor() { }
-
-    ngOnInit(): void {
-        if (this.personName === undefined) {
-            this.personName = {first: '', last: ''};
-        }
-    }
+    @Input() personName: PersonName;
 }

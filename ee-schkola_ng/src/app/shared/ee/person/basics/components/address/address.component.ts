@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Address} from '../../../../schkola/person/PersonApiBase';
 
 @Component({
@@ -7,15 +7,7 @@ import {Address} from '../../../../schkola/person/PersonApiBase';
     styleUrls: ['./address.component.scss']
 })
 
-export class AddressComponent implements OnInit {
+export class AddressComponent {
 
-    @Input() address: Address = new Address();
-
-    constructor() { }
-
-    ngOnInit(): void {
-        if (this.address === undefined) {
-            this.address = {code: '', city: '', country: '', suite: '', street: ''};
-        }
-    }
+    @Input() address: Address;
 }

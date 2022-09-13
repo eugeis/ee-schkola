@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../template/services/data.service';
 import {ProfileDataService} from '../../services/profile-data.service';
-import {Gender, Profile} from '../../../../schkola/person/PersonApiBase';
+import {Address, Gender, PersonName, Profile} from '../../../../schkola/person/PersonApiBase';
 
 @Component({
     selector: 'app-person-profile-view',
@@ -20,6 +20,8 @@ export class ProfileViewComponent implements OnInit {
 
     ngOnInit(): void {
         this.profile = this.profileDataService.getFirst();
+        this.profile.name = new PersonName();
+        this.profile.address = new Address();
         this.profileDataService.checkRoute(this.profile);
     }
 }
