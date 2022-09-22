@@ -1,0 +1,22 @@
+<div>
+    <form>
+
+        <!--<mat-form-field appearance="outline">
+            <mat-label>maritalState</mat-label>
+            <mat-select [(value)]="family.maritalState">
+                <mat-option *ngFor="let item of maritalstateEnum" [value]="item">{{item}}</mat-option>
+            </mat-select>
+        </mat-form-field>-->
+
+        <mat-form-field appearance="outline">
+            <mat-label>childrenCount</mat-label>
+            <input matInput name="childrencount" [(ngModel)]="family.childrenCount">
+        </mat-form-field>
+
+        <app-personname [personname]="family.partner"></app-personname>
+    </form>
+</div>
+
+
+
+

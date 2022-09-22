@@ -1,0 +1,58 @@
+<app-person [pageName]="profileDataService.pageName"></app-person>
+<div>
+    <form class="profile-form">
+        
+        <mat-form-field appearance="outline">
+            <mat-label>gender</mat-label>
+            <mat-select [(value)]="profile.gender">
+                <mat-option *ngFor="let item of genderEnum" [value]="item">{{item}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <app-personname [personname]="profile.name"></app-personname>
+
+        <mat-form-field appearance="outline">
+            <mat-label>birthName</mat-label>
+            <input matInput name="birthname" [(ngModel)]="profile.birthName">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>birthday</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="profile.birthday">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <app-address [address]="profile.address"></app-address>
+
+        <app-contact [contact]="profile.contact"></app-contact>
+
+        <mat-form-field appearance="outline">
+            <mat-label>photoData</mat-label>
+            <input matInput name="photodata" [(ngModel)]="profile.photoData">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>photo</mat-label>
+            <input matInput name="photo" [(ngModel)]="profile.photo">
+        </mat-form-field>
+
+        <app-family [family]="profile.family"></app-family>
+
+        <app-churchinfo [churchinfo]="profile.church"></app-churchinfo>
+
+        <app-education [education]="profile.education"></app-education>
+
+        <mat-form-field appearance="outline">
+            <mat-label>id</mat-label>
+            <input matInput name="id" [(ngModel)]="profile.id">
+        </mat-form-field>
+    </form>
+</div>
+
+<app-button [element]="profile" [isEdit]="profileDataService.isEdit" [itemIndex]="profileDataService.itemIndex"></app-button>
+
+
+
+

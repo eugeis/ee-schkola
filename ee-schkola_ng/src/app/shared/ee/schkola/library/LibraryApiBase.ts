@@ -1,4 +1,4 @@
-import {PersonName} from '../person/PersonApiBase'
+import {PersonName} from '@schkola/person/PersonApiBase'
 
 export class Book {
     title: string

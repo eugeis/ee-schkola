@@ -1,4 +1,4 @@
-import {Contact, PersonName, Profile} from '../person/PersonApiBase'
+import {Contact, PersonName, Profile} from '@schkola/person/PersonApiBase'
 
 export class Attendance {
     student: Profile

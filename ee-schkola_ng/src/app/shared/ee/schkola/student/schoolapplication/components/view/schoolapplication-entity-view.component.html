@@ -1,0 +1,34 @@
+<app-student [pageName]="schoolapplicationDataService.pageName"></app-student>
+<div>
+    <form class="schoolapplication-form">
+        
+        <app-profile-view></app-profile-view>
+
+        <app-personname [personname]="schoolapplication.churchContactPerson"></app-personname>
+
+        <app-contact [contact]="schoolapplication.churchContact"></app-contact>
+
+        <mat-form-field appearance="outline">
+            <mat-label>churchCommitment</mat-label>
+            <input matInput name="churchcommitment" [(ngModel)]="schoolapplication.churchCommitment">
+        </mat-form-field>
+
+        <app-schoolyear-view></app-schoolyear-view>
+
+        <mat-form-field appearance="outline">
+            <mat-label>group</mat-label>
+            <input matInput name="group" [(ngModel)]="schoolapplication.group">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>id</mat-label>
+            <input matInput name="id" [(ngModel)]="schoolapplication.id">
+        </mat-form-field>
+    </form>
+</div>
+
+<app-button [element]="schoolapplication" [isEdit]="schoolapplicationDataService.isEdit" [itemIndex]="schoolapplicationDataService.itemIndex"></app-button>
+
+
+
+

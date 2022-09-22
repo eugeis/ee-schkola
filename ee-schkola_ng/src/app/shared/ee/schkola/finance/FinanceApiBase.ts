@@ -1,4 +1,4 @@
-import {Profile} from '../person/PersonApiBase'
+import {Profile} from '@schkola/person/PersonApiBase'
 
 export class Expense {
     purpose: ExpensePurpose
