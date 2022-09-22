@@ -2,7 +2,10 @@
   "compileOnSave": false,
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
-    "baseUrl": "src",
+    "baseUrl": "./",
+    "paths": {
+        "@schkola/*": ["src/app/shared/ee/schkola/*"]
+    },
     "sourceMap": true,
     "declaration": false,
     "module": "ESNext",
