@@ -1,6 +1,6 @@
-import {Attendance, AttendanceState} from '@schkola/student/StudentApiBase'
+import {Attendance} from '@schkola/student/StudentApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {AttendanceDataService} from '../../service/attendance-data.service';
 
@@ -13,14 +13,12 @@ import {AttendanceDataService} from '../../service/attendance-data.service';
 
 export class AttendanceViewComponent implements OnInit {
 
-    attendancestateEnum = this.attendanceDataService.loadEnumElement(AttendanceState);
     attendance: Attendance;
 
-    constructor(@Inject(AttendanceDataService) public attendanceDataService: AttendanceDataService) {}
+    constructor(public attendanceDataService: AttendanceDataService) {}
 
     ngOnInit(): void {
         this.attendance = this.attendanceDataService.getFirst();
-        
         this.attendanceDataService.checkRoute(this.attendance);
     }
 }

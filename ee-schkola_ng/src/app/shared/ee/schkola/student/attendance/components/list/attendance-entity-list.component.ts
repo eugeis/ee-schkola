@@ -1,6 +1,6 @@
 import {Attendance} from '@schkola/student/StudentApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {AttendanceDataService} from '../../service/attendance-data.service';
 
@@ -17,14 +17,14 @@ export class AttendanceListComponent implements OnInit {
 
     tableHeader: Array<String> = [];
 
-    constructor(@Inject(AttendanceDataService) public attendanceDataService: AttendanceDataService) {}
+    constructor(public attendanceDataService: AttendanceDataService) {}
 
     ngOnInit(): void {
         this.tableHeader = this.generateTableHeader();
     }
 
     generateTableHeader() {
-        return ['Actions', 'student', 'date', 'course', 'hours', 'state', 'token', 'id'];
+        return ['Actions', 'gender', 'first', 'last', 'birthName', 'birthday', 'street', 'suite', 'city', 'code', 'country', 'phone', 'email', 'cellphone', 'photoData', 'photo', 'maritalState', 'childrenCount', 'first', 'last', 'church', 'member', 'services', 'name', 'level', 'id', 'other', 'profession', 'id', 'date', 'name', 'begin', 'end', 'first', 'last', 'name', 'start', 'end', 'dates', 'id', 'fee', 'description', 'id', 'hours', 'state', 'token', 'id'];
     }
 }
 

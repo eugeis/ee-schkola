@@ -1,6 +1,6 @@
 import {PersonName} from '@schkola/person/PersonApiBase'
 
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-personname',
@@ -8,9 +8,16 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./personname-basic.component.scss'],
 })
 
-export class PersonNameComponent {
+export class PersonNameComponent implements OnInit {
 
     @Input() personname: PersonName;
+    
+    ngOnInit() {
+        if (this.personname === undefined) {
+            this.personname = new PersonName();
+        }
+        
+    }
     
 }
 

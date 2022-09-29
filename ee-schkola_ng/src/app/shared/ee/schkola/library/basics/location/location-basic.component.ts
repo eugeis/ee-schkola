@@ -1,6 +1,6 @@
 import {Location} from '@schkola/library/LibraryApiBase'
 
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-location',
@@ -8,9 +8,16 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./location-basic.component.scss'],
 })
 
-export class LocationComponent {
+export class LocationComponent implements OnInit {
 
     @Input() location: Location;
+    
+    ngOnInit() {
+        if (this.location === undefined) {
+            this.location = new Location();
+        }
+        
+    }
     
 }
 

@@ -1,6 +1,6 @@
-import {Education} from '@schkola/person/PersonApiBase'
+import {Education, Graduation} from '@schkola/person/PersonApiBase'
 
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-education',
@@ -8,9 +8,18 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./education-basic.component.scss'],
 })
 
-export class EducationComponent {
+export class EducationComponent implements OnInit {
 
     @Input() education: Education;
+    
+    ngOnInit() {
+        if (this.education === undefined) {
+            this.education = new Education();
+        }
+        if (this.education.graduation === undefined) {
+            this.education.graduation = new Graduation();
+        }
+    }
     
 }
 

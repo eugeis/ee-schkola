@@ -1,7 +1,6 @@
-import {Book, Location} from '@schkola/library/LibraryApiBase'
-import {PersonName} from '@schkola/person/PersonApiBase'
+import {Book} from '@schkola/library/LibraryApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {BookDataService} from '../../service/book-data.service';
 
@@ -14,15 +13,12 @@ import {BookDataService} from '../../service/book-data.service';
 
 export class BookViewComponent implements OnInit {
 
-
     book: Book;
 
-    constructor(@Inject(BookDataService) public bookDataService: BookDataService) {}
+    constructor(public bookDataService: BookDataService) {}
 
     ngOnInit(): void {
         this.book = this.bookDataService.getFirst();
-        this.book.author = new PersonName();
-        this.book.location = new Location();
         this.bookDataService.checkRoute(this.book);
     }
 }

@@ -1,6 +1,6 @@
 import {Address} from '@schkola/person/PersonApiBase'
 
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-address',
@@ -8,9 +8,16 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./address-basic.component.scss'],
 })
 
-export class AddressComponent {
+export class AddressComponent implements OnInit {
 
     @Input() address: Address;
+    
+    ngOnInit() {
+        if (this.address === undefined) {
+            this.address = new Address();
+        }
+        
+    }
     
 }
 

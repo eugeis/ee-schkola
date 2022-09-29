@@ -1,6 +1,6 @@
 import {SchoolApplication} from '@schkola/student/StudentApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {SchoolApplicationDataService} from '../../service/schoolapplication-data.service';
 
@@ -17,14 +17,14 @@ export class SchoolApplicationListComponent implements OnInit {
 
     tableHeader: Array<String> = [];
 
-    constructor(@Inject(SchoolApplicationDataService) public schoolapplicationDataService: SchoolApplicationDataService) {}
+    constructor(public schoolapplicationDataService: SchoolApplicationDataService) {}
 
     ngOnInit(): void {
         this.tableHeader = this.generateTableHeader();
     }
 
     generateTableHeader() {
-        return ['Actions', 'profile', 'churchcontactperson', 'churchcontact', 'churchcommitment', 'schoolyear', 'group', 'id'];
+        return ['Actions', 'gender', 'first', 'last', 'birthName', 'birthday', 'street', 'suite', 'city', 'code', 'country', 'phone', 'email', 'cellphone', 'photoData', 'photo', 'maritalState', 'childrenCount', 'first', 'last', 'church', 'member', 'services', 'name', 'level', 'id', 'other', 'profession', 'id', 'first', 'last', 'phone', 'email', 'cellphone', 'churchCommitment', 'name', 'start', 'end', 'dates', 'id', 'group', 'id'];
     }
 }
 

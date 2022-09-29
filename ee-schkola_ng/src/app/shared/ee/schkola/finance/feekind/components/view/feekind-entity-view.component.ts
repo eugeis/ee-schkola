@@ -1,6 +1,6 @@
 import {FeeKind} from '@schkola/finance/FinanceApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {FeeKindDataService} from '../../service/feekind-data.service';
 
@@ -13,14 +13,12 @@ import {FeeKindDataService} from '../../service/feekind-data.service';
 
 export class FeeKindViewComponent implements OnInit {
 
-
     feekind: FeeKind;
 
-    constructor(@Inject(FeeKindDataService) public feekindDataService: FeeKindDataService) {}
+    constructor(public feekindDataService: FeeKindDataService) {}
 
     ngOnInit(): void {
         this.feekind = this.feekindDataService.getFirst();
-        
         this.feekindDataService.checkRoute(this.feekind);
     }
 }

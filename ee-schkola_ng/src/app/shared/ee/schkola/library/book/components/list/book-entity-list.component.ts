@@ -1,6 +1,6 @@
 import {Book} from '@schkola/library/LibraryApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {BookDataService} from '../../service/book-data.service';
 
@@ -17,14 +17,14 @@ export class BookListComponent implements OnInit {
 
     tableHeader: Array<String> = [];
 
-    constructor(@Inject(BookDataService) public bookDataService: BookDataService) {}
+    constructor(public bookDataService: BookDataService) {}
 
     ngOnInit(): void {
         this.tableHeader = this.generateTableHeader();
     }
 
     generateTableHeader() {
-        return ['Actions', 'title', 'description', 'language', 'releasedate', 'edition', 'category', 'author', 'location', 'id'];
+        return ['Actions', 'title', 'description', 'language', 'releaseDate', 'edition', 'category', 'first', 'last', 'shelf', 'fold', 'id'];
     }
 }
 

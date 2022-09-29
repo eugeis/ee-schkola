@@ -1,0 +1,28 @@
+
+<div>
+    <form class="grade-form">
+        
+        <app-profile-form [profile]="grade.student"></app-profile-form>
+
+        <app-course-form [course]="grade.course"></app-course-form>
+
+        <mat-form-field appearance="outline">
+            <mat-label>grade</mat-label>
+            <input matInput name="grade" [(ngModel)]="grade.grade">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>comment</mat-label>
+            <input matInput name="comment" [(ngModel)]="grade.comment">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>id</mat-label>
+            <input matInput name="id" [(ngModel)]="grade.id">
+        </mat-form-field>
+    </form>
+</div>
+
+
+
+

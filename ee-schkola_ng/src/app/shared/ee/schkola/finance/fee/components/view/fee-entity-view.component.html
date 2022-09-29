@@ -1,30 +1,6 @@
 <app-finance [pageName]="feeDataService.pageName"></app-finance>
-<div>
-    <form class="fee-form">
-        
-        <app-profile-view></app-profile-view>
 
-        <mat-form-field appearance="outline">
-            <mat-label>amount</mat-label>
-            <input matInput name="amount" [(ngModel)]="fee.amount">
-        </mat-form-field>
-
-        <app-feekind-view></app-feekind-view>
-
-        <mat-form-field appearance="outline">
-            <mat-label>date</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="fee.date">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-            <mat-label>id</mat-label>
-            <input matInput name="id" [(ngModel)]="fee.id">
-        </mat-form-field>
-    </form>
-</div>
+<app-fee-form [fee]="fee"></app-fee-form>
 
 <app-button [element]="fee" [isEdit]="feeDataService.isEdit" [itemIndex]="feeDataService.itemIndex"></app-button>
 

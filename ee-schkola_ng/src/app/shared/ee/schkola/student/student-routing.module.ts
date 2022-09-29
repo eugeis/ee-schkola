@@ -2,18 +2,24 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import {StudentViewComponent} from './components/view/student-module-view.component';
-import {AttendanceViewComponent} from './attendance/components/view/attendance-entity-view.component';
-import {AttendanceListComponent} from './attendance/components/list/attendance-entity-list.component';
-import {CourseViewComponent} from './course/components/view/course-entity-view.component';
-import {CourseListComponent} from './course/components/list/course-entity-list.component';
-import {GradeViewComponent} from './grade/components/view/grade-entity-view.component';
-import {GradeListComponent} from './grade/components/list/grade-entity-list.component';
-import {GroupViewComponent} from './group/components/view/group-entity-view.component';
-import {GroupListComponent} from './group/components/list/group-entity-list.component';
-import {SchoolApplicationViewComponent} from './schoolapplication/components/view/schoolapplication-entity-view.component';
-import {SchoolApplicationListComponent} from './schoolapplication/components/list/schoolapplication-entity-list.component';
-import {SchoolYearViewComponent} from './schoolyear/components/view/schoolyear-entity-view.component';
-import {SchoolYearListComponent} from './schoolyear/components/list/schoolyear-entity-list.component';
+import {AttendanceViewComponent} from '@schkola/student/attendance/components/view/attendance-entity-view.component';
+import {AttendanceListComponent} from '@schkola/student/attendance/components/list/attendance-entity-list.component';
+import {AttendanceFormComponent} from '@schkola/student/attendance/components/form/attendance-form.component';
+import {CourseViewComponent} from '@schkola/student/course/components/view/course-entity-view.component';
+import {CourseListComponent} from '@schkola/student/course/components/list/course-entity-list.component';
+import {CourseFormComponent} from '@schkola/student/course/components/form/course-form.component';
+import {GradeViewComponent} from '@schkola/student/grade/components/view/grade-entity-view.component';
+import {GradeListComponent} from '@schkola/student/grade/components/list/grade-entity-list.component';
+import {GradeFormComponent} from '@schkola/student/grade/components/form/grade-form.component';
+import {GroupViewComponent} from '@schkola/student/group/components/view/group-entity-view.component';
+import {GroupListComponent} from '@schkola/student/group/components/list/group-entity-list.component';
+import {GroupFormComponent} from '@schkola/student/group/components/form/group-form.component';
+import {SchoolApplicationViewComponent} from '@schkola/student/schoolapplication/components/view/schoolapplication-entity-view.component';
+import {SchoolApplicationListComponent} from '@schkola/student/schoolapplication/components/list/schoolapplication-entity-list.component';
+import {SchoolApplicationFormComponent} from '@schkola/student/schoolapplication/components/form/schoolapplication-form.component';
+import {SchoolYearViewComponent} from '@schkola/student/schoolyear/components/view/schoolyear-entity-view.component';
+import {SchoolYearListComponent} from '@schkola/student/schoolyear/components/list/schoolyear-entity-list.component';
+import {SchoolYearFormComponent} from '@schkola/student/schoolyear/components/form/schoolyear-form.component';
 
 const routes: Routes = [
     { path: '', component: StudentViewComponent },

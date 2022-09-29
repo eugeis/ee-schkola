@@ -1,0 +1,43 @@
+
+<div>
+    <form class="attendance-form">
+        
+        <app-profile-form [profile]="attendance.student"></app-profile-form>
+
+        <mat-form-field appearance="outline">
+            <mat-label>date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="attendance.date">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <app-course-form [course]="attendance.course"></app-course-form>
+
+        <mat-form-field appearance="outline">
+            <mat-label>hours</mat-label>
+            <input matInput name="hours" [(ngModel)]="attendance.hours">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>state</mat-label>
+            <mat-select [(value)]="attendance.state">
+                <mat-option *ngFor="let item of attendancestateEnum" [value]="item">{{item}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>token</mat-label>
+            <input matInput name="token" [(ngModel)]="attendance.token">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>id</mat-label>
+            <input matInput name="id" [(ngModel)]="attendance.id">
+        </mat-form-field>
+    </form>
+</div>
+
+
+
+

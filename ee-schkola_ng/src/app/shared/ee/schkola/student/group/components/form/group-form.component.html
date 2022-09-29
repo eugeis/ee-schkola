@@ -1,0 +1,46 @@
+
+<div>
+    <form class="group-form">
+        
+        <mat-form-field appearance="outline">
+            <mat-label>name</mat-label>
+            <input matInput name="name" [(ngModel)]="group.name">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>category</mat-label>
+            <mat-select [(value)]="group.category">
+                <mat-option *ngFor="let item of groupcategoryEnum" [value]="item">{{item}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <app-schoolyear-form [schoolyear]="group.schoolYear"></app-schoolyear-form>
+
+        <app-profile-form [profile]="group.representative"></app-profile-form>
+
+        <mat-form-field appearance="outline">
+            <mat-label>students</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="group.students">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>courses</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="group.courses">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>id</mat-label>
+            <input matInput name="id" [(ngModel)]="group.id">
+        </mat-form-field>
+    </form>
+</div>
+
+
+
+

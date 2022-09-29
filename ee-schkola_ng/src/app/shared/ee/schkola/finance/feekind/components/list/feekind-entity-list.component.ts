@@ -1,6 +1,6 @@
 import {FeeKind} from '@schkola/finance/FinanceApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {FeeKindDataService} from '../../service/feekind-data.service';
 
@@ -17,7 +17,7 @@ export class FeeKindListComponent implements OnInit {
 
     tableHeader: Array<String> = [];
 
-    constructor(@Inject(FeeKindDataService) public feekindDataService: FeeKindDataService) {}
+    constructor(public feekindDataService: FeeKindDataService) {}
 
     ngOnInit(): void {
         this.tableHeader = this.generateTableHeader();

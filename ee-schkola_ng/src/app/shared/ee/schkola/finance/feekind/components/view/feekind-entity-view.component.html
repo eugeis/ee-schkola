@@ -1,28 +1,6 @@
 <app-finance [pageName]="feekindDataService.pageName"></app-finance>
-<div>
-    <form class="feekind-form">
-        
-        <mat-form-field appearance="outline">
-            <mat-label>name</mat-label>
-            <input matInput name="name" [(ngModel)]="feekind.name">
-        </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>amount</mat-label>
-            <input matInput name="amount" [(ngModel)]="feekind.amount">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-            <mat-label>description</mat-label>
-            <input matInput name="description" [(ngModel)]="feekind.description">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-            <mat-label>id</mat-label>
-            <input matInput name="id" [(ngModel)]="feekind.id">
-        </mat-form-field>
-    </form>
-</div>
+<app-feekind-form [feekind]="feekind"></app-feekind-form>
 
 <app-button [element]="feekind" [isEdit]="feekindDataService.isEdit" [itemIndex]="feekindDataService.itemIndex"></app-button>
 

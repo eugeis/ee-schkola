@@ -1,0 +1,30 @@
+
+<div>
+    <form class="church-form">
+        
+        <mat-form-field appearance="outline">
+            <mat-label>name</mat-label>
+            <input matInput name="name" [(ngModel)]="church.name">
+        </mat-form-field>
+
+        <app-address [address]="church.address"></app-address>
+
+        <app-personname [personname]="church.pastor"></app-personname>
+
+        <app-contact [contact]="church.contact"></app-contact>
+
+        <mat-form-field appearance="outline">
+            <mat-label>association</mat-label>
+            <input matInput name="association" [(ngModel)]="church.association">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>id</mat-label>
+            <input matInput name="id" [(ngModel)]="church.id">
+        </mat-form-field>
+    </form>
+</div>
+
+
+
+

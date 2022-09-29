@@ -1,6 +1,6 @@
 import {ExpensePurpose} from '@schkola/finance/FinanceApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {ExpensePurposeDataService} from '../../service/expensepurpose-data.service';
 
@@ -13,14 +13,12 @@ import {ExpensePurposeDataService} from '../../service/expensepurpose-data.servi
 
 export class ExpensePurposeViewComponent implements OnInit {
 
-
     expensepurpose: ExpensePurpose;
 
-    constructor(@Inject(ExpensePurposeDataService) public expensepurposeDataService: ExpensePurposeDataService) {}
+    constructor(public expensepurposeDataService: ExpensePurposeDataService) {}
 
     ngOnInit(): void {
         this.expensepurpose = this.expensepurposeDataService.getFirst();
-        
         this.expensepurposeDataService.checkRoute(this.expensepurpose);
     }
 }

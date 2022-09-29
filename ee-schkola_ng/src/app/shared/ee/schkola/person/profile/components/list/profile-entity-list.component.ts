@@ -1,6 +1,6 @@
 import {Profile} from '@schkola/person/PersonApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {ProfileDataService} from '../../service/profile-data.service';
 
@@ -17,14 +17,14 @@ export class ProfileListComponent implements OnInit {
 
     tableHeader: Array<String> = [];
 
-    constructor(@Inject(ProfileDataService) public profileDataService: ProfileDataService) {}
+    constructor(public profileDataService: ProfileDataService) {}
 
     ngOnInit(): void {
         this.tableHeader = this.generateTableHeader();
     }
 
     generateTableHeader() {
-        return ['Actions', 'gender', 'name', 'birthname', 'birthday', 'address', 'contact', 'photodata', 'photo', 'family', 'church', 'education', 'id'];
+        return ['Actions', 'gender', 'first', 'last', 'birthName', 'birthday', 'street', 'suite', 'city', 'code', 'country', 'phone', 'email', 'cellphone', 'photoData', 'photo', 'maritalState', 'childrenCount', 'first', 'last', 'church', 'member', 'services', 'name', 'level', 'id', 'other', 'profession', 'id'];
     }
 }
 

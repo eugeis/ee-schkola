@@ -1,0 +1,32 @@
+
+<div>
+    <form class="schoolapplication-form">
+        
+        <app-profile-form [profile]="schoolapplication.profile"></app-profile-form>
+
+        <app-personname [personname]="schoolapplication.churchContactPerson"></app-personname>
+
+        <app-contact [contact]="schoolapplication.churchContact"></app-contact>
+
+        <mat-form-field appearance="outline">
+            <mat-label>churchCommitment</mat-label>
+            <input matInput name="churchcommitment" [(ngModel)]="schoolapplication.churchCommitment">
+        </mat-form-field>
+
+        <app-schoolyear-form [schoolyear]="schoolapplication.schoolYear"></app-schoolyear-form>
+
+        <mat-form-field appearance="outline">
+            <mat-label>group</mat-label>
+            <input matInput name="group" [(ngModel)]="schoolapplication.group">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>id</mat-label>
+            <input matInput name="id" [(ngModel)]="schoolapplication.id">
+        </mat-form-field>
+    </form>
+</div>
+
+
+
+

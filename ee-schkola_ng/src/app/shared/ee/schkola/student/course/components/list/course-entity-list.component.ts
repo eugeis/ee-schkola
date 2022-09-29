@@ -1,6 +1,6 @@
 import {Course} from '@schkola/student/StudentApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {CourseDataService} from '../../service/course-data.service';
 
@@ -17,14 +17,14 @@ export class CourseListComponent implements OnInit {
 
     tableHeader: Array<String> = [];
 
-    constructor(@Inject(CourseDataService) public courseDataService: CourseDataService) {}
+    constructor(public courseDataService: CourseDataService) {}
 
     ngOnInit(): void {
         this.tableHeader = this.generateTableHeader();
     }
 
     generateTableHeader() {
-        return ['Actions', 'name', 'begin', 'end', 'teacher', 'schoolyear', 'fee', 'description', 'id'];
+        return ['Actions', 'name', 'begin', 'end', 'first', 'last', 'name', 'start', 'end', 'dates', 'id', 'fee', 'description', 'id'];
     }
 }
 

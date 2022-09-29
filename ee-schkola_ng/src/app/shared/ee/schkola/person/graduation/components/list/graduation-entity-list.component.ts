@@ -1,6 +1,6 @@
 import {Graduation} from '@schkola/person/PersonApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {GraduationDataService} from '../../service/graduation-data.service';
 
@@ -17,7 +17,7 @@ export class GraduationListComponent implements OnInit {
 
     tableHeader: Array<String> = [];
 
-    constructor(@Inject(GraduationDataService) public graduationDataService: GraduationDataService) {}
+    constructor(public graduationDataService: GraduationDataService) {}
 
     ngOnInit(): void {
         this.tableHeader = this.generateTableHeader();

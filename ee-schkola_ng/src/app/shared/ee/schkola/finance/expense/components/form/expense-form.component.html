@@ -1,0 +1,31 @@
+
+<div>
+    <form class="expense-form">
+        
+        <app-expensepurpose-form [expensepurpose]="expense.purpose"></app-expensepurpose-form>
+
+        <mat-form-field appearance="outline">
+            <mat-label>amount</mat-label>
+            <input matInput name="amount" [(ngModel)]="expense.amount">
+        </mat-form-field>
+
+        <app-profile-form [profile]="expense.profile"></app-profile-form>
+
+        <mat-form-field appearance="outline">
+            <mat-label>date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="expense.date">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>id</mat-label>
+            <input matInput name="id" [(ngModel)]="expense.id">
+        </mat-form-field>
+    </form>
+</div>
+
+
+
+

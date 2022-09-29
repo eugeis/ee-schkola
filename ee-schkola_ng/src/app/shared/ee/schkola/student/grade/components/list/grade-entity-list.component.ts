@@ -1,6 +1,6 @@
 import {Grade} from '@schkola/student/StudentApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {GradeDataService} from '../../service/grade-data.service';
 
@@ -17,14 +17,14 @@ export class GradeListComponent implements OnInit {
 
     tableHeader: Array<String> = [];
 
-    constructor(@Inject(GradeDataService) public gradeDataService: GradeDataService) {}
+    constructor(public gradeDataService: GradeDataService) {}
 
     ngOnInit(): void {
         this.tableHeader = this.generateTableHeader();
     }
 
     generateTableHeader() {
-        return ['Actions', 'student', 'course', 'grade', 'comment', 'id'];
+        return ['Actions', 'gender', 'first', 'last', 'birthName', 'birthday', 'street', 'suite', 'city', 'code', 'country', 'phone', 'email', 'cellphone', 'photoData', 'photo', 'maritalState', 'childrenCount', 'first', 'last', 'church', 'member', 'services', 'name', 'level', 'id', 'other', 'profession', 'id', 'name', 'begin', 'end', 'first', 'last', 'name', 'start', 'end', 'dates', 'id', 'fee', 'description', 'id', 'grade', 'comment', 'id'];
     }
 }
 

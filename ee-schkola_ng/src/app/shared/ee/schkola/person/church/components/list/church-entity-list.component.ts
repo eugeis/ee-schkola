@@ -1,6 +1,6 @@
 import {Church} from '@schkola/person/PersonApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {ChurchDataService} from '../../service/church-data.service';
 
@@ -17,14 +17,14 @@ export class ChurchListComponent implements OnInit {
 
     tableHeader: Array<String> = [];
 
-    constructor(@Inject(ChurchDataService) public churchDataService: ChurchDataService) {}
+    constructor(public churchDataService: ChurchDataService) {}
 
     ngOnInit(): void {
         this.tableHeader = this.generateTableHeader();
     }
 
     generateTableHeader() {
-        return ['Actions', 'name', 'address', 'pastor', 'contact', 'association', 'id'];
+        return ['Actions', 'name', 'street', 'suite', 'city', 'code', 'country', 'first', 'last', 'phone', 'email', 'cellphone', 'association', 'id'];
     }
 }
 

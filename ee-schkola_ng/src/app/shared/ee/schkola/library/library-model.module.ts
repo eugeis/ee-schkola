@@ -7,10 +7,10 @@ import {TemplateModule} from '../../template/template.module';
 import {MaterialModule} from '../../template/material.module';
 
 import {LibraryViewComponent} from './components/view/library-module-view.component';
-import {BookViewComponent} from './book/components/view/book-entity-view.component';
-import {BookListComponent} from './book/components/list/book-entity-list.component';
-
-import {LocationComponent} from './basics/location/location-basic.component';
+import {BookViewComponent} from '@schkola/library/book/components/view/book-entity-view.component';
+import {BookListComponent} from '@schkola/library/book/components/list/book-entity-list.component';
+import {BookFormComponent} from '@schkola/library/book/components/form/book-form.component';
+import {LocationComponent} from '@schkola/library/basics/location/location-basic.component';
 import {PersonModule} from '@schkola/person/person-model.module';
 
 @NgModule({
@@ -18,6 +18,7 @@ import {PersonModule} from '@schkola/person/person-model.module';
         LibraryViewComponent,
         BookViewComponent,
         BookListComponent,
+        BookFormComponent,
         LocationComponent
     ],
     imports: [
@@ -31,12 +32,11 @@ import {PersonModule} from '@schkola/person/person-model.module';
     ],
     providers: [],
     exports: [
-        BookViewComponent,
+        BookFormComponent,
         LocationComponent
     ]
 })
-export class LibraryModule { }
-
+export class LibraryModule {}
 
 
 

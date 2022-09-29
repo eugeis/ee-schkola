@@ -1,6 +1,6 @@
 import {SchoolYear} from '@schkola/student/StudentApiBase'
 
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TableDataService} from '../../../../../template/services/data.service';
 import {SchoolYearDataService} from '../../service/schoolyear-data.service';
 
@@ -17,7 +17,7 @@ export class SchoolYearListComponent implements OnInit {
 
     tableHeader: Array<String> = [];
 
-    constructor(@Inject(SchoolYearDataService) public schoolyearDataService: SchoolYearDataService) {}
+    constructor(public schoolyearDataService: SchoolYearDataService) {}
 
     ngOnInit(): void {
         this.tableHeader = this.generateTableHeader();

@@ -1,6 +1,6 @@
 import {Contact} from '@schkola/person/PersonApiBase'
 
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-contact',
@@ -8,9 +8,16 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./contact-basic.component.scss'],
 })
 
-export class ContactComponent {
+export class ContactComponent implements OnInit {
 
     @Input() contact: Contact;
+    
+    ngOnInit() {
+        if (this.contact === undefined) {
+            this.contact = new Contact();
+        }
+        
+    }
     
 }
 
