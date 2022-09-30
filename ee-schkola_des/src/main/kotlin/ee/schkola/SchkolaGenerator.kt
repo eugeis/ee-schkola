@@ -1,5 +1,6 @@
 package ee.schkola
 
+import ee.design.gen.angular.DesignAngularGenerator
 import ee.design.gen.go.DesignGoGenerator
 import ee.design.gen.kt.DesignKotlinGenerator
 import ee.lang.integ.dPath
