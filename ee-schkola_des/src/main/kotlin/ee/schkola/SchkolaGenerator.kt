@@ -11,9 +11,7 @@ fun main(args: Array<String>) {
     // val generator = DesignGoGenerator(Schkola)
     // generator.generate(dPath.toRealPath())
 
-    val generatorTypeScript = DesignTypeScriptGenerator(Schkola)
     val generatorAngular = DesignAngularGenerator(Schkola)
-    generatorTypeScript.generate(dPath)
     generatorAngular.generate(dPath)
     //val typeScriptGenerator = DesignTypeScriptGenerator(Schkola)
     //typeScriptGenerator.generate(dPath)

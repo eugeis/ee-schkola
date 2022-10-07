@@ -4,7 +4,8 @@
     "outDir": "./dist/out-tsc",
     "baseUrl": "./",
     "paths": {
-        "@schkola/*": ["src/app/shared/ee/schkola/*"]
+        "@schkola/*": ["src/app/shared/ee/schkola/*"],
+        "@template/*": ["src/app/shared/ee/template/*"]
     },
     "sourceMap": true,
     "declaration": false,
