@@ -18,6 +18,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
     declarations: [],
@@ -43,6 +44,7 @@ import {MatMenuModule} from '@angular/material/menu';
         MatDatepickerModule,
         MatNativeDateModule,
         MatMenuModule,
+        MatCheckboxModule
     ]
 })
 export class MaterialModule { }

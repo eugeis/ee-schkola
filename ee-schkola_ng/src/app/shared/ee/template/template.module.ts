@@ -36,7 +36,7 @@ import {BookDataService} from '@schkola/library/book/service/book-data.service';
     imports: [
         TemplateRoutingModules,
         CommonModule,
-        MaterialModule
+        MaterialModule,
     ],
     providers: [
         ProfileDataService, ChurchDataService, GraduationDataService,

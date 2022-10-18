@@ -43,6 +43,19 @@ export class TableDataService {
         return element;
     }
 
+    clearMultipleItems(selected: any[]) {
+        this.items = this.retrieveItemsFromCache();
+        this.items.forEach((value, key) => {
+            selected.forEach((selectedItem) => {
+                if (JSON.stringify(this.changeObjectToArray(value)) === JSON.stringify(selectedItem)) {
+                    this.items.delete(key);
+                }
+            })
+        });
+        this.saveItemToCache(this.items);
+        window.location.reload();
+    }
+
     clearItems() {
         this.items.clear();
         localStorage.setItem(this.itemName, JSON.stringify([]));
