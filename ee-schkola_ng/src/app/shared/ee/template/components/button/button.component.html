@@ -1,15 +1,13 @@
-<div *ngIf="isEdit; else notEdit">
+<ng-container *ngIf="isEdit; else notEdit">
     <button mat-raised-button [routerLink]="'../../'"
             routerLinkActive="active-link">Cancel Edit</button>
     <button mat-raised-button (click)="buttonService.editElement(itemIndex, element)" [routerLink]="'../../'"
             routerLinkActive="active-link">Save Changes</button>
-</div>
+</ng-container>
 
 <ng-template #notEdit>
-    <div>
-        <button mat-raised-button [routerLink]="'../'"
-                routerLinkActive="active-link">Cancel</button>
-        <button mat-raised-button (click)="buttonService.inputElement(element)" [routerLink]="'../'"
-                routerLinkActive="active-link">Save</button>
-    </div>
+    <button mat-raised-button [routerLink]="'../'"
+            routerLinkActive="active-link">Cancel</button>
+    <button mat-raised-button (click)="buttonService.inputElement(element)" [routerLink]="'../'"
+            routerLinkActive="active-link">Save</button>
 </ng-template>
