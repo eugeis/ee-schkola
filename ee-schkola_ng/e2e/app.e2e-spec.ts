@@ -1,5 +1,5 @@
 import { SbAdminCliUpdatePage } from './app.po';
-import '@types/jest';
+import 'jest';
 
 describe('sb-admin-cli-update App', () => {
   let page: SbAdminCliUpdatePage;
