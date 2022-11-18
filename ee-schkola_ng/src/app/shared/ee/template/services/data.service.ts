@@ -1,18 +1,29 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {SelectionModel} from '@angular/cdk/collections';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Injectable({ providedIn: 'root' })
 export class TableDataService {
 
     public isEdit: boolean;
+    public isSearch: boolean;
     public itemIndex: number;
     itemName = '';
     items: Map<any, any> = new Map();
+
+    selection = new SelectionModel<any>(true, []);
+    dataSources: MatTableDataSource<any>;
 
     constructor(private _router: Router, private _route: ActivatedRoute) {
     }
 
     addItemToTableArray(items: Object, id: string) {
+        Object.keys(items).map((element) => {
+            if(typeof items[element] === 'object') {
+                items[element] = JSON.stringify(items[element])
+            }
+        });
         this.items = this.retrieveItemsFromCache();
         this.items.set(id, items);
         this.saveItemToCache(this.items);
@@ -83,18 +94,33 @@ export class TableDataService {
         return tempArray;
     }
 
+    searchItems(element: Object, relativePath: string) {
+        this._router.navigate([ relativePath + '/search'] );
+        localStorage.setItem('search', JSON.stringify(element));
+    }
+
     editItems(index: number, element: Object) {
-        this._router.navigate(['edit' , index], {relativeTo: this._route});
+        this._router.navigate([this._router.url + '/edit' , index]);
         localStorage.setItem('edit', JSON.stringify(element));
     }
 
     checkRoute(element: Object) {
         const currentUrl = this._router.url;
-        currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase() !== 'new' ? this.isEdit = true : this.isEdit = false;
+        currentUrl.includes('edit') ? this.isEdit = true : this.isEdit = false;
         this.itemIndex = Number(currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase());
         if (this.isEdit) {
             this.loadElement(this.itemIndex, element);
         }
+    }
+
+    checkSearchRoute() {
+        const currentUrl = this._router.url;
+        currentUrl.includes('search') ? this.isSearch = true : this.isSearch = false;
+    }
+
+    loadSearchData() {
+        const searchItem = JSON.parse(localStorage.getItem('search'));
+        this.dataSources = new MatTableDataSource([JSON.parse(searchItem)])
     }
 
     loadElement(indexValue: number, element: Object) {
@@ -112,5 +138,22 @@ export class TableDataService {
     saveItemToCache(map: Map<any, any>) {
         localStorage.map = JSON.stringify(Array.from(map.entries()));
         localStorage.setItem(this.itemName, localStorage.map);
+    }
+
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSources.filter = filterValue.trim().toLowerCase();
+    }
+
+    allRowsSelected() {
+        const totalRowSelected = this.selection.selected.length;
+        const totalRow = this.dataSources.data.length;
+        return totalRowSelected === totalRow;
+    }
+
+    masterToggle() {
+        this.allRowsSelected() ?
+            this.selection.clear() :
+            this.dataSources.data.forEach(element => this.selection.select(element));
     }
 }
