@@ -9,6 +9,7 @@ export class TableDataService {
     public isEdit: boolean;
     public isSearch: boolean;
     public itemIndex: number;
+    filterValue: string;
     itemName = '';
     items: Map<any, any> = new Map();
 
@@ -21,7 +22,12 @@ export class TableDataService {
     addItemToTableArray(items: Object, id: string) {
         Object.keys(items).map((element) => {
             if(typeof items[element] === 'object') {
-                items[element] = JSON.stringify(items[element])
+                for (const elementkey in items[element]) {
+                    if(typeof elementkey === 'string') {
+                        items[element] = items[element][elementkey];
+                        break;
+                    }
+                }
             }
         });
         this.items = this.retrieveItemsFromCache();
@@ -120,7 +126,9 @@ export class TableDataService {
 
     loadSearchData() {
         const searchItem = JSON.parse(localStorage.getItem('search'));
-        this.dataSources = new MatTableDataSource([JSON.parse(searchItem)])
+        this.dataSources = new MatTableDataSource(this.changeMapToArray(this.retrieveItemsFromCache()));
+        this.filterValue = searchItem;
+        this.dataSources.filter = this.filterValue;
     }
 
     loadElement(indexValue: number, element: Object) {
