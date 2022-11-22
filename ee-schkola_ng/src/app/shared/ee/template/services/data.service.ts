@@ -22,12 +22,7 @@ export class TableDataService {
     addItemToTableArray(items: Object, id: string) {
         Object.keys(items).map((element) => {
             if(typeof items[element] === 'object') {
-                for (const elementkey in items[element]) {
-                    if(typeof elementkey === 'string') {
-                        items[element] = items[element][elementkey];
-                        break;
-                    }
-                }
+                items[element] = JSON.stringify(items[element])
             }
         });
         this.items = this.retrieveItemsFromCache();
@@ -100,9 +95,36 @@ export class TableDataService {
         return tempArray;
     }
 
-    searchItems(element: Object, relativePath: string) {
-        this._router.navigate([ relativePath + '/search'] );
-        localStorage.setItem('search', JSON.stringify(element));
+    searchItems(index: number, element: Object, relativePath: string, itemName: string) {
+        /*const map = this.retrieveItemsFromCache()
+        localStorage.map = JSON.stringify(Array.from(map.entries()));
+        localStorage.setItem('edit-entity', localStorage.map);*/
+        localStorage.setItem('edit-entity', itemName)
+
+        this._router.navigate([ relativePath + '/edit', index] );
+        if (typeof element === 'string') {
+            localStorage.setItem('edit', element);
+        }
+    }
+
+    editInheritedEntity(itemName: string, newElement: any) {
+        this.itemName = itemName
+        const editItemEntity = this.retrieveItemsFromCache();
+        const editItem = JSON.parse(localStorage.getItem('edit'));
+
+        if (JSON.stringify(newElement) !== JSON.stringify(editItem)) {
+            editItemEntity.forEach((currentValue, currentKey) => {
+                Object.keys(currentValue).map((key) => {
+                    if(currentValue[key] === JSON.stringify(editItem)) {
+                        currentValue[key] = JSON.stringify(newElement);
+                        const newId = this.itemName + JSON.stringify(currentValue);
+                        editItemEntity.delete(currentKey);
+                        editItemEntity.set(newId, currentValue);
+                    }
+                });
+            });
+        }
+        this.saveItemToCache(editItemEntity);
     }
 
     editItems(index: number, element: Object) {

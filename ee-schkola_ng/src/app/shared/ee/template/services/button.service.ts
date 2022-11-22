@@ -13,19 +13,22 @@ export class ButtonService {
         this.tableDataService.addItemToTableArray(element, id);
     }
 
-    editElement(index: number, element: any) {
+    editElement(element: any) {
         const mapItems = this.tableDataService.retrieveItemsFromCache();
-        const arrayItems = this.tableDataService.changeMapToArray(mapItems);
+        const editItem = JSON.parse(localStorage.getItem('edit'));
+        const editItemEntity = localStorage.getItem('edit-entity');
         const newElement = this.changeDateValue(element);
-        mapItems.forEach((currentValue, currentKey) => {
-            const newId = this.tableDataService.itemName + JSON.stringify(newElement);
-            if (JSON.stringify(this.tableDataService.changeObjectToArray(currentValue)) === JSON.stringify(arrayItems[index])) {
-                mapItems.set(newId, newElement);
-                mapItems.delete(currentKey);
-            }
-        });
-        arrayItems[index] = this.tableDataService.changeObjectToArray(newElement);
+        if (JSON.stringify(newElement) !== JSON.stringify(editItem)) {
+            mapItems.forEach((currentValue, currentKey) => {
+                const newId = this.tableDataService.itemName + JSON.stringify(newElement);
+                if (JSON.stringify(this.tableDataService.changeObjectToArray(currentValue)) === JSON.stringify(editItem)) {
+                    mapItems.set(newId, newElement);
+                    mapItems.delete(currentKey);
+                }
+            });
+        }
         this.tableDataService.saveItemToCache(mapItems);
+        this.tableDataService.editInheritedEntity(editItemEntity, element)
     }
 
     changeDateValue(element: any) {
