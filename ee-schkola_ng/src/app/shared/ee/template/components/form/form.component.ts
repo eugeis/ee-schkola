@@ -12,7 +12,6 @@ export class FormComponent implements OnInit {
 
     @Input() formElement: any[][];
     public isEdit: boolean;
-    public itemIndex: number;
 
     constructor(public templateService: FormService) { }
 

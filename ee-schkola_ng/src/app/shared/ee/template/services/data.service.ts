@@ -96,35 +96,31 @@ export class TableDataService {
     }
 
     searchItems(index: number, element: Object, relativePath: string, itemName: string) {
-        /*const map = this.retrieveItemsFromCache()
-        localStorage.map = JSON.stringify(Array.from(map.entries()));
-        localStorage.setItem('edit-entity', localStorage.map);*/
-        localStorage.setItem('edit-entity', itemName)
-
         this._router.navigate([ relativePath + '/edit', index] );
         if (typeof element === 'string') {
             localStorage.setItem('edit', element);
+            localStorage.setItem('edit-entity', itemName);
         }
     }
 
     editInheritedEntity(itemName: string, newElement: any) {
         this.itemName = itemName
-        const editItemEntity = this.retrieveItemsFromCache();
+        this.items = this.retrieveItemsFromCache();
         const editItem = JSON.parse(localStorage.getItem('edit'));
 
         if (JSON.stringify(newElement) !== JSON.stringify(editItem)) {
-            editItemEntity.forEach((currentValue, currentKey) => {
+            this.items.forEach((currentValue, currentKey) => {
                 Object.keys(currentValue).map((key) => {
                     if(currentValue[key] === JSON.stringify(editItem)) {
                         currentValue[key] = JSON.stringify(newElement);
                         const newId = this.itemName + JSON.stringify(currentValue);
-                        editItemEntity.delete(currentKey);
-                        editItemEntity.set(newId, currentValue);
+                        this.items.delete(currentKey);
+                        this.items.set(newId, currentValue);
                     }
                 });
             });
         }
-        this.saveItemToCache(editItemEntity);
+        this.saveItemToCache(this.items);
     }
 
     editItems(index: number, element: Object) {

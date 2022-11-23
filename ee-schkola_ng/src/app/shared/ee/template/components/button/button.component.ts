@@ -12,7 +12,6 @@ export class ButtonComponent implements OnInit {
 
     @Input() element: any;
     @Input() isEdit: boolean;
-    @Input() itemIndex: number;
 
     constructor(public buttonService: ButtonService) { }
 
