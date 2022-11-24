@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-    <mat-sidenav #drawer
+    <mat-sidenav opened="true" disableClose="true" position="end" #drawer
                  [mode]="'side'" [fixedInViewport]="true">
         <mat-nav-list>
             <a *ngFor="let pageName of pageElement"
@@ -12,21 +12,23 @@
 
     <mat-sidenav-content>
         <mat-toolbar>
+            <span>{{pageName}}</span>
+
+            <span class="toolbar-space"></span>
+
             <button mat-icon-button (click)="drawer.toggle()">
                 <mat-icon>menu</mat-icon>
             </button>
-            <span>{{pageName}}</span>
         </mat-toolbar>
 
         <nav mat-tab-nav-bar>
             <div *ngFor="let pageTabsName of tabElement">
                 <a mat-tab-link
-                   [routerLink]="'/' + pageElement[0].toLowerCase() + '/' + pageTabsName.toLowerCase()"
+                   [routerLink]="'/' + pageName.toLowerCase() + '/' + pageTabsName.toLowerCase()"
                    routerLinkActive="active-link"
                 >{{pageTabsName.toUpperCase()}}
                 </a>
             </div>
         </nav>
-
     </mat-sidenav-content>
 </mat-sidenav-container>
