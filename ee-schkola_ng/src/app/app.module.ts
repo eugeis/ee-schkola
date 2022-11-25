@@ -1,10 +1,9 @@
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {HttpClient} from '@angular/common/http';
-import {Http, HttpModule} from '@angular/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -26,13 +25,13 @@ export function HttpLoaderFactory(http: HttpClient) {
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
-        HttpModule,
+        HttpClientModule,
         AppRoutingModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
                 useFactory: HttpLoaderFactory,
-                deps: [Http]
+                deps: [HttpClient]
             }
         }),
     ],

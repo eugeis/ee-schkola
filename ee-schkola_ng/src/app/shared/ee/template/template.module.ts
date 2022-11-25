@@ -11,6 +11,8 @@ import {FormService} from './services/form.service';
 import {TableDataService} from './services/data.service';
 import {ButtonService} from './services/button.service';
 import {MaterialModule} from './material.module';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import {TemplateTranslateService} from '@template/services/translate.service';
 
 @NgModule({
     declarations: [FormComponent,
@@ -22,9 +24,13 @@ import {MaterialModule} from './material.module';
         TemplateRoutingModules,
         CommonModule,
         MaterialModule,
+        TranslateModule
     ],
     providers: [
-        TableDataService, ButtonService, FormService
+        {provide: TranslateService, useClass: TemplateTranslateService },
+        TableDataService,
+        ButtonService,
+        FormService
     ],
     exports: [
         FormComponent,

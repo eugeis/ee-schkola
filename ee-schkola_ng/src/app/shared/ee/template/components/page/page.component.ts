@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     selector: 'app-page',
@@ -11,8 +12,16 @@ export class PageComponent implements OnInit {
     @Input() pageElement: any[];
     @Input() tabElement: any[];
 
-    constructor() { }
+    constructor(public translate: TranslateService) {
+        translate.addLangs(['en', 'de', 'es' , 'fa', 'fr', 'ur']);
+        translate.setDefaultLang('en');
+    }
 
     ngOnInit(): void {
+    }
+
+    changeLanguage(language: string) {
+        this.translate.use(language);
+
     }
 }

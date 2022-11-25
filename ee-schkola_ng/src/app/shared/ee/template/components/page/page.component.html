@@ -2,6 +2,16 @@
     <mat-sidenav opened="true" disableClose="true" position="end" #drawer
                  [mode]="'side'" [fixedInViewport]="true">
         <mat-nav-list>
+            <mat-form-field appearance="outline">
+                <mat-label>language</mat-label>
+                <mat-select (selectionChange)="changeLanguage($event.value)">
+                    <mat-option *ngFor="let lang of translate.getLangs()" [value]="lang">
+                        {{ lang }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div>{{'dashboard' | translate}}</div>
             <a *ngFor="let pageName of pageElement"
                mat-list-item
                routerLinkActive="active-link"
