@@ -86,12 +86,13 @@ export class TableDataService {
         window.location.reload();
     }
 
-    loadEnumElement(enumElement: any) {
-        let tempArray = [];
+    loadEnumElement(enumElement: any, parentName?: string, elementName?: string) {
+        const tempArray = [];
         Object.keys(enumElement).map((element, index) => {
-            tempArray.push(enumElement[index]);
+            if (enumElement[index] !== undefined) {
+                tempArray.push(parentName + '.' + elementName + '.' + enumElement[index]);
+            }
         })
-        tempArray = tempArray.filter((item) => item);
         return tempArray;
     }
 

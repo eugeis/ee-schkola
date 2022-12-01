@@ -9,12 +9,56 @@ mat-sidenav-container {
 }
 
 mat-sidenav {
-    width: 10%;
+    width: 8%;
 }
 
 mat-form-field {
     position: relative;
     width: 100%;
+}
+
+.mat-list-item {
+    left: 10%
+}
+
+@media screen and (max-width: 1130px) {
+    .mat-list-item {
+        left: 0%
+    }
+
+    mat-sidenav {
+        width: 8%;
+    }
+}
+
+@media screen and (max-width: 982px) {
+    .mat-list-item {
+        left: 12%
+    }
+
+    mat-sidenav {
+        width: 12%;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .mat-list-item {
+        left: 0%
+    }
+
+    mat-sidenav {
+        width: 12%;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .mat-list-item {
+        left: 0%
+    }
+
+    mat-sidenav {
+        width: 16%;
+    }
 }
 
 

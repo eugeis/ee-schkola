@@ -11,5 +11,12 @@
     "blankpage": "Blank Page",
     "moretheme": "More Themes",
     "downloadNow": "Download Now",
-    "language": "Language"
+    "language": "Language",
+    "profile": {
+        "gender-enum": {
+            "MALE": "MALE",
+            "FEMALE": "FEMALE",
+            "UNKNOWN": "UNKNOWN"
+        }
+    }
 }
