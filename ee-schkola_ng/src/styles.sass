@@ -1,0 +1,83 @@
+.fieldset-form
+    fieldset
+        width: 80%
+        padding: 20px
+        border: round(30) 1px
+
+        .mat-form-field
+            padding: 10px 0
+
+.entity-form
+    form
+        position: relative
+        max-width: 80%
+        z-index: 1
+        left: 10%
+
+    @extend .fieldset-form
+
+    @media screen and (max-width: 650px)
+        form
+            left: 5%
+
+    @media screen and (max-width: 480px)
+        form
+            left: 5%
+            max-width: 50%
+
+.entity-list
+
+    table
+        width: 100%
+
+    table td, table th
+        padding: 2px 20px
+
+.entity-list-button
+    .filter
+        position: absolute
+        left: 10%
+        top: 30%
+        width: 80% !important
+
+    a
+        text-decoration: none
+        border: 0
+        background: white
+        color: black
+        cursor: pointer
+
+    .newButton
+        position: absolute
+        top: 20%
+        left: 30%
+
+    .deleteButton, .showButton
+        position: absolute
+        top: 20%
+        left: 50%
+
+
+    @media screen and (max-width: 1000px)
+        div
+            max-width: 70%
+
+
+
+    @media screen and (max-width: 585px)
+        div
+            max-width: 60%
+        .newButton
+            position: absolute
+            top: 20%
+            left: 10%
+        .deleteButton, .showButton
+            position: absolute
+            top: 20%
+            left: 40%
+
+
+
+
+
+
