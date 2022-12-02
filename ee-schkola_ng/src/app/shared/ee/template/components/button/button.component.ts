@@ -12,6 +12,7 @@ export class ButtonComponent implements OnInit {
 
     @Input() element: any;
     @Input() isEdit: boolean;
+    @Input() entityElements: Array<string>;
 
     constructor(public buttonService: ButtonService) { }
 

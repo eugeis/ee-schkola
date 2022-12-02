@@ -8,6 +8,6 @@
 <ng-template #notEdit>
     <button mat-raised-button [routerLink]="'../'"
             routerLinkActive="active-link">Cancel</button>
-    <button mat-raised-button (click)="buttonService.inputElement(element)" [routerLink]="'../'"
+    <button mat-raised-button (click)="buttonService.inputElement(element, entityElements)" [routerLink]="'../'"
             routerLinkActive="active-link">Save</button>
 </ng-template>

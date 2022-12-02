@@ -19,10 +19,14 @@ export class TableDataService {
     constructor(private _router: Router, private _route: ActivatedRoute) {
     }
 
-    addItemToTableArray(items: Object, id: string) {
+    addItemToTableArray(items: Object, id: string, entityElements: Array<string>) {
         Object.keys(items).map((element) => {
             if(typeof items[element] === 'object') {
-                items[element] = JSON.stringify(items[element])
+                if(entityElements.includes(element)) {
+                    items[element] = JSON.stringify(items[element]);
+                } else {
+                    items[element] = this.changeObjectToArray(items[element])
+                }
             }
         });
         this.items = this.retrieveItemsFromCache();

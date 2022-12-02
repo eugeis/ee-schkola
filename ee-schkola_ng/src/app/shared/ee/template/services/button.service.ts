@@ -7,10 +7,10 @@ export class ButtonService {
     constructor(private tableDataService: TableDataService) {
     }
 
-    inputElement(element: any) {
+    inputElement(element: any, entityElements: Array<string>) {
         this.changeDateValue(element);
         const id = this.tableDataService.itemName + JSON.stringify(element);
-        this.tableDataService.addItemToTableArray(element, id);
+        this.tableDataService.addItemToTableArray(element, id, entityElements);
     }
 
     editElement(element: any) {
