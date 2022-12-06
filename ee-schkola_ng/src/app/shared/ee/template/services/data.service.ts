@@ -22,12 +22,18 @@ export class TableDataService {
     addItemToTableArray(items: Object, id: string, entityElements: Array<string>) {
         Object.keys(items).map((element) => {
             if(typeof items[element] === 'object') {
+                Object.keys(items[element]).map((childElement) => {
+                    if(entityElements.includes(childElement)) {
+                        items[element][childElement] = JSON.stringify(items[element][childElement]);
+                    }
+                })
                 if(entityElements.includes(element)) {
                     items[element] = JSON.stringify(items[element]);
                 } else {
                     items[element] = this.changeObjectToArray(items[element])
                 }
             }
+
         });
         this.items = this.retrieveItemsFromCache();
         this.items.set(id, items);
