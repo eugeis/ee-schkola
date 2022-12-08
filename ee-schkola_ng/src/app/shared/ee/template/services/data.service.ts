@@ -12,6 +12,7 @@ export class TableDataService {
     filterValue: string;
     itemName = '';
     items: Map<any, any> = new Map();
+    itemsCopy: Map<any, any> = new Map();
 
     selection = new SelectionModel<any>(true, []);
     dataSources: MatTableDataSource<any>;
@@ -20,6 +21,8 @@ export class TableDataService {
     }
 
     addItemToTableArray(items: Object, id: string, entityElements: Array<string>) {
+        this.items = this.retrieveItemsFromCache();
+        this.copyItem(items, id);
         Object.keys(items).map((element) => {
             if(typeof items[element] === 'object') {
                 Object.keys(items[element]).map((childElement) => {
@@ -35,9 +38,26 @@ export class TableDataService {
             }
 
         });
-        this.items = this.retrieveItemsFromCache();
         this.items.set(id, items);
         this.saveItemToCache(this.items);
+    }
+
+    copyItem(items: Object, id: string) {
+        this.itemsCopy = this.retrieveCopyItemsFromCache();
+        this.itemsCopy.set(id, items);
+        this.saveCopyItems(this.itemsCopy);
+    }
+
+    retrieveCopyItemsFromCache() {
+        const stringCopy = 'items-copy_' + this.itemName;
+        this.itemsCopy = new Map(JSON.parse(localStorage.getItem(stringCopy)))
+        return this.itemsCopy
+    }
+
+    saveCopyItems(map: Map<any, any>) {
+        const stringCopy = 'items-copy_' + this.itemName;
+        localStorage.copy = JSON.stringify(Array.from(map.entries()));
+        localStorage.setItem(stringCopy, localStorage.copy);
     }
 
     retrieveItemsFromCache() {
@@ -67,32 +87,41 @@ export class TableDataService {
 
     clearMultipleItems(selected: any[]) {
         this.items = this.retrieveItemsFromCache();
+        this.itemsCopy = this.retrieveCopyItemsFromCache();
         this.items.forEach((value, key) => {
             selected.forEach((selectedItem) => {
                 if (JSON.stringify(this.changeObjectToArray(value)) === JSON.stringify(selectedItem)) {
                     this.items.delete(key);
+                    this.itemsCopy.delete(key);
                 }
             })
         });
         this.saveItemToCache(this.items);
+        this.saveCopyItems(this.itemsCopy);
         window.location.reload();
     }
 
     clearItems() {
         this.items.clear();
+        this.itemsCopy.clear();
         localStorage.setItem(this.itemName, JSON.stringify([]));
         localStorage.map = JSON.stringify(Array.from(this.items.entries()));
+        localStorage.setItem('items-copy_' + this.itemName, JSON.stringify([]));
+        localStorage.copy = JSON.stringify(Array.from(this.itemsCopy.entries()));
         window.location.reload();
     }
 
     removeItem(id) {
         this.items = this.retrieveItemsFromCache();
+        this.itemsCopy = this.retrieveCopyItemsFromCache()
         this.items.forEach((value, key) => {
             if (JSON.stringify(this.changeObjectToArray(value)) === JSON.stringify(id)) {
                 this.items.delete(key);
+                this.itemsCopy.delete(key);
             }
         });
         this.saveItemToCache(this.items);
+        this.saveCopyItems(this.itemsCopy);
         window.location.reload();
     }
 
@@ -117,6 +146,7 @@ export class TableDataService {
     editInheritedEntity(itemName: string, newElement: any) {
         this.itemName = itemName
         this.items = this.retrieveItemsFromCache();
+        this.itemsCopy = this.retrieveCopyItemsFromCache();
         const editItem = JSON.parse(localStorage.getItem('edit'));
 
         if (JSON.stringify(newElement) !== JSON.stringify(editItem)) {
@@ -127,11 +157,14 @@ export class TableDataService {
                         const newId = this.itemName + JSON.stringify(currentValue);
                         this.items.delete(currentKey);
                         this.items.set(newId, currentValue);
+                        this.itemsCopy.delete(currentKey);
+                        this.itemsCopy.set(newId, currentValue);
                     }
                 });
             });
         }
         this.saveItemToCache(this.items);
+        this.saveCopyItems(this.itemsCopy);
     }
 
     editItems(index: number, element: Object) {
@@ -162,12 +195,17 @@ export class TableDataService {
 
     loadElement(indexValue: number, element: Object) {
         const editItem = JSON.parse(localStorage.getItem('edit'));
-        const elementAsObject = JSON.parse(localStorage.getItem(this.itemName))[indexValue][1];
+        const testElement = JSON.parse(localStorage.getItem('items-copy_' + this.itemName));
+        const elementObject = JSON.parse(localStorage.getItem('items-copy_' + this.itemName))[indexValue][1];
         if (editItem !== null) {
-            Object.keys(elementAsObject).map((elementIndex) => {
-                typeof elementAsObject[elementIndex] === 'object' ?
-                    elementAsObject[elementIndex] instanceof Date ? element[elementIndex] = new Date(editItem[elementIndex]) :
-                            element[elementIndex] = elementAsObject[elementIndex] : element[elementIndex] = editItem[elementIndex];
+            Object.keys(elementObject).map((elementIndex) => {
+                if (typeof elementObject[elementIndex] === 'string') {
+                    if (elementObject[elementIndex].indexOf('-') !== -1) {
+                        element[elementIndex] = new Date(elementObject[elementIndex])
+                    }
+                }
+                typeof elementObject[elementIndex] === 'object' ?
+                    element[elementIndex] = elementObject[elementIndex] : element[elementIndex] = editItem[elementIndex];
             });
         }
     }
