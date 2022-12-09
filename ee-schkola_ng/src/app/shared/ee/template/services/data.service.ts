@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
+import {type} from 'os';
 
 @Injectable({ providedIn: 'root' })
 export class TableDataService {
@@ -23,23 +24,26 @@ export class TableDataService {
     addItemToTableArray(items: Object, id: string, entityElements: Array<string>) {
         this.items = this.retrieveItemsFromCache();
         this.copyItem(items, id);
-        Object.keys(items).map((element) => {
-            if(typeof items[element] === 'object') {
-                Object.keys(items[element]).map((childElement) => {
-                    if(entityElements.includes(childElement)) {
-                        items[element][childElement] = JSON.stringify(items[element][childElement]);
-                    }
-                })
-                if(entityElements.includes(element)) {
-                    items[element] = JSON.stringify(items[element]);
-                } else {
-                    items[element] = this.changeObjectToArray(items[element])
-                }
-            }
-
-        });
+        this.changeObjectFormat(items, entityElements);
         this.items.set(id, items);
         this.saveItemToCache(this.items);
+    }
+
+    changeObjectFormat(items: Object, entityElements: Array<string>) {
+        Object.keys(items).map((itemIndex) => {
+            if(typeof items[itemIndex] === 'object') {
+                Object.keys(items[itemIndex]).map((childIndex) => {
+                    if(entityElements.includes(childIndex)) {
+                        items[itemIndex][childIndex] = JSON.stringify(items[itemIndex][childIndex]);
+                    }
+                })
+                if(entityElements.includes(itemIndex)) {
+                    items[itemIndex] = JSON.stringify(items[itemIndex]);
+                } else {
+                    items[itemIndex] = this.changeObjectToArray(items[itemIndex])
+                }
+            }
+        });
     }
 
     copyItem(items: Object, id: string) {
@@ -75,12 +79,12 @@ export class TableDataService {
 
     changeObjectToArray(object: Object) {
         const element: Object = {};
-        Object.keys(object).map((elementIndex) => {
-            typeof object[elementIndex] === 'object' ?
-                element[elementIndex] instanceof Date ? element[elementIndex] = new Date(object[elementIndex]) :
-                Object.keys(object[elementIndex]).map((elementOfObject) => {
-                    element[elementOfObject] = object[elementIndex][elementOfObject];
-                }) : element[elementIndex] = object[elementIndex];
+        Object.keys(object).map((objectIndex) => {
+            typeof object[objectIndex] === 'object' ?
+                element[objectIndex] instanceof Date ? element[objectIndex] = new Date(object[objectIndex]) :
+                Object.keys(object[objectIndex]).map((elementOfObject) => {
+                    element[elementOfObject] = object[objectIndex][elementOfObject];
+                }) : element[objectIndex] = object[objectIndex];
         });
         return element;
     }
@@ -150,15 +154,15 @@ export class TableDataService {
         const editItem = JSON.parse(localStorage.getItem('edit'));
 
         if (JSON.stringify(newElement) !== JSON.stringify(editItem)) {
-            this.items.forEach((currentValue, currentKey) => {
-                Object.keys(currentValue).map((key) => {
-                    if(currentValue[key] === JSON.stringify(editItem)) {
-                        currentValue[key] = JSON.stringify(newElement);
-                        const newId = this.itemName + JSON.stringify(currentValue);
-                        this.items.delete(currentKey);
-                        this.items.set(newId, currentValue);
-                        this.itemsCopy.delete(currentKey);
-                        this.itemsCopy.set(newId, currentValue);
+            this.items.forEach((currentMapValue, currentMapKey) => {
+                Object.keys(currentMapValue).map((elementIndex) => {
+                    if(currentMapValue[elementIndex] === JSON.stringify(editItem)) {
+                        currentMapValue[elementIndex] = JSON.stringify(newElement);
+                        const newId = this.itemName + JSON.stringify(currentMapValue);
+                        this.items.delete(currentMapKey);
+                        this.items.set(newId, currentMapValue);
+                        this.itemsCopy.delete(currentMapKey);
+                        this.itemsCopy.set(newId, currentMapValue);
                     }
                 });
             });
@@ -175,9 +179,8 @@ export class TableDataService {
     checkRoute(element: Object) {
         const currentUrl = this._router.url;
         currentUrl.includes('edit') ? this.isEdit = true : this.isEdit = false;
-        this.itemIndex = Number(currentUrl.substring(currentUrl.lastIndexOf('/') + 1).toLowerCase());
         if (this.isEdit) {
-            this.loadElement(this.itemIndex, element);
+            this.loadElement(element);
         }
     }
 
@@ -193,20 +196,30 @@ export class TableDataService {
         this.dataSources.filter = this.filterValue;
     }
 
-    loadElement(indexValue: number, element: Object) {
+    loadElement(element: Object) {
         const editItem = JSON.parse(localStorage.getItem('edit'));
-        const testElement = JSON.parse(localStorage.getItem('items-copy_' + this.itemName));
-        const elementObject = JSON.parse(localStorage.getItem('items-copy_' + this.itemName))[indexValue][1];
+        this.itemsCopy = this.retrieveCopyItemsFromCache();
+
         if (editItem !== null) {
-            Object.keys(elementObject).map((elementIndex) => {
-                if (typeof elementObject[elementIndex] === 'string') {
-                    if (elementObject[elementIndex].indexOf('-') !== -1) {
-                        element[elementIndex] = new Date(elementObject[elementIndex])
-                    }
-                }
-                typeof elementObject[elementIndex] === 'object' ?
-                    element[elementIndex] = elementObject[elementIndex] : element[elementIndex] = editItem[elementIndex];
-            });
+            this.itemsCopy.forEach((currentValue) => {
+                Object.keys(currentValue).map((elementIndex) => {
+                    Object.keys(editItem).map((editIndex) => {
+                        if(JSON.stringify(currentValue[editIndex]) === editItem[editIndex]
+                            || currentValue[editIndex] === editItem[editIndex]) {
+                            if (typeof currentValue[elementIndex] === 'string') {
+                                currentValue[elementIndex].indexOf('-') !== -1 ?
+                                    element[elementIndex] = new Date(currentValue[elementIndex])
+                                    : element[elementIndex] = editItem[elementIndex];
+                            } else {
+                                typeof currentValue[elementIndex] === 'object' ?
+                                    element[elementIndex] = currentValue[elementIndex]
+                                    : element[elementIndex] = editItem[elementIndex];
+                            }
+                        }
+                    })
+
+                });
+            })
         }
     }
 

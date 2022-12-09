@@ -13,7 +13,7 @@
     "downloadNow": "Download Now",
     "language": "Language",
     "profile": {
-        "gender-enum": {
+        "genderEnum": {
             "MALE": "MALE",
             "FEMALE": "FEMALE",
             "UNKNOWN": "UNKNOWN"
