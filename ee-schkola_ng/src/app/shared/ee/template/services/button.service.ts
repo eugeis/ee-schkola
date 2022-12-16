@@ -7,33 +7,35 @@ export class ButtonService {
     constructor(private tableDataService: TableDataService) {
     }
 
-    inputElement(element: any, entityElements: Array<string>) {
+    inputElement(element: any) {
         this.changeDateValue(element);
         const id = this.tableDataService.itemName + JSON.stringify(element);
-        this.tableDataService.addItemToTableArray(element, id, entityElements);
+        this.tableDataService.addItemToTableArray(element, id);
     }
 
-    editElement(element: any, entityElements: Array<string>) {
-        const mapItems = this.tableDataService.retrieveItemsFromCache();
-        const mapItemsCopy = this.tableDataService.retrieveCopyItemsFromCache();
+    editElement(element: any) {
+        this.tableDataService.items = this.tableDataService.retrieveItemsFromCache();
+        this.tableDataService.tableItems = this.tableDataService.retrieveItemsForTableList();
         const editItem = JSON.parse(localStorage.getItem('edit'));
         const editItemEntity = localStorage.getItem('edit-entity');
         const newElement = this.changeDateValue(element);
-        if (JSON.stringify(newElement) !== JSON.stringify(editItem)) {
-            mapItems.forEach((currentValue, currentKey) => {
-                const newId = this.tableDataService.itemName + JSON.stringify(newElement);
-                if (JSON.stringify(this.tableDataService.changeObjectToArray(currentValue)) === JSON.stringify(editItem)) {
-                    mapItemsCopy.set(newId, newElement);
-                    mapItemsCopy.delete(currentKey);
-                    this.tableDataService.changeObjectFormat(newElement, entityElements);
-                    mapItems.set(newId, newElement);
-                    mapItems.delete(currentKey);
+        this.tableDataService.tableItems.forEach((currentValue, currentKey) => {
+            const newId = this.tableDataService.itemName + JSON.stringify(newElement);
+            if (this.removeSymbolFromString(JSON.stringify(editItem)).includes(
+                this.removeSymbolFromString(JSON.stringify(this.tableDataService.changeObjectToArray(currentValue))))) {
+                if (!this.removeSymbolFromString(JSON.stringify(this.tableDataService.items.get(currentKey))).includes(
+                    this.removeSymbolFromString(JSON.stringify(newElement)))) {
+                    this.tableDataService.items.delete(currentKey);
+                    this.tableDataService.items.set(newId, newElement);
+                    this.tableDataService.saveItemToCache(this.tableDataService.items);
                 }
-            });
-        }
-        this.tableDataService.saveItemToCache(mapItems);
-        this.tableDataService.saveCopyItems(mapItemsCopy);
+            }
+        });
         this.tableDataService.editInheritedEntity(editItemEntity, newElement)
+    }
+
+    removeSymbolFromString(string: string) {
+        return string.replace(/\\/g, '').replace(/"/g, '')
     }
 
     changeDateValue(element: any) {

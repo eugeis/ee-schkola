@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
-import {type} from 'os';
 
 @Injectable({ providedIn: 'root' })
 export class TableDataService {
@@ -11,8 +10,10 @@ export class TableDataService {
     public isSearch: boolean;
     public itemIndex: number;
     filterValue: string;
+    entityElements = [];
     itemName = '';
     items: Map<any, any> = new Map();
+    tableItems: Map<any, any> = new Map();
     itemsCopy: Map<any, any> = new Map();
 
     selection = new SelectionModel<any>(true, []);
@@ -21,10 +22,8 @@ export class TableDataService {
     constructor(private _router: Router, private _route: ActivatedRoute) {
     }
 
-    addItemToTableArray(items: Object, id: string, entityElements: Array<string>) {
-        this.items = this.retrieveItemsFromCache();
-        this.copyItem(items, id);
-        this.changeObjectFormat(items, entityElements);
+    addItemToTableArray(items: Object, id: string) {
+        this.items = this.retrieveItemsFromCache()
         this.items.set(id, items);
         this.saveItemToCache(this.items);
     }
@@ -40,28 +39,19 @@ export class TableDataService {
                 if(entityElements.includes(itemIndex)) {
                     items[itemIndex] = JSON.stringify(items[itemIndex]);
                 } else {
-                    items[itemIndex] = this.changeObjectToArray(items[itemIndex])
+                    items[itemIndex] = this.changeObjectToArray(items[itemIndex]);
                 }
             }
         });
+        return items;
     }
 
-    copyItem(items: Object, id: string) {
-        this.itemsCopy = this.retrieveCopyItemsFromCache();
-        this.itemsCopy.set(id, items);
-        this.saveCopyItems(this.itemsCopy);
-    }
-
-    retrieveCopyItemsFromCache() {
-        const stringCopy = 'items-copy_' + this.itemName;
-        this.itemsCopy = new Map(JSON.parse(localStorage.getItem(stringCopy)))
-        return this.itemsCopy
-    }
-
-    saveCopyItems(map: Map<any, any>) {
-        const stringCopy = 'items-copy_' + this.itemName;
-        localStorage.copy = JSON.stringify(Array.from(map.entries()));
-        localStorage.setItem(stringCopy, localStorage.copy);
+    retrieveItemsForTableList(): Map<any, any>  {
+        this.tableItems = new Map(JSON.parse(localStorage.getItem(this.itemName )));
+        this.tableItems.forEach((value) => {
+            this.changeObjectFormat(value, this.entityElements);
+        })
+        return this.tableItems
     }
 
     retrieveItemsFromCache() {
@@ -83,7 +73,13 @@ export class TableDataService {
             typeof object[objectIndex] === 'object' ?
                 element[objectIndex] instanceof Date ? element[objectIndex] = new Date(object[objectIndex]) :
                 Object.keys(object[objectIndex]).map((elementOfObject) => {
-                    element[elementOfObject] = object[objectIndex][elementOfObject];
+                    if (this.entityElements.includes(elementOfObject)) {
+                        element[elementOfObject] = object[objectIndex][elementOfObject];
+                    } else if (elementOfObject.includes('-') && !this.entityElements.includes(elementOfObject)) {
+                        element[elementOfObject] = object[objectIndex][elementOfObject];
+                    } else {
+                        element[objectIndex + '-' + elementOfObject] = object[objectIndex][elementOfObject];
+                    }
                 }) : element[objectIndex] = object[objectIndex];
         });
         return element;
@@ -91,17 +87,14 @@ export class TableDataService {
 
     clearMultipleItems(selected: any[]) {
         this.items = this.retrieveItemsFromCache();
-        this.itemsCopy = this.retrieveCopyItemsFromCache();
         this.items.forEach((value, key) => {
             selected.forEach((selectedItem) => {
                 if (JSON.stringify(this.changeObjectToArray(value)) === JSON.stringify(selectedItem)) {
                     this.items.delete(key);
-                    this.itemsCopy.delete(key);
                 }
             })
         });
         this.saveItemToCache(this.items);
-        this.saveCopyItems(this.itemsCopy);
         window.location.reload();
     }
 
@@ -110,22 +103,17 @@ export class TableDataService {
         this.itemsCopy.clear();
         localStorage.setItem(this.itemName, JSON.stringify([]));
         localStorage.map = JSON.stringify(Array.from(this.items.entries()));
-        localStorage.setItem('items-copy_' + this.itemName, JSON.stringify([]));
-        localStorage.copy = JSON.stringify(Array.from(this.itemsCopy.entries()));
         window.location.reload();
     }
 
     removeItem(id) {
         this.items = this.retrieveItemsFromCache();
-        this.itemsCopy = this.retrieveCopyItemsFromCache()
         this.items.forEach((value, key) => {
             if (JSON.stringify(this.changeObjectToArray(value)) === JSON.stringify(id)) {
                 this.items.delete(key);
-                this.itemsCopy.delete(key);
             }
         });
         this.saveItemToCache(this.items);
-        this.saveCopyItems(this.itemsCopy);
         window.location.reload();
     }
 
@@ -150,25 +138,34 @@ export class TableDataService {
     editInheritedEntity(itemName: string, newElement: any) {
         this.itemName = itemName
         this.items = this.retrieveItemsFromCache();
-        this.itemsCopy = this.retrieveCopyItemsFromCache();
         const editItem = JSON.parse(localStorage.getItem('edit'));
 
         if (JSON.stringify(newElement) !== JSON.stringify(editItem)) {
             this.items.forEach((currentMapValue, currentMapKey) => {
                 Object.keys(currentMapValue).map((elementIndex) => {
-                    if(currentMapValue[elementIndex] === JSON.stringify(editItem)) {
-                        currentMapValue[elementIndex] = JSON.stringify(newElement);
+                    if(JSON.stringify(currentMapValue[elementIndex]) === JSON.stringify(editItem)) {
+                        newElement = this.changeObjectToArray(this.changeObjectFormat(newElement, this.entityElements));
+                        currentMapValue[elementIndex] = newElement
                         const newId = this.itemName + JSON.stringify(currentMapValue);
                         this.items.delete(currentMapKey);
                         this.items.set(newId, currentMapValue);
-                        this.itemsCopy.delete(currentMapKey);
-                        this.itemsCopy.set(newId, currentMapValue);
+                        this.saveItemToCache(this.items);
+                    } else if (JSON.stringify(currentMapValue[elementIndex]).includes(JSON.stringify(editItem))) {
+                        if (typeof currentMapValue[elementIndex] === 'object') {
+                            Object.keys(currentMapValue[elementIndex]).map((childIndex) => {
+                                if (typeof currentMapValue[elementIndex][childIndex] === 'object') {
+                                    currentMapValue[elementIndex][childIndex] = newElement
+                                }
+                            })
+                        }
+                        const newId = this.itemName + JSON.stringify(currentMapValue);
+                        this.items.delete(currentMapKey);
+                        this.items.set(newId, currentMapValue);
+                        this.saveItemToCache(this.items);
                     }
                 });
             });
         }
-        this.saveItemToCache(this.items);
-        this.saveCopyItems(this.itemsCopy);
     }
 
     editItems(index: number, element: Object) {
@@ -198,10 +195,10 @@ export class TableDataService {
 
     loadElement(element: Object) {
         const editItem = JSON.parse(localStorage.getItem('edit'));
-        this.itemsCopy = this.retrieveCopyItemsFromCache();
+        this.items = this.retrieveItemsFromCache();
 
         if (editItem !== null) {
-            this.itemsCopy.forEach((currentValue) => {
+            this.items.forEach((currentValue) => {
                 Object.keys(currentValue).map((elementIndex) => {
                     Object.keys(editItem).map((editIndex) => {
                         if(JSON.stringify(currentValue[editIndex]) === editItem[editIndex]
@@ -210,9 +207,14 @@ export class TableDataService {
                                 currentValue[elementIndex].indexOf('-') !== -1 ?
                                     element[elementIndex] = new Date(currentValue[elementIndex])
                                     : element[elementIndex] = editItem[elementIndex];
+                                if(JSON.stringify(currentValue[elementIndex]).includes('\\')) {
+                                    element[elementIndex] = JSON.parse(currentValue[elementIndex]);
+                                } else {
+                                    element[elementIndex] = currentValue[elementIndex];
+                                }
                             } else {
                                 typeof currentValue[elementIndex] === 'object' ?
-                                    element[elementIndex] = currentValue[elementIndex]
+                                    element[elementIndex] = JSON.parse(JSON.stringify(currentValue[elementIndex]))
                                     : element[elementIndex] = editItem[elementIndex];
                             }
                         }
