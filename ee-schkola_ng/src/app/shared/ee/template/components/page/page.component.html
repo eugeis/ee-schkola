@@ -15,13 +15,13 @@
                mat-list-item
                routerLinkActive="active-link"
                [routerLink]="'/' + pageName.toLowerCase()"
-            >{{pageName.toUpperCase()}}</a>
+            >{{pageName.toLowerCase() | translate}}</a>
         </mat-nav-list>
     </mat-sidenav>
 
     <mat-sidenav-content>
         <mat-toolbar>
-            <span>{{pageName}}</span>
+            <span>{{pageName.toLowerCase() | translate}}</span>
 
             <span class="toolbar-space"></span>
 
@@ -35,7 +35,7 @@
                 <a mat-tab-link
                    [routerLink]="'/' + pageName.toLowerCase() + '/' + pageTabsName.toLowerCase()"
                    routerLinkActive="active-link"
-                >{{pageTabsName.toUpperCase()}}
+                >{{pageTabsName.toLowerCase() + ".navTitle" | translate}}
                 </a>
             </div>
         </nav>
