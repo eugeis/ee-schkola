@@ -34,6 +34,13 @@
     table td, table th
         padding: 2px 20px
 
+.entity-link
+    text-decoration: none
+    border: 0
+    background: white
+    color: black
+    cursor: pointer
+
 .entity-list-button
     .filter
         position: absolute
@@ -42,11 +49,7 @@
         width: 80% !important
 
     a
-        text-decoration: none
-        border: 0
-        background: white
-        color: black
-        cursor: pointer
+        @extend .entity-link
 
     .newButton
         position: absolute
