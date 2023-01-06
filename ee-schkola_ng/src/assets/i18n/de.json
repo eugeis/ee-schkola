@@ -12,11 +12,95 @@
     "moretheme": "Mehr Themes",
     "downloadNow": "Download Jetzt",
     "language": "Sprache",
+
+    "finance": "FINANZEN",
+    "library": "BIBLIOTHEK",
+    "person": "PERSON",
+    "student": "STUDENT",
+
+    "add": "HINZUFÜGEN",
+    "new": "NEU",
+    "item": "ARTIKEL",
+    "filter": "FILTER",
+
+    "table": {
+        "action": "AKTION",
+        "purpose": "ZWECK",
+        "amount": "MENGE",
+        "profile": "PROFIL",
+        "date": "DATUM",
+        "gender": "GESCHLECHT",
+        "first": "VORNAME",
+        "last": "NACHNAME",
+        "birthname": "GEBURTSNAME",
+        "birthday": "GEBURTSTAG",
+        "street": "STRASSE",
+        "suite": "SUITE",
+        "city": "STADT",
+        "code": "CODE",
+        "country": "LAND",
+        "phone": "TELEFON",
+        "email": "EMAIL",
+        "cellphone": "HANDY",
+        "photodata": "FOTODATEN",
+        "photo": "FOTO",
+        "maritalstate": "EHESTAAT",
+        "childrencount": "ANZAHL DES KINDES",
+        "church": "KIRCHE",
+        "member": "MITGLIED",
+        "services": "DIENSTLEISTUNGEN",
+        "graduation": "ABSCHLUSS",
+        "other": "ANDERE",
+        "profession": "BERUF"
+    },
+
+    "expense": {
+        "navTitle": "AUSGABEN"
+    },
+    "expensepurpose": {
+        "navTitle": "ZWECK DER AUSGABEN"
+    },
+    "fee": {
+        "navTitle": "GEBÜHR"
+    },
+    "feekind": {
+        "navTitle": "GEBÜHRENART"
+    },
+    "book": {
+        "navTitle": "BUCH"
+    },
+
+    "church": {
+        "navTitle": "KIRCHE"
+    },
+    "graduation": {
+        "navTitle": "ABSCHLUSS"
+    },
     "profile": {
+        "navTitle": "PROFIL",
         "genderEnum": {
             "MALE": "MÄNNLICH",
             "FEMALE": "WEIBLICH",
             "UNKNOWN": "UNBEKANNT"
         }
+    },
+
+    "attendance": {
+        "navTitle": "TEILNAHME"
+    },
+    "course": {
+        "navTitle": "KURS"
+    },
+    "grade": {
+        "navTitle": "NOTE"
+    },
+    "group": {
+        "navTitle": "GRUPPE"
+    },
+    "schoolapplication": {
+        "navTitle": "SCHULBEWERBUNG"
+    },
+    "schoolyear": {
+        "navTitle": "SCHULJAHR"
     }
 }

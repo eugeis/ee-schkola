@@ -12,11 +12,95 @@
     "moretheme": "More Themes",
     "downloadNow": "Download Now",
     "language": "Language",
+
+    "finance": "FINANCE",
+    "library": "LIBRARY",
+    "person": "PERSON",
+    "student": "STUDENT",
+
+    "add": "ADD",
+    "new": "NEW",
+    "item": "ITEM",
+    "filter": "FILTER",
+
+    "table": {
+        "action": "ACTION",
+        "purpose": "PURPOSE",
+        "amount": "AMOUNT",
+        "profile": "PROFILE",
+        "date": "DATE",
+        "gender": "GENDER",
+        "first": "FIRST",
+        "last": "LAST",
+        "birthname": "BIRTH NAME",
+        "birthday": "BIRTHDAY",
+        "street": "STREET",
+        "suite": "SUITE",
+        "city": "CITY",
+        "code": "CODE",
+        "country": "COUNTRY",
+        "phone": "PHONE",
+        "email": "EMAIL",
+        "cellphone": "CELLPHONE",
+        "photodata": "PHOTO DATA",
+        "photo": "PHOTO",
+        "maritalstate": "MARITAL STATE",
+        "childrencount": "CHILDREN COUNT",
+        "church": "CHURCH",
+        "member": "MEMBER",
+        "services": "SERVICES",
+        "graduation": "GRADUATION",
+        "other": "OTHER",
+        "profession": "PROFESSION"
+    },
+
+    "expense": {
+        "navTitle": "EXPENSE"
+    },
+    "expensepurpose": {
+        "navTitle": "EXPENSE PURPOSE"
+    },
+    "fee": {
+        "navTitle": "FEE"
+    },
+    "feekind": {
+        "navTitle": "FEE KIND"
+    },
+    "book": {
+        "navTitle": "BOOK"
+    },
+
+    "church": {
+        "navTitle": "CHURCH"
+    },
+    "graduation": {
+        "navTitle": "GRADUATION"
+    },
     "profile": {
+        "navTitle": "PROFILE",
         "genderEnum": {
             "MALE": "MALE",
             "FEMALE": "FEMALE",
             "UNKNOWN": "UNKNOWN"
         }
+    },
+
+    "attendance": {
+        "navTitle": "ATTENDANCE"
+    },
+    "course": {
+        "navTitle": "COURSE"
+    },
+    "grade": {
+        "navTitle": "GRADE"
+    },
+    "group": {
+        "navTitle": "GROUP"
+    },
+    "schoolapplication": {
+        "navTitle": "SCHOOL APPLICATION"
+    },
+    "schoolyear": {
+        "navTitle": "SCHOOL YEAR"
     }
 }
