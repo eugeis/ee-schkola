@@ -22,8 +22,15 @@
     "new": "NEW",
     "item": "ITEM",
     "filter": "FILTER",
+    "select": "SELECT",
 
     "table": {
+        "personname": "PERSON NAME",
+        "address": "ADDRESS",
+        "contact": "CONTACT",
+        "family": "FAMILY",
+        "churchinfo": "CHURCH INFORMATION",
+        "education": "EDUCATION",
         "action": "ACTION",
         "purpose": "PURPOSE",
         "amount": "AMOUNT",
