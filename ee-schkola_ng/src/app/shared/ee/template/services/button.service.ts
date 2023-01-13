@@ -21,10 +21,10 @@ export class ButtonService {
         const newElement = this.changeDateValue(element);
         this.tableDataService.tableItems.forEach((currentValue, currentKey) => {
             const newId = this.tableDataService.itemName + JSON.stringify(newElement);
-            if (this.removeSymbolFromString(JSON.stringify(editItem)).includes(
-                this.removeSymbolFromString(JSON.stringify(this.tableDataService.changeObjectToArray(currentValue))))) {
-                if (!this.removeSymbolFromString(JSON.stringify(this.tableDataService.items.get(currentKey))).includes(
-                    this.removeSymbolFromString(JSON.stringify(newElement)))) {
+            if (this.tableDataService.removeSymbolFromString(JSON.stringify(editItem)).includes(
+                this.tableDataService.removeSymbolFromString(JSON.stringify(this.tableDataService.changeObjectToArray(currentValue))))) {
+                if (!this.tableDataService.removeSymbolFromString(JSON.stringify(this.tableDataService.items.get(currentKey))).includes(
+                    this.tableDataService.removeSymbolFromString(JSON.stringify(newElement)))) {
                     this.tableDataService.items.delete(currentKey);
                     this.tableDataService.items.set(newId, newElement);
                     this.tableDataService.saveItemToCache(this.tableDataService.items);
@@ -32,10 +32,6 @@ export class ButtonService {
             }
         });
         this.tableDataService.editInheritedEntity(editItemEntity, newElement)
-    }
-
-    removeSymbolFromString(string: string) {
-        return string.replace(/\\/g, '').replace(/"/g, '')
     }
 
     changeDateValue(element: any) {

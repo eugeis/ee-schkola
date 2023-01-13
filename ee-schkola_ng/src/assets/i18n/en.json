@@ -20,9 +20,12 @@
 
     "add": "ADD",
     "new": "NEW",
+    "edit": "EDIT",
     "item": "ITEM",
     "filter": "FILTER",
     "select": "SELECT",
+    "delete": "DELETE",
+    "items": "ITEMS",
 
     "table": {
         "personname": "PERSON NAME",
@@ -34,6 +37,8 @@
         "action": "ACTION",
         "purpose": "PURPOSE",
         "amount": "AMOUNT",
+        "expense": "EXPENSE",
+        "expensepurpose": "EXPENSE PURPOSE",
         "profile": "PROFILE",
         "date": "DATE",
         "gender": "GENDER",

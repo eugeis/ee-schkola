@@ -89,7 +89,7 @@ export class TableDataService {
         this.items = this.retrieveItemsFromCache();
         this.items.forEach((value, key) => {
             selected.forEach((selectedItem) => {
-                if (JSON.stringify(this.changeObjectToArray(value)) === JSON.stringify(selectedItem)) {
+                if (this.removeSymbolFromString(JSON.stringify(value)) === this.removeSymbolFromString(JSON.stringify(selectedItem))) {
                     this.items.delete(key);
                 }
             })
@@ -245,5 +245,9 @@ export class TableDataService {
         this.allRowsSelected() ?
             this.selection.clear() :
             this.dataSources.data.forEach(element => this.selection.select(element));
+    }
+
+    removeSymbolFromString(string: string) {
+        return string.replace(/\\/g, '').replace(/"/g, '')
     }
 }

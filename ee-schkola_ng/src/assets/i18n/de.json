@@ -20,9 +20,11 @@
 
     "add": "HINZUFÜGEN",
     "new": "NEU",
+    "edit": "BEARBEITEN",
     "item": "ARTIKEL",
     "filter": "FILTER",
     "select": "WÄHLE",
+    "delete": "LÖSCHE",
 
     "table": {
         "personname": "NAME DER PERSON",
@@ -34,6 +36,8 @@
         "action": "AKTION",
         "purpose": "ZWECK",
         "amount": "MENGE",
+        "expense": "AUSGABEN",
+        "expensepurpose": "ZWECK DER AUSGABEN",
         "profile": "PROFIL",
         "date": "DATUM",
         "gender": "GESCHLECHT",
