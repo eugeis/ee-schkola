@@ -3,7 +3,7 @@
                  [mode]="'side'" [fixedInViewport]="true">
         <mat-nav-list>
             <mat-form-field appearance="outline">
-                <mat-label>language</mat-label>
+                <mat-label>{{'language' | translate}}</mat-label>
                 <mat-select (selectionChange)="changeLanguage($event.value)">
                     <mat-option *ngFor="let lang of translate.getLangs()" [value]="lang">
                         {{ lang }}

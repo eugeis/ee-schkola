@@ -44,6 +44,6 @@ export class ButtonService {
     }
 
     formatDate(date: Date) {
-        return [date.getFullYear(), '0' + (date.getMonth() + 1), date.getDate()].join('-');
+        return [date.getFullYear(), (date.getMonth() + 1), date.getDate()].join('-');
     }
 }

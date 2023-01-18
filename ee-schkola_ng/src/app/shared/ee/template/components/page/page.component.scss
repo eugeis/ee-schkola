@@ -18,12 +18,14 @@ mat-form-field {
 }
 
 .mat-list-item {
-    left: 10%
+    left: 10%;
+    max-width: 80%;
 }
 
 @media screen and (max-width: 1130px) {
     .mat-list-item {
-        left: 0%
+        left: 0%;
+        max-width: 100%;
     }
 
     mat-sidenav {
@@ -33,7 +35,8 @@ mat-form-field {
 
 @media screen and (max-width: 982px) {
     .mat-list-item {
-        left: 12%
+        left: 12%;
+        max-width: 80%;
     }
 
     mat-sidenav {
@@ -43,7 +46,8 @@ mat-form-field {
 
 @media screen and (max-width: 750px) {
     .mat-list-item {
-        left: 0%
+        left: 0%;
+        max-width: 100%;
     }
 
     mat-sidenav {
@@ -53,7 +57,8 @@ mat-form-field {
 
 @media screen and (max-width: 580px) {
     .mat-list-item {
-        left: 0%
+        left: 0%;
+        max-width: 100%;
     }
 
     mat-sidenav {

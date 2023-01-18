@@ -1,13 +1,13 @@
 <ng-container *ngIf="isEdit; else notEdit">
     <button mat-raised-button [routerLink]="'../../'"
-            routerLinkActive="active-link">Cancel Edit</button>
+            routerLinkActive="active-link">{{'cancel edit' | translate}}</button>
     <button mat-raised-button (click)="buttonService.editElement(element)" [routerLink]="'../../'"
-            routerLinkActive="active-link">Save Changes</button>
+            routerLinkActive="active-link">{{'save changes' | translate}}</button>
 </ng-container>
 
 <ng-template #notEdit>
     <button mat-raised-button [routerLink]="'../'"
-            routerLinkActive="active-link">Cancel</button>
+            routerLinkActive="active-link">{{'cancel' | translate}}</button>
     <button mat-raised-button (click)="buttonService.inputElement(element)" [routerLink]="'../'"
-            routerLinkActive="active-link">Save</button>
+            routerLinkActive="active-link">{{'save' | translate}}</button>
 </ng-template>

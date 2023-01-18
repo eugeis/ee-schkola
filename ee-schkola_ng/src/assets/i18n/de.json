@@ -25,6 +25,11 @@
     "filter": "FILTER",
     "select": "WÄHLE",
     "delete": "LÖSCHE",
+    "items": "ARTIKELN",
+    "save": "SPEICHERN",
+    "cancel": "ABBRECHEN",
+    "save changes": "ÄNDERUNG SPEICHERN",
+    "cancel edit": "BEARBEITUNG ABBRECHEN",
 
     "table": {
         "personname": "NAME DER PERSON",

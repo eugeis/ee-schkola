@@ -26,6 +26,10 @@
     "select": "SELECT",
     "delete": "DELETE",
     "items": "ITEMS",
+    "save": "SAVE",
+    "cancel": "CANCEL",
+    "save changes": "SAVE CHANGES",
+    "cancel edit": "CANCEL EDIT",
 
     "table": {
         "personname": "PERSON NAME",
