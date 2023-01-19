@@ -13,12 +13,28 @@ import {ButtonService} from './services/button.service';
 import {MaterialModule} from './material.module';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import {TemplateTranslateService} from '@template/services/translate.service';
+import { registerLocaleData } from '@angular/common';
+import localeEn from '@angular/common/locales/en';
+import localeDe from '@angular/common/locales/de';
+import localeEs from '@angular/common/locales/es';
+import localeFa from '@angular/common/locales/fa';
+import localeFr from '@angular/common/locales/fr';
+import localeUr from '@angular/common/locales/ur';
+import {DateTimeTranslationPipePipe} from '../../pipes/date.pipe';
+
+registerLocaleData(localeEn, 'en');
+registerLocaleData(localeDe, 'de');
+registerLocaleData(localeEs, 'es');
+registerLocaleData(localeFa, 'fa');
+registerLocaleData(localeFr, 'fr');
+registerLocaleData(localeUr, 'ur');
 
 @NgModule({
     declarations: [FormComponent,
         ButtonComponent,
         PageComponent,
         TableComponent,
+        DateTimeTranslationPipePipe
     ],
     imports: [
         TemplateRoutingModules,
@@ -30,13 +46,15 @@ import {TemplateTranslateService} from '@template/services/translate.service';
         {provide: TranslateService, useClass: TemplateTranslateService },
         TableDataService,
         ButtonService,
-        FormService
+        FormService,
+        DateTimeTranslationPipePipe
     ],
     exports: [
         FormComponent,
         ButtonComponent,
         PageComponent,
-        TableComponent
+        TableComponent,
+        DateTimeTranslationPipePipe
     ]
 })
 export class TemplateModule { }
