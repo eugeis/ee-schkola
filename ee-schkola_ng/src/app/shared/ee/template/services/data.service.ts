@@ -87,9 +87,16 @@ export class TableDataService {
 
     clearMultipleItems(selected: any[]) {
         this.items = this.retrieveItemsFromCache();
-        this.items.forEach((value, key) => {
+        const items = this.retrieveItemsForTableList();
+        items.forEach((value, key) => {
+            const newStucturedValue = this.changeObjectToArray(value);
+            // This Method Check each Element Value and Compare it
             selected.forEach((selectedItem) => {
-                if (this.removeSymbolFromString(JSON.stringify(value)) === this.removeSymbolFromString(JSON.stringify(selectedItem))) {
+                if (Object.keys(selectedItem).every((elementKey) =>
+                    typeof newStucturedValue[elementKey] === 'object' ?
+                        selectedItem[elementKey] === JSON.stringify(newStucturedValue[elementKey]):
+                        selectedItem[elementKey] === newStucturedValue[elementKey])
+                    ) {
                     this.items.delete(key);
                 }
             })
@@ -108,8 +115,11 @@ export class TableDataService {
 
     removeItem(id) {
         this.items = this.retrieveItemsFromCache();
-        this.items.forEach((value, key) => {
-            if (JSON.stringify(this.changeObjectToArray(value)) === JSON.stringify(id)) {
+        const items = this.retrieveItemsForTableList();
+        // This Method Check Element Value as a Whole
+        items.forEach((value, key) => {
+            if (this.removeSymbolFromString(JSON.stringify(this.changeObjectToArray(value))) ===
+                this.removeSymbolFromString(JSON.stringify(id))) {
                 this.items.delete(key);
             }
         });
