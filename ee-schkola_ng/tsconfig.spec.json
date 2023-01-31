@@ -5,12 +5,13 @@
         "baseUrl": "",
         "types": [
             "jasmine",
-            "@types/jest",
+            "jasminewd2",
             "node"
         ]
     },
     "files": [
-        "test.ts"
+        "src/test.ts",
+        "src/polyfills.ts"
     ],
     "include": [
         "**/*.spec.ts",

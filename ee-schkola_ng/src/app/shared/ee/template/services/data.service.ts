@@ -19,7 +19,7 @@ export class TableDataService {
     selection = new SelectionModel<any>(true, []);
     dataSources: MatTableDataSource<any>;
 
-    constructor(private _router: Router, private _route: ActivatedRoute) {
+    constructor(private _router?: Router) {
     }
 
     addItemToTableArray(items: Object, id: string) {
@@ -110,7 +110,7 @@ export class TableDataService {
         this.itemsCopy.clear();
         localStorage.setItem(this.itemName, JSON.stringify([]));
         localStorage.map = JSON.stringify(Array.from(this.items.entries()));
-        window.location.reload();
+        // window.location.reload();
     }
 
     removeItem(id) {
