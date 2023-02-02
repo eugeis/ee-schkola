@@ -1,15 +1,15 @@
 import { SbAdminCliUpdatePage } from './app.po';
-import 'jest';
+import 'jasmine'
 
 describe('sb-admin-cli-update App', () => {
-  let page: SbAdminCliUpdatePage;
+    let page: SbAdminCliUpdatePage;
 
-  beforeEach(() => {
-    page = new SbAdminCliUpdatePage();
-  });
+    beforeEach(async () => {
+        page = new SbAdminCliUpdatePage();
+    });
 
-  it('should display welcome message', async () => {
-    await page.navigateTo();
-    await expect(page.getParagraphText().getText).toEqual('Welcome to app!!');
-  });
+    it('should display page name', async () => {
+        await page.navigateToProfilePage();
+        expect(await page.getPageName().getWebElement().getText()).toEqual('PERSON');
+    });
 });
