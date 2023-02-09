@@ -30,6 +30,8 @@
     "cancel": "CANCEL",
     "save changes": "SAVE CHANGES",
     "cancel edit": "CANCEL EDIT",
+    "date": "DATE",
+    "format": "FORMAT",
 
     "table": {
         "personname": "PERSON NAME",

@@ -30,6 +30,8 @@
     "cancel": "ABBRECHEN",
     "save changes": "ÄNDERUNG SPEICHERN",
     "cancel edit": "BEARBEITUNG ABBRECHEN",
+    "date": "DATUM",
+    "format": "FORMAT",
 
     "table": {
         "personname": "NAME DER PERSON",

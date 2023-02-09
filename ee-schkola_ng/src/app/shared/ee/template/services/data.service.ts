@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
 
@@ -15,14 +15,16 @@ export class TableDataService {
     items: Map<any, any> = new Map();
     tableItems: Map<any, any> = new Map();
 
+    datePattern: string;
+
     selection = new SelectionModel<any>(true, []);
     dataSources: MatTableDataSource<any>;
 
     constructor(protected _router?: Router) {
     }
 
-    retrieveItemsFromCache() {
-        this.items = new Map(JSON.parse(localStorage.getItem(this.itemName)));
+    retrieveItemsFromCache(itemName?) {
+        this.items = new Map(JSON.parse(localStorage.getItem(itemName? itemName : this.itemName)));
         return this.items
     }
 
@@ -42,39 +44,6 @@ export class TableDataService {
         })
         return tempArray;
     }
-
-    /*editInheritedEntity(itemName: string, newElement: any) {
-        this.itemName = itemName
-        this.items = this.retrieveItemsFromCache();
-        const editItem = JSON.parse(localStorage.getItem('edit'));
-
-        if (JSON.stringify(newElement) !== JSON.stringify(editItem)) {
-            this.items.forEach((currentMapValue, currentMapKey) => {
-                Object.keys(currentMapValue).map((elementIndex) => {
-                    if(JSON.stringify(currentMapValue[elementIndex]) === JSON.stringify(editItem)) {
-                        newElement = this.changeObjectToArray(this.changeObjectFormat(newElement, this.entityElements));
-                        currentMapValue[elementIndex] = newElement
-                        const newId = this.itemName + JSON.stringify(currentMapValue);
-                        this.items.delete(currentMapKey);
-                        this.items.set(newId, currentMapValue);
-                        this.saveItemToCache(this.items);
-                    } else if (JSON.stringify(currentMapValue[elementIndex]).includes(JSON.stringify(editItem))) {
-                        if (typeof currentMapValue[elementIndex] === 'object') {
-                            Object.keys(currentMapValue[elementIndex]).map((childIndex) => {
-                                if (typeof currentMapValue[elementIndex][childIndex] === 'object') {
-                                    currentMapValue[elementIndex][childIndex] = newElement
-                                }
-                            })
-                        }
-                        const newId = this.itemName + JSON.stringify(currentMapValue);
-                        this.items.delete(currentMapKey);
-                        this.items.set(newId, currentMapValue);
-                        this.saveItemToCache(this.items);
-                    }
-                });
-            });
-        }
-    }*/
 
     checkSearchRoute() {
         const currentUrl = this._router.url;

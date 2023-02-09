@@ -15,7 +15,7 @@ import localeEs from '@angular/common/locales/es';
 import localeFa from '@angular/common/locales/fa';
 import localeFr from '@angular/common/locales/fr';
 import localeUr from '@angular/common/locales/ur';
-import {DateTimeTranslationPipePipe} from '../../pipes/date.pipe';
+import {DateTimeTranslationPipe} from '../../pipes/date.pipe';
 
 registerLocaleData(localeEn, 'en');
 registerLocaleData(localeDe, 'de');
@@ -27,7 +27,7 @@ registerLocaleData(localeUr, 'ur');
 @NgModule({
     declarations: [
         PageComponent,
-        DateTimeTranslationPipePipe
+        DateTimeTranslationPipe
     ],
     imports: [
         TemplateRoutingModules,
@@ -38,11 +38,11 @@ registerLocaleData(localeUr, 'ur');
     providers: [
         {provide: TranslateService, useClass: TemplateTranslateService },
         TableDataService,
-        DateTimeTranslationPipePipe
+        DateTimeTranslationPipe
     ],
     exports: [
         PageComponent,
-        DateTimeTranslationPipePipe
+        DateTimeTranslationPipe
     ]
 })
 export class TemplateModule { }

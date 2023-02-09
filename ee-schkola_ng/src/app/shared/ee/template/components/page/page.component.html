@@ -11,6 +11,15 @@
                 </mat-select>
             </mat-form-field>
 
+            <mat-form-field appearance="outline">
+                <mat-label>{{'date' | translate}} {{'format' | translate}}</mat-label>
+                <mat-select (selectionChange)="changeDateFormat($event.value)">
+                    <mat-option *ngFor="let pattern of dateTimeSelection" [value]="pattern">
+                        {{ pattern }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
             <a *ngFor="let pageName of pageElement"
                mat-list-item
                routerLinkActive="active-link"
