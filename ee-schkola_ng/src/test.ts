@@ -15,9 +15,9 @@ getTestBed().initTestEnvironment(
     platformBrowserDynamicTesting()
 );
 // Then we find all the tests.
-// const context = require.context('./', true, /\.spec\.ts$/);
+const context = require.context('./', true, /\.spec\.ts$/);
 
 // Only specific test for form purpose
-const context = require.context('./', true, /profile-entity-form.component\.spec\.ts$/);
+// const context = require.context('./', true, /profile-entity-form.component\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
