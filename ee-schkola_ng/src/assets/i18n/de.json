@@ -31,7 +31,12 @@
     "save changes": "ÄNDERUNG SPEICHERN",
     "cancel edit": "BEARBEITUNG ABBRECHEN",
     "date": "DATUM",
-    "format": "FORMAT",
+    "format": "FORMATIERUNG",
+
+    "shortDate": "KÜRZ",
+    "mediumDate": "MITTEL",
+    "longDate": "LANG",
+    "fullDate": "VOLL",
 
     "table": {
         "personname": "NAME DER PERSON",

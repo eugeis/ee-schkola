@@ -15,8 +15,6 @@ export class TableDataService {
     items: Map<any, any> = new Map();
     tableItems: Map<any, any> = new Map();
 
-    datePattern: string;
-
     selection = new SelectionModel<any>(true, []);
     dataSources: MatTableDataSource<any>;
 
@@ -26,13 +24,6 @@ export class TableDataService {
     retrieveItemsFromCache(itemName?) {
         this.items = new Map(JSON.parse(localStorage.getItem(itemName? itemName : this.itemName)));
         return this.items
-    }
-
-    clearItems() {
-        this.items.clear();
-        localStorage.setItem(this.itemName, JSON.stringify([]));
-        localStorage.map = JSON.stringify(Array.from(this.items.entries()));
-        window.location.reload();
     }
 
     loadEnumElement(enumElement: any, parentName?: string, elementName?: string) {
@@ -70,17 +61,11 @@ export class TableDataService {
     removeSymbolFromString(string: string) {
         return string.replace(/\\/g, '').replace(/"/g, '')
     }
+}
 
-    changeDateValue(element: any) {
-        Object.keys(element).map((elementIndex) => {
-            if (element[elementIndex] instanceof Date) {
-                element[elementIndex] = this.formatDate(element[elementIndex]);
-            }
-        });
-        return element;
-    }
-
-    formatDate(date: Date) {
-        return [date.getFullYear(), (date.getMonth() + 1), date.getDate()].join('-');
+declare global {
+    interface Window {
+        tableDataService: TableDataService;
     }
 }
+window.tableDataService = new TableDataService();

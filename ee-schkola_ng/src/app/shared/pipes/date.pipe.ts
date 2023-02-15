@@ -9,11 +9,9 @@ import {TableDataService} from '@template/services/data.service';
 })
 export class DateTimeTranslationPipe implements PipeTransform {
 
-    constructor(private translateService: TranslateService, private dataService: TableDataService) {
-        this.dataService.datePattern = 'shortDate';
-    }
+    constructor(private translateService: TranslateService) {}
 
-    transform(value: Date, pattern: string = this.dataService.datePattern): any {
+    transform(value: Date, pattern: string = localStorage.getItem('pattern') ? localStorage.getItem('pattern') : 'shortDate'): any {
         const datePipe: DatePipe = new DatePipe(
             this.translateService.currentLang ? this.translateService.currentLang : this.translateService.getDefaultLang());
         return datePipe.transform(value, pattern);

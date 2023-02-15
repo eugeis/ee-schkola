@@ -33,6 +33,11 @@
     "date": "DATE",
     "format": "FORMAT",
 
+    "shortDate": "SHORT",
+    "mediumDate": "MEDIUM",
+    "longDate": "LONG",
+    "fullDate": "FULL",
+
     "table": {
         "personname": "PERSON NAME",
         "address": "ADDRESS",

@@ -15,7 +15,7 @@
                 <mat-label>{{'date' | translate}} {{'format' | translate}}</mat-label>
                 <mat-select (selectionChange)="changeDateFormat($event.value)">
                     <mat-option *ngFor="let pattern of dateTimeSelection" [value]="pattern">
-                        {{ pattern }}
+                        {{ pattern | translate }}
                     </mat-option>
                 </mat-select>
             </mat-form-field>

@@ -31,6 +31,6 @@ export class PageComponent implements OnInit {
     }
 
     changeDateFormat(pattern: string) {
-        this.dataService.datePattern = pattern;
+        localStorage.setItem('pattern', pattern);
     }
 }
