@@ -9,7 +9,7 @@
     "gitbuild": "ng build --prod --base /start-angular/SB-Admin-BS4-Angular-4/master/dist/",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "npm run cy:open",
+    "e2e": "ng e2e",
     "cy:open": "concurrently \"ng serve\" \"cypress open\"",
     "cy:run": "concurrently \"ng serve\" \"cypress run\""
   },

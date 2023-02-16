@@ -1,7 +1,7 @@
 ///<reference path="../../../src/app/shared/ee/schkola/person/profile/service/profile-data.service.ts"/>
 ///<reference path="../../../src/app/shared/ee/template/services/data.service.ts"/>
 
-describe('should display pagename', () => {
+describe('should measure performance', () => {
     const element = {
         address: {code: 'a', suite: 'a', street: 'a', country: 'a', city: 'a'},
         birthName: 'a',
@@ -36,7 +36,7 @@ describe('should display pagename', () => {
 
         // Adding 1000 Items on Table and Measure Time Needed
         cy.window().then(win => {
-            let items: any = win.tableDataService.retrieveItemsFromCache('profile');
+            let items: any = win.profileDataService.retrieveItemsFromCache('profile');
             cy.wrap(items).should('have.length', 0);
             const timeBeforeAddingItems = performance.now();
             for (let i = 0; i < 1000; i++) {
@@ -46,7 +46,7 @@ describe('should display pagename', () => {
             cy.wrap(performance.now()).then(timeAfterAddingItems => {
                 cy.log(`It needs ${timeAfterAddingItems - timeBeforeAddingItems} ms to add 1000 items to table`);
             })
-            items = win.tableDataService.retrieveItemsFromCache('profile');
+            items = win.profileDataService.retrieveItemsFromCache('profile');
             cy.wrap(items).should('have.length', 1000);
         })
 
