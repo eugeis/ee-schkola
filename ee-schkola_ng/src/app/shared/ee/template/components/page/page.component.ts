@@ -15,8 +15,7 @@ export class PageComponent implements OnInit {
     @Input() tabElement: any[];
     dateTimeSelection: any[];
 
-    constructor(public translate: TranslateService, private dateAdapter: DateAdapter<any>,
-                private dataService: TableDataService) {
+    constructor(public translate: TranslateService, private dateAdapter: DateAdapter<any>) {
         translate.addLangs(['en', 'de', 'es' , 'fa', 'fr', 'ur']);
         translate.setDefaultLang('en');
         this.dateTimeSelection = ['shortDate', 'mediumDate', 'longDate', 'fullDate'];
