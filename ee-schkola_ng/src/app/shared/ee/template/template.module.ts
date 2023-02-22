@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {PageComponent} from './components/page/page.component';
 
 import {TemplateRoutingModules} from './template-routing.modules';
-import {TableDataService} from './services/data.service';
+import {DataService} from './services/data.service';
 import {MaterialModule} from './material.module';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import {TemplateTranslateService} from '@template/services/translate.service';
@@ -37,7 +37,7 @@ registerLocaleData(localeUr, 'ur');
     ],
     providers: [
         {provide: TranslateService, useClass: TemplateTranslateService },
-        TableDataService,
+        DataService,
         DateTimeTranslationPipe
     ],
     exports: [

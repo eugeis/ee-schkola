@@ -4,7 +4,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
 
 @Injectable({ providedIn: 'root' })
-export class TableDataService<T> {
+export class DataService<T> {
 
     public isEdit: boolean;
     public isSearch: boolean;
@@ -134,7 +134,7 @@ export class TableDataService<T> {
 
 declare global {
     interface Window {
-        tableDataService: TableDataService<any>;
+        dataService: DataService<any>;
     }
 }
-window.tableDataService = new TableDataService();
+window.dataService = new DataService();

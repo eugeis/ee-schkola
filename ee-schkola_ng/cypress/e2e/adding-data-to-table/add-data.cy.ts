@@ -36,17 +36,17 @@ describe('should measure performance', () => {
 
         // Adding 1000 Items on Table and Measure Time Needed
         cy.window().then(win => {
-            let items: any = win.profileDataService.retrieveItemsFromCache('profile');
+            let items: any = win.dataService.retrieveItemsFromCache('profile');
             cy.wrap(items).should('have.length', 0);
             const timeBeforeAddingItems = performance.now();
             for (let i = 0; i < 1000; i++) {
                 element.birthName = 'a' + i;
-                win.profileDataService.inputElement(element);
+                win.dataService.inputElement(element);
             }
             cy.wrap(performance.now()).then(timeAfterAddingItems => {
                 cy.log(`It needs ${timeAfterAddingItems - timeBeforeAddingItems} ms to add 1000 items to table`);
             })
-            items = win.profileDataService.retrieveItemsFromCache('profile');
+            items = win.dataService.retrieveItemsFromCache('profile');
             cy.wrap(items).should('have.length', 1000);
         })
 

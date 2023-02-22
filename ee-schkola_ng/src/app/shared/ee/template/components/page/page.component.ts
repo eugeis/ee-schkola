@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DateAdapter} from '@angular/material/core';
-import {TableDataService} from '@template/services/data.service';
 
 @Component({
     selector: 'app-page',
