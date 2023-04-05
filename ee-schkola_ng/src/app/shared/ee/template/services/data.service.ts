@@ -89,11 +89,11 @@ export class DataService<T> {
         this.dataSources.filter = this.filterValue;
     }
 
-    loadEnumElement(enumElement: any, parentName?: string, elementName?: string) {
+    loadEnumElement(enumElement: any) {
         const tempArray = [];
         Object.keys(enumElement).map((element, index) => {
             if (enumElement[index] !== undefined) {
-                tempArray.push(parentName + '.' + elementName + '.' + enumElement[index]);
+                tempArray.push(enumElement[index]);
             }
         })
         return tempArray;

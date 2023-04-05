@@ -38,6 +38,10 @@
     "longDate": "LONG",
     "fullDate": "FULL",
 
+    "MALE": "MALE",
+    "FEMALE": "FEMALE",
+    "UNKNOWN": "UNKNOWN",
+
     "table": {
         "personname": "PERSON NAME",
         "address": "ADDRESS",
@@ -100,12 +104,7 @@
         "navTitle": "GRADUATION"
     },
     "profile": {
-        "navTitle": "PROFILE",
-        "genderEnum": {
-            "MALE": "MALE",
-            "FEMALE": "FEMALE",
-            "UNKNOWN": "UNKNOWN"
-        }
+        "navTitle": "PROFILE"
     },
 
     "attendance": {
