@@ -1,5 +1,6 @@
 package ee.schkola
 
+import ee.design.gen.puml.classdiagram.DesignCdGenerator
 import ee.design.gen.angular.DesignAngularGenerator
 import ee.design.gen.go.DesignGoGenerator
 import ee.design.gen.kt.DesignKotlinGenerator
@@ -13,6 +14,9 @@ fun main(args: Array<String>) {
 
     val generatorAngular = DesignAngularGenerator(Schkola)
     generatorAngular.generate(dPath)
+
+    val generatorPUMLClassDiagram = DesignCdGenerator(Schkola)
+    generatorPUMLClassDiagram.generate(dPath)
     //val typeScriptGenerator = DesignTypeScriptGenerator(Schkola)
     //typeScriptGenerator.generate(dPath)
 }
